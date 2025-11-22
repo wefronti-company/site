@@ -7,7 +7,7 @@ const LanguageSelector: React.FC = () => {
 
   const languages = [
     { code: 'BR', label: 'Português (BR)' },
-    { code: 'EN', label: 'English' }
+    { code: 'EN', label: 'English (USA)' }
   ];
 
   useEffect(() => {
