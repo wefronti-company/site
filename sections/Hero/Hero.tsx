@@ -23,7 +23,7 @@ const Hero: React.FC = () => {
             <div className="w-full lg:w-[60%] flex flex-col gap-6">
               <Badge text="O melhor da tecnologia e IA para seu produto." icon="star" />
               
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-medium text-gray-900 dark:text-white leading-tight">
+              <h1 className="text-5xl md:text-6xl lg:text-6xl font-medium text-gray-900 dark:text-white leading-tight">
                 Projetamos produtos com propósito, pronto para gerar receita.
               </h1>
               

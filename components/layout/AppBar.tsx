@@ -8,9 +8,9 @@ import LanguageSelector from '../ui/LanguageSelector';
 import { colors } from '../../styles/colors';
 
 const navItems = [
-	{ label: 'Home', href: '/' },
-	{ label: 'Serviços', href: '/services' },
-	{ label: 'Clientes', href: '/client' },
+	{ label: 'Clientes', href: '/clients' },
+	{ label: 'Projetos', href: '/projects' },
+	{ label: 'Contrate-nos', href: '/services' },
 	{ label: 'FAQ', href: '/faq' }
 ];
 
