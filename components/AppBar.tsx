@@ -16,14 +16,14 @@ const AppBar: React.FC = () => {
 	const router = useRouter();
 	
 	return (
-		<header className="w-full sticky top-0 z-40 bg-black border-b border-white/5">
+		<header className="w-full sticky top-0 z-40 bg-black dark:bg-black border-b border-white/5 dark:border-white/5 bg-white">
 			<div className="px-16">
 				<div className="h-20 flex items-center justify-between w-full max-w-[1400px] mx-auto">
 					{/* Logo */}
 					<Logo />
 					
 					{/* Nav centered */}
-					<nav className="absolute left-1/2 -translate-x-1/2 flex items-center gap-1 bg-[#1a1a1a] rounded-full p-1">
+					<nav className="absolute left-1/2 -translate-x-1/2 flex items-center gap-1 bg-[#1a1a1a] dark:bg-[#1a1a1a] bg-gray-100 rounded-full p-1">
 						{navItems.map(item => {
 							const isActive = router.pathname === item.href;
 							return (
@@ -32,8 +32,8 @@ const AppBar: React.FC = () => {
 									href={item.href}
 									className={`px-6 h-9 flex items-center rounded-full text-sm font-medium transition-all ${
 										isActive 
-											? 'bg-[#2a2a2a] text-white' 
-											: 'text-white/60 hover:text-white hover:bg-white/5'
+											? 'bg-[#2a2a2a] dark:bg-[#2a2a2a] bg-white text-white dark:text-white text-black shadow-sm' 
+											: 'text-white/60 dark:text-white/60 text-gray-600 hover:text-white dark:hover:text-white hover:text-black hover:bg-white/5 dark:hover:bg-white/5 hover:bg-gray-200'
 									}`}
 								>
 									{item.label}
@@ -49,7 +49,7 @@ const AppBar: React.FC = () => {
 						<ThemeToggle />
 						
 						{/* Language selector */}
-						<button className="flex items-center gap-1.5 px-2 h-9 text-white/60 hover:text-white transition-colors">
+						<button className="flex items-center gap-1.5 px-2 h-9 text-white/60 dark:text-white/60 text-gray-600 hover:text-white dark:hover:text-white hover:text-black transition-colors">
 							<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
 								<circle cx="12" cy="12" r="10"/>
 								<path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>

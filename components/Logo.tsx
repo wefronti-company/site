@@ -9,13 +9,22 @@ interface LogoProps {
 const Logo: React.FC<LogoProps> = ({ className = '' }) => {
   return (
     <Link href="/" className={`flex items-center gap-2 select-none hover:opacity-80 transition-opacity ${className}`}>
-      {/* Logo escuro para fundo claro, logo claro para fundo escuro */}
+      {/* Logo branco para modo escuro */}
       <Image 
         src="/images/isologo-white.webp" 
         alt="Logo" 
         width={122} 
         height={122}
-        className="block dark:block"
+        className="block dark:block h-8 w-auto"
+        priority
+      />
+      {/* Logo preto para modo claro */}
+      <Image 
+        src="/images/isologo-black.webp" 
+        alt="Logo" 
+        width={122} 
+        height={122}
+        className="hidden dark:hidden h-8 w-auto"
         priority
       />
     </Link>

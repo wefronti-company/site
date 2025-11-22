@@ -1,13 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const ThemeToggle: React.FC = () => {
+  const [mounted, setMounted] = useState(false);
   const [isDark, setIsDark] = useState(true);
 
+  useEffect(() => {
+    setMounted(true);
+    // Verifica o tema atual do documento
+    const currentTheme = document.documentElement.classList.contains('dark');
+    setIsDark(currentTheme);
+  }, []);
+
   const toggleTheme = () => {
-    setIsDark(!isDark);
-    // Aqui você pode adicionar a lógica para mudar o tema globalmente
-    // Por exemplo: document.documentElement.classList.toggle('dark')
+    const newTheme = !isDark;
+    setIsDark(newTheme);
+    document.documentElement.classList.toggle('dark', newTheme);
+    localStorage.setItem('theme', newTheme ? 'dark' : 'light');
   };
+
+  // Evita erro de hidratação no SSR
+  if (!mounted) {
+    return (
+      <button className="w-9 h-9 flex items-center justify-center text-white/60 transition-colors relative">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+        </svg>
+      </button>
+    );
+  }
 
   return (
     <button
