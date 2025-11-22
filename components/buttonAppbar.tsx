@@ -10,7 +10,7 @@ const ButtonAppbar: React.FC<ButtonAppbarProps> = ({ label = 'Contact', onClick 
     <button
       type="button"
       onClick={onClick}
-      className="px-6 h-9 rounded-full text-xs font-medium bg-white text-black hover:bg-white/90 transition-colors shadow-sm"
+      className="px-6 py-2 h-9 rounded-full text-sm font-medium bg-white text-black hover:bg-white/95 active:scale-95 transition-all duration-200 shadow-sm hover:shadow-md flex items-center justify-center min-w-[100px]"
     >
       {label}
     </button>
