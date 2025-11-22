@@ -100,7 +100,7 @@ const SplashScreen: React.FC = () => {
             </div>
             {/* Porcentagem */}
             <p className="text-white/40 text-xs text-center mt-3 font-light tabular-nums">
-              {progress}%
+              {Math.floor(progress)}%
             </p>
           </div>
         </div>
