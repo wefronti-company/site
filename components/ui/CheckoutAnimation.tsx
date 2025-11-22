@@ -95,9 +95,13 @@ const CheckoutAnimation: React.FC = () => {
 
   return (
     <div 
-      className="relative w-full h-full flex items-center justify-center p-3"
+      className="relative w-full h-full flex items-center justify-center"
       style={{ 
         backgroundColor: isDark ? '#0a0a0a' : '#fff5f0',
+        paddingTop: '20px',
+        paddingBottom: '20px',
+        paddingLeft: '16px',
+        paddingRight: '16px',
       }}
     >
       {/* Container do Checkout */}
@@ -114,16 +118,13 @@ const CheckoutAnimation: React.FC = () => {
         }}
       >
         {/* Título */}
-        <div className="mb-3">
+        <div className="mb-4">
           <h3 
-            className="text-sm font-bold mb-0.5"
+            className="text-sm font-bold"
             style={{ color: orangeColor }}
           >
             Finalizar Compra
           </h3>
-          <p className="text-[10px] text-gray-500 dark:text-gray-400">
-            Preencha os dados do cartão
-          </p>
         </div>
 
         {isSuccess ? (
