@@ -17,11 +17,27 @@ const navItems = [
 const AppBar: React.FC = () => {
 	const router = useRouter();
 	const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+	const [isDark, setIsDark] = useState(false);
+
+	React.useEffect(() => {
+		// Detecta o tema atual
+		const checkTheme = () => {
+			setIsDark(document.documentElement.classList.contains('dark'));
+		};
+		
+		checkTheme();
+		
+		// Observer para mudanças no tema
+		const observer = new MutationObserver(checkTheme);
+		observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+		
+		return () => observer.disconnect();
+	}, []);
 	
 	return (
 		<header 
-			className="w-full sticky top-0 z-40 bg-custom-white dark:bg-custom-black border-b dark:border-white/5"
-			style={{ borderBottomColor: colors.borderLight }}
+			className="w-full sticky top-0 z-40 bg-custom-white dark:bg-custom-black border-b transition-colors"
+			style={{ borderBottomColor: isDark ? colors.borderDark : colors.borderLight }}
 		>
 			<div className="px-4 md:px-8 lg:px-16">
 				<div className="h-24 md:h-20 flex items-center justify-between w-full max-w-[1400px] mx-auto">
