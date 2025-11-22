@@ -111,8 +111,8 @@ const InteractiveDashboard: React.FC = () => {
         <div className="bg-gray-100 dark:bg-[#1a1a1a] p-4 transition-colors" style={{ borderRadius: '7px' }}>
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h3 className="text-sm font-semibold text-gray-900 dark:text-white">Dashboard Financeiro</h3>
-              <p className="text-xs text-gray-500 dark:text-gray-400">Visão Geral</p>
+              <h3 className="text-sm font-semibold text-gray-900 dark:text-white">Seu produto</h3>
+              <p className="text-xs text-gray-500 dark:text-gray-400">Exemplo demo</p>
             </div>
             <div className="flex items-center gap-1.5">
               <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>

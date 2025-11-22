@@ -7,8 +7,28 @@ import Badge from '../../components/ui/Badge';
 import StatCounter from '../../components/ui/StatCounter';
 
 const Hero: React.FC = () => {
+  const [isDark, setIsDark] = React.useState(false);
+
+  React.useEffect(() => {
+    const checkTheme = () => {
+      setIsDark(document.documentElement.classList.contains('dark'));
+    };
+    
+    checkTheme();
+    
+    const observer = new MutationObserver(checkTheme);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section className="w-full h-auto md:h-[90vh] bg-custom-white dark:bg-custom-black transition-colors duration-300 relative overflow-hidden">
+    <section 
+      className="w-full h-auto md:h-[90vh] bg-custom-white dark:bg-custom-black transition-colors duration-300 relative overflow-hidden border-b"
+      style={{
+        borderBottomColor: isDark ? '#141414' : '#D1D5DB'
+      }}
+    >
       {/* Animated Grid Background - Positioned absolutely to cover entire section */}
       <div className="absolute inset-0">
         <AnimatedGridBackground />
@@ -37,7 +57,7 @@ const Hero: React.FC = () => {
               {/* Stats Counters */}
               <div className="flex flex-wrap gap-8 mt-4">
                 <StatCounter value="6 anos" label="no mercado" />
-                <StatCounter value="+100" label="projetos entregues" />
+                <StatCounter value="+50" label="projetos entregues" />
               </div>
             </div>
 

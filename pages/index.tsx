@@ -5,6 +5,8 @@ import Services from '../sections/Services';
 import Clients from '../sections/Clients';
 import Projects from '../sections/Projects';
 import SplashScreen from '../components/effects/SplashScreen';
+import FAQ from '@/sections/FAQ/FAQ';
+import Footer from '@/sections/Footer/Footer';
 
 const Home: React.FC = () => {
   const [showSplash, setShowSplash] = useState(true);
@@ -24,9 +26,10 @@ const Home: React.FC = () => {
       <AppBar />
       <Hero />     
       <Clients />
-
       <Services />
       <Projects />
+      <FAQ />
+      <Footer />
     </>
   );
 };
