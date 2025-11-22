@@ -106,185 +106,153 @@ const CheckoutAnimation: React.FC = () => {
         className="w-full"
         style={{
           backgroundColor: isDark ? '#010101' : '#f7f7f7',
-          padding: '16px',
-          boxShadow: isDark 
-            ? '0 2px 10px rgba(0, 0, 0, 0.5)' 
-            : '0 2px 10px rgba(255, 107, 53, 0.1)',
+          padding: '12px',
+        
         }}
       >
-        {/* Título */}
-  
+   
 
-        {isSuccess ? (
-          /* Mensagem de Sucesso */
-          <div 
-            className="flex flex-col items-center justify-center py-6"
+        {/* Cartão de Crédito Animado */}
+        <div 
+          className="relative mb-3"
+          style={{
+            perspective: '1000px',
+          }}
+        >
+          <div
+            className="relative"
             style={{
-              backgroundColor: isDark ? '#2e1a0f' : '#fff5f0',
-              borderRadius: '7px',
-              border: `1px solid ${isDark ? '#e55a2b' : '#ffc9b3'}`,
+              width: '100%',
+              height: '140px',
+              background: `linear-gradient(135deg, ${orangeColor} 0%, ${orangeDark} 100%)`,
+              borderRadius: '10px',
+              padding: '14px',
+              boxShadow: '0 6px 20px rgba(255, 107, 53, 0.3)',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
             }}
           >
-            <div 
-              className="mb-3 rounded-full flex items-center justify-center"
-              style={{
-                width: '60px',
-                height: '90px',
-                backgroundColor: orangeColor,
-              }}
-            >
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3">
-                <polyline points="20 6 9 17 4 12" />
-              </svg>
-            </div>
-            <h4 
-              className="text-lg font-bold mb-1"
-              style={{ color: orangeColor }}
-            >
-              Compra Aprovada
-            </h4>
-            <p className="text-sm text-gray-600 dark:text-gray-300">
-              Pagamento processado com sucesso!
-            </p>
-          </div>
-        ) : (
-          <>
-            {/* Cartão de Crédito Animado */}
-            <div 
-              className="relative mb-4"
-              style={{
-                perspective: '1000px',
-              }}
-            >
+            {/* Chip do Cartão */}
+            <div className="flex items-start justify-between">
               <div
-                className="relative"
                 style={{
-                  width: '100%',
-                  height: '140px',
-                  background: `linear-gradient(135deg, ${orangeColor} 0%, ${orangeDark} 100%)`,
-                  borderRadius: '10px',
-                  padding: '14px',
-                  boxShadow: '0 6px 20px rgba(255, 107, 53, 0.3)',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'space-between',
+                  width: '35px',
+                  height: '28px',
+                  background: 'linear-gradient(135deg, #f4d03f 0%, #e8b923 100%)',
+                  borderRadius: '4px',
+                  border: '1px solid rgba(255, 255, 255, 0.3)',
                 }}
-              >
-                {/* Chip do Cartão */}
-                <div className="flex items-start justify-between">
-                  <div
-                    style={{
-                      width: '35px',
-                      height: '28px',
-                      background: 'linear-gradient(135deg, #f4d03f 0%, #e8b923 100%)',
-                      borderRadius: '4px',
-                      border: '1px solid rgba(255, 255, 255, 0.3)',
-                    }}
-                  />
-                  <div className="text-white text-[9px] font-bold opacity-80">
-                    VISA
-                  </div>
-                </div>
-
-                {/* Número do Cartão */}
-                <div>
-                  <div 
-                    className="text-white font-mono text-sm tracking-wider mb-2"
-                    style={{
-                      textShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
-                    }}
-                  >
-                    {cardNumber || '•••• •••• •••• ••••'}
-                    {cardNumber && cardNumber.length < 19 && animationStep <= 50 && (
-                      <span className="animate-pulse ml-1">|</span>
-                    )}
-                  </div>
-
-                  {/* Nome e Validade */}
-                  <div className="flex justify-between items-end">
-                    <div>
-                      <div className="text-white text-[7px] opacity-70 mb-0.5">
-                        TITULAR
-                      </div>
-                      <div className="text-white text-[10px] font-medium">
-                        {cardName || 'NOME DO TITULAR'}
-                        {cardName && cardName.length < 11 && animationStep > 50 && animationStep <= 70 && (
-                          <span className="animate-pulse ml-1">|</span>
-                        )}
-                      </div>
-                    </div>
-                    <div>
-                      <div className="text-white text-[7px] opacity-70 mb-0.5 text-right">
-                        VALIDADE
-                      </div>
-                      <div className="text-white text-[10px] font-medium font-mono">
-                        {expiry || 'MM/AA'}
-                        {expiry && expiry.length < 5 && animationStep > 70 && animationStep <= 85 && (
-                          <span className="animate-pulse ml-1">|</span>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Efeito de brilho */}
-                <div
-                  style={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                    background: 'linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.1) 50%, transparent 100%)',
-                    borderRadius: '10px',
-                    animation: 'shimmer 3s infinite',
-                  }}
-                />
+              />
+              <div className="text-white text-[9px] font-bold opacity-80">
+                VISA
               </div>
             </div>
 
-            {/* Botão Finalizar Compra */}
-            <button
-              disabled={isProcessing}
-              className="w-full py-2 font-semibold text-white text-xs transition-all duration-300"
-              style={{
-                backgroundColor: isProcessing ? '#9ca3af' : orangeColor,
-                transform: isProcessing ? 'scale(0.98)' : 'scale(1)',
-                boxShadow: isProcessing ? 'none' : '0 2px 8px rgba(255, 107, 53, 0.4)',
-                cursor: isProcessing ? 'not-allowed' : 'pointer',
-                borderRadius: '7px',
-              }}
-            >
-              {isProcessing ? (
-                <div className="flex items-center justify-center gap-1.5">
-                  <svg 
-                    className="animate-spin" 
-                    width="14" 
-                    height="14" 
-                    viewBox="0 0 24 24" 
-                    fill="none" 
-                    stroke="currentColor" 
-                    strokeWidth="2"
-                  >
-                    <circle cx="12" cy="12" r="10" opacity="0.25" />
-                    <path d="M12 2 A10 10 0 0 1 22 12" strokeLinecap="round" />
-                  </svg>
-                  <span>Processando...</span>
-                </div>
-              ) : (
-                <span>Finalizar Compra</span>
-              )}
-            </button>
+            {/* Número do Cartão */}
+            <div>
+              <div 
+                className="text-white font-mono text-sm tracking-wider mb-2"
+                style={{
+                  textShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
+                }}
+              >
+                {cardNumber || '•••• •••• •••• ••••'}
+                {cardNumber && cardNumber.length < 19 && animationStep <= 50 && (
+                  <span className="animate-pulse ml-1">|</span>
+                )}
+              </div>
 
-            {/* Badge de Segurança */}
-            <div className="mt-2 flex items-center justify-center gap-1.5 text-[9px] text-gray-500 dark:text-gray-400">
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-              </svg>
-              <span>Pagamento 100% seguro</span>
+              {/* Nome e Validade */}
+              <div className="flex justify-between items-end">
+                <div>
+                  <div className="text-white text-[7px] opacity-70 mb-0.5">
+                    TITULAR
+                  </div>
+                  <div className="text-white text-[10px] font-medium">
+                    {cardName || 'NOME DO TITULAR'}
+                    {cardName && cardName.length < 11 && animationStep > 50 && animationStep <= 70 && (
+                      <span className="animate-pulse ml-1">|</span>
+                    )}
+                  </div>
+                </div>
+                <div>
+                  <div className="text-white text-[7px] opacity-70 mb-0.5 text-right">
+                    VALIDADE
+                  </div>
+                  <div className="text-white text-[10px] font-medium font-mono">
+                    {expiry || 'MM/AA'}
+                    {expiry && expiry.length < 5 && animationStep > 70 && animationStep <= 85 && (
+                      <span className="animate-pulse ml-1">|</span>
+                    )}
+                  </div>
+                </div>
+              </div>
             </div>
-          </>
-        )}
+
+            {/* Efeito de brilho */}
+            <div
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                background: 'linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.1) 50%, transparent 100%)',
+                borderRadius: '10px',
+                animation: 'shimmer 3s infinite',
+              }}
+            />
+          </div>
+        </div>
+
+        {/* Botão Finalizar Compra */}
+        <button
+          disabled={isProcessing}
+          className="w-full py-2 font-semibold text-white text-xs transition-all duration-300"
+          style={{
+            backgroundColor: isSuccess ? '#10b981' : (isProcessing ? '#9ca3af' : orangeColor),
+            transform: isProcessing ? 'scale(0.98)' : 'scale(1)',
+            boxShadow: isProcessing ? 'none' : `0 2px 8px ${isSuccess ? 'rgba(16, 185, 129, 0.4)' : 'rgba(255, 107, 53, 0.4)'}`,
+            cursor: isProcessing ? 'not-allowed' : 'pointer',
+            borderRadius: '7px',
+          }}
+        >
+          {isSuccess ? (
+            <div className="flex items-center justify-center gap-1.5">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3">
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+              <span>Compra Aprovada!</span>
+            </div>
+          ) : isProcessing ? (
+            <div className="flex items-center justify-center gap-1.5">
+              <svg 
+                className="animate-spin" 
+                width="14" 
+                height="14" 
+                viewBox="0 0 24 24" 
+                fill="none" 
+                stroke="currentColor" 
+                strokeWidth="2"
+              >
+                <circle cx="12" cy="12" r="10" opacity="0.25" />
+                <path d="M12 2 A10 10 0 0 1 22 12" strokeLinecap="round" />
+              </svg>
+              <span>Processando...</span>
+            </div>
+          ) : (
+            <span>Finalizar Compra</span>
+          )}
+        </button>
+
+        {/* Badge de Segurança */}
+        <div className="mt-2 flex items-center justify-center gap-1.5 text-[9px] text-gray-500 dark:text-gray-400">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+          </svg>
+          <span>Pagamento 100% seguro</span>
+        </div>
       </div>
     </div>
   );

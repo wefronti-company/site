@@ -104,10 +104,7 @@ const HealthDashboard: React.FC = () => {
         className="w-full"
         style={{
           backgroundColor: isDark ? '#010101' : '#f7f7f7',
-          padding: '16px',
-          boxShadow: isDark 
-            ? '0 2px 10px rgba(0, 0, 0, 0.5)' 
-            : '0 2px 10px rgba(168, 85, 247, 0.1)',
+
         }}
       >
 
