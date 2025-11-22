@@ -5,6 +5,7 @@ import ButtonAppbar from './buttonAppbar';
 import Logo from './Logo';
 import ThemeToggle from './ThemeToggle';
 import LanguageSelector from './LanguageSelector';
+import { colors } from '../styles/colors';
 
 const navItems = [
 	{ label: 'Home', href: '/' },
@@ -17,7 +18,7 @@ const AppBar: React.FC = () => {
 	const router = useRouter();
 	
 	return (
-		<header className="w-full sticky top-0 z-40 bg-black dark:bg-black border-b border-white/5 dark:border-white/5 bg-white">
+		<header className="w-full sticky top-0 z-40 bg-custom-white dark:bg-custom-black border-b border-white/5 dark:border-white/5">
 			<div className="px-16">
 				<div className="h-20 flex items-center justify-between w-full max-w-[1400px] mx-auto">
 					{/* Logo */}
@@ -33,9 +34,10 @@ const AppBar: React.FC = () => {
 									href={item.href}
 									className={`px-6 h-9 flex items-center rounded-full text-sm font-medium transition-all ${
 										isActive 
-											? 'bg-black text-white shadow-sm' 
+											? 'shadow-sm' 
 											: 'text-gray-600 dark:text-white/60 hover:text-black dark:hover:text-white hover:bg-gray-200 dark:hover:bg-white/5'
 									}`}
+									style={isActive ? { backgroundColor: colors.blackColor, color: colors.whiteColor } : undefined}
 								>
 									{item.label}
 								</Link>

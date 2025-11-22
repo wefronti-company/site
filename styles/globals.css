@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+
 html { box-sizing:border-box; }
 *,*::before,*::after { box-sizing:inherit; }
 html,body { height:100%; }
@@ -11,14 +12,8 @@ html,body { height:100%; }
 body { 
   margin:0; 
   padding:0; 
-  background:#010101; 
-  color:#fff; 
+  background: var(--color-black); 
+  color: var(--color-white); 
   font-family:sans-serif;
   transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-/* Tema claro */
-body:not(.dark) {
-  background:#ffffff;
-  color:#0a0a0a;
 }

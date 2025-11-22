@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { colors } from '../styles/colors';
 
 const ThemeToggle: React.FC = () => {
   const [mounted, setMounted] = useState(false);
@@ -21,7 +22,7 @@ const ThemeToggle: React.FC = () => {
   // Evita erro de hidratação no SSR
   if (!mounted) {
     return (
-      <button className="w-9 h-9 flex items-center justify-center text-white/60 transition-colors relative">
+      <button className="w-9 h-9 flex items-center justify-center transition-colors relative" style={{ color: colors.whiteColor }}>
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
           <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
         </svg>
@@ -32,7 +33,7 @@ const ThemeToggle: React.FC = () => {
   return (
     <button
       onClick={toggleTheme}
-      className="w-9 h-9 flex items-center justify-center text-white/60 dark:text-white/60 text-gray-600 hover:text-white dark:hover:text-white hover:text-black transition-colors relative"
+      className="w-9 h-9 flex items-center justify-center text-gray-600 dark:text-white/60 hover:text-black dark:hover:text-white transition-colors relative"
       aria-label={isDark ? 'Mudar para modo claro' : 'Mudar para modo escuro'}
     >
       {/* Ícone Sol (modo claro) */}
@@ -48,6 +49,7 @@ const ThemeToggle: React.FC = () => {
         className={`absolute transition-all duration-300 ${
           isDark ? 'opacity-0 rotate-90 scale-0' : 'opacity-100 rotate-0 scale-100'
         }`}
+        style={{ stroke: isDark ? colors.whiteColor : colors.blackColor }}
       >
         <circle cx="12" cy="12" r="5" />
         <line x1="12" y1="1" x2="12" y2="3" />
@@ -73,6 +75,7 @@ const ThemeToggle: React.FC = () => {
         className={`absolute transition-all duration-300 ${
           isDark ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 -rotate-90 scale-0'
         }`}
+        style={{ stroke: isDark ? colors.whiteColor : colors.blackColor }}
       >
         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
       </svg>
