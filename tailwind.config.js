@@ -8,6 +8,9 @@ module.exports = {
         'custom-black': '#010101',
         'custom-white': '#f2f2f2',
       },
+      fontFamily: {
+        sans: ['Funnel Sans', 'sans-serif'],
+      },
     },
   },
   plugins: [],
