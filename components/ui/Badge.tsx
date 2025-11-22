@@ -9,7 +9,7 @@ interface BadgeProps {
 const Badge: React.FC<BadgeProps> = ({ text, icon = 'star' }) => {
   return (
     <div 
-      className="inline-flex items-center gap-1 px-50 py-2 text-medium font-medium transition-colors w-fit"
+      className="inline-flex items-center gap-1 px-3 py-2 text-medium font-medium transition-colors w-fit"
       style={{ 
         borderRadius: '7px',
         backgroundColor: `${colors.blueColor}15`,
