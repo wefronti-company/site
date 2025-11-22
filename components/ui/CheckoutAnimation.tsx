@@ -98,10 +98,7 @@ const CheckoutAnimation: React.FC = () => {
       className="relative w-full h-full flex items-center justify-center"
       style={{ 
         backgroundColor: isDark ? '#0a0a0a' : '#fff5f0',
-        paddingTop: '20px',
-        paddingBottom: '20px',
-        paddingLeft: '16px',
-        paddingRight: '16px',
+        padding: '16px',
       }}
     >
       {/* Container do Checkout */}
@@ -118,129 +115,133 @@ const CheckoutAnimation: React.FC = () => {
         }}
       >
         {/* Título */}
-        <div className="mb-4">
-          <h3 
-            className="text-sm font-bold"
-            style={{ color: orangeColor }}
-          >
-            Finalizar Compra
-          </h3>
-        </div>
+  
 
         {isSuccess ? (
           /* Mensagem de Sucesso */
           <div 
-            className="flex flex-col items-center justify-center py-8"
+            className="flex flex-col items-center justify-center py-6"
             style={{
-              backgroundColor: isDark ? '#0f2e1a' : '#f0fdf4',
+              backgroundColor: isDark ? '#2e1a0f' : '#fff5f0',
               borderRadius: '7px',
-              border: `1px solid ${isDark ? '#166534' : '#86efac'}`,
+              border: `1px solid ${isDark ? '#e55a2b' : '#ffc9b3'}`,
             }}
           >
             <div 
               className="mb-3 rounded-full flex items-center justify-center"
               style={{
-                width: '48px',
-                height: '48px',
-                backgroundColor: '#10b981',
+                width: '60px',
+                height: '90px',
+                backgroundColor: orangeColor,
               }}
             >
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3">
                 <polyline points="20 6 9 17 4 12" />
               </svg>
             </div>
             <h4 
               className="text-lg font-bold mb-1"
-              style={{ color: '#10b981' }}
+              style={{ color: orangeColor }}
             >
               Compra Aprovada
             </h4>
-            <p className="text-xs text-gray-600 dark:text-gray-300">
+            <p className="text-sm text-gray-600 dark:text-gray-300">
               Pagamento processado com sucesso!
             </p>
           </div>
         ) : (
           <>
-            {/* Campos do Formulário */}
-            <div className="space-y-2 mb-3">
-              {/* Número do Cartão */}
-              <div>
-                <label className="block text-[9px] font-medium text-gray-700 dark:text-gray-300 mb-0.5">
-                  Número do Cartão
-                </label>
-                <div 
-                  className="w-full px-2 py-1.5 text-[11px] font-mono flex items-center"
-                  style={{
-                    backgroundColor: isDark ? '#0a0a0a' : '#fff',
-                    border: `1px solid ${isDark ? '#2a2a2a' : '#e5e7eb'}`,
-                    color: isDark ? '#fff' : '#000',
-                    borderRadius: '7px',
-                    minHeight: '30px',
-                  }}
-                >
-                  {cardNumber || <span className="text-gray-400 dark:text-gray-600">0000 0000 0000 0000</span>}
-                  {cardNumber && <span className="animate-pulse">|</span>}
-                </div>
-              </div>
-
-              {/* Nome */}
-              <div>
-                <label className="block text-[9px] font-medium text-gray-700 dark:text-gray-300 mb-0.5">
-                  Nome do Titular
-                </label>
-                <div 
-                  className="w-full px-2 py-1.5 text-[11px] flex items-center"
-                  style={{
-                    backgroundColor: isDark ? '#0a0a0a' : '#fff',
-                    border: `1px solid ${isDark ? '#2a2a2a' : '#e5e7eb'}`,
-                    color: isDark ? '#fff' : '#000',
-                    borderRadius: '7px',
-                    minHeight: '30px',
-                  }}
-                >
-                  {cardName || <span className="text-gray-400 dark:text-gray-600">Nome Completo</span>}
-                  {cardName && <span className="animate-pulse">|</span>}
-                </div>
-              </div>
-
-              {/* Validade e CVV */}
-              <div className="flex gap-2">
-                <div className="flex-1">
-                  <label className="block text-[9px] font-medium text-gray-700 dark:text-gray-300 mb-0.5">
-                    Validade
-                  </label>
-                  <div 
-                    className="w-full px-2 py-1.5 text-[11px] font-mono flex items-center"
+            {/* Cartão de Crédito Animado */}
+            <div 
+              className="relative mb-4"
+              style={{
+                perspective: '1000px',
+              }}
+            >
+              <div
+                className="relative"
+                style={{
+                  width: '100%',
+                  height: '140px',
+                  background: `linear-gradient(135deg, ${orangeColor} 0%, ${orangeDark} 100%)`,
+                  borderRadius: '10px',
+                  padding: '14px',
+                  boxShadow: '0 6px 20px rgba(255, 107, 53, 0.3)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                }}
+              >
+                {/* Chip do Cartão */}
+                <div className="flex items-start justify-between">
+                  <div
                     style={{
-                      backgroundColor: isDark ? '#0a0a0a' : '#fff',
-                      border: `1px solid ${isDark ? '#2a2a2a' : '#e5e7eb'}`,
-                      color: isDark ? '#fff' : '#000',
-                      borderRadius: '7px',
-                      minHeight: '30px',
+                      width: '35px',
+                      height: '28px',
+                      background: 'linear-gradient(135deg, #f4d03f 0%, #e8b923 100%)',
+                      borderRadius: '4px',
+                      border: '1px solid rgba(255, 255, 255, 0.3)',
                     }}
-                  >
-                    {expiry || <span className="text-gray-400 dark:text-gray-600">MM/AA</span>}
-                    {expiry && <span className="animate-pulse">|</span>}
+                  />
+                  <div className="text-white text-[9px] font-bold opacity-80">
+                    VISA
                   </div>
                 </div>
-                <div className="w-16">
-                  <label className="block text-[9px] font-medium text-gray-700 dark:text-gray-300 mb-0.5">
-                    CVV
-                  </label>
+
+                {/* Número do Cartão */}
+                <div>
                   <div 
-                    className="w-full px-2 py-1.5 text-[11px] font-mono flex items-center"
+                    className="text-white font-mono text-sm tracking-wider mb-2"
                     style={{
-                      backgroundColor: isDark ? '#0a0a0a' : '#fff',
-                      border: `1px solid ${isDark ? '#2a2a2a' : '#e5e7eb'}`,
-                      color: isDark ? '#fff' : '#000',
-                      borderRadius: '7px',
-                      minHeight: '30px',
+                      textShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
                     }}
                   >
-                    {cvv || <span className="text-gray-400 dark:text-gray-600">000</span>}
-                    {cvv && <span className="animate-pulse">|</span>}
+                    {cardNumber || '•••• •••• •••• ••••'}
+                    {cardNumber && cardNumber.length < 19 && animationStep <= 50 && (
+                      <span className="animate-pulse ml-1">|</span>
+                    )}
+                  </div>
+
+                  {/* Nome e Validade */}
+                  <div className="flex justify-between items-end">
+                    <div>
+                      <div className="text-white text-[7px] opacity-70 mb-0.5">
+                        TITULAR
+                      </div>
+                      <div className="text-white text-[10px] font-medium">
+                        {cardName || 'NOME DO TITULAR'}
+                        {cardName && cardName.length < 11 && animationStep > 50 && animationStep <= 70 && (
+                          <span className="animate-pulse ml-1">|</span>
+                        )}
+                      </div>
+                    </div>
+                    <div>
+                      <div className="text-white text-[7px] opacity-70 mb-0.5 text-right">
+                        VALIDADE
+                      </div>
+                      <div className="text-white text-[10px] font-medium font-mono">
+                        {expiry || 'MM/AA'}
+                        {expiry && expiry.length < 5 && animationStep > 70 && animationStep <= 85 && (
+                          <span className="animate-pulse ml-1">|</span>
+                        )}
+                      </div>
+                    </div>
                   </div>
                 </div>
+
+                {/* Efeito de brilho */}
+                <div
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    background: 'linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.1) 50%, transparent 100%)',
+                    borderRadius: '10px',
+                    animation: 'shimmer 3s infinite',
+                  }}
+                />
               </div>
             </div>
 

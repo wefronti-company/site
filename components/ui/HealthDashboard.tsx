@@ -112,15 +112,6 @@ const HealthDashboard: React.FC = () => {
             : '0 2px 10px rgba(168, 85, 247, 0.1)',
         }}
       >
-        {/* Cabeçalho */}
-        <div className="mb-4">
-          <h3 
-            className="text-sm font-bold"
-            style={{ color: purpleColor }}
-          >
-            Agendamento de Consulta
-          </h3>
-        </div>
 
         {isSuccess ? (
           /* Tela de Sucesso */
