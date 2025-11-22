@@ -24,7 +24,7 @@ const AppBar: React.FC = () => {
 					<Logo />
 					
 					{/* Nav centered */}
-					<nav className="absolute left-1/2 -translate-x-1/2 flex items-center gap-1 bg-[#1a1a1a] dark:bg-[#1a1a1a] bg-gray-100 rounded-full p-1">
+					<nav className="absolute left-1/2 -translate-x-1/2 flex items-center gap-1 bg-gray-100 dark:bg-[#1a1a1a] rounded-full p-1">
 						{navItems.map(item => {
 							const isActive = router.pathname === item.href;
 							return (
@@ -33,8 +33,8 @@ const AppBar: React.FC = () => {
 									href={item.href}
 									className={`px-6 h-9 flex items-center rounded-full text-sm font-medium transition-all ${
 										isActive 
-											? 'bg-[#2a2a2a] dark:bg-[#2a2a2a] bg-white text-white dark:text-white text-black shadow-sm' 
-											: 'text-white/60 dark:text-white/60 text-gray-600 hover:text-white dark:hover:text-white hover:text-black hover:bg-white/5 dark:hover:bg-white/5 hover:bg-gray-200'
+											? 'bg-black text-white shadow-sm' 
+											: 'text-gray-600 dark:text-white/60 hover:text-black dark:hover:text-white hover:bg-gray-200 dark:hover:bg-white/5'
 									}`}
 								>
 									{item.label}
