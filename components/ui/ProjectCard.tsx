@@ -91,16 +91,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
             </span>
           )}
         </div>
-
-        {/* Categoria flutuante */}
-        <div
-          className="absolute bottom-4 right-4 px-3 py-1 text-xs font-medium backdrop-blur-sm"
-          style={{
-            backgroundColor: isDark ? 'rgba(26, 26, 26, 0.8)' : 'rgba(247, 247, 247, 0.8)',
-            borderRadius: '7px',
-          }}
-        >
-        </div>
       </div>
 
       {/* Conteúdo */}

@@ -29,15 +29,22 @@ const VehicleTrackingMap: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
 
-  // Coordenadas reais: São Paulo e Rio de Janeiro
-  const saoPaulo: [number, number] = [-46.6333, -23.5505];
-  const rioDeJaneiro: [number, number] = [-43.1729, -22.9068];
+  // Coordenadas reais: São Paulo e Rio de Janeiro (expandidas)
+  const saoPaulo: [number, number] = [-48.5, -24.5];
+  const rioDeJaneiro: [number, number] = [-42.5, -21.5];
 
-  // Calcula a posição do veículo na rota
+  // Calcula a posição do veículo na rota com curva
   const getVehiclePosition = (): [number, number] => {
     const progress = vehiclePosition / 100;
-    const lon = saoPaulo[0] + (rioDeJaneiro[0] - saoPaulo[0]) * progress;
-    const lat = saoPaulo[1] + (rioDeJaneiro[1] - saoPaulo[1]) * progress;
+    
+    // Ponto de controle para criar a curva (Bézier quadrática)
+    const controlPoint: [number, number] = [-45.5, -21.0];
+    
+    // Fórmula Bézier quadrática: P(t) = (1-t)²*P0 + 2(1-t)t*P1 + t²*P2
+    const t = progress;
+    const lon = Math.pow(1-t, 2) * saoPaulo[0] + 2 * (1-t) * t * controlPoint[0] + Math.pow(t, 2) * rioDeJaneiro[0];
+    const lat = Math.pow(1-t, 2) * saoPaulo[1] + 2 * (1-t) * t * controlPoint[1] + Math.pow(t, 2) * rioDeJaneiro[1];
+    
     return [lon, lat];
   };
 
@@ -46,13 +53,30 @@ const VehicleTrackingMap: React.FC = () => {
   // Cor dos pontos (igual ao mapa de clientes)
   const dotColor = isDark ? '#4a4a4a' : '#9ca3af';
 
+  // Função para converter coordenadas geográficas para o sistema de coordenadas SVG do mapa
+  const projectCoordinate = (coord: [number, number]): [number, number] => {
+    const scale = 2200;
+    const centerLon = -45.5;
+    const centerLat = -23;
+    
+    // Projeção Mercator simplificada
+    const x = (coord[0] - centerLon) * scale / 360 * 2 * Math.PI;
+    const y = -(coord[1] - centerLat) * scale / 180 * Math.PI;
+    
+    return [x, y];
+  };
+
+  const projectedSP = projectCoordinate(saoPaulo);
+  const projectedRJ = projectCoordinate(rioDeJaneiro);
+  const projectedControl = projectCoordinate([-45.5, -21.0]);
+
   return (
     <div className="relative w-full h-full">
       <ComposableMap
         projection="geoMercator"
         projectionConfig={{
-          scale: 3500,
-          center: [-45, -23],
+          scale: 2200,
+          center: [-45.5, -23],
         }}
         style={{ width: '100%', height: '100%' }}
       >
@@ -79,15 +103,32 @@ const VehicleTrackingMap: React.FC = () => {
           }
         </Geographies>
 
-        {/* Linha da rota - MAIOR */}
-        <Line
-          from={saoPaulo}
-          to={rioDeJaneiro}
-          stroke="#fbbf24"
-          strokeWidth={7}
-          strokeLinecap="round"
-          strokeDasharray="22 7"
-        />
+        {/* Linha da rota com curva usando SVG dentro do mapa */}
+        <g>
+          <defs>
+            <path
+              id="curved-route"
+              d={`M ${projectedSP[0]},${projectedSP[1]} Q ${projectedControl[0]},${projectedControl[1]} ${projectedRJ[0]},${projectedRJ[1]}`}
+              fill="none"
+            />
+          </defs>
+          <path
+            d={`M ${projectedSP[0]},${projectedSP[1]} Q ${projectedControl[0]},${projectedControl[1]} ${projectedRJ[0]},${projectedRJ[1]}`}
+            stroke="#fbbf24"
+            strokeWidth={10}
+            strokeLinecap="round"
+            strokeDasharray="22 7"
+            fill="none"
+          >
+            <animate
+              attributeName="stroke-dashoffset"
+              from="0"
+              to="29"
+              dur="1.5s"
+              repeatCount="indefinite"
+            />
+          </path>
+        </g>
 
         {/* Marcador São Paulo - MAIOR */}
         <Marker coordinates={saoPaulo}>
@@ -102,7 +143,7 @@ const VehicleTrackingMap: React.FC = () => {
               y={-12}
               style={{
                 fontFamily: 'system-ui',
-                fontSize: '8px',
+                fontSize: '22px',
                 fill: isDark ? '#fff' : '#000',
                 fontWeight: 700,
               }}
@@ -125,7 +166,7 @@ const VehicleTrackingMap: React.FC = () => {
               y={-12}
               style={{
                 fontFamily: 'system-ui',
-                fontSize: '8px',
+                fontSize: '22px',
                 fill: isDark ? '#fff' : '#000',
                 fontWeight: 700,
               }}
