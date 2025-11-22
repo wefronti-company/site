@@ -3,6 +3,7 @@ import { colors } from '../../styles/colors';
 import AnimatedGridBackground from '../../components/effects/AnimatedGridBackground';
 import InteractiveDashboard from '../../components/ui/InteractiveDashboard';
 import ButtonCta from '../../components/ui/ButtonCta';
+import Badge from '../../components/ui/Badge';
 
 const Hero: React.FC = () => {
   return (
@@ -19,6 +20,8 @@ const Hero: React.FC = () => {
             
             {/* Left Side - 70% */}
             <div className="w-full lg:w-[60%] flex flex-col gap-6">
+              <Badge text="O melhor da tecnologia e IA para seu produto." icon="star" />
+              
               <h1 className="text-5xl md:text-6xl lg:text-7xl font-medium text-gray-900 dark:text-white leading-tight">
                 Projetamos produtos com propósito, pronto para gerar receita.
               </h1>
@@ -28,7 +31,6 @@ const Hero: React.FC = () => {
 
               <div className="flex flex-col sm:flex-row gap-4 mt-4">
                 <ButtonCta label="Iniciar um projeto" variant="primary" />
-                <ButtonCta label="Ver nosso portfólio" variant="secondary" />
               </div>
             </div>
 

@@ -10,6 +10,7 @@ const InteractiveDashboard: React.FC = () => {
   const [activeMetric, setActiveMetric] = useState<'revenue' | 'users' | 'growth'>('revenue');
   const [revenue, setRevenue] = useState(247850);
   const [isHovering, setIsHovering] = useState(false);
+  const [isDark, setIsDark] = useState(false);
 
   // Dados do gráfico
   const chartData: ChartData[] = [
@@ -23,6 +24,20 @@ const InteractiveDashboard: React.FC = () => {
 
   const maxValue = Math.max(...chartData.map(d => d.value));
 
+  // Detecta tema
+  useEffect(() => {
+    const checkTheme = () => {
+      setIsDark(document.documentElement.classList.contains('dark'));
+    };
+    
+    checkTheme();
+    
+    const observer = new MutationObserver(checkTheme);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    
+    return () => observer.disconnect();
+  }, []);
+
   // Animação da receita
   useEffect(() => {
     const interval = setInterval(() => {
@@ -33,7 +48,7 @@ const InteractiveDashboard: React.FC = () => {
   }, []);
 
   return (
-    <div className="w-full h-full flex gap-2">
+    <div className="w-full h-full flex gap-2 border transition-colors" style={{ borderRadius: '7px', borderColor: isDark ? colors.borderDark : colors.borderLight }}>
       {/* Sidebar */}
       <div className="w-[60px] bg-gray-100 dark:bg-[#1a1a1a] flex flex-col items-center py-4 gap-6 transition-colors" style={{ borderRadius: '7px' }}>
         <div className="w-8 h-8 flex items-center justify-center">

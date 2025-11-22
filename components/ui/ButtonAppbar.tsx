@@ -6,7 +6,7 @@ interface ButtonAppbarProps {
   onClick?: () => void;
 }
 
-const ButtonAppbar: React.FC<ButtonAppbarProps> = ({ label = 'Iniciar um projeto', onClick }) => {
+const ButtonAppbar: React.FC<ButtonAppbarProps> = ({ label = 'Falar com especialista', onClick }) => {
   return (
     <button
       type="button"
