@@ -35,11 +35,13 @@ const InteractiveDashboard: React.FC = () => {
   return (
     <div className="w-full h-full flex gap-2">
       {/* Sidebar */}
-      <div className="w-[60px] bg-gray-200 dark:bg-gray-900 flex flex-col items-center py-4 gap-6 transition-colors" style={{ borderRadius: '7px' }}>
-        <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center" style={{ borderRadius: '6px' }}>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" className="text-white">
-            <line x1="12" y1="1" x2="12" y2="23" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+      <div className="w-[60px] bg-gray-100 dark:bg-[#1a1a1a] flex flex-col items-center py-4 gap-6 transition-colors" style={{ borderRadius: '7px' }}>
+        <div className="w-8 h-8 flex items-center justify-center">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" className="text-gray-700 dark:text-gray-300">
+            <path d="M12 5c0 0-1.5-2-4-2S4 5 4 8s1.5 5 4 5 4-2 4-5zm0 0c0 0 1.5-2 4-2s4 2 4 5-1.5 5-4 5-4-2-4-5z" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M12 5v14m-3 2l3-2 3 2" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            <circle cx="8" cy="7" r="1" fill="currentColor"/>
+            <circle cx="16" cy="7" r="1" fill="currentColor"/>
           </svg>
         </div>
         
