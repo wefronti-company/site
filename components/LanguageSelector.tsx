@@ -53,12 +53,12 @@ const LanguageSelector: React.FC = () => {
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-48 bg-custom-white dark:bg-[#1a1a1a] rounded-lg shadow-lg border border-gray-200 dark:border-white/10 py-1 z-50">
+        <div className="absolute right-0 mt-2 w-48 bg-custom-white dark:bg-[#1a1a1a] rounded-lg shadow-lg border border-gray-200 dark:border-white/10 p-2 z-50">
           {languages.map((lang) => (
             <button
               key={lang.code}
               onClick={() => handleSelect(lang.code)}
-              className={`w-full px-4 py-2 text-left text-sm transition-colors ${
+              className={`w-full px-4 py-3 text-left text-sm transition-colors rounded-md ${
                 selectedLang === lang.code
                   ? 'font-medium'
                   : 'text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-white/5'

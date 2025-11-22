@@ -18,7 +18,10 @@ const AppBar: React.FC = () => {
 	const router = useRouter();
 	
 	return (
-		<header className="w-full sticky top-0 z-40 bg-custom-white dark:bg-custom-black border-b border-white/5 dark:border-white/5">
+		<header 
+			className="w-full sticky top-0 z-40 bg-custom-white dark:bg-custom-black border-b dark:border-white/5"
+			style={{ borderBottomColor: colors.borderLight }}
+		>
 			<div className="px-16">
 				<div className="h-20 flex items-center justify-between w-full max-w-[1400px] mx-auto">
 					{/* Logo */}
