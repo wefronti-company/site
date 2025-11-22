@@ -4,6 +4,7 @@ import AnimatedGridBackground from '../../components/effects/AnimatedGridBackgro
 import InteractiveDashboard from '../../components/ui/InteractiveDashboard';
 import ButtonCta from '../../components/ui/ButtonCta';
 import Badge from '../../components/ui/Badge';
+import StatCounter from '../../components/ui/StatCounter';
 
 const Hero: React.FC = () => {
   return (
@@ -31,6 +32,12 @@ const Hero: React.FC = () => {
 
               <div className="flex flex-col sm:flex-row gap-4 mt-4">
                 <ButtonCta label="Iniciar um projeto" variant="primary" />
+              </div>
+
+              {/* Stats Counters */}
+              <div className="flex flex-wrap gap-8 mt-4">
+                <StatCounter value="6 anos" label="no mercado" />
+                <StatCounter value="+100" label="projetos entregues" />
               </div>
             </div>
 
