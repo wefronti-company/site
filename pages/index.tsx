@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import AppBar from '../components/layout/AppBar';
 import Hero from '../sections/Hero';
 import Services from '../sections/Services';
+import Clients from '../sections/Clients';
 import SplashScreen from '../components/effects/SplashScreen';
 
 const Home: React.FC = () => {
@@ -22,6 +23,7 @@ const Home: React.FC = () => {
       <AppBar />
       <Hero />
       <Services />
+      <Clients />
     </>
   );
 };

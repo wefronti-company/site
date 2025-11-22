@@ -66,7 +66,7 @@ const StatCounter: React.FC<StatCounterProps> = ({ value, label }) => {
         borderColor: isDark ? colors.borderDark : colors.borderLight
       }}
     >
-      <div className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">
+      <div className="text-3xl md:text-4xl font-medium                                                   text-gray-900 dark:text-white">
         {prefix}{count}{suffix && ' ' + suffix}
       </div>
       <div className="text-sm md:text-base text-gray-600 dark:text-gray-400">

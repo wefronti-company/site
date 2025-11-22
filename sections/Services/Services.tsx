@@ -3,15 +3,29 @@ import Badge from '../../components/ui/Badge';
 import ServiceCard from '../../components/ui/ServiceCard';
 
 const Services: React.FC = () => {
+  const [isDark, setIsDark] = React.useState(false);
+
+  React.useEffect(() => {
+    const checkTheme = () => {
+      setIsDark(document.documentElement.classList.contains('dark'));
+    };
+    
+    checkTheme();
+    
+    const observer = new MutationObserver(checkTheme);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    
+    return () => observer.disconnect();
+  }, []);
+
   const services = [
     {
       title: 'Aplicativo Mobile, Software, Saas.',
       description: 'Criação de sistemas, plataformas, áreas de membros e aplicações web.',
       features: [
-        'Prazo: 3 à 6 meses.',
         'Integrações API',
         'Tecnologias modernas',
-        'Desenvolvimento completo',
+        'Sistema escalável',
         'Acompanhamento pós entrega',
         '100% personalizado'
       ],
@@ -21,12 +35,11 @@ const Services: React.FC = () => {
       title: 'Site, Landing Page, E-commerce.',
       description: 'Desenvolvimento web para sites institucionais e loja virtual.',
       features: [
-        'Prazo: 1 à 2 meses.',
         'Responsivo para todas as telas',
         'Design que retém e converte',
-        'Código escalável',
+        'Manutenção mensal',
         'Estratégias de conversão',
-        '100% personalizado'
+        '100% otimizado'
       ],
       timeline: 'Prazo: 1 à 2 meses'
     }
@@ -40,7 +53,13 @@ const Services: React.FC = () => {
   ];
 
   return (
-    <section className="w-full py-20 md:py-32 bg-custom-white dark:bg-custom-black transition-colors">
+    <section 
+      className="w-full py-20 md:py-32 bg-custom-white dark:bg-custom-black transition-colors border-t border-b"
+      style={{
+        borderTopColor: isDark ? '#141414' : '#D1D5DB',
+        borderBottomColor: isDark ? '#141414' : '#D1D5DB'
+      }}
+    >
       <div className="px-4 md:px-8 lg:px-16">
         <div className="w-full max-w-[1400px] mx-auto">
           
