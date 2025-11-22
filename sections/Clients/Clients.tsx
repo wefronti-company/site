@@ -26,6 +26,7 @@ const Clients: React.FC = () => {
       company: 'TechStart Brasil',
       text: 'Trabalhar com esta equipe foi excepcional. Entregaram nosso aplicativo mobile antes do prazo e com qualidade superior ao esperado. Recomendo fortemente!',
       rating: 5,
+      image: '/images/depoimento-1.webp',
     },
     {
       name: 'Marina Costa',
@@ -33,6 +34,7 @@ const Clients: React.FC = () => {
       company: 'Innovate Corp',
       text: 'O e-commerce desenvolvido superou todas as nossas expectativas. A experiência do usuário é impecável e as vendas aumentaram 150% no primeiro mês.',
       rating: 5,
+      image: '/images/depoimento-2.webp',
     },
     {
       name: 'Roberto Almeida',
@@ -40,6 +42,7 @@ const Clients: React.FC = () => {
       company: 'StartupXYZ',
       text: 'Equipe extremamente profissional e dedicada. Transformaram nossa ideia em um SaaS completo e escalável. O suporte pós-entrega é excelente.',
       rating: 5,
+      image: '/images/depoimento-3.webp',
     },
     {
       name: 'Julia Santos',
@@ -47,6 +50,7 @@ const Clients: React.FC = () => {
       company: 'Digital Solutions',
       text: 'A landing page ficou incrível! O design moderno e responsivo nos ajudou a converter muito mais leads. Processo de desenvolvimento foi muito fluido.',
       rating: 5,
+      image: '/images/depoimento-5.webp',
     },
     {
       name: 'André Ferreira',
@@ -54,27 +58,46 @@ const Clients: React.FC = () => {
       company: 'FinTech Pro',
       text: 'Desenvolvimento impecável do nosso sistema financeiro. Seguiram todas as melhores práticas de segurança e a integração com APIs foi perfeita.',
       rating: 5,
-    },
-    {
-      name: 'Beatriz Lima',
-      role: 'Product Owner',
-      company: 'MedTech Health',
-      text: 'Parceria excepcional do início ao fim. A metodologia ágil facilitou muito o acompanhamento e as entregas incrementais agregaram muito valor.',
-      rating: 5,
+      image: '/images/depoimento-4.webp',
     },
   ];
 
   return (
     <section 
-      className="w-full py-20 md:py-32 bg-custom-white dark:bg-custom-black transition-colors border-b"
+      className="w-full py-20 md:py-32 bg-custom-white dark:bg-custom-black transition-colors border-b relative overflow-hidden"
       style={{
         borderBottomColor: isDark ? '#141414' : '#D1D5DB'
       }}
     >
-      <div className="px-4 md:px-8 lg:px-16">
+      {/* Mapa Mundial como background */}
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div className="w-full h-[500px] md:h-[600px] lg:h-[700px]">
+          <WorldMap />
+        </div>
+        {/* Gradiente superior */}
+        <div 
+          className="absolute top-0 left-0 right-0 h-48 md:h-64 pointer-events-none"
+          style={{
+            background: isDark 
+              ? 'linear-gradient(to bottom, #010101 0%, rgba(1, 1, 1, 0.8) 50%, transparent 100%)'
+              : 'linear-gradient(to bottom, #f7f7f7 0%, rgba(247, 247, 247, 0.8) 50%, transparent 100%)'
+          }}
+        />
+        {/* Gradiente inferior */}
+        <div 
+          className="absolute bottom-0 left-0 right-0 h-48 md:h-64 pointer-events-none"
+          style={{
+            background: isDark 
+              ? 'linear-gradient(to top, #010101 0%, rgba(1, 1, 1, 0.8) 50%, transparent 100%)'
+              : 'linear-gradient(to top, #f7f7f7 0%, rgba(247, 247, 247, 0.8) 50%, transparent 100%)'
+          }}
+        />
+      </div>
+
+      <div className="px-4 md:px-8 lg:px-16 relative z-10">
         <div className="max-w-7xl mx-auto">
           {/* Cabeçalho */}
-          <div className="text-center mb-12 md:mb-16">
+          <div className="text-center mb-[-180px] md:mb-[-220px] lg:mb-[-250px]">
             <Badge icon="star" text="Casos de sucesso" />
             <h2 className="text-4xl md:text-4xl lg:text-5xl font-medium text-gray-900 dark:text-white mt-6 mb-4">
               O que nossos clientes dizem sobre nós
@@ -84,18 +107,30 @@ const Clients: React.FC = () => {
             </p>
           </div>
 
-          {/* Mapa Mundial */}
-          <div className="w-full h-[500px] md:h-[600px] lg:h-[700px] mb-16 md:mb-20">
-            <WorldMap />
-          </div>
+          {/* Espaçamento para o mapa */}
+          <div className="h-[500px] md:h-[600px] lg:h-[700px]" />
 
           {/* Depoimentos - Carrossel Infinito */}
-          <div className="mb-12 md:mb-16">
-            <h3 className="text-2xl md:text-3xl font-medium text-gray-900 dark:text-white mb-8 text-center">
-              O que nossos clientes dizem
-            </h3>
-            
+          <div className="mt-[-80px] md:mt-[-100px]">
             <div className="relative overflow-hidden">
+              {/* Gradiente esquerdo */}
+              <div 
+                className="absolute left-0 top-0 bottom-0 w-48 md:w-64 lg:w-80 z-10 pointer-events-none"
+                style={{
+                  background: isDark 
+                    ? 'linear-gradient(to right, #010101 0%, #010101 10%, rgba(1, 1, 1, 0.9) 30%, rgba(1, 1, 1, 0.6) 60%, rgba(1, 1, 1, 0.3) 80%, transparent 100%)'
+                    : 'linear-gradient(to right, #f7f7f7 0%, #f7f7f7 10%, rgba(247, 247, 247, 0.9) 30%, rgba(247, 247, 247, 0.6) 60%, rgba(247, 247, 247, 0.3) 80%, transparent 100%)'
+                }}
+              />
+              {/* Gradiente direito */}
+              <div 
+                className="absolute right-0 top-0 bottom-0 w-48 md:w-64 lg:w-80 z-10 pointer-events-none"
+                style={{
+                  background: isDark 
+                    ? 'linear-gradient(to left, #010101 0%, #010101 10%, rgba(1, 1, 1, 0.9) 30%, rgba(1, 1, 1, 0.6) 60%, rgba(1, 1, 1, 0.3) 80%, transparent 100%)'
+                    : 'linear-gradient(to left, #f7f7f7 0%, #f7f7f7 10%, rgba(247, 247, 247, 0.9) 30%, rgba(247, 247, 247, 0.6) 60%, rgba(247, 247, 247, 0.3) 80%, transparent 100%)'
+                }}
+              />
               {/* Container do carrossel */}
               <div className="flex gap-6 animate-scroll">
                 {/* Primeiro conjunto de cards */}

@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 
 interface TestimonialCardProps {
   name: string;
@@ -6,6 +7,7 @@ interface TestimonialCardProps {
   company: string;
   text: string;
   rating: number;
+  image: string;
 }
 
 const TestimonialCard: React.FC<TestimonialCardProps> = ({
@@ -14,6 +16,7 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
   company,
   text,
   rating,
+  image,
 }) => {
   const [isDark, setIsDark] = React.useState(false);
 
@@ -60,10 +63,23 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
 
       {/* Informações do cliente */}
       <div className="border-t pt-4" style={{ borderColor: isDark ? '#141414' : '#D1D5DB' }}>
-        <p className="font-medium text-gray-900 dark:text-white">{name}</p>
-        <p className="text-sm text-gray-600 dark:text-gray-400">
-          {role} • {company}
-        </p>
+        <div className="flex items-center gap-4">
+          <div className="relative w-12 h-12 flex-shrink-0">
+            <Image
+              src={image}
+              alt={name}
+              fill
+              className="object-cover"
+              style={{ borderRadius: '50%' }}
+            />
+          </div>
+          <div>
+            <p className="font-medium text-gray-900 dark:text-white">{name}</p>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              {role} • {company}
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );
