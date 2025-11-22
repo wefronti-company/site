@@ -115,7 +115,7 @@ const Clients: React.FC = () => {
             <div className="relative overflow-hidden">
               {/* Gradiente esquerdo */}
               <div 
-                className="absolute left-0 top-0 bottom-0 w-48 md:w-64 lg:w-80 z-10 pointer-events-none"
+                className="absolute left-0 top-0 bottom-0 w-12 md:w-24 lg:w-32 z-10 pointer-events-none"
                 style={{
                   background: isDark 
                     ? 'linear-gradient(to right, #010101 0%, #010101 10%, rgba(1, 1, 1, 0.9) 30%, rgba(1, 1, 1, 0.6) 60%, rgba(1, 1, 1, 0.3) 80%, transparent 100%)'
@@ -124,7 +124,7 @@ const Clients: React.FC = () => {
               />
               {/* Gradiente direito */}
               <div 
-                className="absolute right-0 top-0 bottom-0 w-48 md:w-64 lg:w-80 z-10 pointer-events-none"
+                className="absolute right-0 top-0 bottom-0 w-12 md:w-24 lg:w-32 z-10 pointer-events-none"
                 style={{
                   background: isDark 
                     ? 'linear-gradient(to left, #010101 0%, #010101 10%, rgba(1, 1, 1, 0.9) 30%, rgba(1, 1, 1, 0.6) 60%, rgba(1, 1, 1, 0.3) 80%, transparent 100%)'
@@ -133,11 +133,11 @@ const Clients: React.FC = () => {
               />
               {/* Container do carrossel */}
               <div className="flex gap-6 animate-scroll">
-                {/* Primeiro conjunto de cards */}
+                {/* Primeira cópia */}
                 {testimonials.map((testimonial, index) => (
                   <TestimonialCard key={`first-${index}`} {...testimonial} />
                 ))}
-                {/* Duplica os cards para efeito de loop infinito */}
+                {/* Segunda cópia - para loop infinito */}
                 {testimonials.map((testimonial, index) => (
                   <TestimonialCard key={`second-${index}`} {...testimonial} />
                 ))}
@@ -153,12 +153,24 @@ const Clients: React.FC = () => {
             transform: translateX(0);
           }
           100% {
-            transform: translateX(-50%);
+            transform: translateX(calc(-350px * 5 - 24px * 5));
+          }
+        }
+
+        @media (min-width: 768px) {
+          @keyframes scroll {
+            0% {
+              transform: translateX(0);
+            }
+            100% {
+              transform: translateX(calc(-400px * 5 - 24px * 5));
+            }
           }
         }
 
         .animate-scroll {
           animation: scroll 40s linear infinite;
+          will-change: transform;
         }
 
         .animate-scroll:hover {
