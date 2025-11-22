@@ -32,7 +32,7 @@ const ThemeToggle: React.FC = () => {
   return (
     <button
       onClick={toggleTheme}
-      className="w-9 h-9 flex items-center justify-center text-white/60 hover:text-white transition-colors relative"
+      className="w-9 h-9 flex items-center justify-center text-white/60 dark:text-white/60 text-gray-600 hover:text-white dark:hover:text-white hover:text-black transition-colors relative"
       aria-label={isDark ? 'Mudar para modo claro' : 'Mudar para modo escuro'}
     >
       {/* Ícone Sol (modo claro) */}

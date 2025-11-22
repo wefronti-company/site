@@ -15,7 +15,7 @@ const Logo: React.FC<LogoProps> = ({ className = '' }) => {
         alt="Logo" 
         width={122} 
         height={122}
-        className="block dark:block h-8 w-auto"
+        className="hidden dark:block h-8 w-auto"
         priority
       />
       {/* Logo preto para modo claro */}
@@ -24,7 +24,7 @@ const Logo: React.FC<LogoProps> = ({ className = '' }) => {
         alt="Logo" 
         width={122} 
         height={122}
-        className="hidden dark:hidden h-8 w-auto"
+        className="block dark:hidden h-8 w-auto"
         priority
       />
     </Link>
