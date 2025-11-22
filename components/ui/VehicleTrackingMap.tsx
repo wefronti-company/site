@@ -71,7 +71,23 @@ const VehicleTrackingMap: React.FC = () => {
   const projectedControl = projectCoordinate([-45.5, -21.0]);
 
   return (
-    <div className="relative w-full h-full">
+    <div 
+      className="relative w-full h-full flex items-center justify-center"
+      style={{
+        backgroundColor: isDark ? '#010101' : '#f7f7f7',
+        padding: '16px',
+      }}
+    >
+      <div 
+        className="relative w-full h-full"
+        style={{
+          backgroundColor: isDark ? '#010101' : '#f7f7f7',
+          padding: '16px',
+          boxShadow: isDark 
+            ? '0 2px 10px rgba(0, 0, 0, 0.5)' 
+            : '0 2px 10px rgba(255, 200, 0, 0.1)',
+        }}
+      >
       <ComposableMap
         projection="geoMercator"
         projectionConfig={{
@@ -230,6 +246,7 @@ const VehicleTrackingMap: React.FC = () => {
       <div className="absolute bottom-3 right-3 text-right">
         <div className="text-sm font-semibold text-gray-900 dark:text-white">Rastreio</div>
         <div className="text-[10px] text-gray-500 dark:text-gray-400 italic">Atualizado agora</div>
+      </div>
       </div>
     </div>
   );

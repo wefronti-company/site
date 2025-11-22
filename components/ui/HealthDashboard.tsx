@@ -95,7 +95,7 @@ const HealthDashboard: React.FC = () => {
     <div 
       className="relative w-full h-full flex items-center justify-center"
       style={{ 
-        backgroundColor: isDark ? '#0a0a0a' : '#faf5ff',
+        backgroundColor: isDark ? '#010101' : '#f7f7f7',
         padding: '16px',
       }}
     >
@@ -103,9 +103,7 @@ const HealthDashboard: React.FC = () => {
       <div 
         className="w-full"
         style={{
-          backgroundColor: isDark ? '#1a1a1a' : '#ffffff',
-          border: `1px solid ${isDark ? '#2a2a2a' : '#e9d5ff'}`,
-          borderRadius: '7px',
+          backgroundColor: isDark ? '#010101' : '#f7f7f7',
           padding: '16px',
           boxShadow: isDark 
             ? '0 2px 10px rgba(0, 0, 0, 0.5)' 
