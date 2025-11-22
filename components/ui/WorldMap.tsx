@@ -22,14 +22,14 @@ const WorldMap: React.FC = () => {
   // Coordenadas dos pontos azuis (longitude, latitude)
   const locations = [
     { coordinates: [-95, 40], country: 'United States' },      // EUA
-    { coordinates: [-47, -15], country: 'Brazil' },            // Brasil
+    { coordinates: [-43.2, -22.9], country: 'Brazil' },        // Rio de Janeiro, Brasil
     { coordinates: [10, 50], country: 'Europe' },              // Europa
     { coordinates: [30, 0], country: 'Africa' },               // África
     { coordinates: [100, 30], country: 'Asia' },               // Ásia/China
     { coordinates: [135, -25], country: 'Australia' },         // Austrália
   ];
 
-  const dotColor = isDark ? '#333333' : '#d1d5db';
+  const dotColor = isDark ? '#4a4a4a' : '#9ca3af';
 
   return (
     <div className="relative w-full h-full flex items-center justify-center">

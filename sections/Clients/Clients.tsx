@@ -75,13 +75,12 @@ const Clients: React.FC = () => {
         <div className="max-w-7xl mx-auto">
           {/* Cabeçalho */}
           <div className="text-center mb-12 md:mb-16">
-            <Badge icon="star" text="Nossos clientes" />
+            <Badge icon="star" text="Casos de sucesso" />
             <h2 className="text-4xl md:text-4xl lg:text-5xl font-medium text-gray-900 dark:text-white mt-6 mb-4">
-              Presente em diversos países
+              O que nossos clientes dizem sobre nós
             </h2>
             <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-              Desenvolvemos soluções para clientes ao redor do mundo, 
-              entregando qualidade e inovação sem fronteiras.
+              Clientes satisfeitos ao redor do mundo, conectados por nossas soluções digitais.
             </p>
           </div>
 
