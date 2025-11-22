@@ -86,7 +86,7 @@ const Clients: React.FC = () => {
           </div>
 
           {/* Mapa Mundial */}
-          <div className="w-full h-[300px] md:h-[400px] mb-16 md:mb-20">
+          <div className="w-full h-[500px] md:h-[600px] lg:h-[700px] mb-16 md:mb-20">
             <WorldMap />
           </div>
 
