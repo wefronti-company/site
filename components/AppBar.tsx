@@ -9,9 +9,9 @@ import { colors } from '../styles/colors';
 
 const navItems = [
 	{ label: 'Home', href: '/' },
-	{ label: 'Templates', href: '/templates' },
-	{ label: 'Blog', href: '/blog' },
-	{ label: 'About', href: '/about' }
+	{ label: 'Serviços', href: '/services' },
+	{ label: 'Clientes', href: '/client' },
+	{ label: 'FAQ', href: '/faq' }
 ];
 
 const AppBar: React.FC = () => {
@@ -40,7 +40,7 @@ const AppBar: React.FC = () => {
 			style={{ borderBottomColor: isDark ? colors.borderDark : colors.borderLight }}
 		>
 			<div className="px-4 md:px-8 lg:px-16">
-				<div className="h-24 md:h-20 flex items-center justify-between w-full max-w-[1400px] mx-auto">
+				<div className="h-24 md:h-24 flex items-center justify-between w-full max-w-[1400px] mx-auto">
 					{/* Logo */}
 					<div className="scale-65 md:scale-100">
 						<Logo />
