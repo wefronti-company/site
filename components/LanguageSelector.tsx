@@ -63,7 +63,7 @@ const LanguageSelector: React.FC = () => {
                   ? 'font-medium'
                   : 'text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-white/5'
               }`}
-              style={selectedLang === lang.code ? { backgroundColor: '#e5e5e5', color: colors.blackColor } : undefined}
+              style={selectedLang === lang.code ? { backgroundColor: colors.blackColor, color: colors.whiteColor } : undefined}
             >
               {lang.label}
             </button>
