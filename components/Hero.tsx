@@ -4,9 +4,11 @@ import AnimatedGridBackground from './AnimatedGridBackground';
 
 const Hero: React.FC = () => {
   return (
-    <section className="w-full min-h-screen bg-custom-white dark:bg-custom-black transition-colors duration-300 relative">
-      {/* Animated Grid Background */}
-      <AnimatedGridBackground />
+    <section className="w-full min-h-screen bg-custom-white dark:bg-custom-black transition-colors duration-300 relative overflow-hidden">
+      {/* Animated Grid Background - Positioned absolutely to cover entire section */}
+      <div className="absolute inset-0">
+        <AnimatedGridBackground />
+      </div>
       
       <div className="px-4 md:px-8 lg:px-16 relative z-10">
         <div className="w-full max-w-[1400px] mx-auto min-h-screen flex flex-col justify-center py-20">
