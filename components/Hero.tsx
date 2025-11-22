@@ -1,10 +1,14 @@
 import React from 'react';
 import { colors } from '../styles/colors';
+import AnimatedGridBackground from './AnimatedGridBackground';
 
 const Hero: React.FC = () => {
   return (
-    <section className="w-full min-h-screen bg-custom-white dark:bg-custom-black transition-colors duration-300">
-      <div className="px-4 md:px-8 lg:px-16">
+    <section className="w-full min-h-screen bg-custom-white dark:bg-custom-black transition-colors duration-300 relative">
+      {/* Animated Grid Background */}
+      <AnimatedGridBackground />
+      
+      <div className="px-4 md:px-8 lg:px-16 relative z-10">
         <div className="w-full max-w-[1400px] mx-auto min-h-screen flex flex-col justify-center py-20">
           {/* Hero Content */}
           <div className="flex flex-col gap-6">
