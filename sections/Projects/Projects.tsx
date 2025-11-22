@@ -3,6 +3,7 @@ import Badge from '../../components/ui/Badge';
 import ProjectCard from '../../components/ui/ProjectCard';
 import VehicleTrackingMap from '../../components/ui/VehicleTrackingMap';
 import CheckoutAnimation from '../../components/ui/CheckoutAnimation';
+import HealthDashboard from '../../components/ui/HealthDashboard';
 
 const Projects: React.FC = () => {
   const [isDark, setIsDark] = React.useState(false);
@@ -31,6 +32,7 @@ const Projects: React.FC = () => {
         backend: ['Node.js', 'PostgreSQL', 'Prisma ORM'],
       },
       image: '/images/project-dashboard.webp',
+      customContent: <HealthDashboard />,
     },
     {
       title: 'Fleet Tracker',
