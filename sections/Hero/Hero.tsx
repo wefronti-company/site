@@ -2,6 +2,7 @@ import React from 'react';
 import { colors } from '../../styles/colors';
 import AnimatedGridBackground from '../../components/effects/AnimatedGridBackground';
 import InteractiveDashboard from '../../components/ui/InteractiveDashboard';
+import ButtonCta from '../../components/ui/ButtonCta';
 
 const Hero: React.FC = () => {
   return (
@@ -26,19 +27,8 @@ const Hero: React.FC = () => {
                 Acabe com os projetos engavetados: Lançamos sua plataforma de alta performance desenhada para ser um ativo financeiro para o seu seu negócio, entregando sua visão em tempo recorde.  </p>
 
               <div className="flex flex-col sm:flex-row gap-4 mt-4">
-                <button
-                  className="px-8 py-4 text-base font-semibold bg-black dark:bg-white text-white dark:text-black hover:bg-black/90 dark:hover:bg-white/95 active:scale-95 transition-all duration-200 shadow-sm hover:shadow-md"
-                  style={{ borderRadius: '7px' }}
-                >
-                  Iniciar um projeto
-                </button>
-                
-                <button
-                  className="px-8 py-4 text-base font-semibold bg-gray-200 dark:bg-[#1a1a1a] text-black dark:text-white hover:bg-gray-300 dark:hover:bg-[#2a2a2a] active:scale-95 transition-all duration-200"
-                  style={{ borderRadius: '7px' }}
-                >
-                  Ver nosso portfólio
-                </button>
+                <ButtonCta label="Iniciar um projeto" variant="primary" />
+                <ButtonCta label="Ver nosso portfólio" variant="secondary" />
               </div>
             </div>
 
