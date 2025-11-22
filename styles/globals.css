@@ -22,3 +22,13 @@ body {
   font-optical-sizing: auto;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
+
+@keyframes slideUp {
+  from {
+    height: 0;
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
