@@ -1,6 +1,7 @@
 import React from 'react';
 import Badge from '../../components/ui/Badge';
 import ProjectCard from '../../components/ui/ProjectCard';
+import VehicleTrackingMap from '../../components/ui/VehicleTrackingMap';
 
 const Projects: React.FC = () => {
   const [isDark, setIsDark] = React.useState(false);
@@ -22,7 +23,6 @@ const Projects: React.FC = () => {
     {
       title: 'Saúde Plus',
       description: 'Saas de gestão para clínicas médicas, com agendamento online, prontuário eletrônico e telemedicina integrada.',
-      category: 'Dashboard',
       tags: ['Dashboard', 'Analytics', 'Real-time'],
       technologies: {
         frontend: ['Next.js 16', 'React 19', 'Tailwind CSS 4'],
@@ -33,18 +33,17 @@ const Projects: React.FC = () => {
     {
       title: 'Fleet Tracker',
       description: 'Sistema avançado de rastreamento de veículos em tempo real com geolocalização, alertas e relatórios.',
-      category: 'Rastreio',
       tags: ['GPS', 'Tempo Real', 'Relatórios'],
       technologies: {
         frontend: ['React', 'Mapbox GL', 'Socket.io'],
         backend: ['Python', 'FastAPI', 'Redis', 'PostgreSQL'],
       },
       image: '/images/project-tracking.webp',
+      customContent: <VehicleTrackingMap />,
     },
     {
       title: 'Smart Checkout',
       description: 'Página de checkout otimizada com múltiplos métodos de pagamento, validação em tempo real e conversão elevada.',
-      category: 'Fintech',
       tags: ['Checkout', 'Pagamentos', 'Conversão'],
       technologies: {
         frontend: ['React', 'Formik', 'Framer Motion'],

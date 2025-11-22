@@ -1,4 +1,7 @@
 import React from 'react';
+import { ComposableMap, Geographies, Geography, Marker, Line } from 'react-simple-maps';
+
+const geoUrl = 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json';
 
 const VehicleTrackingMap: React.FC = () => {
   const [isDark, setIsDark] = React.useState(false);
@@ -26,169 +29,167 @@ const VehicleTrackingMap: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
 
+  // Coordenadas reais: São Paulo e Rio de Janeiro
+  const saoPaulo: [number, number] = [-46.6333, -23.5505];
+  const rioDeJaneiro: [number, number] = [-43.1729, -22.9068];
+
   // Calcula a posição do veículo na rota
-  const getVehiclePosition = () => {
+  const getVehiclePosition = (): [number, number] => {
     const progress = vehiclePosition / 100;
-    // Rota simulada: São Paulo -> Rio de Janeiro (curva suave)
-    const startX = 150;
-    const startY = 320;
-    const endX = 380;
-    const endY = 280;
-    
-    // Adiciona curvatura à rota
-    const controlX = 250;
-    const controlY = 250;
-    
-    const t = progress;
-    const x = Math.pow(1-t, 2) * startX + 2 * (1-t) * t * controlX + Math.pow(t, 2) * endX;
-    const y = Math.pow(1-t, 2) * startY + 2 * (1-t) * t * controlY + Math.pow(t, 2) * endY;
-    
-    return { x, y };
+    const lon = saoPaulo[0] + (rioDeJaneiro[0] - saoPaulo[0]) * progress;
+    const lat = saoPaulo[1] + (rioDeJaneiro[1] - saoPaulo[1]) * progress;
+    return [lon, lat];
   };
 
   const vehiclePos = getVehiclePosition();
-  const roadColor = isDark ? '#2a2a2a' : '#e5e7eb';
-  const mapBg = isDark ? '#0a0a0a' : '#f5f5f5';
+  
+  // Cor dos pontos (igual ao mapa de clientes)
+  const dotColor = isDark ? '#4a4a4a' : '#9ca3af';
 
   return (
-    <div className="relative w-full h-full bg-cover" style={{ backgroundColor: mapBg }}>
-      <svg
-        viewBox="0 0 500 400"
-        className="w-full h-full"
-        style={{ minHeight: '250px' }}
+    <div className="relative w-full h-full">
+      <ComposableMap
+        projection="geoMercator"
+        projectionConfig={{
+          scale: 3500,
+          center: [-45, -23],
+        }}
+        style={{ width: '100%', height: '100%' }}
       >
-        {/* Mapa do Sudeste do Brasil com pontos */}
         <defs>
-          <pattern
-            id="mapDots"
-            x="0"
-            y="0"
-            width="8"
-            height="8"
-            patternUnits="userSpaceOnUse"
-          >
-            <circle cx="4" cy="4" r="0.8" fill={isDark ? '#1a1a1a' : '#d1d5db'} />
+          {/* Padrão de pontos (mesmo estilo da seção clientes) */}
+          <pattern id="dots-pattern" x="0" y="0" width="6" height="6" patternUnits="userSpaceOnUse">
+            <circle cx="3" cy="3" r="0.9" fill={dotColor} />
           </pattern>
         </defs>
 
-        {/* Região Sudeste - contorno simplificado */}
-        <path
-          d="M 120 250 L 140 220 L 180 200 L 230 190 L 280 200 L 320 220 L 360 250 L 380 290 L 370 330 L 340 360 L 290 380 L 240 385 L 190 375 L 150 350 L 130 310 L 120 270 Z"
-          fill="url(#mapDots)"
+        <Geographies geography={geoUrl}>
+          {({ geographies }) =>
+            geographies
+              .filter((geo) => geo.properties.name === 'Brazil')
+              .map((geo) => (
+                <Geography
+                  key={geo.rsmKey}
+                  geography={geo}
+                  fill="url(#dots-pattern)"
+                  stroke={dotColor}
+                  strokeWidth={0.3}
+                />
+              ))
+          }
+        </Geographies>
+
+        {/* Linha da rota - MAIOR */}
+        <Line
+          from={saoPaulo}
+          to={rioDeJaneiro}
+          stroke="#fbbf24"
+          strokeWidth={7}
+          strokeLinecap="round"
+          strokeDasharray="22 7"
         />
 
-        {/* Rota entre cidades (linha curva) */}
-        <path
-          d="M 150 320 Q 250 250 380 280"
-          stroke="#3B82F6"
-          strokeWidth="3"
-          fill="none"
-          strokeDasharray="8 4"
-          opacity="0.6"
-        >
-          <animate
-            attributeName="stroke-dashoffset"
-            from="0"
-            to="24"
-            dur="1s"
-            repeatCount="indefinite"
-          />
-        </path>
-
-        {/* Marcador Cidade A (São Paulo) */}
-        <g>
-          <circle cx="150" cy="320" r="6" fill="#10b981" opacity="0.3">
-            <animate attributeName="r" from="6" to="12" dur="1.5s" repeatCount="indefinite" />
-            <animate attributeName="opacity" from="0.5" to="0" dur="1.5s" repeatCount="indefinite" />
-          </circle>
-          <circle cx="150" cy="320" r="4" fill="#10b981" />
-          <text x="150" y="345" fontSize="11" fill={isDark ? '#fff' : '#000'} textAnchor="middle" fontWeight="500">
-            São Paulo
-          </text>
-        </g>
-
-        {/* Marcador Cidade B (Rio de Janeiro) */}
-        <g>
-          <circle cx="380" cy="280" r="6" fill="#ef4444" opacity="0.3">
-            <animate attributeName="r" from="6" to="12" dur="1.5s" repeatCount="indefinite" />
-            <animate attributeName="opacity" from="0.5" to="0" dur="1.5s" repeatCount="indefinite" />
-          </circle>
-          <circle cx="380" cy="280" r="4" fill="#ef4444" />
-          <text x="380" y="268" fontSize="11" fill={isDark ? '#fff' : '#000'} textAnchor="middle" fontWeight="500">
-            Rio de Janeiro
-          </text>
-        </g>
-
-        {/* Veículo em movimento */}
-        <g transform={`translate(${vehiclePos.x}, ${vehiclePos.y})`}>
-          {/* Sombra do veículo */}
-          <ellipse cx="0" cy="8" rx="8" ry="3" fill="#000" opacity="0.2" />
-          
-          {/* Ícone do veículo (carro) */}
-          <g transform="translate(-10, -10)">
-            <path
-              d="M 3 10 L 5 5 L 7 3 L 13 3 L 15 5 L 17 10 L 18 10 L 18 14 L 16 14 L 16 15 C 16 16 15 17 14 17 C 13 17 12 16 12 15 L 8 15 C 8 16 7 17 6 17 C 5 17 4 16 4 15 L 4 14 L 2 14 L 2 10 Z M 6 5 L 8 8 L 12 8 L 14 5 Z"
-              fill="#3B82F6"
-              stroke="#fff"
-              strokeWidth="0.5"
-            />
-            {/* Janelas */}
-            <rect x="7" y="5" width="3" height="2" fill="#fff" opacity="0.6" rx="0.5" />
-            <rect x="11" y="5" width="2" height="2" fill="#fff" opacity="0.6" rx="0.5" />
+        {/* Marcador São Paulo - MAIOR */}
+        <Marker coordinates={saoPaulo}>
+          <g>
+            <circle r={8} fill="#10b981" opacity={0.3}>
+              <animate attributeName="r" from="8" to="14" dur="1.5s" repeatCount="indefinite" />
+              <animate attributeName="opacity" from="0.5" to="0" dur="1.5s" repeatCount="indefinite" />
+            </circle>
+            <circle r={6} fill="#10b981" />
+            <text
+              textAnchor="middle"
+              y={-12}
+              style={{
+                fontFamily: 'system-ui',
+                fontSize: '8px',
+                fill: isDark ? '#fff' : '#000',
+                fontWeight: 700,
+              }}
+            >
+              São Paulo
+            </text>
           </g>
+        </Marker>
 
-          {/* Indicador de sinal GPS */}
-          <circle cx="0" cy="-15" r="8" fill="none" stroke="#3B82F6" strokeWidth="1" opacity="0.6">
-            <animate attributeName="r" from="4" to="12" dur="2s" repeatCount="indefinite" />
-            <animate attributeName="opacity" from="0.8" to="0" dur="2s" repeatCount="indefinite" />
-          </circle>
-          <circle cx="0" cy="-15" r="3" fill="#3B82F6" />
-        </g>
+        {/* Marcador Rio de Janeiro - MAIOR */}
+        <Marker coordinates={rioDeJaneiro}>
+          <g>
+            <circle r={8} fill="#ef4444" opacity={0.3}>
+              <animate attributeName="r" from="8" to="14" dur="1.5s" repeatCount="indefinite" />
+              <animate attributeName="opacity" from="0.5" to="0" dur="1.5s" repeatCount="indefinite" />
+            </circle>
+            <circle r={6} fill="#ef4444" />
+            <text
+              textAnchor="middle"
+              y={-12}
+              style={{
+                fontFamily: 'system-ui',
+                fontSize: '8px',
+                fill: isDark ? '#fff' : '#000',
+                fontWeight: 700,
+              }}
+            >
+              Rio de Janeiro
+            </text>
+          </g>
+        </Marker>
 
-        {/* Informações de rastreamento (HUD) */}
-        <g>
-          {/* Card de informações */}
-          <rect
-            x="10"
-            y="10"
-            width="120"
-            height="70"
-            fill={isDark ? '#1a1a1a' : '#ffffff'}
-            opacity="0.95"
-            rx="4"
-          />
-          <rect
-            x="10"
-            y="10"
-            width="120"
-            height="70"
-            fill="none"
-            stroke={isDark ? '#2a2a2a' : '#e5e7eb'}
-            strokeWidth="1"
-            rx="4"
-          />
-          
-          {/* Textos */}
-          <text x="20" y="28" fontSize="10" fill={isDark ? '#9ca3af' : '#6b7280'} fontWeight="500">
-            STATUS
-          </text>
-          <text x="20" y="42" fontSize="12" fill="#10b981" fontWeight="600">
-            ● EM TRÂNSITO
-          </text>
-          
-          <text x="20" y="58" fontSize="10" fill={isDark ? '#9ca3af' : '#6b7280'} fontWeight="500">
-            VELOCIDADE
-          </text>
-          <text x="20" y="72" fontSize="12" fill={isDark ? '#fff' : '#000'} fontWeight="600">
-            {Math.floor(60 + Math.sin(vehiclePosition / 10) * 20)} km/h
-          </text>
-        </g>
+        {/* Veículo em movimento - MUITO MAIOR */}
+        <Marker coordinates={vehiclePos}>
+          <g>
+            {/* Sinal GPS - MAIOR */}
+            <circle r={22} fill="none" stroke="#3B82F6" strokeWidth={2} opacity={0.6}>
+              <animate attributeName="r" from="12" to="12" dur="5s" repeatCount="indefinite" />
+              <animate attributeName="opacity" from="2" to="0" dur="1s" repeatCount="indefinite" />
+            </circle>
+            <circle r={6.5} fill="#3B82F6" />
+            
+            {/* Ícone do carro - 3.5X MAIOR */}
+            <g transform="translate(-36, 9)">
+              <path
+                d="M 2 5 L 3 2 L 4 1 L 8 1 L 9 2 L 10 5 L 11 5 L 11 8 L 10 8 L 10 9 C 10 9.5 9.5 10 9 10 C 8.5 10 8 9.5 8 9 L 4 9 C 4 9.5 3.5 10 3 10 C 2.5 10 2 9.5 2 9 L 2 8 L 1 8 L 1 5 Z"
+                fill="#3B82F6"
+                stroke="#fff"
+                strokeWidth="0.5"
+                transform="scale(4.5)"
+              />
+            </g>
+          </g>
+        </Marker>
+      </ComposableMap>
 
-        {/* Timestamp */}
-        <text x="490" y="390" fontSize="9" fill={isDark ? '#6b7280' : '#9ca3af'} textAnchor="end" fontStyle="italic">
-          Atualizado agora
-        </text>
-      </svg>
+      {/* Informações de rastreamento (HUD) */}
+      <div
+        className="absolute top-3 left-3 px-4 py-3 backdrop-blur-sm"
+        style={{
+          backgroundColor: isDark ? 'rgba(26, 26, 26, 0.95)' : 'rgba(255, 255, 255, 0.95)',
+          border: `1px solid ${isDark ? '#2a2a2a' : '#e5e7eb'}`,
+          borderRadius: '7px',
+          minWidth: '140px',
+        }}
+      >
+        <div className="text-[10px] font-medium text-gray-500 dark:text-gray-400 mb-1">
+          STATUS
+        </div>
+        <div className="text-xs font-semibold text-green-500 mb-2 flex items-center gap-1">
+          <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+          EM TRÂNSITO
+        </div>
+        
+        <div className="text-[10px] font-medium text-gray-500 dark:text-gray-400 mb-1">
+          VELOCIDADE
+        </div>
+        <div className="text-xs font-semibold text-gray-900 dark:text-white">
+          {Math.floor(60 + Math.sin(vehiclePosition / 10) * 20)} km/h
+        </div>
+      </div>
+
+      {/* Label Rastreio */}
+      <div className="absolute bottom-3 right-3 text-right">
+        <div className="text-sm font-semibold text-gray-900 dark:text-white">Rastreio</div>
+        <div className="text-[10px] text-gray-500 dark:text-gray-400 italic">Atualizado agora</div>
+      </div>
     </div>
   );
 };

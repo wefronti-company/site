@@ -5,7 +5,6 @@ interface ProjectCardProps {
   title: string;
   description: string;
   category: string;
-  price: string;
   tags: string[];
   technologies: {
     frontend: string[];
@@ -14,18 +13,18 @@ interface ProjectCardProps {
   image: string;
   badge?: string;
   isNew?: boolean;
+  customContent?: React.ReactNode;
 }
 
 const ProjectCard: React.FC<ProjectCardProps> = ({
   title,
   description,
-  category,
-  price,
   tags,
   technologies,
   image,
   badge,
   isNew = false,
+  customContent,
 }) => {
   const [isDark, setIsDark] = React.useState(false);
 
@@ -50,17 +49,23 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
         borderRadius: '7px',
       }}
     >
-      {/* Imagem do Projeto */}
+      {/* Imagem ou Conteúdo Customizado do Projeto */}
       <div className="relative w-full h-[250px] md:h-[280px] overflow-hidden bg-gray-200 dark:bg-[#0a0a0a]">
-        <Image
-          src={image}
-          alt={title}
-          fill
-          className="object-cover transition-transform duration-300 group-hover:scale-105"
-        />
+        {customContent ? (
+          <div className="w-full h-full">
+            {customContent}
+          </div>
+        ) : (
+          <Image
+            src={image}
+            alt={title}
+            fill
+            className="object-cover transition-transform duration-300 group-hover:scale-105"
+          />
+        )}
         
         {/* Badges */}
-        <div className="absolute top-4 left-4 flex gap-2">
+        <div className="absolute top-4 left-4 flex gap-2 z-10">
           {badge && (
             <span
               className="px-3 py-1 text-xs font-medium uppercase tracking-wide"
@@ -95,7 +100,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
             borderRadius: '7px',
           }}
         >
-          {category}
         </div>
       </div>
 
