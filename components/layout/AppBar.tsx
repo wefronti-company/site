@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import ButtonAppbar from './buttonAppbar';
-import Logo from './Logo';
-import ThemeToggle from './ThemeToggle';
-import LanguageSelector from './LanguageSelector';
-import { colors } from '../styles/colors';
+import ButtonAppbar from '../ui/ButtonAppbar';
+import Logo from '../ui/Logo';
+import ThemeToggle from '../ui/ThemeToggle';
+import LanguageSelector from '../ui/LanguageSelector';
+import { colors } from '../../styles/colors';
 
 const navItems = [
 	{ label: 'Home', href: '/' },

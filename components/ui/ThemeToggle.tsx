@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { colors } from '../styles/colors';
+import { colors } from '../../styles/colors';
 
 const ThemeToggle: React.FC = () => {
   const [mounted, setMounted] = useState(false);

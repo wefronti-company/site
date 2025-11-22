@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import AppBar from '../components/AppBar';
-import Hero from '../components/Hero';
-import SplashScreen from '../components/SplashScreen';
+import AppBar from '../components/layout/AppBar';
+import Hero from '../sections/Hero';
+import SplashScreen from '../components/effects/SplashScreen';
 
 const Home: React.FC = () => {
   const [showSplash, setShowSplash] = useState(true);

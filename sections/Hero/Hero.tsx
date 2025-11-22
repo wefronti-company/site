@@ -1,6 +1,6 @@
 import React from 'react';
-import { colors } from '../styles/colors';
-import AnimatedGridBackground from './AnimatedGridBackground';
+import { colors } from '../../styles/colors';
+import AnimatedGridBackground from '../../components/effects/AnimatedGridBackground';
 
 const Hero: React.FC = () => {
   return (
