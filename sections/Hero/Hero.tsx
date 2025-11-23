@@ -55,14 +55,14 @@ const Hero: React.FC = () => {
               </div>
 
               {/* Stats Counters */}
-              <div className="flex flex-wrap gap-8 mt-4">
+              <div className="flex flex-wrap gap-8 mt-4 mb-8 lg:mb-0">
                 <StatCounter value="6 anos" label="no mercado" />
                 <StatCounter value="+50" label="projetos entregues" />
               </div>
             </div>
 
             {/* Right Side - 30% */}
-            <div className="w-full lg:w-[40%] flex items-center justify-center">
+            <div className="w-full lg:w-[40%] flex items-center justify-center mt-8 lg:mt-0">
               {/* Interactive Dashboard */}
               <div className="w-full h-full min-h-[500px] lg:min-h-[600px]">
                 <InteractiveDashboard />

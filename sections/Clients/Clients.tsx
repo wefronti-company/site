@@ -94,9 +94,9 @@ const Clients: React.FC = () => {
         />
       </div>
 
+      {/* Cabeçalho */}
       <div className="px-4 md:px-8 lg:px-16 relative z-10">
         <div className="max-w-7xl mx-auto">
-          {/* Cabeçalho */}
           <div className="text-center mb-[-180px] md:mb-[-220px] lg:mb-[-250px]">
             <Badge icon="star" text="Casos de sucesso" />
             <h2 className="text-4xl md:text-4xl lg:text-5xl font-medium text-gray-900 dark:text-white mt-6 mb-4">
@@ -106,43 +106,25 @@ const Clients: React.FC = () => {
               Clientes satisfeitos ao redor do mundo, conectados por nossas soluções digitais.
             </p>
           </div>
+        </div>
+      </div>
 
-          {/* Espaçamento para o mapa */}
-          <div className="h-[500px] md:h-[600px] lg:h-[700px]" />
+      {/* Espaçamento para o mapa */}
+      <div className="h-[500px] md:h-[600px] lg:h-[700px]" />
 
-          {/* Depoimentos - Carrossel Infinito */}
-          <div className="mt-[-80px] md:mt-[-100px]">
-            <div className="relative overflow-hidden">
-              {/* Gradiente esquerdo */}
-              <div 
-                className="absolute left-0 top-0 bottom-0 w-12 md:w-24 lg:w-32 z-10 pointer-events-none"
-                style={{
-                  background: isDark 
-                    ? 'linear-gradient(to right, #010101 0%, #010101 10%, rgba(1, 1, 1, 0.9) 30%, rgba(1, 1, 1, 0.6) 60%, rgba(1, 1, 1, 0.3) 80%, transparent 100%)'
-                    : 'linear-gradient(to right, #f7f7f7 0%, #f7f7f7 10%, rgba(247, 247, 247, 0.9) 30%, rgba(247, 247, 247, 0.6) 60%, rgba(247, 247, 247, 0.3) 80%, transparent 100%)'
-                }}
-              />
-              {/* Gradiente direito */}
-              <div 
-                className="absolute right-0 top-0 bottom-0 w-12 md:w-24 lg:w-32 z-10 pointer-events-none"
-                style={{
-                  background: isDark 
-                    ? 'linear-gradient(to left, #010101 0%, #010101 10%, rgba(1, 1, 1, 0.9) 30%, rgba(1, 1, 1, 0.6) 60%, rgba(1, 1, 1, 0.3) 80%, transparent 100%)'
-                    : 'linear-gradient(to left, #f7f7f7 0%, #f7f7f7 10%, rgba(247, 247, 247, 0.9) 30%, rgba(247, 247, 247, 0.6) 60%, rgba(247, 247, 247, 0.3) 80%, transparent 100%)'
-                }}
-              />
-              {/* Container do carrossel */}
-              <div className="flex gap-6 animate-scroll">
-                {/* Primeira cópia */}
-                {testimonials.map((testimonial, index) => (
-                  <TestimonialCard key={`first-${index}`} {...testimonial} />
-                ))}
-                {/* Segunda cópia - para loop infinito */}
-                {testimonials.map((testimonial, index) => (
-                  <TestimonialCard key={`second-${index}`} {...testimonial} />
-                ))}
-              </div>
-            </div>
+      {/* Depoimentos - Carrossel Infinito - Full Width */}
+      <div className="mt-[-80px] md:mt-[-100px] relative z-10">
+        <div className="relative overflow-hidden">
+          {/* Container do carrossel */}
+          <div className="flex gap-6 animate-scroll">
+            {/* Primeira cópia */}
+            {testimonials.map((testimonial, index) => (
+              <TestimonialCard key={`first-${index}`} {...testimonial} />
+            ))}
+            {/* Segunda cópia - para loop infinito */}
+            {testimonials.map((testimonial, index) => (
+              <TestimonialCard key={`second-${index}`} {...testimonial} />
+            ))}
           </div>
         </div>
       </div>
