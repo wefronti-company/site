@@ -11,14 +11,16 @@ export default function Document() {
         {/* Preconnect para recursos externos críticos */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link rel="dns-prefetch" href="https://unpkg.com" />
-        <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
         
         {/* Font optimization com display=swap */}
         <link 
           href="https://fonts.googleapis.com/css2?family=Funnel+Sans:wght@400;500;600;700&display=swap" 
           rel="stylesheet" 
         />
+        
+        {/* Preload imagens críticas */}
+        <link rel="preload" href="/images/isologo-white.webp" as="image" type="image/webp" />
+        <link rel="preload" href="/images/isologo-black.webp" as="image" type="image/webp" />
       </Head>
       <body className="body-grid">
         <Main />

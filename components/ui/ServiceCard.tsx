@@ -81,7 +81,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ title, description, features,
           <span>{timeline}</span>
         </div>
         
-        <ButtonCta label={t.services.ctaButton} variant="primary" onClick={openModal} />
+        <ButtonCta label={t.services.ctaButton} variant="primary" />
       </div>
     </div>
   );

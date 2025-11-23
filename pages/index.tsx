@@ -5,31 +5,36 @@ import Hero from '../sections/Hero';
 import SplashScreen from '../components/effects/SplashScreen';
 import SEO from '../components/SEO';
 
-// Lazy load de componentes pesados (carrega apenas quando visível)
-const Services = dynamic(() => import('../sections/Services'), {
-  loading: () => <div className="h-screen" />,
-});
+// Lazy load AGRESSIVO com ssr:false para máxima performance
 const Clients = dynamic(() => import('../sections/Clients'), {
-  loading: () => <div className="h-screen" />,
+  ssr: false,
+  loading: () => null,
+});
+const Services = dynamic(() => import('../sections/Services'), {
+  ssr: false,
+  loading: () => null,
 });
 const Projects = dynamic(() => import('../sections/Projects'), {
-  loading: () => <div className="h-screen" />,
+  ssr: false,
+  loading: () => null,
 });
 const FAQ = dynamic(() => import('../sections/FAQ'), {
-  loading: () => <div className="h-screen" />,
+  ssr: false,
+  loading: () => null,
 });
 const Footer = dynamic(() => import('../sections/Footer'), {
-  loading: () => <div className="h-24" />,
+  ssr: false,
+  loading: () => null,
 });
 
 const Home: React.FC = () => {
   const [showSplash, setShowSplash] = useState(true);
 
   useEffect(() => {
-    // Remove splash após 2 segundos (reduzido para melhor UX)
+    // Remove splash após completar 100% + animação de saída
     const timer = setTimeout(() => {
       setShowSplash(false);
-    }, 2000);
+    }, 2700); // 2000ms (100%) + 200ms (espera) + 500ms (saída)
 
     return () => clearTimeout(timer);
   }, []);

@@ -7,37 +7,34 @@ const SplashScreen: React.FC = () => {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
+    let progressValue = 0;
+    
     // Atualiza o progresso de 0 a 100% em 2 segundos
     const progressInterval = setInterval(() => {
-      setProgress((prev) => {
-        if (prev >= 100) {
-          clearInterval(progressInterval);
-          return 100;
-        }
-        return prev + 2; // Incrementa 2% a cada vez
-      });
-    }, 40); // 2000ms / 50 iterações = 40ms por 2%
+      progressValue += 2;
+      setProgress(progressValue);
+      
+      if (progressValue >= 100) {
+        clearInterval(progressInterval);
+        // AGUARDAR 100% antes de iniciar saída
+        setTimeout(() => {
+          setLogoPhase('exit');
+          // Remover após animação de saída
+          setTimeout(() => {
+            setIsVisible(false);
+          }, 500);
+        }, 200);
+      }
+    }, 40); // 2000ms / 50 = 40ms por 2%
 
-    // Logo aparece e cresce (0-500ms)
+    // Logo aparece e cresce (0-300ms)
     const holdTimer = setTimeout(() => {
       setLogoPhase('hold');
-    }, 500);
-
-    // Logo começa a sair (1500ms)
-    const exitTimer = setTimeout(() => {
-      setLogoPhase('exit');
-    }, 1500);
-
-    // Remove splash completamente (2000ms)
-    const removeTimer = setTimeout(() => {
-      setIsVisible(false);
-    }, 2000);
+    }, 300);
 
     return () => {
       clearInterval(progressInterval);
       clearTimeout(holdTimer);
-      clearTimeout(exitTimer);
-      clearTimeout(removeTimer);
     };
   }, []);
 

@@ -64,7 +64,6 @@ const Hero: React.FC = () => {
                   <ButtonCta 
                     label={t.hero.cta} 
                     variant="primary"
-                    onClick={openModal}
                   />
                 </div>
 
