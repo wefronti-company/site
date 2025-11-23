@@ -64,6 +64,7 @@ const Clients: React.FC = () => {
 
   return (
     <section 
+      id="clients"
       className="w-full py-20 md:py-32 bg-custom-white dark:bg-custom-black transition-colors border-b relative overflow-hidden"
       style={{
         borderBottomColor: isDark ? '#141414' : '#D1D5DB'

@@ -9,10 +9,10 @@ import { colors } from '../../styles/colors';
 import { useQuoteModal } from '../../contexts/QuoteModalContext';
 
 const navItems = [
-	{ label: 'Clientes', href: '/clients' },
-	{ label: 'Projetos', href: '/projects' },
-	{ label: 'Contrate-nos', href: '/services' },
-	{ label: 'FAQ', href: '/faq' }
+	{ label: 'Clientes', href: '#clients' },
+	{ label: 'Contrate-nos', href: '#services' },
+	{ label: 'Projetos', href: '#projects' },
+	{ label: 'FAQ', href: '#faq' }
 ];
 
 const AppBar: React.FC = () => {
@@ -51,20 +51,22 @@ const AppBar: React.FC = () => {
 					{/* Desktop Nav - Hidden on mobile */}
 					<nav className="hidden lg:flex absolute left-1/2 -translate-x-1/2 items-center gap-1 bg-gray-200 dark:bg-[#1a1a1a] p-1" style={{ borderRadius: '7px' }}>
 						{navItems.map(item => {
-							const isActive = router.pathname === item.href;
 							return (
-								<Link
+								<a
 									key={item.label}
 									href={item.href}
-									className={`px-6 h-9 flex items-center text-sm font-medium transition-all ${
-										isActive 
-											? 'shadow-sm' 
-											: 'text-gray-600 dark:text-white/60 hover:text-black dark:hover:text-white hover:bg-gray-300 dark:hover:bg-white/5'
-									}`}
-									style={isActive ? { backgroundColor: colors.blackColor, color: colors.whiteColor, borderRadius: '7px' } : { borderRadius: '7px' }}
+									onClick={(e) => {
+										e.preventDefault();
+										const element = document.querySelector(item.href);
+										if (element) {
+											element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+										}
+									}}
+									className="px-6 h-9 flex items-center text-sm font-medium transition-all text-gray-600 dark:text-white/60 hover:text-black dark:hover:text-white hover:bg-gray-300 dark:hover:bg-white/5 cursor-pointer"
+									style={{ borderRadius: '7px' }}
 								>
 									{item.label}
-								</Link>
+								</a>
 							);
 						})}
 					</nav>
@@ -113,20 +115,22 @@ const AppBar: React.FC = () => {
 				<nav className="px-4 pb-6 flex flex-col gap-3">
 					{/* Navigation Links */}
 					{navItems.map(item => {
-						const isActive = router.pathname === item.href;
 						return (
-							<Link
+							<a
 								key={item.label}
 								href={item.href}
-								onClick={() => setMobileMenuOpen(false)}
-								className={`px-4 py-3 rounded-lg text-base font-medium transition-all ${
-									isActive 
-										? 'bg-gray-300 text-black shadow-sm' 
-										: 'text-gray-600 dark:text-white/60 hover:bg-gray-200 dark:hover:bg-white/5'
-								}`}
+								onClick={(e) => {
+									e.preventDefault();
+									setMobileMenuOpen(false);
+									const element = document.querySelector(item.href);
+									if (element) {
+										element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+									}
+								}}
+								className="px-4 py-3 rounded-lg text-base font-medium transition-all text-gray-600 dark:text-white/60 hover:bg-gray-200 dark:hover:bg-white/5 cursor-pointer"
 							>
 								{item.label}
-							</Link>
+							</a>
 						);
 					})}
 					

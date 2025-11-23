@@ -8,6 +8,8 @@
     "start": "next start"
   },
   "dependencies": {
+    "@neondatabase/serverless": "^1.0.2",
+    "dotenv": "^17.2.3",
     "next": "latest",
     "postprocessing": "^6.38.0",
     "react": "latest",

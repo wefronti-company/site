@@ -62,7 +62,7 @@ const FAQ: React.FC = () => {
   };
 
   return (
-    <section className="w-full py-20 md:py-32 bg-custom-white dark:bg-custom-black transition-colors relative overflow-hidden">
+    <section id="faq" className="w-full py-20 md:py-32 bg-custom-white dark:bg-custom-black transition-colors relative overflow-hidden">
       {/* Animated Grid Background */}
       <div className="absolute inset-0">
         <AnimatedGridBackground />

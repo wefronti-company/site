@@ -54,6 +54,7 @@ const Services: React.FC = () => {
 
   return (
     <section 
+      id="services"
       className="w-full py-20 md:py-32 bg-custom-white dark:bg-custom-black transition-colors"
     >
       <div className="px-4 md:px-8 lg:px-16">

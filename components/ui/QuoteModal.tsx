@@ -4,6 +4,9 @@ import { useQuoteModal } from '../../contexts/QuoteModalContext';
 const QuoteModal: React.FC = () => {
   const { isOpen, closeModal } = useQuoteModal();
   const [isDark, setIsDark] = React.useState(false);
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const [submitStatus, setSubmitStatus] = React.useState<'idle' | 'success' | 'error'>('idle');
+  const [errorMessage, setErrorMessage] = React.useState('');
   const [formData, setFormData] = React.useState({
     name: '',
     whatsapp: '',
@@ -47,11 +50,53 @@ const QuoteModal: React.FC = () => {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    // Aqui você pode adicionar a lógica para enviar o formulário
-    closeModal();
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+    setErrorMessage('');
+
+    try {
+      const response = await fetch('/api/quote', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Erro ao enviar solicitação');
+      }
+
+      setSubmitStatus('success');
+      
+      // Limpar formulário
+      setFormData({
+        name: '',
+        whatsapp: '',
+        email: '',
+        company: '',
+        role: '',
+        revenue: '',
+        challenge: '',
+        timeline: ''
+      });
+
+      // Fechar modal após 2 segundos
+      setTimeout(() => {
+        closeModal();
+        setSubmitStatus('idle');
+      }, 2000);
+
+    } catch (error) {
+      setSubmitStatus('error');
+      setErrorMessage(error instanceof Error ? error.message : 'Erro ao processar sua solicitação');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (!isOpen) return null;
@@ -294,15 +339,33 @@ const QuoteModal: React.FC = () => {
             </select>
           </div>
 
+          {/* Status Messages */}
+          {submitStatus === 'success' && (
+            <div className="p-4 rounded-md bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800">
+              <p className="text-sm text-green-800 dark:text-green-200 font-medium">
+                ✅ Solicitação enviada com sucesso! Entraremos em contato em breve.
+              </p>
+            </div>
+          )}
+
+          {submitStatus === 'error' && (
+            <div className="p-4 rounded-md bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800">
+              <p className="text-sm text-red-800 dark:text-red-200 font-medium">
+                ❌ {errorMessage}
+              </p>
+            </div>
+          )}
+
           {/* Submit Button */}
           <button
             type="submit"
-            className="w-full px-8 py-4 text-base font-semibold text-white rounded-md transition-all hover:opacity-90 active:scale-95"
+            disabled={isSubmitting}
+            className="w-full px-8 py-4 text-base font-semibold text-white rounded-md transition-all hover:opacity-90 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
             style={{
               backgroundColor: '#3B82F6'
             }}
           >
-            Enviar Solicitação
+            {isSubmitting ? 'Enviando...' : 'Enviar Solicitação'}
           </button>
 
         </form>

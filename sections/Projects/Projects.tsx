@@ -59,6 +59,7 @@ const Projects: React.FC = () => {
 
   return (
     <section 
+      id="projects"
       className="w-full py-20 md:py-32 bg-custom-white dark:bg-custom-black transition-colors border-t border-b"
       style={{
         borderTopColor: isDark ? '#141414' : '#D1D5DB',
