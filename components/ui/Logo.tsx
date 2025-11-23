@@ -13,18 +13,18 @@ const Logo: React.FC<LogoProps> = ({ className = '' }) => {
       <Image 
         src="/images/isologo-white.webp" 
         alt="Logo" 
-        width={122} 
-        height={122}
-        className="hidden dark:block h-8 w-auto"
+        width={32} 
+        height={32}
+        className="hidden dark:block"
         priority
       />
       {/* Logo preto para modo claro */}
       <Image 
         src="/images/isologo-black.webp" 
         alt="Logo" 
-        width={122} 
-        height={122}
-        className="block dark:hidden h-8 w-auto"
+        width={32} 
+        height={32}
+        className="block dark:hidden"
         priority
       />
     </Link>
