@@ -39,7 +39,7 @@ const CustomCursor: React.FC = () => {
           width: '40px',
           height: '40px',
           transform: 'translate(-50%, -50%)',
-          zIndex: 9999,
+          zIndex: 99999,
         }}
       />
       
@@ -52,7 +52,7 @@ const CustomCursor: React.FC = () => {
           width: '8px',
           height: '8px',
           transform: 'translate(-50%, -50%)',
-          zIndex: 9999,
+          zIndex: 99999,
         }}
       />
     </>

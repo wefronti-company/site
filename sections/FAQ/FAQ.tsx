@@ -1,6 +1,7 @@
 import React from 'react';
 import dynamic from 'next/dynamic';
 import Badge from '../../components/ui/Badge';
+import ButtonCta from '../../components/ui/ButtonCta';
 import { useQuoteModal } from '../../contexts/QuoteModalContext';
 import { useLanguage } from '../../contexts/LanguageContext';
 
@@ -12,7 +13,6 @@ const AnimatedGridBackground = dynamic(
 const FAQ: React.FC = () => {
   const [isDark, setIsDark] = React.useState(false);
   const [openIndex, setOpenIndex] = React.useState<number | null>(0);
-  const { openModal } = useQuoteModal();
   const { t } = useLanguage();
 
   React.useEffect(() => {
@@ -116,17 +116,7 @@ const FAQ: React.FC = () => {
             <p className="text-base text-gray-600 dark:text-gray-300 mb-4">
               {t.faq.subtitle}
             </p>
-            <button
-              onClick={openModal}
-              className="px-6 py-3 font-semibold text-white transition-all duration-300 hover:scale-105"
-              style={{
-                backgroundColor: '#3B82F6',
-                borderRadius: '7px',
-                boxShadow: '0 2px 8px rgba(59, 130, 246, 0.4)',
-              }}
-            >
-              {t.faq.cta}
-            </button>
+            <ButtonCta label={t.faq.cta} variant="primary" />
           </div>
         </div>
       </div>
