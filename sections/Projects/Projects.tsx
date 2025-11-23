@@ -31,7 +31,6 @@ const Projects: React.FC = () => {
         frontend: ['Next.js 16', 'React 19', 'Tailwind CSS 4'],
         backend: ['Node.js', 'PostgreSQL', 'Prisma ORM'],
       },
-      image: '/images/project-dashboard.webp',
       customContent: <HealthDashboard />,
     },
     {
@@ -43,7 +42,6 @@ const Projects: React.FC = () => {
         frontend: ['React', 'Mapbox GL', 'Socket.io'],
         backend: ['Python', 'FastAPI', 'Redis', 'PostgreSQL'],
       },
-      image: '/images/project-tracking.webp',
       customContent: <VehicleTrackingMap />,
     },
     {
@@ -55,7 +53,6 @@ const Projects: React.FC = () => {
         frontend: ['React', 'Formik', 'Framer Motion'],
         backend: ['Node.js', 'Stripe', 'PayPal API'],
       },
-      image: '/images/project-checkout.webp',
       customContent: <CheckoutAnimation />,
     },
   ];

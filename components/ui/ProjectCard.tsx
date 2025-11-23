@@ -10,7 +10,7 @@ interface ProjectCardProps {
     frontend: string[];
     backend: string[];
   };
-  image: string;
+  image?: string;
   badge?: string;
   isNew?: boolean;
   customContent?: React.ReactNode;
@@ -55,14 +55,14 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
           <div className="w-full h-full">
             {customContent}
           </div>
-        ) : (
+        ) : image ? (
           <Image
             src={image}
             alt={title}
             fill
             className="object-cover transition-transform duration-300 group-hover:scale-105"
           />
-        )}
+        ) : null}
         
         {/* Badges */}
         <div className="absolute top-4 left-4 flex gap-2 z-10">
