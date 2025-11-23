@@ -4,9 +4,11 @@ import ProjectCard from '../../components/ui/ProjectCard';
 import VehicleTrackingMap from '../../components/ui/VehicleTrackingMap';
 import CheckoutAnimation from '../../components/ui/CheckoutAnimation';
 import HealthDashboard from '../../components/ui/HealthDashboard';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 const Projects: React.FC = () => {
   const [isDark, setIsDark] = React.useState(false);
+  const { t } = useLanguage();
 
   React.useEffect(() => {
     const checkTheme = () => {
@@ -23,10 +25,7 @@ const Projects: React.FC = () => {
 
   const projects = [
     {
-      title: 'Saúde Plus',
-      description: 'Saas de gestão para clínicas médicas, com agendamento online, prontuário eletrônico e telemedicina integrada.',
-      category: 'Dashboard',
-      tags: ['Dashboard', 'Analytics', 'Real-time'],
+      ...t.projects.items[0],
       technologies: {
         frontend: ['Next.js 16', 'React 19', 'Tailwind CSS 4'],
         backend: ['Node.js', 'PostgreSQL', 'Prisma ORM'],
@@ -34,10 +33,7 @@ const Projects: React.FC = () => {
       customContent: <HealthDashboard />,
     },
     {
-      title: 'Fleet Tracker',
-      description: 'Sistema avançado de rastreamento de veículos em tempo real com geolocalização, alertas e relatórios.',
-      category: 'Rastreio',
-      tags: ['GPS', 'Tempo Real', 'Relatórios'],
+      ...t.projects.items[1],
       technologies: {
         frontend: ['React', 'Mapbox GL', 'Socket.io'],
         backend: ['Python', 'FastAPI', 'Redis', 'PostgreSQL'],
@@ -45,10 +41,7 @@ const Projects: React.FC = () => {
       customContent: <VehicleTrackingMap />,
     },
     {
-      title: 'Smart Checkout',
-      description: 'Página de checkout otimizada com múltiplos métodos de pagamento, validação em tempo real e conversão elevada.',
-      category: 'Fintech',
-      tags: ['Checkout', 'Pagamentos', 'Conversão'],
+      ...t.projects.items[2],
       technologies: {
         frontend: ['React', 'Formik', 'Framer Motion'],
         backend: ['Node.js', 'Stripe', 'PayPal API'],
@@ -70,12 +63,12 @@ const Projects: React.FC = () => {
         <div className="max-w-7xl mx-auto">
           {/* Cabeçalho */}
           <div className="text-left md:text-center mb-12 md:mb-16">
-            <Badge icon="trophy" text="Portfólio" />
+            <Badge icon="trophy" text={t.projects.badge} />
             <h2 className="text-4xl md:text-4xl lg:text-5xl font-medium text-gray-900 dark:text-white mt-6 mb-4">
-              Projetos em Destaque
+              {t.projects.title}
             </h2>
             <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl md:mx-auto">
-              Soluções completas e prontas para produção, desenvolvidas com as melhores tecnologias do mercado.
+              {t.projects.subtitle}
             </p>
           </div>
 

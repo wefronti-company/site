@@ -1,15 +1,18 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { colors } from '../../styles/colors';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 const LanguageSelector: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedLang, setSelectedLang] = useState('BR');
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const { language, setLanguage, t } = useLanguage();
 
   const languages = [
-    { code: 'BR', label: 'Português (BR)' },
-    { code: 'EN', label: 'English (USA)' }
+    { code: 'pt-BR' as const, short: 'BR' },
+    { code: 'en-US' as const, short: 'EN' }
   ];
+
+  const selectedLang = languages.find(lang => lang.code === language)?.short || 'BR';
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -22,11 +25,9 @@ const LanguageSelector: React.FC = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const handleSelect = (code: string) => {
-    setSelectedLang(code);
+  const handleSelect = (code: 'pt-BR' | 'en-US') => {
+    setLanguage(code);
     setIsOpen(false);
-    // Aqui você pode adicionar lógica de troca de idioma
-    console.log('Idioma selecionado:', code);
   };
 
   return (
@@ -59,13 +60,13 @@ const LanguageSelector: React.FC = () => {
               key={lang.code}
               onClick={() => handleSelect(lang.code)}
               className={`w-full px-4 py-3 text-left text-sm transition-colors rounded-md ${
-                selectedLang === lang.code
+                language === lang.code
                   ? 'font-medium'
                   : 'text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-white/5'
               }`}
-              style={selectedLang === lang.code ? { backgroundColor: colors.blackColor, color: colors.whiteColor } : undefined}
+              style={language === lang.code ? { backgroundColor: colors.blackColor, color: colors.whiteColor } : undefined}
             >
-              {lang.label}
+              {t.languageSelector.languages[lang.code]}
             </button>
           ))}
         </div>

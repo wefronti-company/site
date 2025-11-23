@@ -1,5 +1,6 @@
 import React from 'react';
 import { colors } from '../../styles/colors';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 interface ButtonCtaProps {
   label?: string;
@@ -8,10 +9,11 @@ interface ButtonCtaProps {
 }
 
 const ButtonCta: React.FC<ButtonCtaProps> = ({ 
-  label = 'Iniciar um projeto', 
+  label, 
   onClick,
   variant = 'primary' 
 }) => {
+  const { t } = useLanguage();
   const isPrimary = variant === 'primary';
   
   return (
@@ -28,7 +30,7 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
         ...(isPrimary && { backgroundColor: colors.blueColor })
       }}
     >
-      {label}
+      {label || t.hero.cta}
     </button>
   );
 };

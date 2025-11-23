@@ -7,19 +7,21 @@ import ThemeToggle from '../ui/ThemeToggle';
 import LanguageSelector from '../ui/LanguageSelector';
 import { colors } from '../../styles/colors';
 import { useQuoteModal } from '../../contexts/QuoteModalContext';
-
-const navItems = [
-	{ label: 'Clientes', href: '#clients' },
-	{ label: 'Contrate-nos', href: '#services' },
-	{ label: 'Projetos', href: '#projects' },
-	{ label: 'FAQ', href: '#faq' }
-];
+import { useLanguage } from '../../contexts/LanguageContext';
 
 const AppBar: React.FC = () => {
 	const router = useRouter();
 	const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 	const [isDark, setIsDark] = useState(false);
 	const { openModal } = useQuoteModal();
+	const { t } = useLanguage();
+
+	const navItems = [
+		{ label: t.appBar.nav.clients, href: '#clients' },
+		{ label: t.appBar.nav.services, href: '#services' },
+		{ label: t.appBar.nav.projects, href: '#projects' },
+		{ label: t.appBar.nav.faq, href: '#faq' }
+	];
 
 	React.useEffect(() => {
 		// Detecta o tema atual

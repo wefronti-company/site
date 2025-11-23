@@ -1,9 +1,11 @@
 import React from 'react';
 import { ComposableMap, Geographies, Geography, Marker, Line } from 'react-simple-maps';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 const geoUrl = 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json';
 
 const VehicleTrackingMap: React.FC = () => {
+  const { t } = useLanguage();
   const [isDark, setIsDark] = React.useState(false);
   const [vehiclePosition, setVehiclePosition] = React.useState(0);
 
@@ -224,15 +226,15 @@ const VehicleTrackingMap: React.FC = () => {
         }}
       >
         <div className="text-[10px] font-medium text-gray-500 dark:text-gray-400 mb-1">
-          STATUS
+          {t.hero.vehicleTracking.status}
         </div>
         <div className="text-xs font-semibold text-green-500 mb-2 flex items-center gap-1">
           <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-          EM TRÂNSITO
+          {t.hero.vehicleTracking.inTransit}
         </div>
         
         <div className="text-[10px] font-medium text-gray-500 dark:text-gray-400 mb-1">
-          VELOCIDADE
+          {t.hero.vehicleTracking.speed}
         </div>
         <div className="text-xs font-semibold text-gray-900 dark:text-white">
           {Math.floor(60 + Math.sin(vehiclePosition / 10) * 20)} km/h
@@ -241,8 +243,8 @@ const VehicleTrackingMap: React.FC = () => {
 
       {/* Label Rastreio */}
       <div className="absolute bottom-3 right-3 text-right">
-        <div className="text-sm font-semibold text-gray-900 dark:text-white">Rastreio</div>
-        <div className="text-[10px] text-gray-500 dark:text-gray-400 italic">Atualizado agora</div>
+        <div className="text-sm font-semibold text-gray-900 dark:text-white">{t.hero.vehicleTracking.tracking}</div>
+        <div className="text-[10px] text-gray-500 dark:text-gray-400 italic">{t.hero.vehicleTracking.updatedNow}</div>
       </div>
       </div>
     </div>

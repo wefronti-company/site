@@ -1,6 +1,8 @@
 import React from 'react';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 const HealthDashboard: React.FC = () => {
+  const { t } = useLanguage();
   const [isDark, setIsDark] = React.useState(false);
   const [animationStep, setAnimationStep] = React.useState(0);
   const [patientName, setPatientName] = React.useState('');
@@ -181,7 +183,7 @@ const HealthDashboard: React.FC = () => {
                 }}
               >
                 {patientName || (
-                  <span style={{ color: '#9ca3af' }}>Digite seu nome completo</span>
+                  <span style={{ color: '#9ca3af' }}>{t.hero.healthDashboard.placeholderName}</span>
                 )}
                 {patientName && animationStep < 50 && (
                   <span 
@@ -208,7 +210,7 @@ const HealthDashboard: React.FC = () => {
                 }}
               >
                 {appointmentDate || (
-                  <span style={{ color: '#9ca3af' }}>Selecione a data</span>
+                  <span style={{ color: '#9ca3af' }}>{t.hero.healthDashboard.placeholderDate}</span>
                 )}
                 {appointmentDate && animationStep >= 50 && animationStep < 70 && (
                   <span 
@@ -235,7 +237,7 @@ const HealthDashboard: React.FC = () => {
                 }}
               >
                 {consultationType || (
-                  <span style={{ color: '#9ca3af' }}>Escolha a especialidade</span>
+                  <span style={{ color: '#9ca3af' }}>{t.hero.healthDashboard.placeholderSpecialty}</span>
                 )}
                 {consultationType && animationStep >= 70 && animationStep < 90 && (
                   <span 
@@ -286,7 +288,7 @@ const HealthDashboard: React.FC = () => {
                   <span>Processando...</span>
                 </div>
               ) : (
-                'Agendar Consulta'
+                t.hero.healthDashboard.scheduleButton
               )}
             </button>
 
@@ -305,7 +307,7 @@ const HealthDashboard: React.FC = () => {
                 className="text-[9px] font-medium"
                 style={{ color: isDark ? '#c084fc' : '#8b5cf6' }}
               >
-                Dados 100% protegidos
+                {t.hero.healthDashboard.dataProtected}
               </span>
             </div>
           </div>

@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 interface ProjectCardProps {
   title: string;
@@ -27,6 +28,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
   customContent,
 }) => {
   const [isDark, setIsDark] = React.useState(false);
+  const { t } = useLanguage();
 
   React.useEffect(() => {
     const checkTheme = () => {
@@ -148,7 +150,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
             }}
           >
             <div className="flex items-center justify-center gap-2">
-              <span>Ver projeto</span>
+              <span>{t.projects.viewProject}</span>
               <svg 
                 width="16" 
                 height="16" 

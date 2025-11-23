@@ -6,6 +6,7 @@ import ButtonCta from '../../components/ui/ButtonCta';
 import Badge from '../../components/ui/Badge';
 import StatCounter from '../../components/ui/StatCounter';
 import { useQuoteModal } from '../../contexts/QuoteModalContext';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 const AnimatedGridBackground = dynamic(
   () => import('../../components/effects/AnimatedGridBackground'),
@@ -15,6 +16,7 @@ const AnimatedGridBackground = dynamic(
 const Hero: React.FC = () => {
   const [isDark, setIsDark] = React.useState(false);
   const { openModal } = useQuoteModal();
+  const { t } = useLanguage();
 
   React.useEffect(() => {
     const checkTheme = () => {
@@ -48,18 +50,19 @@ const Hero: React.FC = () => {
               
               {/* Left Side - 70% */}
               <div className="w-full lg:w-[60%] flex flex-col gap-6">
-                <Badge text="O melhor da tecnologia e IA para seu produto." icon="star" />
+                <Badge text={t.hero.badge} icon="star" />
                 
                 <h1 className="text-5xl md:text-6xl lg:text-6xl font-medium text-gray-900 dark:text-white leading-tight">
-                  Projetamos produtos com propósito, pronto para gerar receita.
+                  {t.hero.title}
                 </h1>
                 
                 <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl">
-                  Acabe com os projetos engavetados: Lançamos sua plataforma de alta performance desenhada para ser um ativo financeiro para o seu seu negócio, entregando sua visão em tempo recorde.  </p>
+                  {t.hero.description}
+                </p>
 
                 <div className="flex flex-col sm:flex-row gap-4 mt-4">
                   <ButtonCta 
-                    label="Iniciar um projeto" 
+                    label={t.hero.cta} 
                     variant="primary"
                     onClick={openModal}
                   />
@@ -67,8 +70,9 @@ const Hero: React.FC = () => {
 
                 {/* Stats Counters */}
                 <div className="flex flex-wrap gap-8 mt-4 mb-8 lg:mb-0">
-                  <StatCounter value="6 anos" label="no mercado" />
-                  <StatCounter value="+50" label="projetos entregues" />
+                  <StatCounter value="50+" label={t.hero.stats.projects} />
+                  <StatCounter value="30+" label={t.hero.stats.clients} />
+                  <StatCounter value="98%" label={t.hero.stats.satisfaction} />
                 </div>
               </div>
 

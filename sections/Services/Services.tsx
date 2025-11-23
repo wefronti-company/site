@@ -1,9 +1,11 @@
 import React from 'react';
 import Badge from '../../components/ui/Badge';
 import ServiceCard from '../../components/ui/ServiceCard';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 const Services: React.FC = () => {
   const [isDark, setIsDark] = React.useState(false);
+  const { t } = useLanguage();
 
   React.useEffect(() => {
     const checkTheme = () => {
@@ -18,40 +20,6 @@ const Services: React.FC = () => {
     return () => observer.disconnect();
   }, []);
 
-  const services = [
-    {
-      title: 'Aplicativo Mobile, Software, Saas.',
-      description: 'Criação de sistemas, plataformas, áreas de membros e aplicações web.',
-      features: [
-        'Integrações API',
-        'Tecnologias modernas',
-        'Sistema escalável',
-        'Acompanhamento pós entrega',
-        '100% personalizado'
-      ],
-      timeline: 'Prazo: 3 à 6 meses'
-    },
-    {
-      title: 'Site, Landing Page, E-commerce.',
-      description: 'Desenvolvimento web para sites institucionais e loja virtual.',
-      features: [
-        'Responsivo para todas as telas',
-        'Design que retém e converte',
-        'Manutenção mensal',
-        'Estratégias de conversão',
-        '100% otimizado'
-      ],
-      timeline: 'Prazo: 1 à 2 meses'
-    }
-  ];
-
-  const teamRoles = [
-    'Product Owner',
-    'Scrum Master',
-    'Designer UI/UX',
-    'Desenvolvedor Back-end / Front-end'
-  ];
-
   return (
     <section 
       id="services"
@@ -64,18 +32,27 @@ const Services: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
             
             <div className="lg:col-span-5 flex flex-col gap-6">
-              <Badge text="Nossos serviços" icon="rocket" />
+              <Badge text={t.services.badge} icon="rocket" />
               
               <h2 className="text-4xl md:text-4xl lg:text-5xl font-medium text-gray-900 dark:text-white leading-tight">
-                Tecnologia e design para colocar seu projeto no ar e gerar receita.
+                {t.services.title}
               </h2>
               
               <p className="text-lg text-gray-600 dark:text-gray-300">
-                Equipe pronta para atender sua demanda.
+                {t.services.description}
               </p>
 
-              <div className="flex flex-col gap-3 mt-4">
-                {teamRoles.map((role, index) => (
+              <div className="mt-8">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                  {t.services.teamTitle}
+                </h3>
+                <p className="text-base text-gray-600 dark:text-gray-300 mb-4">
+                  {t.services.teamDescription}
+                </p>
+              </div>
+
+              <div className="flex flex-col gap-3">
+                {t.services.teamRoles.map((role, index) => (
                   <div key={index} className="flex items-center gap-3">
                     <svg 
                       width="20" 
@@ -96,7 +73,7 @@ const Services: React.FC = () => {
 
             {/* Right Side - Service Cards */}
             <div className="lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-6">
-              {services.map((service, index) => (
+              {t.services.offerings.map((service, index) => (
                 <ServiceCard
                   key={index}
                   title={service.title}

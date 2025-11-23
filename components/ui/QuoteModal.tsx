@@ -1,8 +1,10 @@
 import React from 'react';
 import { useQuoteModal } from '../../contexts/QuoteModalContext';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 const QuoteModal: React.FC = () => {
   const { isOpen, closeModal } = useQuoteModal();
+  const { t } = useLanguage();
   const [isDark, setIsDark] = React.useState(false);
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const [submitStatus, setSubmitStatus] = React.useState<'idle' | 'success' | 'error'>('idle');
@@ -135,7 +137,7 @@ const QuoteModal: React.FC = () => {
         >
           <div className="flex items-center justify-between">
             <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">
-              Solicitar Orçamento
+              {t.quoteModal.title}
             </h2>
             <button
               onClick={closeModal}
@@ -159,14 +161,14 @@ const QuoteModal: React.FC = () => {
           {/* Nome completo */}
           <div>
             <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">
-              Nome completo *
+              {t.quoteModal.form.name} *
             </label>
             <input
               type="text"
               name="name"
               value={formData.name}
               onChange={handleChange}
-              placeholder="Informe seu nome completo"
+              placeholder={t.quoteModal.form.name}
               required
               className="w-full px-4 py-3 rounded-md text-gray-900 dark:text-white transition-colors"
               style={{
@@ -180,7 +182,7 @@ const QuoteModal: React.FC = () => {
           {/* WhatsApp */}
           <div>
             <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">
-              WhatsApp *
+              {t.quoteModal.form.whatsapp} *
             </label>
             <input
               type="tel"
@@ -201,14 +203,14 @@ const QuoteModal: React.FC = () => {
           {/* Email corporativo */}
           <div>
             <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">
-              Email corporativo *
+              {t.quoteModal.form.email} *
             </label>
             <input
               type="email"
               name="email"
               value={formData.email}
               onChange={handleChange}
-              placeholder="Informe seu e-mail"
+              placeholder={t.quoteModal.form.email}
               required
               className="w-full px-4 py-3 rounded-md text-gray-900 dark:text-white transition-colors"
               style={{
@@ -222,14 +224,14 @@ const QuoteModal: React.FC = () => {
           {/* Empresa */}
           <div>
             <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">
-              Empresa *
+              {t.quoteModal.form.company} *
             </label>
             <input
               type="text"
               name="company"
               value={formData.company}
               onChange={handleChange}
-              placeholder="Nome da sua empresa"
+              placeholder={t.quoteModal.form.company}
               required
               className="w-full px-4 py-3 rounded-md text-gray-900 dark:text-white transition-colors"
               style={{
@@ -243,7 +245,7 @@ const QuoteModal: React.FC = () => {
           {/* Cargo */}
           <div>
             <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">
-              Qual seu cargo? *
+              {t.quoteModal.form.role} *
             </label>
             <select
               name="role"
@@ -257,19 +259,19 @@ const QuoteModal: React.FC = () => {
                 outline: 'none'
               }}
             >
-              <option value="">Selecione seu cargo</option>
-              <option value="ceo">CEO/Fundador</option>
-              <option value="cto">CTO</option>
-              <option value="manager">Gerente</option>
-              <option value="developer">Desenvolvedor</option>
-              <option value="other">Outro</option>
+              <option value="">{t.quoteModal.form.roleOptions.select}</option>
+              <option value="ceo">{t.quoteModal.form.roleOptions.ceo}</option>
+              <option value="cto">{t.quoteModal.form.roleOptions.cto}</option>
+              <option value="manager">{t.quoteModal.form.roleOptions.manager}</option>
+              <option value="developer">{t.quoteModal.form.roleOptions.developer}</option>
+              <option value="other">{t.quoteModal.form.roleOptions.other}</option>
             </select>
           </div>
 
           {/* Receita Mensal */}
           <div>
             <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">
-              Receita Mensal (MRR) *
+              {t.quoteModal.form.revenue} *
             </label>
             <select
               name="revenue"
@@ -283,27 +285,27 @@ const QuoteModal: React.FC = () => {
                 outline: 'none'
               }}
             >
-              <option value="">Selecione a faixa de receita</option>
-              <option value="0-10k">R$ 0 - R$ 10.000</option>
-              <option value="10k-50k">R$ 10.000 - R$ 50.000</option>
-              <option value="50k-100k">R$ 50.000 - R$ 100.000</option>
-              <option value="100k+">R$ 100.000+</option>
+              <option value="">{t.quoteModal.form.revenueOptions.select}</option>
+              <option value="0-10k">{t.quoteModal.form.revenueOptions['0-10k']}</option>
+              <option value="10k-50k">{t.quoteModal.form.revenueOptions['10k-50k']}</option>
+              <option value="50k-100k">{t.quoteModal.form.revenueOptions['50k-100k']}</option>
+              <option value="100k+">{t.quoteModal.form.revenueOptions['500k+']}</option>
             </select>
             <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-              Informação confidencial, usada apenas para personalizar nossa proposta
+              {t.quoteModal.form.revenueHint}
             </p>
           </div>
 
           {/* Desafio */}
           <div>
             <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">
-              Qual é seu maior desafio hoje? *
+              {t.quoteModal.form.challenge} *
             </label>
             <textarea
               name="challenge"
               value={formData.challenge}
               onChange={handleChange}
-              placeholder="Ex: Alto churn, baixa conversão no trial..."
+              placeholder={t.quoteModal.form.challenge}
               required
               rows={4}
               className="w-full px-4 py-3 rounded-md text-gray-900 dark:text-white transition-colors resize-none"
@@ -318,7 +320,7 @@ const QuoteModal: React.FC = () => {
           {/* Timeline */}
           <div>
             <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">
-              Quando quer começar?
+              {t.quoteModal.form.timeline}
             </label>
             <select
               name="timeline"
@@ -331,11 +333,11 @@ const QuoteModal: React.FC = () => {
                 outline: 'none'
               }}
             >
-              <option value="">Selecione o prazo</option>
-              <option value="immediate">Imediatamente</option>
-              <option value="1-month">Em 1 mês</option>
-              <option value="3-months">Em 3 meses</option>
-              <option value="6-months">Em 6 meses</option>
+              <option value="">{t.quoteModal.form.timelineOptions.select}</option>
+              <option value="immediate">{t.quoteModal.form.timelineOptions.immediate}</option>
+              <option value="short">{t.quoteModal.form.timelineOptions.short}</option>
+              <option value="medium">{t.quoteModal.form.timelineOptions.medium}</option>
+              <option value="long">{t.quoteModal.form.timelineOptions.long}</option>
             </select>
           </div>
 
@@ -343,7 +345,7 @@ const QuoteModal: React.FC = () => {
           {submitStatus === 'success' && (
             <div className="p-4 rounded-md bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800">
               <p className="text-sm text-green-800 dark:text-green-200 font-medium">
-                ✅ Solicitação enviada com sucesso! Entraremos em contato em breve.
+                {t.quoteModal.form.successMessage}
               </p>
             </div>
           )}
@@ -351,7 +353,7 @@ const QuoteModal: React.FC = () => {
           {submitStatus === 'error' && (
             <div className="p-4 rounded-md bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800">
               <p className="text-sm text-red-800 dark:text-red-200 font-medium">
-                ❌ {errorMessage}
+                ❌ {errorMessage || t.quoteModal.form.errorMessage}
               </p>
             </div>
           )}
@@ -365,7 +367,7 @@ const QuoteModal: React.FC = () => {
               backgroundColor: '#3B82F6'
             }}
           >
-            {isSubmitting ? 'Enviando...' : 'Enviar Solicitação'}
+            {isSubmitting ? t.quoteModal.form.submitting : t.quoteModal.form.submit}
           </button>
 
         </form>

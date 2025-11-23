@@ -1,8 +1,10 @@
 import React from 'react';
 import Logo from '../../components/ui/Logo';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 const Footer: React.FC = () => {
   const [isDark, setIsDark] = React.useState(false);
+  const { t } = useLanguage();
 
   React.useEffect(() => {
     const checkTheme = () => {
@@ -46,7 +48,7 @@ const Footer: React.FC = () => {
             {/* Redes Sociais à direita */}
             <div className="flex items-center gap-6">
               <span className="text-sm text-gray-600 dark:text-gray-400">
-                Conecte-se
+                {t.footer.socialTitle}
               </span>
               
               <div className="flex items-center gap-4">
@@ -120,7 +122,7 @@ const Footer: React.FC = () => {
           {/* Bottom Bar - Copyright e CNPJ */}
           <div className="flex flex-col md:flex-row items-center justify-left gap-2 text-center">
             <p className="text-md'px text-gray-600 dark:text-gray-400">
-              © {new Date().getFullYear()} Wefronti - Todos os direitos reservados.
+              {t.footer.copyright.replace('2025', new Date().getFullYear().toString())}
             </p>
           </div>
 

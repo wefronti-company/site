@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { colors } from '../../styles/colors';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 interface ChartData {
   month: string;
@@ -11,15 +12,16 @@ const InteractiveDashboard: React.FC = () => {
   const [revenue, setRevenue] = useState(247850);
   const [isHovering, setIsHovering] = useState(false);
   const [isDark, setIsDark] = useState(false);
+  const { t } = useLanguage();
 
   // Dados do gráfico
   const chartData: ChartData[] = [
-    { month: 'Jan', value: 38 },
-    { month: 'Fev', value: 72 },
-    { month: 'Mar', value: 55 },
-    { month: 'Abr', value: 91 },
-    { month: 'Mai', value: 48 },
-    { month: 'Jun', value: 85 },
+    { month: t.hero.dashboard.months.jan, value: 38 },
+    { month: t.hero.dashboard.months.feb, value: 72 },
+    { month: t.hero.dashboard.months.mar, value: 55 },
+    { month: t.hero.dashboard.months.apr, value: 91 },
+    { month: t.hero.dashboard.months.may, value: 48 },
+    { month: t.hero.dashboard.months.jun, value: 85 },
   ];
 
   const maxValue = Math.max(...chartData.map(d => d.value));
@@ -111,12 +113,12 @@ const InteractiveDashboard: React.FC = () => {
         <div className="bg-gray-100 dark:bg-[#1a1a1a] p-4 transition-colors" style={{ borderRadius: '7px' }}>
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h3 className="text-sm font-semibold text-gray-900 dark:text-white">Seu produto</h3>
-              <p className="text-xs text-gray-500 dark:text-gray-400">Exemplo demo</p>
+              <h3 className="text-sm font-semibold text-gray-900 dark:text-white">{t.hero.dashboard.productTitle}</h3>
+              <p className="text-xs text-gray-500 dark:text-gray-400">{t.hero.dashboard.productSubtitle}</p>
             </div>
             <div className="flex items-center gap-1.5">
               <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-              <span className="text-xs text-gray-600 dark:text-gray-400">Atualizado</span>
+              <span className="text-xs text-gray-600 dark:text-gray-400">{t.hero.dashboard.updated}</span>
             </div>
           </div>
 
@@ -128,7 +130,7 @@ const InteractiveDashboard: React.FC = () => {
               onMouseEnter={() => setIsHovering(true)}
               onMouseLeave={() => setIsHovering(false)}
             >
-              <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">Receita Total</div>
+              <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">{t.hero.dashboard.totalRevenue}</div>
               <div className="text-xl font-bold text-gray-900 dark:text-white">
                 R$ {(revenue / 1000).toFixed(1)}k
               </div>
@@ -142,7 +144,7 @@ const InteractiveDashboard: React.FC = () => {
             </div>
 
             <div className="bg-white dark:bg-[#0a0a0a] p-3 transition-colors" style={{ borderRadius: '7px' }}>
-              <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">Clientes Ativos</div>
+              <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">{t.hero.dashboard.activeClients}</div>
               <div className="text-xl font-bold text-gray-900 dark:text-white">1,247</div>
               <div className="flex items-center gap-1 mt-1">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" className="text-green-500">
@@ -158,7 +160,7 @@ const InteractiveDashboard: React.FC = () => {
         {/* Chart */}
         <div className="flex-1 bg-gray-100 dark:bg-[#1a1a1a] p-4 transition-colors" style={{ borderRadius: '7px' }}>
           <div className="flex items-center justify-between mb-4">
-            <div className="text-xs font-medium text-gray-600 dark:text-gray-400">Receita Mensal</div>
+            <div className="text-xs font-medium text-gray-600 dark:text-gray-400">{t.hero.dashboard.monthlyRevenue}</div>
             <div className="text-xs text-gray-500 dark:text-gray-500">2025</div>
           </div>
           
@@ -194,11 +196,11 @@ const InteractiveDashboard: React.FC = () => {
               </svg>
             </div>
             <div>
-              <div className="text-xs text-gray-900 dark:text-white font-medium">ROI: 94.2%</div>
-              <div className="text-xs text-gray-500 dark:text-gray-400">Este mês</div>
+              <div className="text-xs text-gray-900 dark:text-white font-medium">{t.hero.dashboard.roi}: 94.2%</div>
+              <div className="text-xs text-gray-500 dark:text-gray-400">{t.hero.dashboard.thisMonth}</div>
             </div>
           </div>
-          <div className="text-xs text-gray-400 dark:text-gray-500">Últimos 30 dias</div>
+          <div className="text-xs text-gray-400 dark:text-gray-500">{t.hero.dashboard.last30Days}</div>
         </div>
       </div>
     </div>

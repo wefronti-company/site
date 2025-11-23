@@ -1,6 +1,8 @@
 import React from 'react';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 const CheckoutAnimation: React.FC = () => {
+  const { t } = useLanguage();
   const [isDark, setIsDark] = React.useState(false);
   const [cardNumber, setCardNumber] = React.useState('');
   const [cardName, setCardName] = React.useState('');
@@ -242,7 +244,7 @@ const CheckoutAnimation: React.FC = () => {
               <span>Processando...</span>
             </div>
           ) : (
-            <span>Finalizar Compra</span>
+            <span>{t.hero.checkout.checkoutButton}</span>
           )}
         </button>
 
@@ -251,7 +253,7 @@ const CheckoutAnimation: React.FC = () => {
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
           </svg>
-          <span>Pagamento 100% seguro</span>
+          <span>{t.hero.checkout.securePayment}</span>
         </div>
       </div>
     </div>
