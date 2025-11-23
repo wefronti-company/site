@@ -1,15 +1,21 @@
 import React from 'react';
 import dynamic from 'next/dynamic';
 import { colors } from '../../styles/colors';
-import InteractiveDashboard from '../../components/ui/InteractiveDashboard';
 import ButtonCta from '../../components/ui/ButtonCta';
 import Badge from '../../components/ui/Badge';
 import StatCounter from '../../components/ui/StatCounter';
 import { useQuoteModal } from '../../contexts/QuoteModalContext';
 import { useLanguage } from '../../contexts/LanguageContext';
+import LightweightGrid from '../../components/effects/LightweightGrid';
+import SimpleDashboard from '../../components/ui/SimpleDashboard';
 
+// Versões pesadas apenas para desktop
 const AnimatedGridBackground = dynamic(
   () => import('../../components/effects/AnimatedGridBackground'),
+  { ssr: false }
+);
+const InteractiveDashboard = dynamic(
+  () => import('../../components/ui/InteractiveDashboard'),
   { ssr: false }
 );
 
@@ -38,7 +44,10 @@ const Hero: React.FC = () => {
           borderBottomColor: isDark ? '#141414' : '#D1D5DB'
         }}
       >
-        {/* Animated Grid Background - Desktop only para performance */}
+        {/* Grid leve mobile, pesado desktop */}
+        <div className="absolute inset-0 lg:hidden">
+          <LightweightGrid />
+        </div>
         <div className="absolute inset-0 hidden lg:block">
           <AnimatedGridBackground />
         </div>
@@ -75,10 +84,14 @@ const Hero: React.FC = () => {
                 </div>
               </div>
 
-              {/* Right Side - 30% - Desktop only para performance mobile */}
-              <div className="hidden lg:flex lg:w-[40%] items-center justify-center">
-                {/* Interactive Dashboard */}
-                <div className="w-full h-full min-h-[600px]">
+              {/* Right Side - 30% - Dashboard responsivo */}
+              <div className="w-full lg:w-[40%] flex items-center justify-center">
+                {/* Dashboard simples mobile */}
+                <div className="w-full lg:hidden">
+                  <SimpleDashboard />
+                </div>
+                {/* Dashboard interativo desktop */}
+                <div className="w-full h-full min-h-[600px] hidden lg:block">
                   <InteractiveDashboard />
                 </div>
               </div>

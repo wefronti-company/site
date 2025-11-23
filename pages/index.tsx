@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import dynamic from 'next/dynamic';
 import AppBar from '../components/layout/AppBar';
 import Hero from '../sections/Hero';
-import SplashScreen from '../components/effects/SplashScreen';
 import SEO from '../components/SEO';
 
 // Lazy load AGRESSIVO com ssr:false para máxima performance
@@ -28,21 +27,9 @@ const Footer = dynamic(() => import('../sections/Footer'), {
 });
 
 const Home: React.FC = () => {
-  const [showSplash, setShowSplash] = useState(true);
-
-  useEffect(() => {
-    // Remove splash após completar 100% + animação de saída
-    const timer = setTimeout(() => {
-      setShowSplash(false);
-    }, 2700); // 2000ms (100%) + 200ms (espera) + 500ms (saída)
-
-    return () => clearTimeout(timer);
-  }, []);
-
   return (
     <>
       <SEO />
-      {showSplash && <SplashScreen />}
       <AppBar />
       <Hero />     
       <Clients />

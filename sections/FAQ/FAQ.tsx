@@ -4,7 +4,9 @@ import Badge from '../../components/ui/Badge';
 import ButtonCta from '../../components/ui/ButtonCta';
 import { useQuoteModal } from '../../contexts/QuoteModalContext';
 import { useLanguage } from '../../contexts/LanguageContext';
+import LightweightGrid from '../../components/effects/LightweightGrid';
 
+// Versão pesada apenas para desktop
 const AnimatedGridBackground = dynamic(
   () => import('../../components/effects/AnimatedGridBackground'),
   { ssr: false }
@@ -34,8 +36,11 @@ const FAQ: React.FC = () => {
 
   return (
     <section id="faq" className="w-full py-20 md:py-32 bg-custom-white dark:bg-custom-black transition-colors relative overflow-hidden">
-      {/* Animated Grid Background */}
-      <div className="absolute inset-0">
+      {/* Grid leve mobile, pesado desktop */}
+      <div className="absolute inset-0 lg:hidden">
+        <LightweightGrid />
+      </div>
+      <div className="absolute inset-0 hidden lg:block">
         <AnimatedGridBackground />
       </div>
 

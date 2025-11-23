@@ -10,7 +10,8 @@ module.exports = {
   },
   experimental: {
     optimizeCss: true,
-    optimizePackageImports: ['react-simple-maps', 'three', 'postprocessing'],
+    // Tree-shaking para reduzir bundle
+    optimizePackageImports: ['react-simple-maps'],
   },
   images: {
     formats: ['image/avif', 'image/webp'],

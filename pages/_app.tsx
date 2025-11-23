@@ -6,7 +6,6 @@ import { ThemeProvider } from '../contexts/ThemeContext';
 import { QuoteModalProvider } from '../contexts/QuoteModalContext';
 import { LanguageProvider } from '../contexts/LanguageContext';
 import QuoteModal from '../components/ui/QuoteModal';
-import CustomCursor from '../components/ui/CustomCursor';
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -17,7 +16,6 @@ export default function MyApp({ Component, pageProps }: AppProps) {
       <ThemeProvider>
         <LanguageProvider>
           <QuoteModalProvider>
-            <CustomCursor />
             <Component {...pageProps} />
             <QuoteModal />
           </QuoteModalProvider>

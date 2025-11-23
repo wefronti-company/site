@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import { useQuoteModal } from '../../contexts/QuoteModalContext';
 import { useLanguage } from '../../contexts/LanguageContext';
 import {
@@ -17,6 +18,7 @@ const QuoteModal: React.FC = () => {
   const { isOpen, closeModal } = useQuoteModal();
   const { t } = useLanguage();
   const [isDark, setIsDark] = React.useState(false);
+  const [isMounted, setIsMounted] = React.useState(false);
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const [submitStatus, setSubmitStatus] = React.useState<'idle' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = React.useState('');
@@ -35,6 +37,12 @@ const QuoteModal: React.FC = () => {
     challenge: '',
     timeline: ''
   });
+
+  // Mount check for Portal
+  React.useEffect(() => {
+    setIsMounted(true);
+    return () => setIsMounted(false);
+  }, []);
 
   React.useEffect(() => {
     const checkTheme = () => {
@@ -292,11 +300,11 @@ const QuoteModal: React.FC = () => {
     }
   };
 
-  if (!isOpen) return null;
+  if (!isOpen || !isMounted) return null;
 
-  return (
+  const modalContent = (
     <div 
-      className="fixed inset-0 z-50 flex items-center justify-center p-4"
+      className="fixed inset-0 z-[9998] flex items-center justify-center p-4"
       onClick={closeModal}
     >
       {/* Backdrop com blur */}
@@ -760,6 +768,9 @@ const QuoteModal: React.FC = () => {
       </div>
     </div>
   );
+
+  // Renderizar via Portal para escapar contexto das sections
+  return ReactDOM.createPortal(modalContent, document.body);
 };
 
 export default QuoteModal;
