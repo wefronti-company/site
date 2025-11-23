@@ -178,7 +178,7 @@ jobs:
         
       - name: 5.2 - Check production endpoint
         run: |
-          response=$(curl -s -o /dev/null -w "%{http_code}" https://wefronti.com)
+          response=$(curl -L -s -o /dev/null -w "%{http_code}" https://wefronti.com)
           if [ $response -eq 200 ]; then
             echo "✅ Production site is responding (HTTP $response)"
           else
