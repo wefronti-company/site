@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createPortal } from 'react-dom';
 import { useQuoteModal } from '../../contexts/QuoteModalContext';
 import { useLanguage } from '../../contexts/LanguageContext';
 import {
@@ -41,7 +41,6 @@ const QuoteModal: React.FC = () => {
   // Mount check for Portal
   React.useEffect(() => {
     setIsMounted(true);
-    return () => setIsMounted(false);
   }, []);
 
   React.useEffect(() => {
@@ -300,7 +299,8 @@ const QuoteModal: React.FC = () => {
     }
   };
 
-  if (!isOpen || !isMounted) return null;
+  if (!isOpen) return null;
+  if (!isMounted) return null;
 
   const modalContent = (
     <div 
@@ -770,7 +770,7 @@ const QuoteModal: React.FC = () => {
   );
 
   // Renderizar via Portal para escapar contexto das sections
-  return ReactDOM.createPortal(modalContent, document.body);
+  return createPortal(modalContent, document.body);
 };
 
 export default QuoteModal;
