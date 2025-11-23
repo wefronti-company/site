@@ -97,12 +97,12 @@ const Clients: React.FC = () => {
       {/* Cabeçalho */}
       <div className="px-4 md:px-8 lg:px-16 relative z-10">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-[-180px] md:mb-[-220px] lg:mb-[-250px]">
-            <Badge icon="star" text="Casos de sucesso" />
+          <div className="text-left md:text-center mb-[-180px] md:mb-[-220px] lg:mb-[-250px]">
+            <Badge icon="heart" text="Depoimentos" />
             <h2 className="text-4xl md:text-4xl lg:text-5xl font-medium text-gray-900 dark:text-white mt-6 mb-4">
               O que nossos clientes dizem sobre nós
             </h2>
-            <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+            <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl md:mx-auto">
               Clientes satisfeitos ao redor do mundo, conectados por nossas soluções digitais.
             </p>
           </div>

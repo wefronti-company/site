@@ -2,6 +2,7 @@ import React from 'react';
 import { colors } from '../../styles/colors';
 import Badge from '../../components/ui/Badge';
 import ButtonCta from '../../components/ui/ButtonCta';
+import { useQuoteModal } from '../../contexts/QuoteModalContext';
 
 interface ServiceCardProps {
   title: string;
@@ -13,6 +14,7 @@ interface ServiceCardProps {
 
 const ServiceCard: React.FC<ServiceCardProps> = ({ title, description, features, timeline, price }) => {
   const [isDark, setIsDark] = React.useState(false);
+  const { openModal } = useQuoteModal();
 
   React.useEffect(() => {
     const checkTheme = () => {
@@ -77,7 +79,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ title, description, features,
           <span>{timeline}</span>
         </div>
         
-        <ButtonCta label="Iniciar um projeto" variant="primary" />
+        <ButtonCta label="Iniciar um projeto" variant="primary" onClick={openModal} />
       </div>
     </div>
   );

@@ -6,6 +6,7 @@ import Logo from '../ui/Logo';
 import ThemeToggle from '../ui/ThemeToggle';
 import LanguageSelector from '../ui/LanguageSelector';
 import { colors } from '../../styles/colors';
+import { useQuoteModal } from '../../contexts/QuoteModalContext';
 
 const navItems = [
 	{ label: 'Clientes', href: '/clients' },
@@ -18,6 +19,7 @@ const AppBar: React.FC = () => {
 	const router = useRouter();
 	const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 	const [isDark, setIsDark] = useState(false);
+	const { openModal } = useQuoteModal();
 
 	React.useEffect(() => {
 		// Detecta o tema atual
@@ -176,7 +178,7 @@ const AppBar: React.FC = () => {
 					<div className="mt-2">
 						<button
 							type="button"
-							onClick={() => setMobileMenuOpen(false)}
+							onClick={() => { setMobileMenuOpen(false); openModal(); }}
 							className="w-full px-5 py-3 text-base font-medium bg-black dark:bg-white text-white dark:text-black hover:bg-black/90 dark:hover:bg-white/95 active:scale-95 transition-all duration-200 shadow-sm hover:shadow-md flex items-center justify-center"
 							style={{ borderRadius: '7px' }}
 						>

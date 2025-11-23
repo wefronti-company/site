@@ -1,10 +1,12 @@
 import React from 'react';
 import Badge from '../../components/ui/Badge';
 import AnimatedGridBackground from '../../components/effects/AnimatedGridBackground';
+import { useQuoteModal } from '../../contexts/QuoteModalContext';
 
 const FAQ: React.FC = () => {
   const [isDark, setIsDark] = React.useState(false);
   const [openIndex, setOpenIndex] = React.useState<number | null>(0);
+  const { openModal } = useQuoteModal();
 
   React.useEffect(() => {
     const checkTheme = () => {
@@ -65,12 +67,12 @@ const FAQ: React.FC = () => {
         <div className="w-full max-w-[900px] mx-auto">
           
           {/* Cabeçalho */}
-          <div className="text-center mb-12 md:mb-16">
-            <Badge icon="rocket" text="Perguntas Frequentes" />
+          <div className="text-left md:text-center mb-12 md:mb-16">
+            <Badge icon="help" text="Perguntas Frequentes" />
             <h2 className="text-4xl md:text-4xl lg:text-5xl font-medium text-gray-900 dark:text-white mt-6 mb-4">
               Tudo o que você precisa saber
             </h2>
-            <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+            <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl md:mx-auto">
               Reunimos as dúvidas mais comuns sobre nossos serviços e processos.
             </p>
           </div>
@@ -139,6 +141,7 @@ const FAQ: React.FC = () => {
               Ainda tem dúvidas? Estamos aqui para ajudar!
             </p>
             <button
+              onClick={openModal}
               className="px-6 py-3 font-semibold text-white transition-all duration-300 hover:scale-105"
               style={{
                 backgroundColor: '#3B82F6',
