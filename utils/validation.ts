@@ -19,7 +19,7 @@ export const quoteFormSchema = z.object({
     .string()
     .email('Email inválido')
     .max(255, 'Email muito longo')
-    .refine((email) => validator.isEmail(email), 'Email inválido'),
+    .refine((email: string) => validator.isEmail(email), 'Email inválido'),
   
   company: z
     .string()
@@ -30,14 +30,14 @@ export const quoteFormSchema = z.object({
   role: z
     .string()
     .refine(
-      (val) => ['ceo', 'cto', 'manager', 'developer', 'other'].includes(val),
+      (val: string) => ['ceo', 'cto', 'manager', 'developer', 'other'].includes(val),
       'Cargo inválido'
     ),
   
   revenue: z
     .string()
     .refine(
-      (val) => ['0-10k', '10k-50k', '50k-100k', '100k-500k', '500k+'].includes(val),
+      (val: string) => ['0-10k', '10k-50k', '50k-100k', '100k-500k', '500k+'].includes(val),
       'Faturamento inválido'
     ),
   
@@ -46,21 +46,21 @@ export const quoteFormSchema = z.object({
     .min(10, 'Descreva seu desafio (mínimo 10 caracteres)')
     .max(2000, 'Descrição muito longa (máximo 2000 caracteres)')
     .refine(
-      (text) => !containsMaliciousPatterns(text),
+      (text: string) => !containsMaliciousPatterns(text),
       'Texto contém conteúdo não permitido'
     ),
   
   timeline: z
     .string()
     .refine(
-      (val) => ['immediate', 'short', 'medium', 'long'].includes(val),
+      (val: string) => ['immediate', 'short', 'medium', 'long'].includes(val),
       'Prazo inválido'
     ),
   
   // LGPD: Campo de consentimento obrigatório
   privacy_consent: z
     .boolean()
-    .refine((val) => val === true, 'Consentimento de privacidade é obrigatório'),
+    .refine((val: boolean) => val === true, 'Consentimento de privacidade é obrigatório'),
 });
 
 export type QuoteFormData = z.infer<typeof quoteFormSchema>;
