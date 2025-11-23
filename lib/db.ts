@@ -17,5 +17,7 @@ export interface QuoteRequest {
   revenue: string;
   challenge: string;
   timeline: string;
+  privacy_consent: boolean;  // LGPD: Consentimento do usuário
+  consented_at?: Date;       // LGPD: Data/hora do consentimento
   created_at?: Date;
 }

@@ -1,8 +1,18 @@
 import React from 'react';
+import dynamic from 'next/dynamic';
 import Badge from '../../components/ui/Badge';
-import WorldMap from '../../components/ui/WorldMap';
 import TestimonialCard from '../../components/ui/TestimonialCard';
 import { useLanguage } from '../../contexts/LanguageContext';
+
+// Lazy load do WorldMap com SSR desabilitado (melhora performance)
+const WorldMap = dynamic(() => import('../../components/ui/WorldMap'), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-full flex items-center justify-center">
+      <div className="animate-pulse text-gray-400">Carregando mapa...</div>
+    </div>
+  ),
+});
 
 const Clients: React.FC = () => {
   const [isDark, setIsDark] = React.useState(false);

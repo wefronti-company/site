@@ -14,7 +14,7 @@ const AppBar: React.FC = () => {
 	const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 	const [isDark, setIsDark] = useState(false);
 	const { openModal } = useQuoteModal();
-	const { t } = useLanguage();
+	const { t, language, setLanguage } = useLanguage();
 
 	const navItems = [
 		{ label: t.appBar.nav.clients, href: '#clients' },
@@ -139,17 +139,33 @@ const AppBar: React.FC = () => {
 					{/* Language Selection - Grid 2 columns */}
 					<div className="grid grid-cols-2 gap-3 mt-4">
 						<button 
-							className="px-4 py-3 rounded-lg text-sm font-medium bg-gray-300 text-black transition-all shadow-sm"
+							onClick={() => {
+								setLanguage('pt-BR');
+							}}
+							className="px-4 py-3 rounded-lg text-sm font-medium transition-all shadow-sm"
+							style={{
+								backgroundColor: language === 'pt-BR' ? colors.blueColor : 'transparent',
+								color: language === 'pt-BR' ? colors.whiteColor : isDark ? 'rgba(255,255,255,0.6)' : '#4B5563'
+							}}
+						>
+							<span className="flex items-center justify-center gap-2">
+								<span>BR</span>
+								<span className="text-xs opacity-70">Português</span>
+							</span>
+						</button>
+						<button 
+							onClick={() => {
+								setLanguage('en-US');
+							}}
+							className="px-4 py-3 rounded-lg text-sm font-medium transition-all shadow-sm"
+							style={{
+								backgroundColor: language === 'en-US' ? colors.blueColor : 'transparent',
+								color: language === 'en-US' ? colors.whiteColor : isDark ? 'rgba(255,255,255,0.6)' : '#4B5563'
+							}}
 						>
 							<span className="flex items-center justify-center gap-2">
 								<span>EN</span>
 								<span className="text-xs opacity-70">English</span>
-							</span>
-						</button>
-						<button className="px-4 py-3 rounded-lg text-sm font-medium text-gray-600 dark:text-white/60 hover:bg-gray-200 dark:hover:bg-white/5 transition-all">
-							<span className="flex items-center justify-center gap-2">
-								<span>BR</span>
-								<span className="text-xs opacity-70">Português</span>
 							</span>
 						</button>
 					</div>
@@ -185,8 +201,8 @@ const AppBar: React.FC = () => {
 						<button
 							type="button"
 							onClick={() => { setMobileMenuOpen(false); openModal(); }}
-							className="w-full px-5 py-3 text-base font-medium bg-black dark:bg-white text-white dark:text-black hover:bg-black/90 dark:hover:bg-white/95 active:scale-95 transition-all duration-200 shadow-sm hover:shadow-md flex items-center justify-center"
-							style={{ borderRadius: '7px' }}
+							className="w-full px-5 py-3 text-base font-medium text-white hover:opacity-90 active:scale-95 transition-all duration-200 shadow-sm hover:shadow-md flex items-center justify-center"
+							style={{ borderRadius: '7px', backgroundColor: colors.blueColor }}
 						>
 							Iniciar um projeto
 						</button>

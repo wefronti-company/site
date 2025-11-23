@@ -32,7 +32,12 @@ lerna-debug.log*
 .env.local
 .env.development.local
 .env.test.local
+.env.production
 .env.production.local
+
+# Scripts de teste e migração
+test-*.sh
+run-migration.sh
 
 # Vercel
 .vercel

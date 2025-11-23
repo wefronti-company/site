@@ -23,8 +23,8 @@ export const enUS: TranslationKeys = {
   // Hero Section
   hero: {
     badge: 'Software House',
-    title: 'We develop Software and Websites to scale your business.',
-    description: 'We transform your ideas into high-performance digital solutions. From conception to launch, we create products that deliver real results.',
+    title: 'We design products with purpose, ready to generate revenue',
+    description: 'We develop your product with the best technology and artificial intelligence, from SaaS, software to complex web systems.',
     cta: 'Start a project',
     stats: {
       projects: 'Projects Delivered',
@@ -278,10 +278,33 @@ export const enUS: TranslationKeys = {
         medium: 'Medium term (4-6 meses)',
         long: 'Long term (6+ months)'
       },
-      submit: 'Submit request',
+      submit: 'Send request',
       submitting: 'Sending...',
       successMessage: '✅ Request sent successfully! We will contact you soon.',
-      errorMessage: 'Error sending request. Please try again.'
+      errorMessage: 'Error sending request. Please try again.',
+      privacy: {
+        title: '🔒 Privacy and Data Protection',
+        description: 'Your data is safe with us',
+        points: [
+          '✅ We do not share your data with third parties',
+          '✅ Encrypted and protected data',
+          '✅ Used only to analyze your request',
+          '✅ You can request deletion at any time'
+        ],
+        consent: 'I agree to the collection and processing of my data as described above. I have read and accept that my data will be used exclusively for analyzing the quote request and will not be shared with third parties.',
+        consentShort: 'I agree with the privacy policy and use of my data',
+        required: 'You must agree to the privacy policy to continue'
+      },
+      validation: {
+        name: 'Name must be at least 2 characters',
+        email: 'Please enter a valid email',
+        whatsapp: 'Please enter a valid number',
+        company: 'Company name is required',
+        role: 'Select your role',
+        revenue: 'Select revenue',
+        challenge: 'Describe your challenge (minimum 10 characters)',
+        timeline: 'Select desired timeline'
+      }
     }
   }
 };

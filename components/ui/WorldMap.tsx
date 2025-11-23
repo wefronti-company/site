@@ -1,7 +1,8 @@
 import React from 'react';
 import { ComposableMap, Geographies, Geography } from 'react-simple-maps';
 
-const geoUrl = 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json';
+// URL do TopoJSON - usando unpkg que converte automaticamente
+const geoUrl = 'https://unpkg.com/world-atlas@2.0.2/countries-110m.json';
 
 const WorldMap: React.FC = () => {
   const [isDark, setIsDark] = React.useState(false);
@@ -55,17 +56,27 @@ const WorldMap: React.FC = () => {
           </pattern>
         </defs>
 
-        <Geographies geography={geoUrl}>
-          {({ geographies }) =>
-            geographies.map((geo) => (
+        <Geographies 
+          geography={geoUrl}
+          parseGeographies={(geographies) => {
+            console.log('Geographies loaded:', geographies);
+            return geographies;
+          }}
+        >
+          {({ geographies }) => {
+            if (!geographies || geographies.length === 0) {
+              console.error('No geographies loaded');
+              return null;
+            }
+            return geographies.map((geo) => (
               <Geography
                 key={geo.rsmKey}
                 geography={geo}
                 fill="url(#dots)"
                 stroke="none"
               />
-            ))
-          }
+            ));
+          }}
         </Geographies>
 
         {/* Pontos azuis de localização */}

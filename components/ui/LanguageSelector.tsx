@@ -61,10 +61,10 @@ const LanguageSelector: React.FC = () => {
               onClick={() => handleSelect(lang.code)}
               className={`w-full px-4 py-3 text-left text-sm transition-colors rounded-md ${
                 language === lang.code
-                  ? 'font-medium'
+                  ? 'font-medium text-white'
                   : 'text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-white/5'
               }`}
-              style={language === lang.code ? { backgroundColor: colors.blackColor, color: colors.whiteColor } : undefined}
+              style={language === lang.code ? { backgroundColor: colors.blueColor } : undefined}
             >
               {t.languageSelector.languages[lang.code]}
             </button>

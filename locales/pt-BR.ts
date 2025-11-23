@@ -21,8 +21,8 @@ export const ptBR = {
   // Hero Section
   hero: {
     badge: 'Software House',
-    title: 'Desenvolvemos Softwares e Sites para escalar seu negócio.',
-    description: 'Transformamos suas ideias em soluções digitais de alta performance. Da concepção ao lançamento, criamos produtos que geram resultados reais.',
+    title: 'Projetamos produtos com propósito, pronto para gerar receita',
+    description: 'Desenvolvemos seu produto com o melhor da tecnologia e inteligencia artificial, desde Saas, software até sistemas web complexos.',
     cta: 'Iniciar um projeto',
     stats: {
       projects: 'Projetos Entregues',
@@ -279,7 +279,30 @@ export const ptBR = {
       submit: 'Enviar solicitação',
       submitting: 'Enviando...',
       successMessage: '✅ Solicitação enviada com sucesso! Entraremos em contato em breve.',
-      errorMessage: 'Erro ao enviar solicitação. Tente novamente.'
+      errorMessage: 'Erro ao enviar solicitação. Tente novamente.',
+      privacy: {
+        title: '🔒 Privacidade e Proteção de Dados',
+        description: 'Seus dados estão seguros conosco',
+        points: [
+          '✅ Não compartilhamos seus dados com terceiros',
+          '✅ Dados criptografados e protegidos',
+          '✅ Usado apenas para análise da sua solicitação',
+          '✅ Você pode solicitar exclusão a qualquer momento'
+        ],
+        consent: 'Eu concordo com a coleta e processamento dos meus dados conforme descrito acima. Li e aceito que meus dados serão usados exclusivamente para análise da solicitação de orçamento e não serão compartilhados com terceiros.',
+        consentShort: 'Concordo com a política de privacidade e uso dos meus dados',
+        required: 'Você precisa concordar com a política de privacidade para continuar'
+      },
+      validation: {
+        name: 'Nome deve ter pelo menos 2 caracteres',
+        email: 'Por favor, insira um e-mail válido',
+        whatsapp: 'Por favor, insira um número válido',
+        company: 'Nome da empresa é obrigatório',
+        role: 'Selecione seu cargo',
+        revenue: 'Selecione o faturamento',
+        challenge: 'Descreva seu desafio (mínimo 10 caracteres)',
+        timeline: 'Selecione o prazo desejado'
+      }
     }
   }
 };
