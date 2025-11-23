@@ -48,8 +48,3 @@ next-env.d.ts
 *.swp
 *.swo
 *~
-
-# Package manager lock files (opcional - remova se quiser versionar)
-package-lock.json
-yarn.lock
-pnpm-lock.yaml
