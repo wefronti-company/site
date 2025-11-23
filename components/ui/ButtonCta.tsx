@@ -1,6 +1,7 @@
 import React from 'react';
 import { colors } from '../../styles/colors';
 import { useLanguage } from '../../contexts/LanguageContext';
+import { useQuoteModal } from '../../contexts/QuoteModalContext';
 
 interface ButtonCtaProps {
   label?: string;
@@ -14,12 +15,21 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
   variant = 'primary' 
 }) => {
   const { t } = useLanguage();
+  const { openModal } = useQuoteModal();
+  
+  const handleClick = () => {
+    if (onClick) {
+      onClick();
+    } else {
+      openModal();
+    }
+  };
   const isPrimary = variant === 'primary';
   
   return (
     <button
       type="button"
-      onClick={onClick}
+      onClick={handleClick}
       className={`px-8 py-4 text-base font-semibold hover:opacity-90 active:scale-95 transition-all duration-200 shadow-sm hover:shadow-md ${
         isPrimary 
           ? 'text-white' 

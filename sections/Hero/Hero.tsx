@@ -38,8 +38,8 @@ const Hero: React.FC = () => {
           borderBottomColor: isDark ? '#141414' : '#D1D5DB'
         }}
       >
-        {/* Animated Grid Background - Positioned absolutely to cover entire section */}
-        <div className="absolute inset-0">
+        {/* Animated Grid Background - Desktop only para performance */}
+        <div className="absolute inset-0 hidden lg:block">
           <AnimatedGridBackground />
         </div>
         
@@ -76,10 +76,10 @@ const Hero: React.FC = () => {
                 </div>
               </div>
 
-              {/* Right Side - 30% */}
-              <div className="w-full lg:w-[40%] flex items-center justify-center mt-8 lg:mt-0">
+              {/* Right Side - 30% - Desktop only para performance mobile */}
+              <div className="hidden lg:flex lg:w-[40%] items-center justify-center">
                 {/* Interactive Dashboard */}
-                <div className="w-full h-full min-h-[500px] lg:min-h-[600px]">
+                <div className="w-full h-full min-h-[600px]">
                   <InteractiveDashboard />
                 </div>
               </div>
