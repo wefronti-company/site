@@ -1,11 +1,16 @@
 import React from 'react';
+import dynamic from 'next/dynamic';
 import { colors } from '../../styles/colors';
-import AnimatedGridBackground from '../../components/effects/AnimatedGridBackground';
 import InteractiveDashboard from '../../components/ui/InteractiveDashboard';
 import ButtonCta from '../../components/ui/ButtonCta';
 import Badge from '../../components/ui/Badge';
 import StatCounter from '../../components/ui/StatCounter';
 import { useQuoteModal } from '../../contexts/QuoteModalContext';
+
+const AnimatedGridBackground = dynamic(
+  () => import('../../components/effects/AnimatedGridBackground'),
+  { ssr: false }
+);
 
 const Hero: React.FC = () => {
   const [isDark, setIsDark] = React.useState(false);

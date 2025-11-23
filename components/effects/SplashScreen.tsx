@@ -64,7 +64,7 @@ const SplashScreen: React.FC = () => {
       </div>
 
       {/* Logo container */}
-      <div className="relative z-10">
+      <div className="relative z-10 flex flex-col items-center">
         <div
           className={`transition-all duration-1000 ease-out ${
             logoPhase === 'enter'
@@ -79,14 +79,14 @@ const SplashScreen: React.FC = () => {
             alt="Logo"
             width={160}
             height={160}
-            className="w-32 h-auto md:w-40"
+            className="w-32 h-auto md:w-40 mx-auto"
             priority
           />
         </div>
 
         {/* Barra de carregamento abaixo do logo */}
         <div
-          className={`mt-8 transition-all duration-1000 delay-500 ${
+          className={`mt-8 w-full transition-all duration-1000 delay-500 ${
             logoPhase === 'hold' ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
           }`}
         >

@@ -40,14 +40,7 @@ const Footer: React.FC = () => {
             
             {/* Logo */}
             <div>
-              <a 
-                href="https://wefronti.com" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="inline-block w-fit"
-              >
-                <Logo />
-              </a>
+              <Logo />
             </div>
 
             {/* Redes Sociais à direita */}

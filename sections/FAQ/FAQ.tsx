@@ -1,7 +1,12 @@
 import React from 'react';
+import dynamic from 'next/dynamic';
 import Badge from '../../components/ui/Badge';
-import AnimatedGridBackground from '../../components/effects/AnimatedGridBackground';
 import { useQuoteModal } from '../../contexts/QuoteModalContext';
+
+const AnimatedGridBackground = dynamic(
+  () => import('../../components/effects/AnimatedGridBackground'),
+  { ssr: false }
+);
 
 const FAQ: React.FC = () => {
   const [isDark, setIsDark] = React.useState(false);
