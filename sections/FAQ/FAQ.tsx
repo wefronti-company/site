@@ -22,7 +22,7 @@ const FAQ: React.FC = () => {
   const faqs = [
     {
       question: 'Quanto tempo leva para desenvolver meu projeto?',
-      answer: 'O prazo varia conforme a complexidade. Sites e landing pages levam de 1 a 2 meses, enquanto aplicativos mobile, SaaS e sistemas customizados podem levar de 3 a 6 meses. Trabalhamos com metodologia ágil, entregando funcionalidades incrementalmente para você acompanhar o progresso.'
+      answer: 'O prazo varia conforme a complexidade. Sites e landing pages mais básicos podem levar de semanas ou entre 1 e 2 meses, enquanto aplicativos mobile, SaaS e sistemas customizados podem levar de 3 a 6 meses. Trabalhamos com metodologia ágil, entregando funcionalidades incrementalmente para você acompanhar o progresso.'
     },
     {
       question: 'Qual é o investimento necessário para criar meu produto?',
@@ -42,7 +42,7 @@ const FAQ: React.FC = () => {
     },
     {
       question: 'Vocês trabalham com quais tecnologias?',
-      answer: 'Utilizamos tecnologias modernas e comprovadas: React, Next.js, TypeScript para front-end; Node.js, Python para back-end; React Native para mobile; AWS, Azure para cloud. Escolhemos o stack ideal para cada projeto considerando escalabilidade, performance, segurança e custo-benefício a longo prazo.'
+      answer: 'Utilizamos tecnologias modernas e comprovadas: React, Next.js, TypeScript para front-end; Node.js, para back-end; Flutter para mobile; AWS para cloud. Escolhemos o stack ideal para cada projeto considerando escalabilidade, performance, segurança e custo-benefício a longo prazo.'
     },
     {
       question: 'Como garantem a qualidade e segurança do produto?',
@@ -83,6 +83,7 @@ const FAQ: React.FC = () => {
                 className="border transition-colors"
                 style={{
                   borderColor: isDark ? '#141414' : '#D1D5DB',
+                  borderRadius: '7px',
                   backgroundColor: isDark ? '#010101' : '#f7f7f7',
                 }}
               >

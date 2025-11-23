@@ -43,7 +43,7 @@ const Footer: React.FC = () => {
                 Wefronti
               </h3>
               <p className="text-sm text-gray-600 dark:text-gray-400">
-                Tecnologia e design para transformar suas ideias em produtos digitais que geram receita.
+                Projetamos produtos com propósito.
               </p>
             </div>
 
