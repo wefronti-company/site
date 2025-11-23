@@ -18,7 +18,6 @@ const QuoteModal: React.FC = () => {
   const { isOpen, closeModal } = useQuoteModal();
   const { t } = useLanguage();
   const [isDark, setIsDark] = React.useState(false);
-  const [isMounted, setIsMounted] = React.useState(false);
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const [submitStatus, setSubmitStatus] = React.useState<'idle' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = React.useState('');
@@ -38,11 +37,7 @@ const QuoteModal: React.FC = () => {
     timeline: ''
   });
 
-  // Mount check for Portal
-  React.useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
+  // Check theme
   React.useEffect(() => {
     const checkTheme = () => {
       setIsDark(document.documentElement.classList.contains('dark'));
@@ -299,29 +294,80 @@ const QuoteModal: React.FC = () => {
     }
   };
 
+  // Criar container dedicado para o modal se não existir
+  React.useEffect(() => {
+    if (typeof window !== 'undefined') {
+      let container = document.getElementById('quote-modal-root');
+      if (!container) {
+        container = document.createElement('div');
+        container.id = 'quote-modal-root';
+        container.style.cssText = `
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          z-index: 999999;
+          pointer-events: none;
+        `;
+        document.body.appendChild(container);
+      }
+    }
+  }, []);
+
   if (!isOpen) return null;
-  if (!isMounted) return null;
+  if (typeof window === 'undefined') return null;
+
+  const modalRoot = document.getElementById('quote-modal-root');
+  if (!modalRoot) return null;
 
   const modalContent = (
     <div 
-      className="fixed inset-0 z-[9998] flex items-center justify-center p-4"
+      style={{ 
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        width: '100vw',
+        height: '100vh',
+        zIndex: 999999,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '1rem',
+        pointerEvents: 'auto'
+      }}
       onClick={closeModal}
     >
       {/* Backdrop com blur */}
       <div 
-        className="absolute inset-0 transition-all"
         style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          width: '100%',
+          height: '100%',
           backgroundColor: isDark ? 'rgba(1, 1, 1, 0.8)' : 'rgba(0, 0, 0, 0.6)',
           backdropFilter: 'blur(8px)',
-          WebkitBackdropFilter: 'blur(8px)'
+          WebkitBackdropFilter: 'blur(8px)',
+          transition: 'all 0.3s',
+          zIndex: 1
         }}
       />
 
       {/* Modal Container */}
       <div 
-        className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
         style={{
+          position: 'relative',
+          width: '100%',
+          maxWidth: '48rem',
+          maxHeight: '90vh',
+          overflowY: 'auto',
+          zIndex: 10,
           backgroundColor: isDark ? '#010101' : '#f7f7f7',
           borderRadius: '12px',
           border: `1px solid ${isDark ? '#141414' : '#D1D5DB'}`
@@ -769,8 +815,7 @@ const QuoteModal: React.FC = () => {
     </div>
   );
 
-  // Renderizar via Portal para escapar contexto das sections
-  return createPortal(modalContent, document.body);
+  return createPortal(modalContent, modalRoot);
 };
 
 export default QuoteModal;

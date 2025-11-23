@@ -1,7 +1,7 @@
 import React from 'react';
 import { colors } from '../../styles/colors';
 import { useLanguage } from '../../contexts/LanguageContext';
-import { useQuoteModal } from '../../contexts/QuoteModalContext';
+import { useRouter } from 'next/router';
 
 interface ButtonCtaProps {
   label?: string;
@@ -15,13 +15,13 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
   variant = 'primary' 
 }) => {
   const { t } = useLanguage();
-  const { openModal } = useQuoteModal();
+  const router = useRouter();
   
   const handleClick = () => {
     if (onClick) {
       onClick();
     } else {
-      openModal();
+      router.push('/form');
     }
   };
   const isPrimary = variant === 'primary';

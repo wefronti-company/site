@@ -6,17 +6,13 @@ import Logo from '../ui/Logo';
 import ThemeToggle from '../ui/ThemeToggle';
 import LanguageSelector from '../ui/LanguageSelector';
 import { colors } from '../../styles/colors';
-import { useQuoteModal } from '../../contexts/QuoteModalContext';
 import { useLanguage } from '../../contexts/LanguageContext';
 
 const AppBar: React.FC = () => {
 	const router = useRouter();
 	const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 	const [isDark, setIsDark] = useState(false);
-	const { openModal } = useQuoteModal();
-	const { t, language, setLanguage } = useLanguage();
-
-	const navItems = [
+	const { t, language, setLanguage } = useLanguage();	const navItems = [
 		{ label: t.appBar.nav.clients, href: '#clients' },
 		{ label: t.appBar.nav.services, href: '#services' },
 		{ label: t.appBar.nav.projects, href: '#projects' },
@@ -200,7 +196,7 @@ const AppBar: React.FC = () => {
 					<div className="mt-2">
 						<button
 							type="button"
-							onClick={() => { setMobileMenuOpen(false); openModal(); }}
+							onClick={() => { setMobileMenuOpen(false); router.push('/form'); }}
 							className="w-full px-5 py-3 text-base font-medium text-white hover:opacity-90 active:scale-95 transition-all duration-200 shadow-sm hover:shadow-md flex items-center justify-center"
 							style={{ borderRadius: '7px', backgroundColor: colors.blueColor }}
 						>
