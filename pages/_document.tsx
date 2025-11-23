@@ -17,10 +17,6 @@ export default function Document() {
           href="https://fonts.googleapis.com/css2?family=Funnel+Sans:wght@400;500;600;700&display=swap" 
           rel="stylesheet" 
         />
-        
-        {/* Preload imagens críticas */}
-        <link rel="preload" href="/images/isologo-white.webp" as="image" type="image/webp" />
-        <link rel="preload" href="/images/isologo-black.webp" as="image" type="image/webp" />
       </Head>
       <body className="body-grid">
         <Main />
