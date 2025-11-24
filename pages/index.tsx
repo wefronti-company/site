@@ -28,17 +28,20 @@ const Footer = dynamic(() => import('../sections/Footer'), {
   loading: () => null,
 });
 
+// Importar página de formulário existente para usar na seção
+const FormPage = dynamic(() => import('./form'), {
+  ssr: false,
+  loading: () => null,
+});
+
 const Home: React.FC = () => {
   return (
-    <HorizontalScrollProvider totalSections={6}>
+    <HorizontalScrollProvider totalSections={7}>
       <SEO />
       <SideMenu />
       
-      {/* Desktop: Horizontal Scroll Container com margem dinâmica para o menu */}
-      <div 
-        className="hidden md:block relative overflow-hidden transition-all duration-300"
-        style={{ marginLeft: 'var(--menu-width)' }}
-      >
+      {/* Desktop: Horizontal Scroll Container - sem margem, menu sobrepõe */}
+      <div className="hidden md:block relative overflow-hidden">
         <HorizontalSections />
       </div>
       
@@ -69,6 +72,7 @@ const HorizontalSections: React.FC = () => {
     { id: 3, component: Projects },
     { id: 4, component: FAQ },
     { id: 5, component: Footer },
+    { id: 6, component: FormPage },
   ];
 
   return (
@@ -94,16 +98,18 @@ const SectionWrapper: React.FC<{ index: number; children: React.ReactNode }> = (
   return (
     <div
       className={`
-        fixed top-0 right-0 bottom-0 h-screen
-        transition-all duration-300 ease-in-out
+        fixed inset-0 w-screen h-screen
+        transition-opacity duration-600 ease-in-out
         ${isActive ? 'opacity-100 z-10 pointer-events-auto' : 'opacity-0 z-0 pointer-events-none'}
       `}
       style={{
-        width: 'calc(100vw - var(--menu-width))',
-        left: 'var(--menu-width)',
+        transitionProperty: 'opacity',
+        transitionDuration: '600ms',
       }}
     >
-      {children}
+      <div className="pl-24 h-full overflow-auto">
+        {children}
+      </div>
     </div>
   );
 };
