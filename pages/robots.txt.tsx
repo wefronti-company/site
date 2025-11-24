@@ -1,13 +1,13 @@
 import { GetServerSideProps } from 'next';
 
 function RobotsTxt() {
-  // getServerSideProps will do the heavy lifting
+ // getServerSideProps will do the heavy lifting
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ res }) => {
-  const baseUrl = 'https://wefronti.com'; // Atualizar com URL real
-  
-  const robotsTxt = `# *
+ const baseUrl = 'https://wefronti.com'; // Atualizar com URL real
+ 
+ const robotsTxt = `# *
 User-agent: *
 Allow: /
 
@@ -31,19 +31,19 @@ Sitemap: ${baseUrl}/sitemap.xml
 Crawl-delay: 1
 `;
 
-  res.setHeader('Content-Type', 'text/plain');
-  // Cache por 7 dias
-  res.setHeader(
-    'Cache-Control',
-    'public, s-maxage=604800, stale-while-revalidate=86400'
-  );
-  
-  res.write(robotsTxt);
-  res.end();
+ res.setHeader('Content-Type', 'text/plain');
+ // Cache por 7 dias
+ res.setHeader(
+ 'Cache-Control',
+ 'public, s-maxage=604800, stale-while-revalidate=86400'
+ );
+ 
+ res.write(robotsTxt);
+ res.end();
 
-  return {
-    props: {},
-  };
+ return {
+ props: {},
+ };
 };
 
 export default RobotsTxt;
