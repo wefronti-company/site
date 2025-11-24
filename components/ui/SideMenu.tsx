@@ -88,7 +88,7 @@ const SideMenu: React.FC = () => {
       {/* Backdrop com blur quando menu aberto */}
       <div
         className={`
-          fixed inset-0 bg-black/20 backdrop-blur-sm z-40 transition-opacity duration-300
+          fixed inset-0 bg-black/20 backdrop-blur-sm z-40 transition-opacity duration-500
           ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}
         `}
         onClick={() => setIsOpen(false)}
@@ -98,16 +98,18 @@ const SideMenu: React.FC = () => {
       <div 
         className={`
           hidden md:flex fixed left-0 top-0 h-screen bg-white border-r border-gray-200 flex-col z-50
-          transition-all duration-300 ease-out shadow-2xl
+          transition-all duration-500 ease-in-out shadow-2xl
           ${isOpen ? 'w-80' : 'w-20'}
         `}
       >
         {/* Header com Logo e Toggle */}
-        <div className="px-4 py-6 border-b border-gray-200 flex items-center justify-between gap-3">
+        <div className={`border-b border-gray-200 flex items-center transition-all duration-500 ${
+          isOpen ? 'px-4 py-6 justify-between gap-3' : 'px-2 py-6 justify-center'
+        }`}>
           {/* Logo - aumentado para 200px */}
           <button 
             onClick={() => goToSection(0)}
-            className={`cursor-pointer transition-all duration-300 ${isOpen ? 'opacity-100' : 'opacity-0 w-0 pointer-events-none'}`}
+            className={`cursor-pointer transition-all duration-500 overflow-hidden ${isOpen ? 'opacity-100' : 'opacity-0 w-0 pointer-events-none'}`}
             style={{ width: isOpen ? '170px' : '0' }}
           >
             <Logo />
@@ -116,9 +118,7 @@ const SideMenu: React.FC = () => {
           {/* Botão Toggle - Alinhado com os ícones do menu */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className={`relative rounded-lg bg-gray-100 hover:bg-gray-200 transition-all duration-200 flex items-center justify-center group flex-shrink-0 ${
-              isOpen ? 'w-10 h-10' : 'w-full h-12'
-            }`}
+            className="relative w-10 h-10 rounded-lg bg-gray-100 hover:bg-gray-200 transition-all duration-200 flex items-center justify-center group flex-shrink-0"
             aria-label={isOpen ? "Fechar menu" : "Abrir menu"}
           >
             {isOpen ? (
@@ -158,7 +158,7 @@ const SideMenu: React.FC = () => {
         </div>
 
         {/* Items do Menu */}
-        <nav className={`flex-1 overflow-y-auto py-6 px-4 ${!isOpen && 'px-2'}`}>
+        <nav className={`flex-1 py-6 ${isOpen ? 'px-4' : 'px-2'}`}>
           <div className="space-y-2">
             {menuItems.map((item) => (
               <button
@@ -166,9 +166,9 @@ const SideMenu: React.FC = () => {
                 onClick={() => goToSection(item.id)}
                 className={`
                   w-full rounded-lg text-left
-                  transition-all duration-200
+                  transition-all duration-500
                   flex items-center
-                  ${isOpen ? 'px-4 py-3.5 gap-3' : 'px-2 py-3 justify-center'}
+                  ${isOpen ? 'px-4 py-3.5 gap-3' : 'px-2 py-3'}
                   ${currentSection === item.id
                     ? 'bg-custom-black text-white shadow-md'
                     : 'hover:bg-gray-100 text-gray-700'
@@ -176,42 +176,32 @@ const SideMenu: React.FC = () => {
                 `}
                 title={!isOpen ? item.label : undefined}
               >
-                <span className={isOpen ? '' : 'scale-110'}>{item.icon}</span>
+                <span className="flex-shrink-0">{item.icon}</span>
                 {isOpen && (
                   <>
-                    <div className="flex-1 font-medium text-sm">{item.label}</div>
+                    <div className="flex-1 font-medium text-sm opacity-0 animate-[fadeIn_0.3s_ease-in-out_0.25s_forwards]">{item.label}</div>
                     {currentSection === item.id && (
-                      <div className="w-1.5 h-1.5 rounded-full bg-white" />
+                      <div className="w-1.5 h-1.5 rounded-full bg-white opacity-0 animate-[fadeIn_0.3s_ease-in-out_0.25s_forwards] flex-shrink-0" />
                     )}
                   </>
                 )}
               </button>
             ))}
             
-            {/* Separador e Título Orçamento */}
-            {isOpen && (
-              <>
-                <div className="border-t border-gray-200 my-4" />
-                <div className="px-2 pb-2">
-                  <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Orçamento</span>
-                </div>
-              </>
-            )}
-            
-            {/* Botão de Orçamento com blueColor */}
+            {/* Botão de Orçamento - formato inline igual aos outros */}
             <button
               onClick={() => goToSection(6)}
               style={{ backgroundColor: colors.blueColor }}
               className={`
                 w-full rounded-lg text-left
-                transition-all duration-200
+                transition-all duration-500
                 flex items-center
                 text-white hover:opacity-90 shadow-md
-                ${isOpen ? 'px-4 py-3.5 gap-3' : 'px-2 py-3 justify-center'}
+                ${isOpen ? 'px-4 py-3.5 gap-3' : 'px-2 py-3'}
               `}
-              title={!isOpen ? t.hero.cta : undefined}
+              title={!isOpen ? 'Orçamento' : undefined}
             >
-              <span className={isOpen ? '' : 'scale-110'}>
+              <span className="flex-shrink-0">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
                   <polyline points="14 2 14 8 20 8" />
@@ -220,25 +210,25 @@ const SideMenu: React.FC = () => {
                   <polyline points="10 9 9 9 8 9" />
                 </svg>
               </span>
-              {isOpen && <div className="flex-1 font-medium text-sm">{t.hero.cta}</div>}
+              {isOpen && <div className="flex-1 font-medium text-sm opacity-0 animate-[fadeIn_0.3s_ease-in-out_0.25s_forwards] whitespace-nowrap">Orçamento</div>}
             </button>
           </div>
         </nav>
 
         {/* Footer com Seletor de Idioma Customizado */}
-        {isOpen && (
-          <div className="px-4 py-6 border-t border-gray-200">
-            <div className="flex items-center justify-between gap-3">
-              {/* Ícone e Texto - lado esquerdo */}
-              <div className="flex items-center gap-2 text-gray-400">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="true" stroke="currentColor">
-                  <path d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z" />
-                </svg>
-                <span className="text-sm font-medium">Idioma</span>
-              </div>
-              
-              {/* Bandeiras - lado direito */}
-              <div className="flex gap-2">
+        <div className={`py-6 border-t border-gray-200 ${isOpen ? 'px-4' : 'px-2'}`}>
+          <div className={`flex items-center gap-3 ${isOpen ? 'justify-between' : 'justify-start'}`}>
+            {/* Ícone de tradutor - sempre visível */}
+            <div className="flex items-center gap-2 text-gray-600 flex-shrink-0">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z" />
+              </svg>
+              {isOpen && <span className="text-sm font-medium opacity-0 animate-[fadeIn_0.3s_ease-in-out_0.2s_forwards]">Idioma</span>}
+            </div>
+            
+            {/* Bandeiras - só aparecem quando aberto */}
+            {isOpen && (
+              <div className="flex gap-2 opacity-0 animate-[fadeIn_0.3s_ease-in-out_0.25s_forwards]">
                 <button
                   onClick={() => setLanguage('pt-BR')}
                   className={`w-10 h-10 rounded-lg flex items-center justify-center text-xl transition-all duration-200 ${
@@ -264,9 +254,9 @@ const SideMenu: React.FC = () => {
                   🇺🇸
                 </button>
               </div>
-            </div>
+            )}
           </div>
-        )}
+        </div>
       </div>
     </>
   );
