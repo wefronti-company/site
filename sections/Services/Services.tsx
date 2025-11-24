@@ -9,7 +9,7 @@ const Services: React.FC = () => {
  return (
  <section 
  id="services"
- className="w-full py-20 md:py-32 bg-custom-white transition-colors"
+ className="w-full py-20 md:py-0 md:h-screen md:w-screen md:flex md:items-center bg-custom-white transition-colors"
  >
  <div className="px-4 md:px-8 lg:px-16">
  <div className="w-full max-w-[1400px] mx-auto">

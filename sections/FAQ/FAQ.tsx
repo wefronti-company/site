@@ -21,7 +21,7 @@ const FAQ: React.FC = () => {
  };
 
  return (
- <section id="faq" className="w-full py-20 md:py-32 bg-custom-white transition-colors relative overflow-hidden">
+ <section id="faq" className="w-full py-20 md:py-0 md:h-screen md:w-screen md:flex md:items-center bg-custom-white transition-colors relative overflow-hidden">
  {/* Grid leve mobile, pesado desktop */}
  <div className="absolute inset-0 lg:hidden">
  <LightweightGrid />

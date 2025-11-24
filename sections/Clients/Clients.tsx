@@ -20,7 +20,7 @@ const Clients: React.FC = () => {
  return (
  <section 
  id="clients"
- className="w-full py-20 md:py-32 bg-custom-white transition-colors border-b relative overflow-hidden"
+ className="w-full py-20 md:py-0 md:h-screen md:w-screen md:flex md:items-center bg-custom-white transition-colors border-b relative overflow-hidden"
  style={{
  borderBottomColor: '#D1D5DB'
  }}
