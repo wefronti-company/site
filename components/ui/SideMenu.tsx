@@ -175,7 +175,7 @@ const SideMenu: React.FC = () => {
 
         {/* Items do Menu */}
         {/* use same left padding so icons keep the same x offset when opened/closed */}
-        <nav className={`flex-1 py-6 px-4`}>
+        <nav className={`flex-1 p-4 px-4`}>
           <div className="space-y-4">
             {menuItems.map((item) => (
               <button
@@ -184,7 +184,7 @@ const SideMenu: React.FC = () => {
                 className={
                   // keep items left-aligned and with fixed padding so opening the menu
                   // doesn't shift icon positions — only the label toggles in/out
-                  `w-full transition-all duration-500 flex items-center h-12 px-4 gap-3 justify-start`
+                  `w-full transition-all duration-400 flex items-center h-16 px-4 gap-3 justify-start`
                 }
                 title={!isOpen ? item.label : undefined}
                 onMouseEnter={() => setHoveredItem(item.id)}
@@ -196,7 +196,7 @@ const SideMenu: React.FC = () => {
                   transition: 'background-color 180ms ease-in-out, color 180ms ease-in-out'
                 }}
               >
-                <span className="w-10 h-10 flex items-center justify-center flex-shrink-0">{item.icon}</span>
+                <span className="w-10 h-10 flex items-center justify-left flex-shrink-0">{item.icon}</span>
                 {isOpen ? (
                   <>
                     <div className="flex-1 font-medium text-sm opacity-0 animate-[fadeIn_0.22s_ease-in-out_0.12s_forwards] translate-x-0">{item.label}</div>
@@ -217,7 +217,7 @@ const SideMenu: React.FC = () => {
 
         {/* Footer com Seletor de Idioma Customizado */}
         {/* footer uses same left padding so language control lines up */}
-        <div className={`py-6 px-4`} style={{ borderTop: '1px solid rgba(255,255,255,0.03)' }}>
+        <div className={`p-4 px-4`} style={{ borderTop: 'border: `1px solid ${colors.borderDark}'}}>
           <div className={`flex items-center gap-3 ${isOpen ? 'justify-between' : 'justify-start'}`}>
             {/* Single language flag (toggles on click). Aligned to left like the other icons */}
             <div className="flex items-center gap-2 text-gray-300 flex-shrink-0" style={{ height: 48 }}>
