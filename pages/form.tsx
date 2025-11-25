@@ -1,6 +1,5 @@
 import React from 'react';
 import Head from 'next/head';
-import AppBar from '../components/layout/AppBar';
 import ButtonCta from '../components/ui/ButtonCta';
 import dynamic from 'next/dynamic';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -254,7 +253,6 @@ const FormPage: React.FC = () => {
  </Head>
 
  <div className="min-h-screen bg-gray-50">
- <AppBar />
  
  <main className="pt-24 pb-16 px-4">
  <div className="max-w-3xl mx-auto">

@@ -9,6 +9,7 @@ import { colors } from '../../styles/colors';
 const SideMenu: React.FC = () => {
   const [isOpen, setIsOpen] = useState(true);
   const { currentSection, goToSection } = useHorizontalScroll();
+  const [hoveredItem, setHoveredItem] = useState<number | null>(null);
   const { t, language, setLanguage } = useLanguage();
   const { openModal } = useQuoteModal();
 
@@ -81,6 +82,19 @@ const SideMenu: React.FC = () => {
         </svg>
       )
     },
+    {
+      id: 6,
+      label: 'Orçamento',
+      icon: (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+          <polyline points="14 2 14 8 20 8" />
+          <line x1="16" y1="13" x2="8" y2="13" />
+          <line x1="16" y1="17" x2="8" y2="17" />
+          <polyline points="10 9 9 9 8 9" />
+        </svg>
+      )
+    },
   ];
 
   return (
@@ -97,17 +111,18 @@ const SideMenu: React.FC = () => {
       {/* Menu lateral com animação - sobrepõe o conteúdo */}
       <div 
         className={`
-          hidden md:flex fixed left-0 top-0 h-screen bg-white border-r border-gray-200 flex-col z-50
+          hidden md:flex fixed left-4 top-4 h-[calc(100vh-32px)] flex-col z-50
           transition-all duration-500 ease-in-out shadow-2xl
           ${isOpen ? 'w-80' : 'w-20'}
         `}
+        style={{ borderRadius: '10px', background: colors.blackColor, border: `1px solid ${colors.borderDark}`, overflow: 'hidden' }}
       >
         {/* Header com Logo e Toggle */}
-        <div className={`border-b border-gray-200 flex items-center transition-all duration-500 ${
+        <div className={`flex items-center transition-all duration-500 ${
           isOpen ? 'px-4 py-6 justify-between gap-3' : 'px-2 py-6 justify-center'
-        }`}>
+        }`} style={{ borderBottom: '1px solid rgba(255,255,255,0.03)' }}>
           {/* Logo - aumentado para 200px */}
-          <button 
+            <button 
             onClick={() => goToSection(0)}
             className={`cursor-pointer transition-all duration-500 overflow-hidden ${isOpen ? 'opacity-100' : 'opacity-0 w-0 pointer-events-none'}`}
             style={{ width: isOpen ? '170px' : '0' }}
@@ -118,7 +133,8 @@ const SideMenu: React.FC = () => {
           {/* Botão Toggle - Alinhado com os ícones do menu */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="relative w-10 h-10 rounded-lg bg-gray-100 hover:bg-gray-200 transition-all duration-200 flex items-center justify-center group flex-shrink-0"
+            className="relative w-10 h-10 rounded-lg transition-all duration-300 flex items-center justify-center group flex-shrink-0"
+            style={{ background: colors.colorGrayhover, color: colors.whiteColor }}
             aria-label={isOpen ? "Fechar menu" : "Abrir menu"}
           >
             {isOpen ? (
@@ -132,7 +148,7 @@ const SideMenu: React.FC = () => {
                 strokeWidth="2.5" 
                 strokeLinecap="round" 
                 strokeLinejoin="round"
-                className="text-gray-700"
+                style={{ color: colors.whiteColor }}
               >
                 <polyline points="11 17 6 12 11 7" />
                 <polyline points="18 17 13 12 18 7" />
@@ -148,7 +164,7 @@ const SideMenu: React.FC = () => {
                 strokeWidth="2.5" 
                 strokeLinecap="round" 
                 strokeLinejoin="round"
-                className="text-gray-700"
+                style={{ color: colors.whiteColor }}
               >
                 <polyline points="13 17 18 12 13 7" />
                 <polyline points="6 17 11 12 6 7" />
@@ -158,103 +174,72 @@ const SideMenu: React.FC = () => {
         </div>
 
         {/* Items do Menu */}
-        <nav className={`flex-1 py-6 ${isOpen ? 'px-4' : 'px-2'}`}>
-          <div className="space-y-2">
+        {/* use same left padding so icons keep the same x offset when opened/closed */}
+        <nav className={`flex-1 py-6 px-4`}>
+          <div className="space-y-4">
             {menuItems.map((item) => (
               <button
                 key={item.id}
                 onClick={() => goToSection(item.id)}
-                className={`
-                  w-full rounded-lg text-left
-                  transition-all duration-500
-                  flex items-center
-                  ${isOpen ? 'px-4 py-3.5 gap-3' : 'px-2 py-3'}
-                  ${currentSection === item.id
-                    ? 'bg-custom-black text-white shadow-md'
-                    : 'hover:bg-gray-100 text-gray-700'
-                  }
-                `}
+                className={
+                  // keep items left-aligned and with fixed padding so opening the menu
+                  // doesn't shift icon positions — only the label toggles in/out
+                  `w-full transition-all duration-500 flex items-center h-12 px-4 gap-3 justify-start`
+                }
                 title={!isOpen ? item.label : undefined}
+                onMouseEnter={() => setHoveredItem(item.id)}
+                onMouseLeave={() => setHoveredItem(null)}
+                style={{
+                  backgroundColor: currentSection === item.id ? (item.id === 6 ? colors.blueColor : colors.colorGraytab) : hoveredItem === item.id ? colors.colorGrayhover : undefined,
+                  color: colors.whiteColor,
+                  borderRadius: currentSection === item.id || hoveredItem === item.id ? '10px' : undefined,
+                  transition: 'background-color 180ms ease-in-out, color 180ms ease-in-out'
+                }}
               >
-                <span className="flex-shrink-0">{item.icon}</span>
-                {isOpen && (
+                <span className="w-10 h-10 flex items-center justify-center flex-shrink-0">{item.icon}</span>
+                {isOpen ? (
                   <>
-                    <div className="flex-1 font-medium text-sm opacity-0 animate-[fadeIn_0.3s_ease-in-out_0.25s_forwards]">{item.label}</div>
+                    <div className="flex-1 font-medium text-sm opacity-0 animate-[fadeIn_0.22s_ease-in-out_0.12s_forwards] translate-x-0">{item.label}</div>
                     {currentSection === item.id && (
-                      <div className="w-1.5 h-1.5 rounded-full bg-white opacity-0 animate-[fadeIn_0.3s_ease-in-out_0.25s_forwards] flex-shrink-0" />
+                      <div className="w-1.5 h-1.5 rounded-full opacity-0 animate-[fadeIn_0.3s_ease-in-out_0.25s_forwards] flex-shrink-0" style={{ backgroundColor: colors.whiteColor }} />
                     )}
                   </>
+                ) : (
+                  // placeholder to preserve layout without shifting icons when closed
+                  <div className="flex-1 h-0 w-0 overflow-hidden" aria-hidden />
                 )}
               </button>
             ))}
             
-            {/* Botão de Orçamento - formato inline igual aos outros */}
-            <button
-              onClick={() => goToSection(6)}
-              style={{ backgroundColor: colors.blueColor }}
-              className={`
-                w-full rounded-lg text-left
-                transition-all duration-500
-                flex items-center
-                text-white hover:opacity-90 shadow-md
-                ${isOpen ? 'px-4 py-3.5 gap-3' : 'px-2 py-3'}
-              `}
-              title={!isOpen ? 'Orçamento' : undefined}
-            >
-              <span className="flex-shrink-0">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                  <polyline points="14 2 14 8 20 8" />
-                  <line x1="16" y1="13" x2="8" y2="13" />
-                  <line x1="16" y1="17" x2="8" y2="17" />
-                  <polyline points="10 9 9 9 8 9" />
-                </svg>
-              </span>
-              {isOpen && <div className="flex-1 font-medium text-sm opacity-0 animate-[fadeIn_0.3s_ease-in-out_0.25s_forwards] whitespace-nowrap">Orçamento</div>}
-            </button>
+            {/* Orçamento agora é tratado como tab (item id 6) dentro do map */}
           </div>
         </nav>
 
         {/* Footer com Seletor de Idioma Customizado */}
-        <div className={`py-6 border-t border-gray-200 ${isOpen ? 'px-4' : 'px-2'}`}>
+        {/* footer uses same left padding so language control lines up */}
+        <div className={`py-6 px-4`} style={{ borderTop: '1px solid rgba(255,255,255,0.03)' }}>
           <div className={`flex items-center gap-3 ${isOpen ? 'justify-between' : 'justify-start'}`}>
-            {/* Ícone de tradutor - sempre visível */}
-            <div className="flex items-center gap-2 text-gray-600 flex-shrink-0">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z" />
-              </svg>
-              {isOpen && <span className="text-sm font-medium opacity-0 animate-[fadeIn_0.3s_ease-in-out_0.2s_forwards]">Idioma</span>}
+            {/* Single language flag (toggles on click). Aligned to left like the other icons */}
+            <div className="flex items-center gap-2 text-gray-300 flex-shrink-0" style={{ height: 48 }}>
+              <button
+                onClick={() => setLanguage(language === 'pt-BR' ? 'en-US' : 'pt-BR')}
+                className={`w-10 h-10 rounded-lg flex items-center justify-center text-xl transition-all duration-200 ${
+                  language === 'pt-BR'
+                    ? 'bg-[rgba(255,255,255,0.06)] shadow-[0_6px_18px_rgba(0,0,0,0.6)]'
+                    : 'bg-[rgba(255,255,255,0.03)] hover:bg-[rgba(255,255,255,0.06)]'
+                }`}
+                aria-label={language === 'pt-BR' ? 'Português' : 'English'}
+                title={language === 'pt-BR' ? 'Português' : 'English'}
+                style={{ cursor: 'pointer' }}
+              >
+                {language === 'pt-BR' ? '🇧🇷' : '🇺🇸'}
+              </button>
+              {isOpen && (
+                <span className="text-sm font-medium opacity-0 animate-[fadeIn_0.3s_ease-in-out_0.2s_forwards]">
+                  {language === 'pt-BR' ? t.languageSelector.languages['pt-BR'] : t.languageSelector.languages['en-US']}
+                </span>
+              )}
             </div>
-            
-            {/* Bandeiras - só aparecem quando aberto */}
-            {isOpen && (
-              <div className="flex gap-2 opacity-0 animate-[fadeIn_0.3s_ease-in-out_0.25s_forwards]">
-                <button
-                  onClick={() => setLanguage('pt-BR')}
-                  className={`w-10 h-10 rounded-lg flex items-center justify-center text-xl transition-all duration-200 ${
-                    language === 'pt-BR' 
-                      ? 'bg-gray-200 shadow-md' 
-                      : 'bg-gray-100 hover:bg-gray-200'
-                  }`}
-                  aria-label="Português"
-                  title="Português"
-                >
-                  🇧🇷
-                </button>
-                <button
-                  onClick={() => setLanguage('en-US')}
-                  className={`w-10 h-10 rounded-lg flex items-center justify-center text-xl transition-all duration-200 ${
-                    language === 'en-US' 
-                      ? 'bg-gray-200 shadow-md' 
-                      : 'bg-gray-100 hover:bg-gray-200'
-                  }`}
-                  aria-label="English"
-                  title="English"
-                >
-                  🇺🇸
-                </button>
-              </div>
-            )}
           </div>
         </div>
       </div>

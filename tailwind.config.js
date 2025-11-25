@@ -5,12 +5,11 @@ module.exports = {
     "./components/**/*.{js,ts,jsx,tsx}",
     "./sections/**/*.{js,ts,jsx,tsx}"
   ],
-  darkMode: 'class',
   theme: {
     extend: {
       colors: {
         'custom-black': '#010101',
-        'custom-white': '#f2f2f2',
+        'custom-white': '#f7f7f7',
       },
       fontFamily: {
         sans: ['Funnel Sans', 'sans-serif'],

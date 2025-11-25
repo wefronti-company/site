@@ -21,22 +21,52 @@ const AppBar: React.FC = () => {
 	
 	return (
 		<header 
-			className="w-full sticky top-0 z-40 bg-custom-white border-b transition-colors"
-			style={{ borderBottomColor: colors.borderLight }}
-		>
+				className="w-full sticky top-0 z-40 bg-transparent transition-colors py-4"
+			>
 			<div className="px-4 md:px-8 lg:px-16">
-				<div className="h-24 md:h-24 flex items-center justify-between w-full max-w-[1400px] mx-auto">
+				<div className="h-20 md:h-20 flex items-center justify-between w-full max-w-[1400px] mx-auto">
+					<div className="w-full px-4 py-2 flex items-center gap-4 bg-gradient-to-r from-[#0b0b0b] via-[#0f0f10] to-[#111] border border-[rgba(255,255,255,0.03)] rounded-3xl shadow-xl">
 					
-					{/* Logo */}
-					<button 
-						onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-						className="scale-65 md:scale-100 cursor-pointer"
-					>
-						<Logo />
-					</button>
+						{/* Left - menu toggle + logo */}
+						<div className="flex items-center gap-3">
+							<button
+								className="w-10 h-10 rounded-lg flex items-center justify-center bg-[rgba(255,255,255,0.03)] hover:bg-[rgba(255,255,255,0.05)] transition-colors"
+								aria-label="Abrir menu"
+							>
+								<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-gray-300">
+									<path d="M3 12h18M3 6h18M3 18h18" />
+								</svg>
+							</button>
+
+							<button 
+								onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+								className="scale-65 md:scale-100 cursor-pointer flex items-center"
+							>
+								<Logo />
+							</button>
+						</div>
 					
-					{/* Desktop Nav - Hidden on mobile */}
-					<nav className="hidden lg:flex absolute left-1/2 -translate-x-1/2 items-center gap-1 bg-gray-200 p-1" style={{ borderRadius: '7px' }}>
+					{/* Center - search */}
+					<div className="flex-1 hidden lg:flex items-center justify-center px-6">
+						<div className="w-full max-w-[620px] flex items-center gap-3 bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.04)] rounded-lg px-3 py-2">
+							<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-gray-400">
+								<circle cx="11" cy="11" r="7" />
+								<line x1="21" y1="21" x2="16.65" y2="16.65" />
+							</svg>
+							<input
+								placeholder="Search..."
+								className="flex-1 bg-transparent outline-none text-sm text-gray-300 placeholder:text-gray-400"
+							/>
+							<div className="flex items-center gap-2 text-xs text-gray-400 px-2 py-1 rounded-md bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.02)]">
+								<kbd className="px-2 py-0.5 rounded-sm bg-[rgba(255,255,255,0.03)]">Ctrl</kbd>
+								<span className="opacity-70">K</span>
+							</div>
+						</div>
+					</div>
+					</div>
+
+					{/* Desktop Nav - Hidden on mobile (small optional center nav kept for narrower screens) */}
+					<nav className="hidden lg:flex absolute left-1/2 -translate-x-1/2 items-center gap-1 bg-transparent p-1" style={{ borderRadius: '7px' }}>
 						{navItems.map(item => {
 							return (
 								<button
@@ -56,9 +86,23 @@ const AppBar: React.FC = () => {
 						})}
 					</nav>
 					
-					{/* Desktop Right section - Hidden on mobile */}
-					<div className="hidden lg:flex items-center gap-3">
+					{/* Right - controls */}
+					<div className="hidden lg:flex items-center gap-3 ml-4">
 						<LanguageSelector />
+
+						<button className="w-10 h-10 rounded-lg flex items-center justify-center bg-[rgba(255,255,255,0.03)] hover:bg-[rgba(255,255,255,0.05)] transition-colors text-gray-300" aria-label="Tema">
+							<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="3" /><path d="M12 2v2M12 20v2M20 12h2M2 12H4M17.657 6.343l1.414 1.414M4.929 19.071l1.414 1.414M17.657 17.657l1.414-1.414M4.929 4.929l1.414-1.414"/></svg>
+						</button>
+
+						<div className="relative">
+							<button className="w-10 h-10 rounded-lg flex items-center justify-center bg-[rgba(255,255,255,0.03)] hover:bg-[rgba(255,255,255,0.05)] transition-colors text-gray-300" aria-label="Notificações">
+								<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0 1 18 14.158V11a6 6 0 10-12 0v3.159c0 .538-.214 1.055-.595 1.436L4 17h5"/></svg>
+							</button>
+							<span className="absolute -top-0.5 -right-0.5 w-3 h-3 bg-red-500 rounded-full border border-[rgba(0,0,0,0.25)]" />
+						</div>
+
+						<div className="w-10 h-10 rounded-full bg-gradient-to-tr from-indigo-700 via-purple-700 to-pink-500 flex items-center justify-center text-sm font-semibold text-white">DT</div>
+						<div className="text-sm text-gray-300 font-medium">Demo</div>
 						<ButtonAppbar />
 					</div>
 

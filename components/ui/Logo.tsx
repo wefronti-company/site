@@ -8,9 +8,9 @@ interface LogoProps {
 
 const Logo: React.FC<LogoProps> = ({ className = '' }) => {
   return (
-    <Link href="/" className={`flex items-center gap-2 select-none hover:opacity-80 transition-opacity ${className}`}>
+    <Link href="https://wefronti.com" className={`flex items-center gap-2 select-none hover:opacity-80 transition-opacity ${className}`}>
       <Image 
-        src="/images/isologo-black.webp" 
+        src="/images/isologo-white.webp"
         alt="Wefronti Logo" 
         width={170} 
         height={170}

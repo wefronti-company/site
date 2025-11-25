@@ -2,6 +2,8 @@
   "editor.quickSuggestions": {
     "strings": true
   },
+  "editor.colorDecorators": true,
+  "editor.colorDecoratorsActivatedOn": "always",
   "css.validate": true,
   "tailwindCSS.experimental.classRegex": [
     ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
