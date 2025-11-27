@@ -3,10 +3,10 @@ name: Deploy to Vercel
 on:
   push:
     branches:
-      - mains
+      - ppp
   pull_request:
     branches:
-      - mains
+      - ppp
 
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}

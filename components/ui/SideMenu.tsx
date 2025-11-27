@@ -95,6 +95,16 @@ const SideMenu: React.FC = () => {
         </svg>
       )
     },
+    {
+      id: 7,
+      label: t.languageSelector.languages[language],
+      icon: (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35" />
+          <path d="M18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12z" />
+        </svg>
+      )
+    }
   ];
 
   // small helper to toggle between languages
@@ -183,13 +193,17 @@ const SideMenu: React.FC = () => {
         <nav className={`flex-1 p-4 px-4`}>
           <div className="space-y-4">
             {menuItems.map((item) => (
+              // divider (no padding/margin) placed immediately before translator item (id 7)
+              item.id === 7 && (
+                <div key="divider-7" style={{ borderTop: `1px solid ${colors.borderDark}`, width: '100%' }} />
+              ),
               <button
                 key={item.id}
-                onClick={() => goToSection(item.id)}
+                onClick={() => item.id === 7 ? toggleLanguage() : goToSection(item.id)}
                 className={
                   // keep items left-aligned and with fixed padding so opening the menu
                   // doesn't shift icon positions — only the label toggles in/out
-                  `w-full transition-all duration-400 flex items-center h-16 px-4 gap-3 justify-start`
+                  `w-full transition-all duration-400 flex items-center h-16 ${isOpen ? 'px-4' : 'px-2'} gap-3 justify-start`
                 }
                 title={!isOpen ? item.label : undefined}
                 onMouseEnter={() => setHoveredItem(item.id)}
@@ -201,12 +215,21 @@ const SideMenu: React.FC = () => {
                   transition: 'background-color 180ms ease-in-out, color 180ms ease-in-out'
                 }}
               >
-                <span className="w-10 h-10 flex items-center justify-left flex-shrink-0">{item.icon}</span>
+                <span className="w-10 h-10 flex items-center justify-center flex-shrink-0">{
+                  // for translator (id 7) use a '文A' style icon; otherwise use provided svg/icon
+                  item.id === 7 ? (
+                    <span className="text-base" aria-hidden style={{ lineHeight: 1 }}>{'文A'}</span>
+                  ) : (
+                    item.icon
+                  )
+                }</span>
                 {isOpen ? (
                   <>
                     <div className="flex-1 font-medium text-sm opacity-0 animate-[fadeIn_0.22s_ease-in-out_0.12s_forwards] translate-x-0 text-left">{item.label}</div>
-                    {currentSection === item.id && (
-                      <div className="w-1.5 h-1.5 rounded-full opacity-0 animate-[fadeIn_0.3s_ease-in-out_0.25s_forwards] flex-shrink-0" style={{ backgroundColor: colors.whiteColor }} />
+                    {item.id !== 7 && (
+                      currentSection === item.id && (
+                        <div className="w-1.5 h-1.5 rounded-full opacity-0 animate-[fadeIn_0.3s_ease-in-out_0.25s_forwards] flex-shrink-0" style={{ backgroundColor: colors.whiteColor }} />
+                      )
                     )}
                   </>
                 ) : (
@@ -217,36 +240,7 @@ const SideMenu: React.FC = () => {
             ))}
             
             {/* Orçamento agora é tratado como tab (item id 6) dentro do map */}
-            {/* Divider + language control (moved here) */}
-            <div className="mt-4 pt-4" style={{ borderTop: `1px solid ${colors.borderDark}` }}>
-              {/* Translator control: icon always visible aligned with icons above. */}
-              {/* When menu is open show a small toggle (⇄) to swap languages (no flags). */}
-              <div className={`w-full flex items-center h-12 ${isOpen ? 'px-4 justify-start' : 'px-0 justify-center'}`}>
-                <div className="w-10 h-10 flex items-center justify-center flex-shrink-0 rounded-lg text-xl" style={{ color: colors.whiteColor }}>
-                  {/* Translate / globe icon (similar to Google Translate) */}
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35"/>
-                    <path d="M18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12z" />
-                  </svg>
-                </div>
-
-                {isOpen && (
-                  <div className="flex items-center justify-between flex-1">
-                    <div className="ml-3 text-sm font-medium">{t.languageSelector.languages[language]}</div>
-                    <div className="ml-auto">
-                      <button
-                        onClick={() => setLanguage(language === 'pt-BR' ? 'en-US' : 'pt-BR')}
-                        aria-label="Trocar idioma"
-                        title="Trocar idioma"
-                        className="w-8 h-8 flex items-center justify-center rounded-lg bg-[rgba(255,255,255,0.04)] hover:bg-[rgba(255,255,255,0.06)] text-sm font-semibold"
-                      >
-                        ⇄
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
+            {/* divider removed — translator moved into menuItems (id 7) */}
           </div>
         </nav>
 
