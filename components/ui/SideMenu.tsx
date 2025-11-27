@@ -97,6 +97,11 @@ const SideMenu: React.FC = () => {
     },
   ];
 
+  // small helper to toggle between languages
+  const toggleLanguage = () => {
+    setLanguage(language === 'pt-BR' ? 'en-US' : 'pt-BR');
+  };
+
   return (
     <>
       {/* Backdrop com blur quando menu aberto */}
@@ -212,35 +217,40 @@ const SideMenu: React.FC = () => {
             ))}
             
             {/* Orçamento agora é tratado como tab (item id 6) dentro do map */}
+            {/* Divider + language control (moved here) */}
+            <div className="mt-4 pt-4" style={{ borderTop: `1px solid ${colors.borderDark}` }}>
+              {/* Translator control: icon always visible aligned with icons above. */}
+              {/* When menu is open show a small toggle (⇄) to swap languages (no flags). */}
+              <div className={`w-full flex items-center h-12 ${isOpen ? 'px-4 justify-start' : 'px-0 justify-center'}`}>
+                <div className="w-10 h-10 flex items-center justify-center flex-shrink-0 rounded-lg text-xl" style={{ color: colors.whiteColor }}>
+                  {/* Translate / globe icon (similar to Google Translate) */}
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35"/>
+                    <path d="M18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12z" />
+                  </svg>
+                </div>
+
+                {isOpen && (
+                  <div className="flex items-center justify-between flex-1">
+                    <div className="ml-3 text-sm font-medium">{t.languageSelector.languages[language]}</div>
+                    <div className="ml-auto">
+                      <button
+                        onClick={() => setLanguage(language === 'pt-BR' ? 'en-US' : 'pt-BR')}
+                        aria-label="Trocar idioma"
+                        title="Trocar idioma"
+                        className="w-8 h-8 flex items-center justify-center rounded-lg bg-[rgba(255,255,255,0.04)] hover:bg-[rgba(255,255,255,0.06)] text-sm font-semibold"
+                      >
+                        ⇄
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
         </nav>
 
-        {/* Footer com Seletor de Idioma Customizado */}
-        {/* footer uses same left padding so language control lines up */}
-        <div className={`p-4 px-4`} style={{ borderTop: 'border: `1px solid ${colors.borderDark}'}}>
-          <div className={`flex items-center gap-4 ${isOpen ? 'justify-between' : 'justify-start'}`}>
-            {/* Single language flag (toggles on click). Aligned to left like the other icons */}
-            <div className="flex items-center gap-2 text-gray-300 flex-shrink-0" style={{ height: 48 }}>
-              <button
-                onClick={() => setLanguage(language === 'pt-BR' ? 'en-US' : 'pt-BR')}
-                className={`w-10 h-10 rounded-lg flex items-center justify-center text-xl transition-all duration-200 ${
-                  language === 'pt-BR'
-                
-                }`}
-                aria-label={language === 'pt-BR' ? 'Português' : 'English'}
-                title={language === 'pt-BR' ? 'Português' : 'English'}
-                style={{ cursor: 'pointer' }}
-              >
-                {language === 'pt-BR' ? '🇧🇷' : '🇺🇸'}
-              </button>
-              {isOpen && (
-                <span className="text-sm font-medium opacity-0 animate-[fadeIn_0.3s_ease-in-out_0.2s_forwards]">
-                  {language === 'pt-BR' ? t.languageSelector.languages['pt-BR'] : t.languageSelector.languages['en-US']}
-                </span>
-              )}
-            </div>
-          </div>
-        </div>
+        {/* footer removed — language selector moved inside nav below Orçamento */}
       </div>
     </>
   );
