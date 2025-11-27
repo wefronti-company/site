@@ -116,10 +116,11 @@ const SideMenu: React.FC = () => {
     <>
       {/* Backdrop com blur quando menu aberto */}
       <div
-        className={`
-          fixed inset-0 bg-black/20 backdrop-blur-sm z-40 transition-opacity duration-500
-          ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}
-        `}
+                className={
+                  // keep items left-aligned when open and centered when closed
+                  // increased gap so icon and label are not tightly packed
+                  `w-full transition-all duration-400 flex items-center h-16 ${isOpen ? 'px-4 justify-start' : 'px-2 justify-center'} gap-6`
+                }
         onClick={() => setIsOpen(false)}
       />
 
@@ -226,7 +227,7 @@ const SideMenu: React.FC = () => {
                 }</span>
                 {isOpen ? (
                   <>
-                    <div className="flex-1 font-medium text-sm opacity-0 animate-[fadeIn_0.22s_ease-in-out_0.12s_forwards] translate-x-0 text-left">{item.label}</div>
+                    <div className="flex-1 font-medium text-sm opacity-0 animate-[fadeIn_0.22s_ease-in-out_0.12s_forwards] translate-x-0 text-left ml-4">{item.label}</div>
                     {item.id !== 7 && (
                       currentSection === item.id && (
                         <div className="w-1.5 h-1.5 rounded-full opacity-0 animate-[fadeIn_0.3s_ease-in-out_0.25s_forwards] flex-shrink-0" style={{ backgroundColor: colors.whiteColor }} />
