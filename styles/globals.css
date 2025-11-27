@@ -3,9 +3,9 @@
 @tailwind utilities;
 
 :root {
-  --color-black: #010101;
+  --color-black: #151515ff;
   --color-white: #f7f7f7;
-  --color-bg: #f7f7f7;
+  --color-bg: #151515ff;
   --color-text: #010101;
   --menu-width: 320px; /* Largura dinâmica do menu lateral */
 }

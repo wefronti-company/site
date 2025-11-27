@@ -118,9 +118,9 @@ const SideMenu: React.FC = () => {
         style={{ borderRadius: '10px', background: colors.blackColor, border: `1px solid ${colors.borderDark}`, overflow: 'hidden' }}
       >
         {/* Header com Logo e Toggle */}
-        <div className={`flex items-center transition-all duration-500 ${
+        <div className={`flex items-left transition-all duration-500 ${
           isOpen ? 'px-4 py-6 justify-between gap-3' : 'px-2 py-6 justify-center'
-        }`} style={{ borderBottom: '1px solid rgba(255,255,255,0.03)' }}>
+        }`} style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.05)' }}>
           {/* Logo - aumentado para 200px */}
             <button 
             onClick={() => goToSection(0)}
@@ -199,7 +199,7 @@ const SideMenu: React.FC = () => {
                 <span className="w-10 h-10 flex items-center justify-left flex-shrink-0">{item.icon}</span>
                 {isOpen ? (
                   <>
-                    <div className="flex-1 font-medium text-sm opacity-0 animate-[fadeIn_0.22s_ease-in-out_0.12s_forwards] translate-x-0">{item.label}</div>
+                    <div className="flex-1 font-medium text-sm opacity-0 animate-[fadeIn_0.22s_ease-in-out_0.12s_forwards] translate-x-0 text-left">{item.label}</div>
                     {currentSection === item.id && (
                       <div className="w-1.5 h-1.5 rounded-full opacity-0 animate-[fadeIn_0.3s_ease-in-out_0.25s_forwards] flex-shrink-0" style={{ backgroundColor: colors.whiteColor }} />
                     )}
@@ -218,15 +218,14 @@ const SideMenu: React.FC = () => {
         {/* Footer com Seletor de Idioma Customizado */}
         {/* footer uses same left padding so language control lines up */}
         <div className={`p-4 px-4`} style={{ borderTop: 'border: `1px solid ${colors.borderDark}'}}>
-          <div className={`flex items-center gap-3 ${isOpen ? 'justify-between' : 'justify-start'}`}>
+          <div className={`flex items-center gap-4 ${isOpen ? 'justify-between' : 'justify-start'}`}>
             {/* Single language flag (toggles on click). Aligned to left like the other icons */}
             <div className="flex items-center gap-2 text-gray-300 flex-shrink-0" style={{ height: 48 }}>
               <button
                 onClick={() => setLanguage(language === 'pt-BR' ? 'en-US' : 'pt-BR')}
                 className={`w-10 h-10 rounded-lg flex items-center justify-center text-xl transition-all duration-200 ${
                   language === 'pt-BR'
-                    ? 'bg-[rgba(255,255,255,0.06)] shadow-[0_6px_18px_rgba(0,0,0,0.6)]'
-                    : 'bg-[rgba(255,255,255,0.03)] hover:bg-[rgba(255,255,255,0.06)]'
+                
                 }`}
                 aria-label={language === 'pt-BR' ? 'Português' : 'English'}
                 title={language === 'pt-BR' ? 'Português' : 'English'}
