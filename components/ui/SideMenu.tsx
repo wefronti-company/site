@@ -126,7 +126,7 @@ const SideMenu: React.FC = () => {
       {/* Menu lateral com animação - sobrepõe o conteúdo */}
       <div 
         className={`
-          hidden md:flex fixed left-4 top-4 h-[calc(100vh-32px)] flex-col z-50
+          hidden md:flex fixed left-1 top-2 h-[calc(100vh-32px)] flex-col z-50
           transition-all duration-500 ease-in-out shadow-2xl
           ${isOpen ? 'w-80' : 'w-20'}
         `}
@@ -193,17 +193,18 @@ const SideMenu: React.FC = () => {
         <nav className={`flex-1 p-4 px-4`}>
           <div className="space-y-4">
             {menuItems.map((item) => (
-              // divider (no padding/margin) placed immediately before translator item (id 7)
-              item.id === 7 && (
-                <div key="divider-7" style={{ borderTop: `1px solid ${colors.borderDark}`, width: '100%' }} />
-              ),
-              <button
-                key={item.id}
+              <React.Fragment key={item.id}>
+                {/* divider (no padding/margin) placed immediately before translator item (id 7) */}
+                {item.id === 7 && (
+                  <div aria-hidden style={{ height: 1, width: '100%', background: colors.borderDark }} />
+                )}
+                <button
+                  // key moved to parent fragment
+                  
                 onClick={() => item.id === 7 ? toggleLanguage() : goToSection(item.id)}
                 className={
-                  // keep items left-aligned and with fixed padding so opening the menu
-                  // doesn't shift icon positions — only the label toggles in/out
-                  `w-full transition-all duration-400 flex items-center h-16 ${isOpen ? 'px-4' : 'px-2'} gap-3 justify-start`
+                  // keep items left-aligned when open and centered when closed
+                  `w-full transition-all duration-900 flex items-center h-16 ${isOpen ? 'px-0 justify-fixed' : 'px-0 justify-center'} gap-0`
                 }
                 title={!isOpen ? item.label : undefined}
                 onMouseEnter={() => setHoveredItem(item.id)}
@@ -212,13 +213,13 @@ const SideMenu: React.FC = () => {
                   backgroundColor: currentSection === item.id ? (item.id === 6 ? colors.blueColor : colors.colorGraytab) : hoveredItem === item.id ? colors.colorGrayhover : undefined,
                   color: colors.whiteColor,
                   borderRadius: currentSection === item.id || hoveredItem === item.id ? '10px' : undefined,
-                  transition: 'background-color 180ms ease-in-out, color 180ms ease-in-out'
+                  transition: 'background-color 180ms ease-in-out, color 180ms ease-in-out, border-radius 10px',
                 }}
               >
                 <span className="w-10 h-10 flex items-center justify-center flex-shrink-0">{
                   // for translator (id 7) use a '文A' style icon; otherwise use provided svg/icon
                   item.id === 7 ? (
-                    <span className="text-base" aria-hidden style={{ lineHeight: 1 }}>{'文A'}</span>
+                    <span className="text-base font-semibold" aria-hidden style={{ lineHeight: 1 }}>{'文A'}</span>
                   ) : (
                     item.icon
                   )
@@ -236,7 +237,8 @@ const SideMenu: React.FC = () => {
                   // placeholder to preserve layout without shifting icons when closed
                   <div className="flex-1 h-0 w-0 overflow-hidden" aria-hidden />
                 )}
-              </button>
+                </button>
+              </React.Fragment>
             ))}
             
             {/* Orçamento agora é tratado como tab (item id 6) dentro do map */}
