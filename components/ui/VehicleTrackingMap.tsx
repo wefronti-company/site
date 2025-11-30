@@ -1,11 +1,11 @@
 import React from 'react';
 import { ComposableMap, Geographies, Geography, Marker, Line } from 'react-simple-maps';
-import { useLanguage } from '../../contexts/LanguageContext';
+import { ptBR } from '../../locales/pt-BR';
 
 const geoUrl = 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json';
 
 const VehicleTrackingMap: React.FC = () => {
- const { t } = useLanguage();
+ const t = ptBR;
  const [vehiclePosition, setVehiclePosition] = React.useState(0);
 
  // Anima o veículo ao longo da rota

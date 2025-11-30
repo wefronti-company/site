@@ -1,7 +1,7 @@
 import React from 'react';
 import { colors } from '../../styles/colors';
 import { useRouter } from 'next/router';
-import { useLanguage } from '../../contexts/LanguageContext';
+ import { ptBR } from '../../locales/pt-BR';
 
 interface ButtonAppbarProps {
  label?: string;
@@ -9,7 +9,7 @@ interface ButtonAppbarProps {
 
 const ButtonAppbar: React.FC<ButtonAppbarProps> = ({ label }) => {
  const router = useRouter();
- const { t } = useLanguage();
+ const t = ptBR;
  
  return (
  <button

@@ -3,7 +3,7 @@ import dynamic from 'next/dynamic';
 import Badge from '../../components/ui/Badge';
 import ButtonCta from '../../components/ui/ButtonCta';
 import { useQuoteModal } from '../../contexts/QuoteModalContext';
-import { useLanguage } from '../../contexts/LanguageContext';
+import { ptBR } from '../../locales/pt-BR';
 import LightweightGrid from '../../components/effects/LightweightGrid';
 
 // Versão pesada apenas para desktop
@@ -14,7 +14,7 @@ const AnimatedGridBackground = dynamic(
 
 const FAQ: React.FC = () => {
  const [openIndex, setOpenIndex] = React.useState<number | null>(0);
- const { t } = useLanguage();
+ const t = ptBR;
 
  const toggleFAQ = (index: number) => {
  setOpenIndex(openIndex === index ? null : index);

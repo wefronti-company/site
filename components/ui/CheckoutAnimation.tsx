@@ -1,8 +1,8 @@
 import React from 'react';
-import { useLanguage } from '../../contexts/LanguageContext';
+import { ptBR } from '../../locales/pt-BR';
 
 const CheckoutAnimation: React.FC = () => {
- const { t } = useLanguage();
+ const t = ptBR;
  const [cardNumber, setCardNumber] = React.useState('');
  const [cardName, setCardName] = React.useState('');
  const [expiry, setExpiry] = React.useState('');

@@ -1,9 +1,9 @@
 import React from 'react';
 import Logo from '../../components/ui/Logo';
-import { useLanguage } from '../../contexts/LanguageContext';
+import { ptBR } from '../../locales/pt-BR';
 
 const Footer: React.FC = () => {
- const { t } = useLanguage();
+ const t = ptBR;
 
  const scrollToTop = () => {
  window.scrollTo({

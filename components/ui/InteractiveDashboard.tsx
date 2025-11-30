@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { colors } from '../../styles/colors';
-import { useLanguage } from '../../contexts/LanguageContext';
+import { ptBR } from '../../locales/pt-BR';
 
 interface ChartData {
  month: string;
@@ -11,7 +11,7 @@ const InteractiveDashboard: React.FC = () => {
  const [activeMetric, setActiveMetric] = useState<'revenue' | 'users' | 'growth'>('revenue');
  const [revenue, setRevenue] = useState(247850);
  const [isHovering, setIsHovering] = useState(false);
- const { t } = useLanguage();
+ const t = ptBR;
 
  // Dados do gráfico
  const chartData: ChartData[] = [

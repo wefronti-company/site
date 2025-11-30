@@ -1,6 +1,6 @@
 import React from 'react';
 import { colors } from '../../styles/colors';
-import { useLanguage } from '../../contexts/LanguageContext';
+import { ptBR } from '../../locales/pt-BR';
 import { useRouter } from 'next/router';
 
 interface ButtonCtaProps {
@@ -14,7 +14,7 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
  onClick,
  variant = 'primary' 
 }) => {
- const { t } = useLanguage();
+ const t = ptBR;
  const router = useRouter();
  
  const handleClick = () => {

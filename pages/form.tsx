@@ -2,7 +2,7 @@ import React from 'react';
 import Head from 'next/head';
 import ButtonCta from '../components/ui/ButtonCta';
 import dynamic from 'next/dynamic';
-import { useLanguage } from '../contexts/LanguageContext';
+import { ptBR } from '../locales/pt-BR';
 import { colors } from '../styles/colors';
 import {
  sanitizeUserInput,
@@ -19,7 +19,7 @@ import {
 const Footer = dynamic(() => import('../sections/Footer/Footer'), { ssr: false });
 
 const FormPage: React.FC = () => {
- const { t } = useLanguage();
+ const t = ptBR;
  const [isSubmitting, setIsSubmitting] = React.useState(false);
  const [submitStatus, setSubmitStatus] = React.useState<'idle' | 'success' | 'error'>('idle');
  const [errorMessage, setErrorMessage] = React.useState('');

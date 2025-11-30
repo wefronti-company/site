@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { colors } from '../../styles/colors';
-import { useLanguage } from '../../contexts/LanguageContext';
+import { ptBR } from '../../locales/pt-BR';
 
 /**
  * Dashboard simplificado para mobile
  * Versão leve sem animações pesadas
  */
 const SimpleDashboard: React.FC = () => {
- const { t } = useLanguage();
+ const t = ptBR;
 
  const stats = [
  { label: t.hero.dashboard.totalRevenue, value: 'R$ 247K', trend: '+12%' },

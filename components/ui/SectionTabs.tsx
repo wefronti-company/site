@@ -1,10 +1,10 @@
 import React from 'react';
 import { useHorizontalScroll } from '../../contexts/HorizontalScrollContext';
-import { useLanguage } from '../../contexts/LanguageContext';
+import { ptBR } from '../../locales/pt-BR';
 
 const SectionTabs: React.FC = () => {
   const { currentSection, goToSection, isTransitioning } = useHorizontalScroll();
-  const { t } = useLanguage();
+  const t = ptBR;
 
   const sections = [
     { id: 0, label: 'Início', icon: '🏠' },

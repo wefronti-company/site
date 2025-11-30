@@ -4,7 +4,7 @@ import ButtonCta from '../../components/ui/ButtonCta';
 import Badge from '../../components/ui/Badge';
 import StatCounter from '../../components/ui/StatCounter';
 import { useQuoteModal } from '../../contexts/QuoteModalContext';
-import { useLanguage } from '../../contexts/LanguageContext';
+import { ptBR } from '../../locales/pt-BR';
 import SimpleDashboard from '../../components/ui/SimpleDashboard';
 
 // Versões pesadas apenas para desktop
@@ -15,7 +15,7 @@ const InteractiveDashboard = dynamic(
 
 const Hero: React.FC = () => {
   const { openModal } = useQuoteModal();
-  const { t } = useLanguage();
+  const t = ptBR;
 
   const handleNav = (hash: string) => {
     const el = document.querySelector(hash);

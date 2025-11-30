@@ -4,10 +4,10 @@ import ProjectCard from '../../components/ui/ProjectCard';
 import VehicleTrackingMap from '../../components/ui/VehicleTrackingMap';
 import CheckoutAnimation from '../../components/ui/CheckoutAnimation';
 import HealthDashboard from '../../components/ui/HealthDashboard';
-import { useLanguage } from '../../contexts/LanguageContext';
+import { ptBR } from '../../locales/pt-BR';
 
 const Projects: React.FC = () => {
- const { t } = useLanguage();
+	const t = ptBR;
 
  const projects = [
  {

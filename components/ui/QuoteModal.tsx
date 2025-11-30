@@ -1,7 +1,7 @@
 import React from 'react';
 import { createPortal } from 'react-dom';
 import { useQuoteModal } from '../../contexts/QuoteModalContext';
-import { useLanguage } from '../../contexts/LanguageContext';
+import { ptBR } from '../../locales/pt-BR';
 import {
  sanitizeUserInput,
  isValidEmail,
@@ -16,7 +16,7 @@ import {
 
 const QuoteModal: React.FC = () => {
  const { isOpen, closeModal } = useQuoteModal();
- const { t } = useLanguage();
+ const t = ptBR;
  const [isSubmitting, setIsSubmitting] = React.useState(false);
  const [submitStatus, setSubmitStatus] = React.useState<'idle' | 'success' | 'error'>('idle');
  const [errorMessage, setErrorMessage] = React.useState('');

@@ -4,12 +4,12 @@ import { useRouter } from 'next/router';
 import ButtonAppbar from '../ui/ButtonAppbar';
 import Logo from '../ui/Logo';
 import { colors } from '../../styles/colors';
-import { useLanguage } from '../../contexts/LanguageContext';
+import { ptBR } from '../../locales/pt-BR';
 
 const AppBar: React.FC = () => {
 	const router = useRouter();
 	const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-	const { t } = useLanguage();
+	const t = ptBR;
 
 	const navItems = [
 		{ label: t.appBar.nav.clients, href: '#clients' },

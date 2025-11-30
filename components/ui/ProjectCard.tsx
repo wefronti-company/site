@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-import { useLanguage } from '../../contexts/LanguageContext';
+import { ptBR } from '../../locales/pt-BR';
 
 interface ProjectCardProps {
  title: string;
@@ -27,7 +27,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
  isNew = false,
  customContent,
 }) => {
- const { t } = useLanguage();
+ const t = ptBR;
 
  return (
  <div

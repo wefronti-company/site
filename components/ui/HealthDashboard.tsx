@@ -1,8 +1,8 @@
 import React from 'react';
-import { useLanguage } from '../../contexts/LanguageContext';
+import { ptBR } from '../../locales/pt-BR';
 
 const HealthDashboard: React.FC = () => {
- const { t } = useLanguage();
+ const t = ptBR;
  const [animationStep, setAnimationStep] = React.useState(0);
  const [patientName, setPatientName] = React.useState('');
  const [appointmentDate, setAppointmentDate] = React.useState('');

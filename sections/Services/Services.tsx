@@ -1,10 +1,10 @@
 import React from 'react';
 import Badge from '../../components/ui/Badge';
 import ServiceCard from '../../components/ui/ServiceCard';
-import { useLanguage } from '../../contexts/LanguageContext';
+import { ptBR } from '../../locales/pt-BR';
 
 const Services: React.FC = () => {
- const { t } = useLanguage();
+	const t = ptBR;
 
  return (
  <section 

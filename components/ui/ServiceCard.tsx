@@ -3,7 +3,7 @@ import { colors } from '../../styles/colors';
 import Badge from '../../components/ui/Badge';
 import ButtonCta from '../../components/ui/ButtonCta';
 import { useQuoteModal } from '../../contexts/QuoteModalContext';
-import { useLanguage } from '../../contexts/LanguageContext';
+import { ptBR } from '../../locales/pt-BR';
 
 interface ServiceCardProps {
  title: string;
@@ -15,7 +15,7 @@ interface ServiceCardProps {
 
 const ServiceCard: React.FC<ServiceCardProps> = ({ title, description, features, timeline, price }) => {
  const { openModal } = useQuoteModal();
- const { t } = useLanguage();
+	const t = ptBR;
 
  return (
  <div 

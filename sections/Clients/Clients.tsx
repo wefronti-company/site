@@ -2,7 +2,7 @@ import React from 'react';
 import dynamic from 'next/dynamic';
 import Badge from '../../components/ui/Badge';
 import TestimonialCard from '../../components/ui/TestimonialCard';
-import { useLanguage } from '../../contexts/LanguageContext';
+import { ptBR } from '../../locales/pt-BR';
 
 // Lazy load do WorldMap com SSR desabilitado (melhora performance)
 const WorldMap = dynamic(() => import('../../components/ui/WorldMap'), {
@@ -15,7 +15,7 @@ const WorldMap = dynamic(() => import('../../components/ui/WorldMap'), {
 });
 
 const Clients: React.FC = () => {
- const { t } = useLanguage();
+	const t = ptBR;
 
  return (
  <section 
