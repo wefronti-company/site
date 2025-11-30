@@ -1,8 +1,7 @@
 import React, { createContext, useState, useContext, useEffect, ReactNode } from 'react';
 import { ptBR, TranslationKeys } from '../locales/pt-BR';
-import { enUS } from '../locales/en-US';
 
-type Language = 'pt-BR' | 'en-US';
+type Language = 'pt-BR';
 
 interface LanguageContextType {
  language: Language;
@@ -13,33 +12,26 @@ interface LanguageContextType {
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 const translations: Record<Language, TranslationKeys> = {
- 'pt-BR': ptBR,
- 'en-US': enUS
+	'pt-BR': ptBR,
 };
 
 export const LanguageProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
- const [language, setLanguageState] = useState<Language>('pt-BR');
+	// Only PT-BR is supported now — keep stable, no switching
+	const [language] = useState<Language>('pt-BR');
 
- // Carregar idioma salvo do localStorage na montagem
- useEffect(() => {
- const savedLanguage = localStorage.getItem('language') as Language;
- if (savedLanguage && translations[savedLanguage]) {
- setLanguageState(savedLanguage);
- }
- }, []);
+	useEffect(() => {
+		document.documentElement.setAttribute('lang', 'pt-BR');
+	}, []);
 
- const setLanguage = (lang: Language) => {
- setLanguageState(lang);
- localStorage.setItem('language', lang);
- 
- // Atualizar atributo lang do HTML para SEO e acessibilidade
- document.documentElement.setAttribute('lang', lang);
- };
+	const setLanguage = (_lang: Language) => {
+		// no-op: language switching removed, PT-BR is the default
+		return;
+	};
 
  const value: LanguageContextType = {
- language,
- t: translations[language],
- setLanguage
+	language,
+	t: translations[language],
+	setLanguage
  };
 
  return (

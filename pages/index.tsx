@@ -36,82 +36,42 @@ const FormPage = dynamic(() => import('./form'), {
 
 const Home: React.FC = () => {
   return (
-    <HorizontalScrollProvider totalSections={7}>
+    <HorizontalScrollProvider totalSections={5}>
       <SEO />
       <SideMenu />
-      
-      {/* Desktop: Horizontal Scroll Container - sem margem, menu sobrepõe */}
-      <div className="hidden md:block relative overflow-hidden">
-        <HorizontalSections />
-      </div>
-      
-      {/* Mobile: Vertical Scroll (Normal) sem menu lateral */}
-      <div className="block md:hidden">
-        {/* Mobile Header */}
-        <div className="sticky top-0 z-40 bg-white border-b border-gray-200 px-4 py-4">
-          <Logo />
-        </div>
-        
-        <Hero />     
-        <Clients />
-        <Services />
-        <Projects />
-        <FAQ />
-        <Footer />
-      </div>
+
+      {/* Page sections — vertically stacked and tracked by the provider */}
+      <main className="w-full bg-transparent">
+        <section id="section-0">
+          <Hero />
+        </section>
+
+        <section id="section-1">
+          {/* anchor for AppBar nav */}
+          <div id="clients" />
+          <Clients />
+        </section>
+
+        <section id="section-2">
+          <div id="services" />
+          <Services />
+        </section>
+
+        <section id="section-3">
+          <div id="projects" />
+          <Projects />
+        </section>
+
+        <section id="section-4">
+          <div id="faq" />
+          <FAQ />
+        </section>
+      </main>
     </HorizontalScrollProvider>
   );
 };
 
 // Componente que gerencia as seções horizontais
-const HorizontalSections: React.FC = () => {
-  const sections = [
-    { id: 0, component: Hero },
-    { id: 1, component: Clients },
-    { id: 2, component: Services },
-    { id: 3, component: Projects },
-    { id: 4, component: FAQ },
-    { id: 5, component: Footer },
-    { id: 6, component: FormPage },
-  ];
-
-  return (
-    <>
-      {sections.map(({ id, component: Component }) => (
-        <SectionWrapper key={id} index={id}>
-          <Component />
-        </SectionWrapper>
-      ))}
-    </>
-  );
-};
-
-// Wrapper que controla visibilidade e transição
-const SectionWrapper: React.FC<{ index: number; children: React.ReactNode }> = ({ 
-  index, 
-  children 
-}) => {
-  const { currentSection } = useHorizontalScroll();
-  
-  const isActive = currentSection === index;
-  
-  return (
-    <div
-      className={`
-        fixed inset-0 w-screen h-screen
-        transition-opacity duration-600 ease-in-out
-        ${isActive ? 'opacity-100 z-10 pointer-events-auto' : 'opacity-0 z-0 pointer-events-none'}
-      `}
-      style={{
-        transitionProperty: 'opacity',
-        transitionDuration: '600ms',
-      }}
-    >
-      <div className="pl-24 h-full overflow-auto">
-        {children}
-      </div>
-    </div>
-  );
-};
+// (No more horizontal overlay wrappers — sections are standard vertical blocks)
 
 export default Home;

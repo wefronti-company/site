@@ -16,23 +16,27 @@ interface HorizontalScrollProviderProps {
   totalSections: number;
 }
 
-export const HorizontalScrollProvider: React.FC<HorizontalScrollProviderProps> = ({ 
-  children, 
-  totalSections 
-}) => {
+export const HorizontalScrollProvider: React.FC<HorizontalScrollProviderProps> = ({ children, totalSections }) => {
   const [currentSection, setCurrentSection] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
+  // Smoothly scrolls to a section by index. Expects elements with ids: section-{index}
   const goToSection = useCallback((index: number) => {
     if (index < 0 || index >= totalSections || isTransitioning) return;
-    
+
+    const el = document.getElementById(`section-${index}`);
+    if (!el) return;
+
     setIsTransitioning(true);
-    setCurrentSection(index);
-    
-    // Transição dura 600ms
-    setTimeout(() => {
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    // wait for scroll to finish (approx); then allow transitions again
+    const timeout = setTimeout(() => {
       setIsTransitioning(false);
+      setCurrentSection(index);
     }, 600);
+
+    return () => clearTimeout(timeout);
   }, [totalSections, isTransitioning]);
 
   const nextSection = useCallback(() => {
@@ -47,14 +51,45 @@ export const HorizontalScrollProvider: React.FC<HorizontalScrollProviderProps> =
     }
   }, [currentSection, goToSection]);
 
-  // Keyboard navigation
+  // Track which section is in view using IntersectionObserver
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const id = entry.target.getAttribute('id');
+          if (!id) return;
+          const match = id.match(/section-(\d+)/);
+          if (!match) return;
+          const idx = Number(match[1]);
+          if (entry.isIntersecting) {
+            setCurrentSection(idx);
+          }
+        });
+      },
+      {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.5,
+      }
+    );
+
+    // Observe all section elements with id section-<index>
+    for (let i = 0; i < totalSections; i++) {
+      const el = document.getElementById(`section-${i}`);
+      if (el) observer.observe(el);
+    }
+
+    return () => observer.disconnect();
+  }, [totalSections]);
+
+  // Keyboard navigation (up/down arrows for vertical behavior)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (window.innerWidth < 768) return; // Skip on mobile
-      
-      if (e.key === 'ArrowRight') {
+
+      if (e.key === 'ArrowDown') {
         nextSection();
-      } else if (e.key === 'ArrowLeft') {
+      } else if (e.key === 'ArrowUp') {
         prevSection();
       }
     };

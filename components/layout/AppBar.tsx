@@ -3,14 +3,13 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import ButtonAppbar from '../ui/ButtonAppbar';
 import Logo from '../ui/Logo';
-import LanguageSelector from '../ui/LanguageSelector';
 import { colors } from '../../styles/colors';
 import { useLanguage } from '../../contexts/LanguageContext';
 
 const AppBar: React.FC = () => {
 	const router = useRouter();
 	const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-	const { t, language, setLanguage } = useLanguage();
+	const { t } = useLanguage();
 
 	const navItems = [
 		{ label: t.appBar.nav.clients, href: '#clients' },
@@ -88,7 +87,7 @@ const AppBar: React.FC = () => {
 					
 					{/* Right - controls */}
 					<div className="hidden lg:flex items-center gap-3 ml-4">
-						<LanguageSelector />
+						{/* Language switching removed; site is fixed to pt-BR */}
 
 						<button className="w-10 h-10 rounded-lg flex items-center justify-center bg-[rgba(255,255,255,0.03)] hover:bg-[rgba(255,255,255,0.05)] transition-colors text-gray-300" aria-label="Tema">
 							<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="3" /><path d="M12 2v2M12 20v2M20 12h2M2 12H4M17.657 6.343l1.414 1.414M4.929 19.071l1.414 1.414M17.657 17.657l1.414-1.414M4.929 4.929l1.414-1.414"/></svg>
@@ -160,39 +159,7 @@ const AppBar: React.FC = () => {
 						);
 					})}
 					
-					{/* Language Selection - Grid 2 columns */}
-					<div className="grid grid-cols-2 gap-3 mt-4">
-						<button 
-							onClick={() => {
-								setLanguage('pt-BR');
-							}}
-							className="px-4 py-3 rounded-lg text-sm font-medium transition-all shadow-sm"
-			style={{
-								backgroundColor: language === 'pt-BR' ? colors.blueColor : 'transparent',
-								color: language === 'pt-BR' ? colors.whiteColor : '#4B5563'
-							}}
-						>
-							<span className="flex items-center justify-center gap-2">
-								<span>BR</span>
-								<span className="text-xs opacity-70">Português</span>
-							</span>
-						</button>
-						<button 
-							onClick={() => {
-								setLanguage('en-US');
-							}}
-							className="px-4 py-3 rounded-lg text-sm font-medium transition-all shadow-sm"
-							style={{
-								backgroundColor: language === 'en-US' ? colors.blueColor : 'transparent',
-								color: language === 'en-US' ? colors.whiteColor : '#4B5563'
-							}}
-						>
-							<span className="flex items-center justify-center gap-2">
-								<span>EN</span>
-								<span className="text-xs opacity-70">English</span>
-							</span>
-						</button>
-					</div>
+					{/* language selector removed — fixed PT-BR site */}
 
 					{/* Social Media - Grid 2 columns */}
 					<div className="grid grid-cols-2 gap-3">

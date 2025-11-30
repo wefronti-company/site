@@ -7,12 +7,11 @@ const SectionTabs: React.FC = () => {
   const { t } = useLanguage();
 
   const sections = [
-    { id: 0, label: 'Home', icon: '🏠' },
+    { id: 0, label: 'Início', icon: '🏠' },
     { id: 1, label: t.appBar.nav.clients, icon: '🤝' },
     { id: 2, label: t.appBar.nav.services, icon: '⚡' },
     { id: 3, label: t.appBar.nav.projects, icon: '🚀' },
     { id: 4, label: t.appBar.nav.faq, icon: '❓' },
-    { id: 5, label: 'Contato', icon: '📧' },
   ];
 
   return (

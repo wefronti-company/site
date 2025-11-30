@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import { useLanguage } from '../contexts/LanguageContext';
+// site is fixed to pt-BR; language context not required in this component
 
 interface SEOProps {
  title?: string;

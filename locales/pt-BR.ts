@@ -1,10 +1,9 @@
 export const ptBR = {
  // Language Selector
  languageSelector: {
- languages: {
- 'pt-BR': 'Português (BR)',
- 'en-US': 'Inglês (EUA)'
- }
+	 languages: {
+		 'pt-BR': 'Português (BR)'
+	 }
  },
 
  // AppBar

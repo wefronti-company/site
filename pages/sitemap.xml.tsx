@@ -12,7 +12,7 @@ function generateSiteMap() {
  <lastmod>${new Date().toISOString()}</lastmod>
  <changefreq>weekly</changefreq>
  <priority>1.0</priority>
- <xhtml:link rel="alternate" hreflang="pt-BR" href="${baseUrl}/pt-BR" />
+ <xhtml:link rel="alternate" hreflang="pt-BR" href="${baseUrl}" />
  </url>
  
 </urlset>`;
