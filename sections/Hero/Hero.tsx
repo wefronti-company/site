@@ -16,17 +16,27 @@ const InteractiveDashboard = dynamic(
 const Hero: React.FC = () => {
   const { openModal } = useQuoteModal();
   const t = ptBR;
+  const heroRef = React.useRef<HTMLElement | null>(null);
+  const [navFixed, setNavFixed] = React.useState(false);
 
   const handleNav = (hash: string) => {
     const el = document.querySelector(hash);
     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
-  const [scrolled, setScrolled] = useState(false);
+  const [scrolled, setScrolled] = React.useState(false);
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', onScroll);
+  React.useEffect(() => {
+
+    const onScroll = () => {
+      const y = window.scrollY;
+      setScrolled(y > 20);
+
+      // fix nav after a small offset
+      setNavFixed(y > 40);
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
@@ -34,6 +44,7 @@ const Hero: React.FC = () => {
   return (
     <section
       className="w-full h-auto md:h-screen md:w-screen transition-colors duration-300 relative overflow-hidden border-b bg-black"
+      ref={heroRef}
       style={{
         backgroundImage: "url('/images/background-hero.webp')",
         backgroundSize: 'cover',
@@ -47,7 +58,14 @@ const Hero: React.FC = () => {
 
       <div className="px-4 md:px-8 lg:px-16 relative z-10 md:h-full">
         {/* Hero nav (inline) — sticky and glass effect when scrolling */}
-        <div className={`w-full max-w-[1400px] mx-auto py-6 flex items-center justify-between gap-4 sticky top-0 z-50 transition-all duration-300 ${scrolled ? 'backdrop-blur-md bg-black/30 border-b border-white/10' : 'bg-transparent'}`}>
+        {/* Side glass panels (fill entire lateral of the section when scrolled) */}
+        <div className={`hidden lg:block absolute top-0 left-0 h-full w-[14%] transition-opacity duration-400 pointer-events-none ${scrolled ? 'opacity-100 backdrop-blur-lg bg-black/30' : 'opacity-0'}`} />
+        <div className={`hidden lg:block absolute top-0 right-0 h-full w-[14%] transition-opacity duration-400 pointer-events-none ${scrolled ? 'opacity-100 backdrop-blur-lg bg-black/30' : 'opacity-0'}`} />
+
+        <div
+          className={`w-full z-50 transition-all duration-300 ${navFixed ? 'fixed left-0 right-0 top-0 backdrop-blur-md bg-black/30 border-b border-white/10' : ''}`}
+        >
+          <div className={`max-w-[1400px] mx-auto py-4 px-4 flex items-center justify-between gap-4 ${!navFixed && (scrolled ? 'backdrop-blur-md bg-black/20' : 'bg-transparent')}`}>
           {/* Left: isologo-white */}
           <div className="flex items-center flex-shrink-0">
             <img src="/images/isologo-white.webp" alt="Wefronti" className="h-10 md:h-12 object-contain" />
@@ -62,7 +80,7 @@ const Hero: React.FC = () => {
             <button onClick={() => handleNav('#faq')} className="hover:opacity-80 transition-opacity">FAQ</button>
           </nav>
 
-          {/* Right: CTA */}
+            {/* Right: CTA */}
           <div className="flex items-center gap-3">
             <button
               onClick={() => openModal()}
@@ -78,6 +96,7 @@ const Hero: React.FC = () => {
               {t.hero.cta}
             </button>
           </div>
+        </div>
         </div>
           <div className="w-full max-w-[1400px] mx-auto md:h-full flex items-center py-20 md:py-0">
             {/* Layout: 70% Left / 30% Right */}
