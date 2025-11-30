@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import ButtonCta from '../../components/ui/ButtonCta';
 import Badge from '../../components/ui/Badge';
@@ -22,6 +22,15 @@ const Hero: React.FC = () => {
     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', onScroll);
+    onScroll();
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   return (
     <section
       className="w-full h-auto md:h-screen md:w-screen transition-colors duration-300 relative overflow-hidden border-b bg-black"
@@ -37,8 +46,8 @@ const Hero: React.FC = () => {
       <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/30 to-black/10" />
 
       <div className="px-4 md:px-8 lg:px-16 relative z-10 md:h-full">
-        {/* Hero nav (inline) */}
-        <div className="w-full max-w-[1400px] mx-auto py-6 flex items-center justify-between gap-4">
+        {/* Hero nav (inline) — sticky and glass effect when scrolling */}
+        <div className={`w-full max-w-[1400px] mx-auto py-6 flex items-center justify-between gap-4 sticky top-0 z-50 transition-all duration-300 ${scrolled ? 'backdrop-blur-md bg-black/30 border-b border-white/10' : 'bg-transparent'}`}>
           {/* Left: isologo-white */}
           <div className="flex items-center flex-shrink-0">
             <img src="/images/isologo-white.webp" alt="Wefronti" className="h-10 md:h-12 object-contain" />
