@@ -7,7 +7,7 @@
   --color-white: #f7f7f7;
   --color-bg: #151515ff;
   --color-text: #010101;
-  --menu-width: 320px; /* Largura dinâmica do menu lateral */
+  /* --menu-width removed (sidebar eliminated) */
 }
 
 html { 
@@ -51,10 +51,11 @@ body {
 }
 
 /* Desabilitar scroll vertical no desktop (horizontal scroll ativo) */
+/* On desktop keep normal vertical scrolling */
 @media (min-width: 768px) {
   body {
-    overflow: hidden;
-    height: 100vh;
+    overflow: auto;
+    height: auto;
   }
 }
 

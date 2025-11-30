@@ -1,19 +1,13 @@
 import React from 'react';
 import dynamic from 'next/dynamic';
-import { colors } from '../../styles/colors';
 import ButtonCta from '../../components/ui/ButtonCta';
 import Badge from '../../components/ui/Badge';
 import StatCounter from '../../components/ui/StatCounter';
 import { useQuoteModal } from '../../contexts/QuoteModalContext';
 import { useLanguage } from '../../contexts/LanguageContext';
-import LightweightGrid from '../../components/effects/LightweightGrid';
 import SimpleDashboard from '../../components/ui/SimpleDashboard';
 
 // Versões pesadas apenas para desktop
-const AnimatedGridBackground = dynamic(
-  () => import('../../components/effects/AnimatedGridBackground'),
-  { ssr: false }
-);
 const InteractiveDashboard = dynamic(
   () => import('../../components/ui/InteractiveDashboard'),
   { ssr: false }
@@ -23,22 +17,59 @@ const Hero: React.FC = () => {
   const { openModal } = useQuoteModal();
   const { t } = useLanguage();
 
+  const handleNav = (hash: string) => {
+    const el = document.querySelector(hash);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
   return (
-    <section 
-        className="w-full h-auto md:h-screen md:w-screen bg-custom-white transition-colors duration-300 relative overflow-hidden border-b"
-        style={{
-          borderBottomColor: '#D1D5DB'
-        }}
-      >
-        {/* Grid leve mobile, pesado desktop */}
-        <div className="absolute inset-0 lg:hidden">
-          <LightweightGrid />
+    <section
+      className="w-full h-auto md:h-screen md:w-screen transition-colors duration-300 relative overflow-hidden border-b bg-black"
+      style={{
+        backgroundImage: "url('/images/background-hero.webp')",
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        borderBottomColor: '#D1D5DB'
+      }}
+    >
+      {/* Overlay to improve contrast */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/30 to-black/10" />
+
+      <div className="px-4 md:px-8 lg:px-16 relative z-10 md:h-full">
+        {/* Hero nav (inline) */}
+        <div className="w-full max-w-[1400px] mx-auto py-6 flex items-center justify-between gap-4">
+          {/* Left: isologo-white */}
+          <div className="flex items-center flex-shrink-0">
+            <img src="/images/isologo-white.webp" alt="Wefronti" className="h-10 md:h-12 object-contain" />
+          </div>
+
+          {/* Center: links */}
+          <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-white/90">
+            <button onClick={() => handleNav('#section-0')} className="hover:opacity-80 transition-opacity">Início</button>
+            <button onClick={() => handleNav('#clients')} className="hover:opacity-80 transition-opacity">Clientes</button>
+            <button onClick={() => handleNav('#services')} className="hover:opacity-80 transition-opacity">Serviços</button>
+            <button onClick={() => handleNav('#projects')} className="hover:opacity-80 transition-opacity">Projetos</button>
+            <button onClick={() => handleNav('#faq')} className="hover:opacity-80 transition-opacity">FAQ</button>
+          </nav>
+
+          {/* Right: CTA */}
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => openModal()}
+              className="hidden md:inline-flex px-4 py-2 rounded-lg bg-blue-600 text-white text-sm font-semibold hover:brightness-110 transition-all"
+            >
+              {t.hero.cta}
+            </button>
+            {/* Mobile: simple menu button (keeps previous mobile header behaviour) */}
+            <button
+              className="md:hidden inline-flex px-3 py-2 rounded-lg bg-white/10 text-white text-sm font-medium"
+              onClick={() => openModal()}
+            >
+              {t.hero.cta}
+            </button>
+          </div>
         </div>
-        <div className="absolute inset-0 hidden lg:block">
-          <AnimatedGridBackground />
-        </div>
-        
-        <div className="px-4 md:px-8 lg:px-16 relative z-10 md:h-full">
           <div className="w-full max-w-[1400px] mx-auto md:h-full flex items-center py-20 md:py-0">
             {/* Layout: 70% Left / 30% Right */}
             <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 w-full">
@@ -47,11 +78,11 @@ const Hero: React.FC = () => {
               <div className="w-full lg:w-[60%] flex flex-col gap-6">
                 <Badge text={t.hero.badge} icon="star" />
                 
-                <h1 className="text-5xl md:text-6xl lg:text-6xl font-medium text-gray-900 dark:text-white leading-tight">
+                <h1 className="text-5xl md:text-6xl lg:text-6xl font-medium text-white leading-tight">
                   {t.hero.title}
                 </h1>
                 
-                <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl">
+                <p className="text-lg md:text-xl text-white/90 max-w-2xl">
                   {t.hero.description}
                 </p>
 

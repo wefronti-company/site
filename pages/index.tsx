@@ -4,7 +4,6 @@ import Hero from '../sections/Hero';
 import SEO from '../components/SEO';
 import Logo from '../components/ui/Logo';
 import { HorizontalScrollProvider, useHorizontalScroll } from '../contexts/HorizontalScrollContext';
-import SideMenu from '../components/ui/SideMenu';
 
 // Lazy load AGRESSIVO com ssr:false para máxima performance
 const Clients = dynamic(() => import('../sections/Clients'), {
@@ -38,7 +37,7 @@ const Home: React.FC = () => {
   return (
     <HorizontalScrollProvider totalSections={5}>
       <SEO />
-      <SideMenu />
+      {/* SideMenu removed — replaced by header nav inside Hero */}
 
       {/* Page sections — vertically stacked and tracked by the provider */}
       <main className="w-full bg-transparent">
