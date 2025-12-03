@@ -1,11 +1,9 @@
 import React from 'react';
 import { ComposableMap, Geographies, Geography, Marker, Line } from 'react-simple-maps';
-import { ptBR } from '../../locales/pt-BR';
 
 const geoUrl = 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json';
 
 const VehicleTrackingMap: React.FC = () => {
- const t = ptBR;
  const [vehiclePosition, setVehiclePosition] = React.useState(0);
 
  // Anima o veículo ao longo da rota
@@ -212,15 +210,15 @@ const VehicleTrackingMap: React.FC = () => {
  }}
  >
  <div className="text-[10px] font-medium text-gray-500 mb-1">
- {t.hero.vehicleTracking.status}
+ Status
  </div>
  <div className="text-xs font-semibold text-green-500 mb-2 flex items-center gap-1">
  <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
- {t.hero.vehicleTracking.inTransit}
+ Em trânsito
  </div>
  
  <div className="text-[10px] font-medium text-gray-500 mb-1">
- {t.hero.vehicleTracking.speed}
+ Velocidade
  </div>
  <div className="text-xs font-semibold text-gray-900">
  {Math.floor(60 + Math.sin(vehiclePosition / 10) * 20)} km/h
@@ -229,8 +227,8 @@ const VehicleTrackingMap: React.FC = () => {
 
  {/* Label Rastreio */}
  <div className="absolute bottom-3 right-3 text-right">
- <div className="text-sm font-semibold text-gray-900">{t.hero.vehicleTracking.tracking}</div>
- <div className="text-[10px] text-gray-500 italic">{t.hero.vehicleTracking.updatedNow}</div>
+ <div className="text-sm font-semibold text-gray-900">Rastreamento em tempo real</div>
+ <div className="text-[10px] text-gray-500 italic">Atualizado agora</div>
  </div>
  </div>
  </div>

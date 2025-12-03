@@ -2,12 +2,10 @@ import React from 'react';
 import Badge from '../../components/ui/Badge';
 import ButtonCta from '../../components/ui/ButtonCta';
 import { useQuoteModal } from '../../contexts/QuoteModalContext';
-import { ptBR } from '../../locales/pt-BR';
 import { colors } from '../../styles/colors';
 
 const FAQ: React.FC = () => {
  const [openIndex, setOpenIndex] = React.useState<number | null>(0);
- const t = ptBR;
 
  const toggleFAQ = (index: number) => {
  setOpenIndex(openIndex === index ? null : index);
@@ -31,13 +29,38 @@ const FAQ: React.FC = () => {
  className="text-4xl md:text-5xl lg:text-6xl font-medium"
  style={{ color: colors.whiteColor }}
  >
- {t.faq.title}
+ Perguntas Frequentes
  </h2>
  </div>
 
  {/* Coluna Direita - Accordion */}
  <div className="lg:col-span-8 space-y-4">
- {t.faq.items.map((faq, index) => (
+ {[
+ {
+ question: 'Quanto tempo leva para desenvolver um projeto?',
+ answer: 'O prazo varia conforme a complexidade. Landing pages e sites institucionais ficam prontos em 1-2 meses. Sistemas SaaS e aplicativos mobile levam de 3-6 meses. Após uma reunião inicial, apresentamos um cronograma detalhado com todas as etapas e prazos.'
+ },
+ {
+ question: 'Qual o investimento necessário para começar?',
+ answer: 'O investimento varia de acordo com o escopo do projeto. Sites e landing pages começam a partir de R$ 5.000. Sistemas SaaS e aplicativos têm valores personalizados baseados nas funcionalidades necessárias. Oferecemos propostas transparentes e detalhadas antes de iniciar.'
+ },
+ {
+ question: 'Vocês oferecem suporte após a entrega?',
+ answer: 'Sim! Oferecemos 30 dias de garantia gratuita para correções de bugs. Também disponibilizamos planos de manutenção mensal que incluem updates, monitoramento, backups, suporte técnico e pequenas melhorias. O suporte garante que seu projeto continue funcionando perfeitamente.'
+ },
+ {
+ question: 'Posso acompanhar o desenvolvimento do projeto?',
+ answer: 'Absolutamente! Trabalhamos com metodologia ágil (Scrum) com sprints de 2 semanas. Você terá acesso a reuniões de planejamento, reviews semanais, ambiente de homologação para testes e comunicação direta via Slack/WhatsApp. Total transparência em todas as etapas.'
+ },
+ {
+ question: 'Quais tecnologias vocês utilizam?',
+ answer: 'Utilizamos as tecnologias mais modernas e confiáveis do mercado. Frontend: React, Next.js, TypeScript, Tailwind CSS. Backend: Node.js, Python, PostgreSQL, MongoDB. Mobile: React Native, Flutter. Cloud: AWS, Vercel, Google Cloud. Escolhemos a stack ideal para cada projeto.'
+ },
+ {
+ question: 'Como garantem a qualidade e segurança do código?',
+ answer: 'Aplicamos as melhores práticas de engenharia de software: code review em todo código, testes automatizados, integração contínua, monitoramento de performance. Na segurança, implementamos autenticação robusta, criptografia de dados, proteção contra vulnerabilidades comuns e conformidade com LGPD. Qualidade não é negociável.'
+ }
+ ].map((faq, index) => (
  <div
  key={index}
  className="border transition-colors"

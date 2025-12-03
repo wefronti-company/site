@@ -3,7 +3,6 @@ import { colors } from '../../styles/colors';
 import Badge from '../../components/ui/Badge';
 import ButtonCta from '../../components/ui/ButtonCta';
 import { useQuoteModal } from '../../contexts/QuoteModalContext';
-import { ptBR } from '../../locales/pt-BR';
 
 interface ServiceCardProps {
  title: string;
@@ -15,7 +14,6 @@ interface ServiceCardProps {
 
 const ServiceCard: React.FC<ServiceCardProps> = ({ title, description, features, timeline, price }) => {
  const { openModal } = useQuoteModal();
-	const t = ptBR;
 
  return (
 		<div
@@ -68,7 +66,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ title, description, features,
  <span>{timeline}</span>
  </div>
  
-	  <ButtonCta label={t.services.ctaButton} variant="primary" />
+	  <ButtonCta label="Solicitar orçamento" variant="primary" />
  </div>
  </div>
  );

@@ -1,17 +1,15 @@
 import React from 'react';
 import { useHorizontalScroll } from '../../contexts/HorizontalScrollContext';
-import { ptBR } from '../../locales/pt-BR';
 
 const SectionTabs: React.FC = () => {
   const { currentSection, goToSection, isTransitioning } = useHorizontalScroll();
-  const t = ptBR;
 
   const sections = [
     { id: 0, label: 'Início', icon: '🏠' },
-    { id: 1, label: t.appBar.nav.clients, icon: '🤝' },
-    { id: 2, label: t.appBar.nav.services, icon: '⚡' },
-    { id: 3, label: t.appBar.nav.projects, icon: '🚀' },
-    { id: 4, label: t.appBar.nav.faq, icon: '❓' },
+    { id: 1, label: 'Clientes', icon: '🤝' },
+    { id: 2, label: 'Contrate-nos', icon: '⚡' },
+    { id: 3, label: 'Projetos', icon: '🚀' },
+    { id: 4, label: 'FAQ', icon: '❓' },
   ];
 
   return (

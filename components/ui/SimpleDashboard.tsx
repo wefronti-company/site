@@ -1,18 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { colors } from '../../styles/colors';
-import { ptBR } from '../../locales/pt-BR';
 
 /**
  * Dashboard simplificado para mobile
  * Versão leve sem animações pesadas
  */
 const SimpleDashboard: React.FC = () => {
- const t = ptBR;
 
  const stats = [
- { label: t.hero.dashboard.totalRevenue, value: 'R$ 247K', trend: '+12%' },
- { label: t.hero.dashboard.activeClients, value: '3.2K', trend: '+8%' },
- { label: t.hero.dashboard.roi, value: '24%', trend: '+5%' },
+ { label: 'Receita Total', value: 'R$ 247K', trend: '+12%' },
+ { label: 'Clientes Ativos', value: '3.2K', trend: '+8%' },
+ { label: 'ROI', value: '24%', trend: '+5%' },
  ];
 
  return (
@@ -26,7 +24,7 @@ const SimpleDashboard: React.FC = () => {
  {/* Header */}
  <div className="flex items-center justify-between mb-6">
  <h3 className="text-lg font-semibold text-gray-900">
- {t.hero.dashboard.productTitle}
+ Seu produto
  </h3>
  <div className="flex gap-1">
  <div className="w-2 h-2 rounded-full bg-green-500" />

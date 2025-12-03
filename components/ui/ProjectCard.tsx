@@ -1,6 +1,5 @@
 import React from 'react';
 import Image from 'next/image';
-import { ptBR } from '../../locales/pt-BR';
 import { colors } from '../../styles/colors';
 
 interface ProjectCardProps {
@@ -27,9 +26,8 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 	image,
 	badge,
 	isNew = false,
-	customContent,
+ customContent,
 }) => {
- const t = ptBR;
 
 	return (
 		<div
@@ -125,7 +123,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 							}}
 						>
  <div className="flex items-center justify-center gap-2">
- <span>{t.projects.viewProject}</span>
+ <span>Ver projeto</span>
  <svg 
  width="16" 
  height="16" 

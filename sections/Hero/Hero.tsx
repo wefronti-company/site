@@ -1,12 +1,11 @@
 import React from 'react';
-import { ptBR } from '../../locales/pt-BR';
 import Badge from '../../components/ui/Badge';
 import ButtonCta from '../../components/ui/ButtonCta';
 import AppBar from '../../components/layout/AppBar';
-// minimal hero variant — uses translations from ptBR
+import { Boxes } from '../../components/ui/shadcn-io/background-boxes';
+// minimal hero variant
 
 const Hero: React.FC = () => {
-  const t = ptBR;
 
   const handleNav = (hash: string) => {
     const el = document.querySelector(hash);
@@ -18,30 +17,37 @@ const Hero: React.FC = () => {
   return (
     <section
       id="section-0"
-      className="w-full relative overflow-hidden bg-cover bg-center"
-      style={{ backgroundImage: "url('/images/background-hero.webp')", height: '85vh', minHeight: '420px' }}
+      className="w-full relative overflow-hidden"
+      style={{ height: '85vh', minHeight: '420px', backgroundColor: '#0f172a' }}
     >
+      {/* overlay - fundo escuro */}
+      <div className="absolute inset-0 bg-gradient-to-b from-slate-900/40 via-slate-900/20 to-black/40 z-0" />
+
       <div className="relative z-[20]">
         <div className="px-4 md:px-8 lg:px-16">
           <AppBar />
         </div>
       </div>
 
-      {/* overlay + centered headline */}
-      <div className="absolute inset-0 bg-black/35 backdrop-blur-sm z-10" />
-      <div className="relative z-20 flex items-center justify-center h-full px-6 md:px-10 lg:px-16 pt-8 md:pt-10 lg:pt-14 pb-10 md:pb-14 lg:pb-60">
+      {/* Background Boxes - na frente mas transparent para cliques */}
+      <div className="absolute inset-0 w-full h-full z-[15] opacity-40 pointer-events-none">
+        <Boxes />
+      </div>
+
+      {/* Content */}
+      <div className="relative z-[30] flex items-center justify-center h-full px-6 md:px-10 lg:px-16 pt-8 md:pt-10 lg:pt-14 pb-10 md:pb-14 lg:pb-60">
         
           <div className="w-full max-w-[1400px] mx-auto flex items-center justify-center">
             <div className="flex flex-col items-center gap-8">
-              <Badge text={t.hero.badge} icon="star" />
+              <Badge text="Software House" icon="star" />
               <h1 className="text-center text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold text-white leading-tight max-w-[1400px]">
-                {t.hero.title}
+                Projetamos produtos com propósito, pronto para gerar receita
               </h1>
               <h2 className="text-center text-base md:text-lg text-white/90 max-w-[900px] mt-2 leading-relaxed">
-                {t.hero.description}
+                Desenvolvemos seu produto com o melhor da tecnologia e inteligencia artificial, desde Saas, software até sistemas web complexos.
               </h2>
               <div className="mt-6">
-                <ButtonCta label={t.hero.cta} />
+                <ButtonCta label="Iniciar um projeto" />
               </div>
             </div>
           </div>

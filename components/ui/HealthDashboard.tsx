@@ -1,8 +1,6 @@
 import React from 'react';
-import { ptBR } from '../../locales/pt-BR';
 
 const HealthDashboard: React.FC = () => {
- const t = ptBR;
  const [animationStep, setAnimationStep] = React.useState(0);
  const [patientName, setPatientName] = React.useState('');
  const [appointmentDate, setAppointmentDate] = React.useState('');
@@ -169,7 +167,7 @@ const HealthDashboard: React.FC = () => {
  }}
  >
  {patientName || (
- <span style={{ color: '#9ca3af' }}>{t.hero.healthDashboard.placeholderName}</span>
+ <span style={{ color: '#9ca3af' }}>Digite seu nome</span>
  )}
  {patientName && animationStep < 50 && (
  <span 
@@ -196,7 +194,7 @@ const HealthDashboard: React.FC = () => {
  }}
  >
  {appointmentDate || (
- <span style={{ color: '#9ca3af' }}>{t.hero.healthDashboard.placeholderDate}</span>
+ <span style={{ color: '#9ca3af' }}>Selecione a data</span>
  )}
  {appointmentDate && animationStep >= 50 && animationStep < 70 && (
  <span 
@@ -223,7 +221,7 @@ const HealthDashboard: React.FC = () => {
  }}
  >
  {consultationType || (
- <span style={{ color: '#9ca3af' }}>{t.hero.healthDashboard.placeholderSpecialty}</span>
+ <span style={{ color: '#9ca3af' }}>Escolha a especialidade</span>
  )}
  {consultationType && animationStep >= 70 && animationStep < 90 && (
  <span 
@@ -274,7 +272,7 @@ const HealthDashboard: React.FC = () => {
  <span>Processando...</span>
  </div>
  ) : (
- t.hero.healthDashboard.scheduleButton
+ 'Agendar Consulta'
  )}
  </button>
 
@@ -293,7 +291,7 @@ const HealthDashboard: React.FC = () => {
  className="text-[9px] font-medium"
  style={{ color: '#8b5cf6' }}
  >
- {t.hero.healthDashboard.dataProtected}
+ Dados protegidos por LGPD
  </span>
  </div>
  </div>

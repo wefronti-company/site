@@ -1,10 +1,8 @@
 import React from 'react';
 import Logo from '../../components/ui/Logo';
 import { colors } from '../../styles/colors';
-import { ptBR } from '../../locales/pt-BR';
 
 const Footer: React.FC = () => {
- const t = ptBR;
 
  const scrollToTop = () => {
  window.scrollTo({
@@ -37,10 +35,10 @@ const Footer: React.FC = () => {
  {/* Social title + email */}
  <div className="flex flex-col sm:flex-row sm:items-center items-start gap-3">
 	 <span className="text-sm" style={{ color: colors.whiteColor }}>
-		 {t.footer.socialTitle}
+		 Redes Sociais
 	 </span>
-	 <a href={`mailto:${t.footer.contact.email}`} className="text-sm text-ellipsis whitespace-nowrap" style={{ color: colors.whiteColor, opacity: 0.9 }}>
-		 {t.footer.contact.email}
+	 <a href="mailto:projetos@wefronti.com" className="text-sm text-ellipsis whitespace-nowrap" style={{ color: colors.whiteColor, opacity: 0.9 }}>
+		 projetos@wefronti.com
 	 </a>
  </div>
 
@@ -115,7 +113,7 @@ const Footer: React.FC = () => {
  {/* Bottom Bar - Copyright e CNPJ */}
  <div className="flex flex-col md:flex-row items-center justify-left gap-2 text-center">
  <p className="text-md" style={{ color: colors.whiteColor, opacity: 0.8 }}>
-	 {t.footer.copyright.replace('2025', new Date().getFullYear().toString())}
+	 © {new Date().getFullYear()} Wefronti. Todos os direitos reservados.
  </p>
  </div>
 

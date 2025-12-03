@@ -11,12 +11,19 @@
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.0.2",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "critters": "^0.0.23",
     "dotenv": "^17.2.3",
+    "framer-motion": "^12.23.25",
+    "lucide-react": "^0.555.0",
     "next": "latest",
     "postprocessing": "^6.38.0",
     "react": "latest",
     "react-dom": "latest",
     "react-simple-maps": "^3.0.0",
+    "tailwind-merge": "^3.4.0",
+    "tailwindcss-animate": "^1.0.7",
     "three": "^0.181.2"
   },
   "devDependencies": {

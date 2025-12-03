@@ -2,19 +2,17 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import Logo from '../ui/Logo';
 import { colors } from '../../styles/colors';
-import { ptBR } from '../../locales/pt-BR';
 
 const AppBar: React.FC = () => {
   const router = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const t = ptBR;
 
   const navItems = [
     { label: 'Início', href: '#section-0' },
-    { label: t.appBar.nav.clients, href: '#clients' },
-    { label: t.appBar.nav.services, href: '#services' },
-    { label: t.appBar.nav.projects, href: '#projects' },
-    { label: t.appBar.nav.faq, href: '#faq' },
+    { label: 'Clientes', href: '#clients' },
+    { label: 'Contrate-nos', href: '#services' },
+    { label: 'Projetos', href: '#projects' },
+    { label: 'FAQ', href: '#faq' },
   ];
 
   // AppBar is now non-fixed and plain (no blur, no bottom border)
@@ -50,7 +48,7 @@ const AppBar: React.FC = () => {
           <div className="flex items-center gap-3">
             {/* CTA: desktop (removed external brightness/glow) */}
             <button onClick={() => router.push('/form')} className="hidden md:inline-flex px-4 py-2 rounded-lg bg-blue-600 text-white text-sm font-semibold transition-all">
-              {t.appBar.cta}
+              Iniciar um projeto
             </button>
 
             {/* MOBILE: hamburger */}
@@ -86,7 +84,7 @@ const AppBar: React.FC = () => {
 
             <div className="mt-2">
             <button type="button" onClick={() => { setMobileOpen(false); router.push('/form'); }} className="w-full px-5 py-3 text-base font-medium text-white active:scale-95 transition-all duration-200 flex items-center justify-center" style={{ borderRadius: '7px', backgroundColor: colors.blueColor }}>
-              {t.appBar.cta}
+              Iniciar um projeto
             </button>
           </div>
         </nav>

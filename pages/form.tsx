@@ -2,7 +2,6 @@ import React from 'react';
 import Head from 'next/head';
 import ButtonCta from '../components/ui/ButtonCta';
 import dynamic from 'next/dynamic';
-import { ptBR } from '../locales/pt-BR';
 import { colors } from '../styles/colors';
 import {
  sanitizeUserInput,
@@ -19,7 +18,6 @@ import {
 const Footer = dynamic(() => import('../sections/Footer/Footer'), { ssr: false });
 
 const FormPage: React.FC = () => {
- const t = ptBR;
  const [isSubmitting, setIsSubmitting] = React.useState(false);
  const [submitStatus, setSubmitStatus] = React.useState<'idle' | 'success' | 'error'>('idle');
  const [errorMessage, setErrorMessage] = React.useState('');
@@ -125,36 +123,36 @@ const FormPage: React.FC = () => {
  const errors: Record<string, string> = {};
  
  if (!formData.name || formData.name.trim().length < 2) {
- errors.name = t.quoteModal.form.validation?.name || 'Nome deve ter pelo menos 2 caracteres';
+ errors.name = 'Nome deve ter pelo menos 2 caracteres';
  }
  
  if (!formData.email || !isValidEmail(formData.email)) {
- errors.email = t.quoteModal.form.validation?.email || 'Por favor, insira um e-mail válido';
+ errors.email = 'Por favor, insira um e-mail válido';
  }
  
  const minLength = countryCode === 'BR' ? 10 : 10;
  if (!formData.whatsapp || formData.whatsapp.replace(/\D/g, '').length < minLength) {
- errors.whatsapp = t.quoteModal.form.validation?.whatsapp || 'Por favor, insira um número válido';
+ errors.whatsapp = 'Por favor, insira um número válido';
  }
  
  if (!formData.company || formData.company.trim().length < 2) {
- errors.company = t.quoteModal.form.validation?.company || 'Nome da empresa é obrigatório';
+ errors.company = 'Nome da empresa é obrigatório';
  }
  
  if (!formData.role) {
- errors.role = t.quoteModal.form.validation?.role || 'Selecione seu cargo';
+ errors.role = 'Selecione seu cargo';
  }
  
  if (!formData.revenue) {
- errors.revenue = t.quoteModal.form.validation?.revenue || 'Selecione o faturamento';
+ errors.revenue = 'Selecione o faturamento';
  }
  
  if (!formData.challenge || formData.challenge.trim().length < 10) {
- errors.challenge = t.quoteModal.form.validation?.challenge || 'Descreva seu desafio (mínimo 10 caracteres)';
+ errors.challenge = 'Descreva seu desafio (mínimo 10 caracteres)';
  }
  
  if (!formData.timeline) {
- errors.timeline = t.quoteModal.form.validation?.timeline || 'Selecione o prazo desejado';
+ errors.timeline = 'Selecione o prazo desejado';
  }
  
  if (Object.keys(errors).length > 0) {
@@ -166,7 +164,7 @@ const FormPage: React.FC = () => {
  }
 
  if (!privacyConsent) {
- setErrorMessage(t.quoteModal.form.privacy.required);
+ setErrorMessage('Você precisa concordar com os termos de privacidade');
  setSubmitStatus('error');
  setIsSubmitting(false);
  return;
@@ -247,21 +245,27 @@ const FormPage: React.FC = () => {
  return (
  <>
  <Head>
- <title>{t.quoteModal.title} | Wefronti</title>
+ <title>Solicite um Orçamento | Wefronti</title>
  <meta name="description" content="Solicite um orçamento personalizado para seu projeto" />
  <meta name="robots" content="noindex, nofollow" />
  </Head>
 
- <div className="min-h-screen bg-gray-50">
+ <div className="min-h-screen" style={{ backgroundColor: colors.blackColor }}>
  
  <main className="pt-24 pb-16 px-4">
- <div className="max-w-3xl mx-auto">
+ <div className="max-w-4xl mx-auto">
  {/* Header */}
  <div className="mb-12">
- <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
- {t.quoteModal.title}
+ <h1 
+ className="text-3xl md:text-4xl font-bold mb-3"
+ style={{ color: colors.whiteColor }}
+ >
+ Solicite um Orçamento
  </h1>
- <p className="text-base text-gray-600">
+ <p 
+ className="text-base"
+ style={{ color: colors.whiteColor, opacity: 0.8 }}
+ >
  Preencha o formulário abaixo e nossa equipe entrará em contato
  </p>
  </div>
@@ -270,8 +274,8 @@ const FormPage: React.FC = () => {
  <div 
  className="rounded-2xl shadow-xl p-6 md:p-10"
  style={{
- backgroundColor: colors.whiteColor,
- border: `1px solid ${colors.borderLight}`
+ backgroundColor: colors.blackColor,
+ border: `1px solid ${colors.borderDark}`
  }}
  >
  <form onSubmit={handleSubmit} noValidate className="space-y-6">
@@ -288,10 +292,13 @@ const FormPage: React.FC = () => {
  aria-hidden="true"
  />
  
+ {/* Grid: Nome e WhatsApp */}
+ <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+ 
  {/* Nome completo */}
  <div>
- <label className="block text-sm font-medium text-gray-900 mb-2">
- {t.quoteModal.form.name} <span className="text-red-500">*</span>
+ <label className="block text-sm font-medium mb-2" style={{ color: colors.whiteColor }}>
+ Nome completo <span className="text-red-500">*</span>
  </label>
  <div className="relative">
  <input
@@ -299,19 +306,20 @@ const FormPage: React.FC = () => {
  name="name"
  value={formData.name}
  onChange={handleChange}
- placeholder={t.quoteModal.form.name}
+ placeholder="Nome completo"
  required
  minLength={2}
  maxLength={100}
  autoComplete="name"
- className={`w-full px-4 py-3 rounded-lg text-gray-900 transition-all duration-300 outline-none ${
+ className={`w-full px-4 py-3 rounded-lg transition-all duration-300 outline-none ${
  fieldErrors.name 
  ? 'border-2 border-red-500' 
  : ''
  }`}
  style={{
- backgroundColor: colors.whiteColor,
- border: fieldErrors.name ? '2px solid #EF4444' : `1px solid ${colors.borderLight}`,
+ backgroundColor: colors.colorGray,
+ border: fieldErrors.name ? '2px solid #EF4444' : `1px solid ${colors.borderDark}`,
+ color: colors.whiteColor
  }}
  />
  {fieldErrors.name && (
@@ -343,43 +351,22 @@ const FormPage: React.FC = () => {
 
  {/* WhatsApp com seletor de país */}
  <div>
- <label className="block text-sm font-medium text-gray-900 mb-2">
- {t.quoteModal.form.whatsapp} <span className="text-red-500">*</span>
+ <label className="block text-sm font-medium mb-2" style={{ color: colors.whiteColor }}>
+ WhatsApp <span className="text-red-500">*</span>
  </label>
- <div className="flex gap-3">
- <button
- type="button"
- onClick={() => setCountryCode(countryCode === 'BR' ? 'US' : 'BR')}
- className="flex items-center justify-center gap-2 px-4 rounded-lg border transition-all hover:scale-105 flex-shrink-0"
- style={{
- backgroundColor: colors.whiteColor,
- borderColor: fieldErrors.whatsapp 
- ? '#EF4444' 
- : (colors.borderLight),
- borderWidth: fieldErrors.whatsapp ? '2px' : '1px',
- height: '48px',
- minWidth: '90px'
- }}
- >
- <span className="text-xl">{countryCode === 'BR' ? '🇧🇷' : '🇺🇸'}</span>
- <span className="text-sm font-semibold text-gray-700">
- {countryCode === 'BR' ? '+55' : '+1'}
- </span>
- </button>
- 
- <div className="relative flex-1">
+ <div className="relative">
  <input
  type="tel"
  name="whatsapp"
  value={formData.whatsapp}
  onChange={handleChange}
- placeholder={countryCode === 'BR' ? '(99) 9 9999-9999' : '(999) 999-9999'}
+ placeholder="(99) 9 9999-9999"
  required
- className={`w-full px-4 py-3 rounded-lg text-gray-900 transition-all duration-300 outline-none`}
+ className={`w-full px-4 py-3 rounded-lg transition-all duration-300 outline-none`}
  style={{
- backgroundColor: colors.whiteColor,
- border: fieldErrors.whatsapp ? '2px solid #EF4444' : `1px solid ${colors.borderLight}`,
- height: '48px'
+ backgroundColor: colors.colorGray,
+ border: fieldErrors.whatsapp ? '2px solid #EF4444' : `1px solid ${colors.borderDark}`,
+ color: colors.whiteColor
  }}
  />
  {fieldErrors.whatsapp && (
@@ -390,7 +377,6 @@ const FormPage: React.FC = () => {
  </svg>
  </div>
  )}
- </div>
  </div>
  {fieldErrors.whatsapp && (
  <div 
@@ -409,11 +395,16 @@ const FormPage: React.FC = () => {
  </div>
  )}
  </div>
+ 
+ </div>
 
+ {/* Grid: Email e Empresa */}
+ <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+ 
  {/* Email */}
  <div>
- <label className="block text-sm font-medium text-gray-900 mb-2">
- {t.quoteModal.form.email} <span className="text-red-500">*</span>
+ <label className="block text-sm font-medium mb-2" style={{ color: colors.whiteColor }}>
+ E-mail <span className="text-red-500">*</span>
  </label>
  <div className="relative">
  <input
@@ -421,12 +412,13 @@ const FormPage: React.FC = () => {
  name="email"
  value={formData.email}
  onChange={handleChange}
- placeholder={t.quoteModal.form.email}
+ placeholder="seu@email.com"
  required
- className={`w-full px-4 py-3 rounded-lg text-gray-900 transition-all duration-300 outline-none`}
+ className={`w-full px-4 py-3 rounded-lg transition-all duration-300 outline-none`}
  style={{
- backgroundColor: colors.whiteColor,
- border: fieldErrors.email ? '2px solid #EF4444' : `1px solid ${colors.borderLight}`,
+ backgroundColor: colors.colorGray,
+ border: fieldErrors.email ? '2px solid #EF4444' : `1px solid ${colors.borderDark}`,
+ color: colors.whiteColor
  }}
  />
  {fieldErrors.email && (
@@ -458,20 +450,21 @@ const FormPage: React.FC = () => {
 
  {/* Empresa */}
  <div>
- <label className="block text-sm font-medium text-gray-900 mb-2">
- {t.quoteModal.form.company} <span className="text-red-500">*</span>
+ <label className="block text-sm font-medium mb-2" style={{ color: colors.whiteColor }}>
+ Empresa <span className="text-red-500">*</span>
  </label>
  <input
  type="text"
  name="company"
  value={formData.company}
  onChange={handleChange}
- placeholder={t.quoteModal.form.company}
+ placeholder="Nome da empresa"
  required
- className={`w-full px-4 py-3 rounded-lg text-gray-900 transition-all outline-none`}
+ className={`w-full px-4 py-3 rounded-lg transition-all outline-none`}
  style={{
- backgroundColor: colors.whiteColor,
- border: fieldErrors.company ? '2px solid #EF4444' : `1px solid ${colors.borderLight}`,
+ backgroundColor: colors.colorGray,
+ border: fieldErrors.company ? '2px solid #EF4444' : `1px solid ${colors.borderDark}`,
+ color: colors.whiteColor
  }}
  />
  {fieldErrors.company && (
@@ -480,29 +473,35 @@ const FormPage: React.FC = () => {
  </p>
  )}
  </div>
+ 
+ </div>
 
+ {/* Grid: Cargo e Receita */}
+ <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+ 
  {/* Cargo */}
  <div>
- <label className="block text-sm font-medium text-gray-900 mb-2">
- {t.quoteModal.form.role} <span className="text-red-500">*</span>
+ <label className="block text-sm font-medium mb-2" style={{ color: colors.whiteColor }}>
+ Cargo <span className="text-red-500">*</span>
  </label>
  <select
  name="role"
  value={formData.role}
  onChange={handleChange}
  required
- className={`w-full px-4 py-3 rounded-lg text-gray-900 transition-all outline-none`}
+ className={`w-full px-4 py-3 rounded-lg transition-all outline-none`}
  style={{
- backgroundColor: colors.whiteColor,
- border: fieldErrors.role ? '2px solid #EF4444' : `1px solid ${colors.borderLight}`,
+ backgroundColor: colors.colorGray,
+ border: fieldErrors.role ? '2px solid #EF4444' : `1px solid ${colors.borderDark}`,
+ color: colors.whiteColor
  }}
  >
- <option value="">{t.quoteModal.form.roleOptions.select}</option>
- <option value="ceo">{t.quoteModal.form.roleOptions.ceo}</option>
- <option value="cto">{t.quoteModal.form.roleOptions.cto}</option>
- <option value="manager">{t.quoteModal.form.roleOptions.manager}</option>
- <option value="developer">{t.quoteModal.form.roleOptions.developer}</option>
- <option value="other">{t.quoteModal.form.roleOptions.other}</option>
+ <option value="">Selecione seu cargo</option>
+ <option value="ceo">CEO / Founder</option>
+ <option value="cto">CTO / Tech Lead</option>
+ <option value="manager">Gerente</option>
+ <option value="developer">Desenvolvedor</option>
+ <option value="other">Outro</option>
  </select>
  {fieldErrors.role && (
  <p className="mt-2 text-sm text-red-600">
@@ -513,28 +512,29 @@ const FormPage: React.FC = () => {
 
  {/* Receita Mensal */}
  <div>
- <label className="block text-sm font-medium text-gray-900 mb-2">
- {t.quoteModal.form.revenue} <span className="text-red-500">*</span>
+ <label className="block text-sm font-medium mb-2" style={{ color: colors.whiteColor }}>
+ Faturamento Mensal <span className="text-red-500">*</span>
  </label>
  <select
  name="revenue"
  value={formData.revenue}
  onChange={handleChange}
  required
- className={`w-full px-4 py-3 rounded-lg text-gray-900 transition-all outline-none`}
+ className={`w-full px-4 py-3 rounded-lg transition-all outline-none`}
  style={{
- backgroundColor: colors.whiteColor,
- border: fieldErrors.revenue ? '2px solid #EF4444' : `1px solid ${colors.borderLight}`,
+ backgroundColor: colors.colorGray,
+ border: fieldErrors.revenue ? '2px solid #EF4444' : `1px solid ${colors.borderDark}`,
+ color: colors.whiteColor
  }}
  >
- <option value="">{t.quoteModal.form.revenueOptions.select}</option>
- <option value="0-10k">{t.quoteModal.form.revenueOptions['0-10k']}</option>
- <option value="10k-50k">{t.quoteModal.form.revenueOptions['10k-50k']}</option>
- <option value="50k-100k">{t.quoteModal.form.revenueOptions['50k-100k']}</option>
- <option value="100k+">{t.quoteModal.form.revenueOptions['500k+']}</option>
+ <option value="">Selecione o faturamento</option>
+ <option value="0-10k">Até R$ 10 mil/mês</option>
+ <option value="10k-50k">R$ 10 mil - R$ 50 mil/mês</option>
+ <option value="50k-100k">R$ 50 mil - R$ 100 mil/mês</option>
+ <option value="100k+">Acima de R$ 500 mil/mês</option>
  </select>
- <p className="text-xs text-gray-500 mt-1">
- {t.quoteModal.form.revenueHint}
+ <p className="text-xs mt-1" style={{ color: colors.whiteColor, opacity: 0.6 }}>
+ Essa informação nos ajuda a personalizar melhor nossa proposta
  </p>
  {fieldErrors.revenue && (
  <p className="mt-2 text-sm text-red-600">
@@ -542,23 +542,26 @@ const FormPage: React.FC = () => {
  </p>
  )}
  </div>
+ 
+ </div>
 
  {/* Desafio */}
  <div>
- <label className="block text-sm font-medium text-gray-900 mb-2">
- {t.quoteModal.form.challenge} <span className="text-red-500">*</span>
+ <label className="block text-sm font-medium mb-2" style={{ color: colors.whiteColor }}>
+ Descreva seu desafio <span className="text-red-500">*</span>
  </label>
  <textarea
  name="challenge"
  value={formData.challenge}
  onChange={handleChange}
- placeholder={t.quoteModal.form.challenge}
+ placeholder="Conte-nos sobre seu projeto ou desafio..."
  required
  rows={4}
- className={`w-full px-4 py-3 rounded-lg text-gray-900 transition-all resize-none outline-none`}
+ className={`w-full px-4 py-3 rounded-lg transition-all resize-none outline-none`}
  style={{
- backgroundColor: colors.whiteColor,
- border: fieldErrors.challenge ? '2px solid #EF4444' : `1px solid ${colors.borderLight}`,
+ backgroundColor: colors.colorGray,
+ border: fieldErrors.challenge ? '2px solid #EF4444' : `1px solid ${colors.borderDark}`,
+ color: colors.whiteColor
  }}
  />
  {fieldErrors.challenge && (
@@ -570,25 +573,26 @@ const FormPage: React.FC = () => {
 
  {/* Timeline */}
  <div>
- <label className="block text-sm font-medium text-gray-900 mb-2">
- {t.quoteModal.form.timeline} <span className="text-red-500">*</span>
+ <label className="block text-sm font-medium mb-2" style={{ color: colors.whiteColor }}>
+ Prazo desejado <span className="text-red-500">*</span>
  </label>
  <select
  name="timeline"
  value={formData.timeline}
  onChange={handleChange}
  required
- className={`w-full px-4 py-3 rounded-lg text-gray-900 transition-all outline-none`}
+ className={`w-full px-4 py-3 rounded-lg transition-all outline-none`}
  style={{
- backgroundColor: colors.whiteColor,
- border: fieldErrors.timeline ? '2px solid #EF4444' : `1px solid ${colors.borderLight}`,
+ backgroundColor: colors.colorGray,
+ border: fieldErrors.timeline ? '2px solid #EF4444' : `1px solid ${colors.borderDark}`,
+ color: colors.whiteColor
  }}
  >
- <option value="">{t.quoteModal.form.timelineOptions.select}</option>
- <option value="immediate">{t.quoteModal.form.timelineOptions.immediate}</option>
- <option value="short">{t.quoteModal.form.timelineOptions.short}</option>
- <option value="medium">{t.quoteModal.form.timelineOptions.medium}</option>
- <option value="long">{t.quoteModal.form.timelineOptions.long}</option>
+ <option value="">Selecione o prazo</option>
+ <option value="immediate">Imediato (1-2 semanas)</option>
+ <option value="short">Curto prazo (1 mês)</option>
+ <option value="medium">Médio prazo (2-3 meses)</option>
+ <option value="long">Longo prazo (3+ meses)</option>
  </select>
  {fieldErrors.timeline && (
  <p className="mt-2 text-sm text-red-600">
@@ -597,28 +601,8 @@ const FormPage: React.FC = () => {
  )}
  </div>
 
- {/* Privacy Notice - LGPD */}
- <div className="p-5 rounded-lg border-2" style={{
- backgroundColor: '#f8fafc',
- borderColor: colors.borderLight
- }}>
- <h4 className="text-sm font-bold text-gray-900 mb-2">
- {t.quoteModal.form.privacy.title}
- </h4>
- <p className="text-xs text-gray-600 mb-3">
- {t.quoteModal.form.privacy.description}
- </p>
- <div className="space-y-1.5 mb-4">
- {t.quoteModal.form.privacy.points.map((point: string, index: number) => (
- <p key={index} className="text-xs text-gray-700">
- {point}
- </p>
- ))}
- </div>
- <div className="flex items-start gap-3 p-3 rounded-md" style={{
- backgroundColor: '#ffffff',
- border: `1px solid '#cbd5e1'`
- }}>
+ {/* Privacy Consent - LGPD */}
+ <div className="flex items-start gap-3">
  <input
  type="checkbox"
  id="privacyConsent"
@@ -626,16 +610,16 @@ const FormPage: React.FC = () => {
  onChange={(e) => setPrivacyConsent(e.target.checked)}
  className="mt-1 w-4 h-4 rounded cursor-pointer"
  style={{
- accentColor: '#3B82F6'
+ accentColor: colors.blueColor
  }}
  />
  <label 
  htmlFor="privacyConsent" 
- className="text-xs text-gray-700 cursor-pointer leading-relaxed"
+ className="text-xs cursor-pointer leading-relaxed"
+ style={{ color: colors.whiteColor, opacity: 0.8 }}
  >
- {t.quoteModal.form.privacy.consentShort}
+ Eu concordo com o tratamento dos meus dados conforme a Política de Privacidade e LGPD
  </label>
- </div>
  </div>
 
  {/* Status Messages */}
@@ -656,7 +640,7 @@ const FormPage: React.FC = () => {
  ✓ Sucesso!
  </p>
  <p className="text-xs text-green-600 mt-1">
- {t.quoteModal.form.successMessage}
+ Sua solicitação foi enviada com sucesso! Em breve entraremos em contato.
  </p>
  </div>
  </div>
@@ -679,7 +663,7 @@ const FormPage: React.FC = () => {
  ✗ Erro ao enviar
  </p>
  <p className="text-xs text-red-600 mt-1">
- {errorMessage || t.quoteModal.form.errorMessage}
+ {errorMessage || 'Erro ao enviar formulário. Tente novamente.'}
  </p>
  </div>
  </div>
@@ -695,7 +679,7 @@ const FormPage: React.FC = () => {
  backgroundColor: colors.blueColor
  }}
  >
- {isSubmitting ? t.quoteModal.form.submitting : t.quoteModal.form.submit}
+ {isSubmitting ? 'Enviando...' : 'Enviar solicitação'}
  </button>
  </div>
 

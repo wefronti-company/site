@@ -1,6 +1,5 @@
 import React from 'react';
 import { colors } from '../../styles/colors';
-import { ptBR } from '../../locales/pt-BR';
 import { useRouter } from 'next/router';
 
 interface ButtonCtaProps {
@@ -14,7 +13,7 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
  onClick,
  variant = 'primary' 
 }) => {
- const t = ptBR;
+ 
  const router = useRouter();
  
  const handleClick = () => {
@@ -26,21 +25,48 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
  };
  const isPrimary = variant === 'primary';
  
+ const gradientStyle = isPrimary ? {
+ background: `linear-gradient(90deg, ${colors.gradientOne}, ${colors.gradientTwo})`
+ } : {};
+ 
  return (
  <button
  type="button"
  onClick={handleClick}
- className={`px-8 py-4 text-base font-semibold hover:opacity-90 active:scale-95 transition-all duration-200 shadow-sm hover:shadow-md ${
+ className={`px-4 py-3 text-base font-semibold transition-all duration-200 flex items-center gap-3 hover:opacity-90 ${
  isPrimary 
  ? 'text-white' 
  : 'bg-gray-200 text-black'
  }`}
  style={{ 
- borderRadius: '7px',
- ...(isPrimary && { backgroundColor: colors.blueColor })
+ borderRadius: '10px',
+ ...gradientStyle,
+ ...(!isPrimary && { backgroundColor: colors.blueColor })
  }}
  >
- {label || t.hero.cta}
+ <span>{label || 'Iniciar um projeto'}</span>
+ <div 
+ className="flex items-center justify-center transition-transform duration-200 group-hover:translate-x-1"
+ style={{
+ width: '28px',
+ height: '28px',
+ borderRadius: '50%',
+ backgroundColor: 'rgba(255, 255, 255, 1)'
+ }}
+ >
+ <svg 
+ width="16" 
+ height="16" 
+ viewBox="0 0 24 24" 
+ fill="none" 
+ stroke="currentColor"
+ strokeWidth="2.5"
+ strokeLinecap="round"
+ strokeLinejoin="round"
+ >
+ <path d="M5 12h14M12 5l7 7-7 7"/>
+ </svg>
+ </div>
  </button>
  );
 };

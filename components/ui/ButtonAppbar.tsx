@@ -1,7 +1,6 @@
 import React from 'react';
 import { colors } from '../../styles/colors';
 import { useRouter } from 'next/router';
- import { ptBR } from '../../locales/pt-BR';
 
 interface ButtonAppbarProps {
  label?: string;
@@ -9,7 +8,6 @@ interface ButtonAppbarProps {
 
 const ButtonAppbar: React.FC<ButtonAppbarProps> = ({ label }) => {
  const router = useRouter();
- const t = ptBR;
  
  return (
  <button
@@ -18,7 +16,7 @@ const ButtonAppbar: React.FC<ButtonAppbarProps> = ({ label }) => {
  className="px-6 py-2 h-11 text-base font-medium text-white hover:opacity-90 active:scale-95 transition-all duration-200 shadow-sm hover:shadow-md flex items-center justify-center min-w-[100px]"
  style={{ borderRadius: '7px', backgroundColor: colors.blueColor }}
  >
- {label || t.appBar.cta}
+ {label || 'Iniciar um projeto'}
  </button>
  );
 };

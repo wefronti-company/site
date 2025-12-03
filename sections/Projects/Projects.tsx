@@ -2,23 +2,26 @@ import React from 'react';
 import Badge from '../../components/ui/Badge';
 import ProjectCard from '../../components/ui/ProjectCard';
 import { colors } from '../../styles/colors';
-import { ptBR } from '../../locales/pt-BR';
 
 const Projects: React.FC = () => {
-	const t = ptBR;
 
 	const projects = [
 		{
-			...t.projects.items[0],
+			title: 'HealthHub Dashboard',
+			description: 'Dashboard completo para gestão de clínicas e hospitais com agendamento, prontuário eletrônico e controle financeiro.',
+			category: 'SaaS',
+			tags: ['Dashboard', 'Saúde', 'Analytics'],
 			technologies: {
 				frontend: ['Next.js 16', 'React 19', 'Tailwind CSS 4'],
 				backend: ['Node.js', 'PostgreSQL', 'Prisma ORM'],
 			},
-			// image placeholder can be provided later (1080x1080)
 			image: undefined,
 		},
 		{
-			...t.projects.items[1],
+			title: 'Fleet Tracker',
+			description: 'Sistema avançado de rastreamento de veículos em tempo real com geolocalização, alertas e relatórios.',
+			category: 'Rastreio',
+			tags: ['GPS', 'Tempo Real', 'Relatórios'],
 			technologies: {
 				frontend: ['React', 'Mapbox GL', 'Socket.io'],
 				backend: ['Python', 'FastAPI', 'Redis', 'PostgreSQL'],
@@ -26,7 +29,10 @@ const Projects: React.FC = () => {
 			image: undefined,
 		},
 		{
-			...t.projects.items[2],
+			title: 'Smart Checkout',
+			description: 'Página de checkout otimizada com múltiplos métodos de pagamento, validação em tempo real e conversão elevada.',
+			category: 'Fintech',
+			tags: ['Checkout', 'Pagamentos', 'Conversão'],
 			technologies: {
 				frontend: ['React', 'Formik', 'Framer Motion'],
 				backend: ['Node.js', 'Stripe', 'PayPal API'],
@@ -45,12 +51,12 @@ const Projects: React.FC = () => {
  <div className="max-w-7xl mx-auto">
  {/* Cabeçalho */}
  <div className="text-left md:text-center mb-12 md:mb-16">
- <Badge icon="trophy" text={t.projects.badge} />
+ <Badge icon="trophy" text="Portfólio" />
  <h2 className="text-4xl md:text-4xl lg:text-5xl font-medium text-gray-900 mt-6 mb-4">
- {t.projects.title}
+ Projetos em Destaque
  </h2>
  <p className="text-lg text-gray-600 max-w-2xl md:mx-auto">
- {t.projects.subtitle}
+ Conheça alguns dos nossos trabalhos recentes
  </p>
  </div>
 

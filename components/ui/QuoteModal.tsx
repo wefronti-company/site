@@ -1,7 +1,6 @@
 import React from 'react';
 import { createPortal } from 'react-dom';
 import { useQuoteModal } from '../../contexts/QuoteModalContext';
-import { ptBR } from '../../locales/pt-BR';
 import {
  sanitizeUserInput,
  isValidEmail,
@@ -16,7 +15,6 @@ import {
 
 const QuoteModal: React.FC = () => {
  const { isOpen, closeModal } = useQuoteModal();
- const t = ptBR;
  const [isSubmitting, setIsSubmitting] = React.useState(false);
  const [submitStatus, setSubmitStatus] = React.useState<'idle' | 'success' | 'error'>('idle');
  const [errorMessage, setErrorMessage] = React.useState('');
@@ -146,36 +144,36 @@ const QuoteModal: React.FC = () => {
  const errors: Record<string, string> = {};
  
  if (!formData.name || formData.name.trim().length < 2) {
- errors.name = t.quoteModal.form.validation?.name || 'Nome deve ter pelo menos 2 caracteres';
+ errors.name = 'Nome deve ter pelo menos 2 caracteres';
  }
  
  if (!formData.email || !isValidEmail(formData.email)) {
- errors.email = t.quoteModal.form.validation?.email || 'Por favor, insira um e-mail válido';
+ errors.email = 'Por favor, insira um e-mail válido';
  }
  
  const minLength = countryCode === 'BR' ? 10 : 10;
  if (!formData.whatsapp || formData.whatsapp.replace(/\D/g, '').length < minLength) {
- errors.whatsapp = t.quoteModal.form.validation?.whatsapp || 'Por favor, insira um número válido';
+ errors.whatsapp = 'Por favor, insira um número válido';
  }
  
  if (!formData.company || formData.company.trim().length < 2) {
- errors.company = t.quoteModal.form.validation?.company || 'Nome da empresa é obrigatório';
+ errors.company = 'Nome da empresa é obrigatório';
  }
  
  if (!formData.role) {
- errors.role = t.quoteModal.form.validation?.role || 'Selecione seu cargo';
+ errors.role = 'Selecione seu cargo';
  }
  
  if (!formData.revenue) {
- errors.revenue = t.quoteModal.form.validation?.revenue || 'Selecione o faturamento';
+ errors.revenue = 'Selecione o faturamento';
  }
  
  if (!formData.challenge || formData.challenge.trim().length < 10) {
- errors.challenge = t.quoteModal.form.validation?.challenge || 'Descreva seu desafio (mínimo 10 caracteres)';
+ errors.challenge = 'Descreva seu desafio (mínimo 10 caracteres)';
  }
  
  if (!formData.timeline) {
- errors.timeline = t.quoteModal.form.validation?.timeline || 'Selecione o prazo desejado';
+ errors.timeline = 'Selecione o prazo desejado';
  }
  
  if (Object.keys(errors).length > 0) {
@@ -189,7 +187,7 @@ const QuoteModal: React.FC = () => {
 
  // Validação de consentimento LGPD
  if (!privacyConsent) {
- setErrorMessage(t.quoteModal.form.privacy.required);
+ setErrorMessage('Você precisa concordar com a política de privacidade para continuar');
  setSubmitStatus('error');
  setIsSubmitting(false);
  return;
@@ -368,7 +366,7 @@ const QuoteModal: React.FC = () => {
  >
  <div className="flex items-center justify-between">
  <h2 className="text-2xl font-semibold text-gray-900">
- {t.quoteModal.title}
+ Solicitar Orçamento
  </h2>
  <button
  onClick={closeModal}
@@ -404,7 +402,7 @@ const QuoteModal: React.FC = () => {
  {/* Nome completo */}
  <div>
  <label className="block text-sm font-medium text-gray-900 mb-2">
- {t.quoteModal.form.name} <span className="text-red-500">*</span>
+ Nome completo <span className="text-red-500">*</span>
  </label>
  <div className="relative">
  <input
@@ -412,7 +410,7 @@ const QuoteModal: React.FC = () => {
  name="name"
  value={formData.name}
  onChange={handleChange}
- placeholder={t.quoteModal.form.name}
+ placeholder="Nome completo"
  required
  minLength={2}
  maxLength={100}
@@ -456,7 +454,7 @@ const QuoteModal: React.FC = () => {
  {/* WhatsApp com seletor de país */}
  <div>
  <label className="block text-sm font-medium text-gray-900 mb-2">
- {t.quoteModal.form.whatsapp} <span className="text-red-500">*</span>
+ WhatsApp <span className="text-red-500">*</span>
  </label>
  <div className="flex gap-3">
  {/* Seletor de País */}
@@ -530,7 +528,7 @@ const QuoteModal: React.FC = () => {
  {/* Email corporativo */}
  <div>
  <label className="block text-sm font-medium text-gray-900 mb-2">
- {t.quoteModal.form.email} <span className="text-red-500">*</span>
+ E-mail <span className="text-red-500">*</span>
  </label>
  <div className="relative">
  <input
@@ -538,7 +536,7 @@ const QuoteModal: React.FC = () => {
  name="email"
  value={formData.email}
  onChange={handleChange}
- placeholder={t.quoteModal.form.email}
+ placeholder="E-mail"
  required
  className={`w-full px-4 py-3 rounded-lg text-gray-900 transition-all duration-300 outline-none ${
  fieldErrors.email 
@@ -579,14 +577,14 @@ const QuoteModal: React.FC = () => {
  {/* Empresa */}
  <div>
  <label className="block text-sm font-medium text-gray-900 mb-2">
- {t.quoteModal.form.company} *
+ Empresa *
  </label>
  <input
  type="text"
  name="company"
  value={formData.company}
  onChange={handleChange}
- placeholder={t.quoteModal.form.company}
+ placeholder="Empresa"
  required
  className="w-full px-4 py-3 rounded-md text-gray-900 transition-colors"
  style={{
@@ -600,7 +598,7 @@ const QuoteModal: React.FC = () => {
  {/* Cargo */}
  <div>
  <label className="block text-sm font-medium text-gray-900 mb-2">
- {t.quoteModal.form.role} *
+ Cargo *
  </label>
  <select
  name="role"
@@ -614,19 +612,19 @@ const QuoteModal: React.FC = () => {
  outline: 'none'
  }}
  >
- <option value="">{t.quoteModal.form.roleOptions.select}</option>
- <option value="ceo">{t.quoteModal.form.roleOptions.ceo}</option>
- <option value="cto">{t.quoteModal.form.roleOptions.cto}</option>
- <option value="manager">{t.quoteModal.form.roleOptions.manager}</option>
- <option value="developer">{t.quoteModal.form.roleOptions.developer}</option>
- <option value="other">{t.quoteModal.form.roleOptions.other}</option>
+ <option value="">Selecione seu cargo</option>
+ <option value="ceo">CEO / Founder</option>
+ <option value="cto">CTO / Tech Lead</option>
+ <option value="manager">Gerente / Coordenador</option>
+ <option value="developer">Desenvolvedor</option>
+ <option value="other">Outro</option>
  </select>
  </div>
 
  {/* Receita Mensal */}
  <div>
  <label className="block text-sm font-medium text-gray-900 mb-2">
- {t.quoteModal.form.revenue} *
+ Receita Mensal *
  </label>
  <select
  name="revenue"
@@ -640,27 +638,27 @@ const QuoteModal: React.FC = () => {
  outline: 'none'
  }}
  >
- <option value="">{t.quoteModal.form.revenueOptions.select}</option>
- <option value="0-10k">{t.quoteModal.form.revenueOptions['0-10k']}</option>
- <option value="10k-50k">{t.quoteModal.form.revenueOptions['10k-50k']}</option>
- <option value="50k-100k">{t.quoteModal.form.revenueOptions['50k-100k']}</option>
- <option value="100k+">{t.quoteModal.form.revenueOptions['500k+']}</option>
+ <option value="">Selecione a faixa de receita</option>
+ <option value="0-10k">Até R$ 10 mil</option>
+ <option value="10k-50k">R$ 10 mil - R$ 50 mil</option>
+ <option value="50k-100k">R$ 50 mil - R$ 100 mil</option>
+ <option value="100k+">Acima de R$ 500 mil</option>
  </select>
  <p className="text-xs text-gray-500 mt-1">
- {t.quoteModal.form.revenueHint}
+ Isso nos ajuda a personalizar a solução para você
  </p>
  </div>
 
  {/* Desafio */}
  <div>
  <label className="block text-sm font-medium text-gray-900 mb-2">
- {t.quoteModal.form.challenge} *
+ Desafio/Objetivo *
  </label>
  <textarea
  name="challenge"
  value={formData.challenge}
  onChange={handleChange}
- placeholder={t.quoteModal.form.challenge}
+ placeholder="Conte-nos sobre seu desafio ou objetivo"
  required
  rows={4}
  className="w-full px-4 py-3 rounded-md text-gray-900 transition-colors resize-none"
@@ -675,7 +673,7 @@ const QuoteModal: React.FC = () => {
  {/* Timeline */}
  <div>
  <label className="block text-sm font-medium text-gray-900 mb-2">
- {t.quoteModal.form.timeline}
+ Quando precisa?
  </label>
  <select
  name="timeline"
@@ -688,11 +686,11 @@ const QuoteModal: React.FC = () => {
  outline: 'none'
  }}
  >
- <option value="">{t.quoteModal.form.timelineOptions.select}</option>
- <option value="immediate">{t.quoteModal.form.timelineOptions.immediate}</option>
- <option value="short">{t.quoteModal.form.timelineOptions.short}</option>
- <option value="medium">{t.quoteModal.form.timelineOptions.medium}</option>
- <option value="long">{t.quoteModal.form.timelineOptions.long}</option>
+ <option value="">Selecione o prazo</option>
+ <option value="immediate">Imediato (o quanto antes)</option>
+ <option value="short">Curto prazo (1-2 meses)</option>
+ <option value="medium">Médio prazo (3-6 meses)</option>
+ <option value="long">Longo prazo (6+ meses)</option>
  </select>
  </div>
 
@@ -702,17 +700,21 @@ const QuoteModal: React.FC = () => {
  borderColor: '#e2e8f0'
  }}>
  <h4 className="text-sm font-bold text-gray-900 mb-2">
- {t.quoteModal.form.privacy.title}
+ Proteção de Dados (LGPD)
  </h4>
  <p className="text-xs text-gray-600 mb-3">
- {t.quoteModal.form.privacy.description}
+ Seus dados estão seguros conosco:
  </p>
  <div className="space-y-1.5 mb-4">
- {t.quoteModal.form.privacy.points.map((point: string, index: number) => (
- <p key={index} className="text-xs text-gray-700">
- {point}
+ <p className="text-xs text-gray-700">
+ • Nunca compartilharemos seus dados com terceiros
  </p>
- ))}
+ <p className="text-xs text-gray-700">
+ • Você pode solicitar a exclusão a qualquer momento
+ </p>
+ <p className="text-xs text-gray-700">
+ • Usamos seus dados apenas para contato sobre este projeto
+ </p>
  </div>
  <div className="flex items-start gap-3 p-3 rounded-md" style={{
  backgroundColor: '#ffffff',
@@ -732,7 +734,7 @@ const QuoteModal: React.FC = () => {
  htmlFor="privacyConsent" 
  className="text-xs text-gray-700 cursor-pointer leading-relaxed"
  >
- {t.quoteModal.form.privacy.consentShort}
+ Concordo com o tratamento dos meus dados conforme a LGPD
  </label>
  </div>
  </div>
@@ -755,7 +757,7 @@ const QuoteModal: React.FC = () => {
  ✓ Sucesso!
  </p>
  <p className="text-xs text-green-600 mt-1">
- {t.quoteModal.form.successMessage}
+ Recebemos seu contato! Retornaremos em breve.
  </p>
  </div>
  </div>
@@ -778,7 +780,7 @@ const QuoteModal: React.FC = () => {
  ✗ Erro ao enviar
  </p>
  <p className="text-xs text-red-600 mt-1">
- {errorMessage || t.quoteModal.form.errorMessage}
+ {errorMessage || 'Ocorreu um erro ao enviar. Tente novamente.'}
  </p>
  </div>
  </div>
@@ -793,7 +795,7 @@ const QuoteModal: React.FC = () => {
  backgroundColor: '#3B82F6'
  }}
  >
- {isSubmitting ? t.quoteModal.form.submitting : t.quoteModal.form.submit}
+ {isSubmitting ? 'Enviando...' : 'Solicitar Orçamento'}
  </button>
 
  </form>

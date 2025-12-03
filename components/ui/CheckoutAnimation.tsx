@@ -1,8 +1,6 @@
 import React from 'react';
-import { ptBR } from '../../locales/pt-BR';
 
 const CheckoutAnimation: React.FC = () => {
- const t = ptBR;
  const [cardNumber, setCardNumber] = React.useState('');
  const [cardName, setCardName] = React.useState('');
  const [expiry, setExpiry] = React.useState('');
@@ -230,7 +228,7 @@ const CheckoutAnimation: React.FC = () => {
  <span>Processando...</span>
  </div>
  ) : (
- <span>{t.hero.checkout.checkoutButton}</span>
+ <span>Finalizar compra</span>
  )}
  </button>
 
@@ -239,7 +237,7 @@ const CheckoutAnimation: React.FC = () => {
  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
  </svg>
- <span>{t.hero.checkout.securePayment}</span>
+ <span>Pagamento 100% seguro</span>
  </div>
  </div>
  </div>
