@@ -28,7 +28,7 @@ const AppBar: React.FC = () => {
             <div className="h-6 w-px" style={{ backgroundColor: colors.whiteColor }}></div>
             
             {/* Nav items */}
-            <nav className="flex items-center gap-1 text-base font-medium">
+            <nav className="flex items-center gap-1 text-base font-500">
               {navItems.map(item => (
                 <button
                   key={item.href}
@@ -75,7 +75,7 @@ const AppBar: React.FC = () => {
             </button>
             <button 
               onClick={() => router.push('/form')}
-              className="px-6 py-2 text-base font-semibold rounded-[10px] transition-all hover:opacity-90"
+              className="px-6 py-2 text-base font-semibold rounded-[30px] transition-all hover:opacity-90"
               style={{ 
                 backgroundColor: colors.whiteColor,
                 color: colors.blackColor
@@ -125,7 +125,7 @@ const AppBar: React.FC = () => {
                   <linearGradient id="userGradientMobile" x1="0%" y1="0%" x2="100%" y2="100%">
                     <stop offset="0%" style={{ stopColor: colors.gradientOne }} />
                     <stop offset="50%" style={{ stopColor: colors.gradientTwo }} />
-                    <stop offset="100%" style={{ stopColor: colors.gradientThree }} />
+
                   </linearGradient>
                 </defs>
                 <circle cx="12" cy="8" r="4" stroke="url(#userGradientMobile)" strokeWidth="2" fill="none"/>

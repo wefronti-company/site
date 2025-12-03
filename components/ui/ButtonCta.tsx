@@ -33,13 +33,13 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
  <button
  type="button"
  onClick={handleClick}
- className={`px-4 py-3 text-base font-semibold transition-all duration-200 flex items-center gap-3 hover:opacity-90 ${
+ className={`px-4 py-3 text-base font-semibold transition-all duration-200 flex items-center gap-3 hover:opacity-90 animate-pulse-shadow ${
  isPrimary 
  ? 'text-white' 
  : 'bg-gray-200 text-black'
  }`}
  style={{ 
- borderRadius: '10px',
+ borderRadius: '30px',
  ...gradientStyle,
  ...(!isPrimary && { backgroundColor: colors.blueColor })
  }}
@@ -51,7 +51,7 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
  width: '28px',
  height: '28px',
  borderRadius: '50%',
- backgroundColor: 'rgba(255, 255, 255, 1)'
+ backgroundColor: 'rgba(13, 13, 13, 1)'
  }}
  >
  <svg 

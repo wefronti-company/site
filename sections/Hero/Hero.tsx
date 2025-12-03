@@ -2,6 +2,7 @@ import React from 'react';
 import Badge from '../../components/ui/Badge';
 import ButtonCta from '../../components/ui/ButtonCta';
 import AppBar from '../../components/layout/AppBar';
+import ClientsBadge from '../../components/ui/ClientsBadge';
 import { Boxes } from '../../components/ui/shadcn-io/background-boxes';
 // minimal hero variant
 
@@ -18,10 +19,10 @@ const Hero: React.FC = () => {
     <section
       id="section-0"
       className="w-full relative overflow-hidden"
-      style={{ height: '85vh', minHeight: '420px', backgroundColor: '#0f172a' }}
+      style={{ height: '85vh', minHeight: '420px', backgroundColor: '#101010ff' }}
     >
       {/* overlay - fundo escuro */}
-      <div className="absolute inset-0 bg-gradient-to-b from-slate-900/40 via-slate-900/20 to-black/40 z-0" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/40 z-0" />
 
       <div className="relative z-[20]">
         <div className="px-4 md:px-8 lg:px-16">
@@ -39,11 +40,12 @@ const Hero: React.FC = () => {
         
           <div className="w-full max-w-[1400px] mx-auto flex items-center justify-center">
             <div className="flex flex-col items-center gap-8">
-              <Badge text="Software House" icon="star" />
-              <h1 className="text-center text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold text-white leading-tight max-w-[1400px]">
+              <ClientsBadge />
+              
+              <h1 className="text-center text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-medium leading-tight max-w-[1400px] bg-gradient-to-br from-white via-gray-200 to-gray-500 bg-clip-text text-transparent pb-2">
                 Projetamos produtos com propósito, pronto para gerar receita
               </h1>
-              <h2 className="text-center text-base md:text-lg text-white/90 max-w-[900px] mt-2 leading-relaxed">
+              <h2 className="text-center text-base md:text-lg text-white/90 max-w-[650px] mt-2 leading-relaxed">
                 Desenvolvemos seu produto com o melhor da tecnologia e inteligencia artificial, desde Saas, software até sistemas web complexos.
               </h2>
               <div className="mt-6">

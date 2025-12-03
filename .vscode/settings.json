@@ -5,6 +5,7 @@
   "editor.colorDecorators": true,
   "editor.colorDecoratorsActivatedOn": "always",
   "css.validate": true,
+  "css.lint.unknownAtRules": "ignore",
   "tailwindCSS.experimental.classRegex": [
     ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
     ["cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]

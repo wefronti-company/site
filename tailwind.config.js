@@ -62,6 +62,22 @@ module.exports = {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
   			sm: 'calc(var(--radius) - 4px)'
+  		},
+  		animation: {
+  			'pulse-shadow': 'pulse-shadow 90s ease-out infinite'
+  		},
+  		keyframes: {
+  			'pulse-shadow': {
+  				'0%': { 
+  					boxShadow: '0 0 0 0 rgba(174, 122, 243, 0.5)'
+  				},
+  				'70%': { 
+  					boxShadow: '0 0 0 10px rgba(174, 122, 243, 0)'
+  				},
+  				'100%': { 
+  					boxShadow: '0 0 0 0 rgba(174, 122, 243, 0)'
+  				}
+  			}
   		}
   	}
   },
