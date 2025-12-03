@@ -1,16 +1,9 @@
 import React from 'react';
-import dynamic from 'next/dynamic';
 import Badge from '../../components/ui/Badge';
 import ButtonCta from '../../components/ui/ButtonCta';
 import { useQuoteModal } from '../../contexts/QuoteModalContext';
 import { ptBR } from '../../locales/pt-BR';
-import LightweightGrid from '../../components/effects/LightweightGrid';
-
-// Versão pesada apenas para desktop
-const AnimatedGridBackground = dynamic(
- () => import('../../components/effects/AnimatedGridBackground'),
- { ssr: false }
-);
+import { colors } from '../../styles/colors';
 
 const FAQ: React.FC = () => {
  const [openIndex, setOpenIndex] = React.useState<number | null>(0);
@@ -21,39 +14,37 @@ const FAQ: React.FC = () => {
  };
 
  return (
- <section id="faq" className="w-full py-20 md:py-0 md:h-screen md:w-screen md:flex md:items-center bg-custom-white transition-colors relative overflow-hidden">
- {/* Grid leve mobile, pesado desktop */}
- <div className="absolute inset-0 lg:hidden">
- <LightweightGrid />
- </div>
- <div className="absolute inset-0 hidden lg:block">
- <AnimatedGridBackground />
- </div>
-
- <div className="px-4 md:px-8 lg:px-16 relative z-10">
- <div className="w-full max-w-[900px] mx-auto">
+ <section 
+ id="faq" 
+ className="w-full py-20 md:py-0 md:h-screen md:w-screen md:flex md:items-center transition-colors relative overflow-hidden"
+ style={{ backgroundColor: colors.blackColor }}
+ >
+ <div className="px-4 md:px-8 lg:px-16 relative z-10 w-full">
+ <div className="w-full max-w-[1200px] mx-auto">
  
- {/* Cabeçalho */}
- <div className="text-left md:text-center mb-12 md:mb-16">
- <Badge icon="help" text={t.faq.badge} />
- <h2 className="text-4xl md:text-4xl lg:text-5xl font-medium text-gray-900 mt-6 mb-4">
+ {/* Layout: Título à esquerda, Accordion à direita */}
+ <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
+ 
+ {/* Coluna Esquerda - Título */}
+ <div className="lg:col-span-4">
+ <h2 
+ className="text-4xl md:text-5xl lg:text-6xl font-medium"
+ style={{ color: colors.whiteColor }}
+ >
  {t.faq.title}
  </h2>
- <p className="text-lg text-gray-600 max-w-2xl md:mx-auto">
- {t.faq.subtitle}
- </p>
  </div>
 
- {/* Lista de FAQs */}
- <div className="space-y-4">
+ {/* Coluna Direita - Accordion */}
+ <div className="lg:col-span-8 space-y-4">
  {t.faq.items.map((faq, index) => (
  <div
  key={index}
  className="border transition-colors"
  style={{
- borderColor: '#D1D5DB',
+ borderColor: colors.borderDark,
  borderRadius: '7px',
- backgroundColor: '#f7f7f7',
+ backgroundColor: colors.blackColor,
  }}
  >
  {/* Pergunta */}
@@ -61,7 +52,10 @@ const FAQ: React.FC = () => {
  onClick={() => toggleFAQ(index)}
  className="w-full px-6 py-5 flex items-center justify-between text-left transition-all duration-200 hover:opacity-80"
  >
- <span className="text-base md:text-lg font-medium text-gray-900 pr-4">
+ <span 
+ className="text-base md:text-lg font-medium pr-4"
+ style={{ color: colors.whiteColor }}
+ >
  {faq.question}
  </span>
  <svg
@@ -73,7 +67,7 @@ const FAQ: React.FC = () => {
  className={`flex-shrink-0 transition-transform duration-300 ${
  openIndex === index ? 'rotate-180' : ''
  }`}
- style={{ color: '#010101' }}
+ style={{ color: colors.whiteColor }}
  >
  <polyline
  points="6 9 12 15 18 9"
@@ -84,7 +78,7 @@ const FAQ: React.FC = () => {
  </svg>
  </button>
 
- {/* Resposta */}
+
  <div
  className="overflow-hidden transition-all duration-300"
  style={{
@@ -93,7 +87,10 @@ const FAQ: React.FC = () => {
  }}
  >
  <div className="px-6 pb-5">
- <p className="text-base text-gray-600 leading-relaxed">
+ <p 
+ className="text-base leading-relaxed"
+ style={{ color: colors.whiteColor, opacity: 0.8 }}
+ >
  {faq.answer}
  </p>
  </div>
@@ -102,13 +99,10 @@ const FAQ: React.FC = () => {
  ))}
  </div>
 
- {/* Call to Action */}
- <div className="mt-12 text-center">
- <p className="text-base text-gray-600 mb-4">
- {t.faq.subtitle}
- </p>
- <ButtonCta label={t.faq.cta} variant="primary" />
  </div>
+
+ {/* Call to Action */}
+ 
  </div>
  </div>
  </section>

@@ -1,49 +1,45 @@
 import React from 'react';
 import Badge from '../../components/ui/Badge';
 import ProjectCard from '../../components/ui/ProjectCard';
-import VehicleTrackingMap from '../../components/ui/VehicleTrackingMap';
-import CheckoutAnimation from '../../components/ui/CheckoutAnimation';
-import HealthDashboard from '../../components/ui/HealthDashboard';
+import { colors } from '../../styles/colors';
 import { ptBR } from '../../locales/pt-BR';
 
 const Projects: React.FC = () => {
 	const t = ptBR;
 
- const projects = [
- {
- ...t.projects.items[0],
- technologies: {
- frontend: ['Next.js 16', 'React 19', 'Tailwind CSS 4'],
- backend: ['Node.js', 'PostgreSQL', 'Prisma ORM'],
- },
- customContent: <HealthDashboard />,
- },
- {
- ...t.projects.items[1],
- technologies: {
- frontend: ['React', 'Mapbox GL', 'Socket.io'],
- backend: ['Python', 'FastAPI', 'Redis', 'PostgreSQL'],
- },
- customContent: <VehicleTrackingMap />,
- },
- {
- ...t.projects.items[2],
- technologies: {
- frontend: ['React', 'Formik', 'Framer Motion'],
- backend: ['Node.js', 'Stripe', 'PayPal API'],
- },
- customContent: <CheckoutAnimation />,
- },
- ];
+	const projects = [
+		{
+			...t.projects.items[0],
+			technologies: {
+				frontend: ['Next.js 16', 'React 19', 'Tailwind CSS 4'],
+				backend: ['Node.js', 'PostgreSQL', 'Prisma ORM'],
+			},
+			// image placeholder can be provided later (1080x1080)
+			image: undefined,
+		},
+		{
+			...t.projects.items[1],
+			technologies: {
+				frontend: ['React', 'Mapbox GL', 'Socket.io'],
+				backend: ['Python', 'FastAPI', 'Redis', 'PostgreSQL'],
+			},
+			image: undefined,
+		},
+		{
+			...t.projects.items[2],
+			technologies: {
+				frontend: ['React', 'Formik', 'Framer Motion'],
+				backend: ['Node.js', 'Stripe', 'PayPal API'],
+			},
+			image: undefined,
+		},
+	];
 
  return (
  <section 
  id="projects"
- className="w-full py-20 md:py-0 md:h-screen md:w-screen md:flex md:items-center bg-custom-white transition-colors border-t border-b"
- style={{
- borderTopColor: '#D1D5DB',
- borderBottomColor: '#D1D5DB'
- }}
+ className="w-full py-20 transition-colors border-t border-b"
+ style={{ borderTopColor: colors.borderDark, borderBottomColor: colors.borderDark }}
  >
  <div className="px-4 md:px-8 lg:px-16">
  <div className="max-w-7xl mx-auto">

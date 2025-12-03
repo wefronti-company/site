@@ -1,207 +1,98 @@
 import React, { useState } from 'react';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
-import ButtonAppbar from '../ui/ButtonAppbar';
 import Logo from '../ui/Logo';
 import { colors } from '../../styles/colors';
 import { ptBR } from '../../locales/pt-BR';
 
 const AppBar: React.FC = () => {
-	const router = useRouter();
-	const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-	const t = ptBR;
+  const router = useRouter();
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const t = ptBR;
 
-	const navItems = [
-		{ label: t.appBar.nav.clients, href: '#clients' },
-		{ label: t.appBar.nav.services, href: '#services' },
-		{ label: t.appBar.nav.projects, href: '#projects' },
-		{ label: t.appBar.nav.faq, href: '#faq' }
-	];
-	
-	return (
-		<header 
-				className="w-full sticky top-0 z-40 bg-transparent transition-colors py-4"
-			>
-			<div className="px-4 md:px-8 lg:px-16">
-				<div className="h-20 md:h-20 flex items-center justify-between w-full max-w-[1400px] mx-auto">
-					<div className="w-full px-4 py-2 flex items-center gap-4 bg-gradient-to-r from-[#0b0b0b] via-[#0f0f10] to-[#111] border border-[rgba(255,255,255,0.03)] rounded-3xl shadow-xl">
-					
-						{/* Left - menu toggle + logo */}
-						<div className="flex items-center gap-3">
-							<button
-								className="w-10 h-10 rounded-lg flex items-center justify-center bg-[rgba(255,255,255,0.03)] hover:bg-[rgba(255,255,255,0.05)] transition-colors"
-								aria-label="Abrir menu"
-							>
-								<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-gray-300">
-									<path d="M3 12h18M3 6h18M3 18h18" />
-								</svg>
-							</button>
+  const navItems = [
+    { label: 'Início', href: '#section-0' },
+    { label: t.appBar.nav.clients, href: '#clients' },
+    { label: t.appBar.nav.services, href: '#services' },
+    { label: t.appBar.nav.projects, href: '#projects' },
+    { label: t.appBar.nav.faq, href: '#faq' },
+  ];
 
-							<button 
-								onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-								className="scale-65 md:scale-100 cursor-pointer flex items-center"
-							>
-								<Logo />
-							</button>
-						</div>
-					
-					{/* Center - search */}
-					<div className="flex-1 hidden lg:flex items-center justify-center px-6">
-						<div className="w-full max-w-[620px] flex items-center gap-3 bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.04)] rounded-lg px-3 py-2">
-							<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-gray-400">
-								<circle cx="11" cy="11" r="7" />
-								<line x1="21" y1="21" x2="16.65" y2="16.65" />
-							</svg>
-							<input
-								placeholder="Search..."
-								className="flex-1 bg-transparent outline-none text-sm text-gray-300 placeholder:text-gray-400"
-							/>
-							<div className="flex items-center gap-2 text-xs text-gray-400 px-2 py-1 rounded-md bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.02)]">
-								<kbd className="px-2 py-0.5 rounded-sm bg-[rgba(255,255,255,0.03)]">Ctrl</kbd>
-								<span className="opacity-70">K</span>
-							</div>
-						</div>
-					</div>
-					</div>
+  // AppBar is now non-fixed and plain (no blur, no bottom border)
 
-					{/* Desktop Nav - Hidden on mobile (small optional center nav kept for narrower screens) */}
-					<nav className="hidden lg:flex absolute left-1/2 -translate-x-1/2 items-center gap-1 bg-transparent p-1" style={{ borderRadius: '7px' }}>
-						{navItems.map(item => {
-							return (
-								<button
-									key={item.label}
-									onClick={() => {
-										const element = document.querySelector(item.href);
-										if (element) {
-											element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-										}
-									}}
-									className="px-6 h-9 flex items-center text-sm font-medium transition-all text-gray-600 hover:text-black hover:bg-gray-300 cursor-pointer"
-									style={{ borderRadius: '7px' }}
-								>
-									{item.label}
-								</button>
-							);
-						})}
-					</nav>
-					
-					{/* Right - controls */}
-					<div className="hidden lg:flex items-center gap-3 ml-4">
-						{/* Language switching removed; site is fixed to pt-BR */}
+  return (
+    <header className={`w-full relative transition-all duration-300`}>
+      <div className="max-w-[1400px] mx-auto px-4 md:px-8 lg:px-16">
+        <div className="h-40 flex items-center justify-between w-full">
+          {/* LEFT: logo */}
+          <div className="flex items-center gap-4">
+            <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} aria-label="Ir para o topo" className="flex items-center">
+              <Logo />
+            </button>
+          </div>
 
-						<button className="w-10 h-10 rounded-lg flex items-center justify-center bg-[rgba(255,255,255,0.03)] hover:bg-[rgba(255,255,255,0.05)] transition-colors text-gray-300" aria-label="Tema">
-							<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="3" /><path d="M12 2v2M12 20v2M20 12h2M2 12H4M17.657 6.343l1.414 1.414M4.929 19.071l1.414 1.414M17.657 17.657l1.414-1.414M4.929 4.929l1.414-1.414"/></svg>
-						</button>
+          {/* CENTER: nav (desktop) */}
+          <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-white/90">
+            {navItems.map(item => (
+              <button
+                key={item.href}
+                onClick={() => {
+                  const el = document.querySelector(item.href);
+                  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }}
+                className="px-4 py-2 rounded-md transition-opacity"
+              >
+                {item.label}
+              </button>
+            ))}
+          </nav>
 
-						<div className="relative">
-							<button className="w-10 h-10 rounded-lg flex items-center justify-center bg-[rgba(255,255,255,0.03)] hover:bg-[rgba(255,255,255,0.05)] transition-colors text-gray-300" aria-label="Notificações">
-								<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0 1 18 14.158V11a6 6 0 10-12 0v3.159c0 .538-.214 1.055-.595 1.436L4 17h5"/></svg>
-							</button>
-							<span className="absolute -top-0.5 -right-0.5 w-3 h-3 bg-red-500 rounded-full border border-[rgba(0,0,0,0.25)]" />
-						</div>
+          {/* RIGHT: CTA + controls */}
+          <div className="flex items-center gap-3">
+            {/* CTA: desktop (removed external brightness/glow) */}
+            <button onClick={() => router.push('/form')} className="hidden md:inline-flex px-4 py-2 rounded-lg bg-blue-600 text-white text-sm font-semibold transition-all">
+              {t.appBar.cta}
+            </button>
 
-						<div className="w-10 h-10 rounded-full bg-gradient-to-tr from-indigo-700 via-purple-700 to-pink-500 flex items-center justify-center text-sm font-semibold text-white">DT</div>
-						<div className="text-sm text-gray-300 font-medium">Demo</div>
-						<ButtonAppbar />
-					</div>
+            {/* MOBILE: hamburger */}
+            <div className="lg:hidden flex items-center gap-2">
+              <button onClick={() => setMobileOpen(!mobileOpen)} className="w-10 h-10 flex flex-col items-center justify-center gap-1.5" aria-label="Toggle menu">
+                <span className={`w-6 h-0.5 bg-white/80 transition-all duration-300 ${mobileOpen ? 'rotate-45 translate-y-2' : ''}`} />
+                <span className={`w-6 h-0.5 bg-white/80 transition-all duration-300 ${mobileOpen ? 'opacity-0' : ''}`} />
+                <span className={`w-6 h-0.5 bg-white/80 transition-all duration-300 ${mobileOpen ? '-rotate-45 -translate-y-2' : ''}`} />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
 
-					{/* Mobile Right section - Hamburger */}
-					<div className="lg:hidden flex items-center gap-2">
-						<button
-							onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-							className="w-10 h-10 flex flex-col items-center justify-center gap-1.5"
-							aria-label="Toggle menu"
-						>
-							<span 
-								className={`w-6 h-0.5 bg-gray-800 transition-all duration-300 ${
-									mobileMenuOpen ? 'rotate-45 translate-y-2' : ''
-								}`}
-							/>
-							<span 
-								className={`w-6 h-0.5 bg-gray-800 transition-all duration-300 ${
-									mobileMenuOpen ? 'opacity-0' : ''
-								}`}
-							/>
-							<span 
-								className={`w-6 h-0.5 bg-gray-800 transition-all duration-300 ${
-									mobileMenuOpen ? '-rotate-45 -translate-y-2' : ''
-								}`}
-							/>
-						</button>
-					</div>
-				</div>
-			</div>
+      {/* Mobile menu panel */}
+      <div className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${mobileOpen ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0'}`}>
+        <nav className="px-4 pb-6 flex flex-col gap-3">
+          {navItems.map(item => (
+            <button
+              key={item.href}
+              onClick={() => {
+                setMobileOpen(false);
+                const el = document.querySelector(item.href);
+                if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }}
+              className="px-4 py-3 rounded-lg text-base font-medium transition-all text-gray-200 cursor-pointer text-left w-full"
+            >
+              {item.label}
+            </button>
+          ))}
 
-			{/* Mobile Menu */}
-			<div 
-				className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${
-					mobileMenuOpen ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0'
-				}`}
-			>
-				<nav className="px-4 pb-6 flex flex-col gap-3">
-					{/* Navigation Links */}
-					{navItems.map(item => {
-						return (
-							<button
-								key={item.label}
-								onClick={() => {
-									setMobileMenuOpen(false);
-									// Mobile sempre usa scroll vertical normal
-									const element = document.querySelector(item.href);
-									if (element) {
-										element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-									}
-								}}
-								className="px-4 py-3 rounded-lg text-base font-medium transition-all text-gray-600 hover:bg-gray-200 cursor-pointer text-left w-full"
-							>
-								{item.label}
-							</button>
-						);
-					})}
-					
-					{/* language selector removed — fixed PT-BR site */}
+          
 
-					{/* Social Media - Grid 2 columns */}
-					<div className="grid grid-cols-2 gap-3">
-						<a 
-							href="https://linkedin.com" 
-							target="_blank" 
-							rel="noopener noreferrer"
-							className="px-4 py-3 rounded-lg text-sm font-medium text-gray-600 dark:text-white/60 hover:bg-gray-200 dark:hover:bg-white/5 transition-all flex items-center justify-center gap-2"
-						>
-							<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-								<path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
-							</svg>
-							<span>LinkedIn</span>
-						</a>
-						<a 
-							href="https://instagram.com" 
-							target="_blank" 
-							rel="noopener noreferrer"
-							className="px-4 py-3 rounded-lg text-sm font-medium text-gray-600 dark:text-white/60 hover:bg-gray-200 dark:hover:bg-white/5 transition-all flex items-center justify-center gap-2"
-						>
-							<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-								<path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-							</svg>
-							<span>Instagram</span>
-						</a>
-					</div>
-
-					{/* Contact Button */}
-					<div className="mt-2">
-						<button
-							type="button"
-							onClick={() => { setMobileMenuOpen(false); router.push('/form'); }}
-							className="w-full px-5 py-3 text-base font-medium text-white hover:opacity-90 active:scale-95 transition-all duration-200 shadow-sm hover:shadow-md flex items-center justify-center"
-							style={{ borderRadius: '7px', backgroundColor: colors.blueColor }}
-						>
-							Iniciar um projeto
-						</button>
-					</div>
-				</nav>
-			</div>
-		</header>
-	);
+            <div className="mt-2">
+            <button type="button" onClick={() => { setMobileOpen(false); router.push('/form'); }} className="w-full px-5 py-3 text-base font-medium text-white active:scale-95 transition-all duration-200 flex items-center justify-center" style={{ borderRadius: '7px', backgroundColor: colors.blueColor }}>
+              {t.appBar.cta}
+            </button>
+          </div>
+        </nav>
+      </div>
+    </header>
+  );
 };
 
 export default AppBar;

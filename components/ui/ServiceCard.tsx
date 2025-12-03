@@ -18,18 +18,19 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ title, description, features,
 	const t = ptBR;
 
  return (
- <div 
- className="flex flex-col gap-6 p-8 bg-gray-100 border transition-all hover:scale-[1.02] duration-300"
- style={{ 
- borderRadius: '7px',
- borderColor: colors.borderLight
- }}
- >
- <h3 className="text-2xl md:text-2xl font-medium text-gray-900">
+		<div
+			className="flex flex-col gap-6 p-8 transition-all hover:scale-[1.02] duration-300"
+			style={{
+				borderRadius: '7px',
+				backgroundColor: colors.colorGray,
+				border: `1px solid ${colors.borderDark}`,
+			}}
+		>
+			<h3 className="text-2xl md:text-2xl font-medium" style={{ color: colors.whiteColor }}>
  {title}
  </h3>
  
- <p className="text-base text-gray-600">
+ <p className="text-base" style={{ color: colors.whiteColor }}>
  {description}
  </p>
 
@@ -53,13 +54,13 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ title, description, features,
  strokeLinejoin="round"
  />
  </svg>
- <span className="text-sm md:text-base text-gray-700">{feature}</span>
+ <span className="text-sm md:text-base" style={{ color: colors.whiteColor }}>{feature}</span>
  </div>
  ))}
  </div>
 
  <div className="mt-auto pt-6 flex flex-col gap-4">
- <div className="flex items-center gap-2 text-sm text-gray-600">
+	 <div className="flex items-center gap-2 text-sm" style={{ color: colors.whiteColor }}>
  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
  <circle cx="12" cy="12" r="10" strokeWidth="2"/>
  <polyline points="12 6 12 12 16 14" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -67,7 +68,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ title, description, features,
  <span>{timeline}</span>
  </div>
  
- <ButtonCta label={t.services.ctaButton} variant="primary" />
+	  <ButtonCta label={t.services.ctaButton} variant="primary" />
  </div>
  </div>
  );

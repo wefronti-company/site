@@ -5,7 +5,7 @@ export const colors = {
  borderLight: '#ffffffff',
  borderDark: '#222222ff',
  blueColor: '#3774d5ff',
- colorGraytab: '#29292966',
+ colorGray: '#29292966',
  colorGrayhover: '#47474730',
  
 } as const;

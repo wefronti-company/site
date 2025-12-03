@@ -1,4 +1,5 @@
 import React from 'react';
+import { colors } from '../../styles/colors';
 import Image from 'next/image';
 
 interface TestimonialCardProps {
@@ -18,16 +19,17 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
  rating,
  image,
 }) => {
- return (
- <div
- className="flex-shrink-0 w-[350px] md:w-[400px] p-8 bg-gray-100 transition-colors"
- style={{
- border: `1px solid ${'#D1D5DB'}`,
- borderRadius: '7px',
- }}
- >
+	return (
+		<div
+			className="flex-shrink-0 w-[350px] md:w-[400px] p-8 transition-colors"
+			style={{
+				backgroundColor: colors.colorGray,
+				border: `1px solid ${colors.borderDark}`,
+				borderRadius: '7px',
+			}}
+		>
  {/* Estrelas */}
- <div className="flex gap-1 mb-4">
+	<div className="flex gap-1 mb-4">
  {[...Array(5)].map((_, index) => (
  <svg
  key={index}
@@ -42,12 +44,12 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
  </div>
 
  {/* Texto do depoimento */}
- <p className="text-base text-gray-700 mb-6 leading-relaxed">
- "{text}"
- </p>
+		<p className="text-base mb-6 leading-relaxed" style={{ color: colors.whiteColor }}>
+			"{text}"
+		</p>
 
  {/* Informações do cliente */}
- <div className="border-t pt-4" style={{ borderColor: '#D1D5DB' }}>
+	<div className="border-t pt-4" style={{ borderColor: colors.borderDark }}>
  <div className="flex items-center gap-4">
  <div className="relative w-12 h-12 flex-shrink-0">
  <Image
@@ -59,8 +61,8 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
  />
  </div>
  <div>
- <p className="font-medium text-gray-900">{name}</p>
- <p className="text-sm text-gray-600">
+			<p className="font-medium" style={{ color: colors.whiteColor }}>{name}</p>
+			<p className="text-sm" style={{ color: colors.whiteColor }}>
  {role} • {company}
  </p>
  </div>

@@ -1,5 +1,6 @@
 import React from 'react';
 import Logo from '../../components/ui/Logo';
+import { colors } from '../../styles/colors';
 import { ptBR } from '../../locales/pt-BR';
 
 const Footer: React.FC = () => {
@@ -16,8 +17,8 @@ const Footer: React.FC = () => {
  <footer 
  className="w-full border-t transition-colors"
  style={{
- backgroundColor: '#f7f7f7',
- borderTopColor: '#D1D5DB'
+ backgroundColor: colors.blackColor,
+ borderTopColor: colors.borderDark
  }}
  >
  <div className="px-4 md:px-8 lg:px-16 py-12 md:py-16 relative">
@@ -33,10 +34,16 @@ const Footer: React.FC = () => {
 
  {/* Redes Sociais à direita */}
  <div className="flex items-center gap-6">
- <span className="text-sm text-gray-600">
- {t.footer.socialTitle}
- </span>
- 
+ {/* Social title + email */}
+ <div className="flex flex-col sm:flex-row sm:items-center items-start gap-3">
+	 <span className="text-sm" style={{ color: colors.whiteColor }}>
+		 {t.footer.socialTitle}
+	 </span>
+	 <a href={`mailto:${t.footer.contact.email}`} className="text-sm text-ellipsis whitespace-nowrap" style={{ color: colors.whiteColor, opacity: 0.9 }}>
+		 {t.footer.contact.email}
+	 </a>
+ </div>
+
  <div className="flex items-center gap-4">
  {/* Instagram */}
  <a
@@ -45,7 +52,7 @@ const Footer: React.FC = () => {
  rel="noopener noreferrer"
  className="w-10 h-10 flex items-center justify-center rounded-md transition-all hover:scale-110"
  style={{
- backgroundColor: '#e5e7eb'
+ backgroundColor: 'rgba(255,255,255,0.06)'
  }}
  aria-label="Instagram"
  >
@@ -61,7 +68,7 @@ const Footer: React.FC = () => {
  rel="noopener noreferrer"
  className="w-10 h-10 flex items-center justify-center rounded-md transition-all hover:scale-110"
  style={{
- backgroundColor: '#e5e7eb'
+ backgroundColor: 'rgba(255,255,255,0.06)'
  }}
  aria-label="LinkedIn"
  >
@@ -75,7 +82,7 @@ const Footer: React.FC = () => {
  onClick={scrollToTop}
  className="w-10 h-10 flex items-center justify-center rounded-md transition-all hover:scale-110"
  style={{
- backgroundColor: '#3B82F6'
+ backgroundColor: colors.blueColor
  }}
  aria-label="Voltar ao topo"
  >
@@ -101,14 +108,14 @@ const Footer: React.FC = () => {
  <div 
  className="w-full h-px mb-8"
  style={{
- backgroundColor: '#D1D5DB'
+ backgroundColor: colors.borderDark
  }}
  />
 
  {/* Bottom Bar - Copyright e CNPJ */}
  <div className="flex flex-col md:flex-row items-center justify-left gap-2 text-center">
- <p className="text-md'px text-gray-600">
- {t.footer.copyright.replace('2025', new Date().getFullYear().toString())}
+ <p className="text-md" style={{ color: colors.whiteColor, opacity: 0.8 }}>
+	 {t.footer.copyright.replace('2025', new Date().getFullYear().toString())}
  </p>
  </div>
 

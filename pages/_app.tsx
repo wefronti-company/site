@@ -11,9 +11,11 @@ export default function MyApp({ Component, pageProps }: AppProps) {
  <Head>
  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
  </Head>
- <QuoteModalProvider>
- <Component {...pageProps} />
- <QuoteModal />
+		<QuoteModalProvider>
+			{/* AppBar is now rendered inside the Hero section; render pages directly */}
+			<Component {...pageProps} />
+
+	 <QuoteModal />
  </QuoteModalProvider>
  </>
  );

@@ -230,9 +230,9 @@ export const ptBR = {
  },
  contactTitle: 'Contato',
  contact: {
- email: 'contato@wefronti.com',
+	email: 'projetos@wefronti.com',
  phone: '+55 (11) 99999-9999',
- address: 'São Paulo, SP - Brasil'
+	address: ''
  },
  socialTitle: 'Redes Sociais',
  copyright: '© 2025 Wefronti. Todos os direitos reservados.'
