@@ -12,8 +12,8 @@ const Logo: React.FC<LogoProps> = ({ className = '' }) => {
       <Image 
         src="/images/isologo-white.webp"
         alt="Wefronti Logo" 
-        width={170} 
-        height={170}
+        width={150} 
+        height={150}
         priority
       />
     </Link>
