@@ -18,6 +18,19 @@
   animation: pulse-shadow 2s ease-out infinite;
 }
 
+/* Select dropdown options styling */
+select option {
+  background-color: #1a1a1a;
+  color: #f7f7f7;
+}
+
+select option:hover,
+select option:focus,
+select option:checked {
+  background-color: #b0b0b0e3;
+  color: #101010;
+}
+
 :root {
   --color-black: #151515ff;
   --color-white: #f7f7f7;

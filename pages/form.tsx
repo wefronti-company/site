@@ -15,7 +15,8 @@ import {
  isValidOrigin,
 } from '../utils/security-frontend';
 
-const Footer = dynamic(() => import('../sections/Footer/Footer'), { ssr: false });
+const AppBar = dynamic(() => import('../components/layout/AppBar'), { ssr: false });
+const Footer = dynamic(() => import('../sections/Footer'), { ssr: false });
 
 const FormPage: React.FC = () => {
  const [isSubmitting, setIsSubmitting] = React.useState(false);
@@ -250,32 +251,32 @@ const FormPage: React.FC = () => {
  <meta name="robots" content="noindex, nofollow" />
  </Head>
 
+ <AppBar />
+
  <div className="min-h-screen" style={{ backgroundColor: colors.blackColor }}>
  
- <main className="pt-24 pb-16 px-4">
+ <main className="pb-16 px-4" style={{ paddingTop: '200px' }}>
  <div className="max-w-4xl mx-auto">
  {/* Header */}
  <div className="mb-12">
  <h1 
- className="text-3xl md:text-4xl font-bold mb-3"
- style={{ color: colors.whiteColor }}
+ className="text-4xl md:text-4xl lg:text-5xl font-medium bg-gradient-to-br from-white via-gray-200 to-gray-500 bg-clip-text text-transparent mb-4"
  >
  Solicite um Orçamento
  </h1>
  <p 
- className="text-base"
- style={{ color: colors.whiteColor, opacity: 0.8 }}
+ className="text-lg text-gray-300"
  >
  Preencha o formulário abaixo e nossa equipe entrará em contato
  </p>
  </div>
 
  {/* Form Card */}
- <div 
- className="rounded-2xl shadow-xl p-6 md:p-10"
+ <div  className="shadow-xl p-6 md:p-10"
  style={{
  backgroundColor: colors.blackColor,
- border: `1px solid ${colors.borderDark}`
+ border: `1px solid ${colors.borderDark}`,
+ borderRadius: '10px',
  }}
  >
  <form onSubmit={handleSubmit} noValidate className="space-y-6">
@@ -311,7 +312,7 @@ const FormPage: React.FC = () => {
  minLength={2}
  maxLength={100}
  autoComplete="name"
- className={`w-full px-4 py-3 rounded-lg transition-all duration-300 outline-none ${
+ className={`w-full px-4 py-3 rounded-[10px] transition-all duration-300 outline-none ${
  fieldErrors.name 
  ? 'border-2 border-red-500' 
  : ''
@@ -333,7 +334,7 @@ const FormPage: React.FC = () => {
  </div>
  {fieldErrors.name && (
  <div 
- className="mt-2 flex items-start gap-2 p-3 rounded-lg"
+ className="mt-2 flex items-start gap-2 p-3 rounded-[10px]"
  style={{
  backgroundColor: 'rgba(254, 226, 226, 1)',
  border: `1px solid 'rgba(239, 68, 68, 0.3)'`,
@@ -362,7 +363,7 @@ const FormPage: React.FC = () => {
  onChange={handleChange}
  placeholder="(99) 9 9999-9999"
  required
- className={`w-full px-4 py-3 rounded-lg transition-all duration-300 outline-none`}
+ className={`w-full px-4 py-3 rounded-[10px] transition-all duration-300 outline-none`}
  style={{
  backgroundColor: colors.colorGray,
  border: fieldErrors.whatsapp ? '2px solid #EF4444' : `1px solid ${colors.borderDark}`,
@@ -380,7 +381,7 @@ const FormPage: React.FC = () => {
  </div>
  {fieldErrors.whatsapp && (
  <div 
- className="mt-2 flex items-start gap-2 p-3 rounded-lg"
+ className="mt-2 flex items-start gap-2 p-3 rounded-[10px]"
  style={{
  backgroundColor: 'rgba(254, 226, 226, 1)',
  border: `1px solid 'rgba(239, 68, 68, 0.3)'`,
@@ -414,7 +415,7 @@ const FormPage: React.FC = () => {
  onChange={handleChange}
  placeholder="seu@email.com"
  required
- className={`w-full px-4 py-3 rounded-lg transition-all duration-300 outline-none`}
+ className={`w-full px-4 py-3 rounded-[10px] transition-all duration-300 outline-none`}
  style={{
  backgroundColor: colors.colorGray,
  border: fieldErrors.email ? '2px solid #EF4444' : `1px solid ${colors.borderDark}`,
@@ -432,7 +433,7 @@ const FormPage: React.FC = () => {
  </div>
  {fieldErrors.email && (
  <div 
- className="mt-2 flex items-start gap-2 p-3 rounded-lg"
+ className="mt-2 flex items-start gap-2 p-3 rounded-[10px]"
  style={{
  backgroundColor: 'rgba(254, 226, 226, 1)',
  border: `1px solid 'rgba(239, 68, 68, 0.3)'`,
@@ -460,7 +461,7 @@ const FormPage: React.FC = () => {
  onChange={handleChange}
  placeholder="Nome da empresa"
  required
- className={`w-full px-4 py-3 rounded-lg transition-all outline-none`}
+ className={`w-full px-4 py-3 rounded-[10px] transition-all outline-none`}
  style={{
  backgroundColor: colors.colorGray,
  border: fieldErrors.company ? '2px solid #EF4444' : `1px solid ${colors.borderDark}`,
@@ -489,7 +490,7 @@ const FormPage: React.FC = () => {
  value={formData.role}
  onChange={handleChange}
  required
- className={`w-full px-4 py-3 rounded-lg transition-all outline-none`}
+ className={`w-full px-4 py-3 rounded-[10px] transition-all outline-none`}
  style={{
  backgroundColor: colors.colorGray,
  border: fieldErrors.role ? '2px solid #EF4444' : `1px solid ${colors.borderDark}`,
@@ -520,7 +521,7 @@ const FormPage: React.FC = () => {
  value={formData.revenue}
  onChange={handleChange}
  required
- className={`w-full px-4 py-3 rounded-lg transition-all outline-none`}
+ className={`w-full px-4 py-3 rounded-[10px] transition-all outline-none`}
  style={{
  backgroundColor: colors.colorGray,
  border: fieldErrors.revenue ? '2px solid #EF4444' : `1px solid ${colors.borderDark}`,
@@ -557,7 +558,7 @@ const FormPage: React.FC = () => {
  placeholder="Conte-nos sobre seu projeto ou desafio..."
  required
  rows={4}
- className={`w-full px-4 py-3 rounded-lg transition-all resize-none outline-none`}
+ className={`w-full px-4 py-3 rounded-[10px] transition-all resize-none outline-none`}
  style={{
  backgroundColor: colors.colorGray,
  border: fieldErrors.challenge ? '2px solid #EF4444' : `1px solid ${colors.borderDark}`,
@@ -581,7 +582,7 @@ const FormPage: React.FC = () => {
  value={formData.timeline}
  onChange={handleChange}
  required
- className={`w-full px-4 py-3 rounded-lg transition-all outline-none`}
+ className={`w-full px-4 py-3 rounded-[10px] transition-all outline-none`}
  style={{
  backgroundColor: colors.colorGray,
  border: fieldErrors.timeline ? '2px solid #EF4444' : `1px solid ${colors.borderDark}`,
@@ -610,7 +611,7 @@ const FormPage: React.FC = () => {
  onChange={(e) => setPrivacyConsent(e.target.checked)}
  className="mt-1 w-4 h-4 rounded cursor-pointer"
  style={{
- accentColor: colors.blueColor
+ accentColor: colors.colorGray
  }}
  />
  <label 
@@ -625,7 +626,7 @@ const FormPage: React.FC = () => {
  {/* Status Messages */}
  {submitStatus === 'success' && (
  <div 
- className="flex items-start gap-3 p-4 rounded-lg"
+ className="flex items-start gap-3 p-4 rounded-[10px]"
  style={{
  backgroundColor: 'rgba(220, 252, 231, 1)',
  border: `1px solid 'rgba(34, 197, 94, 0.3)'`,
@@ -648,7 +649,7 @@ const FormPage: React.FC = () => {
 
  {submitStatus === 'error' && (
  <div 
- className="flex items-start gap-3 p-4 rounded-lg"
+ className="flex items-start gap-3 p-4 rounded-[10px]"
  style={{
  backgroundColor: 'rgba(254, 226, 226, 1)',
  border: `1px solid 'rgba(239, 68, 68, 0.3)'`,
@@ -671,16 +672,14 @@ const FormPage: React.FC = () => {
 
  {/* Submit Button */}
  <div className="flex justify-start">
- <button
- type="submit"
+ <ButtonCta
+ variant="gradient"
+ onClick={() => {}}
  disabled={isSubmitting}
- className="px-8 py-3 text-base font-medium text-white rounded-md transition-all hover:opacity-90 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
- style={{
- backgroundColor: colors.blueColor
- }}
+ type="submit"
  >
- {isSubmitting ? 'Enviando...' : 'Enviar solicitação'}
- </button>
+ {isSubmitting ? 'Enviando...' : 'Enviar'}
+ </ButtonCta>
  </div>
 
  </form>

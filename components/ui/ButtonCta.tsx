@@ -5,13 +5,19 @@ import { useRouter } from 'next/router';
 interface ButtonCtaProps {
  label?: string;
  onClick?: () => void;
- variant?: 'primary' | 'secondary';
+ variant?: 'primary' | 'secondary' | 'gradient';
+ children?: React.ReactNode;
+ type?: 'button' | 'submit';
+ disabled?: boolean;
 }
 
 const ButtonCta: React.FC<ButtonCtaProps> = ({ 
  label, 
  onClick,
- variant = 'primary' 
+ variant = 'primary',
+ children,
+ type = 'button',
+ disabled = false
 }) => {
  
  const router = useRouter();
@@ -19,33 +25,35 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
  const handleClick = () => {
  if (onClick) {
  onClick();
- } else {
+ } else if (type === 'button') {
  router.push('/form');
  }
  };
- const isPrimary = variant === 'primary';
  
- const gradientStyle = isPrimary ? {
+ const isGradient = variant === 'gradient' || variant === 'primary';
+ 
+ const gradientStyle = isGradient ? {
  background: `linear-gradient(90deg, ${colors.gradientOne}, ${colors.gradientTwo})`,
  color: colors.blackColor
  } : {};
  
  return (
  <button
- type="button"
+ type={type}
  onClick={handleClick}
- className={`px-4 py-3 text-base font-semibold transition-all duration-200 flex items-center gap-3 hover:opacity-90 animate-pulse-shadow ${
- isPrimary 
+ disabled={disabled}
+ className={`px-4 py-3 text-base font-semibold transition-all duration-200 flex items-center gap-3 hover:opacity-90 animate-pulse-shadow disabled:opacity-50 disabled:cursor-not-allowed ${
+ isGradient 
  ? '' 
  : 'bg-gray-200 text-black'
  }`}
  style={{ 
  borderRadius: '30px',
  ...gradientStyle,
- ...(!isPrimary && { backgroundColor: colors.blueColor })
+
  }}
  >
- <span>{label || 'Iniciar um projeto'}</span>
+ <span>{children || label || 'Iniciar um projeto'}</span>
  <div 
  className="flex items-center justify-center transition-transform duration-200 group-hover:translate-x-1"
  style={{
