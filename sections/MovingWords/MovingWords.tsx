@@ -1,24 +1,34 @@
 import React, { useEffect, useRef } from 'react';
 import { colors } from '../../styles/colors';
 
-const words = [
-  'Aplicativos Mobile',
-  'Dashboards',
-  'Saas',
-  'Sistemas Web',
-  'Desenvolvimento de Softwares',
-  'Websites',
+const services = [
+  { name: 'App Mobile', icon: '📱' },
+  { name: 'Sistema Web', icon: '🌐' },
+  { name: 'SaaS', icon: '☁️' },
+  { name: 'Dashboard', icon: '📊' },
+  { name: 'E-commerce', icon: '🛒' },
+  { name: 'API Integration', icon: '🔌' },
 ];
 
-const ArrowIcon: React.FC<{ color?: string; size?: number }> = ({ color = '#3774d5', size = 16 }) => (
-  // diagonal up-right arrow with rounded caps. The shaft is a thick diagonal line,
-  // the head is formed by two short perpendicular strokes so it visually matches the
-  // reference (45° angle, bold/rounded style).
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden>
-    <path d="M4 20 L20 4" stroke={color} strokeWidth="3.6" strokeLinecap="round" strokeLinejoin="round" />
-    <path d="M14 4 L20 4 L20 10" stroke={color} strokeWidth="3.6" strokeLinecap="round" strokeLinejoin="round" />
-  </svg>
-);
+const ServiceIcon: React.FC<{ icon: string; index: number }> = ({ icon, index }) => {
+  // Alterna entre os dois gradientes
+  const isGradientOne = index % 2 === 0;
+  const bgColor = isGradientOne ? colors.gradientOne : colors.gradientTwo;
+  
+  return (
+    <div 
+      className="flex items-center justify-center rounded-full"
+      style={{
+        width: '48px',
+        height: '48px',
+        backgroundColor: bgColor,
+        flexShrink: 0
+      }}
+    >
+      <span style={{ fontSize: '24px' }}>{icon}</span>
+    </div>
+  );
+};
 
 const MovingWords: React.FC = () => {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -63,31 +73,35 @@ const MovingWords: React.FC = () => {
     };
   }, []);
 
-  // duplicate the words list so the sequence flows from the end back to the beginning
-  const displayWords = [...words, ...words];
+  // Duplica a lista de serviços para criar o efeito infinito
+  const displayServices = [...services, ...services, ...services];
 
   return (
     <section
-      aria-label="skills-ticker"
+      aria-label="services-ticker"
       ref={containerRef}
       className="w-full overflow-hidden"
-      style={{ backgroundColor: colors.whiteColor }}
+      style={{ backgroundColor: colors.blackColor }}
     >
-      {/* Make this container truly full width (remove centered max-width) so it doesn't cut words */}
-      {/* full-bleed container: use viewport width and remove horizontal padding so words can extend to the edges */}
-      <div className="w-screen max-w-none mx-auto py-8 md:py-8 px-0">
+      {/* Full width container */}
+      <div className="w-screen max-w-none mx-auto py-12 md:py-16 px-0">
         <div className="relative overflow-hidden">
           <div
             ref={contentRef}
-            className="flex items-center gap-4 whitespace-nowrap transition-transform will-change-transform"
-            style={{ color: colors.blackColor, fontWeight: 500, fontSize: '1.15rem' }}
+            className="flex items-center gap-6 whitespace-nowrap transition-transform will-change-transform"
           >
-            {displayWords.map((w, idx) => (
-              <div key={`${w}-${idx}`} className="flex items-center gap-2 mr-12 md:mr-16">
-                <div style={{ color: colors.blueColor }} aria-hidden>
-                  <ArrowIcon color={colors.blueColor} size={14} />
+            {displayServices.map((service, idx) => (
+              <div key={`${service.name}-${idx}`} className="flex items-center gap-4 mr-8 md:mr-12">
+                <ServiceIcon icon={service.icon} index={idx} />
+                <div 
+                  style={{ 
+                    color: colors.whiteColor,
+                    fontWeight: 500,
+                    fontSize: '1.125rem'
+                  }}
+                >
+                  {service.name}
                 </div>
-                <div style={{ color: colors.blackColor }}>{w}</div>
               </div>
             ))}
           </div>

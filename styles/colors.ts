@@ -7,7 +7,7 @@ export const colors = {
  blueColor: '#3774d5ff',
  colorGray: '#29292966',
  colorGrayhover: '#b0b0b0e3',
- gradientOne: '#5c67ffff',
- gradientTwo:'#b5baffff',
+ gradientOne: '#95a0ffff',
+ gradientTwo:'#c8d8ffff',
  
 } as const;

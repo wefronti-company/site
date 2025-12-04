@@ -4,7 +4,7 @@ import SEO from '../components/SEO';
 
 // Core sections (lazy-loaded for perf)
 const Hero = dynamic(() => import('../sections/Hero'));
-const MovingWords = dynamic(() => import('../sections/MovingWords/MovingWords'));
+const ServicesCarousel = dynamic(() => import('../sections/ServicesCarousel'));
 const Clients = dynamic(() => import('../sections/Clients'));
 const Services = dynamic(() => import('../sections/Services'));
 const Projects = dynamic(() => import('../sections/Projects'));
@@ -15,7 +15,7 @@ const Home: React.FC = () => (
   <>
     <SEO />
     <Hero />
-    <MovingWords />
+    <ServicesCarousel />
     <Clients />
     <Services />
     <Projects />
