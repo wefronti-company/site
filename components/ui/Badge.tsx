@@ -7,14 +7,15 @@ interface BadgeProps {
 }
 
 const Badge: React.FC<BadgeProps> = ({ text, icon = 'star' }) => {
- return (
+	return (
  <div 
  className="inline-flex items-center gap-1 px-3 py-2 text-medium font-medium transition-colors w-fit"
  style={{ 
  borderRadius: '7px',
- backgroundColor: `${colors.blueColor}15`,
- color: colors.blueColor,
- border: `1px solid ${colors.blueColor}30`,
+ // Use gradientOne (brand) with subtle alpha for background/border to replace blueColor
+ backgroundColor: 'rgba(149,160,255,0.09)',
+ color: colors.gradientOne,
+ border: `1px solid rgba(149,160,255,0.19)`,
  maxWidth: 'fit-content'
  }}
  >

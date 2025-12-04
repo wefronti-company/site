@@ -4,7 +4,7 @@ export const colors = {
  whiteColor: '#f7f7f7',
  borderLight: '#ffffffff',
  borderDark: '#222222ff',
- borderCta: '#95a0ffff',
+	borderCta: '#95a0ffff',
  colorGray: '#29292966',
  colorGrayhover: '#b0b0b0e3',
  gradientOne: '#95a0ffff',
