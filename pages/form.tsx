@@ -619,7 +619,7 @@ const FormPage: React.FC = () => {
  className="text-xs cursor-pointer leading-relaxed"
  style={{ color: colors.whiteColor, opacity: 0.8 }}
  >
- Eu concordo com o tratamento dos meus dados conforme a Política de Privacidade e LGPD
+ Eu concordo com o tratamento dos meus dados conforme a <a href="/politica-privacidade" target="_blank" className="underline" style={{ color: colors.gradientOne }}>Política de Privacidade</a> e LGPD
  </label>
  </div>
 

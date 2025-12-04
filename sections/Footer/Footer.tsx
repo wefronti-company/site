@@ -110,11 +110,11 @@ const Footer: React.FC = () => {
  </p>
  
  <a 
- href="/termos-e-politicas" 
+ href="/politica-privacidade" 
  className="text-sm transition-opacity hover:opacity-100" 
  style={{ color: colors.whiteColor, opacity: 0.6 }}
  >
- Termos e Políticas
+ Política de Privacidade
  </a>
  </div>
 
