@@ -10,7 +10,7 @@ const ClientsBadge: React.FC = () => {
   ];
 
   return (
-    <div className="flex items-center gap-2 px-2 py-2 rounded-full backdrop-blur-md bg-white/5 border border-white/10">
+    <div className="flex items-center gap-2 px-3 py-1.5 rounded-full backdrop-blur-md bg-white/5 border border-white/10">
 
       <div className="flex items-center -space-x-2">
         {clientImages.map((image, index) => (
@@ -18,7 +18,7 @@ const ClientsBadge: React.FC = () => {
             key={index}
             src={image} 
             alt={`Cliente ${index + 1}`}
-            className="w-7 h-7 rounded-full border-1 border-slate-900 object-cover"
+            className="w-6 h-6 rounded-full border-2 border-slate-900 object-cover"
           />
         ))}
       </div>
@@ -26,7 +26,7 @@ const ClientsBadge: React.FC = () => {
 
       <div className="h-4 w-px bg-white/50"></div>
       
-      <span className="text-1xl font-regular text-white whitespace-nowrap">
+      <span className="text-xs md:text-sm font-regular text-white whitespace-nowrap">
         Eles aprovam e indicam nossos serviços
       </span>
     </div>

@@ -85,8 +85,8 @@ const ServiceIcon: React.FC<{ icon: React.ReactNode; index: number }> = ({ icon,
     <div 
       className="flex items-center justify-center rounded-full border"
       style={{
-        width: '52px',
-        height: '52px',
+        width: '2.75rem',
+        height: '2.75rem',
         background: `linear-gradient(135deg, ${colors.gradientOne} 0%, ${colors.gradientTwo} 100%)`,
         borderColor: colors.borderDark,
         borderWidth: '1px',
@@ -94,7 +94,9 @@ const ServiceIcon: React.FC<{ icon: React.ReactNode; index: number }> = ({ icon,
         color: colors.blackColor
       }}
     >
-      {icon}
+      <div className="w-5 h-5 flex items-center justify-center">
+        {icon}
+      </div>
     </div>
   );
 };
@@ -146,7 +148,7 @@ const ServicesCarousel: React.FC = () => {
         borderColor: colors.borderDark
       }}
     >
-      <div className="w-screen max-w-none mx-auto py-12 md:py-16 px-0">
+      <div className="w-screen max-w-none mx-auto py-8 md:py-10 px-0">
         <div className="relative overflow-hidden">
           <div
             ref={scrollRef}
@@ -154,13 +156,13 @@ const ServicesCarousel: React.FC = () => {
             style={{ transition: 'none', gap: '0' }}
           >
             {displayServices.map((service, idx) => (
-              <div key={`${service.name}-${idx}`} className="flex items-center gap-4 px-6 md:px-8">
+              <div key={`${service.name}-${idx}`} className="flex items-center gap-3 md:gap-4 px-4 md:px-8">
                 <ServiceIcon icon={service.icon} index={idx} />
                 <div 
+                  className="text-base md:text-lg"
                   style={{ 
                     color: colors.whiteColor,
                     fontWeight: 500,
-                    fontSize: '1.125rem',
                     letterSpacing: '-0.01em'
                   }}
                 >

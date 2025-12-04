@@ -1,6 +1,7 @@
 import React from 'react';
 import dynamic from 'next/dynamic';
 import SEO from '../components/SEO';
+import AppBar from '../components/layout/AppBar';
 
 // Core sections (lazy-loaded for perf)
 const Hero = dynamic(() => import('../sections/Hero'));
@@ -14,6 +15,7 @@ const Footer = dynamic(() => import('../sections/Footer'));
 const Home: React.FC = () => (
   <>
     <SEO />
+    <AppBar />
     <Hero />
     <ServicesCarousel />
     <Clients />

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
+import { motion, AnimatePresence } from 'framer-motion';
 import Logo from '../ui/Logo';
 import { colors } from '../../styles/colors';
 
@@ -15,9 +16,19 @@ const AppBar: React.FC = () => {
   ];
 
   return (
-    <header className="w-full relative">
-      <div className="max-w-[1400px] mx-auto">
-        <div className="h-40 flex items-center justify-between w-full">
+    <>
+      <header className="w-full fixed top-30 left-0 right-0 z-[100] pt-10 pb-[30px]">
+        <div className="max-w-[1400px] mx-auto px-4 md:px-8 lg:px-16">
+          <div 
+            className="rounded-[90px] border"
+            style={{
+              backdropFilter: 'blur(20px)',
+              WebkitBackdropFilter: 'blur(20px)',
+              backgroundColor: 'rgba(16, 16, 16, 0.6)',
+              borderColor: colors.borderDark
+            }}
+          >
+            <div className="h-20 flex items-center justify-between w-full px-6">
           {/* LEFT: logo + divider + nav */}
           <div className="hidden lg:flex items-center gap-6">
             <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} aria-label="Ir para o topo" className="flex items-center">
@@ -58,8 +69,11 @@ const AppBar: React.FC = () => {
           <div className="hidden lg:flex items-center gap-3">
             <button 
               onClick={() => router.push('/login')}
-              className="px-4 py-2 text-base font-medium transition-opacity hover:opacity-80 flex items-center gap-2"
-              style={{ color: colors.whiteColor }}
+              className="px-4 py-2 text-base font-medium transition-opacity hover:opacity-80 flex items-center gap-2 rounded-full border"
+              style={{ 
+                color: colors.whiteColor,
+                borderColor: colors.borderDark
+              }}
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
                 <defs>
@@ -85,68 +99,158 @@ const AppBar: React.FC = () => {
             </button>
           </div>
 
-          {/* MOBILE: hamburger */}
+          {/* MOBILE: Menu button com texto + ícone */}
           <div className="lg:hidden flex items-center">
-            <button onClick={() => setMobileOpen(!mobileOpen)} className="w-10 h-10 flex flex-col items-center justify-center gap-1.5" aria-label="Toggle menu">
-              <span className={`w-6 h-0.5 transition-all duration-300 ${mobileOpen ? 'rotate-45 translate-y-2' : ''}`} style={{ backgroundColor: colors.whiteColor }} />
-              <span className={`w-6 h-0.5 transition-all duration-300 ${mobileOpen ? 'opacity-0' : ''}`} style={{ backgroundColor: colors.whiteColor }} />
-              <span className={`w-6 h-0.5 transition-all duration-300 ${mobileOpen ? '-rotate-45 -translate-y-2' : ''}`} style={{ backgroundColor: colors.whiteColor }} />
+            <button 
+              onClick={() => setMobileOpen(!mobileOpen)} 
+              className="flex items-center gap-2 px-4 py-2" 
+              aria-label="Toggle menu"
+            >
+              <span className="text-base font-medium" style={{ color: colors.whiteColor }}>
+                Menu
+              </span>
+              <motion.div
+                animate={{ rotate: mobileOpen ? 45 : 0 }}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
+                className="flex items-center justify-center"
+              >
+                {mobileOpen ? (
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={colors.whiteColor} strokeWidth="2" strokeLinecap="round">
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                  </svg>
+                ) : (
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={colors.whiteColor} strokeWidth="2" strokeLinecap="round">
+                    <line x1="12" y1="5" x2="12" y2="19" />
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                  </svg>
+                )}
+              </motion.div>
             </button>
+          </div>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Mobile menu panel */}
-      <div className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${mobileOpen ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0'}`}>
-        <nav className="px-4 pb-6 flex flex-col gap-3">
-          {navItems.map(item => (
-            <button
-              key={item.href}
-              onClick={() => {
-                setMobileOpen(false);
-                const el = document.querySelector(item.href);
-                if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-              }}
-              className="px-4 py-3 rounded-lg text-base font-medium transition-all text-left w-full hover:opacity-80"
-              style={{ color: colors.whiteColor }}
-            >
-              {item.label}
-            </button>
-          ))}
+      {/* Mobile menu fullscreen overlay com backdrop blur */}
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="lg:hidden fixed inset-0 z-[9999]"
+            style={{ 
+              backdropFilter: 'blur(30px) saturate(180%)',
+              WebkitBackdropFilter: 'blur(30px) saturate(180%)',
+              backgroundColor: 'rgba(10, 10, 10, 0.98)'
+            }}
+          >
+            <div className="w-full h-full flex flex-col pt-10 pb-[30px]">
+              {/* Header com Logo e botão Menu X */}
+              <div className="px-4 md:px-8 mx-auto max-w-[1400px] w-full">
+                <div 
+                  className="rounded-[90px] border h-20 flex items-center justify-between px-6"
+                  style={{
+                    backdropFilter: 'blur(20px)',
+                    WebkitBackdropFilter: 'blur(20px)',
+                    backgroundColor: 'rgba(16, 16, 16, 0.6)',
+                    borderColor: colors.borderDark
+                  }}
+                >
+                  <button onClick={() => { setMobileOpen(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }} aria-label="Ir para o topo" className="flex items-center">
+                    <Logo />
+                  </button>
+                  
+                  <button 
+                    onClick={() => setMobileOpen(false)} 
+                    className="flex items-center gap-2 px-4 py-2" 
+                    aria-label="Fechar menu"
+                  >
+                    <span className="text-base font-medium" style={{ color: colors.whiteColor }}>
+                      Menu
+                    </span>
+                    <div className="flex items-center justify-center">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={colors.whiteColor} strokeWidth="2" strokeLinecap="round">
+                        <line x1="18" y1="6" x2="6" y2="18" />
+                        <line x1="6" y1="6" x2="18" y2="18" />
+                      </svg>
+                    </div>
+                  </button>
+                </div>
+              </div>
 
-          <div className="mt-2 flex flex-col gap-2">
-            <button 
-              onClick={() => { setMobileOpen(false); router.push('/login'); }}
-              className="w-full px-5 py-3 text-base font-medium transition-all flex items-center justify-center gap-2"
-              style={{ color: colors.whiteColor }}
-            >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                <defs>
-                  <linearGradient id="userGradientMobile" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" style={{ stopColor: colors.gradientOne }} />
-                    <stop offset="50%" style={{ stopColor: colors.gradientTwo }} />
+              {/* Content - Links centralizados */}
+              <motion.nav 
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.1, duration: 0.4 }}
+                className="flex-1 flex flex-col items-center justify-center px-6 gap-6"
+              >
+                {navItems.map((item, index) => (
+                  <motion.button
+                    key={item.href}
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ delay: 0.15 + index * 0.05, duration: 0.4 }}
+                    onClick={() => {
+                      setMobileOpen(false);
+                      const el = document.querySelector(item.href);
+                      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }}
+                    className="text-lg font-medium transition-all hover:opacity-70"
+                    style={{ color: colors.whiteColor }}
+                  >
+                    {item.label}
+                  </motion.button>
+                ))}
+              </motion.nav>
 
-                  </linearGradient>
-                </defs>
-                <circle cx="12" cy="8" r="4" stroke="url(#userGradientMobile)" strokeWidth="2" fill="none"/>
-                <path d="M4 20c0-4 3-6 8-6s8 2 8 6" stroke="url(#userGradientMobile)" strokeWidth="2" strokeLinecap="round" fill="none"/>
-              </svg>
-              Painel
-            </button>
-            <button 
-              onClick={() => { setMobileOpen(false); router.push('/form'); }}
-              className="w-full px-5 py-3 text-base font-semibold rounded-[10px] transition-all"
-              style={{ 
-                backgroundColor: colors.whiteColor,
-                color: colors.blackColor
-              }}
-            >
-              Entrar em contato
-            </button>
-          </div>
-        </nav>
-      </div>
-    </header>
+              {/* Bottom buttons */}
+              <motion.div 
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.3, duration: 0.4 }}
+                className="px-6 pb-10 flex flex-col gap-4"
+              >
+                <button 
+                  onClick={() => { setMobileOpen(false); router.push('/login'); }}
+                  className="w-full px-6 py-4 text-base font-medium transition-all flex items-center justify-center gap-2 rounded-[90px] border"
+                  style={{ 
+                    color: colors.whiteColor,
+                    borderColor: colors.borderDark
+                  }}
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                    <defs>
+                      <linearGradient id="userGradientMobile" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style={{ stopColor: colors.gradientOne }} />
+                        <stop offset="50%" style={{ stopColor: colors.gradientTwo }} />
+                      </linearGradient>
+                    </defs>
+                    <circle cx="12" cy="8" r="4" stroke="url(#userGradientMobile)" strokeWidth="2" fill="none"/>
+                    <path d="M4 20c0-4 3-6 8-6s8 2 8 6" stroke="url(#userGradientMobile)" strokeWidth="2" strokeLinecap="round" fill="none"/>
+                  </svg>
+                  Painel
+                </button>
+                <button 
+                  onClick={() => { setMobileOpen(false); router.push('/form'); }}
+                  className="w-full px-6 py-4 text-base font-semibold rounded-[90px] transition-all"
+                  style={{ 
+                    backgroundColor: colors.whiteColor,
+                    color: colors.blackColor
+                  }}
+                >
+                  Entrar em contato
+                </button>
+              </motion.div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+      </header>
+    </>
   );
 };
 
