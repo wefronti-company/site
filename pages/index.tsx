@@ -7,9 +7,10 @@ import AppBar from '../components/layout/AppBar';
 const Hero = dynamic(() => import('../sections/Hero'));
 const ServicesCarousel = dynamic(() => import('../sections/ServicesCarousel'));
 const Clients = dynamic(() => import('../sections/Clients'));
+const ScrollDivider = dynamic(() => import('../components/ui/ScrollDivider'));
 const Services = dynamic(() => import('../sections/Services'));
-const Projects = dynamic(() => import('../sections/Projects'));
 const FAQ = dynamic(() => import('../sections/FAQ'));
+const CTA = dynamic(() => import('../sections/CTA'));
 const Footer = dynamic(() => import('../sections/Footer'));
 
 const Home: React.FC = () => (
@@ -19,9 +20,10 @@ const Home: React.FC = () => (
     <Hero />
     <ServicesCarousel />
     <Clients />
+    <ScrollDivider />
     <Services />
-    <Projects />
     <FAQ />
+    <CTA />
     <Footer />
   </>
 );

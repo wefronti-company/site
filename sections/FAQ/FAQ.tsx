@@ -1,11 +1,33 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { motion } from 'framer-motion';
 import Badge from '../../components/ui/Badge';
 import ButtonCta from '../../components/ui/ButtonCta';
-import { useQuoteModal } from '../../contexts/QuoteModalContext';
 import { colors } from '../../styles/colors';
+import { Boxes } from '../../components/ui/shadcn-io/background-boxes';
 
 const FAQ: React.FC = () => {
  const [openIndex, setOpenIndex] = React.useState<number | null>(0);
+ const [isVisible, setIsVisible] = useState(false);
+ const sectionRef = useRef<HTMLElement>(null);
+
+ useEffect(() => {
+   const observer = new IntersectionObserver(
+     ([entry]) => {
+       if (entry.isIntersecting) {
+         setIsVisible(true);
+       } else {
+         setIsVisible(false);
+       }
+     },
+     { threshold: 0.2 }
+   );
+
+   if (sectionRef.current) {
+     observer.observe(sectionRef.current);
+   }
+
+   return () => observer.disconnect();
+ }, []);
 
  const toggleFAQ = (index: number) => {
  setOpenIndex(openIndex === index ? null : index);
@@ -13,10 +35,16 @@ const FAQ: React.FC = () => {
 
  return (
  <section 
+ ref={sectionRef}
  id="faq" 
  className="w-full py-20 md:py-0 md:h-screen md:w-screen md:flex md:items-center transition-colors relative overflow-hidden"
  style={{ backgroundColor: colors.blackColor }}
  >
+ {/* Background Boxes */}
+ <div className="absolute inset-0 w-full h-full z-0 opacity-40 pointer-events-none">
+   <Boxes />
+ </div>
+
  <div className="px-4 md:px-8 lg:px-16 relative z-10 w-full">
  <div className="w-full max-w-[1200px] mx-auto">
  
@@ -25,16 +53,52 @@ const FAQ: React.FC = () => {
  
  {/* Coluna Esquerda - Título */}
  <div className="lg:col-span-4">
- <h2 
- className="text-4xl md:text-5xl lg:text-6xl font-medium"
- style={{ color: colors.whiteColor }}
+ <motion.div 
+   className="mb-6 flex items-center gap-2 px-3 py-1.5 rounded-full backdrop-blur-md bg-white/5 border border-white/10 w-fit"
+   initial={{ opacity: 0, y: 20 }}
+   animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+   transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
+ >
+   <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+     <defs>
+       <linearGradient id="faqGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+         <stop offset="0%" style={{ stopColor: colors.gradientOne }} />
+         <stop offset="100%" style={{ stopColor: colors.gradientTwo }} />
+       </linearGradient>
+     </defs>
+     <circle cx="12" cy="12" r="10" stroke="url(#faqGradient)" strokeWidth="2" fill="none"/>
+     <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" stroke="url(#faqGradient)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+     <line x1="12" y1="17" x2="12.01" y2="17" stroke="url(#faqGradient)" strokeWidth="2" strokeLinecap="round"/>
+   </svg>
+   <span className="text-xs md:text-sm font-regular text-white whitespace-nowrap">
+     Dúvidas
+   </span>
+ </motion.div>
+ <motion.h2 
+   className="text-4xl md:text-4xl lg:text-5xl font-medium bg-gradient-to-br from-white via-gray-200 to-gray-500 bg-clip-text text-transparent mb-4"
+   initial={{ opacity: 0, y: 20 }}
+   animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+   transition={{ duration: 0.6, ease: "easeOut", delay: 0.4 }}
  >
  Perguntas Frequentes
- </h2>
+ </motion.h2>
+ <motion.p
+   className="text-lg text-gray-300 leading-relaxed"
+   initial={{ opacity: 0, y: 20 }}
+   animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+   transition={{ duration: 0.6, ease: "easeOut", delay: 0.6 }}
+ >
+   Tire suas dúvidas sobre nossos serviços e processos.
+ </motion.p>
  </div>
 
  {/* Coluna Direita - Accordion */}
- <div className="lg:col-span-8 space-y-4">
+ <motion.div 
+   className="lg:col-span-8 space-y-4"
+   initial={{ opacity: 0, y: 30 }}
+   animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+   transition={{ duration: 0.8, ease: "easeOut", delay: 0.8 }}
+ >
  {[
  {
  question: 'Quanto tempo leva para desenvolver um projeto?',
@@ -67,7 +131,7 @@ const FAQ: React.FC = () => {
  style={{
  borderColor: colors.borderDark,
  borderRadius: '7px',
- backgroundColor: colors.blackColor,
+ backgroundColor: colors.accordeonColor,
  }}
  >
  {/* Pergunta */}
@@ -120,7 +184,7 @@ const FAQ: React.FC = () => {
  </div>
  </div>
  ))}
- </div>
+ </motion.div>
 
  </div>
 
