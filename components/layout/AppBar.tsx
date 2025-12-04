@@ -11,7 +11,6 @@ const AppBar: React.FC = () => {
   const navItems = [
     { label: 'Clientes', href: '#clients' },
     { label: 'Contrate-nos', href: '#services' },
-    { label: 'Projetos', href: '#projects' },
     { label: 'FAQ', href: '#faq' },
   ];
 

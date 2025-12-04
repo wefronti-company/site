@@ -52,7 +52,7 @@ const CTA: React.FC = () => {
               animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ duration: 0.6, ease: "easeOut", delay: 0.4 }}
             >
-              Pronto para transformar sua ideia em realidade?
+              Tem uma ideia na gaveta? Vamos conversar sobre seu projeto!
             </motion.h2>
 
             {/* Subtítulo */}
