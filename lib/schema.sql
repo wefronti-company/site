@@ -9,6 +9,8 @@ CREATE TABLE IF NOT EXISTS quote_requests (
   revenue VARCHAR(100) NOT NULL,
   challenge TEXT NOT NULL,
   timeline VARCHAR(100) NOT NULL,
+  privacy_consent BOOLEAN NOT NULL DEFAULT FALSE,
+  consented_at TIMESTAMP,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -27,3 +29,5 @@ COMMENT ON COLUMN quote_requests.role IS 'Cargo do solicitante (CEO, CTO, Manage
 COMMENT ON COLUMN quote_requests.revenue IS 'Faturamento anual da empresa';
 COMMENT ON COLUMN quote_requests.challenge IS 'Descrição do desafio/projeto';
 COMMENT ON COLUMN quote_requests.timeline IS 'Prazo desejado para o projeto';
+COMMENT ON COLUMN quote_requests.privacy_consent IS 'LGPD: Consentimento do usuário para tratamento de dados';
+COMMENT ON COLUMN quote_requests.consented_at IS 'LGPD: Data e hora do consentimento';

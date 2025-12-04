@@ -146,17 +146,17 @@ setInterval(() => {
 
 // Validar origem da requisição (CSRF protection)
 export function validateOrigin(origin: string | null, host: string | null): boolean {
- // Em desenvolvimento, permitir localhost
+ // Em desenvolvimento local, permitir quando não houver origin
  if (process.env.NODE_ENV === 'development') {
- return true;
+ if (!origin) return true;
  }
  
  if (!origin || !host) return false;
  
  const allowedOrigins = [
- 'http://localhost:3000',
  'https://wefronti.com',
  'https://www.wefronti.com',
+ ...(process.env.NODE_ENV === 'development' ? ['http://localhost:3000'] : [])
  ];
 
  return allowedOrigins.some(allowed => origin.startsWith(allowed)) || origin.includes(host);

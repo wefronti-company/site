@@ -1,12 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useAnimationControls } from 'framer-motion';
 import Logo from '../ui/Logo';
 import { colors } from '../../styles/colors';
 
 const AppBar: React.FC = () => {
   const router = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const controls = useAnimationControls();
+
+  useEffect(() => {
+    controls.start({ rotate: mobileOpen ? 135 : 0 });
+  }, [mobileOpen, controls]);
 
   const navItems = [
     { label: 'Clientes', href: '#clients' },
@@ -109,21 +114,29 @@ const AppBar: React.FC = () => {
                 Menu
               </span>
               <motion.div
-                animate={{ rotate: mobileOpen ? 45 : 0 }}
-                transition={{ duration: 0.3, ease: "easeInOut" }}
-                className="flex items-center justify-center"
+                className="relative flex items-center justify-center"
+                style={{ width: '24px', height: '24px' }}
+                animate={controls}
+                transition={{ duration: 0.6, ease: "easeInOut" }}
               >
-                {mobileOpen ? (
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={colors.whiteColor} strokeWidth="2" strokeLinecap="round">
-                    <line x1="18" y1="6" x2="6" y2="18" />
-                    <line x1="6" y1="6" x2="18" y2="18" />
-                  </svg>
-                ) : (
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={colors.whiteColor} strokeWidth="2" strokeLinecap="round">
-                    <line x1="12" y1="5" x2="12" y2="19" />
-                    <line x1="5" y1="12" x2="19" y2="12" />
-                  </svg>
-                )}
+                <div 
+                  style={{ 
+                    position: 'absolute',
+                    width: '18px',
+                    height: '2px',
+                    backgroundColor: colors.whiteColor,
+                    borderRadius: '2px'
+                  }}
+                />
+                <div 
+                  style={{ 
+                    position: 'absolute',
+                    width: '2px',
+                    height: '18px',
+                    backgroundColor: colors.whiteColor,
+                    borderRadius: '2px'
+                  }}
+                />
               </motion.div>
             </button>
           </div>

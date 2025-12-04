@@ -10,18 +10,38 @@ module.exports = {
   },
   experimental: {
     optimizeCss: true,
-    // Tree-shaking para reduzir bundle
-    optimizePackageImports: ['react-simple-maps'],
+    optimizePackageImports: ['framer-motion', 'lucide-react'],
   },
   images: {
     formats: ['image/avif', 'image/webp'],
     minimumCacheTTL: 31536000,
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    dangerouslyAllowSVG: true,
+    contentDispositionType: 'attachment',
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
   // Security Headers (substitui Helmet)
   async headers() {
     return [
+      {
+        source: '/images/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
+        source: '/_next/static/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
       {
         source: '/:path*',
         headers: [
@@ -64,7 +84,7 @@ module.exports = {
             key: 'Content-Security-Policy',
             value: [
               "default-src 'self'",
-              "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://cdn.jsdelivr.net",
+              "script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net",
               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
               "img-src 'self' data: https:",
               "font-src 'self' data: https://fonts.gstatic.com",
@@ -98,6 +118,11 @@ module.exports = {
           {
             key: 'Cross-Origin-Resource-Policy',
             value: 'same-origin'
+          },
+          {
+            // Certificate Transparency
+            key: 'Expect-CT',
+            value: 'max-age=86400, enforce'
           }
         ]
       }

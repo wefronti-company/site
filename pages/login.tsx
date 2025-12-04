@@ -59,7 +59,7 @@ const Login: React.FC = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/40 z-[10]" />
         
         {/* Lado Esquerdo - Título Estratégico */}
-        <div className="relative flex-1 flex items-center justify-center p-8 lg:p-16 overflow-hidden h-[40vh] lg:h-screen z-[20]">
+        <div className="relative flex-1 flex items-center justify-center p-8 pt-16 lg:p-16 overflow-hidden h-[40vh] lg:h-screen z-[20]">
           {/* Conteúdo */}
           <div className="relative max-w-2xl text-center lg:text-left">
             <div style={{ marginBottom: '70px' }} className="flex justify-center lg:justify-start">
@@ -99,7 +99,7 @@ const Login: React.FC = () => {
         <div className="flex-1 flex items-center justify-center p-6 lg:p-16 relative z-[20]">
           {/* Card de Login */}
           <div className="w-full max-w-md p-8 lg:p-12 rounded-[20px] backdrop-blur-xl" style={{ border: `1px solid ${colors.borderDark}`, backgroundColor: 'rgba(16, 16, 16, 0.6)' }}>
-            <div className="mb-6 lg:mb-8 text-center lg:text-left">
+            <div className="mb-6 lg:mb-8 text-left">
               <h2 className="font-500 bg-gradient-to-br from-white via-gray-200 to-gray-500 bg-clip-text text-transparent pb-2" style={{ fontSize: 'clamp(32px, 6vw, 48px)', lineHeight: '1.2' }}>
                 Acesse o painel
               </h2>

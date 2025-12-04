@@ -56,6 +56,7 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
  src={image}
  alt={name}
  fill
+ sizes="48px"
  className="object-cover"
  style={{ borderRadius: '50%' }}
  />

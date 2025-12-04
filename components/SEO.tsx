@@ -23,8 +23,8 @@ const SEO: React.FC<SEOProps> = ({
  // Configuração SEO focada em Produtos Digitais com Propósito
  const seoConfig = {
  siteName: 'Wefronti',
- defaultTitle: 'Wefronti | Projetamos Produtos com Propósito, Prontos para Gerar Receita',
- defaultDescription: 'Desenvolvemos seu produto digital com o melhor da tecnologia e inteligência artificial, desde SaaS, software até sistemas web complexos. Transforme sua visão em soluções que geram resultados reais.',
+ defaultTitle: 'Wefronti | Projetamos Produtos Digitais com Propósito',
+ defaultDescription: 'SaaS, software e sistemas web desenvolvidos com tecnologias modernas e escaláveis. Do planejamento ao lançamento, entregamos produtos prontos para gerar resultados.',
  defaultKeywords: 'desenvolvimento de produto digital, saas sob medida, desenvolvimento de software empresarial, sistema web complexo, aplicativo mobile, ecommerce personalizado, inteligência artificial, transformação digital, produto digital escalável, desenvolvimento saas, software como serviço, plataforma web, app para negócios, desenvolvimento rio de janeiro',
  };
 
@@ -49,7 +49,7 @@ const SEO: React.FC<SEOProps> = ({
  },
  image: {
  '@type': 'ImageObject',
- url: `${siteUrl}/images/favicon.webp`,
+ url: `${siteUrl}/images/favicon-site.webp`,
  width: 180,
  height: 180
  },
@@ -150,11 +150,6 @@ const SEO: React.FC<SEOProps> = ({
  <meta name="apple-mobile-web-app-capable" content="yes" />
  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
  <meta name="apple-mobile-web-app-title" content="Wefronti" />
- 
- {/* Favicon */}
- <link rel="icon" type="image/webp" href="/images/favicon.webp" />
- <link rel="shortcut icon" type="image/webp" href="/images/favicon.webp" />
- <link rel="apple-touch-icon" href="/images/favicon.webp" />
  <meta name="theme-color" content="#000000" />
  
  {/* Schema.org JSON-LD */}

@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { sql, QuoteRequest } from '../../lib/db';
+import { checkRateLimitRedis } from '../../lib/redis';
 import { 
  quoteFormSchema, 
  sanitizeInput, 
@@ -44,9 +45,14 @@ export default async function handler(
  res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
 
  try {
- // 1. Rate Limiting por IP
+ // 1. Rate Limiting por IP (Redis ou in-memory fallback)
  const clientIp = getClientIp(req);
- if (!checkRateLimit(clientIp, 5, 60000)) {
+ 
+ // Tentar Redis primeiro, fallback para in-memory
+ const isAllowedRedis = await checkRateLimitRedis(clientIp, 5, 60000);
+ const isAllowedMemory = checkRateLimit(clientIp, 5, 60000);
+ 
+ if (!isAllowedRedis || !isAllowedMemory) {
  return res.status(429).json({
  success: false,
  error: 'Muitas tentativas. Aguarde 1 minuto e tente novamente.'
