@@ -26,7 +26,8 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
  const isPrimary = variant === 'primary';
  
  const gradientStyle = isPrimary ? {
- background: `linear-gradient(90deg, ${colors.gradientOne}, ${colors.gradientTwo})`
+ background: `linear-gradient(90deg, ${colors.gradientOne}, ${colors.gradientTwo})`,
+ color: colors.blackColor
  } : {};
  
  return (
@@ -35,7 +36,7 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
  onClick={handleClick}
  className={`px-4 py-3 text-base font-semibold transition-all duration-200 flex items-center gap-3 hover:opacity-90 animate-pulse-shadow ${
  isPrimary 
- ? 'text-white' 
+ ? '' 
  : 'bg-gray-200 text-black'
  }`}
  style={{ 
@@ -59,7 +60,7 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
  height="16" 
  viewBox="0 0 24 24" 
  fill="none" 
- stroke="currentColor"
+ stroke={colors.whiteColor}
  strokeWidth="2.5"
  strokeLinecap="round"
  strokeLinejoin="round"

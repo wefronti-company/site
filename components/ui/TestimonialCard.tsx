@@ -21,10 +21,10 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
 }) => {
 	return (
 		<div
-			className="flex-shrink-0 w-[350px] md:w-[400px] p-8 transition-colors"
+			className="flex-shrink-0 w-[350px] md:w-[400px] p-8 transition-colors border"
 			style={{
-				backgroundColor: colors.colorGray,
-				border: `1px solid ${colors.borderDark}`,
+				background: `linear-gradient(135deg, ${colors.gradientOne} 0%, ${colors.gradientTwo} 100%)`,
+				borderColor: colors.borderDark,
 				borderRadius: '7px',
 			}}
 		>
@@ -36,7 +36,7 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
  width="20"
  height="20"
  viewBox="0 0 24 24"
- fill={index < rating ? '#3B82F6' : '#e5e7eb'}
+ fill={index < rating ? colors.blackColor : 'rgba(16, 16, 16, 0.3)'}
  >
  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
  </svg>
@@ -44,7 +44,7 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
  </div>
 
  {/* Texto do depoimento */}
-		<p className="text-base mb-6 leading-relaxed" style={{ color: colors.whiteColor }}>
+		<p className="text-base mb-6 leading-relaxed" style={{ color: colors.blackColor }}>
 			"{text}"
 		</p>
 
@@ -61,8 +61,8 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
  />
  </div>
  <div>
-			<p className="font-medium" style={{ color: colors.whiteColor }}>{name}</p>
-			<p className="text-sm" style={{ color: colors.whiteColor }}>
+			<p className="font-medium" style={{ color: colors.blackColor }}>{name}</p>
+			<p className="text-sm" style={{ color: colors.blackColor }}>
  {role} • {company}
  </p>
  </div>

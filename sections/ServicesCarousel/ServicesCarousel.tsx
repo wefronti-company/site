@@ -88,7 +88,7 @@ const ServiceIcon: React.FC<{ icon: React.ReactNode; index: number }> = ({ icon,
         width: '2.75rem',
         height: '2.75rem',
         background: `linear-gradient(135deg, ${colors.gradientOne} 0%, ${colors.gradientTwo} 100%)`,
-        borderColor: colors.borderDark,
+        borderColor: colors.whiteColor,
         borderWidth: '1px',
         flexShrink: 0,
         color: colors.blackColor
@@ -142,14 +142,14 @@ const ServicesCarousel: React.FC = () => {
   return (
     <section
       aria-label="services-carousel"
-      className="w-full overflow-hidden border-t border-b"
+      className="w-full border-t border-b overflow-hidden"
       style={{ 
         backgroundColor: colors.blackColor,
         borderColor: colors.borderDark
       }}
     >
-      <div className="w-screen max-w-none mx-auto py-8 md:py-10 px-0">
-        <div className="relative overflow-hidden">
+      <div className="w-full max-w-none mx-auto py-8 md:py-10 px-0">
+        <div className="relative">
           <div
             ref={scrollRef}
             className="flex items-center whitespace-nowrap will-change-transform"
