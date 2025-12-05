@@ -171,8 +171,8 @@ const SEO: React.FC<SEOProps> = ({
  />
  
  {/* Verificação de ferramentas */}
- {/* Google Search Console - Adicionar após configurar */}
- {/* <meta name="google-site-verification" content="seu-codigo-aqui" /> */}
+ {/* Google Search Console - Código de verificação */}
+ <meta name="google-site-verification" content="guIXUf1Z8pzBD659ljoVn9KCNNLwWrSxhr4DWglEWPk" />
  
  {/* Bing Webmaster - Adicionar após configurar */}
  {/* <meta name="msvalidate.01" content="seu-codigo-aqui" /> */}
