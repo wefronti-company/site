@@ -37,14 +37,12 @@ const CookieConsent: React.FC = () => {
     // Analytics (Google Analytics)
     if (prefs.analytics) {
       loadGoogleAnalytics();
-      console.log('✅ Google Analytics habilitado');
     }
 
     // Marketing (Facebook Pixel, LinkedIn Insight, etc.)
     if (prefs.marketing) {
       // Adicione aqui outros scripts de marketing quando necessário
       // Exemplo: loadFacebookPixel();
-      console.log('✅ Marketing cookies habilitados');
     }
   };
 

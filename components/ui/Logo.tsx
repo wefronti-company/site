@@ -15,7 +15,7 @@ const Logo: React.FC<LogoProps> = ({ className = '' }) => {
         width={120} 
         height={28}
         priority
-        style={{ width: 'auto', height: '28px' }}
+        style={{ width: 'auto', height: 'auto', maxHeight: '28px' }}
       />
     </Link>
   );
