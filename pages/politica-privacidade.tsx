@@ -278,7 +278,7 @@ const PoliticaPrivacidade: React.FC = () => {
                   <div className="mt-4 p-6" style={{ backgroundColor: colors.colorGray, border: `1px solid ${colors.borderDark}`, borderRadius: '10px' }}>
                     <p className="font-semibold mb-2">Wefronti</p>
                     <p>E-mail: <a href="mailto:privacidade@wefronti.com" className="underline" style={{ color: colors.gradientOne }}>privacidade@wefronti.com</a></p>
-                    <p>WhatsApp: <a href="https://wa.me/5521999999999" className="underline" style={{ color: colors.gradientOne }}>+55 21 9 9999-9999</a></p>
+                    <p>WhatsApp: <a href="https://wa.me/5521981013467" className="underline" style={{ color: colors.gradientOne }}>+55 21 9 8101-3467</a></p>
                     <p>Endereço: Rio de Janeiro, RJ - Brasil</p>
                   </div>
                   <p className="mt-4">

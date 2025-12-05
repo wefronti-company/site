@@ -12,10 +12,10 @@ const Logo: React.FC<LogoProps> = ({ className = '' }) => {
       <Image 
         src="/images/isologo-white.webp"
         alt="Wefronti Logo" 
-        width={180} 
-        height={40}
+        width={120} 
+        height={28}
         priority
-        style={{ width: 'auto', height: '40px' }}
+        style={{ width: 'auto', height: '28px' }}
       />
     </Link>
   );

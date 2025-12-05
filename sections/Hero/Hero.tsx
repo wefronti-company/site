@@ -72,7 +72,7 @@ const Hero: React.FC = () => {
                 initial={{ opacity: 0, y: 30 }}
                 animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
                 transition={{ duration: 0.8, ease: "easeOut", delay: 0.4 }}
-                className="text-center text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-medium leading-tight max-w-[1400px] bg-gradient-to-br from-white via-gray-200 to-gray-500 bg-clip-text text-transparent pb-2"
+                className="text-center text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-medium leading-tight max-w-[1200px] bg-gradient-to-br from-white via-gray-200 to-gray-500 bg-clip-text text-transparent pb-2"
               >
                 Projetamos produtos com propósito, pronto para gerar receita
               </motion.h1>
@@ -81,7 +81,7 @@ const Hero: React.FC = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                 transition={{ duration: 0.8, ease: "easeOut", delay: 0.6 }}
-                className="text-center text-base md:text-lg text-white/90 max-w-[650px] mt-2 leading-relaxed"
+                className="text-center text-sm md:text-lg text-white/90 max-w-[600px] mt-2 leading-relaxed"
               >
                 Desenvolvemos seu produto com o melhor da tecnologia e inteligencia artificial, desde Saas, software á sistemas web complexos.
               </motion.h2>

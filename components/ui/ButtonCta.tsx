@@ -42,7 +42,7 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
  type={type}
  onClick={handleClick}
  disabled={disabled}
- className={`px-4 py-3 text-base font-semibold transition-all duration-200 flex items-center gap-3 hover:opacity-90 animate-pulse-shadow disabled:opacity-50 disabled:cursor-not-allowed ${
+ className={`px-4 py-3 text-sm font-semibold transition-all duration-200 flex items-center gap-2 hover:opacity-90 animate-pulse-shadow disabled:opacity-50 disabled:cursor-not-allowed ${
  isGradient 
  ? '' 
  : 'bg-gray-200 text-black'
@@ -57,15 +57,15 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
  <div 
  className="flex items-center justify-center transition-transform duration-200 group-hover:translate-x-1"
  style={{
- width: '28px',
- height: '28px',
+ width: '24px',
+ height: '24px',
  borderRadius: '50%',
  backgroundColor: 'rgba(13, 13, 13, 1)'
  }}
  >
  <svg 
- width="16" 
- height="16" 
+ width="14" 
+ height="14" 
  viewBox="0 0 24 24" 
  fill="none" 
  stroke={colors.whiteColor}

@@ -47,7 +47,7 @@ const CTA: React.FC = () => {
           >
             {/* Título */}
             <motion.h2
-              className="text-4xl md:text-4xl lg:text-5xl font-medium mb-4 bg-gradient-to-br from-white via-gray-200 to-gray-500 bg-clip-text text-transparent"
+              className="text-3xl md:text-3xl lg:text-4xl font-medium mb-3 bg-gradient-to-br from-white via-gray-200 to-gray-500 bg-clip-text text-transparent"
               initial={{ opacity: 0, y: 20 }}
               animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ duration: 0.6, ease: "easeOut", delay: 0.4 }}
@@ -57,7 +57,7 @@ const CTA: React.FC = () => {
 
             {/* Subtítulo */}
             <motion.p
-              className="text-lg md:text-xl text-gray-300 mb-8 max-w-3xl mx-auto"
+              className="text-base text-gray-300 mb-6 max-w-3xl mx-auto"
               initial={{ opacity: 0, y: 20 }}
               animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ duration: 0.6, ease: "easeOut", delay: 0.6 }}
