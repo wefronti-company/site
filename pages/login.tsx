@@ -48,7 +48,7 @@ const Login: React.FC = () => {
         noindex 
       />
 
-      <div className="h-screen flex flex-col lg:flex-row relative overflow-hidden" style={{ backgroundColor: colors.blackColor }}>
+      <div className="min-h-screen flex items-center justify-center relative overflow-hidden p-6" style={{ backgroundColor: colors.blackColor }}>
         
         {/* Background Boxes Global */}
         <div className="absolute inset-0 w-full h-full z-[5] opacity-40 pointer-events-none">
@@ -58,65 +58,26 @@ const Login: React.FC = () => {
         {/* Overlay escuro global */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/40 z-[10]" />
         
-        {/* Lado Esquerdo - Título Estratégico */}
-        <div className="relative flex-1 flex items-center justify-center p-8 pt-16 lg:p-16 overflow-hidden h-[40vh] lg:h-screen z-[20]">
-          {/* Conteúdo */}
-          <div className="relative max-w-2xl text-center lg:text-left">
-            <div style={{ marginBottom: '70px' }} className="flex justify-center lg:justify-start">
-              <div className="scale-[1.2] lg:scale-[1.5]" style={{ transformOrigin: 'center left' }}>
-                <Logo />
-              </div>
-            </div>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-500 leading-tight bg-gradient-to-br from-white via-gray-200 to-gray-500 bg-clip-text text-transparent pb-2">
-              Bem-vindo de volta!
-            </h1>
-            <p className="mt-6 text-base md:text-lg text-white/80 leading-relaxed max-w-xl">
-              Acesse seu painel de gerenciamento com segurança. Insira seu token de acesso exclusivo para continuar.
-            </p>
-
-            {/* Indicador visual */}
-            <div className="mt-8 flex items-center gap-3 justify-center lg:justify-start">
-              <div className="flex items-center gap-2 px-3 py-1.5 rounded-full backdrop-blur-md bg-white/5 border border-white/10">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                  <defs>
-                    <linearGradient id="lockGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" style={{ stopColor: colors.gradientOne }} />
-                      <stop offset="100%" style={{ stopColor: colors.gradientTwo }} />
-                    </linearGradient>
-                  </defs>
-                  <rect x="5" y="11" width="14" height="10" rx="2" stroke="url(#lockGradient)" strokeWidth="2" fill="none"/>
-                  <path d="M8 11V7a4 4 0 0 1 8 0v4" stroke="url(#lockGradient)" strokeWidth="2" strokeLinecap="round" fill="none"/>
-                </svg>
-                <span className="text-xs md:text-sm font-regular text-white whitespace-nowrap">
-                  Acesso seguro
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Lado Direito - Formulário de Login */}
-        <div className="flex-1 flex items-center justify-center p-6 lg:p-16 relative z-[20]">
+        {/* Container Principal - Tudo centralizado em coluna */}
+        <div className="relative z-[20] flex flex-col items-center max-w-md w-full">
+          
           {/* Card de Login */}
-          <div className="w-full max-w-md p-8 lg:p-12 rounded-[20px] backdrop-blur-xl" style={{ border: `1px solid ${colors.borderDark}`, backgroundColor: 'rgba(16, 16, 16, 0.6)' }}>
-            <div className="mb-6 lg:mb-8 text-left">
-              <h2 className="font-500 bg-gradient-to-br from-white via-gray-200 to-gray-500 bg-clip-text text-transparent pb-2" style={{ fontSize: 'clamp(32px, 6vw, 48px)', lineHeight: '1.2' }}>
+          <div className="w-full p-8 lg:p-10 rounded-[20px] backdrop-blur-xl" style={{ border: `1px solid ${colors.borderDark}`, backgroundColor: 'rgba(16, 16, 16, 0.6)' }}>
+            
+            {/* Logo dentro do container */}
+            <div className="mb-6">
+              <Logo />
+            </div>
+
+            <div className="mb-6 text-left">
+              <h2 className="font-500 bg-gradient-to-br from-white via-gray-200 to-gray-500 bg-clip-text text-transparent pb-2" style={{ fontSize: 'clamp(28px, 5vw, 36px)', lineHeight: '1.2' }}>
                 Acesse o painel
               </h2>
-              <p className="mt-3 text-white/70" style={{ fontSize: 'clamp(16px, 2vw, 18px)' }}>
-                Utilize seu token de acesso para entrar
-              </p>
             </div>
 
             <form onSubmit={handleSubmit} noValidate className="space-y-6">
               {/* Input de Token */}
               <div>
-                <label 
-                  htmlFor="token" 
-                  className="block text-sm font-medium mb-2 text-white/90"
-                >
-                  Token de acesso <span className="text-red-500">*</span>
-                </label>
                 <div className="relative">
                   <input
                     id="token"
@@ -180,18 +141,37 @@ const Login: React.FC = () => {
                 />
               </div>
 
-              {/* Link de volta */}
-              <div className="text-left pt-4">
-                <button
-                  type="button"
-                  onClick={() => router.push('/')}
-                  className="text-white/60 hover:text-white/90 transition-colors underline"
-                  style={{ fontSize: '15px' }}
-                >
-                  Voltar para o site
-                </button>
+              {/* Badge de acesso seguro - abaixo do botão */}
+              <div className="pt-2 flex justify-start">
+                <div className="flex items-center gap-2 px-3 py-1.5 rounded-full backdrop-blur-md bg-white/5 border border-white/10">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                    <defs>
+                      <linearGradient id="lockGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style={{ stopColor: colors.gradientOne }} />
+                        <stop offset="100%" style={{ stopColor: colors.gradientTwo }} />
+                      </linearGradient>
+                    </defs>
+                    <rect x="5" y="11" width="14" height="10" rx="2" stroke="url(#lockGradient)" strokeWidth="2" fill="none"/>
+                    <path d="M8 11V7a4 4 0 0 1 8 0v4" stroke="url(#lockGradient)" strokeWidth="2" strokeLinecap="round" fill="none"/>
+                  </svg>
+                  <span className="text-xs md:text-sm font-regular text-white whitespace-nowrap">
+                    Acesso seguro
+                  </span>
+                </div>
               </div>
             </form>
+          </div>
+
+          {/* Link de volta - fora do container */}
+          <div className="mt-6 text-center">
+            <button
+              type="button"
+              onClick={() => router.push('/')}
+              className="text-white/60 hover:text-white/90 transition-colors underline"
+              style={{ fontSize: '15px' }}
+            >
+              Voltar para o site
+            </button>
           </div>
         </div>
       </div>
