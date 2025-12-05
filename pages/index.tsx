@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 import dynamic from 'next/dynamic';
 import SEO from '../components/SEO';
 import AppBar from '../components/layout/AppBar';
@@ -18,15 +18,13 @@ const Home: React.FC = () => (
     <SEO />
     <AppBar />
     <Hero />
-    <Suspense fallback={null}>
-      <ServicesCarousel />
-      <Clients />
-      <ScrollDivider />
-      <Services />
-      <FAQ />
-      <CTA />
-      <Footer />
-    </Suspense>
+    <ServicesCarousel />
+    <Clients />
+    <ScrollDivider />
+    <Services />
+    <FAQ />
+    <CTA />
+    <Footer />
   </>
 );
 

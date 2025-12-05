@@ -12,16 +12,11 @@ export default function Document() {
  <link rel="icon" href="/images/favicon-site.webp" type="image/webp" />
  <link rel="apple-touch-icon" href="/images/favicon-site.webp" />
  
- {/* Preconnect para recursos externos críticos */}
+ {/* Google Fonts - Funnel Sans */}
  <link rel="preconnect" href="https://fonts.googleapis.com" />
  <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
- <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+ <link href="https://fonts.googleapis.com/css2?family=Funnel+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
  
- {/* Font optimization com display=swap */}
- <link 
- href="https://fonts.googleapis.com/css2?family=Funnel+Sans:wght@400;500;600;700&display=swap" 
- rel="stylesheet" 
- />
  </Head>
  <body className="body-grid">
  <Main />

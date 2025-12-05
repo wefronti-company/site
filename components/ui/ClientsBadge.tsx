@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 
 const ClientsBadge: React.FC = () => {
   const clientImages = [
@@ -14,11 +15,15 @@ const ClientsBadge: React.FC = () => {
 
       <div className="flex items-center -space-x-2">
         {clientImages.map((image, index) => (
-          <img 
+          <Image 
             key={index}
             src={image} 
             alt={`Cliente ${index + 1}`}
+            width={24}
+            height={24}
             className="w-6 h-6 rounded-full border-2 border-slate-900 object-cover"
+            loading="eager"
+            quality={75}
           />
         ))}
       </div>
