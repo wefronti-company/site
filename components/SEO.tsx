@@ -15,7 +15,7 @@ const SEO: React.FC<SEOProps> = ({
  title,
  description,
  canonical,
- ogImage = '/og-image.jpg',
+ ogImage = '/images/social-seo-image.webp',
  ogType = 'website',
  noindex = false,
  keywords
@@ -140,10 +140,18 @@ const SEO: React.FC<SEOProps> = ({
  <meta property="og:image" content={`${siteUrl}${ogImage}`} />
  <meta property="og:image:width" content="1200" />
  <meta property="og:image:height" content="630" />
- <meta property="og:image:alt" content="Wefronti" />
+ <meta property="og:image:alt" content="Wefronti - Produtos Digitais com Propósito" />
  <meta property="og:site_name" content="Wefronti" />
  <meta property="og:locale" content="pt_BR" />
- <meta property="fb:app_id" content="seu-app-id-facebook" /> {/* Adicionar após criar app Facebook */}
+ 
+ {/* Twitter Card - Preview no Twitter/X e WhatsApp */}
+ <meta name="twitter:card" content="summary_large_image" />
+ <meta name="twitter:site" content="@wefronti" />
+ <meta name="twitter:creator" content="@wefronti" />
+ <meta name="twitter:title" content={pageTitle} />
+ <meta name="twitter:description" content={pageDescription} />
+ <meta name="twitter:image" content={`${siteUrl}${ogImage}`} />
+ <meta name="twitter:image:alt" content="Wefronti - Produtos Digitais com Propósito" />
  
  {/* Mobile & PWA */}
  <meta name="mobile-web-app-capable" content="yes" />

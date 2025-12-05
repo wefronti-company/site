@@ -7,6 +7,7 @@ export default function Document() {
  <Head>
  {/* Meta tags para SEO */}
  <meta httpEquiv="x-ua-compatible" content="ie=edge" />
+ <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
  
  {/* Favicon */}
  <link rel="icon" href="/images/favicon-site.webp" type="image/webp" />
