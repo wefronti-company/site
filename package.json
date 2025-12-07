@@ -1,41 +1,19 @@
 {
-  "name": "wefronti-site",
-  "version": "1.0.0",
+  "name": "wefronti",
   "private": true,
+  "workspaces": [
+    "site",
+    "dashboard",
+    "console"
+  ],
   "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build",
-    "start": "next start",
-    "analyze": "ANALYZE=true next build",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "@neondatabase/serverless": "^1.0.2",
-    "class-variance-authority": "^0.7.1",
-    "clsx": "^2.1.1",
-    "critters": "^0.0.23",
-    "dotenv": "^17.2.3",
-    "framer-motion": "^12.23.25",
-    "ioredis": "^5.8.2",
-    "lucide-react": "^0.555.0",
-    "next": "^16.0.7",
-    "postprocessing": "^6.38.0",
-    "react": "latest",
-    "react-dom": "latest",
-    "tailwind-merge": "^3.4.0",
-    "tailwindcss-animate": "^1.0.7",
-    "three": "^0.181.2",
-    "validator": "^13.15.23",
-    "zod": "^4.1.13"
+    "dev:site": "npm --workspace site run dev",
+    "dev:dashboard": "npm --workspace dashboard run dev",
+    "dev:console": "npm --workspace console run dev",
+    "build": "npm --workspaces run build",
+    "start": "npm --workspaces run start"
   },
   "devDependencies": {
-    "@types/node": "latest",
-    "@types/react": "latest",
-    "@types/three": "^0.181.0",
-    "@types/validator": "^13.15.10",
-    "autoprefixer": "^10.4.20",
-    "postcss": "^8.4.31",
-    "tailwindcss": "^3.4.14",
-    "typescript": "latest"
+    "concurrently": "^8.2.0"
   }
 }
