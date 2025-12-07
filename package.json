@@ -7,6 +7,7 @@
     "console"
   ],
   "scripts": {
+    "dev": "concurrently -k -n site,dashboard,console \"npm run dev:site\" \"npm run dev:dashboard\" \"npm run dev:console\"",
     "dev:site": "npm --workspace site run dev",
     "dev:dashboard": "npm --workspace dashboard run dev",
     "dev:console": "npm --workspace console run dev",
