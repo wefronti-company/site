@@ -148,8 +148,19 @@ export default async function handler(
 
 	const insertedId = result[0]?.id;
 
-		// 6. Log de segurança para auditoria
- console.log(`[QUOTE] Nova solicitação de: ${sanitizedData.email} (IP: ${clientIp}, ID: ${insertedId})`);
+		// 6. Log de segurança para auditoria — REDACT PII
+		function maskEmail (email: string) {
+			try {
+				const parts = email.split('@')
+				if (parts.length !== 2) return '***'
+				const local = parts[0]
+				const domain = parts[1]
+				const localMasked = local.length <= 2 ? local[0] + '*' : local[0] + '*'.repeat(Math.min(3, local.length - 2)) + local.slice(-1)
+				return `${localMasked}@${domain}`
+			} catch (e) { return '***' }
+		}
+
+		console.log(`[QUOTE] Nova solicitação (ID: ${insertedId}) from ${maskEmail(sanitizedData.email)} (IP: ${clientIp})`);
 
 		// 7. Send admin notification email (non-blocking, optional)
 		// Prefer SMTP (Nodemailer) using Vercel-configured credentials; if missing, skip sending.

@@ -18,7 +18,7 @@ type QuoteRow = {
 }
 
 // simple cookie auth check
-import { compareSync } from '../../lib/bcrypt'
+import { compareSync, compare } from '../../lib/bcrypt'
 
 async function checkSessionInDb (sessionId: string) {
   if (!process.env.DATABASE_URL) return false
@@ -27,7 +27,7 @@ async function checkSessionInDb (sessionId: string) {
     const rows: any[] = await sql`SELECT session_hash FROM console_sessions WHERE expires_at > NOW()`
     for (const r of rows) {
       const hash = r?.session_hash
-      if (hash && compareSync(sessionId, hash)) return true
+      if (hash && await compare(sessionId, hash)) return true
     }
     return false
   } catch (err) {
@@ -43,7 +43,7 @@ async function checkTokenInDb (token: string) {
     const rows: any[] = await sql`SELECT token_hash FROM console_tokens WHERE active = true`
     for (const r of rows) {
       const hash = r?.token_hash
-      if (hash && compareSync(token, hash)) return true
+      if (hash && await compare(token, hash)) return true
     }
     return false
   } catch (err) {

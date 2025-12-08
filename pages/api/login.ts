@@ -5,7 +5,7 @@ import { checkRateLimitRedis } from '../../lib/redis'
 type Body = { token?: string }
 
 // Utility: check if a token exists and is active in the DB (when configured)
-import { compareSync, hashSync } from '../../lib/bcrypt'
+import { compare, hash } from '../../lib/bcrypt'
 import crypto from 'crypto'
 
 async function findTokenInDb (token: string) {
@@ -14,8 +14,8 @@ async function findTokenInDb (token: string) {
     const { sql } = await import('../../lib/db')
     const rows: any[] = await sql`SELECT id, token_hash FROM console_tokens WHERE active = true`
     for (const r of rows) {
-      const hash = r?.token_hash
-      if (hash && compareSync(token, hash)) return r
+      const hashValue = r?.token_hash
+      if (hashValue && await compare(token, hashValue)) return r
     }
     return null
   } catch (err) {
@@ -51,7 +51,7 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
     if (expectedToken && token === expectedToken) {
       // Create a session and set session cookie for improved security
       const sessionId = crypto.randomBytes(32).toString('hex')
-      const sessionHash = hashSync(sessionId, parseInt(process.env.CONSOLE_AUTH_BCRYPT_ROUNDS || '12', 10))
+        const sessionHash = await hash(sessionId, parseInt(process.env.CONSOLE_AUTH_BCRYPT_ROUNDS || '12', 10))
       let sessionInserted = false
       try {
         if (process.env.DATABASE_URL) {
@@ -87,7 +87,10 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
         console.warn('[API/LOGIN] not setting console_session cookie because session insertion failed')
         return res.status(500).json({ success: false, error: 'Failed to create session' })
       }
-      if (!process.env.DATABASE_URL) {
+      // Only set the legacy console_auth cookie when running in non-production
+      // with no DB configured (development / single-host scenarios). In
+      // production we REQUIRE DB-backed sessions for improved security.
+      if (!process.env.DATABASE_URL && process.env.NODE_ENV !== 'production') {
         // set the legacy cookie to the token so the GET auth endpoint can
         // validate against the environment secret.
         cookies.push(`console_auth=${expectedToken}; HttpOnly; Path=/; SameSite=Strict; Max-Age=${8 * 3600};${domain}${secureFlag}`)
@@ -102,7 +105,7 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
       if (tokenRow) {
         // create a session bound to tokenRow.id
         const sessionId = crypto.randomBytes(32).toString('hex')
-        const sessionHash = hashSync(sessionId, parseInt(process.env.CONSOLE_AUTH_BCRYPT_ROUNDS || '12', 10))
+        const sessionHash = await hash(sessionId, parseInt(process.env.CONSOLE_AUTH_BCRYPT_ROUNDS || '12', 10))
         // ensure session INSERT truly succeeded before continuing
         let sessionInserted2 = false
         try {
@@ -141,7 +144,7 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
           const rows: any[] = await sql`SELECT id, session_hash, expires_at FROM console_sessions WHERE expires_at > NOW()`
           let matched = false
           for (const r of rows) {
-            if (r?.session_hash && compareSync(sessionCookie, r.session_hash)) {
+            if (r?.session_hash && await compare(sessionCookie, r.session_hash)) {
               matched = true
               break
             }
@@ -154,12 +157,14 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
       }
     }
 
-    // Fallback: older cookie (console_auth) for compatibility
+    // Fallback: older cookie (console_auth) for compatibility in non-prod / no-DB
     const cookie = req.cookies?.console_auth
     if (!cookie) return res.status(200).json({ authenticated: false })
 
     // Check against env var first
-    if (process.env.CONSOLE_AUTH_TOKEN && cookie === process.env.CONSOLE_AUTH_TOKEN) return res.status(200).json({ authenticated: true })
+    // Only honor the legacy console_auth cookie when running without a DB or
+    // in non-production. Production deployments should use DB-backed sessions.
+    if (( !process.env.DATABASE_URL || process.env.NODE_ENV !== 'production' ) && process.env.CONSOLE_AUTH_TOKEN && cookie === process.env.CONSOLE_AUTH_TOKEN) return res.status(200).json({ authenticated: true })
 
     // Otherwise, if DB configured, verify that token exists and is active
     if (process.env.DATABASE_URL) {

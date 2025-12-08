@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { compareSync } from '../../lib/bcrypt'
+import { compareSync, compare } from '../../lib/bcrypt'
 
 export default async function handler (req: NextApiRequest, res: NextApiResponse) {
   // clear session cookie in DB if present
@@ -9,7 +9,7 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
       const { sql } = await import('../../lib/db')
       const rows: any[] = await sql`SELECT id, session_hash FROM console_sessions`;
       for (const r of rows) {
-        if (r?.session_hash && compareSync(sessionCookie, r.session_hash)) {
+        if (r?.session_hash && await compare(sessionCookie, r.session_hash)) {
           await sql`DELETE FROM console_sessions WHERE id = ${r.id}`
           break
         }

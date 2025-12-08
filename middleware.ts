@@ -53,18 +53,57 @@ function isValidOrigin(request: NextRequest): boolean {
  return true;
  }
  
- const allowedDomains = [
- 'localhost:3000',
- 'wefronti.com',
- 'www.wefronti.com',
- '.vercel.app', // Para preview deployments
- ];
- 
- const sourceUrl = origin || referer || '';
- 
- return allowedDomains.some(domain => 
- sourceUrl.includes(domain) || host?.includes(domain)
- );
+	const allowedDomains = [
+		'localhost:3000',
+		'wefronti.com',
+		'www.wefronti.com',
+		'.vercel.app', // Para preview deployments (subdomains)
+	];
+
+	const sourceUrl = origin || referer || '';
+
+	// Prefer explicit URL parsing for origin/referer
+	for (const domain of allowedDomains) {
+		// If the allowed domain contains a port, match host:port explicitly
+		if (domain.includes(':')) {
+			if (sourceUrl) {
+				try {
+					const p = new URL(sourceUrl)
+					if (p.host === domain) return true
+				} catch (_) {}
+			}
+			if (host && host === domain) return true
+			continue
+		}
+
+		// Allow exact hostname matches
+		if (sourceUrl) {
+			try {
+				const p = new URL(sourceUrl)
+				const hostname = p.hostname
+				if (domain.startsWith('.')) {
+					// allow exact or end-with match for subdomains (.vercel.app -> any.vercel.app)
+					const base = domain.slice(1)
+					if (hostname === base || hostname.endsWith('.' + base) || hostname.endsWith(base)) return true
+				} else if (hostname === domain) {
+					return true
+				}
+			} catch (_) {}
+		}
+
+		// Fall back to host header if origin/referer not parseable
+		if (host) {
+			const hostName = host.split(':')[0]
+			if (domain.startsWith('.')) {
+				const base = domain.slice(1)
+				if (hostName === base || hostName.endsWith('.' + base) || hostName.endsWith(base)) return true
+			} else if (hostName === domain) {
+				return true
+			}
+		}
+	}
+
+	return false
 }
 
 export function middleware(request: NextRequest) {
@@ -115,6 +154,9 @@ export function middleware(request: NextRequest) {
  response.headers.set('X-XSS-Protection', '1; mode=block');
  response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
  response.headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
+	// Basic Content Security Policy to mitigate XSS.
+	// Keep it permissive for analytics and external assets (https:) — tighten when possible.
+	response.headers.set('Content-Security-Policy', "default-src 'self' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; connect-src 'self' https:; frame-ancestors 'none';")
  
  // Prevenir cache de dados sensíveis
  if (url.pathname.startsWith('/api/')) {
