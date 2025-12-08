@@ -68,28 +68,11 @@ async function run () {
     const hash = bcrypt.hashSync(token, saltRounds)
 
     // Ensure the console_tokens table exists (safe to run multiple times)
-    await sql`
-      CREATE TABLE IF NOT EXISTS console_tokens (
-        id SERIAL PRIMARY KEY,
-        token_hash VARCHAR(255) NOT NULL UNIQUE,
-        description TEXT,
-        active BOOLEAN NOT NULL DEFAULT true,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-      )
-    `
+      // NOTE: migrations should create tables in production. Do NOT create DDL here in production.
+      // The migration file `migrations/0001_create_console_tables.sql` contains required DDL.
+      // Insert or update the token hash (upsert by token_hash)
 
-    // Also ensure sessions table exists for session-based logins
-    await sql`
-      CREATE TABLE IF NOT EXISTS console_sessions (
-        id SERIAL PRIMARY KEY,
-        session_hash VARCHAR(255) NOT NULL UNIQUE,
-        token_id INTEGER REFERENCES console_tokens(id) ON DELETE SET NULL,
-        ip VARCHAR(64),
-        user_agent TEXT,
-        expires_at TIMESTAMP,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-      )
-    `
+    // Note: migrations should create console_sessions; seed will not create DDL in production
 
     // First, check if token already exists by comparing against stored hashes
     const existing = await sql`SELECT id, token_hash, active, created_at FROM console_tokens`
