@@ -78,6 +78,19 @@ async function run () {
       )
     `
 
+    // Also ensure sessions table exists for session-based logins
+    await sql`
+      CREATE TABLE IF NOT EXISTS console_sessions (
+        id SERIAL PRIMARY KEY,
+        session_hash VARCHAR(255) NOT NULL UNIQUE,
+        token_id INTEGER REFERENCES console_tokens(id) ON DELETE SET NULL,
+        ip VARCHAR(64),
+        user_agent TEXT,
+        expires_at TIMESTAMP,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `
+
     // First, check if token already exists by comparing against stored hashes
     const existing = await sql`SELECT id, token_hash, active, created_at FROM console_tokens`
     let foundId = null

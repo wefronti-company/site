@@ -55,6 +55,18 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
       try {
         if (process.env.DATABASE_URL) {
           const { sql } = await import('../../lib/db')
+          // ensure sessions table exists in production before inserting
+          await sql`
+            CREATE TABLE IF NOT EXISTS console_sessions (
+              id SERIAL PRIMARY KEY,
+              session_hash VARCHAR(255) NOT NULL UNIQUE,
+              token_id INTEGER REFERENCES console_tokens(id) ON DELETE SET NULL,
+              ip VARCHAR(64),
+              user_agent TEXT,
+              expires_at TIMESTAMP,
+              created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+          `
           await sql`INSERT INTO console_sessions (session_hash, token_id, ip, user_agent, expires_at) VALUES (${sessionHash}, NULL, ${clientIp}, ${req.headers['user-agent'] || null}, NOW() + INTERVAL '8 hours')`
         }
       } catch (err) {
@@ -75,6 +87,18 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
         const sessionHash = hashSync(sessionId, parseInt(process.env.CONSOLE_AUTH_BCRYPT_ROUNDS || '12', 10))
         try {
           const { sql } = await import('../../lib/db')
+          // ensure sessions table exists in production before inserting
+          await sql`
+            CREATE TABLE IF NOT EXISTS console_sessions (
+              id SERIAL PRIMARY KEY,
+              session_hash VARCHAR(255) NOT NULL UNIQUE,
+              token_id INTEGER REFERENCES console_tokens(id) ON DELETE SET NULL,
+              ip VARCHAR(64),
+              user_agent TEXT,
+              expires_at TIMESTAMP,
+              created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+          `
           await sql`INSERT INTO console_sessions (session_hash, token_id, ip, user_agent, expires_at) VALUES (${sessionHash}, ${tokenRow.id}, ${clientIp}, ${req.headers['user-agent'] || null}, NOW() + INTERVAL '8 hours')`
         } catch (err) {
           console.warn('[API/LOGIN] failed to create session record', err)
