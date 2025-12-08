@@ -77,7 +77,7 @@ export default function DashPage () {
 
   return (
     <>
-      <SEO title="Console / Dash — WeFronti" noindex />
+      <SEO title="Dash" noindex />
       <div style={{ padding: 18 }}>
         <h1 style={{ margin: 0 }}>Console — Solicitações de Orçamento</h1>
         <div style={{ marginTop: 12 }}>

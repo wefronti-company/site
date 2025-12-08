@@ -75,7 +75,7 @@ export default function ConsolePage () {
 
   return (
     <>
-      <SEO title="Console — WeFronti" noindex />
+      <SEO title="Console" noindex />
 
       <div className="min-h-screen flex items-center justify-center relative overflow-hidden p-6" style={{ backgroundColor: colors.blackColor }}>
         {mounted && (
