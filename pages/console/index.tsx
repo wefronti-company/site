@@ -127,9 +127,9 @@ function ConsoleLoginForm ({ onSubmit, loading, error }: { onSubmit: (token: str
             onChange={(e) => { setToken(e.target.value); if (localError) setLocalError(null) }}
             placeholder="Token de acesso"
             required
-            // fixed compact height and no bottom padding — keeps input tight
+            // adjusted height and centered placeholder text
             className={`w-full px-4 rounded-[10px] transition-all duration-300 outline-none ${localError ? 'border-2 border-red-500' : ''}`}
-            style={{ height: 44, paddingTop: 12, paddingBottom: 0, backgroundColor: colors.colorGray, border: localError ? '2px solid #EF4444' : `1px solid ${colors.borderDark}`, color: colors.whiteColor, fontSize: '16px' }}
+            style={{ height: 52, lineHeight: '52px', paddingTop: 0, paddingBottom: 0, backgroundColor: colors.colorGray, border: localError ? '2px solid #EF4444' : `1px solid ${colors.borderDark}`, color: colors.whiteColor, fontSize: '16px' }}
           />
         </div>
 
@@ -146,10 +146,10 @@ function ConsoleLoginForm ({ onSubmit, loading, error }: { onSubmit: (token: str
       </div>
 
       <div>
-        {/* small breathing space between input and button */}
-        <div style={{ marginTop: 5 }} />
+        {/* larger breathing space between input and button for clearer layout */}
+        <div style={{ marginTop: 24 }} />
 
-        <div style={{ marginTop: 5 }}>
+        <div style={{ marginTop: 6 }}>
           <ButtonCta label={loading ? 'Validando...' : 'Entrar'} type="submit" disabled={!!loading} />
         </div>
       </div>
