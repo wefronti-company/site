@@ -65,7 +65,9 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
   const saJson = process.env.GA4_SERVICE_ACCOUNT_JSON || process.env.GA4_SA_JSON
   const propertyId = process.env.GA4_PROPERTY_ID || process.env.NEXT_PUBLIC_GA4_PROPERTY_ID
   if (!saJson || !propertyId) {
-    return res.status(501).json({ success: false, error: 'GA4 credentials or property id not configured' })
+    // Production may not always have GA configured — return a graceful 200 so clients
+    // can handle the unconfigured state without triggering errors.
+    return res.status(200).json({ success: false, error: 'GA4 credentials or property id not configured', configured: false })
   }
 
   try {
