@@ -4,15 +4,29 @@ import { colors } from '../../styles/colors'
 
 export default function RealtimeCountries () {
   const [countries, setCountries] = useState<Array<{country: string; users: number}>>([])
+  // null = loading/unknown, false = GA not configured, true = configured
+  const [configured, setConfigured] = useState<boolean | null>(null)
   const [loading, setLoading] = useState(true)
 
   async function load () {
     setLoading(true)
     try {
       const res = await fetch('/api/analytics/realtime')
-      if (!res.ok) return setCountries([])
+      if (!res.ok) {
+        setConfigured(null)
+        return setCountries([])
+      }
       const body = await res.json().catch(() => ({}))
-      if (!body?.success) return setCountries([])
+      if (body?.configured === false) {
+        setConfigured(false)
+        setCountries([])
+        return
+      }
+      if (!body?.success) {
+        setConfigured(null)
+        return setCountries([])
+      }
+      setConfigured(true)
       setCountries(body.data?.countries || [])
     } catch (e) {
       // ignore
@@ -39,6 +53,10 @@ export default function RealtimeCountries () {
         <li style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: 10, borderRadius: 8, background: '#0b0b0c', border: `1px solid ${colors.borderDark}` }}><span>—</span><strong>—</strong></li>
       </>
     )
+  }
+
+  if (configured === false) {
+    return <li style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: 10, borderRadius: 8, background: '#0b0b0c', border: `1px solid ${colors.borderDark}`, color: '#f97316' }}>Analytics não configurado — defina GA4_SERVICE_ACCOUNT_JSON & GA4_PROPERTY_ID</li>
   }
 
   if (!countries || countries.length === 0) {

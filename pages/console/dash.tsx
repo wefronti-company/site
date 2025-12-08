@@ -19,6 +19,8 @@ export default function DashPage () {
   const router = useRouter()
   const [items, setItems] = useState<Quote[]>([])
   const [analytics, setAnalytics] = useState<{ visitors?: number | null; views?: number | null; avgSeconds?: number | null }>({})
+  // `null` = unknown/loading, `false` = GA not configured in env, `true` = configured
+  const [analyticsConfigured, setAnalyticsConfigured] = useState<boolean | null>(null)
   const [realtimeCountries, setRealtimeCountries] = useState<Array<{country: string; users: number}>>([])
   // mark when we are mounted on the client to avoid hydration mismatches
   const [isClient, setIsClient] = useState(false)
@@ -107,13 +109,22 @@ export default function DashPage () {
       const res = await fetch('/api/analytics/overview')
       if (!res.ok) return
       const body = await res.json().catch(() => ({}))
+      // if the server indicates GA is not configured, reflect that in UI
+      if (body?.configured === false) {
+        setAnalyticsConfigured(false)
+        return
+      }
       if (!body?.success) return
+      setAnalyticsConfigured(true)
       const m = body.metrics || {}
       setAnalytics({ visitors: m.visitors || null, views: m.views || null, avgSeconds: m.averageSessionDurationSeconds || null })
     } catch (e) {
       // silently ignore analytics errors
     }
   }
+
+  // ensure we mark analytics as unknown while loading
+  useEffect(() => { setAnalyticsConfigured(null); }, [])
 
   async function fetchCacheStatus () {
     try {
@@ -218,7 +229,16 @@ export default function DashPage () {
                   </div>
                 </div>
                 {/* small line placeholder for graph */}
-                <div style={{ height: 120, marginTop: 14, background: '#0b0b0c', borderRadius: 8, border: `1px dashed ${colors.borderDark}` }} />
+                <div style={{ height: 120, marginTop: 14, background: '#0b0b0c', borderRadius: 8, border: `1px dashed ${colors.borderDark}`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#9f9f9f' }}>
+                  {analyticsConfigured === false ? (
+                    <div style={{ textAlign: 'center' }}>
+                      <div style={{ fontWeight: 700, color: '#f97316', marginBottom: 6 }}>Analytics não configurado</div>
+                      <div style={{ fontSize: 12 }}>Defina GA4_SERVICE_ACCOUNT_JSON e GA4_PROPERTY_ID no ambiente para ativar métricas.</div>
+                    </div>
+                  ) : (
+                    <div style={{ width: '100%', height: '100%' }} />
+                  )}
+                </div>
               </section>
 
               {/* Performance / Cache card (client-only) */}
