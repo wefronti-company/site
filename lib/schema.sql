@@ -19,7 +19,6 @@ CREATE TABLE IF NOT EXISTS quote_requests (
 CREATE INDEX idx_quote_requests_email ON quote_requests(email);
 CREATE INDEX idx_quote_requests_created_at ON quote_requests(created_at);
 
--- Comentários na tabela
 COMMENT ON TABLE quote_requests IS 'Armazena as solicitações de orçamento enviadas através do formulário do site';
 COMMENT ON COLUMN quote_requests.name IS 'Nome completo do solicitante';
 COMMENT ON COLUMN quote_requests.whatsapp IS 'Número do WhatsApp para contato';
@@ -31,3 +30,16 @@ COMMENT ON COLUMN quote_requests.challenge IS 'Descrição do desafio/projeto';
 COMMENT ON COLUMN quote_requests.timeline IS 'Prazo desejado para o projeto';
 COMMENT ON COLUMN quote_requests.privacy_consent IS 'LGPD: Consentimento do usuário para tratamento de dados';
 COMMENT ON COLUMN quote_requests.consented_at IS 'LGPD: Data e hora do consentimento';
+
+-- Tabela para armazenar tokens de acesso ao console em produção
+-- Store token hashes for security (do NOT store raw tokens)
+CREATE TABLE IF NOT EXISTS console_tokens (
+  id SERIAL PRIMARY KEY,
+  token_hash VARCHAR(255) NOT NULL UNIQUE,
+  description TEXT,
+  active BOOLEAN NOT NULL DEFAULT true,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+COMMENT ON TABLE console_tokens IS 'Lista de tokens válidos (armazenados como hash) para acessar o console administrativo';
+COMMENT ON COLUMN console_tokens.token_hash IS 'Hash do token de acesso (bcrypt). O token real não deve ser armazenado em texto claro.';

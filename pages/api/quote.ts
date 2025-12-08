@@ -1,4 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
+// Use require to avoid missing type declarations in this environment
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const nodemailer: any = require('nodemailer');
 import { sql, QuoteRequest } from '../../lib/db';
 import { checkRateLimitRedis } from '../../lib/redis';
 import { 
@@ -45,6 +48,16 @@ export default async function handler(
  res.setHeader('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
 
  try {
+		// SMTP settings (use environment variables configured in Vercel)
+		const smtpHost = process.env.SMTP_HOST || null;
+		const smtpPort = process.env.SMTP_PORT ? Number(process.env.SMTP_PORT) : undefined;
+		const smtpUser = process.env.SMTP_USER || null;
+		const smtpPass = process.env.SMTP_PASS || null;
+		const smtpSecure = process.env.SMTP_SECURE === 'true';
+
+		// Email envelope metadata
+		const emailFrom = process.env.EMAIL_FROM || process.env.MAIL_FROM || smtpUser || 'no-reply@wefronti.com';
+		const adminEmail = process.env.EMAIL_ADMIN || process.env.ADMIN_EMAIL || 'projetos@wefronti.com';
  // 1. Rate Limiting por IP (Redis ou in-memory fallback)
  const clientIp = getClientIp(req);
  
@@ -133,10 +146,68 @@ export default async function handler(
  RETURNING id
  `;
 
- const insertedId = result[0]?.id;
+	const insertedId = result[0]?.id;
 
- // 6. Log de segurança para auditoria
+		// 6. Log de segurança para auditoria
  console.log(`[QUOTE] Nova solicitação de: ${sanitizedData.email} (IP: ${clientIp}, ID: ${insertedId})`);
+
+		// 7. Send admin notification email (non-blocking, optional)
+		// Prefer SMTP (Nodemailer) using Vercel-configured credentials; if missing, skip sending.
+		if (smtpHost && smtpUser && smtpPass && emailFrom && adminEmail) {
+			const subject = `Novo pedido de orçamento — ${sanitizedData.name}`;
+
+			const plainBody = `Nova solicitação de orçamento\n\nID: ${insertedId}\nNome: ${sanitizedData.name}\nE-mail: ${sanitizedData.email}\nWhatsApp: ${sanitizedData.whatsapp}\nEmpresa: ${sanitizedData.company}\nOperador/cargo: ${sanitizedData.role}\nFaturamento: ${sanitizedData.revenue}\nPrazo/Timeline: ${sanitizedData.timeline}\nDesafio: ${sanitizedData.challenge}\n\nConsented: ${sanitizedData.privacy_consent}\n`;
+
+			const htmlBody = `
+				<div style="font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; color:#111; background:#fff; padding:18px;">
+					<h2>Nova solicitação de orçamento</h2>
+					<p><strong>ID:</strong> ${insertedId}</p>
+					<p><strong>Nome:</strong> ${sanitizedData.name}</p>
+					<p><strong>E-mail:</strong> ${sanitizedData.email}</p>
+					<p><strong>WhatsApp:</strong> ${sanitizedData.whatsapp}</p>
+					<p><strong>Empresa:</strong> ${sanitizedData.company}</p>
+					<p><strong>Operador / cargo:</strong> ${sanitizedData.role}</p>
+					<p><strong>Faturamento:</strong> ${sanitizedData.revenue}</p>
+					<p><strong>Timeline:</strong> ${sanitizedData.timeline}</p>
+					<p><strong>Desafio:</strong></p>
+					<pre style="white-space:pre-wrap">${sanitizedData.challenge}</pre>
+					<hr />
+					<p>Recebido de IP: ${clientIp}</p>
+				</div>
+			`;
+
+			// configure nodemailer transport
+			const transporter = nodemailer.createTransport({
+				host: smtpHost,
+				port: smtpPort || 587,
+				secure: smtpSecure || false,
+				auth: {
+					user: smtpUser,
+					pass: smtpPass
+				}
+			});
+
+			// send async without blocking the response
+			(async () => {
+				try {
+					await transporter.sendMail({
+						from: emailFrom,
+						to: adminEmail,
+						subject,
+						text: plainBody,
+						html: htmlBody
+					});
+					console.log('[SMTP] admin notification sent to', adminEmail);
+				} catch (err) {
+					console.error('[SMTP] failed to send admin notification', err);
+				}
+			})();
+		} else {
+			// No SMTP configuration present — skip sending but log it.
+			if (!smtpHost || !smtpUser || !smtpPass) console.warn('[SMTP] not configured — skipping email delivery');
+			if (!emailFrom) console.warn('[SMTP] EMAIL_FROM not set — skipping email delivery');
+			if (!adminEmail) console.warn('[SMTP] EMAIL_ADMIN not set — skipping email delivery');
+		}
 
  return res.status(201).json({
  success: true,

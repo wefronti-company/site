@@ -4,15 +4,12 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "next dev --port 3000",
-    "seed-console-token": "node ./scripts/seed-console-token.js",
-    "seed-console-token:prod": "CONSOLE_AUTH_TOKEN=$CONSOLE_AUTH_TOKEN DATABASE_URL=$DATABASE_URL npm run seed-console-token",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.0.2",
-    "bcryptjs": "^2.4.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "critters": "^0.0.23",

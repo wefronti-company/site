@@ -71,26 +71,7 @@ const AppBar: React.FC = () => {
 
           {/* RIGHT: Entrar (com ícone gradient) + CTA */}
           <div className="hidden lg:flex items-center gap-2">
-            <button 
-              onClick={() => router.push('/login')}
-              className="px-3 py-1.5 text-sm font-medium transition-opacity hover:opacity-80 flex items-center gap-1.5 rounded-full border"
-              style={{ 
-                color: colors.whiteColor,
-                borderColor: colors.borderDark
-              }}
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                <defs>
-                  <linearGradient id="userGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" style={{ stopColor: colors.gradientOne }} />
-                    <stop offset="50%" style={{ stopColor: colors.gradientTwo }} />
-                  </linearGradient>
-                </defs>
-                <circle cx="12" cy="8" r="4" stroke="url(#userGradient)" strokeWidth="2" fill="none"/>
-                <path d="M4 20c0-4 3-6 8-6s8 2 8 6" stroke="url(#userGradient)" strokeWidth="2" strokeLinecap="round" fill="none"/>
-              </svg>
-              Painel
-            </button>
+            {/* removed legacy 'Painel' button — console is accessible via /console */}
             <button 
               onClick={() => router.push('/form')}
               className="px-4 py-1.5 text-sm font-semibold rounded-[30px] transition-all hover:opacity-90"
@@ -226,26 +207,7 @@ const AppBar: React.FC = () => {
                 transition={{ delay: 0.3, duration: 0.4 }}
                 className="px-6 pb-6 flex flex-col gap-3"
               >
-                <button 
-                  onClick={() => { setMobileOpen(false); router.push('/login'); }}
-                  className="w-full px-4 py-3 text-sm font-medium transition-all flex items-center justify-center gap-1.5 rounded-[60px] border"
-                  style={{ 
-                    color: colors.whiteColor,
-                    borderColor: colors.borderDark
-                  }}
-                >
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                    <defs>
-                      <linearGradient id="userGradientMobile" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" style={{ stopColor: colors.gradientOne }} />
-                        <stop offset="50%" style={{ stopColor: colors.gradientTwo }} />
-                      </linearGradient>
-                    </defs>
-                    <circle cx="12" cy="8" r="4" stroke="url(#userGradientMobile)" strokeWidth="2" fill="none"/>
-                    <path d="M4 20c0-4 3-6 8-6s8 2 8 6" stroke="url(#userGradientMobile)" strokeWidth="2" strokeLinecap="round" fill="none"/>
-                  </svg>
-                  Painel
-                </button>
+                
                 <button 
                   onClick={() => { setMobileOpen(false); router.push('/form'); }}
                   className="w-full px-4 py-3 text-sm font-semibold rounded-[60px] transition-all"
