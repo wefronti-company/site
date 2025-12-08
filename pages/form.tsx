@@ -531,8 +531,9 @@ const FormPage: React.FC = () => {
  <option value="">Selecione o faturamento</option>
  <option value="0-10k">Até R$ 10 mil/mês</option>
  <option value="10k-50k">R$ 10 mil - R$ 50 mil/mês</option>
- <option value="50k-100k">R$ 50 mil - R$ 100 mil/mês</option>
- <option value="100k+">Acima de R$ 500 mil/mês</option>
+				<option value="50k-100k">R$ 50 mil - R$ 100 mil/mês</option>
+				<option value="100k-500k">R$ 100 mil - R$ 500 mil/mês</option>
+				<option value="500k+">Acima de R$ 500 mil/mês</option>
  </select>
  <p className="text-xs mt-1" style={{ color: colors.whiteColor, opacity: 0.6 }}>
  Essa informação nos ajuda a personalizar melhor nossa proposta
