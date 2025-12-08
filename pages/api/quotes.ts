@@ -20,6 +20,22 @@ type QuoteRow = {
 // simple cookie auth check
 import { compareSync } from '../../lib/bcrypt'
 
+async function checkSessionInDb (sessionId: string) {
+  if (!process.env.DATABASE_URL) return false
+  try {
+    const { sql } = await import('../../lib/db')
+    const rows: any[] = await sql`SELECT session_hash FROM console_sessions WHERE expires_at > NOW()`
+    for (const r of rows) {
+      const hash = r?.session_hash
+      if (hash && compareSync(sessionId, hash)) return true
+    }
+    return false
+  } catch (err) {
+    console.warn('[API/QUOTES] DB session check failed', err)
+    return false
+  }
+}
+
 async function checkTokenInDb (token: string) {
   if (!process.env.DATABASE_URL) return false
   try {
@@ -38,6 +54,12 @@ async function checkTokenInDb (token: string) {
 
 async function isAuthorized(req: NextApiRequest) {
   const cookie = req.cookies?.console_auth
+  // prefer session cookie
+  const sessionCookie = req.cookies?.console_session
+  if (sessionCookie && process.env.DATABASE_URL) {
+    const ok = await checkSessionInDb(sessionCookie)
+    if (ok) return true
+  }
   if (!cookie) return false
 
   // check environment secret first

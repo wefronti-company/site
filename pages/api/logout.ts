@@ -1,7 +1,28 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
+import { compareSync } from '../../lib/bcrypt'
 
-export default function handler (req: NextApiRequest, res: NextApiResponse) {
-  // Clear the cookie
-  res.setHeader('Set-Cookie', `console_auth=deleted; HttpOnly; Path=/; SameSite=Lax; Max-Age=0`)
+export default async function handler (req: NextApiRequest, res: NextApiResponse) {
+  // clear session cookie in DB if present
+  const sessionCookie = req.cookies?.console_session
+  if (sessionCookie && process.env.DATABASE_URL) {
+    try {
+      const { sql } = await import('../../lib/db')
+      const rows: any[] = await sql`SELECT id, session_hash FROM console_sessions`;
+      for (const r of rows) {
+        if (r?.session_hash && compareSync(sessionCookie, r.session_hash)) {
+          await sql`DELETE FROM console_sessions WHERE id = ${r.id}`
+          break
+        }
+      }
+    } catch (err) {
+      console.warn('[API/LOGOUT] failed to purge session', err)
+    }
+  }
+
+  // Clear both session and legacy auth cookies
+  const secureFlag = process.env.NODE_ENV === 'production' ? ' Secure;' : ''
+  res.setHeader('Set-Cookie', `console_session=deleted; HttpOnly; Path=/; SameSite=Strict; Max-Age=0;${secureFlag}`)
+  res.setHeader('Set-Cookie', `console_auth=deleted; HttpOnly; Path=/; SameSite=Strict; Max-Age=0;${secureFlag}`)
+
   return res.status(200).json({ success: true })
 }
