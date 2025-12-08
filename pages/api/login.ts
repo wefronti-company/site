@@ -52,10 +52,15 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
       // Create a session and set session cookie for improved security
       const sessionId = crypto.randomBytes(32).toString('hex')
       const sessionHash = hashSync(sessionId, parseInt(process.env.CONSOLE_AUTH_BCRYPT_ROUNDS || '12', 10))
+      let sessionInserted = false
       try {
         if (process.env.DATABASE_URL) {
           const { sql } = await import('../../lib/db')
-          await sql`INSERT INTO console_sessions (session_hash, token_id, ip, user_agent, expires_at) VALUES (${sessionHash}, NULL, ${clientIp}, ${req.headers['user-agent'] || null}, NOW() + INTERVAL '8 hours')`
+          const rows: any[] = await sql`INSERT INTO console_sessions (session_hash, token_id, ip, user_agent, expires_at) VALUES (${sessionHash}, NULL, ${clientIp}, ${req.headers['user-agent'] || null}, NOW() + INTERVAL '8 hours') RETURNING id`
+          if (rows && rows.length > 0) sessionInserted = true
+        } else {
+          // no DB = nothing to insert but still accepted
+          sessionInserted = true
         }
       } catch (err) {
         console.warn('[API/LOGIN] failed to create session record for env token', err)
@@ -65,7 +70,29 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
       const domain = process.env.SESSION_COOKIE_DOMAIN ? ` Domain=${process.env.SESSION_COOKIE_DOMAIN};` : ''
       // Give a small debug log (ID only) so server logs can be used to trace session creation
       console.log('[API/LOGIN] created session for env token (sessionIdHash hidden)')
-      res.setHeader('Set-Cookie', `console_session=${sessionId}; HttpOnly; Path=/; SameSite=Strict; Max-Age=${8 * 3600};${domain}${secureFlag}`)
+      // When running without a DB (simple/ single-token deployments), the
+      // authentication GET handler falls back to checking `console_auth`.
+      // In that scenario we must set the legacy `console_auth` cookie so the
+      // GET check (and subsequent API calls) will treat the browser as
+      // authenticated. When a DB is present the session is stored server-side
+      // and only `console_session` is required.
+      const cookies: string[] = []
+      // Only set the session cookie when the server has successfully
+      // recorded the session (or when DB is not configured). This avoids
+      // returning a cookie the server can't validate which would cause a
+      // follow-up GET auth check to fail and immediately log the user out.
+      if (!process.env.DATABASE_URL || sessionInserted) {
+        cookies.push(`console_session=${sessionId}; HttpOnly; Path=/; SameSite=Strict; Max-Age=${8 * 3600};${domain}${secureFlag}`)
+      } else {
+        console.warn('[API/LOGIN] not setting console_session cookie because session insertion failed')
+        return res.status(500).json({ success: false, error: 'Failed to create session' })
+      }
+      if (!process.env.DATABASE_URL) {
+        // set the legacy cookie to the token so the GET auth endpoint can
+        // validate against the environment secret.
+        cookies.push(`console_auth=${expectedToken}; HttpOnly; Path=/; SameSite=Strict; Max-Age=${8 * 3600};${domain}${secureFlag}`)
+      }
+      res.setHeader('Set-Cookie', cookies)
       return res.status(200).json({ success: true })
     }
 
@@ -76,15 +103,23 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
         // create a session bound to tokenRow.id
         const sessionId = crypto.randomBytes(32).toString('hex')
         const sessionHash = hashSync(sessionId, parseInt(process.env.CONSOLE_AUTH_BCRYPT_ROUNDS || '12', 10))
+        // ensure session INSERT truly succeeded before continuing
+        let sessionInserted2 = false
         try {
           const { sql } = await import('../../lib/db')
-          await sql`INSERT INTO console_sessions (session_hash, token_id, ip, user_agent, expires_at) VALUES (${sessionHash}, ${tokenRow.id}, ${clientIp}, ${req.headers['user-agent'] || null}, NOW() + INTERVAL '8 hours')`
+          const rows: any[] = await sql`INSERT INTO console_sessions (session_hash, token_id, ip, user_agent, expires_at) VALUES (${sessionHash}, ${tokenRow.id}, ${clientIp}, ${req.headers['user-agent'] || null}, NOW() + INTERVAL '8 hours') RETURNING id`
+          if (rows && rows.length > 0) sessionInserted2 = true
         } catch (err) {
           console.warn('[API/LOGIN] failed to create session record', err)
         }
 
         const secureFlag = process.env.NODE_ENV === 'production' ? ' Secure;' : ''
         const domain = process.env.SESSION_COOKIE_DOMAIN ? ` Domain=${process.env.SESSION_COOKIE_DOMAIN};` : ''
+        if (!sessionInserted2) {
+          console.warn('[API/LOGIN] session insert failed; aborting login')
+          return res.status(500).json({ success: false, error: 'Failed to create session' })
+        }
+
         console.log('[API/LOGIN] created session for token id', tokenRow?.id)
         res.setHeader('Set-Cookie', `console_session=${sessionId}; HttpOnly; Path=/; SameSite=Strict; Max-Age=${8 * 3600};${domain}${secureFlag}`)
         return res.status(200).json({ success: true })
@@ -104,11 +139,15 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
         try {
           const { sql } = await import('../../lib/db')
           const rows: any[] = await sql`SELECT id, session_hash, expires_at FROM console_sessions WHERE expires_at > NOW()`
+          let matched = false
           for (const r of rows) {
             if (r?.session_hash && compareSync(sessionCookie, r.session_hash)) {
-              return res.status(200).json({ authenticated: true })
+              matched = true
+              break
             }
           }
+          if (matched) return res.status(200).json({ authenticated: true })
+          console.warn('[API/LOGIN] session cookie present but no matching active session found in DB')
         } catch (err) {
           console.warn('[API/LOGIN] Session check failed', err)
         }

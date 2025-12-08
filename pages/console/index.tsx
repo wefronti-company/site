@@ -54,6 +54,17 @@ export default function ConsolePage () {
         throw new Error(b?.error || 'Credenciais inválidas')
       }
 
+      // verify server recognizes the new session/token before navigating
+      try {
+        const check = await fetch('/api/login')
+        const body = await check.json().catch(() => ({}))
+        if (!check.ok || !body?.authenticated) {
+          throw new Error('Falha ao validar sessão após autenticar. Tente novamente.')
+        }
+      } catch (err) {
+        throw err
+      }
+
       router.push('/console/dash')
     } catch (e: any) {
       setError(e?.message || 'Erro ao autenticar')
