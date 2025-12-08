@@ -21,8 +21,9 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
 
   // Clear both session and legacy auth cookies
   const secureFlag = process.env.NODE_ENV === 'production' ? ' Secure;' : ''
-  res.setHeader('Set-Cookie', `console_session=deleted; HttpOnly; Path=/; SameSite=Strict; Max-Age=0;${secureFlag}`)
-  res.setHeader('Set-Cookie', `console_auth=deleted; HttpOnly; Path=/; SameSite=Strict; Max-Age=0;${secureFlag}`)
+  const domain = process.env.SESSION_COOKIE_DOMAIN ? ` Domain=${process.env.SESSION_COOKIE_DOMAIN};` : ''
+  res.setHeader('Set-Cookie', `console_session=deleted; HttpOnly; Path=/; SameSite=Strict; Max-Age=0;${domain}${secureFlag}`)
+  res.setHeader('Set-Cookie', `console_auth=deleted; HttpOnly; Path=/; SameSite=Strict; Max-Age=0;${domain}${secureFlag}`)
 
   return res.status(200).json({ success: true })
 }

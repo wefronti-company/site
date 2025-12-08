@@ -74,7 +74,10 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
       }
 
       const secureFlag = process.env.NODE_ENV === 'production' ? ' Secure;' : ''
-      res.setHeader('Set-Cookie', `console_session=${sessionId}; HttpOnly; Path=/; SameSite=Strict; Max-Age=${8 * 3600};${secureFlag}`)
+      const domain = process.env.SESSION_COOKIE_DOMAIN ? ` Domain=${process.env.SESSION_COOKIE_DOMAIN};` : ''
+      // Give a small debug log (ID only) so server logs can be used to trace session creation
+      console.log('[API/LOGIN] created session for env token (sessionIdHash hidden)')
+      res.setHeader('Set-Cookie', `console_session=${sessionId}; HttpOnly; Path=/; SameSite=Strict; Max-Age=${8 * 3600};${domain}${secureFlag}`)
       return res.status(200).json({ success: true })
     }
 
@@ -105,7 +108,9 @@ export default async function handler (req: NextApiRequest, res: NextApiResponse
         }
 
         const secureFlag = process.env.NODE_ENV === 'production' ? ' Secure;' : ''
-        res.setHeader('Set-Cookie', `console_session=${sessionId}; HttpOnly; Path=/; SameSite=Strict; Max-Age=${8 * 3600};${secureFlag}`)
+        const domain = process.env.SESSION_COOKIE_DOMAIN ? ` Domain=${process.env.SESSION_COOKIE_DOMAIN};` : ''
+        console.log('[API/LOGIN] created session for token id', tokenRow?.id)
+        res.setHeader('Set-Cookie', `console_session=${sessionId}; HttpOnly; Path=/; SameSite=Strict; Max-Age=${8 * 3600};${domain}${secureFlag}`)
         return res.status(200).json({ success: true })
       }
     }
