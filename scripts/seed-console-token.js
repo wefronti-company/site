@@ -78,13 +78,35 @@ async function run () {
       )
     `
 
-    const rows = await sql`INSERT INTO console_tokens (token_hash, description, active) VALUES (${hash}, ${description}, ${active}) ON CONFLICT (token_hash) DO UPDATE SET active = EXCLUDED.active, description = EXCLUDED.description RETURNING id, token_hash, active, created_at`
-    if (rows && rows.length > 0) {
-      console.log('✅ Seeded/updated console token in DB (token stored hashed).')
-      const out = { id: rows[0].id, active: rows[0].active, created_at: rows[0].created_at }
-      console.log(out)
+    // First, check if token already exists by comparing against stored hashes
+    const existing = await sql`SELECT id, token_hash, active, created_at FROM console_tokens`
+    let foundId = null
+    for (const r of existing) {
+      if (!r?.token_hash) continue
+      try {
+        if (bcrypt.compareSync(token, r.token_hash)) {
+          foundId = r.id
+          break
+        }
+      } catch (err) {
+        // ignore compare errors and continue
+      }
+    }
+
+    if (foundId) {
+      // update existing matching row
+      const rows = await sql`UPDATE console_tokens SET description = ${description}, active = ${active} WHERE id = ${foundId} RETURNING id, token_hash, active, created_at`
+      console.log('✅ Updated existing console token entry (matched by hash).')
+      console.log({ id: rows[0].id, active: rows[0].active, created_at: rows[0].created_at })
     } else {
-      console.log('No rows returned from seed operation (unexpected)')
+      // insert new hash row
+      const rows = await sql`INSERT INTO console_tokens (token_hash, description, active) VALUES (${hash}, ${description}, ${active}) RETURNING id, token_hash, active, created_at`
+      if (rows && rows.length > 0) {
+        console.log('✅ Inserted new console token (stored hashed).')
+        console.log({ id: rows[0].id, active: rows[0].active, created_at: rows[0].created_at })
+      } else {
+        console.log('No rows returned from insert operation (unexpected)')
+      }
     }
     process.exit(0)
   } catch (err) {
