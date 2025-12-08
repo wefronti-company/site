@@ -149,7 +149,7 @@ export default async function handler(
 	const insertedId = result[0]?.id;
 
 		// 6. Log de segurança para auditoria — REDACT PII
-		function maskEmail (email: string) {
+		const maskEmail = (email: string) => {
 			try {
 				const parts = email.split('@')
 				if (parts.length !== 2) return '***'
