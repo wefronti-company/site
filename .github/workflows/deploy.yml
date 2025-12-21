@@ -204,7 +204,37 @@ jobs:
           echo "Deployment completed. URL: $url"
           echo "url=$url" >> $GITHUB_OUTPUT
           
-      - name: 4.9 - Create deployment summary
+      - name: 4.9 - Purge Cloudflare cache (if token configured)
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CF_ZONE_NAME: wefronti.com
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ]; then
+            echo "CLOUDFLARE_API_TOKEN not set — skipping Cloudflare purge"
+            exit 0
+          fi
+          echo "Installing jq for JSON parsing..."
+          sudo apt-get update -y && sudo apt-get install -y jq
+
+          echo "Resolving Zone ID for $CF_ZONE_NAME"
+          ZONE_ID=$(curl -s -X GET "https://api.cloudflare.com/client/v4/zones?name=$CF_ZONE_NAME" \
+            -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+            -H "Content-Type: application/json" | jq -r '.result[0].id')
+          if [ -z "$ZONE_ID" ] || [ "$ZONE_ID" = "null" ]; then
+            echo "Zone ID not found for $CF_ZONE_NAME — skipping purge"
+            exit 0
+          fi
+          echo "Zone ID: $ZONE_ID"
+
+          echo "Purging Cloudflare cache (purge_everything=true)"
+          resp=$(curl -s -X POST "https://api.cloudflare.com/client/v4/zones/$ZONE_ID/purge_cache" \
+            -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+            -H "Content-Type: application/json" \
+            --data '{"purge_everything":true}')
+          echo "Purge response: $resp"
+          echo "$resp" | jq -e '.success' >/dev/null || { echo "Cloudflare purge reported failure"; exit 1; }
+
+      - name: 4.10 - Create deployment summary
         env:
           DEPLOY_URL: ${{ steps.deploy-analyze.outputs.url }}
         run: |
