@@ -71,7 +71,6 @@ const AppBar: React.FC = () => {
 
           {/* RIGHT: Entrar (com ícone gradient) + CTA */}
           <div className="hidden lg:flex items-center gap-2">
-            {/* removed legacy 'Painel' button — console is accessible via /console */}
             <button 
               onClick={() => router.push('/form')}
               className="px-4 py-1.5 text-sm font-semibold rounded-[30px] transition-all hover:opacity-90"
@@ -80,7 +79,7 @@ const AppBar: React.FC = () => {
                 color: colors.blackColor
               }}
             >
-              Entrar em contato
+              <span suppressHydrationWarning>Entrar em contato</span>
             </button>
           </div>
 
@@ -91,7 +90,7 @@ const AppBar: React.FC = () => {
               className="flex items-center gap-1.5 px-3 py-1.5" 
               aria-label="Toggle menu"
             >
-              <span className="text-sm font-medium" style={{ color: colors.whiteColor }}>
+              <span className="text-sm font-medium" style={{ color: colors.whiteColor }} suppressHydrationWarning>
                 Menu
               </span>
               <motion.div
@@ -161,7 +160,7 @@ const AppBar: React.FC = () => {
                     className="flex items-center gap-1.5 px-3 py-1.5" 
                     aria-label="Fechar menu"
                   >
-                    <span className="text-sm font-medium" style={{ color: colors.whiteColor }}>
+                    <span className="text-sm font-medium" style={{ color: colors.whiteColor }} suppressHydrationWarning>
                       Menu
                     </span>
                     <div className="flex items-center justify-center">
@@ -208,7 +207,8 @@ const AppBar: React.FC = () => {
                 className="px-6 pb-6 flex flex-col gap-3"
               >
                 
-                <button 
+                <button
+                
                   onClick={() => { setMobileOpen(false); router.push('/form'); }}
                   className="w-full px-4 py-3 text-sm font-semibold rounded-[60px] transition-all"
                   style={{ 
@@ -216,7 +216,7 @@ const AppBar: React.FC = () => {
                     color: colors.blackColor
                   }}
                 >
-                  Entrar em contato
+                  <span suppressHydrationWarning>Entrar em contato</span>
                 </button>
               </motion.div>
             </div>

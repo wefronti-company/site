@@ -5,7 +5,7 @@ function RobotsTxt() {
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ res }) => {
- const baseUrl = 'https://wefronti.com'; // Atualizar com URL real
+ const baseUrl = 'https://wefronti.com'; 
  
  const robotsTxt = `# *
 User-agent: *

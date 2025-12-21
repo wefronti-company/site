@@ -7,7 +7,7 @@ import { colors } from '../styles/colors';
 const NotFound: React.FC = () => {
   return (
     <>
-      <SEO title="404 — Página não encontrada" description="Ops — a página que você está procurando não existe." noindex />
+      <SEO title="404 |Página não encontrada" description="Ops, a página que você está procurando não existe." noindex />
 
       <main className="min-h-screen flex items-center justify-center px-6 py-12 relative overflow-hidden" style={{ backgroundColor: colors.blackColor }}>
 

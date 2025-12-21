@@ -76,11 +76,51 @@ export default async function handler(
  const origin = req.headers.origin || req.headers.referer || null;
  const host = req.headers.host || null;
  
+ // When debugging, persist incoming origin/host/referer headers to a local file for inspection
+ if (process.env.ALLOWED_ORIGINS_DEBUG === 'true') {
+   try {
+     const fs = require('fs');
+     const path = require('path');
+     const logPath = path.join(process.cwd(), 'origin_debug.log');
+     const payload = {
+       ts: new Date().toISOString(),
+       origin: req.headers.origin || null,
+       referer: req.headers.referer || null,
+       host: req.headers.host || null,
+       method: req.method,
+       ip: req.headers['x-forwarded-for'] || req.socket.remoteAddress || null
+     };
+     fs.appendFileSync(logPath, JSON.stringify(payload) + '\n');
+   } catch (err) {
+     // ignore logging errors in debug path
+   }
+ }
+ 
  if (!validateOrigin(origin, host)) {
+ // Debug logging to assist diagnosing rejected origins (enabled in dev or with ALLOWED_ORIGINS_DEBUG=true)
+ if (process.env.ALLOWED_ORIGINS_DEBUG === 'true' || process.env.NODE_ENV === 'development') {
+ console.warn('[API/QUOTE] Origin validation failed', { origin, referer: req.headers.referer, host });
+ }
  return res.status(403).json({
  success: false,
  error: 'Origem não autorizada'
  });
+ }
+
+ // Passed origin validation — quick DB connectivity check in non-prod for debugging
+ if (process.env.NODE_ENV !== 'production') {
+   if (process.env.DATABASE_URL) {
+     try {
+       const { sql } = await import('../../lib/db');
+       // lightweight check
+       await sql`SELECT 1`;
+       console.log('[API/QUOTE] DB connectivity check: OK');
+     } catch (err) {
+       console.warn('[API/QUOTE] DB connectivity check failed', (err as any)?.message || err);
+     }
+   } else {
+     console.warn('[API/QUOTE] DATABASE_URL not set — skipping DB connectivity check');
+   }
  }
 
  // 3. Validar dados com Zod

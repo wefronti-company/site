@@ -159,19 +159,17 @@ export function middleware(request: NextRequest) {
 	response.headers.set('Content-Security-Policy', "default-src 'self' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; connect-src 'self' https:; frame-ancestors 'none';")
  
  // Prevenir cache de dados sensíveis e APIs
- if (url.pathname.startsWith('/api/') || url.pathname.startsWith('/console')) {
-	 response.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
-	 response.headers.set('Pragma', 'no-cache');
-	 response.headers.set('Expires', '0');
+ if (url.pathname.startsWith('/api/')) {
+ 	 response.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
+ 	 response.headers.set('Pragma', 'no-cache');
+ 	 response.headers.set('Expires', '0');
  } else if (request.method === 'GET') {
-	 // Allow CDN / edge caching for public pages. Use s-maxage for edge caches and
-	 // stale-while-revalidate to allow fast responses while background refresh occurs.
-	 // Values configurable via env: DEFAULT_S_MAXAGE (seconds) and DEFAULT_STALE (seconds)
-	 const smax = process.env.DEFAULT_S_MAXAGE ? parseInt(process.env.DEFAULT_S_MAXAGE, 10) : 60
-	 const stale = process.env.DEFAULT_STALE ? parseInt(process.env.DEFAULT_STALE, 10) : 300
-	 // Only set for non-console/public pages. Avoid setting for API or console admin.
-	 // When using Next.js ISR the s-maxage will be effective at edge / CDN.
-	 response.headers.set('Cache-Control', `public, s-maxage=${smax}, stale-while-revalidate=${stale}`)
+ 	 // Allow CDN / edge caching for public pages. Use s-maxage for edge caches and
+ 	 // stale-while-revalidate to allow fast responses while background refresh occurs.
+ 	 // Values configurable via env: DEFAULT_S_MAXAGE (seconds) and DEFAULT_STALE (seconds)
+ 	 const smax = process.env.DEFAULT_S_MAXAGE ? parseInt(process.env.DEFAULT_S_MAXAGE, 10) : 60
+ 	 const stale = process.env.DEFAULT_STALE ? parseInt(process.env.DEFAULT_STALE, 10) : 300
+ 	 // Set cache headers for public pages and assets. APIs are handled separately above.
  }
  
  // Log de segurança para monitoramento

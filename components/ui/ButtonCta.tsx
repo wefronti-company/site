@@ -53,7 +53,7 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
 
  }}
  >
- <span>{children || label || 'Iniciar um projeto'}</span>
+ <span suppressHydrationWarning>{children || label || 'Iniciar um projeto'}</span>
  <div 
  className="flex items-center justify-center transition-transform duration-200 group-hover:translate-x-1"
  style={{

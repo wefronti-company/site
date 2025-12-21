@@ -66,21 +66,15 @@ body {
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* Keep layout stable: don't force a new stacking context here — fixed elements should remain fixed */
-  /* (removed transform: translateZ(0) to avoid breaking position:fixed in some browsers) */
 }
 
-/* Force entire site background to the brand black color and make 'custom' section classes follow it.
-  This ensures any section using tailwind helpers like bg-custom-white or bg-custom-black
-  will display the site's standard black background. We also force text to be readable on top
-  of the dark background by ensuring color is the site's whiteColor. */
+
 .bg-custom-white { background-color: var(--color-bg) !important; color: var(--color-white) !important; }
 .bg-custom-white * { color: var(--color-white) !important; }
 .bg-custom-black { background-color: var(--color-bg) !important; color: var(--color-white) !important; }
 .bg-transparent { background-color: var(--color-bg) !important; }
 
-/* Desabilitar scroll vertical no desktop (horizontal scroll ativo) */
-/* On desktop keep normal vertical scrolling */
+
 @media (min-width: 768px) {
   body {
     overflow: auto;

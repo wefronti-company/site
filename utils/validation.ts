@@ -151,20 +151,45 @@ export function validateOrigin(origin: string | null, host: string | null): bool
  if (!origin) return true;
  }
  
- if (!origin || !host) return false;
+ // Allow if host is localhost/127.0.0.1 even when NODE_ENV is not 'development'
+ if (!origin || !host) {
+   // If host indicates loopback, allow for local testing
+   const hostLower = (host || '').toLowerCase();
+   if (hostLower.includes('localhost') || hostLower.includes('127.0.0.1') || hostLower.includes('0.0.0.0')) {
+     if (process.env.ALLOWED_ORIGINS_DEBUG === 'true' || process.env.NODE_ENV === 'development') console.warn('[SECURITY] validateOrigin: allowing missing origin for localhost', { origin, host });
+     return true;
+   }
+   return false;
+ }
+ 
+ // Debug override: accept all origins when ALLOWED_ORIGINS_DEBUG is true (only use for local testing)
+ if (process.env.ALLOWED_ORIGINS_DEBUG === 'true') {
+   console.warn('[SECURITY] validateOrigin: ALLOWED_ORIGINS_DEBUG enabled — accepting origin', { origin, host });
+   return true;
+ }
+ 
+ // Allow additional origins via ALLOWED_ORIGINS env var (CSV)
+ const envAllowed = process.env.ALLOWED_ORIGINS ? process.env.ALLOWED_ORIGINS.split(',').map(s => s.trim()).filter(Boolean) : [];
  
  const allowedOrigins = [
  'https://wefronti.com',
  'https://www.wefronti.com',
+ // Accept localhost (any port) and loopback for local testing
+ 'http://localhost',
+ 'http://127.0.0.1',
+ ...envAllowed,
  ...(process.env.NODE_ENV === 'development' ? ['http://localhost:3000'] : [])
  ];
-
- return allowedOrigins.some(allowed => origin.startsWith(allowed)) || origin.includes(host);
+ 
+ // Match when origin starts with an allowed origin (covers ports) or includes the host header
+ const matched = allowedOrigins.some(allowed => origin.startsWith(allowed)) || origin.includes(host);
+ 
+ const debug = process.env.ALLOWED_ORIGINS_DEBUG === 'true' || process.env.NODE_ENV === 'development';
+ if (!matched && debug) {
+   // Log minimal debug info to help identify missing origin/host combinations during testing
+   console.warn('[SECURITY] validateOrigin: origin rejected', { origin, host, allowedOrigins });
+ }
+ 
+ return matched;
 }
 
-// Gerar token CSRF
-export function generateCsrfToken(): string {
- return Array.from({ length: 32 }, () => 
- Math.random().toString(36).charAt(2)
- ).join('');
-}
