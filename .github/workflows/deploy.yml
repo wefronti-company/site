@@ -168,6 +168,10 @@ jobs:
       - name: 4.8 - Inspect deploy result and fetch logs (if failed)
         id: deploy-analyze
         run: |
+          echo "Script path: $0"
+          echo "---- Script content start ----"
+          sed -n '1,200p' "$0" || true
+          echo "---- Script content end ----"
           set -x
           ret=$(cat vercel_deploy_retcode.txt || echo 0)
           echo "Deploy return code: $ret"
