@@ -201,10 +201,12 @@ jobs:
           echo "url=$url" >> $GITHUB_OUTPUT
           
       - name: 4.9 - Create deployment summary
+        env:
+          DEPLOY_URL: ${{ steps.deploy-analyze.outputs.url }}
         run: |
           echo "## 🚀 Production Deployment Successful!" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "✅ **Production URL:** ${{ steps.deploy-analyze.outputs.url }}" >> $GITHUB_STEP_SUMMARY
+          echo '✅ **Production URL:**' "$DEPLOY_URL" >> $GITHUB_STEP_SUMMARY
           echo "📦 **Commit:** ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
           echo "👤 **Deployed by:** ${{ github.actor }}" >> $GITHUB_STEP_SUMMARY
           echo "🕐 **Deployment time:** $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_STEP_SUMMARY
