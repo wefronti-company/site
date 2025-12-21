@@ -156,8 +156,8 @@ jobs:
           if [ "$ret" -ne 0 ]; then
             echo "Vercel deploy command returned non-zero exit code: $ret"
             # Try to extract Inspect URL to fetch more details
-            inspect=$(grep -Eo "https://vercel.com/[^"]\+" "$outfile" | head -n 1 || true)
-            prod=$(grep -Eo "https?://[a-z0-9-]+\\.vercel\\.app" "$outfile" | head -n 1 || true)
+            inspect=$(grep -Eo 'https://vercel.com/[^" ]+' "$outfile" | head -n 1 || true)
+            prod=$(grep -Eo 'https?://[a-z0-9-]+\.vercel\.app' "$outfile" | head -n 1 || true)
             echo "--- Vercel deploy output ---"
             tail -n 200 "$outfile" || true
             if [ -n "$inspect" ]; then
