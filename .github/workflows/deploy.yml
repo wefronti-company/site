@@ -144,22 +144,36 @@ jobs:
       - name: 4.5 - Build project artifacts
         run: vercel build --prod --token="$VERCEL_TOKEN"
         
-      - name: 4.6 - Deploy to Vercel Production
-        id: deploy-production
+      - name: 4.6 - Run Vercel production deploy (capture output)
+        id: deploy-run
+        continue-on-error: true
         run: |
           set -euo pipefail
           echo "Verifying Vercel CLI version"
           vercel --version || true
 
           echo "Starting Vercel production deploy (prebuilt)..."
-          # Capture full output to a file and preserve exit code
           outfile=vercel_deploy_output.txt
-          # Run deploy and capture exit code (redirecting both stdout and stderr to the file)
           vercel deploy --prebuilt --prod --token="$VERCEL_TOKEN" > "$outfile" 2>&1
-          ret=$?
+          echo $? > vercel_deploy_retcode.txt
+
+      - name: 4.7 - Dump deploy output (debug)
+        run: |
+          echo "---- Begin deploy output (first 300 lines) ----"
+          sed -n '1,300p' vercel_deploy_output.txt || true
+          echo "---- End deploy output ----"
+          echo "---- Hexdump of first 300 bytes (for hidden chars) ----"
+          head -c 300 vercel_deploy_output.txt | hexdump -C || true
+
+      - name: 4.8 - Inspect deploy result and fetch logs (if failed)
+        id: deploy-analyze
+        run: |
+          set -x
+          ret=$(cat vercel_deploy_retcode.txt || echo 0)
+          echo "Deploy return code: $ret"
+          outfile=vercel_deploy_output.txt
           if [ "$ret" -ne 0 ]; then
             echo "Vercel deploy command returned non-zero exit code: $ret"
-            # Try to extract Inspect URL to fetch more details
             inspect=$(grep -Eo 'https://vercel.com/[^" ]+' "$outfile" | head -n 1 || true)
             prod=$(grep -Eo 'https?://[a-z0-9-]+\.vercel\.app' "$outfile" | head -n 1 || true)
             echo "--- Vercel deploy output ---"
@@ -167,7 +181,6 @@ jobs:
             if [ -n "$inspect" ]; then
               echo "Found inspect URL: $inspect"
               echo "Attempting to run 'vercel inspect' to fetch build logs..."
-              # vercel inspect accepts the inspect URL or the deployment id
               vercel inspect "$inspect" --token="$VERCEL_TOKEN" 2>&1 | sed -n '1,200p' || true
             fi
             if [ -n "$prod" ]; then
@@ -182,17 +195,16 @@ jobs:
           # If successful extract URL and export to GitHub Actions output
           url=$(grep -Eo "https?://[a-z0-9-]+\.vercel\.app" "$outfile" | head -n 1 || true)
           if [ -z "$url" ]; then
-            # fallback: try to extract any URL
             url=$(grep -Eo "https://vercel.com/[^"]+" "$outfile" | head -n 1 || true)
           fi
           echo "Deployment completed. URL: $url"
           echo "url=$url" >> $GITHUB_OUTPUT
           
-      - name: 4.7 - Create deployment summary
+      - name: 4.9 - Create deployment summary
         run: |
           echo "## 🚀 Production Deployment Successful!" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "✅ **Production URL:** ${{ steps.deploy-production.outputs.url }}" >> $GITHUB_STEP_SUMMARY
+          echo "✅ **Production URL:** ${{ steps.deploy-analyze.outputs.url }}" >> $GITHUB_STEP_SUMMARY
           echo "📦 **Commit:** ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
           echo "👤 **Deployed by:** ${{ github.actor }}" >> $GITHUB_STEP_SUMMARY
           echo "🕐 **Deployment time:** $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_STEP_SUMMARY
