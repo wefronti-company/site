@@ -169,8 +169,8 @@ jobs:
         id: deploy-analyze
         run: |
           echo "Script path: $0"
-          echo "---- Script content start ----"
-          sed -n '1,200p' "$0" || true
+          echo "---- Script content start (with line numbers) ----"
+          nl -ba "$0" | sed -n '1,200p' || true
           echo "---- Script content end ----"
           set -x
           ret=$(cat vercel_deploy_retcode.txt || echo 0)
