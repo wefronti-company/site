@@ -199,7 +199,7 @@ jobs:
           # If successful extract URL and export to GitHub Actions output
           url=$(grep -Eo "https?://[a-z0-9-]+\.vercel\.app" "$outfile" | head -n 1 || true)
           if [ -z "$url" ]; then
-            url=$(grep -Eo "https://vercel.com/[^"]+" "$outfile" | head -n 1 || true)
+            url=$(grep -Eo 'https://vercel.com/[^" ]+' "$outfile" | head -n 1 || true)
           fi
           echo "Deployment completed. URL: $url"
           echo "url=$url" >> $GITHUB_OUTPUT
