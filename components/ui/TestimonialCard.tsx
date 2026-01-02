@@ -36,7 +36,7 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
  width="20"
  height="20"
  viewBox="0 0 24 24"
- fill={index < rating ? colors.blackColor : 'rgba(16, 16, 16, 0.3)'}
+ fill={index < rating ? colors.starsColor : 'rgba(227, 194, 59, 1)'}
  >
  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
  </svg>
@@ -44,12 +44,12 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
  </div>
 
  {/* Texto do depoimento */}
-		<p className="text-base mb-6 leading-relaxed" style={{ color: colors.blackColor }}>
+		<p className="text-base mb-6 leading-relaxed" style={{ color: colors.whiteColor }}>
 			"{text}"
 		</p>
 
  {/* Informações do cliente */}
-	<div className="border-t pt-4" style={{ borderColor: colors.borderDark }}>
+	<div className="border-t pt-4" style={{ borderColor: colors.borderLight }}>
  <div className="flex items-center gap-4">
  <div className="relative w-12 h-12 flex-shrink-0">
  <Image
@@ -62,8 +62,8 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
  />
  </div>
  <div>
-			<p className="font-medium" style={{ color: colors.blackColor }}>{name}</p>
-			<p className="text-sm" style={{ color: colors.blackColor }}>
+			<p className="font-medium" style={{ color: colors.whiteColor }}>{name}</p>
+			<p className="text-sm" style={{ color: colors.whiteColor }}>
  {role} • {company}
  </p>
  </div>

@@ -88,10 +88,10 @@ const ServiceIcon: React.FC<{ icon: React.ReactNode; index: number }> = ({ icon,
         width: '2.75rem',
         height: '2.75rem',
         background: `linear-gradient(135deg, ${colors.gradientOne} 0%, ${colors.gradientTwo} 100%)`,
-        borderColor: colors.whiteColor,
+        borderColor: colors.borderDark,
         borderWidth: '1px',
         flexShrink: 0,
-        color: colors.blackColor
+        color: colors.whiteColor
       }}
     >
       <div className="w-5 h-5 flex items-center justify-center">

@@ -34,7 +34,7 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
  
  const gradientStyle = isGradient ? {
  background: `linear-gradient(90deg, ${colors.gradientOne}, ${colors.gradientTwo})`,
- color: colors.blackColor
+ color: colors.whiteColor
  } : {};
  
  return (
@@ -60,7 +60,7 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
  width: '24px',
  height: '24px',
  borderRadius: '50%',
- backgroundColor: 'rgba(13, 13, 13, 1)'
+ backgroundColor: colors.whiteColor,
  }}
  >
  <svg 
@@ -68,7 +68,7 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
  height="14" 
  viewBox="0 0 24 24" 
  fill="none" 
- stroke={colors.whiteColor}
+ stroke={colors.blackColor}
  strokeWidth="2.5"
  strokeLinecap="round"
  strokeLinejoin="round"

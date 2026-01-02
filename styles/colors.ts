@@ -7,9 +7,11 @@ export const colors = {
  borderCta: '#95a0ffff',
  colorGray: '#29292966',
  colorGrayhover: '#b0b0b0e3',
- gradientOne: '#95a0ffff',
- gradientTwo:'#c8d8ffff',
+ gradientOne: '#4551BA',
+ gradientTwo:'#7E88E3',
  cardsColor: '#1a1a1aff',
  accordeonColor: '#121212ff',
+ starsColor: '#ffcc00ff',
+ pinkColor: '#F288DB',
  
 } as const;

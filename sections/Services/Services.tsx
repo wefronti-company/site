@@ -184,10 +184,10 @@ const Services: React.FC = () => {
 						style={{
 							background: `linear-gradient(135deg, ${colors.gradientOne} 0%, ${colors.gradientTwo} 100%)`,
 							borderWidth: '1px',
-							borderColor: colors.whiteColor
+							borderColor: colors.borderDark
 						}}
 					>
-						<div className="w-5 h-5 flex items-center justify-center" style={{ color: colors.blackColor }}>
+						<div className="w-5 h-5 flex items-center justify-center" style={{ color: colors.whiteColor }}>
 							{service.icon}
 						</div>
 					</div>

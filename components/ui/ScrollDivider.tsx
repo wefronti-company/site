@@ -18,7 +18,7 @@ const ScrollDivider: React.FC = () => {
         className="relative z-10 w-12 h-12 rounded-full flex items-center justify-center border"
         style={{
           background: `linear-gradient(135deg, ${colors.gradientOne} 0%, ${colors.gradientTwo} 100%)`,
-          borderColor: colors.whiteColor,
+          borderColor: colors.borderDark,
           borderWidth: '1px',
         }}
       >
@@ -27,7 +27,7 @@ const ScrollDivider: React.FC = () => {
           height="24" 
           viewBox="0 0 24 24" 
           fill="none" 
-          stroke={colors.blackColor}
+          stroke={colors.whiteColor}
           strokeWidth="2.5"
           strokeLinecap="round"
           strokeLinejoin="round"
