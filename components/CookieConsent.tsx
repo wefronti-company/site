@@ -154,7 +154,7 @@ const CookieConsent: React.FC = () => {
                   className="px-6 py-2 text-sm font-medium transition-all hover:scale-105"
                   style={{
                     background: `linear-gradient(135deg, ${colors.gradientOne}, ${colors.gradientTwo})`,
-                    color: colors.blackColor,
+                    color: colors.whiteColor,
                     border: `1px solid ${colors.borderCta}`,
                     borderRadius: '90px',
                   }}
@@ -228,7 +228,7 @@ const CookieConsent: React.FC = () => {
                     Sempre ativo
                   </div>
                 </div>
-                <p className="text-xs mt-2" style={{ color: colors.whiteColor, opacity: 0.6 }}>
+                <p className="text-xs mt-2" style={{ color: colors.whiteColor}}>
                   Exemplos: Autenticação, segurança, preferências de idioma, carrinho de compras.
                 </p>
               </div>
