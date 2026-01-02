@@ -159,7 +159,7 @@ const CookieConsent: React.FC = () => {
                     borderRadius: '90px',
                   }}
                 >
-                  Aceitar Todos
+                  Ok, entendi!
                 </button>
               </div>
             </div>
@@ -331,7 +331,7 @@ const CookieConsent: React.FC = () => {
                 className="flex-1 px-6 py-3 text-sm font-medium transition-all hover:scale-105"
                 style={{
                   background: `linear-gradient(135deg, ${colors.gradientOne}, ${colors.gradientTwo})`,
-                  color: colors.blackColor,
+                  color: colors.whiteColor,
                   border: `1px solid ${colors.borderCta}`,
                   borderRadius: '90px',
                 }}
