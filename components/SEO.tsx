@@ -15,7 +15,7 @@ const SEO: React.FC<SEOProps> = ({
  title,
  description,
  canonical,
- ogImage = '/images/social-seo-image.webp',
+ ogImage = '/images/social-seo-image.png',
  ogType = 'website',
  noindex = false,
  keywords
@@ -49,7 +49,7 @@ const SEO: React.FC<SEOProps> = ({
  },
  image: {
  '@type': 'ImageObject',
- url: `${siteUrl}/images/favicon-site.webp`,
+ url: `${siteUrl}/images/favicon-site.png`,
  width: 180,
  height: 180
  },
