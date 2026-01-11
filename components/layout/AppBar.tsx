@@ -2,45 +2,61 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { motion, AnimatePresence, useAnimationControls } from 'framer-motion';
 import Logo from '../ui/Logo';
+import ButtonCta from '../ui/ButtonCta';
 import { colors } from '../../styles/colors';
 
 const AppBar: React.FC = () => {
   const router = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const controls = useAnimationControls();
 
   useEffect(() => {
     controls.start({ rotate: mobileOpen ? 135 : 0 });
   }, [mobileOpen, controls]);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   const navItems = [
-    { label: 'Clientes', href: '#clients' },
-    { label: 'Contrate-nos', href: '#services' },
-    { label: 'FAQ', href: '#faq' },
+    { label: 'Como funciona', href: '/como-funciona', isExternal: true },
+    { label: 'Sobre', href: '/sobre', isExternal: true },
+    { label: 'Portfólio', href: '/portfolio', isExternal: true },
+    { label: 'Clientes', href: '#clients', isExternal: false },
+    { label: 'Contrate-nos', href: '#services', isExternal: false },
+    { label: 'FAQ', href: '#faq', isExternal: false },
   ];
 
   return (
     <>
-      <header className="w-full fixed top-30 left-0 right-0 z-[100] pt-6 pb-4">
+      <header 
+        className="w-full fixed top-0 left-0 right-0 z-[100] transition-all duration-500 ease-in-out"
+        style={{
+          backdropFilter: scrolled ? 'blur(10px)' : 'none',
+          WebkitBackdropFilter: scrolled ? 'blur(10px)' : 'none',
+          backgroundColor: scrolled ? colors.whiteColor : 'transparent',
+          borderBottom: scrolled ? `1px solid ${colors.borderLight}` : 'none',
+        }}
+      >
         <div className="max-w-[1400px] mx-auto px-4 md:px-8 lg:px-16">
-          <div 
-            className="rounded-[90px] border"
-            style={{
-              backdropFilter: 'blur(10px)',
-              WebkitBackdropFilter: 'blur(10px)',
-              backgroundColor: 'rgba(16, 16, 16, 0.6)',
-              borderColor: colors.borderDark
-            }}
-          >
-            <div className="h-16 flex items-center justify-between w-full px-4">
+            <div 
+              className="flex items-center justify-between w-full transition-all duration-100 ease-in-out"
+              style={{ height: scrolled ? '90px' : '80px' }}
+            >
           {/* LEFT: logo + divider + nav */}
           <div className="hidden lg:flex items-center gap-4">
             <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} aria-label="Ir para o topo" className="flex items-center">
-              <Logo />
+              <Logo isDark={scrolled} />
             </button>
             
             {/* Vertical divider */}
-            <div className="h-5 w-px" style={{ backgroundColor: colors.whiteColor }}></div>
+            <div className="h-5 w-px" style={{ backgroundColor: colors.borderDark }}></div>
             
             {/* Nav items */}
             <nav className="flex items-center gap-1 text-sm font-500">
@@ -48,13 +64,17 @@ const AppBar: React.FC = () => {
                 <button
                   key={item.href}
                   onClick={() => {
-                    const el = document.querySelector(item.href);
-                    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    if (item.isExternal) {
+                      router.push(item.href);
+                    } else {
+                      const el = document.querySelector(item.href);
+                      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
                   }}
                   className="px-2 py-1.5 rounded-md transition-colors"
-                  style={{ color: colors.colorGrayhover }}
-                  onMouseEnter={(e) => e.currentTarget.style.color = colors.whiteColor}
-                  onMouseLeave={(e) => e.currentTarget.style.color = colors.colorGrayhover}
+                  style={{ color: scrolled ? colors.blackColor : colors.whiteColor }}
+                  onMouseEnter={(e) => e.currentTarget.style.color = colors.colorGrayhover}
+                  onMouseLeave={(e) => e.currentTarget.style.color = scrolled ? colors.blackColor : colors.whiteColor}
                 >
                   {item.label}
                 </button>
@@ -65,22 +85,13 @@ const AppBar: React.FC = () => {
           {/* Mobile: just logo */}
           <div className="lg:hidden flex items-center">
             <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} aria-label="Ir para o topo" className="flex items-center">
-              <Logo />
+              <Logo isDark={scrolled} />
             </button>
           </div>
 
           {/* RIGHT: Entrar (com ícone gradient) + CTA */}
           <div className="hidden lg:flex items-center gap-2">
-            <button 
-              onClick={() => router.push('/form')}
-              className="px-4 py-1.5 text-sm font-semibold rounded-[30px] transition-all hover:opacity-90"
-              style={{ 
-                backgroundColor: colors.whiteColor,
-                color: colors.blackColor
-              }}
-            >
-              <span suppressHydrationWarning>Entrar em contato</span>
-            </button>
+            <ButtonCta label="Agendar uma reunião" />
           </div>
 
           {/* MOBILE: Menu button com texto + ícone */}
@@ -90,7 +101,7 @@ const AppBar: React.FC = () => {
               className="flex items-center gap-1.5 px-3 py-1.5" 
               aria-label="Toggle menu"
             >
-              <span className="text-sm font-medium" style={{ color: colors.whiteColor }} suppressHydrationWarning>
+              <span className="text-sm font-medium transition-colors" style={{ color: scrolled ? colors.blackColor : colors.whiteColor }} suppressHydrationWarning>
                 Menu
               </span>
               <motion.div
@@ -104,8 +115,9 @@ const AppBar: React.FC = () => {
                     position: 'absolute',
                     width: '16px',
                     height: '2px',
-                    backgroundColor: colors.whiteColor,
-                    borderRadius: '2px'
+                    backgroundColor: scrolled ? colors.blackColor : colors.whiteColor,
+                    borderRadius: '2px',
+                    transition: 'background-color 0.3s'
                   }}
                 />
                 <div 
@@ -113,16 +125,17 @@ const AppBar: React.FC = () => {
                     position: 'absolute',
                     width: '2px',
                     height: '16px',
-                    backgroundColor: colors.whiteColor,
-                    borderRadius: '2px'
+                    backgroundColor: scrolled ? colors.blackColor : colors.whiteColor,
+                    borderRadius: '2px',
+                    transition: 'background-color 0.3s'
                   }}
                 />
               </motion.div>
             </button>
           </div>
             </div>
-          </div>
         </div>
+      </header>
 
       {/* Mobile menu fullscreen overlay com backdrop blur */}
       <AnimatePresence>
@@ -188,8 +201,12 @@ const AppBar: React.FC = () => {
                     transition={{ delay: 0.15 + index * 0.05, duration: 0.4 }}
                     onClick={() => {
                       setMobileOpen(false);
-                      const el = document.querySelector(item.href);
-                      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                      if (item.isExternal) {
+                        router.push(item.href);
+                      } else {
+                        const el = document.querySelector(item.href);
+                        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                      }
                     }}
                     className="text-base font-medium transition-all hover:opacity-70"
                     style={{ color: colors.whiteColor }}
@@ -206,24 +223,14 @@ const AppBar: React.FC = () => {
                 transition={{ delay: 0.3, duration: 0.4 }}
                 className="px-6 pb-6 flex flex-col gap-3"
               >
-                
-                <button
-                
-                  onClick={() => { setMobileOpen(false); router.push('/form'); }}
-                  className="w-full px-4 py-3 text-sm font-semibold rounded-[60px] transition-all"
-                  style={{ 
-                    backgroundColor: colors.whiteColor,
-                    color: colors.blackColor
-                  }}
-                >
-                  <span suppressHydrationWarning>Entrar em contato</span>
-                </button>
+                <div onClick={() => setMobileOpen(false)}>
+                  <ButtonCta label="Agendar uma reunião" />
+                </div>
               </motion.div>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
-      </header>
     </>
   );
 };

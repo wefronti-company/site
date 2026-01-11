@@ -34,13 +34,15 @@ const Clients: React.FC = () => {
  ref={sectionRef}
  id="clients"
  className="w-full py-20 md:py-40 transition-colors"
+ style={{ backgroundColor: colors.whiteColor }}
  >
  {/* Cabeçalho */}
  <div className="px-4 md:px-8 lg:px-16">
  <div className="max-w-7xl mx-auto">
  <div className="text-left md:text-center mb-8 md:mb-12 lg:mb-14 flex flex-col items-start md:items-center">
  <motion.div 
-   className="mb-6 flex items-center gap-2 px-3 py-1.5 rounded-full backdrop-blur-md bg-white/5 border border-white/10"
+   className="mb-6 flex items-center gap-2 px-3 py-1.5 rounded-full backdrop-blur-md border"
+   style={{ backgroundColor: 'rgba(0, 0, 0, 0.05)', borderColor: colors.borderDark }}
    initial={{ opacity: 0, y: 20 }}
    animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
    transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
@@ -54,12 +56,13 @@ const Clients: React.FC = () => {
      </defs>
      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" fill="url(#heartGradient)"/>
    </svg>
-   <span className="text-xs md:text-sm font-regular text-white whitespace-nowrap">
+   <span className="text-xs md:text-sm font-regular whitespace-nowrap" style={{ color: colors.blackColor }}>
      Depoimentos
    </span>
  </motion.div>
  <motion.h2 
-   className="text-4xl md:text-4xl lg:text-5xl font-medium mt-6 mb-4 bg-gradient-to-br from-white via-gray-200 to-gray-500 bg-clip-text text-transparent"
+   className="text-4xl md:text-4xl lg:text-5xl font-medium mt-6 mb-4"
+   style={{ color: colors.blackColor }}
    initial={{ opacity: 0, y: 20 }}
    animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
    transition={{ duration: 0.6, ease: "easeOut", delay: 0.4 }}
@@ -67,7 +70,8 @@ const Clients: React.FC = () => {
  O que nossos clientes dizem sobre nós
  </motion.h2>
  <motion.p 
-   className="text-lg text-gray-300 max-w-2xl md:mx-auto"
+   className="text-lg max-w-2xl md:mx-auto"
+   style={{ color: colors.blackColor, opacity: 0.7 }}
    initial={{ opacity: 0, y: 20 }}
    animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
    transition={{ duration: 0.6, ease: "easeOut", delay: 0.6 }}

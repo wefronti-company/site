@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import Badge from '../../components/ui/Badge';
 import ButtonCta from '../../components/ui/ButtonCta';
-import ClientsBadge from '../../components/ui/ClientsBadge';
 import { Boxes } from '../../components/ui/shadcn-io/background-boxes';
+import { colors } from '../../styles/colors';
 // minimal hero variant
 
 const Hero: React.FC = () => {
@@ -45,7 +44,7 @@ const Hero: React.FC = () => {
       ref={sectionRef}
       id="section-0"
       className="w-full relative overflow-hidden"
-      style={{ height: '80vh', minHeight: '420px', backgroundColor: '#101010ff' }}
+      style={{ height: '90vh', minHeight: '420px', backgroundColor: colors.blackColor }}
     >
       {/* overlay - fundo escuro */}
       <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/40 z-0" />
@@ -64,8 +63,69 @@ const Hero: React.FC = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                 transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
+                className="flex flex-wrap items-center justify-center gap-3 mb-4"
               >
-                <ClientsBadge />
+                {/* Badge 1: Ideias que viram receita */}
+                <div 
+                  className="flex items-center gap-2 px-4 py-2.5"
+                  style={{
+                    backdropFilter: 'blur(10px)',
+                    WebkitBackdropFilter: 'blur(10px)',
+                    backgroundColor: 'rgba(255, 255, 255, 0.06)',
+                    border: '1px solid rgba(255, 255, 255, 0.09)',
+                    borderRadius: '5px',
+                  }}
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M12 16v-4"/>
+                    <path d="M12 8h.01"/>
+                  </svg>
+                  <span className="text-sm font-medium text-white whitespace-nowrap">
+                    Ideias que viram receita
+                  </span>
+                </div>
+
+                {/* Badge 2: Tecnologia que gera lucro */}
+                <div 
+                  className="flex items-center gap-2 px-4 py-2.5"
+                  style={{
+                    backdropFilter: 'blur(10px)',
+                    WebkitBackdropFilter: 'blur(10px)',
+                    backgroundColor: 'rgba(255, 255, 255, 0.06)',
+                    border: '1px solid rgba(255, 255, 255, 0.09)',
+                    borderRadius: '5px',
+                  }}
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                    <line x1="8" y1="21" x2="16" y2="21"/>
+                    <line x1="12" y1="17" x2="12" y2="21"/>
+                  </svg>
+                  <span className="text-sm font-medium text-white whitespace-nowrap">
+                    Tecnologia que gera lucro
+                  </span>
+                </div>
+
+                {/* Badge 3: Negócios que crescem */}
+                <div 
+                  className="flex items-center gap-2 px-4 py-2.5"
+                  style={{
+                    backdropFilter: 'blur(10px)',
+                    WebkitBackdropFilter: 'blur(10px)',
+                    backgroundColor: 'rgba(255, 255, 255, 0.06)',
+                    border: '1px solid rgba(255, 255, 255, 0.09)',
+                    borderRadius: '5px',
+                  }}
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
+                    <polyline points="17 6 23 6 23 12"/>
+                  </svg>
+                  <span className="text-sm font-medium text-white whitespace-nowrap">
+                    Negócios que crescem
+                  </span>
+                </div>
               </motion.div>
               
               <motion.h1 
@@ -92,7 +152,7 @@ const Hero: React.FC = () => {
                 transition={{ duration: 0.8, ease: "easeOut", delay: 0.8 }}
                 className="mt-6"
               >
-                <ButtonCta label="Iniciar um projeto" />
+                <ButtonCta label="Agendar uma reunião" />
               </motion.div>
             </div>
           </div>

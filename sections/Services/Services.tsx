@@ -220,7 +220,7 @@ const Services: React.FC = () => {
 		<p className="text-lg text-gray-300 mb-8 max-w-3xl mx-auto whitespace-nowrap">
 			Entre em contato conosco e descubra como podemos ajudar seu negócio a crescer.
 		</p>
-		<ButtonCta label="Iniciar um projeto" />
+		<ButtonCta label="Agendar uma reunião" />
 	</motion.div>
 
  </div>

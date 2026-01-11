@@ -1,6 +1,5 @@
 import React from 'react';
 import { colors } from '../../styles/colors';
-import Image from 'next/image';
 
 interface TestimonialCardProps {
  name: string;
@@ -17,14 +16,13 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
  company,
  text,
  rating,
- image,
 }) => {
 	return (
 		<div
 			className="flex-shrink-0 w-[350px] md:w-[400px] p-8 transition-colors border"
 			style={{
-				background: `linear-gradient(135deg, ${colors.gradientOne} 0%, ${colors.gradientTwo} 100%)`,
-				borderColor: colors.borderDark,
+				backgroundColor: colors.whiteColor,
+				borderColor: colors.borderLight,
 				borderRadius: '7px',
 			}}
 		>
@@ -44,29 +42,17 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
  </div>
 
  {/* Texto do depoimento */}
-		<p className="text-base mb-6 leading-relaxed" style={{ color: colors.whiteColor }}>
+		<p className="text-base mb-6 leading-relaxed" style={{ color: colors.blackColor }}>
 			"{text}"
 		</p>
 
  {/* Informações do cliente */}
 	<div className="border-t pt-4" style={{ borderColor: colors.borderLight }}>
- <div className="flex items-center gap-4">
- <div className="relative w-12 h-12 flex-shrink-0">
- <Image
- src={image}
- alt={name}
- fill
- sizes="48px"
- className="object-cover"
- style={{ borderRadius: '50%' }}
- />
- </div>
  <div>
-			<p className="font-medium" style={{ color: colors.whiteColor }}>{name}</p>
-			<p className="text-sm" style={{ color: colors.whiteColor }}>
+			<p className="font-medium" style={{ color: colors.blackColor }}>{name}</p>
+			<p className="text-sm" style={{ color: colors.blackColor, opacity: 0.7 }}>
  {role} • {company}
  </p>
- </div>
  </div>
  </div>
  </div>

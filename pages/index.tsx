@@ -6,6 +6,7 @@ import Hero from '../sections/Hero';
 
 // Lazy load below-the-fold sections
 const ServicesCarousel = dynamic(() => import('../sections/ServicesCarousel'), { ssr: false });
+const Process = dynamic(() => import('../sections/Process'), { ssr: false });
 const Clients = dynamic(() => import('../sections/Clients'), { ssr: false });
 const ScrollDivider = dynamic(() => import('../components/ui/ScrollDivider'), { ssr: false });
 const Services = dynamic(() => import('../sections/Services'), { ssr: false });
@@ -19,6 +20,7 @@ const Home: React.FC = () => (
     <AppBar />
     <Hero />
     <ServicesCarousel />
+    <Process />
     <Clients />
     <ScrollDivider />
     <Services />

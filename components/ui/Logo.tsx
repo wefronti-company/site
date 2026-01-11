@@ -4,13 +4,14 @@ import Link from 'next/link';
 
 interface LogoProps {
   className?: string;
+  isDark?: boolean;
 }
 
-const Logo: React.FC<LogoProps> = ({ className = '' }) => {
+const Logo: React.FC<LogoProps> = ({ className = '', isDark = false }) => {
   return (
     <Link href="https://wefronti.com" className={`flex items-center gap-2 select-none hover:opacity-80 transition-opacity ${className}`}>
       <Image 
-        src="/images/isologo-white.webp"
+        src={isDark ? "/images/isologo-black.webp" : "/images/isologo-white.webp"}
         alt="Wefronti Logo" 
         width={120} 
         height={28}

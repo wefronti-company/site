@@ -1,8 +1,8 @@
 export const colors = {
 
- blackColor: '#101010ff',
+ blackColor: '#010101',
  whiteColor: '#f7f7f7',
- borderLight: '#ffffffff',
+ borderLight: '#dfdfdfff',
  borderDark: '#222222ff',
  borderCta: '#95a0ffff',
  colorGray: '#29292966',

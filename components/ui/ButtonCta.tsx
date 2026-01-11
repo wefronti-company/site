@@ -42,39 +42,21 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
  type={type}
  onClick={handleClick}
  disabled={disabled}
- className={`px-4 py-3 text-sm font-semibold transition-all duration-200 flex items-center gap-2 hover:opacity-90 animate-pulse-shadow disabled:opacity-50 disabled:cursor-not-allowed ${
+ className={`px-4 py-3 text-sm font-semibold transition-all duration-200 flex items-center gap-2 hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed ${
  isGradient 
  ? '' 
  : 'bg-gray-200 text-black'
  }`}
  style={{ 
- borderRadius: '30px',
+ borderRadius: '5px',
  ...gradientStyle,
 
  }}
  >
- <span suppressHydrationWarning>{children || label || 'Iniciar um projeto'}</span>
+ <span suppressHydrationWarning>{children || label || 'Agendar uma reunião'}</span>
  <div 
  className="flex items-center justify-center transition-transform duration-200 group-hover:translate-x-1"
- style={{
- width: '24px',
- height: '24px',
- borderRadius: '50%',
- backgroundColor: colors.whiteColor,
- }}
  >
- <svg 
- width="14" 
- height="14" 
- viewBox="0 0 24 24" 
- fill="none" 
- stroke={colors.blackColor}
- strokeWidth="2.5"
- strokeLinecap="round"
- strokeLinejoin="round"
- >
- <path d="M5 12h14M12 5l7 7-7 7"/>
- </svg>
  </div>
  </button>
  );
