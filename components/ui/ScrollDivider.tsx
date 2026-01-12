@@ -5,21 +5,24 @@ const ScrollDivider: React.FC = () => {
   return (
     <div 
       className="w-full relative flex items-center justify-center"
-      style={{ borderBottomColor: colors.borderDark }}
+      style={{ height: '36px', marginBottom: '-18px' }}
     >
-      {/* Linha horizontal */}
+      {/* Linha horizontal centered vertically */}
       <div 
         className="absolute w-full h-px"
-        style={{ backgroundColor: colors.borderDark }}
+        style={{ top: '50%', transform: 'translateY(-50%)', backgroundColor: colors.borderDark }}
       />
       
-      {/* Círculo com seta centralizado */}
+      {/* Square button centered and overlapping the two sections */}
       <div 
-        className="relative z-10 w-12 h-12 rounded-full flex items-center justify-center border"
+        className="relative z-10 w-12 h-12 flex items-center justify-center border"
         style={{
           background: `linear-gradient(135deg, ${colors.gradientOne} 0%, ${colors.gradientTwo} 100%)`,
           borderColor: colors.borderDark,
           borderWidth: '1px',
+          borderRadius: '5px',
+          top: '50%',
+          transform: 'translateY(-50%)'
         }}
       >
         <svg 

@@ -6,7 +6,7 @@ import { Users, FileText, Monitor, Code, TestTube, Rocket } from 'lucide-react';
 const steps = [
   {
     number: '01',
-    title: 'Reunião estratégica',
+    title: 'Alinhamento estratégico',
     description: 'Conversamos sobre seu negócio, objetivos e desafios. Entendemos suas necessidades e definimos juntos a melhor solução.',
     icon: Users
   },
@@ -110,7 +110,7 @@ const Process: React.FC = () => {
     <section 
       ref={sectionRef}
       className="w-full py-20 md:py-40 transition-colors"
-      style={{ backgroundColor: colors.whiteColor }}
+      style={{ backgroundColor: colors.whiteColor, borderBottom: `1px solid ${colors.borderLight}` }}
     >
       <div className="max-w-[1400px] mx-auto px-4 md:px-8 lg:px-16">
           {/* Two Column Layout */}
@@ -118,10 +118,11 @@ const Process: React.FC = () => {
             {/* Left Side - Header */}
             <div className="text-left">
               <motion.div 
-                className="mb-6 inline-flex items-center gap-2 px-3 py-1.5 rounded-full backdrop-blur-md border"
+                className="mb-6 inline-flex items-center gap-2 px-3 py-1.5 backdrop-blur-md border"
                 style={{
                   backgroundColor: 'rgba(0, 0, 0, 0.05)',
                   borderColor: colors.borderLight,
+                  borderRadius: '5px'
                 }}
                 initial={{ opacity: 0, y: 20 }}
                 animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
@@ -143,7 +144,8 @@ const Process: React.FC = () => {
               </motion.div>
               
               <motion.h2 
-                className="text-4xl md:text-5xl lg:text-6xl font-medium mb-6 bg-gradient-to-br from-black via-gray-700 to-gray-500 bg-clip-text text-transparent"
+                className="text-4xl md:text-4xl lg:text-5xl font-medium mt-6 mb-4"
+                style={{ color: colors.blackColor }}
                 initial={{ opacity: 0, y: 20 }}
                 animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                 transition={{ duration: 0.6, ease: "easeOut", delay: 0.4 }}
@@ -203,15 +205,16 @@ const Process: React.FC = () => {
             {/* Right Side - Vertical Carousel */}
             <motion.div
               className="relative flex items-center gap-6"
-              initial={{ opacity: 0, x: 50 }}
-              animate={isVisible ? { opacity: 1, x: 0 } : { opacity: 0, x: 50 }}
-              transition={{ duration: 0.6, ease: "easeOut", delay: 0.4 }}
+              initial={{ opacity: 0, y: 30 }}
+              animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+              transition={{ duration: 0.8, ease: "easeOut", delay: 0.8 }}
             >
               <div
                 ref={carouselRef}
-                className="relative overflow-hidden rounded-3xl flex-1"
+                className="relative overflow-hidden flex-1"
                 style={{
-                  height: '250px',
+                  height: '220px',
+                  borderRadius: '5px',
                 }}
                 onMouseMove={handleCarouselMouseMove}
                 onMouseLeave={() => setCursorDirection(null)}
@@ -221,7 +224,7 @@ const Process: React.FC = () => {
                 <motion.div
                   className="absolute w-full"
                   animate={{
-                    y: `-${currentIndex * 250}px`,
+                    y: `-${currentIndex * 220}px`,
                   }}
                   transition={{
                     type: "spring",
@@ -235,23 +238,26 @@ const Process: React.FC = () => {
                       key={index}
                       className="w-full relative"
                       style={{
-                        height: '250px',
+                        height: '220px',
                         padding: '0',
                       }}
                     >
                       <div
-                        className="h-full w-full rounded-3xl p-6 flex flex-col relative overflow-hidden"
+                        className="h-full w-full p-5 flex flex-col relative overflow-hidden"
                         style={{
                           background: `linear-gradient(135deg, ${colors.gradientOne}10 0%, ${colors.gradientTwo}10 100%)`,
                           border: `1px solid ${colors.borderLight}`,
+                          borderRadius: '5px',
                         }}
                       >
                         {/* Icon + Title - horizontal layout */}
                         <div className="flex items-center gap-4 mb-4">
                           <div
-                            className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0"
+                            className="w-12 h-12 flex items-center justify-center flex-shrink-0"
                             style={{
                               background: `linear-gradient(135deg, ${colors.gradientOne} 0%, ${colors.gradientTwo} 100%)`,
+                              borderRadius: '5px',
+                              color: colors.whiteColor,
                             }}
                           >
                             <step.icon 

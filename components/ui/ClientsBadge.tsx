@@ -11,7 +11,7 @@ const ClientsBadge: React.FC = () => {
   ];
 
   return (
-    <div className="flex items-center gap-2 px-3 py-1.5 rounded-full backdrop-blur-md bg-white/5 border border-white/10">
+    <div className="flex items-center gap-2 px-3 py-1.5 backdrop-blur-md bg-white/5 border border-white/10" style={{ borderRadius: '5px' }}>
 
       <div className="flex items-center -space-x-2">
         {clientImages.map((image, index) => (

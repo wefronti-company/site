@@ -83,15 +83,12 @@ const services = [
 const ServiceIcon: React.FC<{ icon: React.ReactNode; index: number }> = ({ icon, index }) => {
   return (
     <div 
-      className="flex items-center justify-center rounded-full border"
+      className="flex items-center justify-center"
       style={{
-        width: '2.75rem',
-        height: '2.75rem',
-        background: `linear-gradient(135deg, ${colors.gradientOne} 0%, ${colors.gradientTwo} 100%)`,
-        borderColor: colors.borderDark,
-        borderWidth: '1px',
+        width: '2rem',
+        height: '2rem',
         flexShrink: 0,
-        color: colors.whiteColor
+        color: colors.whiteColor,
       }}
     >
       <div className="w-5 h-5 flex items-center justify-center">
@@ -142,10 +139,10 @@ const ServicesCarousel: React.FC = () => {
   return (
     <section
       aria-label="services-carousel"
-      className="w-full border-t border-b overflow-hidden"
+      className="w-full overflow-hidden"
       style={{ 
         backgroundColor: colors.blackColor,
-        borderColor: colors.borderDark
+        borderTop: `1px solid ${colors.borderDark}`
       }}
     >
       <div className="w-full max-w-none mx-auto py-8 md:py-10 px-0">

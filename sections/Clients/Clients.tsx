@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
  
 import TestimonialCard from '../../components/ui/TestimonialCard';
+import ButtonCta from '../../components/ui/ButtonCta';
 import { colors } from '../../styles/colors';
 
 // world map removed — we don't render a background there anymore
@@ -41,8 +42,8 @@ const Clients: React.FC = () => {
  <div className="max-w-7xl mx-auto">
  <div className="text-left md:text-center mb-8 md:mb-12 lg:mb-14 flex flex-col items-start md:items-center">
  <motion.div 
-   className="mb-6 flex items-center gap-2 px-3 py-1.5 rounded-full backdrop-blur-md border"
-   style={{ backgroundColor: 'rgba(0, 0, 0, 0.05)', borderColor: colors.borderDark }}
+   className="mb-6 flex items-center gap-2 px-3 py-1.5 backdrop-blur-md border"
+   style={{ backgroundColor: 'rgba(0, 0, 0, 0.05)', borderColor: colors.borderLight, borderRadius: '5px' }}
    initial={{ opacity: 0, y: 20 }}
    animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
    transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
@@ -107,6 +108,21 @@ const Clients: React.FC = () => {
  </div>
  </div>
  </motion.div>
+
+ {/* CTA container: text left, button right (responsive) */}
+ <div className="mt-8 px-4 md:px-8 lg:px-16">
+   <div className="max-w-7xl mx-auto">
+     <div className="w-full border p-6 flex flex-col md:flex-row items-center justify-between gap-4"
+       style={{ borderColor: colors.borderLight, borderRadius: '5px', backgroundColor: colors.whiteColor }}>
+       <p className="text-lg md:text-xl font-medium" style={{ color: colors.blackColor }}>
+         Faça sua inscrição gratuitamente e dê início à sua jornada!
+       </p>
+       <div className="w-full md:w-auto flex justify-center md:justify-end">
+         <ButtonCta label="Inscreva-se" variant="gradient" />
+       </div>
+     </div>
+   </div>
+ </div>
  </section>
  );
 };

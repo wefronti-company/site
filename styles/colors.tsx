@@ -3,7 +3,7 @@ export const colors = {
  blackColor: '#010101',
  whiteColor: '#f7f7f7',
  borderLight: '#dfdfdfff',
- borderDark: '#222222ff',
+ borderDark: '#1d1d1dd8',
  borderCta: '#95a0ffff',
  colorGray: '#29292966',
  colorGrayhover: '#b0b0b0e3',

@@ -22,7 +22,6 @@ const Home: React.FC = () => (
     <ServicesCarousel />
     <Process />
     <Clients />
-    <ScrollDivider />
     <Services />
     <FAQ />
     <CTA />
