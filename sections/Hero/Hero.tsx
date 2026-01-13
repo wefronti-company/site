@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import ButtonCta from '../../components/ui/ButtonCta';
 import { colors } from '../../styles/colors';
 import { useMenu } from '../../components/layout/MenuContext';
 // minimal hero variant
@@ -74,11 +73,6 @@ const Hero: React.FC = () => {
                 transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
                 className="flex flex-wrap items-start gap-3"
               >
-              
-
-                
-
-                
 
               </motion.div>
 
@@ -88,8 +82,7 @@ const Hero: React.FC = () => {
                 transition={{ duration: 0.8, ease: "easeOut", delay: 0.6 }}
                 className="text-left text-sm md:text-base text-white/85 max-w-[320px] leading-relaxed"
               >
-                Desenvolvemos seu produto com o que há de melhor em tecnologia e inteligência artificial — do SaaS a sistemas web complexos.
-              </motion.h2>
+              Da presença digital a plataformas completas, criamos soluções tecnológicas robustas, seguras e escaláveis, projetadas para sustentar a operação, reduzir riscos e impulsionar o crescimento do negócio.              </motion.h2>
 
               <motion.div 
                 initial={{ opacity: 0, y: 20 }}
@@ -97,32 +90,10 @@ const Hero: React.FC = () => {
                 transition={{ duration: 0.8, ease: "easeOut", delay: 0.8 }}
                 className="mt-2"
               >
-                <ButtonCta label="Agendar" />
               </motion.div>
             </div>
           </div>
         </div>
-
-      {/* Menu trigger — camuflado na lateral direita */}
-      <div className="absolute right-2 top-6 md:top-1/2 md:-translate-y-1/2 z-40">
-        <button
-          onClick={() => toggleMenu()}
-          aria-label="Abrir menu"
-          className="flex items-center gap-3 px-3 py-2 md:px-4 md:py-3 rounded-md"
-          style={{ background: 'transparent', border: '1px solid rgba(255,255,255,0.06)' }}
-        >
-          <span className="text-sm md:text-base font-medium text-white">Menu</span>
-          <motion.div
-            animate={{ rotate: menuOpen ? 45 : 0 }}
-            transition={{ duration: 0.35, ease: 'easeInOut' }}
-            className="relative flex items-center justify-center"
-            style={{ width: 18, height: 18 }}
-          >
-            <div style={{ position: 'absolute', width: 14, height: 2, backgroundColor: 'white', borderRadius: 2 }} />
-            <div style={{ position: 'absolute', width: 2, height: 14, backgroundColor: 'white', borderRadius: 2 }} />
-          </motion.div>
-        </button>
-      </div>
     </section>
   );
 };
