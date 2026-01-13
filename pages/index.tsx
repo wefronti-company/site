@@ -4,7 +4,6 @@ import SEO from '../components/SEO';
 import Hero from '../sections/Hero';
 
 // Lazy load below-the-fold sections
-const ServicesCarousel = dynamic(() => import('../sections/ServicesCarousel'), { ssr: false });
 const Process = dynamic(() => import('../sections/Process'), { ssr: false });
 const Clients = dynamic(() => import('../sections/Clients'), { ssr: false });
 const ScrollDivider = dynamic(() => import('../components/ui/ScrollDivider'), { ssr: false });
@@ -16,14 +15,20 @@ const Footer = dynamic(() => import('../sections/Footer'), { ssr: false });
 const Home: React.FC = () => (
   <>
     <SEO />
-    <ServicesCarousel />
+    {/* Hero is fixed and should be visually below the header; other sections are wrapped so they start after the hero (100vh) and will scroll over it */}
     <Hero />
-    <Process />
-    <Clients />
-    <Services />
-    <FAQ />
-    <CTA />
-    <Footer />
+
+    {/* spacer preserves exact hero height so below sections start after it */}
+    <div aria-hidden style={{height: '100vh'}} />
+
+    <div className="relative z-[20]">
+      <Process />
+      <Clients />
+      <Services />
+      <FAQ />
+      <CTA />
+      <Footer />
+    </div>
   </>
 );
 

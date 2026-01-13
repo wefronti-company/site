@@ -1,15 +1,29 @@
 import React, { useState, useEffect, useRef } from 'react';
+import dynamic from 'next/dynamic';
 import { motion } from 'framer-motion';
 import ButtonCta from '../../components/ui/ButtonCta';
 import { Eye } from 'lucide-react';
 import { colors } from '../../styles/colors';
 import { useMenu } from '../../components/layout/MenuContext';
+
+const ServicesCarousel = dynamic(() => import('../../sections/ServicesCarousel'), { ssr: false });
 // minimal hero variant
 
 const Hero: React.FC = () => {
-  const [isVisible, setIsVisible] = useState(false);
+  const [hasEntered, setHasEntered] = useState(false);
+  const [isOverlapped, setIsOverlapped] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   const { open: menuOpen, toggle: toggleMenu } = useMenu();
+
+  // Disable pointer-events on hero once user scrolls so underlying sections receive events
+  useEffect(() => {
+    const onScroll = () => {
+      setIsOverlapped(window.scrollY > 10);
+    };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   // Brazil clock (client-side, using São Paulo timezone) split into time + meridiem to avoid wrapping
   // Brazil clock (24h) — using Sao_Paulo timezone and ensuring no meridiem
@@ -137,27 +151,24 @@ const Hero: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        // Anima quando a seção está visível (pelo menos 20% dela)
-        setIsVisible(entry.isIntersecting);
-      },
-      {
-        threshold: 0.2, // Trigger quando 20% da seção estiver visível
-        rootMargin: '0px'
-      }
-    );
+    if (hasEntered) return; // already animated once
+    let cancelled = false;
+    let obs: IntersectionObserver | null = null;
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
+    obs = new IntersectionObserver((([entry]) => {
+      if (entry.isIntersecting && !cancelled) {
+        setHasEntered(true);
+        if (obs && sectionRef.current) obs.unobserve(sectionRef.current);
+      }
+    }) as IntersectionObserverCallback, { threshold: 0.2, rootMargin: '0px' });
+
+    if (sectionRef.current && obs) obs.observe(sectionRef.current);
 
     return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
+      cancelled = true;
+      if (obs && sectionRef.current) obs.unobserve(sectionRef.current);
     };
-  }, []);
+  }, [hasEntered]);
 
   const handleNav = (hash: string) => {
     const el = document.querySelector(hash);
@@ -170,20 +181,25 @@ const Hero: React.FC = () => {
     <section
       ref={sectionRef}
       id="section-0"
-      className="w-full relative overflow-hidden"
-      style={{ height: '80vh', minHeight: '420px', backgroundColor: colors.background.dark }}
+      className="w-full fixed inset-0 overflow-hidden"
+      style={{ height: '100vh', minHeight: '420px', backgroundColor: colors.background.dark, zIndex: 0, pointerEvents: isOverlapped ? 'none' : 'auto' }}
     >
+
+      {/* Top services carousel inside Hero */}
+      <div className="absolute top-0 left-0 w-full z-[20]">
+        <ServicesCarousel />
+      </div>
      
 
       {/* Content */}
-      <div className="relative z-[30] flex items-start justify-center h-full px-0 sm:px-1 md:px-2 lg:px-4 pt-12 md:pt-8 pb-6 lg:py-10">
+      <div className="relative z-[30] flex items-center justify-center h-full px-0 sm:px-1 md:px-2 lg:px-4 py-10 md:py-12">
         
-          <div className="w-full max-w-none mx-auto grid grid-cols-1 md:grid-cols-12 items-start gap-4 md:gap-8">
+          <div className="w-full max-w-none mx-auto grid grid-cols-1 md:grid-cols-12 items-center gap-4 md:gap-8">
             {/* Left: oversized display heading */}
-            <div className="md:col-span-8 lg:col-span-8 flex items-start pr-2 md:pr-4 lg:pr-6">
+            <div className="md:col-span-8 lg:col-span-8 flex items-center pr-2 md:pr-4 lg:pr-6">
               <motion.h1 
                 initial={{ opacity: 0, y: 30 }}
-                animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+                animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
                 transition={{ duration: 0.9, ease: "easeOut", delay: 0.3 }}
                 className="display-heading uppercase w-full text-white/95"
                 style={{ WebkitTextStroke: '0px transparent' }}
@@ -193,10 +209,10 @@ const Hero: React.FC = () => {
             </div>
 
             {/* Right: compact copy, badges, CTA */}
-            <div className="md:col-span-4 lg:col-span-4 flex flex-col items-start justify-center gap-6 mt-6 md:mt-12 px-4 md:px-6">
+            <div className="md:col-span-4 lg:col-span-4 flex flex-col items-start justify-center gap-6 px-4 md:px-6">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
-                animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                 transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
                 className="flex flex-wrap items-start gap-3"
               >
@@ -205,7 +221,7 @@ const Hero: React.FC = () => {
 
               <motion.h2 
                 initial={{ opacity: 0, y: 20 }}
-                animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                 transition={{ duration: 0.8, ease: "easeOut", delay: 0.6 }}
                 className="text-left text-sm md:text-base text-white/85 max-w-[320px] leading-relaxed"
               >
@@ -213,7 +229,7 @@ const Hero: React.FC = () => {
 
               <motion.div 
                 initial={{ opacity: 0, y: 20 }}
-                animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                 transition={{ duration: 0.8, ease: "easeOut", delay: 0.8 }}
                 className="mt-2 flex flex-col"
               >
@@ -245,8 +261,8 @@ const Hero: React.FC = () => {
                   </div>
 
                   <div className="py-2 flex items-center justify-end gap-2 text-xs text-white/70">
-                    <Eye className="w-4 h-4 opacity-60" />
-                    <div className="font-mono text-sm">{activeUsers === null ? '—' : activeUsers}</div>
+                    <Eye className="w-4 h-4 opacity-60 block self-center" />
+                    <div className="font-mono text-sm leading-none self-center">{activeUsers === null ? '—' : activeUsers}</div>
                   </div>
                 </div>
 
