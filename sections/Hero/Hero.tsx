@@ -45,29 +45,29 @@ const Hero: React.FC = () => {
       ref={sectionRef}
       id="section-0"
       className="w-full relative overflow-hidden"
-      style={{ height: '100vh', minHeight: '420px', backgroundColor: colors.background.dark }}
+      style={{ height: '80vh', minHeight: '420px', backgroundColor: colors.background.dark }}
     >
      
 
       {/* Content */}
-      <div className="relative z-[30] flex items-start justify-center h-full px-6 md:px-10 lg:px-16 pt-28 md:pt-12 pb-12 lg:py-20">
+      <div className="relative z-[30] flex items-start justify-center h-full px-0 sm:px-1 md:px-2 lg:px-4 pt-12 md:pt-8 pb-6 lg:py-10">
         
-          <div className="w-full max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-12 items-start gap-6 md:gap-12">
+          <div className="w-full max-w-none mx-auto grid grid-cols-1 md:grid-cols-12 items-start gap-4 md:gap-8">
             {/* Left: oversized display heading */}
-            <div className="md:col-span-8 flex items-start">
+            <div className="md:col-span-10 lg:col-span-10 flex items-start pr-2 md:pr-4 lg:pr-6">
               <motion.h1 
                 initial={{ opacity: 0, y: 30 }}
                 animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
                 transition={{ duration: 0.9, ease: "easeOut", delay: 0.3 }}
-                className="display-heading text-white/95 bg-clip-text text-transparent bg-gradient-to-br from-white via-gray-200 to-gray-400"
+                className="display-heading w-full text-white/95 bg-clip-text text-transparent bg-gradient-to-br from-white via-gray-200 to-gray-400"
                 style={{ WebkitTextStroke: '0px transparent' }}
               >
-                Projetamos produtos com propósito, pronto para gerar receita
+                Soluções em tecnologia para impulsionar o seu negócio
               </motion.h1>
             </div>
 
             {/* Right: compact copy, badges, CTA */}
-            <div className="md:col-span-4 flex flex-col items-start justify-center gap-6 mt-6 md:mt-12">
+            <div className="md:col-span-2 lg:col-span-2 flex flex-col items-start justify-center gap-6 mt-6 md:mt-12">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
@@ -104,7 +104,7 @@ const Hero: React.FC = () => {
         </div>
 
       {/* Menu trigger — camuflado na lateral direita */}
-      <div className="absolute right-6 top-8 md:top-1/2 md:-translate-y-1/2 z-40">
+      <div className="absolute right-2 top-6 md:top-1/2 md:-translate-y-1/2 z-40">
         <button
           onClick={() => toggleMenu()}
           aria-label="Abrir menu"
