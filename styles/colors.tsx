@@ -7,7 +7,7 @@ export const colors = {
 
  background:{
     dark: '#080e0dff',
-    light:'#e6e6e6ff',
+    light:'#f4f4f4ff',
  },
 
  text:{
@@ -31,9 +31,9 @@ export const colors = {
  },
 
  green:{
-   primary: '#cedeceff',
-   secondary: '#152825ff',
-   tertiary:'#CBF3BF',
+   primary: '#E7E8E1',
+   secondary: '#263331ff',
+   tertiary:'#cbf199ff',
  },
 
 

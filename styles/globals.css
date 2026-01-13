@@ -231,3 +231,22 @@ section:not(#section-0) {
 }
 
 /* Removed appbar-fixed fallback — header is intentionally non-fixed now. */
+
+/* Marquee (looping scrolling text) */
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.marquee { overflow: visible; position: relative; }
+.marquee-track {
+  display: flex;
+  align-items: center;
+  gap: 4rem;
+  will-change: transform;
+  /* animation removed - marquee animation is now driven by JS for smooth direction changes */
+}
+
+.marquee.paused .marquee-track { transform: translateX(0); }
+
+.marquee-track > * { white-space: nowrap; }
