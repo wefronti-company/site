@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import ButtonCta from '../../components/ui/ButtonCta';
-import { CornerUpLeft, CornerUpRight, CornerDownLeft, CornerDownRight } from 'lucide-react';
+import { Eye } from 'lucide-react';
 import { colors } from '../../styles/colors';
 import { useMenu } from '../../components/layout/MenuContext';
 // minimal hero variant
@@ -12,32 +12,17 @@ const Hero: React.FC = () => {
   const { open: menuOpen, toggle: toggleMenu } = useMenu();
 
   // Brazil clock (client-side, using São Paulo timezone) split into time + meridiem to avoid wrapping
+  // Brazil clock (24h) — using Sao_Paulo timezone and ensuring no meridiem
   const [brazilTimeStr, setBrazilTimeStr] = useState<string>('—:—:—');
-  const [brazilMeridiem, setBrazilMeridiem] = useState<string>('');
   useEffect(() => {
     const update = () => {
       try {
-        const dtf = new Intl.DateTimeFormat('en-US', {
-          hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true, timeZone: 'America/Sao_Paulo'
+        const dtf = new Intl.DateTimeFormat('pt-BR', {
+          hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false, timeZone: 'America/Sao_Paulo'
         });
-        if ((dtf as any).formatToParts) {
-          const parts = (dtf as any).formatToParts(new Date());
-          const hour = parts.find((p: any) => p.type === 'hour')?.value || '';
-          const minute = parts.find((p: any) => p.type === 'minute')?.value || '';
-          const second = parts.find((p: any) => p.type === 'second')?.value || '';
-          const day = parts.find((p: any) => p.type === 'dayPeriod')?.value || '';
-          setBrazilTimeStr(`${hour}:${minute}:${second}`);
-          setBrazilMeridiem(day);
-        } else {
-          const s = dtf.format(new Date());
-          const [time, meridiem] = s.split(' ');
-          setBrazilTimeStr(time || s);
-          setBrazilMeridiem(meridiem || '');
-        }
+        setBrazilTimeStr(dtf.format(new Date()));
       } catch (e) {
-        const s = new Date().toLocaleTimeString();
-        setBrazilTimeStr(s);
-        setBrazilMeridiem('');
+        setBrazilTimeStr(new Date().toLocaleTimeString());
       }
     };
     update();
@@ -115,6 +100,42 @@ const Hero: React.FC = () => {
   const locationLabel = locationLoading ? 'Carregando...' : (locationData ? `${locationData.city ? locationData.city + ', ' : ''}${locationData.region ? locationData.region + ', ' : ''}${locationData.country_name || ''}` : 'Localização desconhecida');
   const locationIp = locationLoading ? '—' : (locationData?.ip || '—');
 
+  // Active users (poll /api/active-users with a stable visitorId saved in localStorage)
+  const [activeUsers, setActiveUsers] = useState<number | null>(null);
+  useEffect(() => {
+    let cancelled = false;
+
+    const getVisitorId = () => {
+      try {
+        let id = localStorage.getItem('visitorId');
+        if (!id) {
+          id = `v_${Date.now()}_${Math.floor(Math.random() * 100000)}`;
+          localStorage.setItem('visitorId', id);
+        }
+        return id;
+      } catch (e) {
+        return `v_${Date.now()}_${Math.floor(Math.random() * 100000)}`;
+      }
+    };
+
+    const id = getVisitorId();
+
+    const fetchActive = async () => {
+      try {
+        const r = await fetch(`/api/active-users?visitorId=${encodeURIComponent(id)}`);
+        if (!r.ok) throw new Error('active api failed');
+        const d = await r.json();
+        if (!cancelled) setActiveUsers(typeof d.active === 'number' ? d.active : null);
+      } catch (e) {
+        if (!cancelled) setActiveUsers(null);
+      }
+    };
+
+    fetchActive();
+    const t = setInterval(fetchActive, 10 * 1000);
+    return () => { cancelled = true; clearInterval(t); };
+  }, []);
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -164,7 +185,7 @@ const Hero: React.FC = () => {
                 initial={{ opacity: 0, y: 30 }}
                 animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
                 transition={{ duration: 0.9, ease: "easeOut", delay: 0.3 }}
-                className="display-heading w-full text-white/95 bg-clip-text text-transparent bg-gradient-to-br from-white via-gray-200 to-gray-400"
+                className="display-heading uppercase w-full text-white/95"
                 style={{ WebkitTextStroke: '0px transparent' }}
               >
                 Soluções em tecnologia para impulsionar o seu negócio
@@ -194,34 +215,38 @@ const Hero: React.FC = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                 transition={{ duration: 0.8, ease: "easeOut", delay: 0.8 }}
-                className="mt-2"
+                className="mt-2 flex flex-col"
               >
-                <ButtonCta label="Soluções" />
-                <div className="mt-3">
-                </div>
+                <ButtonCta label="Soluções" className="min-w-[160px]" />
+
               </motion.div>
 
               {/* Info grid (Active Ingredients / Chapters) */}
               <div className="mt-6 w-full max-w-[420px] relative">
-                <div className="grid grid-cols-2 gap-2 items-start">
-                  <div>
+                <div className="grid grid-cols-2 gap-2 items-center">
+                  <div className="py-2">
                     <div className="text-xs uppercase tracking-widest text-gray-400">Hora do Brasil</div>
                   </div>
 
-                  <div className="text-xs text-right text-white/70">
-                      <div className="flex items-baseline gap-2 justify-end whitespace-nowrap" aria-live="polite">
-                      <div className="text-lg font-mono tracking-wide">{brazilTimeStr}</div>
-                      <div className="text-sm opacity-70">{brazilMeridiem}</div>
-                    </div>
+                  <div className="py-2 flex items-center justify-end text-xs text-white/70" aria-live="polite">
+                    <div className="text-lg font-mono tracking-wide whitespace-nowrap">{brazilTimeStr}</div>
                   </div>
 
-                  <div className="pt-2">
+                  <div className="py-2">
                     <div className="text-xs uppercase tracking-widest text-gray-400">Localização</div>
                   </div>
 
-                  <div className="text-xs text-right text-white/70">
-                    <div className="py-2 pt-2">{locationLabel}</div>
-                    {/* <div className="text-xs text-white/50 mt-1">IP: {locationIp}</div> */}
+                  <div className="py-2 flex items-center justify-end text-xs text-white/70">
+                    <div className="text-right">{locationLabel}</div>
+                  </div>
+
+                  <div className="py-2">
+                    <div className="text-xs uppercase tracking-widest text-gray-400">Usuários agora</div>
+                  </div>
+
+                  <div className="py-2 flex items-center justify-end gap-2 text-xs text-white/70">
+                    <Eye className="w-4 h-4 opacity-60" />
+                    <div className="font-mono text-sm">{activeUsers === null ? '—' : activeUsers}</div>
                   </div>
                 </div>
 

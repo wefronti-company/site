@@ -9,6 +9,7 @@ interface ButtonCtaProps {
  children?: React.ReactNode;
  type?: 'button' | 'submit';
  disabled?: boolean;
+ className?: string; // optional to allow sizing from parent
 }
 
 const ButtonCta: React.FC<ButtonCtaProps> = ({ 
@@ -17,7 +18,8 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
  variant = 'primary',
  children,
  type = 'button',
- disabled = false
+ disabled = false,
+ className
 }) => {
  
  const router = useRouter();
@@ -42,18 +44,18 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
  type={type}
  onClick={handleClick}
  disabled={disabled}
- className={`px-4 py-3 text-sm font-medium transition-all duration-200 flex items-center gap-2 hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed ${
+ className={`px-4 py-3 text-sm font-medium transition-all duration-200 flex items-center justify-center gap-2 hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed ${
  isGradient 
  ? '' 
  : 'bg-gray-200 text-black'
- }`}
+ } ${className || ''}`.trim()}
  style={{ 
  borderRadius: '1px',
  ...gradientStyle,
 
  }}
  >
- <span suppressHydrationWarning>{children || label || 'Agendar uma reunião'}</span>
+ <span className="w-full text-center" suppressHydrationWarning>{children || label || 'Agendar uma reunião'}</span>
  <div 
  className="flex items-center justify-center transition-transform duration-200 group-hover:translate-x-1"
  >
