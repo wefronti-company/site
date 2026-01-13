@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { colors } from '../../styles/colors';
-import { Check, ShoppingCart, BarChart2, Code, ArrowUpRight, CheckLineIcon, CheckCircle2, CheckSquareIcon, CheckSquare2Icon } from 'lucide-react';
+import { Check, ShoppingCart, BarChart2, Code, ArrowUpRight, CheckCheckIcon, BriefcaseBusiness, ChessKingIcon, RocketIcon, CheckCircle2, CheckSquare2Icon, CheckLineIcon, CheckCheck } from 'lucide-react';
 
 const Solutions: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -19,123 +19,56 @@ const Solutions: React.FC = () => {
 
   const BASE_SPEED = 80; // px/s base speed (positive -> move right, negative -> move left)
 
-  // Marquee direction based on scroll / wheel (keeps state for reference)
-  const [marqueeDirection, setMarqueeDirection] = useState<'left'|'right'>('left');
-  const lastScrollY = useRef(0);
   const marqueeTrackRef = useRef<HTMLDivElement | null>(null);
   const animFrameRef = useRef<number | null>(null);
   const posRef = useRef(0);
-  const currentSpeedRef = useRef(0);
-  const desiredSpeedRef = useRef(-BASE_SPEED); // start moving left by default
   const wrapWidthRef = useRef(0);
 
+  // Initialize constant rightward movement
   useEffect(() => {
-    // initialize scroll position
-    lastScrollY.current = typeof window !== 'undefined' ? window.scrollY : 0;
-
-    const onWheel = (e: WheelEvent) => {
-      setMarqueeDirection(e.deltaY > 0 ? 'left' : 'right');
-      desiredSpeedRef.current = e.deltaY > 0 ? -BASE_SPEED : BASE_SPEED;
-    };
-
-    let ticking = false;
-    const SCROLL_FACTOR = 6; // multiplier for immediate scroll response
-    const onScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          const current = window.scrollY;
-          const delta = current - lastScrollY.current;
-          const dir = delta > 0 ? 'left' : 'right';
-
-          // Update direction / desired speed (for continued movement)
-          setMarqueeDirection(dir);
-          desiredSpeedRef.current = dir === 'left' ? -BASE_SPEED : BASE_SPEED;
-
-          // Immediate positional update tied to the scroll delta for direct feel
-          if (delta !== 0) {
-            // scrolling down (delta>0) moves marquee left (negative X)
-            posRef.current += -delta * SCROLL_FACTOR;
-
-            const track = marqueeTrackRef.current;
-            if (track) {
-              const wrap = wrapWidthRef.current || track.scrollWidth / 2 || 1;
-              // normalize wrap and wrap position
-              if (posRef.current <= -wrap) posRef.current += wrap;
-              if (posRef.current > 0) posRef.current -= wrap;
-              track.style.transform = `translateX(${Math.round(posRef.current)}px)`;
-              track.setAttribute('data-pos', String(Math.round(posRef.current)));
-            }
-          }
-
-          lastScrollY.current = current;
-          ticking = false;
-        });
-        ticking = true;
-      }
-    };
-
-    window.addEventListener('wheel', onWheel, { passive: true });
-    window.addEventListener('scroll', onScroll, { passive: true });
-
-    return () => {
-      window.removeEventListener('wheel', onWheel);
-      window.removeEventListener('scroll', onScroll);
-    };
+    // start moving right at base speed
+    posRef.current = 0;
+    if (marqueeTrackRef.current) {
+      wrapWidthRef.current = marqueeTrackRef.current.scrollWidth / 2;
+    }
   }, []);
 
-  // Marquee animation runner (requestAnimationFrame) — smooth speed interpolation
+  // Marquee animation runner (requestAnimationFrame) — constant rightward loop (carousel behavior)
   useEffect(() => {
-    const runner = (time: number) => {
-      const track = marqueeTrackRef.current;
-      if (!track) {
-        if (animFrameRef.current) {
-          cancelAnimationFrame(animFrameRef.current);
-          animFrameRef.current = null;
-        }
+    // Use same approach as ServicesCarousel: decrement scrollPosition each frame to move right->left
+    const track = marqueeTrackRef.current;
+    let scrollPosition = 0;
+    const speed = 0.5; // pixels per frame
+
+    const animate = () => {
+      const el = marqueeTrackRef.current;
+      if (!el) {
+        animFrameRef.current = requestAnimationFrame(animate);
         return;
       }
 
-      const now = performance.now();
-      if (!lastTimeRef.current) lastTimeRef.current = now;
-      const dt = Math.min(0.06, (now - lastTimeRef.current) / 1000); // cap dt
-      lastTimeRef.current = now;
+      // ensure wrap width is calculated
+      if (!wrapWidthRef.current) wrapWidthRef.current = el.scrollWidth / 3;
 
-      // Update wrap width if unknown or resized
-      if (!wrapWidthRef.current) {
-        wrapWidthRef.current = track.scrollWidth / 2;
+      // move left
+      scrollPosition -= speed;
+
+      const scrollWidth = wrapWidthRef.current || el.scrollWidth / 3;
+      if (Math.abs(scrollPosition) >= scrollWidth) {
+        scrollPosition = 0;
       }
 
-      // Smoothly interpolate current speed towards desired speed
-      const alpha = 1 - Math.pow(0.001, dt); // smoothing factor ~ responsive to dt
-      currentSpeedRef.current += (desiredSpeedRef.current - currentSpeedRef.current) * alpha;
+      el.style.transform = `translateX(${scrollPosition}px)`;
+      el.setAttribute('data-pos', String(Math.round(scrollPosition)));
 
-      // Update position
-      // If section is not visible, still move but at reduced intensity to save distraction
-      const visibilityFactor = isVisible ? 1 : 0.35;
-      posRef.current += currentSpeedRef.current * dt * visibilityFactor;
-
-      // Wrap position within [-wrapWidth, 0)
-      const wrap = wrapWidthRef.current || track.scrollWidth / 2 || 1;
-      if (posRef.current <= -wrap) posRef.current += wrap;
-      if (posRef.current > 0) posRef.current -= wrap;
-
-      track.style.transform = `translateX(${Math.round(posRef.current)}px)`;
-      // debug hook for quick inspection in the DOM
-      track.setAttribute('data-pos', String(Math.round(posRef.current)));
-      animFrameRef.current = requestAnimationFrame(runner);
+      animFrameRef.current = requestAnimationFrame(animate);
     };
 
-    // reset values (ensure immediate movement)
-    desiredSpeedRef.current = marqueeDirection === 'left' ? -BASE_SPEED : BASE_SPEED;
-    currentSpeedRef.current = desiredSpeedRef.current;
-
-    if (!animFrameRef.current) animFrameRef.current = requestAnimationFrame(runner);
+    animFrameRef.current = requestAnimationFrame(animate);
 
     const onResize = () => {
-      const track = marqueeTrackRef.current;
-      if (track) {
-        wrapWidthRef.current = track.scrollWidth / 2;
-      }
+      const el = marqueeTrackRef.current;
+      if (el) wrapWidthRef.current = el.scrollWidth / 3;
     };
 
     window.addEventListener('resize', onResize);
@@ -144,7 +77,7 @@ const Solutions: React.FC = () => {
       if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
       window.removeEventListener('resize', onResize);
     };
-  }, [isVisible, marqueeDirection]);
+  }, []);
 
   return (
     <section
@@ -164,8 +97,8 @@ const Solutions: React.FC = () => {
               transition={{ duration: 0.6 }}
               className="md:col-span-4 flex items-start"
             >
-              <div className="inline-flex items-center gap-3 px-6 py-2" style={{ border: '1px solid rgba(0,0,0,0.04)' }}>
-                  <Check className="w-4 h-4" style={{ color: colors.text.dark }} strokeWidth={2} />
+              <div className="inline-flex items-center gap-3 px-6 py-2">
+                  <CheckCheck className="w-4 h-4" style={{ color: colors.text.dark }} strokeWidth={2} />
                 <span className="text-sm font-medium uppercase" style={{ color: colors.text.dark }}>VEJA COMO PODEMOS LHE AJUDAR</span>
               </div>
             </motion.div>
@@ -243,17 +176,19 @@ const Solutions: React.FC = () => {
           <div className="mt-10 w-screen -mx-4 md:-mx-8 lg:-mx-16">
             <div className={`marquee ${!isVisible ? 'paused' : ''}`} aria-hidden>
               <div ref={marqueeTrackRef} className="marquee-track flex-nowrap" style={{ '--marquee-duration': '24s' } as React.CSSProperties}>
-                {Array.from({ length: 8 }).flatMap((_, i) => ([
-                  <div key={`m-${i}`} className="px-6">
-                    <span className="text-2xl md:text-4xl lg:text-5xl font-light tracking-tight" style={{ color: colors.text.dark }}>Código é só o meio, o foco é o resultado</span>
-                  </div>,
+                {Array.from({ length: 3 }).flatMap((_, r) => (
+                  Array.from({ length: 8 }).flatMap((_, i) => ([
+                    <div key={`m-${r}-${i}`} className="px-6">
+                      <span className="text-2xl md:text-4xl lg:text-5xl font-light tracking-tight" style={{ color: colors.text.dark }}>Código é só o meio, o foco é o resultado</span>
+                    </div>,
 
-                  <div key={`c-${i}`} className="flex items-center justify-center w-21 h-21 md:w-24 md:h-24">
-                    <div aria-hidden className="w-6 h-6 md:w-7 md:h-7 flex items-center justify-center rounded-full" style={{ backgroundColor: 'transparent' }}>
-                      <CheckSquare2Icon className="w-10 h-10 md:w-10 md:h-10" style={{ background: colors.green.tertiary,  color: colors.green.tertiary }} />
+                    <div key={`c-${r}-${i}`} className="flex items-center justify-center w-12 h-12 md:w-14 md:h-14">
+                      <div aria-hidden className="w-12 h-12 md:w-12 md:h-12 flex items-center justify-center" style={{ borderRadius: '2px', border: `1px solid ${colors.neutral.borderLight}`, backgroundColor: colors.green.tertiary }}>
+                        <RocketIcon className="w-4 h-4 md:w-5 md:h-5" style={{ color: colors.green.secondary }} />
+                      </div>
                     </div>
-                  </div>
-                ]))}
+                  ]))
+                ))}
               </div>
             </div>
           </div>
