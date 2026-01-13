@@ -201,8 +201,8 @@ const Hero: React.FC = () => {
                 initial={{ opacity: 0, y: 30 }}
                 animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
                 transition={{ duration: 0.9, ease: "easeOut", delay: 0.3 }}
-                className="display-heading uppercase w-full text-white/95"
-                style={{ WebkitTextStroke: '0px transparent' }}
+                className="display-heading uppercase w-full"
+                style={{ color: colors.green.primary, WebkitTextStroke: '0px transparent' }}
               >
                 Soluções em tecnologia pensadas para impulsionar o seu negócio
               </motion.h1>
@@ -269,13 +269,6 @@ const Hero: React.FC = () => {
                 {/* Barcode / visual block */}
                 <div className="mt-6 flex justify-start">
                 </div>
-
-                {/* Corner bracket icons using local SVG (rotated to match each corner) */}
-                <img src="/images/icons/square-icon.svg" alt="" className="absolute -left-3 -top-3 w-4 h-4" style={{ transform: 'rotate(0deg)', opacity: 0.12 }} />
-                <img src="/images/icons/square-icon.svg" alt="" className="absolute -right-3 -top-3 w-4 h-4" style={{ transform: 'rotate(90deg)', opacity: 0.12 }} />
-                <img src="/images/icons/square-icon.svg" alt="" className="absolute -left-3 -bottom-3 w-4 h-4" style={{ transform: 'rotate(270deg)', opacity: 0.12 }} />
-                <img src="/images/icons/square-icon.svg" alt="" className="absolute -right-3 -bottom-3 w-4 h-4" style={{ transform: 'rotate(180deg)', opacity: 0.12 }} />
-
               </div>
             </div>
           </div>

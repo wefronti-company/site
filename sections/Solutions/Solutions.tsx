@@ -22,48 +22,41 @@ const Solutions: React.FC = () => {
       className="w-full py-12 md:py-20"
       style={{ backgroundColor: colors.background.light }}
     >
-      <div className="px-4 md:px-8 lg:px-16">
-        <div className="max-w-7xl mx-auto">
+      <div className="relative z-[20] px-0 sm:px-1 md:px-2 lg:px-4">
+        <div className="w-full max-w-none mx-auto">
 
-          {/* Header: left badge + right title/subtitle */}
-          <div className="grid grid-cols-1 md:grid-cols-12 items-center gap-6">
+          {/* Header: badge (width = card 1) + title/subtitle — match hero alignment */}
+          <div className="w-full max-w-none mx-auto grid grid-cols-1 md:grid-cols-12 items-center gap-6 px-4 md:px-0">
             <motion.div
               initial={{ opacity: 0, x: -10 }}
               animate={isVisible ? { opacity: 1, x: 0 } : { opacity: 0, x: -10 }}
               transition={{ duration: 0.6 }}
-              className="md:col-span-2 flex items-start"
+              className="md:col-span-4 flex items-start"
             >
-              <div className="inline-flex items-center gap-3 px-3 py-1 rounded-full" style={{ background: '#ffffff', border: '1px solid rgba(0,0,0,0.04)' }}>
-                <div style={{ width: 10, height: 10, background: '#bfffae', borderRadius: 4 }} />
-                <span className="text-xs font-medium" style={{ color: colors.text.dark }}>THE INTEGRATED PLATFORM</span>
+              <div className="inline-flex items-center gap-3 px-6 py-2" style={{ border: '1px solid colors.neutral.grayLight' }}>
+                <div style={{ width: 15, height: 15, background: colors.neutral.gray }} />
+                <span className="text-sm font-medium uppercase" style={{ color: colors.text.dark }}>Veja como podemos lhe ajudar</span>
               </div>
             </motion.div>
 
-            <div className="md:col-span-10">
+            <div className="md:col-span-8">
               <motion.h2
                 initial={{ opacity: 0, x: 10 }}
                 animate={isVisible ? { opacity: 1, x: 0 } : { opacity: 0, x: 10 }}
                 transition={{ duration: 0.6, delay: 0.08 }}
-                className="text-3xl md:text-5xl font-medium leading-tight"
+                className="text-3xl md:text-5xl lg:text-[74px] font-light uppercase leading-tight"
                 style={{ color: colors.text.dark }}
               >
-                Combining synthetic biology, chemistry, and AI into an engine of discovery.
+                Soluções digitais pensadas para atender diferentes necessidades do negócio
               </motion.h2>
 
-              <motion.p
-                initial={{ opacity: 0, x: 10 }}
-                animate={isVisible ? { opacity: 1, x: 0 } : { opacity: 0, x: 10 }}
-                transition={{ duration: 0.6, delay: 0.16 }}
-                className="mt-4 text-base md:text-lg text-gray-700 max-w-3xl"
-              >
-                Our platform enables precise, dynamic control of biological targets and pathways, generating high-fidelity datasets that, combined with advanced AI, unlock systematic exploration of previously inaccessible chemical space.
-              </motion.p>
+              
             </div>
           </div>
 
           {/* Three cards aligned left-to-right */}
           <motion.div
-            className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6"
+            className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-0 items-stretch md:-mx-2 lg:-mx-4"
             initial={{ opacity: 0, y: 20 }}
             animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ duration: 0.7, delay: 0.2 }}

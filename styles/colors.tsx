@@ -14,6 +14,7 @@ export const colors = {
    
     dark: '#4c4c4cff',
     light: '#f2f2f2',
+   
 
  },
 
@@ -27,6 +28,10 @@ export const colors = {
     grayHover: '#b0b0b0e3',
     cardDark: '#1a1a1aff',
     cardLight: '#f5f5f5ff',
+ },
+
+ green:{
+   primary: '#cedeceff'
  },
 
 

@@ -35,7 +35,7 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
  const isGradient = variant === 'gradient' || variant === 'primary';
  
  const gradientStyle = isGradient ? {
- background: colors.primary.white,
+ background: colors.green.primary,
  color: colors.primary.black
  } : {};
  
