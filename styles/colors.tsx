@@ -6,7 +6,7 @@ export const colors = {
  },
 
  background:{
-    dark: '#010101',
+    dark: '#080e0dff',
     light:'#e6e6e6ff',
  },
 
@@ -31,7 +31,9 @@ export const colors = {
  },
 
  green:{
-   primary: '#cedeceff'
+   primary: '#cedeceff',
+   secondary: '#152825ff',
+   tertiary:'#CBF3BF',
  },
 
 

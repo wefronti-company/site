@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { motion } from 'framer-motion';
+import { color, motion } from 'framer-motion';
 import { colors } from '../../styles/colors';
+import { Check, ShoppingCart, BarChart2, Code, ArrowUpRight, CheckCheckIcon } from 'lucide-react';
 
 const Solutions: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -33,9 +34,9 @@ const Solutions: React.FC = () => {
               transition={{ duration: 0.6 }}
               className="md:col-span-4 flex items-start"
             >
-              <div className="inline-flex items-center gap-3 px-6 py-2" style={{ border: '1px solid colors.neutral.grayLight' }}>
-                <div style={{ width: 15, height: 15, background: colors.neutral.gray }} />
-                <span className="text-sm font-medium uppercase" style={{ color: colors.text.dark }}>Veja como podemos lhe ajudar</span>
+              <div className="inline-flex items-center gap-3 px-6 py-2" style={{ border: '1px solid rgba(0,0,0,0.04)' }}>
+                <CheckCheckIcon className="w-4 h-4" style={{ color: colors.text.dark }} strokeWidth={2} />
+                <span className="text-sm font-medium uppercase" style={{ color: colors.text.dark }}>VEJA COMO PODEMOS LHE AJUDAR</span>
               </div>
             </motion.div>
 
@@ -61,44 +62,49 @@ const Solutions: React.FC = () => {
             animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ duration: 0.7, delay: 0.2 }}
           >
-            {/* Card 1 - Optogenetics (green) */}
-            <div className="p-10 md:p-14 flex flex-col justify-center" style={{ background: '#cfffbe' }}>
+            {/* Card 1 - Sites & E-commerce */}
+            <div className="p-10 md:p-14 flex flex-col justify-center" style={{ background: colors.green.tertiary }}>
               <div className="flex items-start justify-between">
                 <div className="w-10 h-10 flex items-center justify-center">
-                  {/* decorative icon */}
-                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0e2b20" strokeWidth="1.5"><circle cx="12" cy="12" r="6"/></svg>
+                  <ShoppingCart className="w-8 h-8" style={{ color: '#0e2b20' }} />
                 </div>
-                <div className="text-sm text-gray-600">01.</div>
+                <div className="text-sm text-black-700">01.</div>
               </div>
 
-              <h3 className="mt-8 text-2xl font-medium" style={{ color: '#0e2b20' }}>Optogenetics</h3>
-              <p className="mt-4 text-base text-gray-800 max-w-md">We harness light to control biology with unmatched precision.</p>
+              <h3 className="mt-8 text-lg md:text-2xl lg:text-3xl font-regular uppercase" style={{ color: '#0e2b20' }}>SITES E E-COMMERCE</h3>
+              <p className="mt-4 text-base md:text-lg text-gray-800 max-w-md">Sites institucionais modernos e lojas virtuais completas com checkout otimizado, gestão de produtos e integrações de pagamento.</p>
+
+              <a href="/solucoes/sites" className="mt-6 text-base font-medium inline-flex items-center gap-2" style={{ color: colors.text.dark }}>Saiba mais <ArrowUpRight className="w-4 h-4" style={{ color: colors.text.dark }} /></a>
             </div>
 
-            {/* Card 2 - Chemistry (dark) */}
-            <div className="p-10 md:p-14 flex flex-col justify-center" style={{ background: '#122625' }}>
+            {/* Card 2 - SaaS & Dashboard */}
+            <div className="p-10 md:p-14 flex flex-col justify-center" style={{ background: colors.green.secondary }}>
               <div className="flex items-start justify-between">
                 <div className="w-10 h-10 flex items-center justify-center">
-                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="1.5"><path d="M12 2l4 7-4 7-4-7 4-7z"/></svg>
+                  <BarChart2 className="w-8 h-8" style={{ color: colors.green.primary }} />
                 </div>
                 <div className="text-sm text-white/60">02.</div>
               </div>
 
-              <h3 className="mt-8 text-2xl font-medium" style={{ color: '#ffffff' }}>Chemistry</h3>
-              <p className="mt-4 text-base text-gray-200 max-w-md">We apply the latest chemistry tools to optimize our drug discovery.</p>
+              <h3 className="mt-8 text-lg md:text-2xl lg:text-3xl font-regular uppercase" style={{ color: colors.green.primary }}>SAAS & DASHBOARD</h3>
+              <p className="mt-4 text-base md:text-lg text-gray-200 max-w-md">Plataformas como serviço prontas para escalar e painéis analíticos interativos para visualizar dados e métricas em tempo real.</p>
+
+              <a href="/solucoes/saas" className="mt-6 text-base font-medium inline-flex items-center gap-2" style={{ color: colors.whiteColor }}>Saiba mais <ArrowUpRight className="w-4 h-4" style={{ color: colors.whiteColor }} /></a>
             </div>
 
-            {/* Card 3 - AI (light) */}
-            <div className="p-10 md:p-14 flex flex-col justify-center" style={{ background: '#e9efe9' }}>
+            {/* Card 3 - API & Sistemas (light) */}
+            <div className="p-10 md:p-14 flex flex-col justify-center" style={{ background: colors.green.primary }}>
               <div className="flex items-start justify-between">
                 <div className="w-10 h-10 flex items-center justify-center">
-                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#12201a" strokeWidth="1.5"><polyline points="8 6 16 12 8 18"/></svg>
+                  <Code className="w-8 h-8" style={{ color: colors.green.secondary }} />
                 </div>
                 <div className="text-sm text-gray-700">03.</div>
               </div>
 
-              <h3 className="mt-8 text-2xl font-medium" style={{ color: '#12201a' }}>AI</h3>
-              <p className="mt-4 text-base text-gray-800 max-w-md">We power our platform with an AI engine fueled by differentiated datasets.</p>
+              <h3 className="mt-8 text-lg md:text-2xl lg:text-3xl font-regular uppercase" style={{ color: '#12201a' }}>API & SISTEMAS</h3>
+              <p className="mt-4 text-base md:text-lg text-gray-800 max-w-md">Integrações seguras com APIs, além de sistemas web robustos para conectar e automatizar processos do negócio.</p>
+
+              <a href="/solucoes/api" className="mt-6 text-base font-medium inline-flex items-center gap-2" style={{ color: colors.text.dark }}>Saiba mais <ArrowUpRight className="w-4 h-4" style={{ color: colors.text.dark }} /></a>
             </div>
 
           </motion.div>
