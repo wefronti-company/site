@@ -71,13 +71,16 @@ body {
 /* Display heading utility for a studio-like, oversized, light-weight H1 */
 .display-heading {
   font-weight: 200; /* extra-light for a delicate, dramatic feel */
-  line-height: 0.88; /* slightly more breathing for large sizes */
+  line-height: 1; /* slightly more breathing to avoid awkward line breaks */
   letter-spacing: -0.02em;
-  /* fluid responsive size: min 48px, scales moderately with viewport up to 8rem */
-  font-size: clamp(3rem, 11vw, 8rem);
+  /* fluid responsive size: min 40px, scales responsibly to avoid single-word lines */
+  font-size: clamp(2.75rem, 9.5vw, 6.5rem);
   -webkit-font-smoothing: antialiased;
   text-wrap: balance;
   max-width: 100%;
+  hyphens: none;
+  overflow-wrap: normal;
+  word-break: keep-all;
 } 
 
 /* optional subtle grid for a studio aesthetic (used by hero) */

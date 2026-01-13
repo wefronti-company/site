@@ -188,7 +188,7 @@ const Hero: React.FC = () => {
                 className="display-heading uppercase w-full text-white/95"
                 style={{ WebkitTextStroke: '0px transparent' }}
               >
-                Soluções em tecnologia para impulsionar o seu negócio
+                Soluções em tecnologia pensadas para impulsionar o seu negócio
               </motion.h1>
             </div>
 
@@ -225,7 +225,7 @@ const Hero: React.FC = () => {
               <div className="mt-6 w-full max-w-[420px] relative">
                 <div className="grid grid-cols-2 gap-2 items-center">
                   <div className="py-2">
-                    <div className="text-xs uppercase tracking-widest text-gray-400">Hora do Brasil</div>
+                    <div className="text-xs uppercase tracking-widest" style={{ color: colors.text.dark }}>Hora do Brasil</div>
                   </div>
 
                   <div className="py-2 flex items-center justify-end text-xs text-white/70" aria-live="polite">
@@ -233,7 +233,7 @@ const Hero: React.FC = () => {
                   </div>
 
                   <div className="py-2">
-                    <div className="text-xs uppercase tracking-widest text-gray-400">Localização</div>
+                    <div className="text-xs uppercase tracking-widest" style={{ color: colors.text.dark }}>Localização</div>
                   </div>
 
                   <div className="py-2 flex items-center justify-end text-xs text-white/70">
@@ -241,7 +241,7 @@ const Hero: React.FC = () => {
                   </div>
 
                   <div className="py-2">
-                    <div className="text-xs uppercase tracking-widest text-gray-400">Usuários agora</div>
+                    <div className="text-xs uppercase tracking-widest" style={{ color: colors.text.dark }}>Usuários agora</div>
                   </div>
 
                   <div className="py-2 flex items-center justify-end gap-2 text-xs text-white/70">
