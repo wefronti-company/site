@@ -2,17 +2,9 @@ import React, { useEffect, useRef } from 'react';
 import { colors } from '../../styles/colors';
 
 const services = [
+ 
   { 
-    name: 'App Mobile', 
-    icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
-        <line x1="12" y1="18" x2="12.01" y2="18"/>
-      </svg>
-    )
-  },
-  { 
-    name: 'Sistema Web', 
+    name: 'SISTEMA', 
     icon: (
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <circle cx="12" cy="12" r="10"/>
@@ -22,7 +14,7 @@ const services = [
     )
   },
   { 
-    name: 'SaaS', 
+    name: 'SAAS', 
     icon: (
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/>
@@ -30,7 +22,7 @@ const services = [
     )
   },
   { 
-    name: 'Dashboard', 
+    name: 'DASHBOARD', 
     icon: (
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <rect x="3" y="3" width="7" height="7"/>
@@ -41,7 +33,7 @@ const services = [
     )
   },
   { 
-    name: 'E-commerce', 
+    name: 'E-COMMERCE', 
     icon: (
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <circle cx="9" cy="21" r="1"/>
@@ -51,7 +43,7 @@ const services = [
     )
   },
   { 
-    name: 'API Integration', 
+    name: 'API', 
     icon: (
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <polyline points="16 18 22 12 16 6"/>
@@ -60,7 +52,7 @@ const services = [
     )
   },
   { 
-    name: 'Site', 
+    name: 'WEBSITE', 
     icon: (
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
@@ -69,15 +61,7 @@ const services = [
       </svg>
     )
   },
-  { 
-    name: 'Checkout Page', 
-    icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
-        <line x1="1" y1="10" x2="23" y2="10"/>
-      </svg>
-    )
-  },
+
 ];
 
 const ServiceIcon: React.FC<{ icon: React.ReactNode; index: number }> = ({ icon, index }) => {
@@ -85,10 +69,10 @@ const ServiceIcon: React.FC<{ icon: React.ReactNode; index: number }> = ({ icon,
     <div 
       className="flex items-center justify-center"
       style={{
-        width: '2rem',
-        height: '2rem',
+        width: '1rem',
+        height: '1rem',
         flexShrink: 0,
-        color: colors.whiteColor,
+        color: colors.icons.dark,
       }}
     >
       <div className="w-5 h-5 flex items-center justify-center">
@@ -141,8 +125,7 @@ const ServicesCarousel: React.FC = () => {
       aria-label="services-carousel"
       className="w-full overflow-hidden"
       style={{ 
-        backgroundColor: colors.blackColor,
-        borderTop: `1px solid ${colors.borderDark}`
+        backgroundColor: colors.background.dark,
       }}
     >
       <div className="w-full max-w-none mx-auto py-8 md:py-10 px-0">
@@ -156,11 +139,11 @@ const ServicesCarousel: React.FC = () => {
               <div key={`${service.name}-${idx}`} className="flex items-center gap-3 md:gap-4 px-4 md:px-8">
                 <ServiceIcon icon={service.icon} index={idx} />
                 <div 
-                  className="text-base md:text-lg"
+                  className="text-base md:text-light"
                   style={{ 
-                    color: colors.whiteColor,
-                    fontWeight: 500,
-                    letterSpacing: '-0.01em'
+                    color: colors.text.light,
+                    fontWeight: 100,
+                    letterSpacing: '0.1em'
                   }}
                 >
                   {service.name}

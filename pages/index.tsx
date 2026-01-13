@@ -1,7 +1,6 @@
 import React from 'react';
 import dynamic from 'next/dynamic';
 import SEO from '../components/SEO';
-import AppBar from '../components/layout/AppBar';
 import Hero from '../sections/Hero';
 
 // Lazy load below-the-fold sections
@@ -17,8 +16,8 @@ const Footer = dynamic(() => import('../sections/Footer'), { ssr: false });
 const Home: React.FC = () => (
   <>
     <SEO />
-    <Hero />
     <ServicesCarousel />
+    <Hero />
     <Process />
     <Clients />
     <Services />

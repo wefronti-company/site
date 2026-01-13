@@ -45,7 +45,7 @@ const Hero: React.FC = () => {
       ref={sectionRef}
       id="section-0"
       className="w-full relative overflow-hidden"
-      style={{ height: '90vh', minHeight: '420px', backgroundColor: colors.blackColor }}
+      style={{ height: '100vh', minHeight: '420px', backgroundColor: colors.background.dark }}
     >
      
 

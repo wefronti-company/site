@@ -33,8 +33,8 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
  const isGradient = variant === 'gradient' || variant === 'primary';
  
  const gradientStyle = isGradient ? {
- background: colors.whiteColor,
- color: colors.blackColor
+ background: colors.primary.white,
+ color: colors.primary.black
  } : {};
  
  return (
@@ -42,7 +42,7 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
  type={type}
  onClick={handleClick}
  disabled={disabled}
- className={`px-4 py-3 text-sm font-semibold transition-all duration-200 flex items-center gap-2 hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed ${
+ className={`px-4 py-3 text-sm font-medium transition-all duration-200 flex items-center gap-2 hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed ${
  isGradient 
  ? '' 
  : 'bg-gray-200 text-black'

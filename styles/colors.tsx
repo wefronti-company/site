@@ -1,7 +1,40 @@
 export const colors = {
 
- blackColor: '#010101',
+ primary:{
+    black: '#010101',
+    white: '#f2f2f2',
+ },
+
+ background:{
+    dark: '#010101',
+    light:'#e6e6e6ff',
+ },
+
+ text:{
+   
+    dark: '#4c4c4cff',
+    light: '#f2f2f2',
+
+ },
+
+ icons:{
+    dark: '#525252ff',
+    light: '#b3b3b3ff',
+ },
+
+ neutral:{
+    gray: '#29292966',
+    grayHover: '#b0b0b0e3',
+    cardDark: '#1a1a1aff',
+    cardLight: '#f5f5f5ff',
+ },
+
+
+
+    blackColor: '#010101',
  whiteColor: '#f7f7f7',
+ textSecondary: '#5c5c5cff', // Cor secundária do texto para backgrounds escuros
+ iconDark: '#434343ff', //Cor de ícones para backgrounds escuros
  borderLight: '#dfdfdfff',
  borderDark: '#1d1d1dd8',
  borderCta: '#95a0ffff',
