@@ -5,6 +5,7 @@ import Hero from '../sections/Hero';
 
 // Lazy load below-the-fold sections
 const Process = dynamic(() => import('../sections/Process'), { ssr: false });
+const Solutions = dynamic(() => import('../sections/Solutions'), { ssr: false });
 const Clients = dynamic(() => import('../sections/Clients'), { ssr: false });
 const ScrollDivider = dynamic(() => import('../components/ui/ScrollDivider'), { ssr: false });
 const Services = dynamic(() => import('../sections/Services'), { ssr: false });
@@ -22,6 +23,7 @@ const Home: React.FC = () => (
     <div aria-hidden style={{height: '100vh'}} />
 
     <div className="relative z-[20]">
+      <Solutions />
       <Process />
       <Clients />
       <Services />

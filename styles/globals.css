@@ -171,6 +171,14 @@ body {
   }
 }
 
+/* Make below-hero sections overlay the fixed hero by creating a stacking context */
+section:not(#section-0) {
+  position: relative;
+  z-index: 20;
+  background: transparent; /* allow overlay visual */
+}
+
+
 @media (min-width: 768px) {
   @keyframes scroll {
     0% {
