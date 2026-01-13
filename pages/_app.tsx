@@ -7,6 +7,8 @@ import type { AppProps } from 'next/app';
 import * as gtag from '../lib/gtag';
 
 const CookieConsent = dynamic(() => import('../components/CookieConsent'), { ssr: false });
+import { MenuProvider } from '../components/layout/MenuContext';
+import MenuPanel from '../components/layout/MenuPanel';
 
 export default function MyApp({ Component, pageProps }: AppProps) {
  const router = useRouter();
@@ -30,12 +32,15 @@ export default function MyApp({ Component, pageProps }: AppProps) {
  }, [router.events]);
 
  return (
+ <MenuProvider>
  <>
  <Head>
  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
  </Head>
  <Component {...pageProps} />
+ <MenuPanel />
  <CookieConsent />
  </>
+ </MenuProvider>
  );
 }

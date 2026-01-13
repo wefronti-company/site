@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import ButtonCta from '../../components/ui/ButtonCta';
-import { Boxes } from '../../components/ui/shadcn-io/background-boxes';
 import { colors } from '../../styles/colors';
+import { useMenu } from '../../components/layout/MenuContext';
 // minimal hero variant
 
 const Hero: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
+  const { open: menuOpen, toggle: toggleMenu } = useMenu();
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -46,117 +47,82 @@ const Hero: React.FC = () => {
       className="w-full relative overflow-hidden"
       style={{ height: '90vh', minHeight: '420px', backgroundColor: colors.blackColor }}
     >
-      {/* overlay - fundo escuro */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/40 z-0" />
-
-      {/* Background Boxes - na frente mas transparent para cliques */}
-      <div className="absolute inset-0 w-full h-full z-[15] opacity-40 pointer-events-none">
-        <Boxes />
-      </div>
+     
 
       {/* Content */}
-      <div className="relative z-[30] flex items-center justify-center h-full px-6 md:px-10 lg:px-16 pt-40 pb-12 lg:py-90">
+      <div className="relative z-[30] flex items-start justify-center h-full px-6 md:px-10 lg:px-16 pt-28 md:pt-12 pb-12 lg:py-20">
         
-          <div className="w-full max-w-[1400px] mx-auto flex items-center justify-center">
-            <div className="flex flex-col items-center gap-4 md:gap-4">
+          <div className="w-full max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-12 items-start gap-6 md:gap-12">
+            {/* Left: oversized display heading */}
+            <div className="md:col-span-8 flex items-start">
+              <motion.h1 
+                initial={{ opacity: 0, y: 30 }}
+                animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+                transition={{ duration: 0.9, ease: "easeOut", delay: 0.3 }}
+                className="display-heading text-white/95 bg-clip-text text-transparent bg-gradient-to-br from-white via-gray-200 to-gray-400"
+                style={{ WebkitTextStroke: '0px transparent' }}
+              >
+                Projetamos produtos com propósito, pronto para gerar receita
+              </motion.h1>
+            </div>
+
+            {/* Right: compact copy, badges, CTA */}
+            <div className="md:col-span-4 flex flex-col items-start justify-center gap-6 mt-6 md:mt-12">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                 transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
-                className="flex flex-wrap items-center justify-center gap-3 mb-4"
+                className="flex flex-wrap items-start gap-3"
               >
-                {/* Badge 1: Ideias que viram receita */}
-                <div 
-                  className="flex items-center gap-2 px-4 py-2.5"
-                  style={{
-                    backdropFilter: 'blur(10px)',
-                    WebkitBackdropFilter: 'blur(10px)',
-                    backgroundColor: 'rgba(255, 255, 255, 0.06)',
-                    border: '1px solid rgba(255, 255, 255, 0.09)',
-                    borderRadius: '5px',
-                  }}
-                >
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="12" cy="12" r="10"/>
-                    <path d="M12 16v-4"/>
-                    <path d="M12 8h.01"/>
-                  </svg>
-                  <span className="text-sm font-medium text-white whitespace-nowrap">
-                    Ideias que viram receita
-                  </span>
-                </div>
+              
 
-                {/* Badge 2: Tecnologia que gera lucro */}
-                <div 
-                  className="flex items-center gap-2 px-4 py-2.5"
-                  style={{
-                    backdropFilter: 'blur(10px)',
-                    WebkitBackdropFilter: 'blur(10px)',
-                    backgroundColor: 'rgba(255, 255, 255, 0.06)',
-                    border: '1px solid rgba(255, 255, 255, 0.09)',
-                    borderRadius: '5px',
-                  }}
-                >
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
-                    <line x1="8" y1="21" x2="16" y2="21"/>
-                    <line x1="12" y1="17" x2="12" y2="21"/>
-                  </svg>
-                  <span className="text-sm font-medium text-white whitespace-nowrap">
-                    Tecnologia que gera lucro
-                  </span>
-                </div>
+                
 
-                {/* Badge 3: Negócios que crescem */}
-                <div 
-                  className="flex items-center gap-2 px-4 py-2.5"
-                  style={{
-                    backdropFilter: 'blur(10px)',
-                    WebkitBackdropFilter: 'blur(10px)',
-                    backgroundColor: 'rgba(255, 255, 255, 0.06)',
-                    border: '1px solid rgba(255, 255, 255, 0.09)',
-                    borderRadius: '5px',
-                  }}
-                >
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
-                    <polyline points="17 6 23 6 23 12"/>
-                  </svg>
-                  <span className="text-sm font-medium text-white whitespace-nowrap">
-                    Negócios que crescem
-                  </span>
-                </div>
+                
+
               </motion.div>
-              
-              <motion.h1 
-                initial={{ opacity: 0, y: 30 }}
-                animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-                transition={{ duration: 0.8, ease: "easeOut", delay: 0.4 }}
-                className="text-center text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-medium leading-tight max-w-[1200px] bg-gradient-to-br from-white via-gray-200 to-gray-500 bg-clip-text text-transparent pb-2"
-              >
-                Projetamos produtos com propósito, pronto para gerar receita
-              </motion.h1>
-              
+
               <motion.h2 
                 initial={{ opacity: 0, y: 20 }}
                 animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                 transition={{ duration: 0.8, ease: "easeOut", delay: 0.6 }}
-                className="text-center text-sm md:text-lg text-white/90 max-w-[600px] mt-2 leading-relaxed"
+                className="text-left text-sm md:text-base text-white/85 max-w-[320px] leading-relaxed"
               >
-                Desenvolvemos seu produto com o melhor da tecnologia e inteligencia artificial, desde Saas, software á sistemas web complexos.
+                Desenvolvemos seu produto com o que há de melhor em tecnologia e inteligência artificial — do SaaS a sistemas web complexos.
               </motion.h2>
-              
+
               <motion.div 
                 initial={{ opacity: 0, y: 20 }}
                 animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                 transition={{ duration: 0.8, ease: "easeOut", delay: 0.8 }}
-                className="mt-6"
+                className="mt-2"
               >
-                <ButtonCta label="Agendar uma reunião" />
+                <ButtonCta label="Agendar" />
               </motion.div>
             </div>
           </div>
         </div>
+
+      {/* Menu trigger — camuflado na lateral direita */}
+      <div className="absolute right-6 top-8 md:top-1/2 md:-translate-y-1/2 z-40">
+        <button
+          onClick={() => toggleMenu()}
+          aria-label="Abrir menu"
+          className="flex items-center gap-3 px-3 py-2 md:px-4 md:py-3 rounded-md"
+          style={{ background: 'transparent', border: '1px solid rgba(255,255,255,0.06)' }}
+        >
+          <span className="text-sm md:text-base font-medium text-white">Menu</span>
+          <motion.div
+            animate={{ rotate: menuOpen ? 45 : 0 }}
+            transition={{ duration: 0.35, ease: 'easeInOut' }}
+            className="relative flex items-center justify-center"
+            style={{ width: 18, height: 18 }}
+          >
+            <div style={{ position: 'absolute', width: 14, height: 2, backgroundColor: 'white', borderRadius: 2 }} />
+            <div style={{ position: 'absolute', width: 2, height: 14, backgroundColor: 'white', borderRadius: 2 }} />
+          </motion.div>
+        </button>
+      </div>
     </section>
   );
 };

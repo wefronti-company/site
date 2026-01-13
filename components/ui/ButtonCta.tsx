@@ -33,8 +33,8 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
  const isGradient = variant === 'gradient' || variant === 'primary';
  
  const gradientStyle = isGradient ? {
- background: `linear-gradient(90deg, ${colors.gradientOne}, ${colors.gradientTwo})`,
- color: colors.whiteColor
+ background: colors.whiteColor,
+ color: colors.blackColor
  } : {};
  
  return (
@@ -48,7 +48,7 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
  : 'bg-gray-200 text-black'
  }`}
  style={{ 
- borderRadius: '5px',
+ borderRadius: '1px',
  ...gradientStyle,
 
  }}

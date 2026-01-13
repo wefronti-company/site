@@ -17,7 +17,6 @@ const Footer = dynamic(() => import('../sections/Footer'), { ssr: false });
 const Home: React.FC = () => (
   <>
     <SEO />
-    <AppBar />
     <Hero />
     <ServicesCarousel />
     <Process />

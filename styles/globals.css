@@ -68,6 +68,24 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Display heading utility for a studio-like, oversized, light-weight H1 */
+.display-heading {
+  font-weight: 200; /* extra-light for a delicate, dramatic feel */
+  line-height: 0.88; /* tight leading for impact */
+  letter-spacing: -0.02em;
+  /* fluid responsive size: min 40px, grows with viewport up to 10rem */
+  font-size: clamp(2.5rem, 9.5vw, 10rem);
+  -webkit-font-smoothing: antialiased;
+  text-wrap: balance;
+}
+
+/* optional subtle grid for a studio aesthetic (used by hero) */
+.hero-grid {
+  background-image: linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 24px 24px, 24px 24px;
+}
+
+
 
 .bg-custom-white { background-color: var(--color-bg) !important; color: var(--color-white) !important; }
 .bg-custom-white * { color: var(--color-white) !important; }

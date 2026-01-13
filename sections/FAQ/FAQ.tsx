@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 import Badge from '../../components/ui/Badge';
 import ButtonCta from '../../components/ui/ButtonCta';
 import { colors } from '../../styles/colors';
-import { Boxes } from '../../components/ui/shadcn-io/background-boxes';
 
 const FAQ: React.FC = () => {
  const [openIndex, setOpenIndex] = React.useState<number | null>(0);
@@ -42,7 +41,7 @@ const FAQ: React.FC = () => {
  >
  {/* Background Boxes */}
  <div className="absolute inset-0 w-full h-full z-0 opacity-40 pointer-events-none">
-   <Boxes />
+  
  </div>
 
  <div className="px-4 md:px-8 lg:px-16 relative z-10 w-full">
