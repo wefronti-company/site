@@ -3,7 +3,7 @@ import { colors } from '../../styles/colors';
 import { useRouter } from 'next/router';
 import { ArrowUpRight } from 'lucide-react';
 
-interface ButtonCtaProps {
+interface ButtonMenuProps {
  label?: string;
  onClick?: () => void;
  variant?: 'primary' | 'secondary' | 'gradient';
@@ -14,11 +14,12 @@ interface ButtonCtaProps {
  className?: string; // optional to allow sizing from parent
 }
 
-const ButtonCta: React.FC<ButtonCtaProps> = ({ 
+const ButtonMenu: React.FC<ButtonMenuProps> = ({ 
  label, 
  onClick,
  variant = 'primary',
- design = 'default',
+ // default to 'split' so it renders the pill in menus by default
+ design = 'split',
  children,
  type = 'button',
  disabled = false,
@@ -38,8 +39,8 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
  const isGradient = variant === 'gradient' || variant === 'primary';
  
  const gradientStyle = isGradient ? {
- background: colors.green.primary,
- color: colors.primary.black
+ background: colors.green.secondary,
+ color: colors.primary.white
  } : {};
  
  // Split / pill design
@@ -55,24 +56,19 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
      >
        {/* Pill text (fixed height to match action) */}
        <span
-         className="inline-flex items-center h-10 px-16 text-[18px] font-semibold"
+         className="inline-flex items-center h-10 px-6 text-[16px] font-medium"
          style={{
-           background: colors.primary.white,
-           color: colors.green.secondary,
+           background: colors.green.secondary,
+           color: colors.whiteColor,
            borderRadius: '4px',
-           
+           paddingLeft: '0.75rem',
+           paddingRight: '0.75rem'
          }}
        >
          {children || label || 'Soluções'}
        </span>
 
-       {/* Square/round action (same height) */}
-       <span
-         className="w-10 h-10 flex items-center justify-center rounded-md transition-transform duration-150"
-         style={{ borderRadius: '4px', background: colors.green.tertiary, color: colors.green.secondary }}
-       >
-         <ArrowUpRight className="w-4 h-4" />
-       </span>
+ 
      </button>
    );
  }
@@ -86,4 +82,4 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
  );
 };
 
-export default ButtonCta;
+export default ButtonMenu;

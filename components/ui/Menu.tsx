@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Logo from './Logo';
-import ButtonCta from './ButtonCta';
 import { colors } from '../../styles/colors';
+import ButtonMenu from './ButtonMenu';
 
 const Menu: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -30,18 +30,19 @@ const Menu: React.FC = () => {
 
   return (
     <div className="fixed left-1/2 top-6 z-[60] -translate-x-1/2">
-      <div className="flex items-center gap-4 px-4 py-2 shadow-lg"
-      style={{ background: colors.green.primary, borderRadius: '2px' }}>
+      <div className="flex items-center gap-4 px-6 py-5 shadow-lg"
+      style={{ background: colors.green.primary, borderRadius: '4px' }}>
         <Logo isDark className="h-6" />
-        <ButtonCta label="Solicitar orçamento" design="split" onClick={() => (window.location.href = '/agendar')} className="ml-2 scale-90" />
+        <ButtonMenu label="Solicitar orçamento" className="ml-2" />
+
         <button
           className="ml-2 p-2 rounded hover:bg-black/5"
           aria-expanded={menuOpen}
           aria-controls="solutions-menu"
           onClick={() => setMenuOpen(prev => !prev)}
         >
-          <span className={`block w-5 h-0.5 bg-black mb-1 ${menuOpen ? 'rotate-45 translate-y-1' : ''}`} />
-          <span className={`block w-5 h-0.5 bg-black ${menuOpen ? '-rotate-45 -translate-y-1' : ''}`} />
+          <span className={`block w-6 h-0.5 bg-black mb-1 mx-auto ${menuOpen ? 'rotate-45 translate-y-1' : ''}`} />
+          <span className={`block w-3 h-0.5 bg-black mx-auto ${menuOpen ? '-rotate-45 -translate-y-1' : ''}`} />
         </button>
       </div>
 
