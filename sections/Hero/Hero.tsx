@@ -243,7 +243,7 @@ const Hero: React.FC = () => {
                   transition={{ duration: 0.8, ease: "easeOut", delay: 0.8 }}
                   className="mt-2 flex flex-col"
                 >
-                  <ButtonCta label="Soluções" className="min-w-[160px]" />
+                  <ButtonCta label="Soluções" design="split" className="w-auto" />
 
                 </motion.div>
 
@@ -276,9 +276,6 @@ const Hero: React.FC = () => {
                     </div>
                   </div>
 
-                  {/* Barcode / visual block */}
-                  <div className="mt-6 flex justify-start">
-                  </div>
                 </div>
               </div>
             </div>

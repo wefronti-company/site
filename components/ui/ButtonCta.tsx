@@ -1,11 +1,13 @@
 import React from 'react';
 import { colors } from '../../styles/colors';
 import { useRouter } from 'next/router';
+import { ArrowRight } from 'lucide-react';
 
 interface ButtonCtaProps {
  label?: string;
  onClick?: () => void;
  variant?: 'primary' | 'secondary' | 'gradient';
+ design?: 'default' | 'split';
  children?: React.ReactNode;
  type?: 'button' | 'submit';
  disabled?: boolean;
@@ -16,6 +18,7 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
  label, 
  onClick,
  variant = 'primary',
+ design = 'default',
  children,
  type = 'button',
  disabled = false,
@@ -38,6 +41,24 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
  background: colors.green.primary,
  color: colors.primary.black
  } : {};
+ 
+ // Split / pill design
+ if (design === 'split') {
+   return (
+     <button
+       type={type}
+       onClick={handleClick}
+       disabled={disabled}
+       className={`inline-flex items-center overflow-hidden rounded-full shadow-sm transition-transform duration-150 disabled:opacity-50 disabled:cursor-not-allowed ${className || ''}`}
+       style={{ border: 'none' }}
+     >
+       <span className="px-6 py-3 text-sm font-medium tracking-wide" style={{ background: colors.primary.black, color: colors.primary.white }}>{children || label || 'Soluções'}</span>
+       <span className="w-10 h-10 flex items-center justify-center" style={{ background: colors.green.tertiary, color: colors.primary.black }}>
+         <ArrowRight className="w-4 h-4" />
+       </span>
+     </button>
+   );
+ }
  
  return (
  <button
