@@ -2,42 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-@keyframes pulse-shadow {
-  0% {
-    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.418);
-  }
-  70% {
-    box-shadow: 0 0 0 10px rgba(255, 255, 255, 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
-  }
-}
 
-.animate-pulse-shadow {
-  animation: pulse-shadow 2s ease-out infinite;
-}
-
-/* Select dropdown options styling */
-select option {
-  background-color: #1a1a1a;
-  color: #f7f7f7;
-}
-
-select option:hover,
-select option:focus,
-select option:checked {
-  background-color: #b0b0b0e3;
-  color: #101010;
-}
-
-:root {
-  --color-black: #151515ff;
-  --color-white: #f7f7f7;
-  --color-bg: #151515ff;
-  --color-text: var(--color-white);
-  /* --menu-width removed (sidebar eliminated) */
-}
+  :root{
+  --scrollbar-track: var(--green-secondary);
+  --scrollbar-thumb: var(--green-primary);
+} 
 
 html { 
   box-sizing:border-box;
@@ -59,11 +28,8 @@ html,body {
 body { 
   margin:0; 
   padding:0; 
-  background: var(--color-bg); 
-  color: var(--color-text); 
   font-family: "Funnel Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 400;
+ 
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -83,18 +49,6 @@ body {
   word-break: keep-all;
 } 
 
-/* optional subtle grid for a studio aesthetic (used by hero) */
-.hero-grid {
-  background-image: linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-  background-size: 24px 24px, 24px 24px;
-}
-
-
-
-.bg-custom-white { background-color: var(--color-bg) !important; color: var(--color-white) !important; }
-.bg-custom-white * { color: var(--color-white) !important; }
-.bg-custom-black { background-color: var(--color-bg) !important; color: var(--color-white) !important; }
-.bg-transparent { background-color: var(--color-bg) !important; }
 
 
 @media (min-width: 768px) {
@@ -230,14 +184,6 @@ section:not(#section-0) {
   animation: fadeOut 0.2s ease-in-out forwards;
 }
 
-/* Removed appbar-fixed fallback — header is intentionally non-fixed now. */
-
-/* Marquee (looping scrolling text) */
-@keyframes marquee {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-
 .marquee { overflow: visible; position: relative; }
 .marquee-track {
   display: flex;
@@ -250,3 +196,108 @@ section:not(#section-0) {
 .marquee.paused .marquee-track { transform: translateX(0); }
 
 .marquee-track > * { white-space: nowrap; }
+
+/* Custom scrollbar styling */
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
+
+/* WebKit-based browsers (Chrome, Edge, Safari) */
+/* Base sizes (adjust as needed) */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+  background: var(--green-secondary);
+}
+
+/* Track: dark green background, no rounding */
+::-webkit-scrollbar-track {
+  background: var(--green-secondary) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Thumb: light green, no rounding, no shadow */
+::-webkit-scrollbar-thumb {
+  background: var(--green-primary) !important;
+  border-radius: 0 !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  -webkit-appearance: none !important;
+  min-height: 28px;
+  background-clip: padding-box !important;
+}
+
+/* Remove arrow buttons (up/down and left/right) */
+::-webkit-scrollbar-button:single-button,
+::-webkit-scrollbar-button:single-button:vertical,
+::-webkit-scrollbar-button:single-button:horizontal,
+::-webkit-scrollbar-button:start,
+::-webkit-scrollbar-button:end {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
+}
+
+/* Corner */
+::-webkit-scrollbar-corner {
+  background: var(--green-secondary) !important;
+}
+
+/* Strong override for overlay/auto scrollbars */
+html *::-webkit-scrollbar-thumb {
+  border-radius: 0 !important;
+  background: var(--green-primary) !important;
+  box-shadow: none !important;
+}
+
+/* Hover behavior */
+::-webkit-scrollbar-thumb:hover {
+  filter: brightness(0.95);
+}
+
+/* Extra aggressive overrides for Chrome/Blink */
+html::-webkit-scrollbar, body::-webkit-scrollbar, *::-webkit-scrollbar {
+  width: 10px !important;
+  height: 10px !important;
+  background: var(--green-secondary) !important;
+}
+
+html::-webkit-scrollbar-track, body::-webkit-scrollbar-track, *::-webkit-scrollbar-track {
+  background: var(--green-secondary) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+html::-webkit-scrollbar-thumb, body::-webkit-scrollbar-thumb, *::-webkit-scrollbar-thumb {
+  background: var(--green-primary) !important;
+  border-radius: 0 !important;
+  -webkit-border-radius: 0 !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  -webkit-appearance: none !important;
+  min-height: 28px !important;
+  background-clip: padding-box !important;
+}
+
+/* Vertical/horizontal / inactive states */
+::-webkit-scrollbar-thumb:vertical { background: var(--green-primary) !important; }
+::-webkit-scrollbar-thumb:horizontal { background: var(--green-primary) !important; }
+::-webkit-scrollbar-thumb:window-inactive { background: var(--green-primary) !important; }
+
+/* Explicitly remove arrow buttons */
+::-webkit-scrollbar-button:single-button, ::-webkit-scrollbar-button:single-button:vertical, ::-webkit-scrollbar-button:single-button:horizontal, ::-webkit-scrollbar-button:start, ::-webkit-scrollbar-button:end {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
+}
+
+/* Final catch-all to override any component-level styles */
+html *::-webkit-scrollbar-thumb { background: var(--green-primary) !important; border-radius: 0 !important; box-shadow: none !important; }
+html *::-webkit-scrollbar-track { background: var(--green-secondary) !important; border-radius: 0 !important; }
+
+
