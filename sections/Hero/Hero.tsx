@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import dynamic from 'next/dynamic';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import ButtonCta from '../../components/ui/ButtonCta';
 import { Eye } from 'lucide-react';
@@ -192,82 +193,88 @@ const Hero: React.FC = () => {
      
 
       {/* Content */}
-      <div className="relative z-[30] flex items-center justify-center h-full px-0 sm:px-1 md:px-2 lg:px-4 py-10 md:py-12">
+      <div className="relative z-[30] flex items-start md:items-end justify-center h-full px-0 sm:px-1 md:px-2 lg:px-4 pb-12">
         
-          <div className="w-full max-w-none mx-auto grid grid-cols-1 md:grid-cols-12 items-center gap-4 md:gap-8">
+          <div className="w-full max-w-none mx-auto grid grid-cols-1 md:grid-cols-12 items-stretch gap-4 md:gap-8 h-full">
             {/* Left: oversized display heading */}
-            <div className="md:col-span-8 lg:col-span-8 flex items-center pr-2 md:pr-4 lg:pr-6">
+            <div className="md:col-span-8 lg:col-span-8 flex flex-col items-start pr-2 md:pr-4 lg:pr-6 h-full">
+              <div className="mb-6">
+                <Image src="/images/brand/isologo-white.webp" alt="Logo wefronti"  width={136} height={136} priority />
+              </div>
+
               <motion.h1 
                 initial={{ opacity: 0, y: 30 }}
                 animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
                 transition={{ duration: 0.9, ease: "easeOut", delay: 0.3 }}
-                className="display-heading uppercase w-full"
+                className="display-heading uppercase w-full mt-auto"
                 style={{ color: colors.green.primary, WebkitTextStroke: '0px transparent' }}
               >
-                Soluções em tecnologia pensadas para impulsionar o seu negócio
+                Soluções em tecnologia pensadas para <span style={{ color: colors.green.tertiary }}>Impulsionar seu negócio</span>
               </motion.h1>
             </div>
 
             {/* Right: compact copy, badges, CTA */}
-            <div className="md:col-span-4 lg:col-span-4 flex flex-col items-start justify-center gap-6 px-4 md:px-6">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
-                className="flex flex-wrap items-start gap-3"
-              >
+            <div className="md:col-span-4 lg:col-span-4 flex flex-col items-start gap-6 px-4 md:px-6 md:relative md:h-full">
+              <div className="w-full md:absolute md:bottom-0 md:left-0 flex flex-col md:justify-end">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                  transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
+                  className="flex flex-wrap items-start gap-3"
+                >
 
-              </motion.div>
+                </motion.div>
 
-              <motion.h2 
-                initial={{ opacity: 0, y: 20 }}
-                animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                transition={{ duration: 0.8, ease: "easeOut", delay: 0.6 }}
-                className="text-left text-sm md:text-base text-white/85 max-w-[320px] leading-relaxed"
-              >
-              Da presença digital a plataformas completas, criamos soluções tecnológicas robustas, seguras e escaláveis, projetadas para sustentar a operação, reduzir riscos e impulsionar o crescimento do negócio.              </motion.h2>
+                <motion.h2 
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                  transition={{ duration: 0.8, ease: "easeOut", delay: 0.6 }}
+                  className="text-left text-sm md:text-base text-white/85 max-w-[320px] leading-relaxed"
+                >
+                Da presença digital a plataformas completas, criamos soluções tecnológicas robustas, seguras e escaláveis, projetadas para sustentar a operação, reduzir riscos e impulsionar o crescimento do negócio.              </motion.h2>
 
-              <motion.div 
-                initial={{ opacity: 0, y: 20 }}
-                animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                transition={{ duration: 0.8, ease: "easeOut", delay: 0.8 }}
-                className="mt-2 flex flex-col"
-              >
-                <ButtonCta label="Soluções" className="min-w-[160px]" />
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                  transition={{ duration: 0.8, ease: "easeOut", delay: 0.8 }}
+                  className="mt-2 flex flex-col"
+                >
+                  <ButtonCta label="Soluções" className="min-w-[160px]" />
 
-              </motion.div>
+                </motion.div>
 
-              {/* Info grid (Active Ingredients / Chapters) */}
-              <div className="mt-6 w-full max-w-[420px] relative">
-                <div className="grid grid-cols-2 gap-2 items-center">
-                  <div className="py-2">
-                    <div className="text-xs uppercase tracking-widest" style={{ color: colors.text.dark }}>Hora do Brasil</div>
+                {/* Info grid (Active Ingredients / Chapters) */}
+                <div className="w-full max-w-[420px] relative">
+                  <div className="grid grid-cols-2 gap-2 items-center">
+                    <div className="py-2">
+                      <div className="text-xs uppercase tracking-widest" style={{ color: colors.text.dark }}>Hora do Brasil</div>
+                    </div>
+
+                    <div className="py-2 flex items-center justify-end text-xs text-white/70" aria-live="polite">
+                      <div className="text-lg font-mono tracking-wide whitespace-nowrap">{brazilTimeStr}</div>
+                    </div>
+
+                    <div className="py-2">
+                      <div className="text-xs uppercase tracking-widest" style={{ color: colors.text.dark }}>Localização</div>
+                    </div>
+
+                    <div className="py-2 flex items-center justify-end text-xs text-white/70">
+                      <div className="text-right">{locationLabel}</div>
+                    </div>
+
+                    <div className="py-2">
+                      <div className="text-xs uppercase tracking-widest" style={{ color: colors.text.dark }}>Usuários agora</div>
+                    </div>
+
+                    <div className="py-2 flex items-center justify-end gap-2 text-xs text-white/70">
+                      <Eye className="w-4 h-4 opacity-60 block self-center" />
+                      <div className="font-mono text-sm leading-none self-center">{activeUsers === null ? '—' : activeUsers}</div>
+                    </div>
                   </div>
 
-                  <div className="py-2 flex items-center justify-end text-xs text-white/70" aria-live="polite">
-                    <div className="text-lg font-mono tracking-wide whitespace-nowrap">{brazilTimeStr}</div>
+                  {/* Barcode / visual block */}
+                  <div className="mt-6 flex justify-start">
                   </div>
-
-                  <div className="py-2">
-                    <div className="text-xs uppercase tracking-widest" style={{ color: colors.text.dark }}>Localização</div>
-                  </div>
-
-                  <div className="py-2 flex items-center justify-end text-xs text-white/70">
-                    <div className="text-right">{locationLabel}</div>
-                  </div>
-
-                  <div className="py-2">
-                    <div className="text-xs uppercase tracking-widest" style={{ color: colors.text.dark }}>Usuários agora</div>
-                  </div>
-
-                  <div className="py-2 flex items-center justify-end gap-2 text-xs text-white/70">
-                    <Eye className="w-4 h-4 opacity-60 block self-center" />
-                    <div className="font-mono text-sm leading-none self-center">{activeUsers === null ? '—' : activeUsers}</div>
-                  </div>
-                </div>
-
-                {/* Barcode / visual block */}
-                <div className="mt-6 flex justify-start">
                 </div>
               </div>
             </div>

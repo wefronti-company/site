@@ -5,12 +5,15 @@ import { Check, ShoppingCart, BarChart2, Code, ArrowUpRight, CheckCheckIcon, Bri
 
 const Solutions: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const [hasEntered, setHasEntered] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   const lastTimeRef = useRef<number | null>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver((([entry]) => {
       setIsVisible(entry.isIntersecting);
+      // mark that the section has been entered at least once (single-entry animation)
+      setHasEntered(prev => prev || entry.isIntersecting);
     }) as IntersectionObserverCallback, { threshold: 0.2 });
 
     if (sectionRef.current) observer.observe(sectionRef.current);
@@ -34,32 +37,35 @@ const Solutions: React.FC = () => {
   }, []);
 
   // Marquee animation runner (requestAnimationFrame) — constant rightward loop (carousel behavior)
+  // Start a continuous right->left carousel after the section enters
   useEffect(() => {
-    // Use same approach as ServicesCarousel: decrement scrollPosition each frame to move right->left
-    const track = marqueeTrackRef.current;
+    if (!hasEntered) return;
+    const el = marqueeTrackRef.current;
+    if (!el) return;
+
     let scrollPosition = 0;
-    const speed = 0.5; // pixels per frame
+    const speed = 0.5; // pixels per frame (same as ServicesCarousel)
 
     const animate = () => {
-      const el = marqueeTrackRef.current;
-      if (!el) {
+      const track = marqueeTrackRef.current;
+      if (!track) {
         animFrameRef.current = requestAnimationFrame(animate);
         return;
       }
 
       // ensure wrap width is calculated
-      if (!wrapWidthRef.current) wrapWidthRef.current = el.scrollWidth / 3;
+      if (!wrapWidthRef.current) wrapWidthRef.current = track.scrollWidth / 3;
 
       // move left
       scrollPosition -= speed;
 
-      const scrollWidth = wrapWidthRef.current || el.scrollWidth / 3;
+      const scrollWidth = wrapWidthRef.current || track.scrollWidth / 3;
       if (Math.abs(scrollPosition) >= scrollWidth) {
         scrollPosition = 0;
       }
 
-      el.style.transform = `translateX(${scrollPosition}px)`;
-      el.setAttribute('data-pos', String(Math.round(scrollPosition)));
+      track.style.transform = `translateX(${scrollPosition}px)`;
+      track.setAttribute('data-pos', String(Math.round(scrollPosition)));
 
       animFrameRef.current = requestAnimationFrame(animate);
     };
@@ -67,8 +73,8 @@ const Solutions: React.FC = () => {
     animFrameRef.current = requestAnimationFrame(animate);
 
     const onResize = () => {
-      const el = marqueeTrackRef.current;
-      if (el) wrapWidthRef.current = el.scrollWidth / 3;
+      const track = marqueeTrackRef.current;
+      if (track) wrapWidthRef.current = track.scrollWidth / 3;
     };
 
     window.addEventListener('resize', onResize);
@@ -77,7 +83,7 @@ const Solutions: React.FC = () => {
       if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
       window.removeEventListener('resize', onResize);
     };
-  }, []);
+  }, [hasEntered]);
 
   return (
     <section
@@ -92,8 +98,8 @@ const Solutions: React.FC = () => {
           {/* Header: badge (width = card 1) + title/subtitle — match hero alignment */}
           <div className="w-full max-w-none mx-auto grid grid-cols-1 md:grid-cols-12 items-center gap-6 px-4 md:px-0">
             <motion.div
-              initial={{ opacity: 0, x: -10 }}
-              animate={isVisible ? { opacity: 1, x: 0 } : { opacity: 0, x: -10 }}
+              initial={{ opacity: 0, y: 12 }}
+              animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
               transition={{ duration: 0.6 }}
               className="md:col-span-4 flex items-start"
             >
@@ -105,13 +111,13 @@ const Solutions: React.FC = () => {
 
             <div className="md:col-span-8">
               <motion.h2
-                initial={{ opacity: 0, x: 10 }}
-                animate={isVisible ? { opacity: 1, x: 0 } : { opacity: 0, x: 10 }}
+                initial={{ opacity: 0, y: 16 }}
+                animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
                 transition={{ duration: 0.6, delay: 0.08 }}
                 className="text-3xl md:text-5xl lg:text-[74px] font-light uppercase leading-tight"
                 style={{ color: colors.text.dark }}
               >
-                Soluções digitais pensadas para atender diferentes necessidades do negócio
+                Soluções digitais pensadas para atender diferentes necessidades do seu negócio
               </motion.h2>
 
               
@@ -122,7 +128,7 @@ const Solutions: React.FC = () => {
           <motion.div
             className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-0 items-stretch md:-mx-2 lg:-mx-4"
             initial={{ opacity: 0, y: 20 }}
-            animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ duration: 0.7, delay: 0.2 }}
           >
             {/* Card 1 - Sites & E-commerce */}
@@ -173,13 +179,18 @@ const Solutions: React.FC = () => {
           </motion.div>
 
           {/* Marquee loop - reacts to scroll direction (down -> left, up -> right) */}
-          <div className="mt-6 w-screen -mx-4 md:-mx-8 lg:-mx-16">
+          <motion.div
+            className="mt-6 w-screen -mx-4 md:-mx-8 lg:-mx-16"
+            initial={{ opacity: 0, y: 18 }}
+            animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 18 }}
+            transition={{ duration: 0.8, delay: 0.12 }}
+          >
             <div className={`marquee ${!isVisible ? 'paused' : ''}`} aria-hidden>
               <div ref={marqueeTrackRef} className="marquee-track flex-nowrap" style={{ '--marquee-duration': '24s' } as React.CSSProperties}>
                 {Array.from({ length: 3 }).flatMap((_, r) => (
                   Array.from({ length: 8 }).flatMap((_, i) => ([
                     <div key={`m-${r}-${i}`} className="px-6">
-                      <span className="text-2xl md:text-4xl lg:text-5xl font-light tracking-tight uppercase" style={{ color: colors.text.dark }}>Código é só o meio, o foco é o resultado</span>
+                      <span className="text-2xl md:text-4xl lg:text-4xl font-light tracking-tight uppercase" style={{ color: colors.text.dark }}>Código é só o meio, o foco é o resultado</span>
                     </div>,
 
                     <div key={`c-${r}-${i}`} className="flex items-center justify-center w-12 h-12 md:w-14 md:h-14">
@@ -191,7 +202,7 @@ const Solutions: React.FC = () => {
                 ))}
               </div>
             </div>
-          </div>
+          </motion.div>
 
         </div>
       </div>
