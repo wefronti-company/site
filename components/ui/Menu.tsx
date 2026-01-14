@@ -45,7 +45,7 @@ const Menu: React.FC = () => {
           <span className={`absolute block w-6 h-[2px] bg-black rounded transition-transform duration-200 ${menuOpen ? 'rotate-45' : 'top-2'}`} />
 
           {/* Bottom bar: half-length and slightly right-offset when closed */}
-          <span className={`absolute block w-3 h-[2px] bg-black rounded transition-transform duration-200 ${menuOpen ? '-rotate-45' : 'top-5 translate-x-1'}`} />
+          <span className={`absolute block w-6 h-[2px] bg-black rounded transition-transform duration-200 ${menuOpen ? '-rotate-45' : 'top-5'}`} />
         </button>
       </div>
 
