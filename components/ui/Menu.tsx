@@ -30,19 +30,22 @@ const Menu: React.FC = () => {
 
   return (
     <div className="fixed left-1/2 top-6 z-[60] -translate-x-1/2">
-      <div className="flex items-center gap-4 px-6 py-5 shadow-lg"
+      <div className="flex items-center gap-4 px-6 py-4 shadow-lg"
       style={{ background: colors.green.primary, borderRadius: '4px' }}>
         <Logo isDark className="h-6" />
         <ButtonMenu label="Solicitar orçamento" className="ml-2" />
 
         <button
-          className="ml-2 p-2 rounded hover:bg-black/5"
+          className="ml-2 p-2 rounded relative w-8 h-8 flex items-center justify-center"
           aria-expanded={menuOpen}
           aria-controls="solutions-menu"
           onClick={() => setMenuOpen(prev => !prev)}
         >
-          <span className={`block w-6 h-0.5 bg-black mb-1 mx-auto ${menuOpen ? 'rotate-45 translate-y-1' : ''}`} />
-          <span className={`block w-3 h-0.5 bg-black mx-auto ${menuOpen ? '-rotate-45 -translate-y-1' : ''}`} />
+          {/* Top bar: longer */}
+          <span className={`absolute block w-6 h-[2px] bg-black rounded transition-transform duration-200 ${menuOpen ? 'rotate-45' : 'top-2'}`} />
+
+          {/* Bottom bar: half-length and slightly right-offset when closed */}
+          <span className={`absolute block w-3 h-[2px] bg-black rounded transition-transform duration-200 ${menuOpen ? '-rotate-45' : 'top-5 translate-x-1'}`} />
         </button>
       </div>
 
