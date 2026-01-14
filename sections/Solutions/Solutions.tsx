@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { colors } from '../../styles/colors';
 import { Check, ShoppingCart, BarChart2, Code, ArrowUpRight, CheckCheckIcon, BriefcaseBusiness, ChessKingIcon, RocketIcon, CheckCircle2, CheckSquare2Icon, CheckLineIcon, CheckCheck } from 'lucide-react';
+import Menu from '../../components/ui/Menu';
 
 const Solutions: React.FC = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -84,6 +85,8 @@ const Solutions: React.FC = () => {
       window.removeEventListener('resize', onResize);
     };
   }, [hasEntered]);
+
+
 
   return (
     <section
@@ -203,6 +206,9 @@ const Solutions: React.FC = () => {
               </div>
             </div>
           </motion.div>
+
+          {/* Solutions-only centered menu */}
+          <Menu />
 
         </div>
       </div>
