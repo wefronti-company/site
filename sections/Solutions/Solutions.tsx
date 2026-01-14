@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { colors } from '../../styles/colors';
-import { Check, ShoppingCart, BarChart2, Code, ArrowUpRight, CheckCheckIcon, BriefcaseBusiness, ChessKingIcon, RocketIcon, CheckCircle2, CheckSquare2Icon, CheckLineIcon, CheckCheck } from 'lucide-react';
+import { Check, ShoppingCart, BarChart2, Code, ArrowUpRight, CheckCheckIcon, BriefcaseBusiness, ChessKingIcon, RocketIcon, CheckCircle2, CheckSquare2Icon, CheckLineIcon, CheckCheck, GitGraphIcon, Asterisk, AsteriskIcon, AsteriskSquareIcon } from 'lucide-react';
 import Menu from '../../components/ui/Menu';
 
 const Solutions: React.FC = () => {
@@ -197,8 +197,8 @@ const Solutions: React.FC = () => {
                     </div>,
 
                     <div key={`c-${r}-${i}`} className="flex items-center justify-center w-12 h-12 md:w-14 md:h-14">
-                      <div aria-hidden className="w-12 h-12 md:w-12 md:h-12 flex items-center justify-center" style={{ borderRadius: '2px', border: `1px solid ${colors.neutral.borderLight}`, backgroundColor: colors.green.tertiary }}>
-                        <RocketIcon className="w-4 h-4 md:w-5 md:h-5" style={{ color: colors.green.secondary }} />
+                      <div aria-hidden className="w-12 h-12 md:w-12 md:h-12 flex items-center justify-center" style={{ borderRadius: '5px', border: `1px solid ${colors.neutral.borderLight}`, backgroundColor: colors.green.tertiary }}>
+                        <Asterisk className="w-4 h-4 md:w-5 md:h-5" style={{ color: colors.green.secondary }} />
                       </div>
                     </div>
                   ]))

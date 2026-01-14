@@ -34,8 +34,8 @@ const Menu: React.FC = () => {
 
   return (
     <div className="fixed left-1/2 top-6 z-[60] -translate-x-1/2">
-      <div className="relative flex items-center justify-between gap-4 px-6 py-3 shadow-lg w-[720px] max-w-[92vw]"
-      style={{ background: colors.primary.white, borderRadius: '6px' }}>
+      <div className="relative flex items-center justify-between gap-4 px-6 py-3 w-[720px] max-w-[92vw]"
+      style={{ background: colors.primary.white, border: `1px solid ${colors.neutral.borderLight}`, borderRadius: '6px' }}>
 
         {/* Left: menu button with bars + label */}
         <div className="flex items-center">
@@ -81,6 +81,7 @@ const Menu: React.FC = () => {
                 <h4 className="text-sm font-medium uppercase mb-3" style={{ color: colors.text.dark }}>Navegação</h4>
                 <ul className="flex flex-col gap-3">
                   <li><Link href="/home" className="inline-flex items-center gap-2 hover:underline text-sm" ><span>Home</span> <ArrowUpRight className="w-4 h-4" /></Link></li>
+                  <li><Link href="/solucoes" className="inline-flex items-center gap-2 hover:underline text-sm" ><span>Soluções</span> <ArrowUpRight className="w-4 h-4" /></Link></li>
                   <li><Link href="/projetos" className="inline-flex items-center gap-2 hover:underline text-sm" ><span>Projetos</span> <ArrowUpRight className="w-4 h-4" /></Link></li>
                   <li><Link href="/sobre-nos" className="inline-flex items-center gap-2 hover:underline text-sm" ><span>Sobre nós</span> <ArrowUpRight className="w-4 h-4" /></Link></li>
                   <li><Link href="/contato" className="inline-flex items-center gap-2 hover:underline text-sm" ><span>Contato</span> <ArrowUpRight className="w-4 h-4" /></Link></li>
