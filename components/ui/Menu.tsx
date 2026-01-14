@@ -80,7 +80,7 @@ const Menu: React.FC = () => {
               <div>
                 <h4 className="text-sm font-medium uppercase mb-3" style={{ color: colors.text.dark }}>Navegação</h4>
                 <ul className="flex flex-col gap-3">
-                
+                  <li><Link href="/home" className="inline-flex items-center gap-2 hover:underline text-sm" ><span>Home</span> <ArrowUpRight className="w-4 h-4" /></Link></li>
                   <li><Link href="/projetos" className="inline-flex items-center gap-2 hover:underline text-sm" ><span>Projetos</span> <ArrowUpRight className="w-4 h-4" /></Link></li>
                   <li><Link href="/sobre-nos" className="inline-flex items-center gap-2 hover:underline text-sm" ><span>Sobre nós</span> <ArrowUpRight className="w-4 h-4" /></Link></li>
                   <li><Link href="/contato" className="inline-flex items-center gap-2 hover:underline text-sm" ><span>Contato</span> <ArrowUpRight className="w-4 h-4" /></Link></li>
