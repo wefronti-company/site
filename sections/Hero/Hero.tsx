@@ -176,7 +176,15 @@ const Hero: React.FC = () => {
     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
-  
+  // Variants for info grid entrance
+  const infoParent = {
+    hidden: {},
+    show: { transition: { staggerChildren: 0.06, delayChildren: 0.95 } }
+  };
+  const infoChild = {
+    hidden: { opacity: 0, y: 12 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.45 } }
+  };
 
   return (
     <section
@@ -249,34 +257,34 @@ const Hero: React.FC = () => {
                 </motion.div>
 
                 {/* Info grid (Active Ingredients / Chapters) */}
-                <div className="w-full max-w-[420px] relative">
+                <motion.div className="w-full max-w-[420px] relative" variants={infoParent} initial="hidden" animate={hasEntered ? 'show' : 'hidden'}>
                   <div className="grid grid-cols-[auto_minmax(140px,240px)] gap-1 items-center">
-                    <div className="py-1">
+                    <motion.div className="py-1" variants={infoChild}>
                       <div className="text-xs uppercase tracking-widest" style={{ color: colors.text.dark }}>Hora do Brasil</div>
-                    </div>
+                    </motion.div>
 
-                    <div className="py-1 flex items-center justify-end text-xs text-white/70" aria-live="polite">
+                    <motion.div className="py-1 flex items-center justify-end text-xs text-white/70" aria-live="polite" variants={infoChild}>
                       <div className="text-sm tracking-wide whitespace-nowrap">{brazilTimeStr}</div>
-                    </div>
+                    </motion.div>
 
-                    <div className="py-1">
+                    <motion.div className="py-1" variants={infoChild}>
                       <div className="text-xs uppercase tracking-widest" style={{ color: colors.text.dark }}>Localização</div>
-                    </div>
+                    </motion.div>
 
-                    <div className="py-1 flex items-center justify-end text-xs text-white/70">
+                    <motion.div className="py-1 flex items-center justify-end text-xs text-white/70" variants={infoChild}>
                       <div className="text-sm text-right">{locationLabel}</div>
-                    </div>
+                    </motion.div>
 
-                    <div className="py-1">
+                    <motion.div className="py-1" variants={infoChild}>
                       <div className="text-xs uppercase tracking-widest" style={{ color: colors.text.dark }}>Navegando</div>
-                    </div>
+                    </motion.div>
 
-                    <div className="py-1 flex items-center justify-end gap-2 text-xs text-white/70">
+                    <motion.div className="py-1 flex items-center justify-end gap-2 text-xs text-white/70" variants={infoChild}>
                       <Eye className="w-4 h-4 opacity-60" />
                       <div className="text-sm leading-none">{activeUsers === null ? '—' : activeUsers}</div>
-                    </div>
+                    </motion.div>
                   </div>
-                </div>
+                </motion.div>
               </div>
             </div>
           </div>
