@@ -198,23 +198,27 @@ const Hero: React.FC = () => {
           <div className="w-full max-w-none mx-auto grid grid-cols-1 md:grid-cols-12 items-stretch gap-4 md:gap-8 h-full">
             {/* Left: oversized display heading */}
             <div className="md:col-span-8 lg:col-span-8 flex flex-col items-start pr-2 md:pr-4 lg:pr-6 h-full">
-              <div className="mb-6">
-                <Image src="/images/brand/isologo-white.webp" alt="Logo wefronti"  width={136} height={136} priority />
-              </div>
+              <div className="flex flex-col h-full">
+                <div className="mt-auto">
+                  <div className="mb-12">
+                    <Image src="/images/brand/isologo-white.webp" alt="Logo wefronti"  width={148} height={148} priority />
+                  </div>
 
-              <motion.h1 
-                initial={{ opacity: 0, y: 30 }}
-                animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-                transition={{ duration: 0.9, ease: "easeOut", delay: 0.3 }}
-                className="display-heading uppercase w-full mt-auto"
-                style={{ color: colors.green.primary, WebkitTextStroke: '0px transparent' }}
-              >
-                Soluções em tecnologia pensadas para <span style={{ color: colors.green.tertiary }}>Impulsionar seu negócio</span>
-              </motion.h1>
-            </div>
+                  <motion.h1 
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+                    transition={{ duration: 0.9, ease: "easeOut", delay: 0.3 }}
+                    className="display-heading uppercase w-full"
+                    style={{ color: colors.green.primary, WebkitTextStroke: '0px transparent' }}
+                  >
+                    Soluções em tecnologia pensadas para <span style={{ color: colors.green.tertiary }}>Impulsionar seu negócio</span>
+                  </motion.h1>
+                </div>
+              </div>
+            </div> 
 
             {/* Right: compact copy, badges, CTA */}
-            <div className="md:col-span-4 lg:col-span-4 flex flex-col items-start gap-6 px-4 md:px-6 md:relative md:h-full">
+            <div className="md:col-span-4 lg:col-span-4 flex flex-col items-start gap-6 pl-2 md:pl-4 lg:pl-6 md:relative md:h-full">
               <div className="w-full md:absolute md:bottom-0 md:left-0 flex flex-col md:justify-end">
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
