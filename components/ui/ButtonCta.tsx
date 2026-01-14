@@ -1,7 +1,7 @@
 import React from 'react';
 import { colors } from '../../styles/colors';
 import { useRouter } from 'next/router';
-import { ArrowRight } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 
 interface ButtonCtaProps {
  label?: string;
@@ -50,27 +50,28 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
        onClick={handleClick}
        disabled={disabled}
        aria-label={label || (typeof children === 'string' ? children : 'CTA')}
-       className={`inline-flex items-center gap-0 transition-transform duration-150 disabled:opacity-50 disabled:cursor-not-allowed ${className || ''}`}
+       className={`inline-flex items-center gap-2 transition-transform duration-150 disabled:opacity-50 disabled:cursor-not-allowed ${className || ''}`}
        style={{ border: 'none' }}
      >
-       {/* Pill text */}
+       {/* Pill text (fixed height to match action) */}
        <span
-         className="inline-block px-6 py-3 text-sm font-medium tracking-widest"
+         className="inline-flex items-center h-10 px-16 text-[18px] font-medium"
          style={{
-           background: colors.green.secondary,
-           color: colors.green.primary,
+           background: colors.primary.white,
+           color: colors.green.secondary,
+           borderRadius: '1px',
            
          }}
        >
          {children || label || 'Soluções'}
        </span>
 
-       {/* Square/round action */}
+       {/* Square/round action (same height) */}
        <span
-         className="w-10 h-10 flex items-center justify-center"
-         style={{ background: colors.green.tertiary, color: colors.primary.black }}
+         className="w-10 h-10 flex items-center justify-center rounded-md transition-transform duration-150"
+         style={{ borderRadius: '1px', background: colors.green.tertiary, color: colors.green.secondary }}
        >
-         <ArrowRight className="w-4 h-4" />
+         <ArrowUpRight className="w-4 h-4" />
        </span>
      </button>
    );
@@ -80,23 +81,7 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
  <button
  type={type}
  onClick={handleClick}
- disabled={disabled}
- className={`px-4 py-3 text-sm font-medium transition-all duration-200 flex items-center justify-center gap-2 hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed ${
- isGradient 
- ? '' 
- : 'bg-gray-200 text-black'
- } ${className || ''}`.trim()}
- style={{ 
- borderRadius: '1px',
- ...gradientStyle,
-
- }}
  >
- <span className="w-full text-center" suppressHydrationWarning>{children || label || 'Agendar uma reunião'}</span>
- <div 
- className="flex items-center justify-center transition-transform duration-200 group-hover:translate-x-1"
- >
- </div>
  </button>
  );
 };

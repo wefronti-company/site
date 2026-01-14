@@ -241,7 +241,7 @@ const Hero: React.FC = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                   transition={{ duration: 0.8, ease: "easeOut", delay: 0.8 }}
-                  className="mt-2 flex flex-col"
+                  className="mt-4 mb-6 flex flex-col"
                 >
                   <ButtonCta label="Soluções" design="split" className="w-auto" />
 
@@ -267,7 +267,7 @@ const Hero: React.FC = () => {
                     </div>
 
                     <div className="py-1">
-                      <div className="text-xs uppercase tracking-widest" style={{ color: colors.text.dark }}>Usuários agora</div>
+                      <div className="text-xs uppercase tracking-widest" style={{ color: colors.text.dark }}>Navegando</div>
                     </div>
 
                     <div className="py-1 flex items-center justify-end gap-2 text-xs text-white/70">
