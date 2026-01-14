@@ -219,7 +219,7 @@ const Hero: React.FC = () => {
 
             {/* Right: compact copy, badges, CTA */}
             <div className="md:col-span-4 lg:col-span-4 flex flex-col items-start gap-6 pl-2 md:pl-4 lg:pl-6 md:relative md:h-full">
-              <div className="w-full md:absolute md:bottom-0 md:left-0 flex flex-col md:justify-end">
+              <div className="w-full md:absolute md:bottom-0 md:right-4 lg:right-6 flex flex-col md:justify-end" style={{ maxWidth: '360px' }}>
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
@@ -249,28 +249,28 @@ const Hero: React.FC = () => {
 
                 {/* Info grid (Active Ingredients / Chapters) */}
                 <div className="w-full max-w-[420px] relative">
-                  <div className="grid grid-cols-2 gap-2 items-center">
-                    <div className="py-2">
+                  <div className="grid grid-cols-[auto_minmax(140px,240px)] gap-1 items-center">
+                    <div className="py-1">
                       <div className="text-xs uppercase tracking-widest" style={{ color: colors.text.dark }}>Hora do Brasil</div>
                     </div>
 
-                    <div className="py-2 flex items-center justify-end text-xs text-white/70" aria-live="polite">
+                    <div className="py-1 flex items-center justify-end text-xs text-white/70" aria-live="polite">
                       <div className="text-lg font-mono tracking-wide whitespace-nowrap">{brazilTimeStr}</div>
                     </div>
 
-                    <div className="py-2">
+                    <div className="py-1">
                       <div className="text-xs uppercase tracking-widest" style={{ color: colors.text.dark }}>Localização</div>
                     </div>
 
-                    <div className="py-2 flex items-center justify-end text-xs text-white/70">
+                    <div className="py-1 flex items-center justify-end text-xs text-white/70">
                       <div className="text-right">{locationLabel}</div>
                     </div>
 
-                    <div className="py-2">
+                    <div className="py-1">
                       <div className="text-xs uppercase tracking-widest" style={{ color: colors.text.dark }}>Usuários agora</div>
                     </div>
 
-                    <div className="py-2 flex items-center justify-end gap-2 text-xs text-white/70">
+                    <div className="py-1 flex items-center justify-end gap-2 text-xs text-white/70">
                       <Eye className="w-4 h-4 opacity-60 block self-center" />
                       <div className="font-mono text-sm leading-none self-center">{activeUsers === null ? '—' : activeUsers}</div>
                     </div>
