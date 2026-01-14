@@ -112,7 +112,7 @@ const Hero: React.FC = () => {
     return () => { cancelled = true; };
   }, []);
 
-  const locationLabel = locationLoading ? 'Carregando...' : (locationData ? `${locationData.city ? locationData.city + ', ' : ''}${locationData.region ? locationData.region + ', ' : ''}${locationData.country_name || ''}` : 'Localização desconhecida');
+  const locationLabel = locationLoading ? 'Carregando...' : (locationData ? `${locationData.region || ''}${locationData.country_name ? ', ' + locationData.country_name : ''}`.replace(/^, /, '') : 'Localização desconhecida');
   const locationIp = locationLoading ? '—' : (locationData?.ip || '—');
 
   // Active users (poll /api/active-users with a stable visitorId saved in localStorage)
@@ -233,7 +233,8 @@ const Hero: React.FC = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                   transition={{ duration: 0.8, ease: "easeOut", delay: 0.6 }}
-                  className="text-left text-sm md:text-base text-white/85 max-w-[320px] leading-relaxed"
+                  className="text-left text-sm md:text-base max-w-[360px] leading-relaxed"
+                  style={{ color: colors.text.light , fontSize: '22px', fontWeight: 300 }}
                 >
                 Da presença digital a plataformas completas, criamos soluções tecnológicas robustas, seguras e escaláveis, projetadas para sustentar a operação, reduzir riscos e impulsionar o crescimento do negócio.              </motion.h2>
 
@@ -255,7 +256,7 @@ const Hero: React.FC = () => {
                     </div>
 
                     <div className="py-1 flex items-center justify-end text-xs text-white/70" aria-live="polite">
-                      <div className="text-lg font-mono tracking-wide whitespace-nowrap">{brazilTimeStr}</div>
+                      <div className="text-sm tracking-wide whitespace-nowrap">{brazilTimeStr}</div>
                     </div>
 
                     <div className="py-1">
@@ -263,19 +264,18 @@ const Hero: React.FC = () => {
                     </div>
 
                     <div className="py-1 flex items-center justify-end text-xs text-white/70">
-                      <div className="text-right">{locationLabel}</div>
+                      <div className="text-sm text-right">{locationLabel}</div>
                     </div>
 
                     <div className="py-1">
-                      <div className="text-xs uppercase tracking-widest" style={{ color: colors.text.dark }}>Navegando</div>
+                      <div className="text-xs uppercase tracking-widest" style={{ color: colors.text.dark }}>Usuários agora</div>
                     </div>
 
                     <div className="py-1 flex items-center justify-end gap-2 text-xs text-white/70">
-                      <Eye className="w-4 h-4 opacity-60 block self-center" />
-                      <div className="font-mono text-sm leading-none self-center">{activeUsers === null ? '—' : activeUsers}</div>
+                      <Eye className="w-4 h-4 opacity-60" />
+                      <div className="text-sm leading-none">{activeUsers === null ? '—' : activeUsers}</div>
                     </div>
                   </div>
-
                 </div>
               </div>
             </div>
