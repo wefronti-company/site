@@ -117,7 +117,7 @@ const Services: React.FC = () => {
  <section 
  ref={sectionRef}
  id="services"
- className="w-full py-20 md:py-40 transition-colors border-b"
+ className="w-full py-12 md:py-20 transition-colors border-b"
  style={{ borderBottomColor: colors.borderDark }}
  >
  <div className="px-4 md:px-8 lg:px-16">

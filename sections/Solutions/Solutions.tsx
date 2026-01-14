@@ -83,11 +83,11 @@ const Solutions: React.FC = () => {
     <section
       ref={sectionRef}
       id="solutions"
-      className="w-full py-12 md:py-20"
+      className="w-full pt-14 pb-6 md:pt-18 md:pb-8"
       style={{ backgroundColor: colors.background.light }}
     >
       <div className="relative z-[20] px-0 sm:px-1 md:px-2 lg:px-4">
-        <div className="w-full max-w-none mx-auto">
+        <div className="w-full max-w-none mx-auto pt-6 md:pt-10">
 
           {/* Header: badge (width = card 1) + title/subtitle — match hero alignment */}
           <div className="w-full max-w-none mx-auto grid grid-cols-1 md:grid-cols-12 items-center gap-6 px-4 md:px-0">
@@ -126,7 +126,7 @@ const Solutions: React.FC = () => {
             transition={{ duration: 0.7, delay: 0.2 }}
           >
             {/* Card 1 - Sites & E-commerce */}
-            <div className="p-10 md:p-14 flex flex-col justify-center" style={{ background: colors.green.tertiary }}>
+            <div className="p-8 md:p-12 flex flex-col justify-center" style={{ background: colors.green.tertiary }}>
               <div className="flex items-start justify-between">
                 <div className="w-10 h-10 flex items-center justify-center">
                   <ShoppingCart className="w-8 h-8" style={{ color: colors.green.secondary }} />
@@ -134,14 +134,14 @@ const Solutions: React.FC = () => {
                 <div className="text-sm" style={{ color: colors.green.secondary }}>01.</div>
               </div>
 
-              <h3 className="mt-8 text-lg md:text-2xl lg:text-3xl font-light uppercase" style={{ color: '#0e2b20' }}>SITES E E-COMMERCE</h3>
-              <p className="mt-4 text-base md:text-lg text-gray-800 max-w-md">Sites institucionais modernos e lojas virtuais completas com checkout otimizado, gestão de produtos e integrações de pagamento.</p>
+              <h3 className="mt-10 text-lg md:text-2xl lg:text-3xl font-light uppercase" style={{ color: '#0e2b20', lineHeight: 1.05 }}>SITES E E-COMMERCE</h3>
+              <p className="mt-6 text-base md:text-lg text-gray-800 max-w-md leading-relaxed">Sites institucionais modernos e lojas virtuais completas com checkout otimizado, gestão de produtos e integrações de pagamento.</p>
 
-              <a href="/solucoes/sites" className="mt-6 text-base font-medium inline-flex items-center gap-2 w-max px-0 py-0 cursor-pointer" style={{ color: colors.text.dark }}>Saiba mais <ArrowUpRight className="w-4 h-4" style={{ color: colors.text.dark }} /></a>
+              <a href="/solucoes/sites" className="mt-8 text-base font-medium inline-flex items-center gap-2 w-max px-0 py-0 cursor-pointer" style={{ color: colors.text.dark }}>Saiba mais <ArrowUpRight className="w-4 h-4" style={{ color: colors.text.dark }} /></a>
             </div>
 
             {/* Card 2 - SaaS & Dashboard */}
-            <div className="p-10 md:p-14 flex flex-col justify-center" style={{ background: colors.green.secondary }}>
+            <div className="p-8 md:p-12 flex flex-col justify-center" style={{ background: colors.green.secondary }}>
               <div className="flex items-start justify-between">
                 <div className="w-10 h-10 flex items-center justify-center">
                   <BarChart2 className="w-8 h-8" style={{ color: colors.green.primary }} />
@@ -149,14 +149,14 @@ const Solutions: React.FC = () => {
                 <div className="text-sm text-white/60">02.</div>
               </div>
 
-              <h3 className="mt-8 text-lg md:text-2xl lg:text-3xl font-light uppercase" style={{ color: colors.green.primary }}>SAAS E DASHBOARD</h3>
-              <p className="mt-4 text-base md:text-lg text-gray-200 max-w-md">Plataformas como serviço prontas para escalar e painéis analíticos interativos para visualizar dados e métricas em tempo real.</p>
+              <h3 className="mt-10 text-lg md:text-2xl lg:text-3xl font-light uppercase" style={{ color: '#ffffff', lineHeight: 1.05 }}>SAAS E DASHBOARD</h3>
+              <p className="mt-6 text-base md:text-lg text-gray-200 max-w-md leading-relaxed">Plataformas como serviço prontas para escalar e painéis analíticos interativos para visualizar dados e métricas em tempo real.</p>
 
-              <a href="/solucoes/saas" className="mt-6 text-base font-medium inline-flex items-center gap-2 w-max px-0 py-0 cursor-pointer" style={{ color: colors.whiteColor }}>Saiba mais <ArrowUpRight className="w-4 h-4" style={{ color: colors.whiteColor }} /></a>
+              <a href="/solucoes/saas" className="mt-8 text-base font-medium inline-flex items-center gap-2 w-max px-0 py-0 cursor-pointer" style={{ color: colors.whiteColor }}>Saiba mais <ArrowUpRight className="w-4 h-4" style={{ color: colors.whiteColor }} /></a>
             </div>
 
             {/* Card 3 - API & Sistemas (light) */}
-            <div className="p-10 md:p-14 flex flex-col justify-center" style={{ background: colors.green.primary }}>
+            <div className="p-8 md:p-12 flex flex-col justify-center" style={{ background: colors.green.primary }}>
               <div className="flex items-start justify-between">
                 <div className="w-10 h-10 flex items-center justify-center">
                   <Code className="w-8 h-8" style={{ color: colors.green.secondary }} />
@@ -164,22 +164,22 @@ const Solutions: React.FC = () => {
                 <div className="text-sm text-gray-700">03.</div>
               </div>
 
-              <h3 className="mt-8 text-lg md:text-2xl lg:text-3xl font-light uppercase" style={{ color: '#12201a' }}>API E SISTEMAS</h3>
-              <p className="mt-4 text-base md:text-lg text-gray-800 max-w-md">Integrações seguras com APIs, além de sistemas web robustos para conectar e automatizar processos do negócio.</p>
+              <h3 className="mt-10 text-lg md:text-2xl lg:text-3xl font-light uppercase" style={{ color: '#12201a', lineHeight: 1.05 }}>API E SISTEMAS</h3>
+              <p className="mt-6 text-base md:text-lg text-gray-800 max-w-md leading-relaxed">Integrações seguras com APIs, além de sistemas web robustos para conectar e automatizar processos do negócio.</p>
 
-              <a href="/solucoes/api" className="mt-6 text-base font-medium inline-flex items-center gap-2 w-max px-0 py-0 cursor-pointer" style={{ color: colors.text.dark }}>Saiba mais <ArrowUpRight className="w-4 h-4" style={{ color: colors.text.dark }} /></a>
+              <a href="/solucoes/api" className="mt-8 text-base font-medium inline-flex items-center gap-2 w-max px-0 py-0 cursor-pointer" style={{ color: colors.text.dark }}>Saiba mais <ArrowUpRight className="w-4 h-4" style={{ color: colors.text.dark }} /></a>
             </div>
 
           </motion.div>
 
           {/* Marquee loop - reacts to scroll direction (down -> left, up -> right) */}
-          <div className="mt-10 w-screen -mx-4 md:-mx-8 lg:-mx-16">
+          <div className="mt-6 w-screen -mx-4 md:-mx-8 lg:-mx-16">
             <div className={`marquee ${!isVisible ? 'paused' : ''}`} aria-hidden>
               <div ref={marqueeTrackRef} className="marquee-track flex-nowrap" style={{ '--marquee-duration': '24s' } as React.CSSProperties}>
                 {Array.from({ length: 3 }).flatMap((_, r) => (
                   Array.from({ length: 8 }).flatMap((_, i) => ([
                     <div key={`m-${r}-${i}`} className="px-6">
-                      <span className="text-2xl md:text-4xl lg:text-5xl font-light tracking-tight" style={{ color: colors.text.dark }}>Código é só o meio, o foco é o resultado</span>
+                      <span className="text-2xl md:text-4xl lg:text-5xl font-light tracking-tight uppercase" style={{ color: colors.text.dark }}>Código é só o meio, o foco é o resultado</span>
                     </div>,
 
                     <div key={`c-${r}-${i}`} className="flex items-center justify-center w-12 h-12 md:w-14 md:h-14">

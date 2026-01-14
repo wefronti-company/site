@@ -109,7 +109,7 @@ const Process: React.FC = () => {
   return (
     <section 
       ref={sectionRef}
-      className="w-full py-20 md:py-40 transition-colors"
+      className="w-full py-12 md:py-20 transition-colors"
       style={{ backgroundColor: colors.whiteColor, borderBottom: `1px solid ${colors.borderLight}` }}
     >
       <div className="max-w-[1400px] mx-auto px-4 md:px-8 lg:px-16">

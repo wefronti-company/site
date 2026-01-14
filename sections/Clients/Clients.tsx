@@ -34,7 +34,7 @@ const Clients: React.FC = () => {
  <section 
  ref={sectionRef}
  id="clients"
- className="w-full py-20 md:py-40 transition-colors"
+ className="w-full py-12 md:py-20 transition-colors"
  style={{ backgroundColor: colors.whiteColor }}
  >
  {/* Cabeçalho */}
