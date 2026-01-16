@@ -3,7 +3,7 @@ import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import ButtonCta from '../../components/ui/ButtonCta';
-import { Eye } from 'lucide-react';
+import { Eye, ChevronDown } from 'lucide-react';
 import { colors } from '../../styles/colors';
 import { useMenu } from '../../components/layout/MenuContext';
 
@@ -232,9 +232,30 @@ const Hero: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ duration: 0.8, ease: "easeOut", delay: 0.8 }}
-              className="mt-4 flex flex-col"
+              className="mt-4 flex flex-col items-center"
             >
-              <ButtonCta label="Nossas Soluções" design="split" className="w-auto" onClick={() => handleNav('#solutions')} />
+              <ButtonCta label="Conheça nossas Soluções" design="split" className="w-auto" onClick={() => handleNav('#solutions')} />
+
+              {/* Animated down arrows to encourage scrolling (non-interactive) */}
+              <div className="mt-6 flex flex-col items-center gap-2 pointer-events-none" aria-hidden>
+                <motion.div
+                  initial={{ y: 0 }}
+                  animate={{ y: [0, 8, 0] }}
+                  transition={{ duration: 1.2, repeat: Infinity, ease: 'easeInOut', delay: 0 }}
+                  className="flex items-center justify-center"
+                >
+                  <ChevronDown size={24} strokeWidth={2.2} color={colors.text.light} />
+                </motion.div>
+
+                <motion.div
+                  initial={{ y: 0 }}
+                  animate={{ y: [0, 8, 0] }}
+                  transition={{ duration: 1.2, repeat: Infinity, ease: 'easeInOut', delay: 0.12 }}
+                  className="flex items-center justify-center"
+                >
+                  <ChevronDown size={24} strokeWidth={2.2} color={colors.text.light} />
+                </motion.div>
+              </div>
             </motion.div>
 
           </div>

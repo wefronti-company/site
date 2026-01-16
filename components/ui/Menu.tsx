@@ -39,7 +39,7 @@ const Menu: React.FC = () => {
         {/* Left: menu button with bars + label */}
         <div className="flex items-center">
           <button
-            className="p-2 rounded hover:bg-black/5 relative flex items-center gap-3"
+            className="p-2 rounded-full relative flex items-center gap-3 transition-colors duration-200"
             aria-expanded={menuOpen}
             aria-controls="solutions-menu"
             onClick={() => setMenuOpen(prev => !prev)}
@@ -79,11 +79,11 @@ const Menu: React.FC = () => {
               <div>
                 <h4 className="text-sm font-medium uppercase mb-3" style={{ color: colors.text.dark }}>Navegação</h4>
                 <ul className="flex flex-col gap-3">
-                  <li><Link href="/home" className="inline-flex items-center gap-2 hover:underline text-sm" ><span>Home</span> <ArrowUpRight className="w-4 h-4" /></Link></li>
-                  <li><Link href="/solucoes" className="inline-flex items-center gap-2 hover:underline text-sm" ><span>Soluções</span> <ArrowUpRight className="w-4 h-4" /></Link></li>
-                  <li><Link href="/projetos" className="inline-flex items-center gap-2 hover:underline text-sm" ><span>Projetos</span> <ArrowUpRight className="w-4 h-4" /></Link></li>
-                  <li><Link href="/sobre-nos" className="inline-flex items-center gap-2 hover:underline text-sm" ><span>Sobre nós</span> <ArrowUpRight className="w-4 h-4" /></Link></li>
-                  <li><Link href="/contato" className="inline-flex items-center gap-2 hover:underline text-sm" ><span>Contato</span> <ArrowUpRight className="w-4 h-4" /></Link></li>
+                  <li><Link href="/home" className="inline-flex items-center gap-2 text-sm" ><span>Home</span> <ArrowUpRight className="w-4 h-4" /></Link></li>
+                  <li><Link href="/solucoes" className="inline-flex items-center gap-2 text-sm" ><span>Soluções</span> <ArrowUpRight className="w-4 h-4" /></Link></li>
+                  <li><Link href="/projetos" className="inline-flex items-center gap-2 text-sm" ><span>Projetos</span> <ArrowUpRight className="w-4 h-4" /></Link></li>
+                  <li><Link href="/sobre-nos" className="inline-flex items-center gap-2 text-sm" ><span>Sobre nós</span> <ArrowUpRight className="w-4 h-4" /></Link></li>
+                  <li><Link href="/contato" className="inline-flex items-center gap-2 text-sm" ><span>Contato</span> <ArrowUpRight className="w-4 h-4" /></Link></li>
                 </ul>
               </div>
 
@@ -91,14 +91,14 @@ const Menu: React.FC = () => {
               <div>
                 <h4 className="text-sm font-medium uppercase mb-3" style={{ color: colors.text.dark }}>Redes sociais</h4>
                 <div className="flex flex-col items-start gap-3">
-                  <a href="https://instagram.com/wefronti" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 text-sm hover:underline" aria-label="Instagram">
+                  <a href="https://instagram.com/wefronti" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 text-sm" aria-label="Instagram">
                     <span className="w-8 h-8 flex items-center justify-center rounded-md" style={{ color: colors.purple.tertiary }}>
                       <FaInstagram className="w-5 h-5" aria-hidden />
                     </span>
                     <span>Instagram</span>
                   </a>
 
-                  <a href="https://linkedin.com/company/wefronti" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 text-sm hover:underline" aria-label="LinkedIn">
+                  <a href="https://linkedin.com/company/wefronti" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 text-sm" aria-label="LinkedIn">
                     <span className="w-8 h-8 flex items-center justify-center rounded-md" style={{ color: colors.purple.tertiary }}>
                       <FaLinkedin className="w-5 h-5" aria-hidden />
                     </span>
