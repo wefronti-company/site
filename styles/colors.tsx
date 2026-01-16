@@ -6,7 +6,7 @@ export const colors = {
  },
 
  background:{
-    dark: '#080e0dff',
+    dark: '#101019ff',
     light:'#f4f4f4ff',
  },
 
@@ -31,10 +31,10 @@ export const colors = {
     borderLight: '#ccccccb5',
  },
 
- green:{
+ purple:{
    primary: '#E7E8E1',
-   secondary: '#263331ff',
-   tertiary:'#cbf199ff',
+   secondary: '#332633ff',
+   tertiary:'#7070e3ff',
  },
 
 

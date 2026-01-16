@@ -208,18 +208,16 @@ const Hero: React.FC = () => {
             <div className="md:col-span-8 lg:col-span-8 flex flex-col items-start pr-2 md:pr-4 lg:pr-6 h-full">
               <div className="flex flex-col h-full">
                 <div className="mt-auto">
-                  <div className="mb-12">
-                    <Image src="/images/brand/isologo-white.webp" alt="Logo wefronti"  width={148} height={148} priority />
-                  </div>
+                 
 
                   <motion.h1 
                     initial={{ opacity: 0, y: 30 }}
                     animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
                     transition={{ duration: 0.9, ease: "easeOut", delay: 0.3 }}
                     className="display-heading uppercase w-full"
-                    style={{ color: colors.green.primary, WebkitTextStroke: '0px transparent' }}
+                    style={{ color: colors.purple.primary, WebkitTextStroke: '0px transparent' }}
                   >
-                    Soluções em tecnologia pensadas para <span style={{ color: colors.green.tertiary }}>Impulsionar seu negócio</span>
+                    Soluções em tecnologia para <span style={{ color: colors.purple.tertiary }}>Impulsionar seu negócio</span>
                   </motion.h1>
                 </div>
               </div>

@@ -4,8 +4,8 @@
 
 
   :root{
-  --scrollbar-track: var(--green-secondary);
-  --scrollbar-thumb: var(--green-primary);
+  --scrollbar-track: var(--purple-secondary);
+  --scrollbar-thumb: var(--purple-primary);
 } 
 
 html { 
@@ -40,7 +40,7 @@ body {
   line-height: 1; /* slightly more breathing to avoid awkward line breaks */
   letter-spacing: -0.02em;
   /* fluid responsive size: min 40px, scales responsibly to avoid single-word lines */
-  font-size: clamp(2.75rem, 9.5vw, 6.5rem);
+  font-size: clamp(2.75rem, 5.5vw, 6.5rem);
   -webkit-font-smoothing: antialiased;
   text-wrap: balance;
   max-width: 100%;
@@ -209,19 +209,19 @@ section:not(#section-0) {
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
-  background: var(--green-secondary);
+  background: var(--purple-secondary);
 }
 
-/* Track: dark green background, no rounding */
+/* Track: dark purple background, no rounding */
 ::-webkit-scrollbar-track {
-  background: var(--green-secondary) !important;
+  background: var(--purple-secondary) !important;
   border-radius: 0 !important;
   box-shadow: none !important;
 }
 
-/* Thumb: light green, no rounding, no shadow */
+/* Thumb: light purple, no rounding, no shadow */
 ::-webkit-scrollbar-thumb {
-  background: var(--green-primary) !important;
+  background: var(--purple-primary) !important;
   border-radius: 0 !important;
   border: 0 !important;
   box-shadow: none !important;
@@ -244,13 +244,13 @@ section:not(#section-0) {
 
 /* Corner */
 ::-webkit-scrollbar-corner {
-  background: var(--green-secondary) !important;
+  background: var(--purple-secondary) !important;
 }
 
 /* Strong override for overlay/auto scrollbars */
 html *::-webkit-scrollbar-thumb {
   border-radius: 0 !important;
-  background: var(--green-primary) !important;
+  background: var(--purple-primary) !important;
   box-shadow: none !important;
 }
 
@@ -263,17 +263,17 @@ html *::-webkit-scrollbar-thumb {
 html::-webkit-scrollbar, body::-webkit-scrollbar, *::-webkit-scrollbar {
   width: 10px !important;
   height: 10px !important;
-  background: var(--green-secondary) !important;
+  background: var(--purple-secondary) !important;
 }
 
 html::-webkit-scrollbar-track, body::-webkit-scrollbar-track, *::-webkit-scrollbar-track {
-  background: var(--green-secondary) !important;
+  background: var(--purple-secondary) !important;
   border-radius: 0 !important;
   box-shadow: none !important;
 }
 
 html::-webkit-scrollbar-thumb, body::-webkit-scrollbar-thumb, *::-webkit-scrollbar-thumb {
-  background: var(--green-primary) !important;
+  background: var(--purple-primary) !important;
   border-radius: 0 !important;
   -webkit-border-radius: 0 !important;
   border: 0 !important;
@@ -284,9 +284,9 @@ html::-webkit-scrollbar-thumb, body::-webkit-scrollbar-thumb, *::-webkit-scrollb
 }
 
 /* Vertical/horizontal / inactive states */
-::-webkit-scrollbar-thumb:vertical { background: var(--green-primary) !important; }
-::-webkit-scrollbar-thumb:horizontal { background: var(--green-primary) !important; }
-::-webkit-scrollbar-thumb:window-inactive { background: var(--green-primary) !important; }
+::-webkit-scrollbar-thumb:vertical { background: var(--purple-primary) !important; }
+::-webkit-scrollbar-thumb:horizontal { background: var(--purple-primary) !important; }
+::-webkit-scrollbar-thumb:window-inactive { background: var(--purple-primary) !important; }
 
 /* Explicitly remove arrow buttons */
 ::-webkit-scrollbar-button:single-button, ::-webkit-scrollbar-button:single-button:vertical, ::-webkit-scrollbar-button:single-button:horizontal, ::-webkit-scrollbar-button:start, ::-webkit-scrollbar-button:end {
@@ -297,7 +297,7 @@ html::-webkit-scrollbar-thumb, body::-webkit-scrollbar-thumb, *::-webkit-scrollb
 }
 
 /* Final catch-all to override any component-level styles */
-html *::-webkit-scrollbar-thumb { background: var(--green-primary) !important; border-radius: 0 !important; box-shadow: none !important; }
-html *::-webkit-scrollbar-track { background: var(--green-secondary) !important; border-radius: 0 !important; }
+html *::-webkit-scrollbar-thumb { background: var(--purple-primary) !important; border-radius: 0 !important; box-shadow: none !important; }
+html *::-webkit-scrollbar-track { background: var(--purple-secondary) !important; border-radius: 0 !important; }
 
 

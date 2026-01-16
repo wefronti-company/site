@@ -39,7 +39,7 @@ const ButtonMenu: React.FC<ButtonMenuProps> = ({
  const isGradient = variant === 'gradient' || variant === 'primary';
  
  const gradientStyle = isGradient ? {
- background: colors.green.secondary,
+ background: colors.purple.secondary,
  color: colors.primary.white
  } : {};
  
@@ -58,9 +58,9 @@ const ButtonMenu: React.FC<ButtonMenuProps> = ({
        <span
          className="inline-flex items-center h-10 px-6 text-[16px] font-medium"
          style={{
-           background: colors.green.secondary,
+           background: colors.purple.tertiary,
            color: colors.whiteColor,
-           borderRadius: '4px',
+           borderRadius: '999px',
            paddingLeft: '0.75rem',
            paddingRight: '0.75rem'
          }}

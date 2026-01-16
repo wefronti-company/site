@@ -9,33 +9,11 @@ import { FaInstagram, FaLinkedin, FaWhatsapp } from 'react-icons/fa';
 
 const Menu: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    const el = document.getElementById('solutions');
-    if (!el) return;
-
-    const observer = new IntersectionObserver((entries) => {
-      const entry = entries[0];
-      const ratio = entry.intersectionRatio || 0;
-      const fitsInViewport = entry.boundingClientRect && entry.boundingClientRect.top >= 0 && entry.boundingClientRect.bottom <= window.innerHeight;
-      const mostlyVisible = ratio >= 0.6;
-      const show = fitsInViewport || mostlyVisible;
-      setVisible(show);
-      if (!show) setMenuOpen(false);
-    }, { threshold: [0.2, 0.6, 1] });
-
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
-  if (!visible) return null;
 
   return (
     <div className="fixed left-1/2 top-6 z-[60] -translate-x-1/2">
       <div className="relative flex items-center justify-between gap-4 px-6 py-3 w-[720px] max-w-[92vw]"
-      style={{ background: colors.primary.white, border: `1px solid ${colors.neutral.borderLight}`, borderRadius: '6px' }}>
+      style={{ background: colors.primary.white, border: `1px solid ${colors.neutral.borderLight}`, borderRadius: '999px' }}>
 
         {/* Left: menu button with bars + label */}
         <div className="flex items-center">
@@ -93,14 +71,14 @@ const Menu: React.FC = () => {
                 <h4 className="text-sm font-medium uppercase mb-3" style={{ color: colors.text.dark }}>Redes sociais</h4>
                 <div className="flex flex-col items-start gap-3">
                   <a href="https://instagram.com/wefronti" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 text-sm hover:underline" aria-label="Instagram">
-                    <span className="w-8 h-8 flex items-center justify-center rounded-md" style={{ color: colors.green.secondary }}>
+                    <span className="w-8 h-8 flex items-center justify-center rounded-md" style={{ color: colors.purple.secondary }}>
                       <FaInstagram className="w-5 h-5" aria-hidden />
                     </span>
                     <span>Instagram</span>
                   </a>
 
                   <a href="https://linkedin.com/company/wefronti" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 text-sm hover:underline" aria-label="LinkedIn">
-                    <span className="w-8 h-8 flex items-center justify-center rounded-md" style={{ color: colors.green.secondary }}>
+                    <span className="w-8 h-8 flex items-center justify-center rounded-md" style={{ color: colors.purple.secondary }}>
                       <FaLinkedin className="w-5 h-5" aria-hidden />
                     </span>
                     <span>LinkedIn</span>
@@ -112,7 +90,7 @@ const Menu: React.FC = () => {
               <div>
                 <h4 className="text-sm font-medium uppercase mb-3" style={{ color: colors.text.dark }}>Tira dúvidas</h4>
                 <p className="text-sm text-gray-600 mb-3">Fale com nosso time via WhatsApp para tirar dúvidas rápidas.</p>
-                <a href="https://wa.me/message/3V45SAJMLIJJJ1" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 px-3 py-3 rounded-md shadow-sm" style={{ borderRadius: '5px', background: colors.green.secondary, color: colors.whiteColor }} aria-label="Tirar dúvidas no WhatsApp">
+                <a href="https://wa.me/message/3V45SAJMLIJJJ1" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 px-3 py-3 rounded-md shadow-sm" style={{ borderRadius: '5px', background: colors.purple.secondary, color: colors.whiteColor }} aria-label="Tirar dúvidas no WhatsApp">
                   <FaWhatsapp className="w-5 h-5" style={{ color: colors.whiteColor }} aria-hidden />
                   <span className="font-medium">Tirar dúvidas</span>
                 </a>

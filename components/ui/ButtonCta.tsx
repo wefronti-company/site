@@ -38,7 +38,7 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
  const isGradient = variant === 'gradient' || variant === 'primary';
  
  const gradientStyle = isGradient ? {
- background: colors.green.primary,
+ background: colors.purple.primary,
  color: colors.primary.black
  } : {};
  
@@ -58,8 +58,8 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
          className="inline-flex items-center h-10 px-16 text-[18px] font-semibold"
          style={{
            background: colors.primary.white,
-           color: colors.green.secondary,
-           borderRadius: '4px',
+           color: colors.purple.secondary,
+           borderRadius: '999px',
            
          }}
        >
@@ -69,7 +69,7 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
        {/* Square/round action (same height) */}
        <span
          className="w-10 h-10 flex items-center justify-center rounded-md transition-transform duration-150"
-         style={{ borderRadius: '4px', background: colors.green.tertiary, color: colors.green.secondary }}
+         style={{ borderRadius: '4px', background: colors.purple.tertiary, color: colors.purple.secondary }}
        >
          <ArrowUpRight className="w-4 h-4" />
        </span>

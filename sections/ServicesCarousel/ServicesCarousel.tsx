@@ -72,7 +72,7 @@ const ServiceIcon: React.FC<{ icon: React.ReactNode; index: number }> = ({ icon,
         width: '1rem',
         height: '1rem',
         flexShrink: 0,
-        color: colors.green.primary,
+        color: colors.purple.tertiary,
       }}
     >
       <div className="w-4 h-4 flex items-center justify-center">

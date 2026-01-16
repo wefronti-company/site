@@ -633,15 +633,15 @@ const FormPage: React.FC = () => {
  border: `1px solid 'rgba(34, 197, 94, 0.3)'`,
  }}
  >
- <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="text-green-500 flex-shrink-0 mt-0.5">
+ <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="text-purple-500 flex-shrink-0 mt-0.5">
  <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2"/>
  <path d="M9 12l2 2 4-4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
  </svg>
  <div>
- <p className="text-sm text-green-700 font-semibold">
+ <p className="text-sm text-purple-700 font-semibold">
  ✓ Sucesso!
  </p>
- <p className="text-xs text-green-600 mt-1">
+ <p className="text-xs text-purple-600 mt-1">
  Sua solicitação foi enviada com sucesso! Em breve entraremos em contato.
  </p>
  </div>

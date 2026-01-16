@@ -106,7 +106,8 @@ const Solutions: React.FC = () => {
               transition={{ duration: 0.6 }}
               className="md:col-span-4 flex items-start"
             >
-              <div className="inline-flex items-center gap-3 px-6 py-2">
+              <div className="inline-flex items-center gap-3 px-6 py-2"
+                style={{ background: colors.purple.tertiary, borderRadius: '4px' }}>
                   <CheckCheck className="w-4 h-4" style={{ color: colors.text.dark }} strokeWidth={2} />
                 <span className="text-sm font-medium uppercase" style={{ color: colors.text.dark }}>VEJA COMO PODEMOS LHE AJUDAR</span>
               </div>
@@ -135,12 +136,12 @@ const Solutions: React.FC = () => {
             transition={{ duration: 0.7, delay: 0.2 }}
           >
             {/* Card 1 - Sites & E-commerce */}
-            <div className="p-8 md:p-12 flex flex-col justify-center" style={{ background: colors.green.tertiary }}>
+            <div className="p-8 md:p-12 flex flex-col justify-center" style={{ background: colors.purple.tertiary }}>
               <div className="flex items-start justify-between">
                 <div className="w-10 h-10 flex items-center justify-center">
-                  <ShoppingCart className="w-8 h-8" style={{ color: colors.green.secondary }} />
+                  <ShoppingCart className="w-8 h-8" style={{ color: colors.purple.secondary }} />
                 </div>
-                <div className="text-sm" style={{ color: colors.green.secondary }}>01.</div>
+                <div className="text-sm" style={{ color: colors.purple.secondary }}>01.</div>
               </div>
 
               <h3 className="mt-10 text-lg md:text-2xl lg:text-3xl font-light uppercase" style={{ color: '#0e2b20', lineHeight: 1.05 }}>SITES E E-COMMERCE</h3>
@@ -150,10 +151,10 @@ const Solutions: React.FC = () => {
             </div>
 
             {/* Card 2 - SaaS & Dashboard */}
-            <div className="p-8 md:p-12 flex flex-col justify-center" style={{ background: colors.green.secondary }}>
+            <div className="p-8 md:p-12 flex flex-col justify-center" style={{ background: colors.purple.secondary }}>
               <div className="flex items-start justify-between">
                 <div className="w-10 h-10 flex items-center justify-center">
-                  <BarChart2 className="w-8 h-8" style={{ color: colors.green.primary }} />
+                  <BarChart2 className="w-8 h-8" style={{ color: colors.purple.primary }} />
                 </div>
                 <div className="text-sm text-white/60">02.</div>
               </div>
@@ -165,10 +166,10 @@ const Solutions: React.FC = () => {
             </div>
 
             {/* Card 3 - API & Sistemas (light) */}
-            <div className="p-8 md:p-12 flex flex-col justify-center" style={{ background: colors.green.primary }}>
+            <div className="p-8 md:p-12 flex flex-col justify-center" style={{ background: colors.purple.primary }}>
               <div className="flex items-start justify-between">
                 <div className="w-10 h-10 flex items-center justify-center">
-                  <Code className="w-8 h-8" style={{ color: colors.green.secondary }} />
+                  <Code className="w-8 h-8" style={{ color: colors.purple.secondary }} />
                 </div>
                 <div className="text-sm text-gray-700">03.</div>
               </div>
@@ -197,8 +198,8 @@ const Solutions: React.FC = () => {
                     </div>,
 
                     <div key={`c-${r}-${i}`} className="flex items-center justify-center w-12 h-12 md:w-14 md:h-14">
-                      <div aria-hidden className="w-12 h-12 md:w-12 md:h-12 flex items-center justify-center" style={{ borderRadius: '5px', border: `1px solid ${colors.neutral.borderLight}`, backgroundColor: colors.green.tertiary }}>
-                        <Asterisk className="w-4 h-4 md:w-5 md:h-5" style={{ color: colors.green.secondary }} />
+                      <div aria-hidden className="w-12 h-12 md:w-12 md:h-12 flex items-center justify-center" style={{ borderRadius: '5px', border: `1px solid ${colors.neutral.borderLight}`, backgroundColor: colors.purple.tertiary }}>
+                        <Asterisk className="w-4 h-4 md:w-5 md:h-5" style={{ color: colors.purple.secondary }} />
                       </div>
                     </div>
                   ]))
