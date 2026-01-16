@@ -58,7 +58,7 @@ const Menu: React.FC = () => {
 
         {/* Right: action button */}
         <div className="flex items-center">
-          <ButtonMenu label="Solicitar orçamento" />
+          <ButtonMenu label="Impulsionar meu negócio" />
         </div>
 
       </div>
@@ -71,7 +71,7 @@ const Menu: React.FC = () => {
             animate={{ opacity: 1, scaleY: 1 }}
             exit={{ opacity: 0, scaleY: 0 }}
             transition={{ duration: 0.28 }}
-            style={{ background: colors.primary.white, borderRadius: '5px', transformOrigin: 'top' }}
+            style={{ background: colors.primary.white, borderRadius: '30px', transformOrigin: 'top' }}
             className="absolute left-0 right-0 top-full mt-3 shadow-lg p-6 z-40"
           >
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -92,14 +92,14 @@ const Menu: React.FC = () => {
                 <h4 className="text-sm font-medium uppercase mb-3" style={{ color: colors.text.dark }}>Redes sociais</h4>
                 <div className="flex flex-col items-start gap-3">
                   <a href="https://instagram.com/wefronti" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 text-sm hover:underline" aria-label="Instagram">
-                    <span className="w-8 h-8 flex items-center justify-center rounded-md" style={{ color: colors.purple.secondary }}>
+                    <span className="w-8 h-8 flex items-center justify-center rounded-md" style={{ color: colors.purple.tertiary }}>
                       <FaInstagram className="w-5 h-5" aria-hidden />
                     </span>
                     <span>Instagram</span>
                   </a>
 
                   <a href="https://linkedin.com/company/wefronti" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 text-sm hover:underline" aria-label="LinkedIn">
-                    <span className="w-8 h-8 flex items-center justify-center rounded-md" style={{ color: colors.purple.secondary }}>
+                    <span className="w-8 h-8 flex items-center justify-center rounded-md" style={{ color: colors.purple.tertiary }}>
                       <FaLinkedin className="w-5 h-5" aria-hidden />
                     </span>
                     <span>LinkedIn</span>
@@ -111,7 +111,7 @@ const Menu: React.FC = () => {
               <div>
                 <h4 className="text-sm font-medium uppercase mb-3" style={{ color: colors.text.dark }}>Tira dúvidas</h4>
                 <p className="text-sm text-gray-600 mb-3">Fale com nosso time via WhatsApp para tirar dúvidas rápidas.</p>
-                <a href="https://wa.me/message/3V45SAJMLIJJJ1" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 px-3 py-3 rounded-md shadow-sm" style={{ borderRadius: '5px', background: colors.purple.secondary, color: colors.whiteColor }} aria-label="Tirar dúvidas no WhatsApp">
+                <a href="https://wa.me/message/3V45SAJMLIJJJ1" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 px-3 py-3 rounded-md shadow-sm" style={{ borderRadius: '999px', background: colors.apoio.green, color: colors.whiteColor }} aria-label="Tirar dúvidas no WhatsApp">
                   <FaWhatsapp className="w-5 h-5" style={{ color: colors.whiteColor }} aria-hidden />
                   <span className="font-medium">Tirar dúvidas</span>
                 </a>

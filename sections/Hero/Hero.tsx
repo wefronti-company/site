@@ -201,90 +201,42 @@ const Hero: React.FC = () => {
      
 
       {/* Content */}
-      <div className="relative z-[30] flex items-start md:items-end justify-center h-full px-0 sm:px-1 md:px-2 lg:px-4 pb-12">
+      <div className="relative z-[30] flex items-center justify-center h-full px-4 sm:px-6 md:px-8 lg:px-12 pt-24">
         
-          <div className="w-full max-w-none mx-auto grid grid-cols-1 md:grid-cols-12 items-stretch gap-4 md:gap-8 h-full">
-            {/* Left: oversized display heading */}
-            <div className="md:col-span-8 lg:col-span-8 flex flex-col items-start pr-2 md:pr-4 lg:pr-6 h-full">
-              <div className="flex flex-col h-full">
-                <div className="mt-auto">
-                 
+          <div className="w-full max-w-6xl mx-auto flex flex-col items-center text-center gap-8">
+            
+            {/* H1 ao centro */}
+            <motion.h1 
+              initial={{ opacity: 0, y: 30 }}
+              animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+              transition={{ duration: 0.9, ease: "easeOut", delay: 0.3 }}
+              className="display-heading w-full"
+              style={{ color: colors.purple.primary, WebkitTextStroke: '0px transparent' }}
+            >
+              Soluções em tecnologia para <span style={{ color: colors.purple.tertiary }}>Impulsionar seu negócio</span>
+            </motion.h1>
 
-                  <motion.h1 
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-                    transition={{ duration: 0.9, ease: "easeOut", delay: 0.3 }}
-                    className="display-heading uppercase w-full"
-                    style={{ color: colors.purple.primary, WebkitTextStroke: '0px transparent' }}
-                  >
-                    Soluções em tecnologia para <span style={{ color: colors.purple.tertiary }}>Impulsionar seu negócio</span>
-                  </motion.h1>
-                </div>
-              </div>
-            </div> 
+            {/* H2 abaixo do H1 */}
+            <motion.h2 
+              initial={{ opacity: 0, y: 20 }}
+              animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+              transition={{ duration: 0.8, ease: "easeOut", delay: 0.6 }}
+              className="text-center text-sm md:text-base max-w-3xl leading-7 md:leading-8"
+              style={{ color: colors.text.light, fontSize: '22px', fontWeight: 300 }}
+            >
+              Da presença digital a plataformas completas, criamos soluções tecnológicas robustas, seguras e escaláveis, projetadas para sustentar a operação, reduzir riscos e impulsionar o crescimento do negócio.
+            </motion.h2>
 
-            {/* Right: compact copy, badges, CTA */}
-            <div className="md:col-span-4 lg:col-span-4 flex flex-col items-start gap-6 pl-2 md:pl-4 lg:pl-6 md:relative md:h-full">
-              <div className="w-full md:absolute md:bottom-0 md:right-4 lg:right-6 flex flex-col md:justify-end" style={{ maxWidth: '360px' }}>
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                  transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
-                  className="flex flex-wrap items-start gap-3"
-                >
+            {/* Botão abaixo do H2 */}
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+              transition={{ duration: 0.8, ease: "easeOut", delay: 0.8 }}
+              className="mt-4 flex flex-col"
+            >
+              <ButtonCta label="Nossas Soluções" design="split" className="w-auto" onClick={() => handleNav('#solutions')} />
+            </motion.div>
 
-                </motion.div>
-
-                <motion.h2 
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                  transition={{ duration: 0.8, ease: "easeOut", delay: 0.6 }}
-                  className="text-left text-sm md:text-base max-w-[360px] leading-7 md:leading-8"
-                  style={{ color: colors.text.light , fontSize: '22px', fontWeight: 300 }}
-                >
-                Da presença digital a plataformas completas, criamos soluções tecnológicas robustas, seguras e escaláveis, projetadas para sustentar a operação, reduzir riscos e impulsionar o crescimento do negócio.              </motion.h2>
-
-                <motion.div 
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                  transition={{ duration: 0.8, ease: "easeOut", delay: 0.8 }}
-                  className="mt-4 mb-6 flex flex-col"
-                >
-                  <ButtonCta label="Soluções" design="split" className="w-auto" onClick={() => handleNav('#solutions')} />
-
-                </motion.div>
-
-                {/* Info grid (Active Ingredients / Chapters) */}
-                <motion.div className="w-full max-w-[420px] relative" variants={infoParent} initial="hidden" animate={hasEntered ? 'show' : 'hidden'}>
-                  <div className="grid grid-cols-[auto_minmax(140px,240px)] gap-1 items-center">
-                    <motion.div className="py-1" variants={infoChild}>
-                      <div className="text-xs uppercase tracking-widest" style={{ color: colors.text.dark }}>Hora do Brasil</div>
-                    </motion.div>
-
-                    <motion.div className="py-1 flex items-center justify-end text-xs text-white/70" aria-live="polite" variants={infoChild}>
-                      <div className="text-sm tracking-wide whitespace-nowrap">{brazilTimeStr}</div>
-                    </motion.div>
-
-                    <motion.div className="py-1" variants={infoChild}>
-                      <div className="text-xs uppercase tracking-widest" style={{ color: colors.text.dark }}>Localização</div>
-                    </motion.div>
-
-                    <motion.div className="py-1 flex items-center justify-end text-xs text-white/70" variants={infoChild}>
-                      <div className="text-sm text-right">{locationLabel}</div>
-                    </motion.div>
-
-                    <motion.div className="py-1" variants={infoChild}>
-                      <div className="text-xs uppercase tracking-widest" style={{ color: colors.text.dark }}>Navegando</div>
-                    </motion.div>
-
-                    <motion.div className="py-1 flex items-center justify-end gap-2 text-xs text-white/70" variants={infoChild}>
-                      <Eye className="w-4 h-4 opacity-60" />
-                      <div className="text-sm leading-none">{activeUsers === null ? '—' : activeUsers}</div>
-                    </motion.div>
-                  </div>
-                </motion.div>
-              </div>
-            </div>
           </div>
         </div>
     </section>

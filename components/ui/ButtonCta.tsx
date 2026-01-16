@@ -50,29 +50,20 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
        onClick={handleClick}
        disabled={disabled}
        aria-label={label || (typeof children === 'string' ? children : 'CTA')}
-       className={`inline-flex items-center gap-2 transition-transform duration-150 disabled:opacity-50 disabled:cursor-not-allowed ${className || ''}`}
-       style={{ border: 'none' }}
+       className={`inline-flex items-center justify-center gap-3 transition-all duration-200 hover:gap-4 disabled:opacity-50 disabled:cursor-not-allowed ${className || ''}`}
+       style={{ border: 'none', background: colors.purple.tertiary, borderRadius: '999px', padding: '14px 28px' }}
      >
-       {/* Pill text (fixed height to match action) */}
+       {/* Texto */}
        <span
-         className="inline-flex items-center h-10 px-16 text-[18px] font-semibold"
+         className="text-[18px] font-semibold leading-none"
          style={{
-           background: colors.primary.white,
-           color: colors.purple.secondary,
-           borderRadius: '999px',
-           
+           color: colors.primary.white,
          }}
        >
          {children || label || 'Soluções'}
        </span>
 
-       {/* Square/round action (same height) */}
-       <span
-         className="w-10 h-10 flex items-center justify-center rounded-md transition-transform duration-150"
-         style={{ borderRadius: '4px', background: colors.purple.tertiary, color: colors.purple.secondary }}
-       >
-         <ArrowUpRight className="w-4 h-4" />
-       </span>
+     
      </button>
    );
  }

@@ -14,8 +14,6 @@ export const colors = {
    
     dark: '#4c4c4cff',
     light: '#f2f2f2',
-   
-
  },
 
  icons:{
@@ -35,6 +33,10 @@ export const colors = {
    primary: '#E7E8E1',
    secondary: '#332633ff',
    tertiary:'#7070e3ff',
+ },
+
+ apoio:{
+   green: '#3c9968ff',
  },
 
 
