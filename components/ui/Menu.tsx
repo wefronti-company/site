@@ -9,9 +9,30 @@ import { FaInstagram, FaLinkedin, FaWhatsapp } from 'react-icons/fa';
 
 const Menu: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      // Considera "scrolled" quando rolar mais de 10px
+      setIsScrolled(window.scrollY > 10);
+    };
+
+    handleScroll(); // Verifica a posição inicial
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
-    <div className="fixed left-1/2 top-6 z-[60] -translate-x-1/2">
+    <motion.div 
+      className="fixed left-1/2 z-[60] -translate-x-1/2"
+      animate={{ 
+        top: isScrolled ? '1.5rem' : '5.5rem' // 1.5rem = top-6, 5.5rem = abaixo do carrossel
+      }}
+      transition={{ 
+        duration: 0.4,
+        ease: [0.25, 0.1, 0.25, 1] // easing suave
+      }}
+    >
       <div className="relative flex items-center justify-between gap-4 px-6 py-3 w-[720px] max-w-[92vw]"
       style={{ background: colors.primary.white, border: `1px solid ${colors.neutral.borderLight}`, borderRadius: '999px' }}>
 
@@ -100,7 +121,7 @@ const Menu: React.FC = () => {
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+    </motion.div>
   );
 };
 
