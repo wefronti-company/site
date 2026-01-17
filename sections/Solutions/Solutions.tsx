@@ -139,15 +139,15 @@ const Solutions: React.FC = () => {
             <div className="p-8 md:p-12 flex flex-col justify-center" style={{ background: colors.purple.tertiary }}>
               <div className="flex items-start justify-between">
                 <div className="w-10 h-10 flex items-center justify-center">
-                  <ShoppingCart className="w-8 h-8" style={{ color: colors.purple.secondary }} />
+                  <ShoppingCart className="w-8 h-8" style={{ color: colors.primary.white }} />
                 </div>
-                <div className="text-sm" style={{ color: colors.purple.secondary }}>01.</div>
+                <div className="text-sm" style={{ color: colors.primary.white }}>01.</div>
               </div>
 
-              <h3 className="mt-10 text-lg md:text-2xl lg:text-3xl font-light uppercase" style={{ color: '#0e2b20', lineHeight: 1.05 }}>SITES E E-COMMERCE</h3>
-              <p className="mt-6 text-base md:text-lg text-gray-800 max-w-md leading-relaxed">Sites institucionais modernos e lojas virtuais completas com checkout otimizado, gestão de produtos e integrações de pagamento.</p>
+              <h3 className="mt-10 text-lg md:text-2xl lg:text-3xl font-light uppercase" style={{ color: colors.primary.white, lineHeight: 1.05 }}>SITES E E-COMMERCE</h3>
+              <p className="mt-6 text-base md:text-lg max-w-md leading-relaxed" style={{ color: colors.primary.white }}>Sites institucionais modernos e lojas virtuais completas com checkout otimizado, gestão de produtos e integrações de pagamento.</p>
 
-              <a href="/solucoes/sites" className="mt-8 text-base font-medium inline-flex items-center gap-2 w-max px-0 py-0 cursor-pointer" style={{ color: colors.text.dark }}>Saiba mais <ArrowUpRight className="w-4 h-4" style={{ color: colors.text.dark }} /></a>
+              <a href="/solucoes/sites" className="mt-8 text-base font-medium inline-flex items-center gap-2 w-max px-0 py-0 cursor-pointer" style={{ color: colors.text.light }}>Saiba mais <ArrowUpRight className="w-4 h-4" style={{ color: colors.text.light }} /></a>
             </div>
 
             {/* Card 2 - SaaS & Dashboard */}
@@ -156,7 +156,7 @@ const Solutions: React.FC = () => {
                 <div className="w-10 h-10 flex items-center justify-center">
                   <BarChart2 className="w-8 h-8" style={{ color: colors.purple.primary }} />
                 </div>
-                <div className="text-sm text-white/60">02.</div>
+                <div className="text-sm" style={{ color: colors.primary.white }}>02.</div>
               </div>
 
               <h3 className="mt-10 text-lg md:text-2xl lg:text-3xl font-light uppercase" style={{ color: '#ffffff', lineHeight: 1.05 }}>SAAS E DASHBOARD</h3>
@@ -166,18 +166,18 @@ const Solutions: React.FC = () => {
             </div>
 
             {/* Card 3 - API & Sistemas (light) */}
-            <div className="p-8 md:p-12 flex flex-col justify-center" style={{ background: colors.purple.primary }}>
+            <div className="p-8 md:p-12 flex flex-col justify-center" style={{ background: colors.purple.tertiary }}>
               <div className="flex items-start justify-between">
                 <div className="w-10 h-10 flex items-center justify-center">
-                  <Code className="w-8 h-8" style={{ color: colors.purple.secondary }} />
+                  <Code className="w-8 h-8" style={{ color: colors.primary.white }} />
                 </div>
-                <div className="text-sm text-gray-700">03.</div>
+                <div className="text-sm" style={{ color: colors.primary.white }}>03.</div>
               </div>
 
-              <h3 className="mt-10 text-lg md:text-2xl lg:text-3xl font-light uppercase" style={{ color: '#12201a', lineHeight: 1.05 }}>API E SISTEMAS</h3>
-              <p className="mt-6 text-base md:text-lg text-gray-800 max-w-md leading-relaxed">Integrações seguras com APIs, além de sistemas web robustos para conectar e automatizar processos do negócio.</p>
+              <h3 className="mt-10 text-lg md:text-2xl lg:text-3xl font-light uppercase" style={{ color: colors.primary.white, lineHeight: 1.05 }}>API E SISTEMAS</h3>
+              <p className="mt-6 text-base md:text-lg max-w-md leading-relaxed" style={{ color: colors.primary.white }}>Integrações seguras com APIs, além de sistemas web robustos para conectar e automatizar processos do negócio.</p>
 
-              <a href="/solucoes/api" className="mt-8 text-base font-medium inline-flex items-center gap-2 w-max px-0 py-0 cursor-pointer" style={{ color: colors.text.dark }}>Saiba mais <ArrowUpRight className="w-4 h-4" style={{ color: colors.text.dark }} /></a>
+              <a href="/solucoes/api" className="mt-8 text-base font-medium inline-flex items-center gap-2 w-max px-0 py-0 cursor-pointer" style={{ color: colors.primary.white }}>Saiba mais <ArrowUpRight className="w-4 h-4" style={{ color: colors.primary.white }} /></a>
             </div>
 
           </motion.div>

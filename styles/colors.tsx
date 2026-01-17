@@ -30,8 +30,8 @@ export const colors = {
  },
 
  purple:{
-   primary: '#E7E8E1',
-   secondary: '#332633ff',
+   primary: '#eeeceeff',
+   secondary: '#101019ff',
    tertiary:'#7070e3ff',
  },
 
