@@ -78,20 +78,22 @@ const Hero: React.FC = () => {
           >
             {/* Card 1 */}
             <div 
-              className="flex-1 group cursor-pointer rounded-3xl p-8 transition-transform duration-300 hover:scale-[1.02] flex flex-col items-start justify-between"
-              style={{ background: colors.primary.white }}
+              className="flex-1 group cursor-pointer rounded-3xl p-8 transition-transform duration-300 hover:scale-[1.02]"
+              style={{ background: colors.neutral.grayHover }}
             >
-              <h3 className="text-3xl md:text-4xl font-medium mb-4" style={{ color: colors.primary.black }}>
-                Iniciar um projeto
-              </h3>
-              <div className="flex items-center gap-2">
-                <span className="text-base font-normal" style={{ color: colors.primary.black, opacity: 0.7 }}>
-                  Fale com nosso time e vamos construir algo incrível juntos
-                </span>
+              <div className="flex items-start justify-between gap-4 mb-4">
+                <div className="flex-1">
+                  <h3 className="text-2xl md:text-3xl font-medium mb-4" style={{ color: colors.primary.white }}>
+                    Iniciar um projeto
+                  </h3>
+                  <p className="text-base font-normal" style={{ color: colors.primary.white, opacity: 0.7 }}>
+                    Fale com nosso time e vamos construir algo incrível juntos
+                  </p>
+                </div>
                 <ArrowUpRight 
-                  size={20} 
-                  color={colors.primary.black} 
-                  className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" 
+                  size={24} 
+                  color={colors.primary.white} 
+                  className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1 flex-shrink-0 mt-1" 
                   style={{ opacity: 0.7 }}
                 />
               </div>
@@ -99,20 +101,22 @@ const Hero: React.FC = () => {
 
             {/* Card 2 */}
             <div 
-              className="flex-1 group cursor-pointer rounded-3xl p-8 transition-transform duration-300 hover:scale-[1.02] flex flex-col items-start justify-between"
-              style={{ background: colors.primary.white }}
+              className="flex-1 group cursor-pointer rounded-3xl p-8 transition-transform duration-300 hover:scale-[1.02]"
+              style={{ background: colors.neutral.grayHover }}
             >
-              <h3 className="text-3xl md:text-4xl font-medium mb-4" style={{ color: colors.primary.black }}>
-                Casos de sucesso
-              </h3>
-              <div className="flex items-center gap-2">
-                <span className="text-base font-normal" style={{ color: colors.primary.black, opacity: 0.7 }}>
-                  Confira como ajudamos outras empresas a crescerem
-                </span>
+              <div className="flex items-start justify-between gap-4 mb-4">
+                <div className="flex-1">
+                  <h3 className="text-2xl md:text-3xl font-medium mb-4" style={{ color: colors.primary.white }}>
+                    Casos de sucesso
+                  </h3>
+                  <p className="text-base font-normal" style={{ color: colors.primary.white, opacity: 0.7 }}>
+                    Confira como ajudamos outras empresas a crescerem
+                  </p>
+                </div>
                 <ArrowUpRight 
-                  size={20} 
-                  color={colors.primary.black} 
-                  className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" 
+                  size={24} 
+                  color={colors.primary.white} 
+                  className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1 flex-shrink-0 mt-1" 
                   style={{ opacity: 0.7 }}
                 />
               </div>

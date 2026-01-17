@@ -23,7 +23,7 @@ export const colors = {
 
  neutral:{
     gray: '#29292966',
-    grayHover: '#b0b0b0e3',
+    grayHover: '#6a6a6ae3',
     cardDark: '#1a1a1aff',
     cardLight: '#f5f5f5ff',
     borderLight: '#ccccccb5',
