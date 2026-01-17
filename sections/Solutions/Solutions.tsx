@@ -98,33 +98,38 @@ const Solutions: React.FC = () => {
       <div className="relative z-[20] px-0 sm:px-1 md:px-2 lg:px-4">
         <div className="w-full max-w-none mx-auto pt-6 md:pt-10">
 
-          {/* Header: badge (width = card 1) + title/subtitle — match hero alignment */}
-          <div className="w-full max-w-none mx-auto grid grid-cols-1 md:grid-cols-12 items-center gap-6 px-4 md:px-0">
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
-              transition={{ duration: 0.6 }}
-              className="md:col-span-4 flex items-start"
-            >
-              <div className="inline-flex items-center gap-3 px-6 py-2"
-                style={{ background: colors.purple.tertiary, borderRadius: '4px' }}>
-                  <CheckCheck className="w-4 h-4" style={{ color: colors.text.dark }} strokeWidth={2} />
-                <span className="text-sm font-medium uppercase" style={{ color: colors.text.dark }}>VEJA COMO PODEMOS LHE AJUDAR</span>
+          {/* Header: badge above title aligned to card 01 content */}
+          <div className="w-full max-w-none mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-3 items-start gap-6">
+
+              {/* Badge column: align left with card padding */}
+              <div className="col-span-1 pl-8 md:pl-12 flex items-start">
+                <motion.div
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 8 }}
+                  transition={{ duration: 0.5 }}
+                  className="flex items-center gap-3"
+                >
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ background: colors.purple.tertiary }}>
+                    <CheckCheck className="w-4 h-4" style={{ color: colors.text.dark }} strokeWidth={2} />
+                  </div>
+                  <span className="text-sm font-medium" style={{ color: colors.text.dark }}>VEJA COMO PODEMOS LHE AJUDAR</span>
+                </motion.div>
               </div>
-            </motion.div>
 
-            <div className="md:col-span-8">
-              <motion.h2
-                initial={{ opacity: 0, y: 16 }}
-                animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
-                transition={{ duration: 0.6, delay: 0.08 }}
-                className="text-3xl md:text-5xl lg:text-[74px] font-light uppercase leading-tight"
-                style={{ color: colors.text.dark }}
-              >
-                Soluções digitais pensadas para atender diferentes necessidades do seu negócio
-              </motion.h2>
+              {/* Title spans two columns but starts at same left offset */}
+              <div className="col-span-2 pl-8 md:pl-12">
+                <motion.h2
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
+                  transition={{ duration: 0.6, delay: 0.08 }}
+                  className="display-heading text-left w-full mt-2"
+                  style={{ color: colors.text.dark, fontSize: 'clamp(1.75rem, 4vw, 4.5rem)', lineHeight: 1.04 }}
+                >
+                  Soluções digitais pensadas para atender diferentes necessidades do seu negócio
+                </motion.h2>
+              </div>
 
-              
             </div>
           </div>
 
