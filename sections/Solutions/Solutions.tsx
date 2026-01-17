@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { colors } from '../../styles/colors';
-import { Check, ShoppingCart, BarChart2, Code, ArrowUpRight, CheckCheckIcon, BriefcaseBusiness, ChessKingIcon, RocketIcon, CheckCircle2, CheckSquare2Icon, CheckLineIcon, CheckCheck, GitGraphIcon, Asterisk, AsteriskIcon, AsteriskSquareIcon } from 'lucide-react';
+import { Check, ShoppingCart, BarChart2, Code, ArrowUpRight, CheckCheckIcon, BriefcaseBusiness, ChessKingIcon, RocketIcon, CheckCircle2, CheckSquare2Icon, CheckLineIcon, CheckCheck, GitGraphIcon, Asterisk, AsteriskIcon, AsteriskSquareIcon, CheckCircle } from 'lucide-react';
 import Menu from '../../components/ui/Menu';
 
 const Solutions: React.FC = () => {
@@ -110,7 +110,7 @@ const Solutions: React.FC = () => {
                 className="flex items-center gap-3"
               >
                 <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ background: colors.purple.tertiary }}>
-                  <CheckCheck className="w-4 h-4" style={{ color: colors.text.dark }} strokeWidth={2} />
+                  <CheckCircle className="w-4 h-4" style={{ color: colors.primary.white }} strokeWidth={2} />
                 </div>
                 <span className="text-sm font-medium" style={{ color: colors.text.dark, textTransform: 'none' }}>VEJA COMO PODEMOS LHE AJUDAR</span>
               </motion.div>
@@ -120,12 +120,12 @@ const Solutions: React.FC = () => {
             <div className="col-span-2 p-8 md:p-12" />
 
             {/* Title row below the badge (aligned with card padding) */}
-            <div className="col-span-3 p-8 md:p-12">
+            <div className="col-span-3 p-8 md:p-12 pt-2 md:pt-4">
               <motion.h2
-                initial={{ opacity: 0, y: 12 }}
-                animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
-                transition={{ duration: 0.6, delay: 0.08 }}
-                className="display-heading text-left w-full mt-2"
+                initial={{ opacity: 0, y: 8 }}
+                animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 8 }}
+                transition={{ duration: 0.5, delay: 0.04 }}
+                className="display-heading text-left w-full mt-0"
                 style={{ color: colors.text.dark, fontSize: 'clamp(1.75rem, 4vw, 4.5rem)', lineHeight: 1.04 }}
               >
                 Soluções digitais pensadas para atender diferentes necessidades do seu negócio

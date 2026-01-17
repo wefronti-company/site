@@ -18,7 +18,7 @@ const benefits = [
 
   // Competitors will show the "engessado" (bureaucratic/hard) process markers (mostly negatives)
   const competitors = [
-    { name: 'Processos engessados' }
+    { name: 'Mercado tradicional' }
   ];
 
 const Comparative: React.FC = () => {
@@ -40,13 +40,27 @@ const Comparative: React.FC = () => {
         <div className="w-full max-w-none mx-auto pt-6 md:pt-10">
 
           {/* Header */}
-          <div className="w-full max-w-none mx-auto grid grid-cols-1 md:grid-cols-12 items-center gap-6 px-4 md:px-0 mb-6">
-            <div className="md:col-span-6">
-              <h2 className="text-3xl md:text-5xl lg:text-[74px] font-light uppercase leading-tight" style={{ color: colors.text.dark }}>Comparativo</h2>
-              <p className="mt-2 text-base md:text-lg" style={{ color: colors.text.dark }}>Veja como a Wefronti entrega valor enquanto outros processos são engessados.</p>            </div>            <div className="md:col-span-6 flex justify-end">
-              <div className="inline-flex items-center gap-3 px-4 py-2 rounded-md" style={{ background: colors.purple.tertiary, color: colors.purple.secondary }}>
-                <span className="text-sm font-medium">Diferenciais claros</span>
+          <div className="w-full max-w-none mx-auto grid grid-cols-1 items-center gap-6 px-4 md:px-0 mb-6">
+            <div className="w-full max-w-3xl mx-auto text-center">
+              <div className="mb-4 flex justify-center">
+                <div className="inline-flex items-center gap-3 px-4 py-2 rounded-md" style={{ background: colors.purple.tertiary }}>
+                  <span className="text-sm font-medium" style={{ color: colors.purple.secondary, textTransform: 'none' }}>Diferenciais estratégicos</span>
+                </div>
               </div>
+
+              <motion.h2
+                initial={{ opacity: 0, y: 8 }}
+                animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 8 }}
+                transition={{ duration: 0.5, delay: 0.02 }}
+                className="display-heading text-center w-full mt-0"
+                style={{ color: colors.text.dark, fontSize: 'clamp(1.75rem, 4vw, 4.5rem)', lineHeight: 1.04, textTransform: 'none' }}
+              >
+                Comparativo estratégico — o que entregamos vs o que o mercado tradicional entrega
+              </motion.h2>
+
+              <p className="mt-4 text-base md:text-lg text-center" style={{ color: colors.text.dark }}>
+                À esquerda: soluções sob medida, foco em resultado e operação. À direita: processos engessados, entregas genéricas e retrabalho.
+              </p>
             </div>
           </div>
 
