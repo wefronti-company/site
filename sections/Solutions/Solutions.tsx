@@ -138,9 +138,14 @@ const Solutions: React.FC = () => {
             {/* Card 1 - Sites & E-commerce */}
             <div className="p-8 md:p-12 flex flex-col justify-center" style={{ background: colors.purple.tertiary }}>
               <div className="flex items-start justify-between">
-                <div className="w-10 h-10 flex items-center justify-center">
+                <motion.div
+                  className="w-10 h-10 flex items-center justify-center"
+                  animate={{ y: [0, -6, 0], scale: [1, 1.03, 1] }}
+                  transition={{ duration: 2.2, ease: 'easeInOut', repeat: Infinity, delay: 0 }}
+                  style={{ willChange: 'transform' }}
+                >
                   <ShoppingCart className="w-8 h-8" style={{ color: colors.primary.white }} />
-                </div>
+                </motion.div>
                 <div className="text-sm" style={{ color: colors.primary.white }}>01.</div>
               </div>
 
@@ -153,9 +158,14 @@ const Solutions: React.FC = () => {
             {/* Card 2 - SaaS & Dashboard */}
             <div className="p-8 md:p-12 flex flex-col justify-center" style={{ background: colors.purple.secondary }}>
               <div className="flex items-start justify-between">
-                <div className="w-10 h-10 flex items-center justify-center">
+                <motion.div
+                  className="w-10 h-10 flex items-center justify-center"
+                  animate={{ y: [0, -6, 0], scale: [1, 1.03, 1] }}
+                  transition={{ duration: 2.2, ease: 'easeInOut', repeat: Infinity, delay: 0.12 }}
+                  style={{ willChange: 'transform' }}
+                >
                   <BarChart2 className="w-8 h-8" style={{ color: colors.purple.primary }} />
-                </div>
+                </motion.div>
                 <div className="text-sm" style={{ color: colors.primary.white }}>02.</div>
               </div>
 
@@ -168,9 +178,14 @@ const Solutions: React.FC = () => {
             {/* Card 3 - API & Sistemas (light) */}
             <div className="p-8 md:p-12 flex flex-col justify-center" style={{ background: colors.purple.tertiary }}>
               <div className="flex items-start justify-between">
-                <div className="w-10 h-10 flex items-center justify-center">
+                <motion.div
+                  className="w-10 h-10 flex items-center justify-center"
+                  animate={{ y: [0, -6, 0], scale: [1, 1.03, 1] }}
+                  transition={{ duration: 2.2, ease: 'easeInOut', repeat: Infinity, delay: 0.24 }}
+                  style={{ willChange: 'transform' }}
+                >
                   <Code className="w-8 h-8" style={{ color: colors.primary.white }} />
-                </div>
+                </motion.div>
                 <div className="text-sm" style={{ color: colors.primary.white }}>03.</div>
               </div>
 
@@ -193,13 +208,13 @@ const Solutions: React.FC = () => {
               <div ref={marqueeTrackRef} className="marquee-track flex-nowrap" style={{ '--marquee-duration': '24s' } as React.CSSProperties}>
                 {Array.from({ length: 3 }).flatMap((_, r) => (
                   Array.from({ length: 8 }).flatMap((_, i) => ([
-                    <div key={`m-${r}-${i}`} className="px-6">
-                      <span className="text-2xl md:text-4xl lg:text-4xl font-light tracking-tight uppercase" style={{ color: colors.text.dark }}>Código é só o meio, o foco é o resultado</span>
+                    <div key={`m-${r}-${i}`} className="px-2">
+                      <span className="text-2xl md:text-4xl lg:text-4xl font-light tracking-tight" style={{ color: colors.text.dark }}>Código é só o meio, o foco é o resultado</span>
                     </div>,
 
                     <div key={`c-${r}-${i}`} className="flex items-center justify-center w-12 h-12 md:w-14 md:h-14">
-                      <div aria-hidden className="w-12 h-12 md:w-12 md:h-12 flex items-center justify-center" style={{ borderRadius: '5px', border: `1px solid ${colors.neutral.borderLight}`, backgroundColor: colors.purple.tertiary }}>
-                        <Asterisk className="w-4 h-4 md:w-5 md:h-5" style={{ color: colors.purple.secondary }} />
+                      <div aria-hidden className="w-12 h-12 md:w-12 md:h-12 flex items-center justify-center" style={{ borderRadius: '999px', backgroundColor: colors.purple.tertiary }}>
+                        <Asterisk className="w-6 h-6 md:w-6 md:h-6" style={{ color: colors.primary.white }} />
                       </div>
                     </div>
                   ]))
