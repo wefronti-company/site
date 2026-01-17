@@ -98,39 +98,40 @@ const Solutions: React.FC = () => {
       <div className="relative z-[20] px-0 sm:px-1 md:px-2 lg:px-4">
         <div className="w-full max-w-none mx-auto pt-6 md:pt-10">
 
-          {/* Header: badge above title aligned to card 01 content */}
-          <div className="w-full max-w-none mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-3 items-start gap-6">
+          {/* Header placed inside same grid layout as cards so paddings/offsets match */}
+          <div className="mt-10 grid grid-cols-1 md:grid-cols-3 md:-mx-2 lg:-mx-4">
 
-              {/* Badge column: align left with card padding */}
-              <div className="col-span-1 pl-8 md:pl-12 flex items-start">
-                <motion.div
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 8 }}
-                  transition={{ duration: 0.5 }}
-                  className="flex items-center gap-3"
-                >
-                  <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ background: colors.purple.tertiary }}>
-                    <CheckCheck className="w-4 h-4" style={{ color: colors.text.dark }} strokeWidth={2} />
-                  </div>
-                  <span className="text-sm font-medium" style={{ color: colors.text.dark }}>VEJA COMO PODEMOS LHE AJUDAR</span>
-                </motion.div>
-              </div>
-
-              {/* Title spans two columns but starts at same left offset */}
-              <div className="col-span-2 pl-8 md:pl-12">
-                <motion.h2
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
-                  transition={{ duration: 0.6, delay: 0.08 }}
-                  className="display-heading text-left w-full mt-2"
-                  style={{ color: colors.text.dark, fontSize: 'clamp(1.75rem, 4vw, 4.5rem)', lineHeight: 1.04 }}
-                >
-                  Soluções digitais pensadas para atender diferentes necessidades do seu negócio
-                </motion.h2>
-              </div>
-
+            {/* Badge column (same padding as card 01) */}
+            <div className="p-8 md:p-12 flex items-start">
+              <motion.div
+                initial={{ opacity: 0, y: 8 }}
+                animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 8 }}
+                transition={{ duration: 0.5 }}
+                className="flex items-center gap-3"
+              >
+                <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ background: colors.purple.tertiary }}>
+                  <CheckCheck className="w-4 h-4" style={{ color: colors.text.dark }} strokeWidth={2} />
+                </div>
+                <span className="text-sm font-medium" style={{ color: colors.text.dark, textTransform: 'none' }}>VEJA COMO PODEMOS LHE AJUDAR</span>
+              </motion.div>
             </div>
+
+            {/* placeholder to preserve grid columns */}
+            <div className="col-span-2 p-8 md:p-12" />
+
+            {/* Title row below the badge (aligned with card padding) */}
+            <div className="col-span-3 p-8 md:p-12">
+              <motion.h2
+                initial={{ opacity: 0, y: 12 }}
+                animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
+                transition={{ duration: 0.6, delay: 0.08 }}
+                className="display-heading text-left w-full mt-2"
+                style={{ color: colors.text.dark, fontSize: 'clamp(1.75rem, 4vw, 4.5rem)', lineHeight: 1.04 }}
+              >
+                Soluções digitais pensadas para atender diferentes necessidades do seu negócio
+              </motion.h2>
+            </div>
+
           </div>
 
           {/* Three cards aligned left-to-right */}
