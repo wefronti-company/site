@@ -36,7 +36,7 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
       onClick={handleClick}
       disabled={disabled}
       aria-label={label || (typeof children === 'string' ? children : 'CTA')}
-      className={`inline-flex items-center justify-center gap-2 transition-all duration-300 hover:gap-3 disabled:opacity-50 disabled:cursor-not-allowed group ${className || ''}`}
+      className={`inline-flex items-center justify-center gap-2 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed group ${className || ''}`}
       style={{ 
         border: 'none', 
         background: colors.neutral.grayHover,
@@ -51,7 +51,11 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
       >
         {children || label || 'Entre em contato'}
       </span>
-      <ArrowRight size={18} color={colors.primary.white} />
+      <ArrowRight 
+        size={18} 
+        color={colors.primary.white} 
+        className="transition-transform duration-300 group-hover:rotate-45" 
+      />
     </button>
   );
 };

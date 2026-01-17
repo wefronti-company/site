@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
+import { ArrowUpRight } from 'lucide-react';
 import { colors } from '../../styles/colors';
 
 const Hero: React.FC = () => {
@@ -62,11 +63,61 @@ const Hero: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ duration: 0.8, ease: "easeOut", delay: 0.5 }}
-            className="text-lg md:text-xl lg:text-2xl leading-relaxed max-w-4xl mx-auto font-light"
+            className="text-lg md:text-xl lg:text-2xl leading-relaxed max-w-4xl mx-auto font-light mb-12"
             style={{ color: colors.text.light, opacity: 0.9 }}
           >
             Da presença digital a plataformas completas, criamos soluções tecnológicas robustas, seguras e escaláveis, projetadas para sustentar a operação, reduzir riscos e impulsionar o crescimento do negócio.
           </motion.h2>
+
+          {/* Cards Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.8, ease: "easeOut", delay: 0.7 }}
+            className="flex flex-col md:flex-row gap-4 max-w-4xl mx-auto"
+          >
+            {/* Card 1 */}
+            <div 
+              className="flex-1 group cursor-pointer rounded-3xl p-8 transition-transform duration-300 hover:scale-[1.02] flex flex-col items-start justify-between"
+              style={{ background: colors.primary.white }}
+            >
+              <h3 className="text-3xl md:text-4xl font-medium mb-4" style={{ color: colors.primary.black }}>
+                Iniciar um projeto
+              </h3>
+              <div className="flex items-center gap-2">
+                <span className="text-base font-normal" style={{ color: colors.primary.black, opacity: 0.7 }}>
+                  Fale com nosso time e vamos construir algo incrível juntos
+                </span>
+                <ArrowUpRight 
+                  size={20} 
+                  color={colors.primary.black} 
+                  className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" 
+                  style={{ opacity: 0.7 }}
+                />
+              </div>
+            </div>
+
+            {/* Card 2 */}
+            <div 
+              className="flex-1 group cursor-pointer rounded-3xl p-8 transition-transform duration-300 hover:scale-[1.02] flex flex-col items-start justify-between"
+              style={{ background: colors.primary.white }}
+            >
+              <h3 className="text-3xl md:text-4xl font-medium mb-4" style={{ color: colors.primary.black }}>
+                Casos de sucesso
+              </h3>
+              <div className="flex items-center gap-2">
+                <span className="text-base font-normal" style={{ color: colors.primary.black, opacity: 0.7 }}>
+                  Confira como ajudamos outras empresas a crescerem
+                </span>
+                <ArrowUpRight 
+                  size={20} 
+                  color={colors.primary.black} 
+                  className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" 
+                  style={{ opacity: 0.7 }}
+                />
+              </div>
+            </div>
+          </motion.div>
 
         </div>
       </div>

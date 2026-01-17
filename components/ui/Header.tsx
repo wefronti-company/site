@@ -59,10 +59,12 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
             {/* Links centralizados */}
             <ul className="hidden md:flex items-center gap-6 text-base absolute left-1/2 -translate-x-1/2 transition-colors duration-200" style={{ color: colors.text.light }}>
               <li><a href="#section-0" className="hover:opacity-100 transition-colors duration-200" style={{ color: colors.text.light }} onMouseEnter={(e) => e.currentTarget.style.color = colors.neutral.grayHover} onMouseLeave={(e) => e.currentTarget.style.color = colors.text.light}>Início</a></li>
-              <li><a href="#solutions" className="hover:opacity-100 transition-colors duration-200" style={{ color: colors.text.light }} onMouseEnter={(e) => e.currentTarget.style.color = colors.neutral.grayHover} onMouseLeave={(e) => e.currentTarget.style.color = colors.text.light}>Soluções</a></li>
-              <li><a href="#comparative" className="hover:opacity-100 transition-colors duration-200" style={{ color: colors.text.light }} onMouseEnter={(e) => e.currentTarget.style.color = colors.neutral.grayHover} onMouseLeave={(e) => e.currentTarget.style.color = colors.text.light}>Comparativo</a></li>
-              <li><a href="#clients" className="hover:opacity-100 transition-colors duration-200" style={{ color: colors.text.light }} onMouseEnter={(e) => e.currentTarget.style.color = colors.neutral.grayHover} onMouseLeave={(e) => e.currentTarget.style.color = colors.text.light}>Clientes</a></li>
+              <li><a href="#solutions" className="hover:opacity-100 transition-colors duration-200" style={{ color: colors.text.light }} onMouseEnter={(e) => e.currentTarget.style.color = colors.neutral.grayHover} onMouseLeave={(e) => e.currentTarget.style.color = colors.text.light}>O que fazemos</a></li>
+              <li><a href="#comparative" className="hover:opacity-100 transition-colors duration-200" style={{ color: colors.text.light }} onMouseEnter={(e) => e.currentTarget.style.color = colors.neutral.grayHover} onMouseLeave={(e) => e.currentTarget.style.color = colors.text.light}>Sobre nós</a></li>
+              <li><a href="#clients" className="hover:opacity-100 transition-colors duration-200" style={{ color: colors.text.light }} onMouseEnter={(e) => e.currentTarget.style.color = colors.neutral.grayHover} onMouseLeave={(e) => e.currentTarget.style.color = colors.text.light}>Casos de sucesso</a></li>
               <li><a href="#contato" className="hover:opacity-100 transition-colors duration-200" style={{ color: colors.text.light }} onMouseEnter={(e) => e.currentTarget.style.color = colors.neutral.grayHover} onMouseLeave={(e) => e.currentTarget.style.color = colors.text.light}>Contato</a></li>
+              <li><a href="#contato" className="hover:opacity-100 transition-colors duration-200" style={{ color: colors.text.light }} onMouseEnter={(e) => e.currentTarget.style.color = colors.neutral.grayHover} onMouseLeave={(e) => e.currentTarget.style.color = colors.text.light}>FAQ</a></li>
+
             </ul>
 
             {/* Botão à direita */}
