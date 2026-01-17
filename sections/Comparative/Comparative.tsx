@@ -43,9 +43,7 @@ const Comparative: React.FC = () => {
           <div className="w-full max-w-none mx-auto grid grid-cols-1 items-center gap-6 px-4 md:px-0 mb-6">
             <div className="w-full max-w-3xl mx-auto text-center">
               <div className="mb-4 flex justify-center">
-                <div className="inline-flex items-center gap-3 px-4 py-2 rounded-md" style={{ background: colors.purple.tertiary }}>
-                  <span className="text-sm font-medium" style={{ color: colors.purple.secondary, textTransform: 'none' }}>Diferenciais estratégicos</span>
-                </div>
+               
               </div>
 
               <motion.h2
@@ -55,12 +53,10 @@ const Comparative: React.FC = () => {
                 className="display-heading text-center w-full mt-0"
                 style={{ color: colors.text.dark, fontSize: 'clamp(1.75rem, 4vw, 4.5rem)', lineHeight: 1.04, textTransform: 'none' }}
               >
-                Comparativo estratégico — o que entregamos vs o que o mercado tradicional entrega
+                Veja porque empresas escolhem nossas soluções ao invés de processos engessados
               </motion.h2>
 
-              <p className="mt-4 text-base md:text-lg text-center" style={{ color: colors.text.dark }}>
-                À esquerda: soluções sob medida, foco em resultado e operação. À direita: processos engessados, entregas genéricas e retrabalho.
-              </p>
+              
             </div>
           </div>
 
@@ -71,10 +67,10 @@ const Comparative: React.FC = () => {
             transition={{ duration: 0.6 }}
             className="w-full px-4 md:px-0">
 
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-10 gap-6 justify-center">
 
               {/* Left card */}
-              <div className="md:col-span-7 bg-white rounded-md shadow-md p-6">
+              <div className="md:col-span-6 bg-white rounded-md shadow-md p-6 max-w-[680px] mx-auto">
                 <div className="flex flex-col gap-6">
                   {/* Logo */}
                   <div className="">
@@ -98,7 +94,7 @@ const Comparative: React.FC = () => {
               </div>
 
               {/* Right: competitors area */}
-              <div className="md:col-span-5">
+              <div className="md:col-span-4 max-w-md mx-auto">
                 <div className="flex items-center justify-between mb-2 px-1">
                   <div />
                   <div className="flex gap-4 w-full justify-end text-sm font-semibold" style={{ color: colors.text.dark }}>

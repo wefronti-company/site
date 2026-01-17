@@ -11,7 +11,7 @@ const Logo: React.FC<LogoProps> = ({ className = '', isDark = false }) => {
   return (
     <Link href="https://wefronti.com" className={`flex items-center gap-2 select-none hover:opacity-80 transition-opacity ${className}`}>
       <Image 
-        src={isDark ? "/images/brand/isologo-black.png" : "/images/brand/isologo-white.png"}
+        src={isDark ? "/images/brand/isologo-black.webp" : "/images/brand/isologo-white.webp"}
         alt="Wefronti Logo" 
         width={120} 
         height={28}

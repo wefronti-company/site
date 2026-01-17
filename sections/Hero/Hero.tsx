@@ -1,158 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
-import dynamic from 'next/dynamic';
-import Image from 'next/image';
 import { motion } from 'framer-motion';
-import ButtonCta from '../../components/ui/ButtonCta';
-import { Eye, ChevronDown } from 'lucide-react';
 import { colors } from '../../styles/colors';
-import { useMenu } from '../../components/layout/MenuContext';
-
-const ServicesCarousel = dynamic(() => import('../../sections/ServicesCarousel'), { ssr: false });
-// minimal hero variant
 
 const Hero: React.FC = () => {
   const [hasEntered, setHasEntered] = useState(false);
-  const [isOverlapped, setIsOverlapped] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
-  const { open: menuOpen, toggle: toggleMenu } = useMenu();
-
-  // Disable pointer-events on hero once user scrolls so underlying sections receive events
-  useEffect(() => {
-    const onScroll = () => {
-      setIsOverlapped(window.scrollY > 10);
-    };
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
-
-  // Brazil clock (client-side, using São Paulo timezone) split into time + meridiem to avoid wrapping
-  // Brazil clock (24h) — using Sao_Paulo timezone and ensuring no meridiem
-  const [brazilTimeStr, setBrazilTimeStr] = useState<string>('—:—:—');
-  useEffect(() => {
-    const update = () => {
-      try {
-        const dtf = new Intl.DateTimeFormat('pt-BR', {
-          hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false, timeZone: 'America/Sao_Paulo'
-        });
-        setBrazilTimeStr(dtf.format(new Date()));
-      } catch (e) {
-        setBrazilTimeStr(new Date().toLocaleTimeString());
-      }
-    };
-    update();
-    const id = setInterval(update, 1000);
-    return () => clearInterval(id);
-  }, []);
-
-  // Fetch user's location from IP with fallback providers and a loading state
-  const [locationData, setLocationData] = useState<any>(null);
-  const [locationLoading, setLocationLoading] = useState<boolean>(true);
-  useEffect(() => {
-    let cancelled = false;
-
-    const fetchIpApi = async () => {
-      try {
-        // Try ipapi.co first
-        const r = await fetch('https://ipapi.co/json/');
-        if (!r.ok) throw new Error('ipapi failed');
-        const d = await r.json();
-        if (cancelled) return;
-        if (d && (d.city || d.country_name || d.region)) {
-          setLocationData({ city: d.city, region: d.region, country_name: d.country_name, ip: d.ip });
-          setLocationLoading(false);
-          return;
-        }
-      } catch (e) {
-        // fallback to ipwho.is
-      }
-
-      try {
-        const rWho = await fetch('https://ipwho.is/');
-        if (rWho.ok) {
-          const dw = await rWho.json();
-          if (!cancelled && dw && dw.success) {
-            setLocationData({ city: dw.city, region: dw.region, country_name: dw.country, ip: dw.ip });
-            setLocationLoading(false);
-            return;
-          }
-        }
-      } catch (e) {
-        // continue to other fallbacks
-      }
-
-      try {
-        // get just the ip via ipify
-        const r2 = await fetch('https://api.ipify.org?format=json');
-        const ipj = r2.ok ? await r2.json() : null;
-        const ip = ipj?.ip;
-        if (!ip) throw new Error('no ip');
-
-        // query ip-api (supports https)
-        const r3 = await fetch(`https://ip-api.com/json/${ip}?fields=status,country,regionName,city,query`);
-        if (!r3.ok) throw new Error('ip-api failed');
-        const d3 = await r3.json();
-        if (d3 && d3.status === 'success') {
-          setLocationData({ city: d3.city, region: d3.regionName, country_name: d3.country, ip: d3.query });
-          setLocationLoading(false);
-          return;
-        }
-      } catch (e) {
-        // final fallback
-      }
-
-      if (!cancelled) {
-        setLocationData(null);
-        setLocationLoading(false);
-      }
-    };
-
-    fetchIpApi();
-
-    return () => { cancelled = true; };
-  }, []);
-
-  const locationLabel = locationLoading ? 'Carregando...' : (locationData ? `${locationData.region || ''}${locationData.country_name ? ', ' + locationData.country_name : ''}`.replace(/^, /, '') : 'Localização desconhecida');
-  const locationIp = locationLoading ? '—' : (locationData?.ip || '—');
-
-  // Active users (poll /api/active-users with a stable visitorId saved in localStorage)
-  const [activeUsers, setActiveUsers] = useState<number | null>(null);
-  useEffect(() => {
-    let cancelled = false;
-
-    const getVisitorId = () => {
-      try {
-        let id = localStorage.getItem('visitorId');
-        if (!id) {
-          id = `v_${Date.now()}_${Math.floor(Math.random() * 100000)}`;
-          localStorage.setItem('visitorId', id);
-        }
-        return id;
-      } catch (e) {
-        return `v_${Date.now()}_${Math.floor(Math.random() * 100000)}`;
-      }
-    };
-
-    const id = getVisitorId();
-
-    const fetchActive = async () => {
-      try {
-        const r = await fetch(`/api/active-users?visitorId=${encodeURIComponent(id)}`);
-        if (!r.ok) throw new Error('active api failed');
-        const d = await r.json();
-        if (!cancelled) setActiveUsers(typeof d.active === 'number' ? d.active : null);
-      } catch (e) {
-        if (!cancelled) setActiveUsers(null);
-      }
-    };
-
-    fetchActive();
-    const t = setInterval(fetchActive, 10 * 1000);
-    return () => { cancelled = true; clearInterval(t); };
-  }, []);
 
   useEffect(() => {
-    if (hasEntered) return; // already animated once
+    if (hasEntered) return;
     let cancelled = false;
     let obs: IntersectionObserver | null = null;
 
@@ -171,95 +26,50 @@ const Hero: React.FC = () => {
     };
   }, [hasEntered]);
 
-  const handleNav = (hash: string) => {
-    const el = document.querySelector(hash);
-    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  };
-
-  // Variants for info grid entrance
-  const infoParent = {
-    hidden: {},
-    show: { transition: { staggerChildren: 0.06, delayChildren: 0.95 } }
-  };
-  const infoChild = {
-    hidden: { opacity: 0, y: 12 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.45 } }
-  };
-
   return (
     <section
       ref={sectionRef}
       id="section-0"
-      className="w-full fixed inset-0 overflow-hidden"
-      style={{ height: '100vh', minHeight: '420px', backgroundColor: colors.background.dark, zIndex: 0, pointerEvents: isOverlapped ? 'none' : 'auto' }}
+      className="w-full relative overflow-hidden"
+      style={{ 
+        minHeight: '100vh',
+        backgroundColor: colors.background.dark,
+        backgroundImage: 'url(/images/site/background-site-wefronti.webp)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        zIndex: 0
+      }}
     >
-
-      {/* Top services carousel inside Hero */}
-      <div className="absolute top-0 left-0 w-full z-[20]">
-        <ServicesCarousel />
-      </div>
-     
+      {/* Overlay for better text readability */}
+      <div className="absolute inset-0 bg-black/30 z-10" />
 
       {/* Content */}
-      <div className="relative z-[30] flex items-center justify-center h-full px-4 sm:px-6 md:px-8 lg:px-12 pt-24">
-        
-          <div className="w-full max-w-6xl mx-auto flex flex-col items-center text-center gap-8">
-            
-            {/* H1 ao centro */}
-            <motion.h1 
-              initial={{ opacity: 0, y: 30 }}
-              animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-              transition={{ duration: 0.9, ease: "easeOut", delay: 0.3 }}
-              className="display-heading w-full"
-              style={{ color: colors.purple.primary, WebkitTextStroke: '0px transparent' }}
-            >
-              Soluções em tecnologia para <span style={{ color: colors.purple.tertiary }}>Impulsionar seu negócio</span>
-            </motion.h1>
+      <div className="relative z-20 flex items-center justify-center min-h-screen px-8 md:px-16 lg:px-24">
+        <div className="w-full text-center">
+          
+          <motion.h1 
+            initial={{ opacity: 0, y: 30 }}
+            animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+            transition={{ duration: 0.9, ease: "easeOut", delay: 0.2 }}
+            className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-light leading-[1.1] mb-8"
+            style={{ color: colors.primary.white }}
+          >
+            Um time experiente<span style={{ color: colors.purple.tertiary }}>pronto para desenvolver seu produto</span>
+          </motion.h1>
 
-            {/* H2 abaixo do H1 */}
-            <motion.h2 
-              initial={{ opacity: 0, y: 20 }}
-              animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-              transition={{ duration: 0.8, ease: "easeOut", delay: 0.6 }}
-              className="text-center text-sm md:text-base max-w-3xl leading-7 md:leading-8"
-              style={{ color: colors.text.light, fontSize: '22px', fontWeight: 300 }}
-            >
-              Da presença digital a plataformas completas, criamos soluções tecnológicas robustas, seguras e escaláveis, projetadas para sustentar a operação, reduzir riscos e impulsionar o crescimento do negócio.
-            </motion.h2>
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.8, ease: "easeOut", delay: 0.5 }}
+            className="text-lg md:text-xl lg:text-2xl leading-relaxed max-w-4xl mx-auto font-light"
+            style={{ color: colors.text.light, opacity: 0.9 }}
+          >
+            Da presença digital a plataformas completas, criamos soluções tecnológicas robustas, seguras e escaláveis, projetadas para sustentar a operação, reduzir riscos e impulsionar o crescimento do negócio.
+          </motion.h2>
 
-            {/* Botão abaixo do H2 */}
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-              transition={{ duration: 0.8, ease: "easeOut", delay: 0.8 }}
-              className="mt-4 flex flex-col items-center"
-            >
-              <ButtonCta label="Conheça nossas Soluções" design="split" className="w-auto" onClick={() => handleNav('#solutions')} />
-
-              {/* Animated down arrows to encourage scrolling (non-interactive) */}
-              <div className="mt-6 flex flex-col items-center gap-2 pointer-events-none" aria-hidden>
-                <motion.div
-                  initial={{ y: 0 }}
-                  animate={{ y: [0, 8, 0] }}
-                  transition={{ duration: 1.2, repeat: Infinity, ease: 'easeInOut', delay: 0 }}
-                  className="flex items-center justify-center"
-                >
-                  <ChevronDown size={24} strokeWidth={2.2} color={colors.text.light} />
-                </motion.div>
-
-                <motion.div
-                  initial={{ y: 0 }}
-                  animate={{ y: [0, 8, 0] }}
-                  transition={{ duration: 1.2, repeat: Infinity, ease: 'easeInOut', delay: 0.12 }}
-                  className="flex items-center justify-center"
-                >
-                  <ChevronDown size={24} strokeWidth={2.2} color={colors.text.light} />
-                </motion.div>
-              </div>
-            </motion.div>
-
-          </div>
         </div>
+      </div>
     </section>
   );
 };

@@ -2,12 +2,12 @@ export const colors = {
 
  primary:{
     black: '#010101',
-    white: '#f2f2f2',
+    white: '#d4d4d4ff',
  },
 
  background:{
     dark: '#101019ff',
-    light:'#f4f4f4ff',
+    light:'#d4d4d4ff',
  },
 
  text:{
@@ -32,7 +32,7 @@ export const colors = {
  purple:{
    primary: '#eeeceeff',
    secondary: '#101019ff',
-   tertiary:'#7070e3ff',
+   tertiary:'#9b9b9bff',
  },
 
  apoio:{
