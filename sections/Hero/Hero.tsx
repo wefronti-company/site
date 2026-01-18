@@ -56,7 +56,7 @@ const Hero: React.FC = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
             transition={{ duration: 0.9, ease: "easeOut", delay: 0.2 }}
-            className="text-3xl md:text-4xl lg:text-5xl xl:text-7xl font-light leading-[1.1] mb-8 text-left md:text-center"
+            className="text-4xl md:text-4xl lg:text-5xl xl:text-7xl font-light leading-[1.1] mb-8 text-left md:text-center"
             style={{ color: colors.primary.white }}
           >
             Um time experiente pronto para <span style={{ color: colors.purple.tertiary }}>desenvolver seu produto</span>

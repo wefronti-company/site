@@ -55,7 +55,7 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
       <ArrowRight 
         size={18} 
         color={colors.primary.white} 
-        className="transition-transform duration-300 group-hover:rotate-45" 
+        className="transition-transform duration-300 group-hover:-rotate-45" 
       />
     </button>
   );
