@@ -3,7 +3,7 @@ import SEO from '../components/SEO';
 import { colors } from '../styles/colors';
 import ButtonCta from '../components/ui/ButtonCta';
 import ServiceCard from '../components/ui/ServiceCard';
-import { Monitor, ShoppingCart, Server, Box, Layout, LifeBuoy, Cloud, Code, LayoutDashboard, Rocket } from 'lucide-react';
+import { Monitor, ShoppingCart, Server, Box, Layout, LifeBuoy, Cloud, Code, LayoutDashboard, ArrowDown, Rocket } from 'lucide-react';
 
 const Solucoes: React.FC = () => {
   return (
@@ -114,10 +114,21 @@ const Solucoes: React.FC = () => {
               <ServiceCard key={s.title} title={s.title} description={s.description} icon={s.icon} imageSrc={s.image} imageAlt={s.title} />
             ))}
           </div>
+
+          {/* Divider with centered down arrow to next section */}
+          <div className="w-full flex items-center justify-center mt-10">
+            <button
+              className="w-12 h-12 flex items-center justify-center rounded-md"
+              style={{ backgroundColor: 'rgba(115,111,176,0.06)', color: colors.purple.tertiary, borderRadius: '6px', border: `1px solid ${colors.neutral.borderLight}` }}
+            >
+              <ArrowDown size={18} />
+            </button>
+          </div>
+
         </div>
       </section>
 
-      <section className="py-20 bg-black/20" aria-label="Nosso processo">
+      <section id="como-fazemos" className="py-20 bg-black/20" aria-label="Nosso processo">
         <div className="w-full max-w-5xl mx-auto px-6">
           <h2 className="text-2xl font-medium mb-6" style={{ color: colors.primary.white }}>Como trabalhamos</h2>
           <ol className="space-y-6 list-decimal pl-6 text-gray-300">
