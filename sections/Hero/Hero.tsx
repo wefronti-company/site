@@ -1,7 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
+import dynamic from 'next/dynamic';
 import { motion } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
 import { colors } from '../../styles/colors';
+
+const ServicesCarousel = dynamic(() => import('../../sections/ServicesCarousel'), { ssr: false });
 
 const Hero: React.FC = () => {
   const [hasEntered, setHasEntered] = useState(false);
@@ -53,10 +56,10 @@ const Hero: React.FC = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
             transition={{ duration: 0.9, ease: "easeOut", delay: 0.2 }}
-            className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-light leading-[1.1] mb-8"
+            className="text-4xl md:text-5xl lg:text-6xl xl:text-8xl font-light leading-[1.1] mb-8"
             style={{ color: colors.primary.white }}
           >
-            Um time experiente<span style={{ color: colors.purple.tertiary }}>pronto para desenvolver seu produto</span>
+            Um time experiente pronto para <span style={{ color: colors.purple.tertiary }}>desenvolver seu produto</span>
           </motion.h1>
 
           <motion.h2 
@@ -78,18 +81,17 @@ const Hero: React.FC = () => {
           >
             {/* Card 1 */}
             <div 
-              className="flex-1 group cursor-pointer rounded-3xl p-7 transition-transform duration-300 hover:scale-[1.02]"
+              className="flex-1 group cursor-pointer rounded-3xl p-5 transition-transform duration-300 hover:scale-[1.02]"
               style={{ background: colors.purple.tertiary }}
             >
-              <div className="flex items-center gap-3 mb-2">
-                <h3 className="text-xl md:text-2xl font-medium" style={{ color: colors.primary.white }}>
+              <div className="flex items-center gap-3 mb-1">
+                <h3 className="text-lg md:text-xl font-medium" style={{ color: colors.primary.white }}>
                   Iniciar um projeto
                 </h3>
                 <ArrowUpRight 
                   size={22} 
                   color={colors.primary.white} 
                   className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1 flex-shrink-0" 
-                  style={{ opacity: 0.7 }}
                 />
               </div>
               <p className="text-base font-normal text-left" style={{ color: colors.primary.white, opacity: 0.7 }}>
@@ -99,18 +101,17 @@ const Hero: React.FC = () => {
 
             {/* Card 2 */}
             <div 
-              className="flex-1 group cursor-pointer rounded-3xl p-7 transition-transform duration-300 hover:scale-[1.02]"
+              className="flex-1 group cursor-pointer rounded-3xl p-5 transition-transform duration-300 hover:scale-[1.02]"
               style={{ border: `1px solid ${colors.neutral.borderLight}`, background: colors.background.transparent }}
             >
-              <div className="flex items-center gap-3 mb-2">
-                <h3 className="text-xl md:text-2xl font-medium" style={{ color: colors.primary.white }}>
+              <div className="flex items-center gap-3 mb-1">
+                <h3 className="text-lg md:text-xl font-medium" style={{ color: colors.primary.white }}>
                   Casos de sucesso
                 </h3>
                 <ArrowUpRight 
                   size={22} 
                   color={colors.primary.white} 
                   className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1 flex-shrink-0" 
-                  style={{ opacity: 0.7 }}
                 />
               </div>
               <p className="text-base font-normal text-left" style={{ color: colors.primary.white, opacity: 0.7 }}>
@@ -120,6 +121,11 @@ const Hero: React.FC = () => {
           </motion.div>
 
         </div>
+      </div>
+
+      {/* Services carousel positioned at the bottom of the hero */}
+      <div className="absolute bottom-0 left-0 w-full z-[20]">
+        <ServicesCarousel />
       </div>
     </section>
   );

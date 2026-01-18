@@ -124,9 +124,7 @@ const ServicesCarousel: React.FC = () => {
     <section
       aria-label="services-carousel"
       className="w-full overflow-hidden"
-      style={{ 
-        backgroundColor: colors.background.dark,
-      }}
+     
     >
       <div className="w-full max-w-none mx-auto py-4 md:py-8 px-0">
         <div className="relative">
