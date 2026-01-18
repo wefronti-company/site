@@ -102,7 +102,7 @@ const Hero: React.FC = () => {
             {/* Card 2 */}
             <div 
               className="flex-1 group cursor-pointer rounded-3xl p-8 transition-transform duration-300 hover:scale-[1.02]"
-              style={{ background: colors.neutral.grayHover }}
+              style={{ background: colors.purple.tertiary }}
             >
               <div className="flex items-start justify-between gap-4 mb-4">
                 <div className="flex-1">

@@ -32,7 +32,7 @@ export const colors = {
  purple:{
    primary: '#eeeceeff',
    secondary: '#101019ff',
-   tertiary:'#9b9b9bff',
+   tertiary:'#736fb0ff',
  },
 
  apoio:{
