@@ -98,9 +98,8 @@ const Footer: React.FC = () => {
 
      {/* 5 — Site seguro */}
      <div>
-       <h4 className="text-sm font-medium mb-3" style={{ color: colors.primary.white }}>Site seguro</h4>
-       <div className="flex flex-col gap-2">
-         </div>
+       <h4 className="text-sm font-regular mb-3 uppercase" style={{ color: colors.neutral.grayHover }}>Legal</h4>
+      
          <ul className="mt-3 flex flex-col gap-2">
            <li>
              <Link href="/termos-de-uso" className="text-sm inline-flex items-center gap-2" style={{ color: colors.text.light }}>
