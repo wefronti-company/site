@@ -63,13 +63,13 @@ const Footer: React.FC = () => {
        <h4 className="text-sm font-regular mb-3 uppercase" style={{ color: colors.neutral.grayHover }}>Conecte-se conosco</h4>
        <div className="flex flex-col gap-3">
          <a href="https://instagram.com/wefronti" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-sm" style={{ color: colors.text.light }}>
-           <span className="w-8 h-8 flex items-center justify-center rounded-md" style={{ color: colors.neutral.grayHover }} aria-hidden>
+           <span className="w-8 h-8 flex items-center justify-center rounded-md -ml-2" style={{ color: colors.neutral.grayHover }} aria-hidden>
              <FaInstagram />
            </span>
            <span>Instagram</span>
          </a>
          <a href="https://linkedin.com/company/wefronti" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-sm" style={{ color: colors.text.light }}>
-           <span className="w-8 h-8 flex items-center justify-center rounded-md" style={{ color: colors.neutral.grayHover }} aria-hidden>
+           <span className="w-8 h-8 flex items-center justify-center rounded-md -ml-2" style={{ color: colors.neutral.grayHover }} aria-hidden>
             <FaLinkedin />
            </span>
            <span>LinkedIn</span>
@@ -82,13 +82,13 @@ const Footer: React.FC = () => {
        <h4 className="text-sm font-regular mb-3 uppercase" style={{ color: colors.neutral.grayHover }}>Fale conosco</h4>
        <div className="flex flex-col gap-3">
          <a href="mailto:contato@wefronti.com.br" className="flex items-center gap-3 text-sm" style={{ color: colors.text.light }} aria-label="Enviar e‑mail para contato@wefronti.com.br">
-           <span className="w-8 h-8 flex items-center justify-center rounded-md" style={{ color: colors.neutral.grayHover }} aria-hidden>
+           <span className="w-8 h-8 flex items-center justify-center rounded-md -ml-2" style={{ color: colors.neutral.grayHover }} aria-hidden>
              <FaEnvelope />
            </span>
            <span>contato@wefronti.com.br</span>
          </a>
          <a href="https://wa.me/message/GMAON4GDQH3NA1" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-sm" style={{ color: colors.text.light }} aria-label="Abrir conversa no WhatsApp">
-           <span className="w-8 h-8 flex items-center justify-center rounded-md" style={{ color: colors.neutral.grayHover }} aria-hidden>
+           <span className="w-8 h-8 flex items-center justify-center rounded-md -ml-2" style={{ color: colors.neutral.grayHover }} aria-hidden>
              <FaWhatsapp />
            </span>
            <span>Falar por WhatsApp</span>
@@ -133,7 +133,7 @@ const Footer: React.FC = () => {
      CNPJ: 64.507.638/0001-04 • Wefronti Tecnologia Ltda
    </div>
 
-   <div className="text-sm text-center" style={{ color: colors.neutral.grayHover, opacity: 0.6 }}>
+   <div className="text-sm text-left md:text-center" style={{ color: colors.neutral.grayHover, opacity: 0.6 }}>
      © {new Date().getFullYear()} Wefronti. Todos os direitos reservados.
    </div>
 
