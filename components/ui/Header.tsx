@@ -14,6 +14,11 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
   const [menuOpen, setMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [heroVisible, setHeroVisible] = useState(false);
+  const router = require('next/router').useRouter();
+
+  // pages that should always render a dark header with a bottom border
+  const routesWithDarkHeader = new Set(['/solucoes']);
+  const forceDarkHeader = routesWithDarkHeader.has(router.pathname);
 
   // Track page scroll (legacy fallback) and detect visibility of the Hero section.
   useEffect(() => {
@@ -45,7 +50,13 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
   // Header variant
   if (variant === 'header') {
     return (
-      <header className="fixed top-0 left-0 right-0 z-[60] pointer-events-auto">
+      <header
+        className="fixed top-0 left-0 right-0 z-[60] pointer-events-auto"
+        style={{
+          background: forceDarkHeader ? colors.background.dark : undefined,
+          borderBottom: forceDarkHeader ? `1px solid ${colors.neutral.borderLight}` : undefined,
+        }}
+      >
         <nav
           aria-label="Main navigation"
           className="w-full transition-all duration-300"
@@ -53,13 +64,13 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
           <div className="w-full px-4 md:px-8 lg:px-12 flex items-center justify-between py-4 md:py-5">
             {/* Logo à esquerda */}
             <div className="flex items-center">
-              <Logo isDark={false} className="h-6" />
+              <Logo href="/" ariaLabel="Ir para a página inicial" isDark={false} className="h-6" />
             </div>
 
             {/* Links centralizados */}
             <ul className="hidden md:flex items-center gap-6 text-base absolute left-1/2 -translate-x-1/2 transition-colors duration-200" style={{ color: colors.text.light }}>
-              <li><a href="#section-0" className="hover:opacity-100 transition-colors duration-200" style={{ color: colors.text.light }} onMouseEnter={(e) => e.currentTarget.style.color = colors.neutral.grayHover} onMouseLeave={(e) => e.currentTarget.style.color = colors.text.light}>Início</a></li>
-              <li><a href="#solutions" className="hover:opacity-100 transition-colors duration-200" style={{ color: colors.text.light }} onMouseEnter={(e) => e.currentTarget.style.color = colors.neutral.grayHover} onMouseLeave={(e) => e.currentTarget.style.color = colors.text.light}>O que fazemos</a></li>
+              <li><Link href="/" className="hover:opacity-100 transition-colors duration-200" style={{ color: colors.text.light }} onMouseEnter={(e: any) => (e.currentTarget.style.color = colors.neutral.grayHover)} onMouseLeave={(e: any) => (e.currentTarget.style.color = colors.text.light)}>Início</Link></li>
+              <li><Link href="/solucoes" className="hover:opacity-100 transition-colors duration-200" style={{ color: colors.text.light }} onMouseEnter={(e: any) => (e.currentTarget.style.color = colors.neutral.grayHover)} onMouseLeave={(e: any) => (e.currentTarget.style.color = colors.text.light)}>O que fazemos</Link></li>
               <li><a href="#comparative" className="hover:opacity-100 transition-colors duration-200" style={{ color: colors.text.light }} onMouseEnter={(e) => e.currentTarget.style.color = colors.neutral.grayHover} onMouseLeave={(e) => e.currentTarget.style.color = colors.text.light}>Sobre nós</a></li>
               <li><a href="#clients" className="hover:opacity-100 transition-colors duration-200" style={{ color: colors.text.light }} onMouseEnter={(e) => e.currentTarget.style.color = colors.neutral.grayHover} onMouseLeave={(e) => e.currentTarget.style.color = colors.text.light}>Casos de sucesso</a></li>
               <li><a href="#contato" className="hover:opacity-100 transition-colors duration-200" style={{ color: colors.text.light }} onMouseEnter={(e) => e.currentTarget.style.color = colors.neutral.grayHover} onMouseLeave={(e) => e.currentTarget.style.color = colors.text.light}>Contato</a></li>
@@ -126,15 +137,16 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                 <nav className="flex-1 flex flex-col justify-center">
                   <ul className="flex flex-col gap-6">
                     <li>
-                      <a 
-                        href="#section-0" 
+                      <Link 
+                        href="/solucoes" 
                         onClick={() => setMenuOpen(false)}
                         className="text-xl font-light transition-colors duration-200 flex items-center gap-3"
                         style={{ color: colors.text.light }}
+                        aria-label="O que fazemos"
                       >
-                        <span>Início</span>
+                        <span>O que fazemos</span>
                         <ArrowRight size={18} className="-rotate-45" />
-                      </a>
+                      </Link>
                     </li>
                     <li>
                       <a 
@@ -227,7 +239,7 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
           </button>
         </div>
 
-        <Logo isDark className="h-6 absolute left-1/2 -translate-x-1/2" />
+        <Logo href="/" ariaLabel="Ir para a página inicial" isDark className="h-6 absolute left-1/2 -translate-x-1/2" />
 
         <div className="flex items-center">
           <ButtonMenu label="Impulsionar meu negócio" />

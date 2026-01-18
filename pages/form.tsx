@@ -688,7 +688,7 @@ const FormPage: React.FC = () => {
  </div>
  </main>
 
- <Footer />
+
  </div>
  </>
  );

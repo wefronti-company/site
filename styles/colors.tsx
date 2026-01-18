@@ -29,7 +29,7 @@ export const colors = {
     grayHover: '#6a6a6ae3',
     cardDark: '#1a1a1aff',
     cardLight: '#f5f5f5ff',
-    borderLight: '#8b8b8b4c',
+    borderLight: '#8b8b8b2b',
  },
 
  purple:{

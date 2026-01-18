@@ -298,7 +298,7 @@ const PoliticaPrivacidade: React.FC = () => {
           </div>
         </main>
 
-        <Footer />
+
       </div>
     </>
   );

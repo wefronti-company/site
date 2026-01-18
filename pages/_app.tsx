@@ -10,6 +10,7 @@ const CookieConsent = dynamic(() => import('../components/CookieConsent'), { ssr
 import { MenuProvider } from '../components/layout/MenuContext';
 import MenuPanel from '../components/layout/MenuPanel';
 import Header from '../components/ui/Header';
+import Footer from '../sections/Footer';
 
 export default function MyApp({ Component, pageProps }: AppProps) {
  const router = useRouter();
@@ -40,6 +41,8 @@ export default function MyApp({ Component, pageProps }: AppProps) {
  </Head>
  <Header variant="header" />
  <Component {...pageProps} />
+ {/* Footer on every page except home */}
+ {router.pathname !== '/' && <Footer />}
  <MenuPanel />
  <CookieConsent />
  </>
