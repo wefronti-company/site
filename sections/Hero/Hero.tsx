@@ -50,13 +50,13 @@ const Hero: React.FC = () => {
 
       {/* Content */}
       <div className="relative z-20 flex items-center justify-center min-h-screen px-8 md:px-16 lg:px-24">
-        <div className="w-full text-center">
+        <div className="w-full max-w-3xl mx-auto">
           
           <motion.h1 
             initial={{ opacity: 0, y: 30 }}
             animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
             transition={{ duration: 0.9, ease: "easeOut", delay: 0.2 }}
-            className="text-4xl md:text-5xl lg:text-6xl xl:text-8xl font-light leading-[1.1] mb-8"
+            className="text-4xl md:text-5xl lg:text-6xl xl:text-8xl font-light leading-[1.1] mb-8 text-left md:text-center md:max-w-5xl md:mx-auto"
             style={{ color: colors.primary.white }}
           >
             Um time experiente pronto para <span style={{ color: colors.purple.tertiary }}>desenvolver seu produto</span>
@@ -66,7 +66,7 @@ const Hero: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ duration: 0.8, ease: "easeOut", delay: 0.5 }}
-            className="text-lg md:text-xl lg:text-2xl leading-relaxed max-w-4xl mx-auto font-light mb-12"
+            className="text-lg md:text-xl lg:text-2xl leading-relaxed font-light mb-12 text-left md:text-center max-w-4xl mx-auto"
             style={{ color: colors.text.light, opacity: 0.9 }}
           >
             Da presença digital a plataformas completas, criamos soluções tecnológicas robustas, seguras e escaláveis, projetadas para sustentar a operação, reduzir riscos e impulsionar o crescimento do negócio.
@@ -77,7 +77,7 @@ const Hero: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ duration: 0.8, ease: "easeOut", delay: 0.7 }}
-            className="flex flex-col md:flex-row gap-4 max-w-3xl mx-auto"
+            className="flex flex-col md:flex-row gap-4"
           >
             {/* Card 1 */}
             <div 

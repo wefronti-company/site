@@ -5,7 +5,7 @@ import ButtonMenu from './ButtonMenu';
 import ButtonCta from './ButtonCta';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, ArrowRight } from 'lucide-react';
 import { FaInstagram, FaLinkedin, FaWhatsapp } from 'react-icons/fa';
 
 type HeaderVariant = 'float' | 'header';
@@ -73,18 +73,19 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                 <ButtonCta label="Entrar em contato" />
               </div>
 
-              <div className="md:hidden">
+              <div className="md:hidden flex items-center gap-2">
+                <span className="text-base font-medium pointer-events-none" style={{ color: colors.text.light }}>Menu</span>
                 <button
                   className="p-2 rounded-full relative flex items-center gap-3 transition-colors duration-200"
                   aria-expanded={menuOpen}
-                  aria-controls="solutions-menu"
+                  aria-controls="mobile-menu"
                   onClick={() => setMenuOpen(prev => !prev)}
                   aria-label={menuOpen ? 'Fechar menu' : 'Abrir menu'}
                 >
                   <div className="w-7 h-6 relative flex items-center">
-                    <span className={`absolute block w-6 h-[2px] rounded transition-all duration-200 ${menuOpen ? 'left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rotate-45' : 'left-0 top-1/2 -translate-y-1'}`}
+                    <span className="absolute block w-6 h-[2px] rounded left-0 top-1/2 -translate-y-1"
                       style={{ background: colors.text.light }} />
-                    <span className={`absolute block w-6 h-[2px] rounded transition-all duration-200 ${menuOpen ? 'left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 -rotate-45' : 'left-0 top-1/2 translate-y-1'}`}
+                    <span className="absolute block w-6 h-[2px] rounded left-0 top-1/2 translate-y-1"
                       style={{ background: colors.text.light }} />
                   </div>
                 </button>
@@ -96,54 +97,107 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
         <AnimatePresence>
           {menuOpen && (
             <motion.div
-              key="menu-panel"
-              initial={{ opacity: 0, scaleY: 0 }}
-              animate={{ opacity: 1, scaleY: 1 }}
-              exit={{ opacity: 0, scaleY: 0 }}
-              transition={{ duration: 0.28 }}
-              style={{ background: colors.primary.white, borderRadius: '12px', transformOrigin: 'top' }}
-              className="max-w-3xl mx-auto mt-3 shadow-lg p-6 z-40"
+              key="mobile-menu"
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+              className="fixed inset-0 z-50 md:hidden"
+              style={{ background: colors.background.dark }}
             >
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div>
-                  <h4 className="text-sm font-medium uppercase mb-3" style={{ color: colors.text.dark }}>Navegação</h4>
-                  <ul className="flex flex-col gap-3">
-                    <li><a href="#section-0" className="inline-flex items-center gap-2 text-sm" ><span>Início</span> <ArrowUpRight className="w-4 h-4" /></a></li>
-                    <li><a href="#solutions" className="inline-flex items-center gap-2 text-sm" ><span>Soluções</span> <ArrowUpRight className="w-4 h-4" /></a></li>
-                    <li><a href="#projetos" className="inline-flex items-center gap-2 text-sm" ><span>Projetos</span> <ArrowUpRight className="w-4 h-4" /></a></li>
-                    <li><a href="#sobre-nos" className="inline-flex items-center gap-2 text-sm" ><span>Sobre nós</span> <ArrowUpRight className="w-4 h-4" /></a></li>
-                    <li><a href="#contato" className="inline-flex items-center gap-2 text-sm" ><span>Contato</span> <ArrowUpRight className="w-4 h-4" /></a></li>
+              <div className="h-full flex flex-col p-6">
+                {/* Header do menu mobile */}
+                <div className="flex items-center justify-end mb-12">
+                  <button
+                    onClick={() => setMenuOpen(false)}
+                    aria-label="Fechar menu"
+                    className="p-2"
+                  >
+                    <div className="w-7 h-6 relative flex items-center">
+                      <span className="absolute block w-6 h-[2px] rounded left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rotate-45"
+                        style={{ background: colors.text.light }} />
+                      <span className="absolute block w-6 h-[2px] rounded left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 -rotate-45"
+                        style={{ background: colors.text.light }} />
+                    </div>
+                  </button>
+                </div>
+
+                {/* Links do menu */}
+                <nav className="flex-1 flex flex-col justify-center">
+                  <ul className="flex flex-col gap-6">
+                    <li>
+                      <a 
+                        href="#section-0" 
+                        onClick={() => setMenuOpen(false)}
+                        className="text-xl font-light transition-colors duration-200 flex items-center gap-3"
+                        style={{ color: colors.text.light }}
+                      >
+                        <span>Início</span>
+                        <ArrowRight size={18} className="-rotate-45" />
+                      </a>
+                    </li>
+                    <li>
+                      <a 
+                        href="#solutions" 
+                        onClick={() => setMenuOpen(false)}
+                        className="text-xl font-light transition-colors duration-200 flex items-center gap-3"
+                        style={{ color: colors.text.light }}
+                      >
+                        <span>O que fazemos</span>
+                        <ArrowRight size={18} className="-rotate-45" />
+                      </a>
+                    </li>
+                    <li>
+                      <a 
+                        href="#comparative" 
+                        onClick={() => setMenuOpen(false)}
+                        className="text-xl font-light transition-colors duration-200 flex items-center gap-3"
+                        style={{ color: colors.text.light }}
+                      >
+                        <span>Sobre nós</span>
+                        <ArrowRight size={18} className="-rotate-45" />
+                      </a>
+                    </li>
+                    <li>
+                      <a 
+                        href="#clients" 
+                        onClick={() => setMenuOpen(false)}
+                        className="text-xl font-light transition-colors duration-200 flex items-center gap-3"
+                        style={{ color: colors.text.light }}
+                      >
+                        <span>Casos de sucesso</span>
+                        <ArrowRight size={18} className="-rotate-45" />
+                      </a>
+                    </li>
+                    <li>
+                      <a 
+                        href="#contato" 
+                        onClick={() => setMenuOpen(false)}
+                        className="text-xl font-light transition-colors duration-200 flex items-center gap-3"
+                        style={{ color: colors.text.light }}
+                      >
+                        <span>Contato</span>
+                        <ArrowRight size={18} className="-rotate-45" />
+                      </a>
+                    </li>
+                    <li>
+                      <a 
+                        href="#faq" 
+                        onClick={() => setMenuOpen(false)}
+                        className="text-xl font-light transition-colors duration-200 flex items-center gap-3"
+                        style={{ color: colors.text.light }}
+                      >
+                        <span>FAQ</span>
+                        <ArrowRight size={18} className="-rotate-45" />
+                      </a>
+                    </li>
                   </ul>
+                </nav>
+
+                {/* CTA no rodapé do menu */}
+                <div className="mt-auto">
+                  <ButtonCta label="Entrar em contato" className="w-full" />
                 </div>
-
-                <div>
-                  <h4 className="text-sm font-medium uppercase mb-3" style={{ color: colors.text.dark }}>Redes sociais</h4>
-                  <div className="flex flex-col items-start gap-3">
-                    <a href="https://instagram.com/wefronti" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 text-sm" aria-label="Instagram">
-                      <span className="w-8 h-8 flex items-center justify-center rounded-md" style={{ color: colors.purple.tertiary }}>
-                        <FaInstagram className="w-5 h-5" aria-hidden />
-                      </span>
-                      <span>Instagram</span>
-                    </a>
-
-                    <a href="https://linkedin.com/company/wefronti" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 text-sm" aria-label="LinkedIn">
-                      <span className="w-8 h-8 flex items-center justify-center rounded-md" style={{ color: colors.purple.tertiary }}>
-                        <FaLinkedin className="w-5 h-5" aria-hidden />
-                      </span>
-                      <span>LinkedIn</span>
-                    </a>
-                  </div>
-                </div>
-
-                <div>
-                  <h4 className="text-sm font-medium uppercase mb-3" style={{ color: colors.text.dark }}>Tira dúvidas</h4>
-                  <p className="text-sm text-gray-600 mb-3">Fale com nosso time via WhatsApp para tirar dúvidas rápidas.</p>
-                  <a href="https://wa.me/message/3V45SAJMLIJJJ1" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 px-3 py-3 rounded-md shadow-sm" style={{ borderRadius: '999px', background: colors.apoio.green, color: colors.whiteColor }} aria-label="Tirar dúvidas no WhatsApp">
-                    <FaWhatsapp className="w-5 h-5" style={{ color: colors.whiteColor }} aria-hidden />
-                    <span className="font-medium">Tirar dúvidas</span>
-                  </a>
-                </div>
-
               </div>
             </motion.div>
           )}
