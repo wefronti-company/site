@@ -300,4 +300,20 @@ html::-webkit-scrollbar-thumb, body::-webkit-scrollbar-thumb, *::-webkit-scrollb
 html *::-webkit-scrollbar-thumb { background: var(--purple-primary) !important; border-radius: 0 !important; box-shadow: none !important; }
 html *::-webkit-scrollbar-track { background: var(--purple-secondary) !important; border-radius: 0 !important; }
 
+/* Floating badge animation (subtle) */
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+  100% { transform: translateY(0); }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-float { animation: none !important; }
+}
+
 

@@ -3,7 +3,7 @@ import SEO from '../components/SEO';
 import { colors } from '../styles/colors';
 import ButtonCta from '../components/ui/ButtonCta';
 import ServiceCard from '../components/ui/ServiceCard';
-import { Monitor, ShoppingCart, Server, Box, Layout, LifeBuoy, Cloud, Code, LayoutDashboard } from 'lucide-react';
+import { Monitor, ShoppingCart, Server, Box, Layout, LifeBuoy, Cloud, Code, LayoutDashboard, Rocket } from 'lucide-react';
 
 const Solucoes: React.FC = () => {
   return (
@@ -31,14 +31,21 @@ const Solucoes: React.FC = () => {
             - Visualmente as classes seguem o mesmo sistema tipográfico do hero principal.
           */}
 
-          <h2
-            className="text-4xl md:text-5xl lg:text-6xl font-light leading-[1.1] mb-6"
-            style={{ color: colors.primary.white }}
-            aria-level={2}
-            role="heading"
-          >
-            Tecnologia aplicada para destravar crescimento, eficiência e escala.
-          </h2>
+          <div className="mb-6 flex flex-col items-center gap-4">
+            <div className="inline-flex items-center gap-3 px-3 py-1 rounded-full animate-float" style={{ border: `1px solid ${colors.neutral.borderLight}`, backgroundColor: 'rgba(115,111,176,0.05)', boxShadow: '0 8px 30px rgba(0,0,0,0.45)' }}>
+              <Box size={16} style={{ color: colors.purple.tertiary }} aria-hidden />
+              <span className="text-sm font-medium" style={{ color: colors.text.light }}>O que fazemos</span>
+            </div>
+
+            <h2
+              className="text-4xl md:text-5xl lg:text-6xl font-light leading-[1.1]"
+              style={{ color: colors.primary.white }}
+              aria-level={2}
+              role="heading"
+            >
+              Tecnologia aplicada para destravar crescimento, eficiência e escala.
+            </h2>
+          </div>
 
           <h3
             className="text-lg md:text-xl lg:text-2xl leading-relaxed max-w-3xl font-light mb-8"
@@ -54,6 +61,16 @@ const Solucoes: React.FC = () => {
 
       <section className="py-20" aria-label="Serviços">
         <div className="w-full max-w-5xl mx-auto px-6">
+
+          <div className="mb-8 flex items-center gap-4">
+            <div className="w-12 h-12 flex items-center justify-center rounded-md" style={{ border: `1px solid ${colors.neutral.borderLight}`, borderRadius: '6px', backgroundColor: 'rgba(115,111,176,0.06)', color: colors.purple.tertiary }} aria-hidden>
+              <Rocket size={21} />
+            </div>
+
+            <h3 className="text-lg md:text-xl lg:text-2xl font-regular m-0" style={{ color: colors.primary.black }}>Veja como podemos ajudar seu negócio</h3>
+
+            <div className="flex-1 h-px ml-4" style={{ backgroundColor: colors.neutral.borderLight }} />
+          </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
