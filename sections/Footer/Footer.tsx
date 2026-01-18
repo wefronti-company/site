@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import Logo from '../../components/ui/Logo';
 import { colors } from '../../styles/colors';
-import { ArrowRight, ArrowUpRight, ShieldCheck } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, ArrowUp, ShieldCheck } from 'lucide-react';
 import { FaWhatsapp, FaEnvelope, FaInstagram, FaLinkedin } from 'react-icons/fa';
 
 const Footer: React.FC = () => {
@@ -18,11 +18,11 @@ const Footer: React.FC = () => {
  <footer 
  className="w-full transition-colors"
  style={{
- backgroundColor: colors.blackColor,
- }}
+ backgroundColor: colors.primary.black,
+ borderTopLeftRadius: '20px', borderTopRightRadius: '20px',}}
  >
  <div className="px-4 md:px-8 lg:px-16 py-12 md:py-16 relative">
- <div className="w-full max-w-[1400px] mx-auto">
+ <div className="w-full max-w-[1400px] mx-auto" >
 
    {/* Main layout — 5 columns (desktop) */}
    <div className="grid grid-cols-1 md:grid-cols-5 gap-8 mb-8">
@@ -128,32 +128,20 @@ const Footer: React.FC = () => {
  />
 
  
- <div className="flex flex-col md:flex-row items-center justify-between gap-4">
- <div className="flex flex-col md:flex-row items-start md:items-center gap-2">
-   <p className="text-sm" style={{ color: colors.whiteColor, opacity: 0.6 }}>
-     © {new Date().getFullYear()} Wefronti. Todos os direitos reservados.
-   </p>
-   <p className="text-sm" style={{ color: colors.whiteColor, opacity: 0.6 }}>
-     • CNPJ: 64.507.638/0001-04 • Wefronti Tecnologia Ltda.
-   </p>
- </div>
+ <div className="grid grid-cols-1 md:grid-cols-3 items-center gap-2">
+   <div className="text-sm text-left" style={{ color: colors.neutral.grayHover, opacity: 0.6 }}>
+     CNPJ: 64.507.638/0001-04 • Wefronti Tecnologia Ltda
+   </div>
 
- <div className="flex items-center gap-4">
-   <a 
-     href="/politica-privacidade" 
-     className="text-sm transition-opacity hover:opacity-100" 
-     style={{ color: colors.whiteColor, opacity: 0.6 }}
-   >
-     Política de Privacidade
-   </a>
-   <a 
-     href="/termos-de-uso" 
-     className="text-sm transition-opacity hover:opacity-100 hidden md:inline-block" 
-     style={{ color: colors.whiteColor, opacity: 0.6 }}
-   >
-     Termos de Uso
-   </a>
- </div>
+   <div className="text-sm text-center" style={{ color: colors.neutral.grayHover, opacity: 0.6 }}>
+     © {new Date().getFullYear()} Wefronti. Todos os direitos reservados.
+   </div>
+
+   <div className="flex items-center justify-end">
+     <button onClick={scrollToTop} aria-label="Voltar ao topo" className="p-2 rounded-full transition-colors hover:bg-white/5" style={{ color: colors.whiteColor }}>
+       <ArrowUp size={18} />
+     </button>
+   </div>
  </div>
 
  </div>
