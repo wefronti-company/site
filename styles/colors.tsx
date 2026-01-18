@@ -4,19 +4,19 @@ export const colors = {
 
  primary:{
     black: '#010101',
-    white: '#d4d4d4ff',
+    white: '#ffffffff',
  },
 
  background:{
-    dark: '#101019ff',
-    light:'#000000',
+    dark: '#010101ff',
+    light:'#000000ff',
     transparent: 'rgba(0, 0, 0, 0)',
  },
 
  text:{
    
     dark: '#4c4c4cff',
-    light: '#f2f2f2',
+    light: '#ffffffff',
     primary: '#101019ff',
     secondary: '#1f1f1fe3',
  },

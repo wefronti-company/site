@@ -37,7 +37,7 @@ const Solucoes: React.FC = () => {
             aria-level={2}
             role="heading"
           >
-            O que fazemos
+            Tecnologia aplicada para destravar crescimento, eficiência e escala.
           </h2>
 
           <h3
@@ -46,7 +46,7 @@ const Solucoes: React.FC = () => {
             aria-level={3}
             role="heading"
           >
-            Construímos produtos digitais e plataformas escaláveis da concepção ao lançamento e operação com foco em segurança, performance e resultado de negócio.
+            Construímos soluções digitais que resolvem gargalos reais do seu negócio, aumentam receita, reduzem custos e trazem controle.
           </h3>
 
         </div>
@@ -59,37 +59,37 @@ const Solucoes: React.FC = () => {
             {[
               {
                 title: 'Sites institucionais',
-                description: 'Sites rápidos e focados em conversão para comunicar sua proposta e gerar negócios.',
+                description: 'Seu site não pode ser apenas bonito ele precisa convencer, gerar confiança e vender. Criamos sites rápidos e estratégicos que comunicam valor com clareza e transformam visitas em oportunidades reais de negócio.',
                 icon: <Monitor size={20} />,
                 image: '/images/developement/desenvolvimento-de-sites.webp'
               },
               {
                 title: 'E‑commerce',
-                description: 'Lojas online seguras e escaláveis para vender e crescer sem dor.',
+                description: 'Vender online não é só subir produtos. Desenvolvemos lojas virtuais seguras, escaláveis e pensadas para converter mais, integrar meios de pagamento e crescer sem dor operacional.',
                 icon: <ShoppingCart size={20} />,
                 image: '/images/developement/desenvolvimento-de-ecommerce.webp'
               },
               {
                 title: 'Sistemas',
-                description: 'Soluções que automatizam processos e resolvem problemas reais do seu negócio.',
+                description: 'Processos manuais, retrabalho e falta de controle travam empresas.Criamos sistemas sob medida para automatizar operações, centralizar informações e dar visão real do negócio para quem toma decisão.',
                 icon: <Server size={20} />,
                 image: '/images/developement/desenvolvimento-de-sistemas.webp'
               },
               {
                 title: 'APIs e Integrações',
-                description: 'APIs confiáveis para conectar seus serviços, parceiros e canais.',
+                description: 'Quando sistemas não se conversam, o negócio perde eficiência. Conectamos plataformas, parceiros e serviços para eliminar falhas, ganhar velocidade e garantir dados confiáveis em toda a operação.',
                 icon: <Code size={20} />,
                 image: '/images/developement/desenvolvimento-de-api.webp'
               },
               {
                 title: 'Dashboard',
-                description: 'Pesquisa, prototipagem e design que garantem decisões centradas no usuário.',
+                description: 'Decidir no escuro custa caro. Desenvolvemos dashboards claros e objetivos para transformar dados em decisões rápidas e estratégicas, com métricas que realmente importam.',
                 icon: <LayoutDashboard size={20} />,
                 image: '/images/developement/desenvolvimento-de-dashboard.webp'
               },
               {
                 title: 'Saas',
-                description: 'Parceria contínua: evoluímos seu produto com suporte e roadmaps estratégicos.',
+                description: 'Ideias boas precisam de execução sólida. Apoiamos empresas na criação, evolução e escala de produtos SaaS, com tecnologia preparada para crescer, manter performance e gerar receita recorrente.',
                 icon: <Cloud size={20} />,
                 image: '/images/developement/desenvolvimento-de-saas.webp'
               }
