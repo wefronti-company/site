@@ -1,3 +1,5 @@
+import { tr } from "zod/v4/locales";
+
 export const colors = {
 
  primary:{
@@ -7,7 +9,8 @@ export const colors = {
 
  background:{
     dark: '#101019ff',
-    light:'#d4d4d4ff',
+    light:'#000000',
+    transparent: 'rgba(0, 0, 0, 0)',
  },
 
  text:{
@@ -26,7 +29,7 @@ export const colors = {
     grayHover: '#6a6a6ae3',
     cardDark: '#1a1a1aff',
     cardLight: '#f5f5f5ff',
-    borderLight: '#ccccccb5',
+    borderLight: '#8b8b8b4c',
  },
 
  purple:{

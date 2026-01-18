@@ -36,17 +36,18 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
       onClick={handleClick}
       disabled={disabled}
       aria-label={label || (typeof children === 'string' ? children : 'CTA')}
-      className={`inline-flex items-center justify-center gap-2 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed group ${className || ''}`}
+      className={`inline-flex items-center justify-center gap-2 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed group hover:bg-purple-tertiary ${className || ''}`}
       style={{ 
-        border: 'none', 
-        background: colors.neutral.grayHover,
-        backdropFilter: 'blur(10px)',
+        border: `1px solid ${colors.neutral.borderLight}`, 
+        background: 'transparent',
         borderRadius: '999px', 
         padding: '12px 24px'
       }}
+      onMouseEnter={(e) => e.currentTarget.style.background = colors.purple.tertiary}
+      onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
     >
       <span
-        className="text-base font-medium leading-none"
+        className="text-base font-medium leading-none transition-colors duration-300"
         style={{ color: colors.primary.white }}
       >
         {children || label || 'Entre em contato'}

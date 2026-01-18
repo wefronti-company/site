@@ -74,52 +74,48 @@ const Hero: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ duration: 0.8, ease: "easeOut", delay: 0.7 }}
-            className="flex flex-col md:flex-row gap-4 max-w-4xl mx-auto"
+            className="flex flex-col md:flex-row gap-4 max-w-3xl mx-auto"
           >
             {/* Card 1 */}
             <div 
-              className="flex-1 group cursor-pointer rounded-3xl p-8 transition-transform duration-300 hover:scale-[1.02]"
-              style={{ background: colors.neutral.grayHover }}
+              className="flex-1 group cursor-pointer rounded-3xl p-7 transition-transform duration-300 hover:scale-[1.02]"
+              style={{ background: colors.purple.tertiary }}
             >
-              <div className="flex items-start justify-between gap-4 mb-4">
-                <div className="flex-1">
-                  <h3 className="text-2xl md:text-3xl font-medium mb-4" style={{ color: colors.primary.white }}>
-                    Iniciar um projeto
-                  </h3>
-                  <p className="text-base font-normal" style={{ color: colors.primary.white, opacity: 0.7 }}>
-                    Fale com nosso time e vamos construir algo incrível juntos
-                  </p>
-                </div>
+              <div className="flex items-center gap-3 mb-2">
+                <h3 className="text-xl md:text-2xl font-medium" style={{ color: colors.primary.white }}>
+                  Iniciar um projeto
+                </h3>
                 <ArrowUpRight 
-                  size={24} 
+                  size={22} 
                   color={colors.primary.white} 
-                  className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1 flex-shrink-0 mt-1" 
+                  className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1 flex-shrink-0" 
                   style={{ opacity: 0.7 }}
                 />
               </div>
+              <p className="text-base font-normal text-left" style={{ color: colors.primary.white, opacity: 0.7 }}>
+                Fale com nosso time e vamos construir algo incrível juntos
+              </p>
             </div>
 
             {/* Card 2 */}
             <div 
-              className="flex-1 group cursor-pointer rounded-3xl p-8 transition-transform duration-300 hover:scale-[1.02]"
-              style={{ background: colors.purple.tertiary }}
+              className="flex-1 group cursor-pointer rounded-3xl p-7 transition-transform duration-300 hover:scale-[1.02]"
+              style={{ border: `1px solid ${colors.neutral.borderLight}`, background: colors.background.transparent }}
             >
-              <div className="flex items-start justify-between gap-4 mb-4">
-                <div className="flex-1">
-                  <h3 className="text-2xl md:text-3xl font-medium mb-4" style={{ color: colors.primary.white }}>
-                    Casos de sucesso
-                  </h3>
-                  <p className="text-base font-normal" style={{ color: colors.primary.white, opacity: 0.7 }}>
-                    Confira como ajudamos outras empresas a crescerem
-                  </p>
-                </div>
+              <div className="flex items-center gap-3 mb-2">
+                <h3 className="text-xl md:text-2xl font-medium" style={{ color: colors.primary.white }}>
+                  Casos de sucesso
+                </h3>
                 <ArrowUpRight 
-                  size={24} 
+                  size={22} 
                   color={colors.primary.white} 
-                  className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1 flex-shrink-0 mt-1" 
+                  className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1 flex-shrink-0" 
                   style={{ opacity: 0.7 }}
                 />
               </div>
+              <p className="text-base font-normal text-left" style={{ color: colors.primary.white, opacity: 0.7 }}>
+                Confira como ajudamos outras empresas a crescerem
+              </p>
             </div>
           </motion.div>
 
