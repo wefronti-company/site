@@ -10,7 +10,7 @@ const PoliticaPrivacidade: React.FC = () => {
   return (
     <>
       <Head>
-        <title>Política de Privacidade e Termos de Uso | Wefronti</title>
+        <title>Política de Privacidade e Termos de Uso • Wefronti</title>
         <meta name="description" content="Política de Privacidade, Termos de Uso e proteção de dados pessoais da Wefronti de acordo com a LGPD" />
         <meta name="robots" content="noindex, nofollow" />
       </Head>

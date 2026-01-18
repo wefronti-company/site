@@ -17,6 +17,8 @@ export const colors = {
    
     dark: '#4c4c4cff',
     light: '#f2f2f2',
+    primary: '#101019ff',
+    secondary: '#1f1f1fe3',
  },
 
  icons:{
@@ -28,7 +30,7 @@ export const colors = {
     gray: '#29292966',
     grayHover: '#6a6a6ae3',
     cardDark: '#1a1a1aff',
-    cardLight: '#f5f5f5ff',
+    cardLight: '#d1d1d1ff',
     borderLight: '#8b8b8b2b',
  },
 

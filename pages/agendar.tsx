@@ -63,7 +63,7 @@ const AgendarPage: React.FC = () => {
   return (
     <>
       <Head>
-        <title>Agendar Reunião | Wefronti</title>
+        <title>Agendar Reunião • Wefronti</title>
         <meta name="description" content="Agende uma reunião com nossa equipe para discutir seu projeto" />
       </Head>
 

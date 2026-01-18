@@ -28,7 +28,7 @@ const SEO: React.FC<SEOProps> = ({
  defaultKeywords: 'desenvolvimento de produto digital, saas sob medida, desenvolvimento de software empresarial, sistema web complexo, aplicativo mobile, ecommerce personalizado, inteligência artificial, transformação digital, produto digital escalável, desenvolvimento saas, software como serviço, plataforma web, app para negócios, desenvolvimento rio de janeiro',
  };
 
- const pageTitle = title ? `${title} | ${seoConfig.siteName}` : seoConfig.defaultTitle;
+  const pageTitle = title ? `${title} • ${seoConfig.siteName}` : seoConfig.defaultTitle;
  const pageDescription = description || seoConfig.defaultDescription;
  const pageKeywords = keywords || seoConfig.defaultKeywords;
  const siteUrl = 'https://wefronti.com';

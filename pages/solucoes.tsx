@@ -2,11 +2,13 @@ import React from 'react';
 import SEO from '../components/SEO';
 import { colors } from '../styles/colors';
 import ButtonCta from '../components/ui/ButtonCta';
+import ServiceCard from '../components/ui/ServiceCard';
+import { Monitor, ShoppingCart, Server, Box, Layout, LifeBuoy, Cloud, Code, LayoutDashboard } from 'lucide-react';
 
 const Solucoes: React.FC = () => {
   return (
     <main>
-      <SEO title="O que fazemos • " description="Serviços: desenvolvimento de produtos digitais, plataformas, APIs, design e consultoria técnica." />
+      <SEO title="O que fazemos" description="Serviços: desenvolvimento de produtos digitais, plataformas, APIs, design e consultoria técnica." />
 
       <section
         className="relative min-h-[60vh] flex items-center overflow-hidden rounded-b-2xl md:rounded-b-4xl"
@@ -44,32 +46,56 @@ const Solucoes: React.FC = () => {
             aria-level={3}
             role="heading"
           >
-            Construímos produtos digitais e plataformas escaláveis — da concepção ao lançamento e operação — com foco em segurança, performance e resultado de negócio.
+            Construímos produtos digitais e plataformas escaláveis da concepção ao lançamento e operação com foco em segurança, performance e resultado de negócio.
           </h3>
 
-          {/* hero sem botão (apenas título + subtítulo) */}
         </div>
       </section>
 
       <section className="py-20" aria-label="Serviços">
         <div className="w-full max-w-5xl mx-auto px-6">
-          <h2 className="text-2xl font-medium mb-6" style={{ color: colors.primary.white }}>Nossos serviços</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <article className="rounded-2xl p-6" style={{ background: colors.neutral.cardDark }}>
-              <h3 className="text-lg font-semibold mb-2" style={{ color: colors.primary.white }}>Desenvolvimento de produto</h3>
-              <p className="text-sm text-gray-300">Times full‑stack para validar, projetar e entregar produtos SaaS e marketplaces.</p>
-            </article>
-
-            <article className="rounded-2xl p-6" style={{ background: colors.neutral.cardDark }}>
-              <h3 className="text-lg font-semibold mb-2" style={{ color: colors.primary.white }}>Plataformas & APIs</h3>
-              <p className="text-sm text-gray-300">Arquitetura escalável, integrações e APIs seguras para suportar crescimento.</p>
-            </article>
-
-            <article className="rounded-2xl p-6" style={{ background: colors.neutral.cardDark }}>
-              <h3 className="text-lg font-semibold mb-2" style={{ color: colors.primary.white }}>Design & UX</h3>
-              <p className="text-sm text-gray-300">Design centrado no usuário, prototipagem rápida e testes de usabilidade.</p>
-            </article>
+            {[
+              {
+                title: 'Sites institucionais',
+                description: 'Sites rápidos e focados em conversão para comunicar sua proposta e gerar negócios.',
+                icon: <Monitor size={20} />,
+                image: '/images/developement/desenvolvimento-de-sites.webp'
+              },
+              {
+                title: 'E‑commerce',
+                description: 'Lojas online seguras e escaláveis para vender e crescer sem dor.',
+                icon: <ShoppingCart size={20} />,
+                image: '/images/developement/desenvolvimento-de-ecommerce.webp'
+              },
+              {
+                title: 'Sistemas',
+                description: 'Soluções que automatizam processos e resolvem problemas reais do seu negócio.',
+                icon: <Server size={20} />,
+                image: '/images/developement/desenvolvimento-de-sistemas.webp'
+              },
+              {
+                title: 'APIs e Integrações',
+                description: 'APIs confiáveis para conectar seus serviços, parceiros e canais.',
+                icon: <Code size={20} />,
+                image: '/images/developement/desenvolvimento-de-api.webp'
+              },
+              {
+                title: 'Dashboard',
+                description: 'Pesquisa, prototipagem e design que garantem decisões centradas no usuário.',
+                icon: <LayoutDashboard size={20} />,
+                image: '/images/developement/desenvolvimento-de-dashboard.webp'
+              },
+              {
+                title: 'Saas',
+                description: 'Parceria contínua: evoluímos seu produto com suporte e roadmaps estratégicos.',
+                icon: <Cloud size={20} />,
+                image: '/images/developement/desenvolvimento-de-saas.webp'
+              }
+            ].map((s) => (
+              <ServiceCard key={s.title} title={s.title} description={s.description} icon={s.icon} imageSrc={s.image} imageAlt={s.title} />
+            ))}
           </div>
         </div>
       </section>

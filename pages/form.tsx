@@ -246,7 +246,7 @@ const FormPage: React.FC = () => {
  return (
  <>
  <Head>
- <title>Solicite um Orçamento | Wefronti</title>
+ <title>Solicite um Orçamento • Wefronti</title>
  <meta name="description" content="Solicite um orçamento personalizado para seu projeto" />
  <meta name="robots" content="noindex, nofollow" />
  </Head>
