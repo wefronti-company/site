@@ -3,7 +3,8 @@ import SEO from '../components/SEO';
 import { colors } from '../styles/colors';
 import ButtonCta from '../components/ui/ButtonCta';
 import ServiceCard from '../components/ui/ServiceCard';
-import { Monitor, ShoppingCart, Server, Box, Layout, LifeBuoy, Cloud, Code, LayoutDashboard, ArrowDown, Rocket } from 'lucide-react';
+import AccordionItem from '../components/ui/Accordion';
+import { Monitor, ShoppingCart, Server, Box, Layout, LifeBuoy, Cloud, Code, LayoutDashboard, ArrowDown, Rocket, Star } from 'lucide-react';
 
 const Solucoes: React.FC = () => {
   return (
@@ -116,13 +117,14 @@ const Solucoes: React.FC = () => {
           </div>
 
           {/* Divider with centered down arrow to next section */}
-          <div className="w-full flex items-center justify-center mt-10">
-            <button
+          <div className="w-full flex items-center justify-center mt-16 mb-0">
+            <div
               className="w-12 h-12 flex items-center justify-center rounded-md"
-              style={{ backgroundColor: 'rgba(115,111,176,0.06)', color: colors.purple.tertiary, borderRadius: '6px', border: `1px solid ${colors.neutral.borderLight}` }}
+              style={{ backgroundColor: 'rgba(115,111,176,0.06)', color: colors.purple.tertiary, borderRadius: '6px', border: `1px solid ${colors.neutral.borderLight}`, cursor: 'default' }}
+              aria-hidden
             >
               <ArrowDown size={18} />
-            </button>
+            </div>
           </div>
 
         </div>
@@ -130,18 +132,50 @@ const Solucoes: React.FC = () => {
 
       <section id="como-fazemos" className="py-20 bg-black/20" aria-label="Nosso processo">
         <div className="w-full max-w-5xl mx-auto px-6">
-          <h2 className="text-2xl font-medium mb-6" style={{ color: colors.primary.white }}>Como trabalhamos</h2>
-          <ol className="space-y-6 list-decimal pl-6 text-gray-300">
-            <li>
-              Discovery — pesquisa e definição de hipóteses de negócio.
-            </li>
-            <li>
-              Prototipação & validação — testes rápidos com usuários reais.
-            </li>
-            <li>
-              Entrega incremental — squads dedicados, entregas contínuas e monitoramento.
-            </li>
-          </ol>
+
+          <div className="mb-6 flex items-center gap-4">
+            <div className="w-12 h-12 flex items-center justify-center rounded-md" style={{ border: `1px solid ${colors.neutral.borderLight}`, borderRadius: '6px', backgroundColor: 'rgba(115,111,176,0.06)', color: colors.purple.tertiary }} aria-hidden>
+              <Star size={21} />
+            </div>
+
+            <h3 className="text-lg md:text-xl lg:text-2xl font-regular m-0" style={{ color: colors.primary.black }}>Como fazemos</h3>
+
+            <div className="flex-1 h-px ml-4" style={{ backgroundColor: colors.neutral.borderLight }} />
+          </div>
+
+          <h2 className="text-2xl font-medium mb-6" style={{ color: colors.primary.white }}>Como fazemos</h2>
+
+          {/* Accordion process */}
+          <div className="w-full">
+            <div className="grid grid-cols-1 gap-6">
+              <div className="md:max-w-5xl">
+                <AccordionItem id="diagnostico" index={1} title="Diagnóstico estratégico do negócio" summary="Entendimento e priorização" imageSrc="/images/developement/desenvolvimento-de-sites.webp">
+                  <p>
+                    Nesta etapa conduzimos entrevistas com stakeholders, análise de dados e levantamento de hipóteses. Definimos um roadmap com entregas priorizadas para alinhar os objetivos do negócio e as métricas de sucesso.
+                  </p>
+                </AccordionItem>
+
+                <AccordionItem id="discovery" index={2} title="Discovery — pesquisa e hipóteses" summary="Pesquisa e definição" imageSrc="/images/developement/desenvolvimento-de-dashboard.webp">
+                  <p>
+                    Fazemos pesquisas qualitativas e quantitativas, mapeamos jornadas e geramos hipóteses de valor a serem validadas com usuários reais. O foco é reduzir incertezas antes de investir em desenvolvimento.
+                  </p>
+                </AccordionItem>
+
+                <AccordionItem id="prototipacao" index={3} title="Prototipação & validação" summary="Testes com usuários" imageSrc="/images/developement/desenvolvimento-de-ecommerce.webp">
+                  <p>
+                    Criamos protótipos de alta fidelidade e realizamos testes com usuários para validar suposições. Iteramos rapidamente com base em feedbacks e métricas de comportamento.
+                  </p>
+                </AccordionItem>
+
+                <AccordionItem id="entrega" index={4} title="Entrega incremental" summary="Squads e monitoramento" imageSrc="/images/developement/desenvolvimento-de-saas.webp">
+                  <p>
+                    Entregamos funcionalidade por ciclos curtos com squads dedicados, acompanhando métricas e priorizando melhorias. Isso permite aprendizado contínuo e adaptações rápidas ao negócio.
+                  </p>
+                </AccordionItem>
+
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
