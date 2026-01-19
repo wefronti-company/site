@@ -12,8 +12,26 @@ interface AccordionItemProps {
   children?: React.ReactNode;
 }
 
+// Context for grouping accordion items so only one stays open
+const AccordionContext = React.createContext<{
+  openId?: string;
+  setOpenId: (id?: string) => void;
+} | null>(null);
+
+export const Accordion: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [openId, setOpenId] = React.useState<string | undefined>(undefined);
+  return (
+    <AccordionContext.Provider value={{ openId, setOpenId }}>
+      {children}
+    </AccordionContext.Provider>
+  );
+};
+
 export const AccordionItem: React.FC<AccordionItemProps> = ({ id, index = 1, title, summary, imageSrc, children }) => {
-  const [open, setOpen] = React.useState(false);
+  // Local state when not used inside grouped Accordion
+  const [localOpen, setLocalOpen] = React.useState(false);
+  const ctx = React.useContext(AccordionContext);
+  const open = ctx ? ctx.openId === id : localOpen;
 
   // Refs and measurement state to animate to exact pixel heights and avoid jumps
   const contentRef = React.useRef<HTMLDivElement | null>(null);
@@ -43,22 +61,34 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({ id, index = 1, tit
   }, [measure]);
 
   return (
-    <div className="rounded-2xl overflow-hidden" >
+    <div className="rounded-2xl overflow-hidden" style={{ border: `1px solid ${colors.neutral.cardLight}` }}>
       <button
         id={`acc-${id}`}
         type="button"
         aria-expanded={open}
         aria-controls={`panel-${id}`}
-        onClick={() => { if (!open) measure(); setOpen(!open); }}
+        onClick={() => {
+          // measure before opening to ensure correct animation height
+          if (!open) measure();
+          if (ctx) {
+            ctx.setOpenId(open ? undefined : id);
+          } else {
+            setLocalOpen(!localOpen);
+          }
+        }}
         onKeyDown={(e) => {
           // Ensure Enter / Space toggle on all browsers
           if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault();
             if (!open) measure();
-            setOpen(!open);
+            if (ctx) {
+              ctx.setOpenId(open ? undefined : id);
+            } else {
+              setLocalOpen(!localOpen);
+            }
           }
         }}
-        className="w-full flex items-center justify-between py-8 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-purple-300 transition"
+        className="w-full flex items-center justify-between px-5 py-8 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-purple-300 transition"
         style={{ background: 'transparent', cursor: 'pointer' }}
       >
         <div className="flex items-center gap-4">
@@ -67,7 +97,7 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({ id, index = 1, tit
           </div>
 
           <div>
-            <div className="text-base font-semibold" style={{ color: colors.text.primary }}>{title}</div>
+            <div className="text-lg md:text-xl lg:text-2xl font-regular" style={{ color: colors.text.primary }}>{title}</div>
             {summary ? <div className="text-sm mt-1" style={{ color: colors.text.secondary }}>{summary}</div> : null}
           </div>
         </div>
@@ -90,14 +120,16 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({ id, index = 1, tit
       >
         <div ref={contentRef} className="pt-4 px-5 pb-5 md:flex md:items-start md:gap-6">
           {imageSrc ? (
-            <div className="mb-4 md:mb-0 md:w-1/3 flex-shrink-0 overflow-hidden rounded-md">
-              <img src={imageSrc} alt={title} className="w-full h-44 md:h-40 object-cover rounded-md" onLoad={() => measure()} />
+            <div className="mb-4 md:mb-0 md:w-1/3 flex-shrink-0 md:ml-3 rounded-md" style={{ padding: '6px' }}>
+              <div className="overflow-hidden rounded-md" style={{ border: `1px solid ${colors.neutral.cardLight}`, backgroundColor: 'rgba(255,255,255,0.02)' }}>
+                <img src={imageSrc} alt={title} className="w-full h-44 md:h-40 object-cover rounded-md" onLoad={() => measure()} />
+              </div>
             </div>
           ) : null}
 
-          <div className="md:flex-1 text-sm" style={{ color: colors.text.secondary }}>
+          <div className="md:flex-1 text-lg font-regular" style={{ color: colors.text.secondary }}>
             {children ? children : (
-              <p>
+              <p className="m-0">
                 Este é um passo genérico do processo. Aqui explicamos como conduzimos a fase de descoberta e planejamento: entrevistas com stakeholders, análises de métricas e definição de roadmap.
               </p>
             )}
