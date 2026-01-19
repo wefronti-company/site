@@ -18,11 +18,11 @@ const Footer: React.FC = () => {
  <footer 
  className="w-full transition-colors"
  style={{
- backgroundColor: colors.primary.black,
-}}
+ backgroundColor: colors.primary.black, borderTop: `10px solid ${colors.neutral.borderLight}`}}
  >
- <div className="px-4 md:px-8 lg:px-16 pt-16 pb-20 md:pt-20 md:pb-24 relative -mt-12 md:-mt-16 min-h-[380px]" style={{ borderTop: `1px solid ${colors.borderDark}`, backgroundColor: colors.primary.black }}>
+ <div className="px-4 md:px-8 lg:px-16 pt-16 pb-12 md:pt-20 md:pb-14 relative -mt-12 md:-mt-16" style={{ backgroundColor: colors.primary.black }}>
  <div className="w-full max-w-[1400px] mx-auto" >
+
 
    {/* Main layout — 5 columns (desktop) */}
    <div className="grid grid-cols-1 md:grid-cols-5 gap-20 mb-16 md:mb-20"> 
@@ -121,14 +121,14 @@ const Footer: React.FC = () => {
 
     {/* Divider */}
  <div 
- className="w-full h-px mt-10 mb-12"
+ className="w-full h-px mt-6 mb-8"
  style={{
  backgroundColor: colors.borderDark
  }}
  />
 
  
- <div className="grid grid-cols-1 md:grid-cols-3 items-center gap-2 pt-6">
+ <div className="grid grid-cols-1 md:grid-cols-3 items-center gap-2 pt-3">
    <div className="text-sm text-left" style={{ color: colors.neutral.grayHover, opacity: 0.6 }}>
      CNPJ: 64.507.638/0001-04 • Wefronti Tecnologia Ltda
    </div>
