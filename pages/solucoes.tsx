@@ -3,7 +3,8 @@ import SEO from '../components/SEO';
 import { colors } from '../styles/colors';
 import ButtonCta from '../components/ui/ButtonCta';
 import ServiceCard from '../components/ui/ServiceCard';
-import AccordionItem, { Accordion } from '../components/ui/Accordion';
+import AccordionItem from '../components/ui/Accordion';
+import dynamic from 'next/dynamic';
 import { Monitor, ShoppingCart, Server, Box, Layout, LifeBuoy, Cloud, Code, LayoutDashboard, ArrowDown, Rocket, Star, Clipboard } from 'lucide-react';
 
 const Solucoes: React.FC = () => {
@@ -169,7 +170,7 @@ const Solucoes: React.FC = () => {
           <div className="w-full">
             <div className="grid grid-cols-1 gap-6">
               <div className="md:max-w-5xl space-y-6">
-                <Accordion>
+
                   <AccordionItem id="diagnostico" index={1} title="Diagnóstico estratégico do negócio" summary="Entendimento e priorização" imageSrc="/images/developement/desenvolvimento-de-sites.webp">
                     <p>
                       Antes de falar em tecnologia, analisamos o modelo de negócio, processos, objetivos e gargalos que impactam faturamento, escala ou eficiência operacional. Esse diagnóstico define o problema certo a ser resolvido, evitando soluções genéricas ou investimentos que não retornam valor. Aqui garantimos: clareza, direção e decisões bem fundamentadas.                    </p>
@@ -191,20 +192,40 @@ const Solucoes: React.FC = () => {
                       Após a entrega, seguimos próximos para evoluir a solução conforme o negócio cresce. A tecnologia deixa de ser um custo pontual e passa a ser um ativo estratégico, ajustado com base em dados, uso real e novos objetivos. Aqui garantimos: continuidade, adaptação e crescimento sustentável.
                     </p>
                   </AccordionItem>
-                </Accordion>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="py-20">
-        <div className="w-full max-w-5xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
-          <div>
-            <h3 className="text-xl font-medium" style={{ color: colors.primary.white }}>Pronto para começar?</h3>
-            <p className="text-sm text-gray-300">Agende uma conversa com nosso time e valide seu case em poucas semanas.</p>
+      {/* CTA hero adapted from page hero style */}
+      <section
+        aria-label="Call to action"
+        className="relative min-h-[70vh] flex items-center overflow-hidden  my-12"
+        style={{
+          backgroundImage: 'url(/images/site/background-site-wefronti.webp)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat'
+        }}
+      >
+        <div className="absolute inset-0 bg-black/40" />
+
+        <div className="relative w-full max-w-5xl mx-auto px-6 py-12 flex flex-col items-center text-center">
+          <div className="inline-flex items-center gap-3 px-3 py-1 rounded-full mb-4" style={{ border: `1px solid ${colors.neutral.borderLight}`, backgroundColor: 'rgba(115,111,176,0.05)' }}>
+            <Box size={16} style={{ color: colors.purple.tertiary }} aria-hidden />
+            <span className="text-sm font-medium" style={{ color: colors.text.light }}>Pronto para começar?</span>
           </div>
-          <ButtonCta label="Entrar em contato" />
+
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-light leading-tight mb-4" style={{ color: colors.primary.white }}>
+            Agende uma conversa com nosso time e valide seu case em poucas semanas.
+          </h2>
+
+          <p className="text-lg md:text-xl max-w-2xl font-light mb-8" style={{ color: colors.text.light }}>
+            Vamos entender seu desafio, priorizar entregas e propor um roadmap de alto impacto.
+          </p>
+
+          <ButtonCta label="Agendar conversa" />
         </div>
       </section>
 
