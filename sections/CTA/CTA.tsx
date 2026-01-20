@@ -394,12 +394,12 @@ const CTA: React.FC = () => {
             transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
           >
             <div className="flex-1 text-left">
-              <h2 className="text-3xl md:text-3xl lg:text-4xl font-regular mb-3">
-                <span style={{ color: colors.text.light }}>Vamos falar sobre o </span>
-                <span style={{ color: colors.purple.tertiary }}>que você quer construir. </span>
+              <h2 className="text-4xl md:text-4xl lg:text-5xl font-regular mb-4">
+                <span style={{ color: colors.text.light }}>Vamos falar sobre<br /></span>
+                <span style={{ color: colors.purple.tertiary }}>o que você quer construir.</span>
               </h2>
-              <p className="text-base" style={{ color: colors.text.light, opacity: 0.7 }}>
-                Preencha o formulário abaixo e nossa equipe entrará em contato
+              <p className="text-lg leading-relaxed" style={{ color: colors.text.light, opacity: 0.7 }}>
+                Projetos relevantes começam com boas conversas e expectativas bem definidas.
               </p>
             </div>
 
@@ -413,7 +413,7 @@ const CTA: React.FC = () => {
               <motion.div
                 animate={{ rotate: -360 }}
                 transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                className="relative w-24 h-24 md:w-32 md:h-32 flex items-center justify-center"
+                className="relative w-32 h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 flex items-center justify-center"
               >
                 <img 
                   src="/images/icons/icon-hero-circle.png" 

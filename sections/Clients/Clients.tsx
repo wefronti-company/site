@@ -35,15 +35,19 @@ const Clients: React.FC = () => {
  ref={sectionRef}
  id="clients"
  className="w-full py-12 md:py-20 transition-colors"
- style={{ backgroundColor: colors.whiteColor }}
+ style={{ backgroundColor: colors.background.dark }}
  >
- {/* Cabeçalho */}
- <div className="px-4 md:px-8 lg:px-16">
- <div className="max-w-7xl mx-auto">
- <div className="text-left md:text-center mb-8 md:mb-12 lg:mb-14 flex flex-col items-start md:items-center">
+ <div className="px-8 md:px-16 lg:px-24">
+ <div className="w-full max-w-3xl md:max-w-6xl mx-auto">
+ 
+ {/* Layout dividido: Título à esquerda, Cards à direita */}
+ <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+ 
+ {/* Lado Esquerdo - Título e Subtítulo */}
+ <div className="flex flex-col justify-center">
  <motion.div 
-   className="mb-6 flex items-center gap-2 px-3 py-1.5 backdrop-blur-md border"
-   style={{ backgroundColor: 'rgba(0, 0, 0, 0.05)', borderColor: colors.borderLight, borderRadius: '5px' }}
+   className="mb-6 flex items-center gap-2 px-3 py-1.5 backdrop-blur-md border w-fit"
+   style={{ backgroundColor: 'rgba(255, 255, 255, 0.05)', borderColor: colors.neutral.borderLight, borderRadius: '5px' }}
    initial={{ opacity: 0, y: 20 }}
    animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
    transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
@@ -57,64 +61,81 @@ const Clients: React.FC = () => {
      </defs>
      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" fill="url(#heartGradient)"/>
    </svg>
-   <span className="text-xs md:text-sm font-regular whitespace-nowrap" style={{ color: colors.blackColor }}>
+   <span className="text-xs md:text-sm font-regular whitespace-nowrap" style={{ color: colors.text.light }}>
      Depoimentos
    </span>
  </motion.div>
+ 
  <motion.h2 
-   className="text-4xl md:text-4xl lg:text-5xl font-medium mt-6 mb-4"
-   style={{ color: colors.blackColor }}
+   className="text-4xl md:text-4xl lg:text-5xl font-regular mb-4"
+   style={{ color: colors.text.light }}
    initial={{ opacity: 0, y: 20 }}
    animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
    transition={{ duration: 0.6, ease: "easeOut", delay: 0.4 }}
  >
- O que nossos clientes dizem sobre nós
+ A visão de quem trabalha conosco
  </motion.h2>
+ 
  <motion.p 
-   className="text-lg max-w-2xl md:mx-auto"
-   style={{ color: colors.blackColor, opacity: 0.7 }}
+   className="text-lg leading-relaxed"
+   style={{ color: colors.text.light, opacity: 0.7 }}
    initial={{ opacity: 0, y: 20 }}
    animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
    transition={{ duration: 0.6, ease: "easeOut", delay: 0.6 }}
  >
- Clientes satisfeitos ao redor do mundo, conectados por nossas soluções digitais.
+ Decisões, processos e resultados contados por nossos clientes.
  </motion.p>
  </div>
- </div>
- </div>
 
- {/* Depoimentos - Carrossel Infinito - Full Width */}
- <motion.div 
-   className="mt-8 relative"
+ {/* Lado Direito - Grid de Cards (2 linhas x 3 colunas) */}
+ <motion.div
+   className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
    initial={{ opacity: 0, y: 30 }}
    animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
    transition={{ duration: 0.8, ease: "easeOut", delay: 0.8 }}
  >
- <div className="relative overflow-hidden">
- {/* Container do carrossel */}
- <div className="flex gap-6 animate-scroll">
- {/* Primeira cópia */}
- <TestimonialCard name="Carlos Henrique" role="CEO" company="TechFlow Solutions" text="A Wefronti transformou completamente nossa visão em realidade. O app desenvolvido superou todas as expectativas em funcionalidade e design." rating={5} image="/images/depoimento-1.webp" />
- <TestimonialCard name="Mariana Costa" role="Diretora de Marketing" company="Innovate Corp" text="O e-commerce desenvolvido superou todas as nossas expectativas. A experiência do usuário é impecável e as vendas aumentaram 150% no primeiro mês." rating={5} image="/images/depoimento-2.webp" />
- <TestimonialCard name="Roberto Almeida" role="Fundador" company="StartupXYZ" text="Equipe extremamente profissional e dedicada. Transformaram nossa ideia em um SaaS completo e escalável. O suporte pós-entrega é excelente." rating={5} image="/images/depoimento-3.webp" />
- <TestimonialCard name="Julia Santos" role="Gerente de Projetos" company="Digital Solutions" text="A landing page ficou incrível! O design moderno e responsivo nos ajudou a converter muito mais leads. Processo de desenvolvimento foi muito fluido." rating={5} image="/images/depoimento-4.webp" />
- <TestimonialCard name="André Ferreira" role="CTO" company="FinTech Pro" text="Desenvolvimento impecável do nosso sistema financeiro. Seguiram todas as melhores práticas de segurança e a integração com APIs foi perfeita." rating={5} image="/images/depoimento-5.webp" />
- {/* Segunda cópia - para loop infinito */}
- <TestimonialCard name="Carlos Henrique" role="CEO" company="TechFlow Solutions" text="A Wefronti transformou completamente nossa visão em realidade. O app desenvolvido superou todas as expectativas em funcionalidade e design." rating={5} image="/images/depoimento-1.webp" />
- <TestimonialCard name="Mariana Costa" role="Diretora de Marketing" company="Innovate Corp" text="O e-commerce desenvolvido superou todas as nossas expectativas. A experiência do usuário é impecável e as vendas aumentaram 150% no primeiro mês." rating={5} image="/images/depoimento-2.webp" />
- <TestimonialCard name="Roberto Almeida" role="Fundador" company="StartupXYZ" text="Equipe extremamente profissional e dedicada. Transformaram nossa ideia em um SaaS completo e escalável. O suporte pós-entrega é excelente." rating={5} image="/images/depoimento-3.webp" />
- <TestimonialCard name="Julia Santos" role="Gerente de Projetos" company="Digital Solutions" text="A landing page ficou incrível! O design moderno e responsivo nos ajudou a converter muito mais leads. Processo de desenvolvimento foi muito fluido." rating={5} image="/images/depoimento-4.webp" />
- <TestimonialCard name="André Ferreira" role="CTO" company="FinTech Pro" text="Desenvolvimento impecável do nosso sistema financeiro. Seguiram todas as melhores práticas de segurança e a integração com APIs foi perfeita." rating={5} image="/images/depoimento-5.webp" />
- </div>
- </div>
+ <TestimonialCard 
+   name="Carlos Henrique" 
+   location="São Paulo, SP"
+   text="A Wefronti transformou completamente nossa visão em realidade. O app desenvolvido superou todas as expectativas." 
+ />
+ <TestimonialCard 
+   name="Mariana Costa" 
+   location="Rio de Janeiro, RJ"
+   text="O e-commerce desenvolvido superou nossas expectativas. A experiência do usuário é impecável." 
+ />
+ <TestimonialCard 
+   name="Projeto Confidencial" 
+   location={null}
+   text="Equipe extremamente profissional e dedicada. Transformaram nossa ideia em um SaaS completo e escalável." 
+ />
+ <TestimonialCard 
+   name="Julia Santos" 
+   location="Florianópolis, SC"
+   text="A landing page ficou incrível! O design moderno nos ajudou a converter muito mais leads." 
+ />
+ <TestimonialCard 
+   name="Projeto Confidencial" 
+   location={null}
+   text="Desenvolvimento impecável. Seguiram todas as melhores práticas de segurança e a integração com APIs foi perfeita." 
+ />
+ <TestimonialCard 
+   name="André Ferreira" 
+   location="Belo Horizonte, MG"
+   text="Superaram nossas expectativas em todos os aspectos. Entrega no prazo e qualidade excepcional." 
+ />
  </motion.div>
 
+ </div>
+ </div>
+ </div>
+
  {/* CTA container: text left, button right (responsive) */}
- <div className="mt-8 px-4 md:px-8 lg:px-16">
-   <div className="max-w-7xl mx-auto">
+ <div className="mt-12 px-8 md:px-16 lg:px-24">
+   <div className="w-full max-w-3xl md:max-w-6xl mx-auto">
      <div className="w-full border p-6 flex flex-col md:flex-row items-center justify-between gap-4"
-       style={{ borderColor: colors.borderLight, borderRadius: '5px', backgroundColor: colors.whiteColor }}>
-       <p className="text-lg md:text-xl font-medium" style={{ color: colors.blackColor }}>
+       style={{ borderColor: colors.neutral.borderLight, borderRadius: '5px', backgroundColor: 'rgba(255, 255, 255, 0.02)' }}>
+       <p className="text-lg md:text-xl font-medium" style={{ color: colors.text.light }}>
          Faça sua inscrição gratuitamente e dê início à sua jornada!
        </p>
        <div className="w-full md:w-auto flex justify-center md:justify-end">
