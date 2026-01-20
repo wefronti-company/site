@@ -15,7 +15,28 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
   const [menuOpen, setMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [heroVisible, setHeroVisible] = useState(false);
+  const [currentTime, setCurrentTime] = useState('');
   const router = require('next/router').useRouter();
+
+  // Atualizar hora do Brasil a cada segundo
+  useEffect(() => {
+    const updateTime = () => {
+      const now = new Date();
+      const brazilTime = now.toLocaleTimeString('pt-BR', {
+        timeZone: 'America/Sao_Paulo',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false
+      });
+      setCurrentTime(brazilTime);
+    };
+
+    updateTime();
+    const interval = setInterval(updateTime, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   // Função para scroll suave até seção
   const scrollToSection = (sectionId: string) => {
@@ -79,14 +100,25 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
           className="w-full transition-all duration-300"
         >
           <div className="w-full px-4 md:px-8 lg:px-12">
-            <div className="max-w-3xl md:max-w-6xl mx-auto flex items-center justify-between py-8 md:py-10 relative">
-              {/* Logo à esquerda */}
-              <div className="flex items-center relative z-[110]">
-                <Logo href="/" ariaLabel="Ir para a página inicial" isDark={false} className="h-8" />
-              </div>
+            <div className="max-w-3xl md:max-w-6xl mx-auto py-8 md:py-10 relative">
+              <div className="flex items-center justify-between relative">
+                {/* Logo à esquerda */}
+                <div className="flex items-center relative z-[110]">
+                  <Logo href="/" ariaLabel="Ir para a página inicial" isDark={false} className="h-8" />
+                </div>
 
-              {/* Botão à direita - Agora para desktop e mobile */}
-              <div className="flex items-center gap-3 relative z-[110]">
+                {/* Relógio no centro - posição absoluta em relação ao container maior */}
+                <div className="hidden md:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-[105]">
+                  <span 
+                    className="text-sm md:text-base font-light tracking-wider whitespace-nowrap"
+                    style={{ color: colors.text.dark }}
+                  >
+                    {currentTime}
+                  </span>
+                </div>
+
+                {/* Botão à direita - Agora para desktop e mobile */}
+                <div className="flex items-center gap-3 relative z-[110]">
               <button
                 className="relative flex items-center justify-center transition-colors duration-200 cursor-pointer"
                 aria-expanded={menuOpen}
@@ -117,6 +149,7 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                   />
                 </div>
               </button>
+              </div>
             </div>
             </div>
           </div>
@@ -125,111 +158,142 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
         <AnimatePresence>
           {menuOpen && (
             <>
-              {/* Menu Mobile - Slide da direita */}
+              {/* Menu Mobile - Dropdown de cima para baixo */}
               <motion.div
                 key="mobile-menu"
-                initial={{ x: '100%' }}
-                animate={{ x: 0 }}
-                exit={{ x: '100%' }}
-                transition={{ duration: 0.6, ease: [0.32, 0.72, 0, 1] }}
-                className="fixed inset-0 z-[200] md:hidden"
-                style={{ background: colors.background.dark }}
+                initial={{ height: 0 }}
+                animate={{ height: 'calc(100vh - 100px)' }}
+                exit={{ height: 0, transition: { duration: 1, delay: 0.5, ease: [0.32, 0.72, 0, 1] } }}
+                transition={{ duration: 1, ease: [0.32, 0.72, 0, 1] }}
+                className="md:hidden fixed left-0 right-0 bottom-0 z-[90] overflow-hidden"
+                style={{ 
+                  top: '100px',
+                  background: colors.background.dark
+                }}
               >
-                <div className="h-full flex flex-col p-6">
-                  {/* Header do menu mobile */}
-                  <div className="flex items-center justify-between mb-12">
-                    <Logo href="/" ariaLabel="Ir para a página inicial" isDark={false} className="h-6" />
-                    <button
-                      onClick={() => setMenuOpen(false)}
-                      aria-label="Fechar menu"
-                      className="p-2 flex items-center gap-3"
-                    >
-                      <span className="text-base font-medium" style={{ color: colors.text.light }}>Fechar</span>
-                      <div className="w-7 h-6 relative flex items-center justify-center">
-                        <span 
-                          className="absolute block w-6 h-[2px] rounded transition-all duration-700 ease-in-out rotate-45"
-                          style={{ background: colors.text.light }} 
-                        />
-                        <span 
-                          className="absolute block w-6 h-[2px] rounded transition-all duration-700 ease-in-out -rotate-45"
-                          style={{ background: colors.text.light }} 
-                        />
-                      </div>
-                    </button>
-                  </div>
+                <div className="h-full flex flex-col p-6 overflow-y-auto">
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0, transition: { duration: 0.5, delay: 0.5, ease: "easeOut" } }}
+                    exit={{ opacity: 0, y: 20, transition: { duration: 0.5, delay: 0, ease: "easeIn" } }}
+                    className="flex flex-col gap-12"
+                  >
+                    {/* Navegação */}
+                    <div>
+                      <h4 className="text-xs font-semibold uppercase mb-6 tracking-wider" style={{ color: colors.text.light }}>Navegar</h4>
+                      <ul className="flex flex-col gap-3">
+                        <li>
+                          <button 
+                            onClick={() => scrollToSection('#hero')}
+                            className="text-2xl font-light transition-all duration-300 flex items-center gap-3 group"
+                            style={{ color: colors.text.light }}
+                          >
+                            <span>Início</span>
+                            <span 
+                              className="w-2 h-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                              style={{ backgroundColor: colors.purple.tertiary }}
+                            />
+                          </button>
+                        </li>
+                        <li>
+                          <button 
+                            onClick={() => scrollToSection('#services')}
+                            className="text-2xl font-light transition-all duration-300 flex items-center gap-3 group"
+                            style={{ color: colors.text.light }}
+                          >
+                            <span>Serviços</span>
+                            <span 
+                              className="w-2 h-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                              style={{ backgroundColor: colors.purple.tertiary }}
+                            />
+                          </button>
+                        </li>
+                        <li>
+                          <button 
+                            onClick={() => scrollToSection('#comparative')}
+                            className="text-2xl font-light transition-all duration-300 flex items-center gap-3 group"
+                            style={{ color: colors.text.light }}
+                          >
+                            <span>Sobre nós</span>
+                            <span 
+                              className="w-2 h-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                              style={{ backgroundColor: colors.purple.tertiary }}
+                            />
+                          </button>
+                        </li>
+                        <li>
+                          <button 
+                            onClick={() => scrollToSection('#clients')}
+                            className="text-2xl font-light transition-all duration-300 flex items-center gap-3 group"
+                            style={{ color: colors.text.light }}
+                          >
+                            <span>Casos de sucesso</span>
+                            <span 
+                              className="w-2 h-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                              style={{ backgroundColor: colors.purple.tertiary }}
+                            />
+                          </button>
+                        </li>
+                        <li>
+                          <button 
+                            onClick={() => scrollToSection('#contato')}
+                            className="text-2xl font-light transition-all duration-300 flex items-center gap-3 group"
+                            style={{ color: colors.text.light }}
+                          >
+                            <span>Contato</span>
+                            <span 
+                              className="w-2 h-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                              style={{ backgroundColor: colors.purple.tertiary }}
+                            />
+                          </button>
+                        </li>
+                        <li>
+                          <button 
+                            onClick={() => scrollToSection('#faq')}
+                            className="text-2xl font-light transition-all duration-300 flex items-center gap-3 group"
+                            style={{ color: colors.text.light }}
+                          >
+                            <span>FAQ</span>
+                            <span 
+                              className="w-2 h-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                              style={{ backgroundColor: colors.purple.tertiary }}
+                            />
+                          </button>
+                        </li>
+                      </ul>
+                    </div>
 
-                  {/* Links do menu mobile */}
-                  <nav className="flex-1 flex flex-col justify-center">
-                    <ul className="flex flex-col gap-6">
-                      <li>
-                        <button 
-                          onClick={() => scrollToSection('#hero')}
-                          className="text-xl font-light transition-colors duration-200 flex items-center gap-3"
-                          style={{ color: colors.text.light }}
-                          aria-label="Início"
-                        >
-                          <span>Início</span>
-                          <ArrowRight size={18} className="-rotate-45" />
-                        </button>
-                      </li>
-                      <li>
-                        <button 
-                          onClick={() => scrollToSection('#services')}
-                          className="text-xl font-light transition-colors duration-200 flex items-center gap-3"
-                          style={{ color: colors.text.light }}
-                          aria-label="Serviços"
-                        >
-                          <span>Serviços</span>
-                          <ArrowRight size={18} className="-rotate-45" />
-                        </button>
-                      </li>
-                      <li>
-                        <button 
-                          onClick={() => scrollToSection('#comparative')}
-                          className="text-xl font-light transition-colors duration-200 flex items-center gap-3"
-                          style={{ color: colors.text.light }}
-                        >
-                          <span>Sobre nós</span>
-                          <ArrowRight size={18} className="-rotate-45" />
-                        </button>
-                      </li>
-                      <li>
-                        <button 
-                          onClick={() => scrollToSection('#clients')}
-                          className="text-xl font-light transition-colors duration-200 flex items-center gap-3"
-                          style={{ color: colors.text.light }}
-                        >
-                          <span>Casos de sucesso</span>
-                          <ArrowRight size={18} className="-rotate-45" />
-                        </button>
-                      </li>
-                      <li>
-                        <button 
-                          onClick={() => scrollToSection('#contato')}
-                          className="text-xl font-light transition-colors duration-200 flex items-center gap-3"
-                          style={{ color: colors.text.light }}
-                        >
-                          <span>Contato</span>
-                          <ArrowRight size={18} className="-rotate-45" />
-                        </button>
-                      </li>
-                      <li>
-                        <button 
-                          onClick={() => scrollToSection('#faq')}
-                          className="text-xl font-light transition-colors duration-200 flex items-center gap-3"
-                          style={{ color: colors.text.light }}
-                        >
-                          <span>FAQ</span>
-                          <ArrowRight size={18} className="-rotate-45" />
-                        </button>
-                      </li>
-                    </ul>
-                  </nav>
-
-                  {/* CTA no rodapé do menu mobile */}
-                  <div className="mt-auto">
-                    <ButtonCta label="Entrar em contato" className="w-full" />
-                  </div>
+                    {/* WhatsApp */}
+                    <div>
+                      <h4 className="text-xs font-semibold uppercase mb-6 tracking-wider" style={{ color: colors.text.light }}>Tirar dúvidas</h4>
+                      <a 
+                        href="https://wa.me/message/3V45SAJMLIJJJ1" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="block transition-all duration-300"
+                        style={{ 
+                          backgroundColor: colors.background.transparent 
+                        }}
+                      >
+                        <div className="flex items-center gap-3 mb-3">
+                          <div 
+                            className="w-16 h-16 rounded-xl overflow-hidden flex items-center justify-center"
+                            style={{ backgroundColor: colors.neutral.borderLight }}
+                          >
+                            <img 
+                              src="/images/site/secetraria-whatsapp.webp" 
+                              alt="Secretária WhatsApp"
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          <span className="text-lg font-medium" style={{ color: colors.text.light }}>Chamar no Whatsapp</span>
+                        </div>
+                        <p className="text-sm font-light" style={{ color: colors.text.light, opacity: 0.7 }}>
+                          Fale com nosso time para tirar dúvidas rápidas sobre nossos serviços
+                        </p>
+                      </a>
+                    </div>
+                  </motion.div>
                 </div>
               </motion.div>
 
