@@ -2,15 +2,13 @@
 CREATE TABLE IF NOT EXISTS quote_requests (
   id SERIAL PRIMARY KEY,
   name VARCHAR(255) NOT NULL,
-  whatsapp VARCHAR(20) NOT NULL,
+  phone VARCHAR(20) NOT NULL,
   email VARCHAR(255) NOT NULL,
   company VARCHAR(255) NOT NULL,
-  role VARCHAR(100) NOT NULL,
-  revenue VARCHAR(100) NOT NULL,
-  challenge TEXT NOT NULL,
-  timeline VARCHAR(100) NOT NULL,
-  privacy_consent BOOLEAN NOT NULL DEFAULT FALSE,
-  consented_at TIMESTAMP,
+  investment VARCHAR(100) NOT NULL,
+  project_type VARCHAR(100) NOT NULL,
+  urgency VARCHAR(100) NOT NULL,
+  details TEXT NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -21,15 +19,13 @@ CREATE INDEX idx_quote_requests_created_at ON quote_requests(created_at);
 
 COMMENT ON TABLE quote_requests IS 'Armazena as solicitações de orçamento enviadas através do formulário do site';
 COMMENT ON COLUMN quote_requests.name IS 'Nome completo do solicitante';
-COMMENT ON COLUMN quote_requests.whatsapp IS 'Número do WhatsApp para contato';
+COMMENT ON COLUMN quote_requests.phone IS 'Número de celular para contato';
 COMMENT ON COLUMN quote_requests.email IS 'Email para contato';
 COMMENT ON COLUMN quote_requests.company IS 'Nome da empresa';
-COMMENT ON COLUMN quote_requests.role IS 'Cargo do solicitante (CEO, CTO, Manager, Developer, Other)';
-COMMENT ON COLUMN quote_requests.revenue IS 'Faturamento anual da empresa';
-COMMENT ON COLUMN quote_requests.challenge IS 'Descrição do desafio/projeto';
-COMMENT ON COLUMN quote_requests.timeline IS 'Prazo desejado para o projeto';
-COMMENT ON COLUMN quote_requests.privacy_consent IS 'LGPD: Consentimento do usuário para tratamento de dados';
-COMMENT ON COLUMN quote_requests.consented_at IS 'LGPD: Data e hora do consentimento';
+COMMENT ON COLUMN quote_requests.investment IS 'Valor para investimento';
+COMMENT ON COLUMN quote_requests.project_type IS 'Tipo de projeto (site, ecommerce, sistema, app, saas, api, outro)';
+COMMENT ON COLUMN quote_requests.urgency IS 'Nível de urgência (baixa, media, alta, urgente)';
+COMMENT ON COLUMN quote_requests.details IS 'Descrição detalhada do projeto';
 
 -- Tabela para armazenar tokens de acesso ao console em produção
 -- Store token hashes for security (do NOT store raw tokens)

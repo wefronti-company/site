@@ -135,53 +135,40 @@ export default async function handler(
  }
 
  // 4. Sanitizar inputs
- const { name, whatsapp, email, company, role, revenue, challenge, timeline, privacy_consent } = validationResult.data;
- 
- // Validar consentimento LGPD (obrigatório)
- if (!privacy_consent) {
- return res.status(400).json({
- success: false,
- error: 'Consentimento de privacidade é obrigatório'
- });
- }
+ const { name, phone, email, company, investment, projectType, urgency, details } = validationResult.data;
  
  const sanitizedData = {
  name: sanitizeInput(name),
- whatsapp: sanitizeWhatsApp(whatsapp),
+ phone: sanitizeWhatsApp(phone),
  email: sanitizeEmail(email),
  company: sanitizeInput(company),
- role: role,
- revenue: revenue,
- challenge: sanitizeInput(challenge),
- timeline: timeline,
- privacy_consent: privacy_consent,
+ investment: investment,
+ projectType: projectType,
+ urgency: urgency,
+ details: sanitizeInput(details),
  };
 
  // 5. Inserir no banco de dados (prepared statement previne SQL Injection)
  const result = await sql`
  INSERT INTO quote_requests (
  name, 
- whatsapp, 
+ phone, 
  email, 
  company, 
- role, 
- revenue, 
- challenge, 
- timeline,
- privacy_consent,
- consented_at
+ investment, 
+ project_type, 
+ urgency, 
+ details
  )
  VALUES (
  ${sanitizedData.name},
- ${sanitizedData.whatsapp},
+ ${sanitizedData.phone},
  ${sanitizedData.email},
  ${sanitizedData.company},
- ${sanitizedData.role},
- ${sanitizedData.revenue},
- ${sanitizedData.challenge},
- ${sanitizedData.timeline},
- ${sanitizedData.privacy_consent},
- NOW()
+ ${sanitizedData.investment},
+ ${sanitizedData.projectType},
+ ${sanitizedData.urgency},
+ ${sanitizedData.details}
  )
  RETURNING id
  `;
@@ -207,7 +194,7 @@ export default async function handler(
 		if (smtpHost && smtpUser && smtpPass && emailFrom && adminEmail) {
 			const subject = `Novo pedido de orçamento — ${sanitizedData.name}`;
 
-			const plainBody = `Nova solicitação de orçamento\n\nID: ${insertedId}\nNome: ${sanitizedData.name}\nE-mail: ${sanitizedData.email}\nWhatsApp: ${sanitizedData.whatsapp}\nEmpresa: ${sanitizedData.company}\nOperador/cargo: ${sanitizedData.role}\nFaturamento: ${sanitizedData.revenue}\nPrazo/Timeline: ${sanitizedData.timeline}\nDesafio: ${sanitizedData.challenge}\n\nConsented: ${sanitizedData.privacy_consent}\n`;
+			const plainBody = `Nova solicitação de orçamento\n\nID: ${insertedId}\nNome: ${sanitizedData.name}\nE-mail: ${sanitizedData.email}\nCelular: ${sanitizedData.phone}\nEmpresa: ${sanitizedData.company}\nInvestimento: ${sanitizedData.investment}\nTipo de projeto: ${sanitizedData.projectType}\nUrgência: ${sanitizedData.urgency}\nDetalhes: ${sanitizedData.details}\n`;
 
 			const htmlBody = `
 				<div style="font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; color:#111; background:#fff; padding:18px;">

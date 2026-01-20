@@ -9,11 +9,11 @@ export const quoteFormSchema = z.object({
  .max(100, 'Nome deve ter no máximo 100 caracteres')
  .regex(/^[a-zA-ZÀ-ÿ\s'-]+$/, 'Nome contém caracteres inválidos'),
  
- whatsapp: z
+ phone: z
  .string()
- .min(10, 'WhatsApp inválido')
- .max(20, 'WhatsApp inválido')
- .regex(/^[\d\s()+.-]+$/, 'WhatsApp contém caracteres inválidos'),
+ .min(10, 'Celular inválido')
+ .max(20, 'Celular inválido')
+ .regex(/^[\d\s()+.-]+$/, 'Celular contém caracteres inválidos'),
  
  email: z
  .string()
@@ -27,40 +27,35 @@ export const quoteFormSchema = z.object({
  .max(100, 'Nome da empresa deve ter no máximo 100 caracteres')
  .regex(/^[a-zA-Z0-9À-ÿ\s&.,'()-]+$/, 'Nome da empresa contém caracteres inválidos'),
  
- role: z
+ investment: z
  .string()
  .refine(
- (val: string) => ['ceo', 'cto', 'manager', 'developer', 'other'].includes(val),
- 'Cargo inválido'
+ (val: string) => ['5k-15k', '15k-30k', '30k-50k', '50k-100k', '100k+'].includes(val),
+ 'Valor de investimento inválido'
  ),
  
- revenue: z
+ projectType: z
  .string()
  .refine(
- (val: string) => ['0-10k', '10k-50k', '50k-100k', '100k-500k', '500k+'].includes(val),
- 'Faturamento inválido'
+ (val: string) => ['site', 'ecommerce', 'sistema', 'app', 'saas', 'api', 'outro'].includes(val),
+ 'Tipo de projeto inválido'
  ),
  
- challenge: z
+ urgency: z
  .string()
- .min(10, 'Descreva seu desafio (mínimo 10 caracteres)')
+ .refine(
+ (val: string) => ['baixa', 'media', 'alta', 'urgente'].includes(val),
+ 'Nível de urgência inválido'
+ ),
+ 
+ details: z
+ .string()
+ .min(10, 'Descreva seu projeto (mínimo 10 caracteres)')
  .max(2000, 'Descrição muito longa (máximo 2000 caracteres)')
  .refine(
  (text: string) => !containsMaliciousPatterns(text),
  'Texto contém conteúdo não permitido'
  ),
- 
- timeline: z
- .string()
- .refine(
- (val: string) => ['immediate', 'short', 'medium', 'long'].includes(val),
- 'Prazo inválido'
- ),
- 
- // LGPD: Campo de consentimento obrigatório
- privacy_consent: z
- .boolean()
- .refine((val: boolean) => val === true, 'Consentimento de privacidade é obrigatório'),
 });
 
 export type QuoteFormData = z.infer<typeof quoteFormSchema>;
@@ -174,15 +169,12 @@ export function validateOrigin(origin: string | null, host: string | null): bool
  const allowedOrigins = [
  'https://wefronti.com',
  'https://www.wefronti.com',
- // Accept localhost (any port) and loopback for local testing
- 'http://localhost',
- 'http://127.0.0.1',
  ...envAllowed,
- ...(process.env.NODE_ENV === 'development' ? ['http://localhost:3000'] : [])
  ];
  
- // Match when origin starts with an allowed origin (covers ports) or includes the host header
- const matched = allowedOrigins.some(allowed => origin.startsWith(allowed)) || origin.includes(host);
+ // Match when origin starts with an allowed origin or is localhost/127.0.0.1 with any port
+ const isLocalhost = origin.match(/^https?:\/\/(localhost|127\.0\.0\.1|0\.0\.0\.0)(:\d+)?$/);
+ const matched = allowedOrigins.some(allowed => origin.startsWith(allowed)) || origin.includes(host) || !!isLocalhost;
  
  const debug = process.env.ALLOWED_ORIGINS_DEBUG === 'true' || process.env.NODE_ENV === 'development';
  if (!matched && debug) {

@@ -41,8 +41,6 @@ const CTA: React.FC = () => {
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true);
-        } else {
-          setIsVisible(false);
         }
       },
       { threshold: 0.2 }
@@ -362,44 +360,68 @@ const CTA: React.FC = () => {
       className="w-full py-20 md:py-32 relative overflow-hidden border-t"
       style={{ backgroundColor: colors.blackColor, borderTopColor: colors.borderDark }}
     >
-      <style jsx>{`
-        input:-webkit-autofill,
-        input:-webkit-autofill:hover,
-        input:-webkit-autofill:focus,
-        input:-webkit-autofill:active,
-        textarea:-webkit-autofill,
-        textarea:-webkit-autofill:hover,
-        textarea:-webkit-autofill:focus,
-        textarea:-webkit-autofill:active {
-          -webkit-box-shadow: 0 0 0 30px #ffffff inset !important;
-          -webkit-text-fill-color: #000000 !important;
-          box-shadow: 0 0 0 30px #ffffff inset !important;
-          transition: background-color 5000s ease-in-out 0s;
-        }
-
-        input:focus,
-        textarea:focus {
-          border-color: ${colors.neutral.grayHover} !important;
-          outline: none;
-        }
-      `}</style>
       <div className="px-4 md:px-8 lg:px-16">
+        <style dangerouslySetInnerHTML={{
+          __html: `
+            input:-webkit-autofill,
+            input:-webkit-autofill:hover,
+            input:-webkit-autofill:focus,
+            input:-webkit-autofill:active,
+            textarea:-webkit-autofill,
+            textarea:-webkit-autofill:hover,
+            textarea:-webkit-autofill:focus,
+            textarea:-webkit-autofill:active {
+              -webkit-box-shadow: 0 0 0 30px #ffffff inset !important;
+              -webkit-text-fill-color: #000000 !important;
+              box-shadow: 0 0 0 30px #ffffff inset !important;
+              transition: background-color 5000s ease-in-out 0s;
+            }
+
+            input:focus,
+            textarea:focus {
+              border-color: ${colors.neutral.grayHover} !important;
+              outline: none;
+            }
+          `
+        }} />
         <div className="max-w-4xl mx-auto">
           
           {/* Header */}
           <motion.div
-            className="mb-12 text-center"
+            className="mb-12 flex flex-col md:flex-row items-start md:items-center justify-between gap-8"
             initial={{ opacity: 0, y: 40 }}
             animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
             transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
           >
-            <h2 className="text-3xl md:text-3xl lg:text-4xl font-medium mb-3">
-              <span style={{ color: colors.text.light }}>Tem uma ideia na gaveta? </span>
-              <span style={{ color: colors.purple.tertiary }}>Vamos conversar!</span>
-            </h2>
-            <p className="text-base" style={{ color: colors.text.light, opacity: 0.7 }}>
-              Preencha o formulário abaixo e nossa equipe entrará em contato
-            </p>
+            <div className="flex-1 text-left">
+              <h2 className="text-3xl md:text-3xl lg:text-4xl font-regular mb-3">
+                <span style={{ color: colors.text.light }}>Vamos falar sobre o </span>
+                <span style={{ color: colors.purple.tertiary }}>que você quer construir. </span>
+              </h2>
+              <p className="text-base" style={{ color: colors.text.light, opacity: 0.7 }}>
+                Preencha o formulário abaixo e nossa equipe entrará em contato
+              </p>
+            </div>
+
+            {/* Circular badge with rotating icon */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={isVisible ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
+              transition={{ duration: 0.8, ease: "easeOut", delay: 0.3 }}
+              className="flex-shrink-0"
+            >
+              <motion.div
+                animate={{ rotate: -360 }}
+                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                className="relative w-24 h-24 md:w-32 md:h-32 flex items-center justify-center"
+              >
+                <img 
+                  src="/images/icons/icon-hero-circle.png" 
+                  alt="Badge" 
+                  className="w-full h-full"
+                />
+              </motion.div>
+            </motion.div>
           </motion.div>
 
           {/* Form Card */}
@@ -557,8 +579,8 @@ const CTA: React.FC = () => {
                     { value: 'site', label: 'Site' },
                     { value: 'ecommerce', label: 'E-commerce' },
                     { value: 'sistema', label: 'Sistema' },
-                    { value: 'app', label: 'Saas' },
-                    { value: 'saas', label: 'Dashboard' },
+                    { value: 'Saas', label: 'Saas' },
+                    { value: 'dashboard', label: 'Dashboard' },
                     { value: 'api', label: 'API / Integração' },
                     { value: 'outro', label: 'Outro' }
                   ]}
