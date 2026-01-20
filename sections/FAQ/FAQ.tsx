@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
-import { HelpCircle } from 'lucide-react';
+import { Box, HelpCircle } from 'lucide-react';
 import Badge from '../../components/ui/Badge';
 import ButtonCta from '../../components/ui/ButtonCta';
 import { colors } from '../../styles/colors';
@@ -57,7 +57,7 @@ const FAQ: React.FC = () => {
    animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
    transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
  >
-   <HelpCircle className="w-4 h-4" style={{ color: colors.purple.tertiary }} />
+   <Box className="w-4 h-4" style={{ color: colors.purple.tertiary }} />
    <span className="text-xs md:text-sm font-regular text-white whitespace-nowrap">
      Dúvidas
    </span>

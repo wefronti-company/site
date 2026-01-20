@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
- 
+import { Users } from 'lucide-react';
 import TestimonialCard from '../../components/ui/TestimonialCard';
 import ButtonCta from '../../components/ui/ButtonCta';
 import { colors } from '../../styles/colors';
@@ -44,40 +44,31 @@ const Clients: React.FC = () => {
  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
  
  {/* Lado Esquerdo - Título e Subtítulo */}
- <div className="flex flex-col justify-center">
+ <div className="flex flex-col justify-start">
  <motion.div 
-   className="mb-6 flex items-center gap-2 px-3 py-1.5 backdrop-blur-md border w-fit"
-   style={{ backgroundColor: 'rgba(255, 255, 255, 0.05)', borderColor: colors.neutral.borderLight, borderRadius: '5px' }}
+   className="mb-6 flex items-center gap-2 px-3 py-1.5 rounded border border-white/10 w-fit"
    initial={{ opacity: 0, y: 20 }}
    animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
    transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
  >
-   <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-     <defs>
-       <linearGradient id="heartGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-         <stop offset="0%" style={{ stopColor: colors.gradientOne }} />
-         <stop offset="100%" style={{ stopColor: colors.gradientTwo }} />
-       </linearGradient>
-     </defs>
-     <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" fill="url(#heartGradient)"/>
-   </svg>
-   <span className="text-xs md:text-sm font-regular whitespace-nowrap" style={{ color: colors.text.light }}>
-     Depoimentos
+   <Users className="w-4 h-4" style={{ color: colors.purple.tertiary }} />
+   <span className="text-xs md:text-sm font-regular text-white whitespace-nowrap">
+     Nossos parceiros
    </span>
  </motion.div>
  
  <motion.h2 
    className="text-4xl md:text-4xl lg:text-5xl font-regular mb-4"
-   style={{ color: colors.text.light }}
    initial={{ opacity: 0, y: 20 }}
    animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
    transition={{ duration: 0.6, ease: "easeOut", delay: 0.4 }}
  >
- A visão de quem trabalha conosco
+   <span style={{ color: colors.text.light }}>A visão de quem<br /></span>
+   <span style={{ color: colors.purple.tertiary }}>trabalha conosco</span>
  </motion.h2>
  
  <motion.p 
-   className="text-lg leading-relaxed"
+   className="text-lg leading-relaxed mb-8"
    style={{ color: colors.text.light, opacity: 0.7 }}
    initial={{ opacity: 0, y: 20 }}
    animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
@@ -85,44 +76,53 @@ const Clients: React.FC = () => {
  >
  Decisões, processos e resultados contados por nossos clientes.
  </motion.p>
+
+ {/* Circular badge with rotating icon */}
+ <motion.div
+   initial={{ opacity: 0, scale: 0.8 }}
+   animate={isVisible ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
+   transition={{ duration: 0.8, ease: "easeOut", delay: 0.8 }}
+ >
+   <motion.div
+     animate={{ rotate: -360 }}
+     transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+     className="relative w-40 h-40 md:w-48 md:h-48 lg:w-56 lg:h-56 flex items-center justify-center"
+   >
+     <img 
+       src="/images/icons/icon-hero-circle.png" 
+       alt="Badge" 
+       className="w-full h-full"
+     />
+   </motion.div>
+ </motion.div>
  </div>
 
  {/* Lado Direito - Grid de Cards (2 linhas x 3 colunas) */}
  <motion.div
-   className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
+   className="grid grid-cols-1 sm:grid-cols-2 gap-4"
    initial={{ opacity: 0, y: 30 }}
    animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
    transition={{ duration: 0.8, ease: "easeOut", delay: 0.8 }}
  >
  <TestimonialCard 
-   name="Carlos Henrique" 
+   name="Carlos Eduardo" 
    location="São Paulo, SP"
-   text="A Wefronti transformou completamente nossa visão em realidade. O app desenvolvido superou todas as expectativas." 
+   text="O que nos chamou atenção foi a postura. Desde a primeira conversa ficou claro que eles entendem o impacto de um sistema no negócio. Não foi um projeto rápido, foi um trabalho responsável." 
  />
  <TestimonialCard 
-   name="Mariana Costa" 
+   name="Mariana Lopes" 
    location="Rio de Janeiro, RJ"
-   text="O e-commerce desenvolvido superou nossas expectativas. A experiência do usuário é impecável." 
+   text="Já trabalhamos com outras empresas de tecnologia, mas a diferença aqui foi o processo. Tudo foi bem alinhado desde o início, sem promessas irreais. Isso nos deu segurança para seguir." 
  />
  <TestimonialCard 
    name="Projeto Confidencial" 
    location={null}
-   text="Equipe extremamente profissional e dedicada. Transformaram nossa ideia em um SaaS completo e escalável." 
+   text="Gostei da forma direta como as coisas foram conduzidas. Sem discurso técnico desnecessário, sem enrolação. Isso é raro no mercado." 
  />
  <TestimonialCard 
-   name="Julia Santos" 
-   location="Florianópolis, SC"
-   text="A landing page ficou incrível! O design moderno nos ajudou a converter muito mais leads." 
- />
- <TestimonialCard 
-   name="Projeto Confidencial" 
-   location={null}
-   text="Desenvolvimento impecável. Seguiram todas as melhores práticas de segurança e a integração com APIs foi perfeita." 
- />
- <TestimonialCard 
-   name="André Ferreira" 
+   name="Fernanda Ribeiro" 
    location="Belo Horizonte, MG"
-   text="Superaram nossas expectativas em todos os aspectos. Entrega no prazo e qualidade excepcional." 
+   text="Eu não procurava alguém para programar. Procurava alguém para assumir responsabilidade junto comigo. Foi exatamente isso que encontrei." 
  />
  </motion.div>
 
@@ -136,10 +136,10 @@ const Clients: React.FC = () => {
      <div className="w-full border p-6 flex flex-col md:flex-row items-center justify-between gap-4"
        style={{ borderColor: colors.neutral.borderLight, borderRadius: '5px', backgroundColor: 'rgba(255, 255, 255, 0.02)' }}>
        <p className="text-lg md:text-xl font-medium" style={{ color: colors.text.light }}>
-         Faça sua inscrição gratuitamente e dê início à sua jornada!
+         Projetos sérios começam com boas conversas.
        </p>
        <div className="w-full md:w-auto flex justify-center md:justify-end">
-         <ButtonCta label="Inscreva-se" variant="gradient" />
+         <ButtonCta label="Iniciar" variant="gradient" />
        </div>
      </div>
    </div>
