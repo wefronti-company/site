@@ -43,8 +43,8 @@ const FAQ: React.FC = () => {
   
  </div>
 
- <div className="px-4 md:px-8 lg:px-16 relative z-10 w-full">
- <div className="w-full max-w-[1200px] mx-auto">
+ <div className="px-8 md:px-16 lg:px-24 relative z-10 w-full">
+ <div className="w-full max-w-3xl md:max-w-6xl mx-auto">
  
  {/* Layout: Título à esquerda, Accordion à direita */}
  <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
@@ -77,7 +77,7 @@ const FAQ: React.FC = () => {
    animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
    transition={{ duration: 0.6, ease: "easeOut", delay: 0.6 }}
  >
-   Tire suas dúvidas sobre nossos serviços e processos.
+   Tire suas dúvidas sobre <br /> nossos serviços e processos.
  </motion.p>
  </div>
 

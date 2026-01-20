@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Users } from 'lucide-react';
+import { Users, ArrowRight } from 'lucide-react';
 import TestimonialCard from '../../components/ui/TestimonialCard';
 import ButtonCta from '../../components/ui/ButtonCta';
 import { colors } from '../../styles/colors';
@@ -16,8 +16,6 @@ const Clients: React.FC = () => {
      ([entry]) => {
        if (entry.isIntersecting) {
          setIsVisible(true);
-       } else {
-         setIsVisible(false);
        }
      },
      { threshold: 0.2 }
@@ -134,12 +132,35 @@ const Clients: React.FC = () => {
  <div className="mt-12 px-8 md:px-16 lg:px-24">
    <div className="w-full max-w-3xl md:max-w-6xl mx-auto">
      <div className="w-full border p-6 flex flex-col md:flex-row items-center justify-between gap-4"
-       style={{ borderColor: colors.neutral.borderLight, borderRadius: '5px', backgroundColor: 'rgba(255, 255, 255, 0.02)' }}>
-       <p className="text-lg md:text-xl font-medium" style={{ color: colors.text.light }}>
+       style={{ borderColor: '#e5e7eb', borderRadius: '4px', backgroundColor: '#ffffff' }}>
+       <p className="text-lg md:text-xl font-medium" style={{ color: '#000000' }}>
          Projetos sérios começam com boas conversas.
        </p>
        <div className="w-full md:w-auto flex justify-center md:justify-end">
-         <ButtonCta label="Iniciar" variant="gradient" />
+         <button
+           onClick={() => {
+             const ctaSection = document.getElementById('contato');
+             if (ctaSection) {
+               ctaSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+             }
+           }}
+           className="inline-flex items-center justify-center gap-2 transition-all duration-300 hover:opacity-90 group"
+           style={{
+             backgroundColor: colors.purple.tertiary,
+             color: colors.text.light,
+             borderRadius: '4px',
+             padding: '12px 24px',
+             border: 'none',
+             cursor: 'pointer'
+           }}
+         >
+           <span className="text-base font-medium">Iniciar</span>
+           <ArrowRight 
+             size={18} 
+             color={colors.text.light}
+             className="transition-transform duration-300 group-hover:rotate-45" 
+           />
+         </button>
        </div>
      </div>
    </div>
