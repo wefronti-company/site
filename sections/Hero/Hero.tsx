@@ -1,10 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import dynamic from 'next/dynamic';
 import { motion } from 'framer-motion';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, Globe, Server, Link2, BarChart3 } from 'lucide-react';
 import { colors } from '../../styles/colors';
-
-const ServicesCarousel = dynamic(() => import('../../sections/ServicesCarousel'), { ssr: false });
 
 const Hero: React.FC = () => {
   const [hasEntered, setHasEntered] = useState(false);
@@ -64,7 +62,7 @@ const Hero: React.FC = () => {
             className="text-lg md:text-xl lg:text-2xl leading-relaxed font-light mb-12 text-left"
             style={{ color: colors.text.light, opacity: 0.8 }}
           >
-            Da presença digital a plataformas completas, criamos soluções tecnológicas robustas, seguras e escaláveis, projetadas para sustentar a operação, reduzir riscos e impulsionar o crescimento do negócio.
+            Soluções sob medida para empresas que buscam eficiência operacional, segurança e escalabilidade real
           </motion.h2>
 
           {/* Services Grid */}
@@ -76,51 +74,70 @@ const Hero: React.FC = () => {
           >
             {/* Service 1 */}
             <div 
-              className="rounded-lg p-6 flex flex-col justify-between min-h-[140px]"
+              className="rounded-lg p-6 flex flex-col gap-3"
               style={{ border: `1px solid ${colors.neutral.borderLight}`, background: colors.background.transparent }}
             >
-              <h3 className="text-base md:text-lg font-normal leading-tight" style={{ color: colors.text.light }}>
-                Criação de Sites para Startups e Grandes Corporações
-              </h3>
+              <div className="flex items-center gap-3">
+                <Globe className="w-5 h-5 flex-shrink-0" style={{ color: colors.purple.tertiary }} />
+                <h3 className="text-lg md:text-xl font-medium" style={{ color: colors.text.light }}>
+                  Sites e Ecommerce
+                </h3>
+              </div>
+              <p className="text-sm font-light leading-relaxed" style={{ color: colors.text.light, opacity: 0.7 }}>
+                Plataformas web otimizadas para conversão, SEO e performance, com arquitetura escalável para suportar crescimento
+              </p>
             </div>
 
             {/* Service 2 */}
             <div 
-              className="rounded-lg p-6 flex flex-col justify-between min-h-[140px]"
+              className="rounded-lg p-6 flex flex-col gap-3"
               style={{ border: `1px solid ${colors.neutral.borderLight}`, background: colors.background.transparent }}
             >
-              <h3 className="text-base md:text-lg font-normal leading-tight" style={{ color: colors.text.light }}>
-                Design de Interfaces para Aplicativos e Sistemas
-              </h3>
+              <div className="flex items-center gap-3">
+                <Server className="w-5 h-5 flex-shrink-0" style={{ color: colors.purple.tertiary }} />
+                <h3 className="text-lg md:text-xl font-medium" style={{ color: colors.text.light }}>
+                  Sistemas
+                </h3>
+              </div>
+              <p className="text-sm font-light leading-relaxed" style={{ color: colors.text.light, opacity: 0.7 }}>
+                Software corporativo customizado para gestão, automação de processos e otimização operacional do seu negócio
+              </p>
             </div>
 
             {/* Service 3 */}
             <div 
-              className="rounded-lg p-6 flex flex-col justify-between min-h-[140px]"
+              className="rounded-lg p-6 flex flex-col gap-3"
               style={{ border: `1px solid ${colors.neutral.borderLight}`, background: colors.background.transparent }}
             >
-              <h3 className="text-base md:text-lg font-normal leading-tight" style={{ color: colors.text.light }}>
-                Desenvolvimento Webflow, Framer e YCode
-              </h3>
+              <div className="flex items-center gap-3">
+                <Link2 className="w-5 h-5 flex-shrink-0" style={{ color: colors.purple.tertiary }} />
+                <h3 className="text-lg md:text-xl font-medium" style={{ color: colors.text.light }}>
+                  API e Integrações
+                </h3>
+              </div>
+              <p className="text-sm font-light leading-relaxed" style={{ color: colors.text.light, opacity: 0.7 }}>
+                Desenvolvimento de APIs RESTful e integração entre sistemas para unificar dados e automatizar fluxos
+              </p>
             </div>
 
             {/* Service 4 */}
             <div 
-              className="rounded-lg p-6 flex flex-col justify-between min-h-[140px]"
+              className="rounded-lg p-6 flex flex-col gap-3"
               style={{ border: `1px solid ${colors.neutral.borderLight}`, background: colors.background.transparent }}
             >
-              <h3 className="text-base md:text-lg font-normal leading-tight" style={{ color: colors.text.light }}>
-                Parceria Estratégica para Produtos Digitais
-              </h3>
+              <div className="flex items-center gap-3">
+                <BarChart3 className="w-5 h-5 flex-shrink-0" style={{ color: colors.purple.tertiary }} />
+                <h3 className="text-lg md:text-xl font-medium" style={{ color: colors.text.light }}>
+                  SaaS e Dashboards
+                </h3>
+              </div>
+              <p className="text-sm font-light leading-relaxed" style={{ color: colors.text.light, opacity: 0.7 }}>
+                Produtos digitais como serviço e painéis analíticos para visualização de dados e tomada de decisão estratégica
+              </p>
             </div>
           </motion.div>
 
         </div>
-      </div>
-
-      {/* Services carousel positioned at the bottom of the hero */}
-      <div className="absolute bottom-0 left-0 w-full z-[20]">
-        <ServicesCarousel />
       </div>
     </section>
   );
