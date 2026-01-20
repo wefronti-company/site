@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
+import { Lock } from 'lucide-react';
 import { colors } from '../../styles/colors';
 import {
  sanitizeUserInput,
@@ -204,7 +205,7 @@ const CTA: React.FC = () => {
             style={{
               backgroundColor: '#ffffff',
               border: '1px solid #e5e7eb',
-              borderRadius: '8px',
+              borderRadius: '4px',
               maxHeight: '300px',
               overflowY: 'auto'
             }}
@@ -213,7 +214,7 @@ const CTA: React.FC = () => {
               <div
                 key={option.value}
                 onClick={() => handleSelectChange(name, option.value)}
-                className="px-4 py-3 cursor-pointer transition-colors text-base"
+                className="px-4 py-3 cursor-pointer transition-colors text-sm"
                 style={{
                   backgroundColor: value === option.value ? '#f3f4f6' : '#ffffff',
                   color: '#000000'
@@ -374,6 +375,12 @@ const CTA: React.FC = () => {
           -webkit-text-fill-color: #000000 !important;
           box-shadow: 0 0 0 30px #ffffff inset !important;
           transition: background-color 5000s ease-in-out 0s;
+        }
+
+        input:focus,
+        textarea:focus {
+          border-color: ${colors.neutral.grayHover} !important;
+          outline: none;
         }
       `}</style>
       <div className="px-4 md:px-8 lg:px-16">
@@ -547,11 +554,11 @@ const CTA: React.FC = () => {
                   label="Tipo de projeto *"
                   placeholder="Selecione"
                   options={[
-                    { value: 'site', label: 'Site Institucional' },
+                    { value: 'site', label: 'Site' },
                     { value: 'ecommerce', label: 'E-commerce' },
-                    { value: 'sistema', label: 'Sistema Corporativo' },
-                    { value: 'app', label: 'Aplicativo Mobile' },
-                    { value: 'saas', label: 'SaaS / Plataforma' },
+                    { value: 'sistema', label: 'Sistema' },
+                    { value: 'app', label: 'Saas' },
+                    { value: 'saas', label: 'Dashboard' },
                     { value: 'api', label: 'API / Integração' },
                     { value: 'outro', label: 'Outro' }
                   ]}
@@ -565,10 +572,10 @@ const CTA: React.FC = () => {
                   label="Nível de urgência *"
                   placeholder="Selecione"
                   options={[
-                    { value: 'baixa', label: 'Baixa - Posso esperar alguns meses' },
-                    { value: 'media', label: 'Média - Gostaria de começar em 1-2 meses' },
-                    { value: 'alta', label: 'Alta - Preciso começar nas próximas semanas' },
-                    { value: 'urgente', label: 'Urgente - Preciso começar imediatamente' }
+                    { value: 'baixa', label: 'Baixa' },
+                    { value: 'media', label: 'Média' },
+                    { value: 'alta', label: 'Alta' },
+                    { value: 'urgente', label: 'Urgente' }
                   ]}
                   error={fieldErrors.urgency}
                 />
@@ -631,8 +638,8 @@ const CTA: React.FC = () => {
               </button>
 
               {/* Privacy Notice */}
-              <p className="text-xs text-center" style={{ color: '#6b7280' }}>
-                🔒 Seus dados estão seguros. Não compartilhamos suas informações com terceiros.
+              <p className="text-xs text-center flex items-center justify-center gap-2" style={{ color: '#6b7280' }}>
+                <Lock className="w-3 h-3" /> Seus dados estão seguros. Não compartilhamos suas informações com terceiros.
               </p>
             </form>
           </motion.div>
