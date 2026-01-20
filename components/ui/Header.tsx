@@ -6,7 +6,7 @@ import ButtonCta from './ButtonCta';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowUpRight, ArrowRight } from 'lucide-react';
+import { ArrowUpRight, ArrowRight, Clock } from 'lucide-react';
 import { FaInstagram, FaLinkedin, FaWhatsapp } from 'react-icons/fa';
 
 type HeaderVariant = 'float' | 'header';
@@ -27,7 +27,7 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
         hour: '2-digit',
         minute: '2-digit',
         second: '2-digit',
-        hour12: false
+        hour12: true
       });
       setCurrentTime(brazilTime);
     };
@@ -110,9 +110,13 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                 {/* Relógio no centro - posição absoluta em relação ao container maior */}
                 <div className="hidden md:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-[105]">
                   <span 
-                    className="text-sm md:text-base font-light tracking-wider whitespace-nowrap"
-                    style={{ color: colors.text.dark }}
+                    className="text-sm md:text-base font-light tracking-wider whitespace-nowrap px-3 py-1.5 rounded flex items-center gap-2"
+                    style={{ 
+                      color: colors.text.light,
+                      border: `1px solid ${colors.neutral.borderLight}`
+                    }}
                   >
+                    <Clock className="w-4 h-4" style={{ color: colors.text.light }} />
                     {currentTime}
                   </span>
                 </div>
@@ -439,18 +443,16 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                     {/* Coluna 3 - Redes Sociais (alinhada à direita com botão menu) */}
                     <div className="flex justify-end">
                       <div>
-                      <h4 className="text-xs font-semibold uppercase mb-8 tracking-wider" style={{ color: colors.text.light }}>Redes sociais</h4>
+                      <h4 className="text-xs font-regular uppercase mb-8 tracking-wider" style={{ color: colors.text.dark }}>Conecte-se conosco</h4>
                       <div className="flex flex-col gap-4">
                         <a 
                           href="https://instagram.com/wefronti" 
                           target="_blank" 
                           rel="noopener noreferrer" 
                           className="p-6 rounded-2xl transition-all duration-300 flex items-center gap-4"
-                          style={{ backgroundColor: colors.background.transparent }}
                         >
                           <div 
                             className="w-12 h-12 rounded-xl flex items-center justify-center"
-                            style={{ backgroundColor: colors.neutral.gray }}
                           >
                             <FaInstagram className="w-6 h-6" style={{ color: colors.primary.white }} />
                           </div>
@@ -464,11 +466,9 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                           target="_blank" 
                           rel="noopener noreferrer" 
                           className="p-6 rounded-2xl transition-all duration-300 flex items-center gap-4"
-                          style={{ backgroundColor: colors.background.transparent }}
                         >
                           <div 
                             className="w-12 h-12 rounded-xl flex items-center justify-center"
-                            style={{ backgroundColor: colors.neutral.gray }}
                           >
                             <FaLinkedin className="w-6 h-6" style={{ color: colors.primary.white }} />
                           </div>
@@ -563,11 +563,11 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
               </div>
 
               <div>
-                <h4 className="text-sm font-medium uppercase mb-3" style={{ color: colors.text.dark }}>Tira dúvidas</h4>
+                <h4 className="text-sm font-regular uppercase mb-3" style={{ color: colors.text.dark }}>Tira dúvidas</h4>
                 <p className="text-sm text-gray-600 mb-3">Fale com nosso time via WhatsApp para tirar dúvidas rápidas.</p>
                 <a href="https://wa.me/message/3V45SAJMLIJJJ1" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 px-3 py-3 rounded-md shadow-sm" style={{ borderRadius: '999px', background: colors.apoio.green, color: colors.whiteColor }} aria-label="Tirar dúvidas no WhatsApp">
                   <FaWhatsapp className="w-5 h-5" style={{ color: colors.whiteColor }} aria-hidden />
-                  <span className="font-medium">Tirar dúvidas</span>
+                  <span className="font-regular">Tirar dúvidas</span>
                 </a>
               </div>
 

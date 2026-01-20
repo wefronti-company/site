@@ -43,8 +43,28 @@ const Hero: React.FC = () => {
 
       {/* Content */}
       <div className="relative z-20 flex items-center justify-center min-h-screen px-8 md:px-16 lg:px-24">
-        <div className="w-full max-w-3xl md:max-w-6xl mx-auto">
+        <div className="w-full max-w-3xl md:max-w-6xl mx-auto relative">
           
+          {/* Circular badge with rotating icon */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={hasEntered ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
+            transition={{ duration: 0.8, ease: "easeOut", delay: 0.1 }}
+            className="absolute -top-12 md:-top-16 right-0 md:right-40 lg:right-64 z-30"
+          >
+            <motion.div
+              animate={{ rotate: -360 }}
+              transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+              className="relative w-32 h-32 flex items-center justify-center"
+            >
+              <img 
+                src="/images/icons/icon-hero-circle.png" 
+                alt="Badge" 
+                className="w-full h-full"
+              />
+            </motion.div>
+          </motion.div>
+
           <motion.h1 
             initial={{ opacity: 0, y: 30 }}
             animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
@@ -75,7 +95,7 @@ const Hero: React.FC = () => {
             {/* Service 1 */}
             <div 
               className="rounded-lg p-6 flex flex-col gap-3"
-              style={{ border: `1px solid ${colors.neutral.borderLight}`, background: colors.background.transparent }}
+              style={{ borderRadius: '0.5rem', border: `1px solid ${colors.neutral.borderLight}`, background: colors.background.transparent }}
             >
               <div className="flex items-center gap-3">
                 <Globe className="w-5 h-5 flex-shrink-0" style={{ color: colors.purple.tertiary }} />
@@ -91,7 +111,7 @@ const Hero: React.FC = () => {
             {/* Service 2 */}
             <div 
               className="rounded-lg p-6 flex flex-col gap-3"
-              style={{ border: `1px solid ${colors.neutral.borderLight}`, background: colors.background.transparent }}
+              style={{ borderRadius: '0.5rem', border: `1px solid ${colors.neutral.borderLight}`, background: colors.background.transparent }}
             >
               <div className="flex items-center gap-3">
                 <Server className="w-5 h-5 flex-shrink-0" style={{ color: colors.purple.tertiary }} />
@@ -107,7 +127,7 @@ const Hero: React.FC = () => {
             {/* Service 3 */}
             <div 
               className="rounded-lg p-6 flex flex-col gap-3"
-              style={{ border: `1px solid ${colors.neutral.borderLight}`, background: colors.background.transparent }}
+              style={{ borderRadius: '0.5rem', border: `1px solid ${colors.neutral.borderLight}`, background: colors.background.transparent }}
             >
               <div className="flex items-center gap-3">
                 <Link2 className="w-5 h-5 flex-shrink-0" style={{ color: colors.purple.tertiary }} />
@@ -123,7 +143,7 @@ const Hero: React.FC = () => {
             {/* Service 4 */}
             <div 
               className="rounded-lg p-6 flex flex-col gap-3"
-              style={{ border: `1px solid ${colors.neutral.borderLight}`, background: colors.background.transparent }}
+              style={{ borderRadius: '0.5rem', border: `1px solid ${colors.neutral.borderLight}`, background: colors.background.transparent }}
             >
               <div className="flex items-center gap-3">
                 <BarChart3 className="w-5 h-5 flex-shrink-0" style={{ color: colors.purple.tertiary }} />

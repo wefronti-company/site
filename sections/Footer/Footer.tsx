@@ -18,22 +18,21 @@ const Footer: React.FC = () => {
  <footer 
  className="w-full transition-colors"
  style={{
- backgroundColor: colors.primary.black, borderTop: `10px solid ${colors.neutral.borderLight}`}}
+ backgroundColor: colors.primary.black, borderTop: `1px solid ${colors.neutral.borderLight}`}}
  >
- <div className="px-4 md:px-8 lg:px-16 pt-16 pb-12 md:pt-20 md:pb-14 relative -mt-12 md:-mt-16" style={{ backgroundColor: colors.primary.black }}>
+ <div className="px-4 md:px-8 lg:px-16 pt-16 pb-12 md:pt-20 md:pb-14 relative" style={{ backgroundColor: colors.primary.black }}>
  <div className="w-full max-w-[1400px] mx-auto" >
 
 
-   {/* Main layout — 5 columns (desktop) */}
-   <div className="grid grid-cols-1 md:grid-cols-5 gap-20 mb-16 md:mb-20"> 
+   {/* Main layout — 4 columns (desktop) */}
+   <div className="grid grid-cols-1 md:grid-cols-4 gap-20 mb-16 md:mb-20"> 
 
      {/* 1 — Logo + slogan */}
      <div className="flex flex-col gap-6">
        <Logo />
-       <p className="text-sm max-w-[20rem]" style={{ color: colors.text.light, opacity: 0.9 }}>
-         Projetamos produtos digitais com propósito estratégia, tecnologia e entrega.
+       <p className="text-sm max-w-[20rem]" style={{ color: colors.text.dark, opacity: 0.9 }}>
+         Avenida Cristovao Colombo, 2144, Sala 408 Andar 3, Floresta • Porto Alegre, RS
        </p>
-       <p className="text-xs" style={{ color: colors.neutral.grayHover }}>Sede administrativa: Porto Alegre, RS (Atendimento remoto)</p>
      </div>
 
      {/* 2 — Navegação */}
@@ -77,10 +76,10 @@ const Footer: React.FC = () => {
        </div>
      </div>
 
-     {/* 4 — Fale conosco */}
+     {/* 4 — Fale conosco + Legal */}
      <div>
        <h4 className="text-sm font-regular mb-3 uppercase" style={{ color: colors.neutral.grayHover }}>Fale conosco</h4>
-       <div className="flex flex-col gap-4">
+       <div className="flex flex-col gap-4 mb-8">
          <a href="mailto:contato@wefronti.com.br" className="flex items-center gap-3 text-sm" style={{ color: colors.text.light }} aria-label="Enviar e‑mail para contato@wefronti.com.br">
            <span className="w-8 h-8 flex items-center justify-center rounded-md -ml-2" style={{ color: colors.neutral.grayHover }} aria-hidden>
              <FaEnvelope />
@@ -94,28 +93,17 @@ const Footer: React.FC = () => {
            <span>Falar por WhatsApp</span>
          </a>
        </div>
-     </div>
 
-     {/* 5 — Site seguro */}
-     <div>
        <h4 className="text-sm font-regular mb-3 uppercase" style={{ color: colors.neutral.grayHover }}>Legal</h4>
-      
-         <ul className="mt-3 flex flex-col gap-3">
-           <li>
-             <Link href="/termos-de-uso" className="text-sm inline-flex items-center gap-2" style={{ color: colors.text.light }}>
-               Termos de Uso
-               <ArrowRight size={14} className="-rotate-45 ml-auto" aria-hidden />
-             </Link>
-           </li>
-           <li>
-             <Link href="/politica-privacidade" className="text-sm inline-flex items-center gap-2" style={{ color: colors.text.light }}>
-               Política de Privacidade
-               <ArrowRight size={14} className="-rotate-45 ml-auto" aria-hidden />
-             </Link>
-           </li>
-         </ul>
+       <div>
+         <Link href="/politica-privacidade" className="text-sm inline-flex items-center gap-2" style={{ color: colors.text.light }}>
+           Política de Privacidade
+           <ArrowRight size={14} className="-rotate-45 ml-auto" aria-hidden />
+         </Link>
        </div>
      </div>
+
+   </div>
 
     </div>
 
