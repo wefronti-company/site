@@ -8,14 +8,14 @@ export const colors = {
  },
 
  background:{
-    dark: '#010101ff',
-    light:'#000000ff',
+    dark: '#040404ff',
+    light:'#d9d9d9ff',
     transparent: 'rgba(0, 0, 0, 0)',
  },
 
  text:{
    
-    dark: '#4c4c4cff',
+    dark: '#6e6e6eff',
     light: '#ffffffff',
     primary: '#101019ff',
     secondary: '#1f1f1fe3',
@@ -37,7 +37,7 @@ export const colors = {
  purple:{
    primary: '#eeeceeff',
    secondary: '#101019ff',
-   tertiary:'#736fb0ff',
+   tertiary:'#329cf2ff',
  },
 
  apoio:{

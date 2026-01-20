@@ -29,6 +29,7 @@ const CTA: React.FC = () => {
   return (
     <section 
       ref={sectionRef}
+      id="contato"
       className="w-full py-20 md:py-32 relative overflow-hidden border-t"
       style={{ backgroundColor: colors.blackColor, borderTopColor: colors.borderDark }}
     >

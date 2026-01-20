@@ -5,6 +5,7 @@ import ButtonMenu from './ButtonMenu';
 import ButtonCta from './ButtonCta';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
+import Image from 'next/image';
 import { ArrowUpRight, ArrowRight } from 'lucide-react';
 import { FaInstagram, FaLinkedin, FaWhatsapp } from 'react-icons/fa';
 
@@ -15,6 +16,22 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
   const [isScrolled, setIsScrolled] = useState(false);
   const [heroVisible, setHeroVisible] = useState(false);
   const router = require('next/router').useRouter();
+
+  // Função para scroll suave até seção
+  const scrollToSection = (sectionId: string) => {
+    setMenuOpen(false);
+    const element = document.querySelector(sectionId);
+    if (element) {
+      const headerOffset = 100;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
+  };
 
   // pages that should always render a dark header with a bottom border
   const routesWithDarkHeader = new Set(['/solucoes']);
@@ -30,7 +47,7 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
     window.addEventListener('scroll', handleScroll, { passive: true });
 
     // Observe the hero section — while it's visible the header should be transparent.
-    const heroEl = document.querySelector('#section-0');
+    const heroEl = document.querySelector('#hero');
     let obs: IntersectionObserver | null = null;
     if (heroEl) {
       obs = new IntersectionObserver((entries) => {
@@ -51,167 +68,358 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
   if (variant === 'header') {
     return (
       <header
-        className="fixed top-0 left-0 right-0 z-[60] pointer-events-auto"
+        className="fixed top-0 left-0 right-0 z-[100]"
         style={{
-          background: forceDarkHeader ? colors.background.dark : undefined,
-          borderBottom: forceDarkHeader ? `1px solid ${colors.neutral.borderLight}` : undefined,
+          background: colors.background.dark,
+          transition: 'background 0.3s ease',
         }}
       >
         <nav
           aria-label="Main navigation"
           className="w-full transition-all duration-300"
         >
-          <div className="w-full px-4 md:px-8 lg:px-12 flex items-center justify-between py-4 md:py-5">
-            {/* Logo à esquerda */}
-            <div className="flex items-center">
-              <Logo href="/" ariaLabel="Ir para a página inicial" isDark={false} className="h-6" />
+          <div className="w-full px-4 md:px-8 lg:px-12">
+            <div className="max-w-3xl md:max-w-6xl mx-auto flex items-center justify-between py-8 md:py-10 relative">
+              {/* Logo à esquerda */}
+              <div className="flex items-center relative z-[110]">
+                <Logo href="/" ariaLabel="Ir para a página inicial" isDark={false} className="h-8" />
+              </div>
+
+              {/* Botão à direita - Agora para desktop e mobile */}
+              <div className="flex items-center gap-3 relative z-[110]">
+              <button
+                className="relative flex items-center justify-center transition-colors duration-200 cursor-pointer"
+                aria-expanded={menuOpen}
+                aria-controls="main-menu"
+                onClick={() => setMenuOpen(prev => !prev)}
+                aria-label={menuOpen ? 'Fechar menu' : 'Abrir menu'}
+                type="button"
+                style={{ padding: 0, margin: 0 }}
+              >
+                <div className="w-12 h-6 relative flex items-center justify-center">
+                  <span 
+                    className="absolute block w-11 h-[1.5px] rounded transition-all duration-700 ease-in-out"
+                    style={{ 
+                      background: colors.primary.white,
+                      transform: menuOpen 
+                        ? 'translateY(0) rotate(45deg)' 
+                        : 'translateY(-3px) rotate(0deg)'
+                    }} 
+                  />
+                  <span 
+                    className="absolute block w-11 h-[1.5px] rounded transition-all duration-700 ease-in-out"
+                    style={{ 
+                      background: colors.primary.white,
+                      transform: menuOpen 
+                        ? 'translateY(0) rotate(-45deg)' 
+                        : 'translateY(3px) rotate(0deg)'
+                    }} 
+                  />
+                </div>
+              </button>
             </div>
-
-            {/* Links centralizados */}
-            <ul className="hidden md:flex items-center gap-6 text-base absolute left-1/2 -translate-x-1/2 transition-colors duration-200" style={{ color: colors.text.light }}>
-              <li><Link href="/" className="hover:opacity-100 transition-colors duration-200" style={{ color: colors.text.light }} onMouseEnter={(e: any) => (e.currentTarget.style.color = colors.neutral.grayHover)} onMouseLeave={(e: any) => (e.currentTarget.style.color = colors.text.light)}>Início</Link></li>
-              <li><Link href="/solucoes" className="hover:opacity-100 transition-colors duration-200" style={{ color: colors.text.light }} onMouseEnter={(e: any) => (e.currentTarget.style.color = colors.neutral.grayHover)} onMouseLeave={(e: any) => (e.currentTarget.style.color = colors.text.light)}>O que fazemos</Link></li>
-              <li><a href="#comparative" className="hover:opacity-100 transition-colors duration-200" style={{ color: colors.text.light }} onMouseEnter={(e) => e.currentTarget.style.color = colors.neutral.grayHover} onMouseLeave={(e) => e.currentTarget.style.color = colors.text.light}>Sobre nós</a></li>
-              <li><a href="#clients" className="hover:opacity-100 transition-colors duration-200" style={{ color: colors.text.light }} onMouseEnter={(e) => e.currentTarget.style.color = colors.neutral.grayHover} onMouseLeave={(e) => e.currentTarget.style.color = colors.text.light}>Casos de sucesso</a></li>
-              <li><a href="#contato" className="hover:opacity-100 transition-colors duration-200" style={{ color: colors.text.light }} onMouseEnter={(e) => e.currentTarget.style.color = colors.neutral.grayHover} onMouseLeave={(e) => e.currentTarget.style.color = colors.text.light}>Contato</a></li>
-              <li><a href="#contato" className="hover:opacity-100 transition-colors duration-200" style={{ color: colors.text.light }} onMouseEnter={(e) => e.currentTarget.style.color = colors.neutral.grayHover} onMouseLeave={(e) => e.currentTarget.style.color = colors.text.light}>FAQ</a></li>
-
-            </ul>
-
-            {/* Botão à direita */}
-            <div className="flex items-center gap-4">
-              <div className="hidden md:block">
-                <ButtonCta label="Entrar em contato" />
-              </div>
-
-              <div className="md:hidden flex items-center gap-2">
-                <span className="text-base font-medium pointer-events-none" style={{ color: colors.text.light }}>Menu</span>
-                <button
-                  className="p-2 rounded-full relative flex items-center gap-3 transition-colors duration-200"
-                  aria-expanded={menuOpen}
-                  aria-controls="mobile-menu"
-                  onClick={() => setMenuOpen(prev => !prev)}
-                  aria-label={menuOpen ? 'Fechar menu' : 'Abrir menu'}
-                >
-                  <div className="w-7 h-6 relative flex items-center">
-                    <span className="absolute block w-6 h-[2px] rounded left-0 top-1/2 -translate-y-1"
-                      style={{ background: colors.text.light }} />
-                    <span className="absolute block w-6 h-[2px] rounded left-0 top-1/2 translate-y-1"
-                      style={{ background: colors.text.light }} />
-                  </div>
-                </button>
-              </div>
             </div>
           </div>
         </nav>
 
         <AnimatePresence>
           {menuOpen && (
-            <motion.div
-              key="mobile-menu"
-              initial={{ x: '100%' }}
-              animate={{ x: 0 }}
-              exit={{ x: '100%' }}
-              transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
-              className="fixed inset-0 z-50 md:hidden"
-              style={{ background: colors.background.dark }}
-            >
-              <div className="h-full flex flex-col p-6">
-                {/* Header do menu mobile */}
-                <div className="flex items-center justify-end mb-12">
-                  <button
-                    onClick={() => setMenuOpen(false)}
-                    aria-label="Fechar menu"
-                    className="p-2"
-                  >
-                    <div className="w-7 h-6 relative flex items-center">
-                      <span className="absolute block w-6 h-[2px] rounded left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rotate-45"
-                        style={{ background: colors.text.light }} />
-                      <span className="absolute block w-6 h-[2px] rounded left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 -rotate-45"
-                        style={{ background: colors.text.light }} />
+            <>
+              {/* Menu Mobile - Slide da direita */}
+              <motion.div
+                key="mobile-menu"
+                initial={{ x: '100%' }}
+                animate={{ x: 0 }}
+                exit={{ x: '100%' }}
+                transition={{ duration: 0.6, ease: [0.32, 0.72, 0, 1] }}
+                className="fixed inset-0 z-[200] md:hidden"
+                style={{ background: colors.background.dark }}
+              >
+                <div className="h-full flex flex-col p-6">
+                  {/* Header do menu mobile */}
+                  <div className="flex items-center justify-between mb-12">
+                    <Logo href="/" ariaLabel="Ir para a página inicial" isDark={false} className="h-6" />
+                    <button
+                      onClick={() => setMenuOpen(false)}
+                      aria-label="Fechar menu"
+                      className="p-2 flex items-center gap-3"
+                    >
+                      <span className="text-base font-medium" style={{ color: colors.text.light }}>Fechar</span>
+                      <div className="w-7 h-6 relative flex items-center justify-center">
+                        <span 
+                          className="absolute block w-6 h-[2px] rounded transition-all duration-700 ease-in-out rotate-45"
+                          style={{ background: colors.text.light }} 
+                        />
+                        <span 
+                          className="absolute block w-6 h-[2px] rounded transition-all duration-700 ease-in-out -rotate-45"
+                          style={{ background: colors.text.light }} 
+                        />
+                      </div>
+                    </button>
+                  </div>
+
+                  {/* Links do menu mobile */}
+                  <nav className="flex-1 flex flex-col justify-center">
+                    <ul className="flex flex-col gap-6">
+                      <li>
+                        <button 
+                          onClick={() => scrollToSection('#hero')}
+                          className="text-xl font-light transition-colors duration-200 flex items-center gap-3"
+                          style={{ color: colors.text.light }}
+                          aria-label="Início"
+                        >
+                          <span>Início</span>
+                          <ArrowRight size={18} className="-rotate-45" />
+                        </button>
+                      </li>
+                      <li>
+                        <button 
+                          onClick={() => scrollToSection('#services')}
+                          className="text-xl font-light transition-colors duration-200 flex items-center gap-3"
+                          style={{ color: colors.text.light }}
+                          aria-label="Serviços"
+                        >
+                          <span>Serviços</span>
+                          <ArrowRight size={18} className="-rotate-45" />
+                        </button>
+                      </li>
+                      <li>
+                        <button 
+                          onClick={() => scrollToSection('#comparative')}
+                          className="text-xl font-light transition-colors duration-200 flex items-center gap-3"
+                          style={{ color: colors.text.light }}
+                        >
+                          <span>Sobre nós</span>
+                          <ArrowRight size={18} className="-rotate-45" />
+                        </button>
+                      </li>
+                      <li>
+                        <button 
+                          onClick={() => scrollToSection('#clients')}
+                          className="text-xl font-light transition-colors duration-200 flex items-center gap-3"
+                          style={{ color: colors.text.light }}
+                        >
+                          <span>Casos de sucesso</span>
+                          <ArrowRight size={18} className="-rotate-45" />
+                        </button>
+                      </li>
+                      <li>
+                        <button 
+                          onClick={() => scrollToSection('#contato')}
+                          className="text-xl font-light transition-colors duration-200 flex items-center gap-3"
+                          style={{ color: colors.text.light }}
+                        >
+                          <span>Contato</span>
+                          <ArrowRight size={18} className="-rotate-45" />
+                        </button>
+                      </li>
+                      <li>
+                        <button 
+                          onClick={() => scrollToSection('#faq')}
+                          className="text-xl font-light transition-colors duration-200 flex items-center gap-3"
+                          style={{ color: colors.text.light }}
+                        >
+                          <span>FAQ</span>
+                          <ArrowRight size={18} className="-rotate-45" />
+                        </button>
+                      </li>
+                    </ul>
+                  </nav>
+
+                  {/* CTA no rodapé do menu mobile */}
+                  <div className="mt-auto">
+                    <ButtonCta label="Entrar em contato" className="w-full" />
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Menu Desktop - Dropdown de cima para baixo */}
+              <motion.div
+                key="desktop-menu"
+                initial={{ height: 0 }}
+                animate={{ height: 'calc(100vh - 100px)' }}
+                exit={{ height: 0, transition: { duration: 1, delay: 0.5, ease: [0.32, 0.72, 0, 1] } }}
+                transition={{ duration: 1, ease: [0.32, 0.72, 0, 1] }}
+                className="hidden md:block fixed left-0 right-0 bottom-0 z-[90] overflow-hidden"
+                style={{ 
+                  top: '100px',
+                  background: colors.background.dark
+                }}
+              >
+                <div className="w-full h-full flex items-center justify-center">
+                  <div className="w-full max-w-3xl md:max-w-6xl">
+                    <motion.div 
+                      className="grid grid-cols-3 gap-16 w-full"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0, transition: { duration: 0.5, delay: 0.5, ease: "easeOut" } }}
+                      exit={{ opacity: 0, y: 20, transition: { duration: 0.5, delay: 0, ease: "easeIn" } }}
+                    >
+                      {/* Coluna 1 - Navegação Principal (alinhada à esquerda com logo) */}
+                      <div>
+                        <h4 className="text-xs font-semibold uppercase mb-8 tracking-wider" style={{ color: colors.text.light }}>Navegar</h4>
+                      <ul className="flex flex-col gap-3">
+                        <li>
+                          <button 
+                            onClick={() => scrollToSection('#hero')}
+                            className="text-2xl font-light transition-all duration-300 flex items-center gap-3 group"
+                            style={{ color: colors.text.light }}
+                          >
+                            <span>Início</span>
+                            <span 
+                              className="w-2 h-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                              style={{ backgroundColor: colors.purple.tertiary }}
+                            />
+                          </button>
+                        </li>
+                        <li>
+                          <button 
+                            onClick={() => scrollToSection('#services')}
+                            className="text-2xl font-light transition-all duration-300 flex items-center gap-3 group"
+                            style={{ color: colors.text.light }}
+                          >
+                            <span>Serviços</span>
+                            <span 
+                              className="w-2 h-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                              style={{ backgroundColor: colors.purple.tertiary }}
+                            />
+                          </button>
+                        </li>
+                        <li>
+                          <button 
+                            onClick={() => scrollToSection('#comparative')}
+                            className="text-2xl font-light transition-all duration-300 flex items-center gap-3 group"
+                            style={{ color: colors.text.light }}
+                          >
+                            <span>Sobre nós</span>
+                            <span 
+                              className="w-2 h-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                              style={{ backgroundColor: colors.purple.tertiary }}
+                            />
+                          </button>
+                        </li>
+                        <li>
+                          <button 
+                            onClick={() => scrollToSection('#clients')}
+                            className="text-2xl font-light transition-all duration-300 flex items-center gap-3 group"
+                            style={{ color: colors.text.light }}
+                          >
+                            <span>Casos de sucesso</span>
+                            <span 
+                              className="w-2 h-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                              style={{ backgroundColor: colors.purple.tertiary }}
+                            />
+                          </button>
+                        </li>
+                        <li>
+                          <button 
+                            onClick={() => scrollToSection('#contato')}
+                            className="text-2xl font-light transition-all duration-300 flex items-center gap-3 group"
+                            style={{ color: colors.text.light }}
+                          >
+                            <span>Contato</span>
+                            <span 
+                              className="w-2 h-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                              style={{ backgroundColor: colors.purple.tertiary }}
+                            />
+                          </button>
+                        </li>
+                        <li>
+                          <button 
+                            onClick={() => scrollToSection('#faq')}
+                            className="text-2xl font-light transition-all duration-300 flex items-center gap-3 group"
+                            style={{ color: colors.text.light }}
+                          >
+                            <span>FAQ</span>
+                            <span 
+                              className="w-2 h-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                              style={{ backgroundColor: colors.purple.tertiary }}
+                            />
+                          </button>
+                        </li>
+                      </ul>
                     </div>
-                  </button>
-                </div>
 
-                {/* Links do menu */}
-                <nav className="flex-1 flex flex-col justify-center">
-                  <ul className="flex flex-col gap-6">
-                    <li>
-                      <Link 
-                        href="/solucoes" 
-                        onClick={() => setMenuOpen(false)}
-                        className="text-xl font-light transition-colors duration-200 flex items-center gap-3"
-                        style={{ color: colors.text.light }}
-                        aria-label="O que fazemos"
-                      >
-                        <span>O que fazemos</span>
-                        <ArrowRight size={18} className="-rotate-45" />
-                      </Link>
-                    </li>
-                    <li>
+                    {/* Coluna 2 - WhatsApp (centralizada) */}
+                    <div className="flex flex-col items-center justify-start">
+                      <div>
+                        <h4 className="text-xs font-semibold uppercase mb-8 tracking-wider" style={{ color: colors.text.light }}>Tirar dúvidas</h4>
                       <a 
-                        href="#solutions" 
-                        onClick={() => setMenuOpen(false)}
-                        className="text-xl font-light transition-colors duration-200 flex items-center gap-3"
-                        style={{ color: colors.text.light }}
+                        href="https://wa.me/message/3V45SAJMLIJJJ1" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="block p-6 rounded-2xl transition-all duration-300"
+                        style={{ 
+                          backgroundColor: colors.background.transparent 
+                        }}
                       >
-                        <span>O que fazemos</span>
-                        <ArrowRight size={18} className="-rotate-45" />
+                        <div className="flex items-center gap-3 mb-3">
+                          <div 
+                            className="w-16 h-16 rounded-xl overflow-hidden flex items-center justify-center"
+                            style={{ backgroundColor: colors.neutral.borderLight }}
+                          >
+                            <img 
+                              src="/images/site/secetraria-whatsapp.webp" 
+                              alt="Secretária WhatsApp"
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          <span className="text-lg font-medium" style={{ color: colors.text.light }}>Chamar no Whatsapp</span>
+                        </div>
+                        <p className="text-sm font-light" style={{ color: colors.text.light, opacity: 0.7 }}>
+                          Fale com nosso time para tirar dúvidas rápidas sobre nossos serviços
+                        </p>
                       </a>
-                    </li>
-                    <li>
-                      <a 
-                        href="#comparative" 
-                        onClick={() => setMenuOpen(false)}
-                        className="text-xl font-light transition-colors duration-200 flex items-center gap-3"
-                        style={{ color: colors.text.light }}
-                      >
-                        <span>Sobre nós</span>
-                        <ArrowRight size={18} className="-rotate-45" />
-                      </a>
-                    </li>
-                    <li>
-                      <a 
-                        href="#clients" 
-                        onClick={() => setMenuOpen(false)}
-                        className="text-xl font-light transition-colors duration-200 flex items-center gap-3"
-                        style={{ color: colors.text.light }}
-                      >
-                        <span>Casos de sucesso</span>
-                        <ArrowRight size={18} className="-rotate-45" />
-                      </a>
-                    </li>
-                    <li>
-                      <a 
-                        href="#contato" 
-                        onClick={() => setMenuOpen(false)}
-                        className="text-xl font-light transition-colors duration-200 flex items-center gap-3"
-                        style={{ color: colors.text.light }}
-                      >
-                        <span>Contato</span>
-                        <ArrowRight size={18} className="-rotate-45" />
-                      </a>
-                    </li>
-                    <li>
-                      <a 
-                        href="#faq" 
-                        onClick={() => setMenuOpen(false)}
-                        className="text-xl font-light transition-colors duration-200 flex items-center gap-3"
-                        style={{ color: colors.text.light }}
-                      >
-                        <span>FAQ</span>
-                        <ArrowRight size={18} className="-rotate-45" />
-                      </a>
-                    </li>
-                  </ul>
-                </nav>
+                      </div>
+                    </div>
 
-                {/* CTA no rodapé do menu */}
-                <div className="mt-auto">
-                  <ButtonCta label="Entrar em contato" className="w-full" />
+                    {/* Coluna 3 - Redes Sociais (alinhada à direita com botão menu) */}
+                    <div className="flex justify-end">
+                      <div>
+                      <h4 className="text-xs font-semibold uppercase mb-8 tracking-wider" style={{ color: colors.text.light }}>Redes sociais</h4>
+                      <div className="flex flex-col gap-4">
+                        <a 
+                          href="https://instagram.com/wefronti" 
+                          target="_blank" 
+                          rel="noopener noreferrer" 
+                          className="p-6 rounded-2xl transition-all duration-300 flex items-center gap-4"
+                          style={{ backgroundColor: colors.background.transparent }}
+                        >
+                          <div 
+                            className="w-12 h-12 rounded-xl flex items-center justify-center"
+                            style={{ backgroundColor: colors.neutral.gray }}
+                          >
+                            <FaInstagram className="w-6 h-6" style={{ color: colors.primary.white }} />
+                          </div>
+                          <div>
+                            <div className="text-lg font-medium mb-1" style={{ color: colors.text.light }}>Instagram</div>
+                          </div>
+                        </a>
+                        
+                        <a 
+                          href="https://linkedin.com/company/wefronti" 
+                          target="_blank" 
+                          rel="noopener noreferrer" 
+                          className="p-6 rounded-2xl transition-all duration-300 flex items-center gap-4"
+                          style={{ backgroundColor: colors.background.transparent }}
+                        >
+                          <div 
+                            className="w-12 h-12 rounded-xl flex items-center justify-center"
+                            style={{ backgroundColor: colors.neutral.gray }}
+                          >
+                            <FaLinkedin className="w-6 h-6" style={{ color: colors.primary.white }} />
+                          </div>
+                          <div>
+                            <div className="text-lg font-medium mb-1" style={{ color: colors.text.light }}>LinkedIn</div>
+                          </div>
+                        </a>
+                      </div>
+                      </div>
+                    </div>
+                    </motion.div>
+                  </div>
                 </div>
-              </div>
-            </motion.div>
+              </motion.div>
+            </>
           )}
         </AnimatePresence>
       </header>
