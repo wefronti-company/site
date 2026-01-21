@@ -35,18 +35,21 @@ const Sobre: React.FC = () => {
       <div className="px-8 md:px-16 lg:px-24">
         <div className="w-full max-w-3xl md:max-w-6xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-            {/* Foto à direita em telas grandes, acima em mobile */}
-            <div className="order-2 lg:order-1 flex justify-center">
+            {/* Foto à esquerda, alinhada com a seção, border radius suave */}
+            <div className="order-2 lg:order-1 flex justify-start">
               <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={isVisible ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
                 transition={{ duration: 0.8, ease: 'easeOut', delay: 0.2 }}
-                className="w-40 h-40 md:w-56 md:h-56 rounded-full overflow-hidden border-4 border-white/10 shadow-lg"
+                className="w-56 h-56 md:w-80 md:h-80 rounded-2xl overflow-hidden border-4 border-white/10 shadow-lg group"
               >
                 <img
-                  src="/images/site/witorlinhares.jpg"
+                  src="/images/site/witor-linhares.webp"
                   alt="Witor Linhares"
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover filter grayscale transition-all duration-500 group-hover:filter-none"
+                  style={{ filter: 'grayscale(1)', transition: 'filter 0.5s' }}
+                  onMouseOver={e => (e.currentTarget.style.filter = 'none')}
+                  onMouseOut={e => (e.currentTarget.style.filter = 'grayscale(1)')}
                 />
               </motion.div>
             </div>
@@ -54,6 +57,7 @@ const Sobre: React.FC = () => {
             <div className="order-1 lg:order-2 flex flex-col justify-center">
               <motion.h2
                 className="text-4xl md:text-4xl lg:text-5xl font-regular mb-4"
+                style={{ color: colors.text.light }}
                 initial={{ opacity: 0, y: 20 }}
                 animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                 transition={{ duration: 0.6, ease: 'easeOut', delay: 0.2 }}
@@ -75,15 +79,15 @@ const Sobre: React.FC = () => {
 
                 Não trabalhamos com promessas. Trabalhamos com contexto, decisão e execução responsável.
               </motion.p>
-              <div className="flex gap-4">
+              <div className="flex flex-row gap-4">
                 <a href="https://instagram.com/witorlinhares" target="_blank" rel="noopener noreferrer">
-                  <ButtonCta>
-                    <FaInstagram className="w-5 h-5 mr-2" /> Instagram
+                  <ButtonCta className="flex items-center justify-center w-12 h-12 p-0">
+                    <FaInstagram className="w-6 h-6" />
                   </ButtonCta>
                 </a>
                 <a href="https://linkedin.com/in/witorlinhares" target="_blank" rel="noopener noreferrer">
-                  <ButtonCta>
-                    <FaLinkedin className="w-5 h-5 mr-2" /> LinkedIn
+                  <ButtonCta className="flex items-center justify-center w-12 h-12 p-0">
+                    <FaLinkedin className="w-6 h-6" />
                   </ButtonCta>
                 </a>
               </div>
