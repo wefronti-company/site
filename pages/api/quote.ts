@@ -194,6 +194,7 @@ export default async function handler(
 		if (smtpHost && smtpUser && smtpPass && emailFrom && adminEmail) {
 			const subject = `Novo pedido de orçamento — ${sanitizedData.name}`;
 
+
 			const plainBody = `Nova solicitação de orçamento\n\nID: ${insertedId}\nNome: ${sanitizedData.name}\nE-mail: ${sanitizedData.email}\nCelular: ${sanitizedData.phone}\nEmpresa: ${sanitizedData.company}\nInvestimento: ${sanitizedData.investment}\nTipo de projeto: ${sanitizedData.projectType}\nUrgência: ${sanitizedData.urgency}\nDetalhes: ${sanitizedData.details}\n`;
 
 			const htmlBody = `
@@ -202,13 +203,13 @@ export default async function handler(
 					<p><strong>ID:</strong> ${insertedId}</p>
 					<p><strong>Nome:</strong> ${sanitizedData.name}</p>
 					<p><strong>E-mail:</strong> ${sanitizedData.email}</p>
-					<p><strong>WhatsApp:</strong> ${sanitizedData.whatsapp}</p>
+					<p><strong>Celular:</strong> ${sanitizedData.phone}</p>
 					<p><strong>Empresa:</strong> ${sanitizedData.company}</p>
-					<p><strong>Operador / cargo:</strong> ${sanitizedData.role}</p>
-					<p><strong>Faturamento:</strong> ${sanitizedData.revenue}</p>
-					<p><strong>Timeline:</strong> ${sanitizedData.timeline}</p>
-					<p><strong>Desafio:</strong></p>
-					<pre style="white-space:pre-wrap">${sanitizedData.challenge}</pre>
+					<p><strong>Investimento:</strong> ${sanitizedData.investment}</p>
+					<p><strong>Tipo de projeto:</strong> ${sanitizedData.projectType}</p>
+					<p><strong>Urgência:</strong> ${sanitizedData.urgency}</p>
+					<p><strong>Detalhes:</strong></p>
+					<pre style="white-space:pre-wrap">${sanitizedData.details}</pre>
 					<hr />
 					<p>Recebido de IP: ${clientIp}</p>
 				</div>
