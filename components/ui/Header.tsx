@@ -136,8 +136,8 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: 10 }}
                       transition={{ duration: 0.3 }}
-                      className="bg-neutral-900 border border-white/10 shadow-xl rounded-xl px-6 py-4 flex flex-col items-center"
-                      style={{ color: colors.text.light }}
+                      className="bg-neutral-900 border border-white/10 shadow-xl px-6 py-4 flex flex-col items-center"
+                      style={{ borderRadius: '6px', color: colors.text.light }}
                     >
                       <span className="text-base mb-4 text-center leading-snug">
                         Toda boa decisão<br />

@@ -6,7 +6,7 @@ import { colors } from '../../styles/colors';
 const ScrollIndicator: React.FC = () => {
   return (
     <motion.div
-      className="absolute bottom-8 left-6 sm:left-1/2 sm:transform sm:-translate-x-1/2 flex flex-col items-center gap-2 z-30"
+      className="hidden sm:flex absolute bottom-8 left-6 sm:left-1/2 sm:transform sm:-translate-x-1/2 flex-col items-center gap-2 z-30"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 1, delay: 1 }}
