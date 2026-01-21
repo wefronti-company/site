@@ -64,9 +64,21 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
 
   // Função para scroll suave até seção
   const scrollToSection = (sectionId: string) => {
+    // Close menu first
     setMenuOpen(false);
+
     setTimeout(() => {
       const element = document.querySelector(sectionId);
+
+      // If element not found on current page, navigate to home with anchor
+      if (!element) {
+        if (window.location.pathname !== '/') {
+          // navigate to home with hash, browser will scroll to the anchor
+          window.location.href = `/${sectionId}`;
+          return;
+        }
+      }
+
       if (element) {
         const headerOffset = 100;
         const elementPosition = element.getBoundingClientRect().top;
@@ -76,7 +88,7 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
           behavior: 'smooth'
         });
       } else {
-        // fallback para scrollIntoView se não encontrar
+        // fallback for same-page id lookup
         const fallback = document.getElementById(sectionId.replace('#', ''));
         if (fallback) fallback.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
