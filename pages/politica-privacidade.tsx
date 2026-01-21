@@ -10,24 +10,25 @@ const PoliticaPrivacidade: React.FC = () => {
     <>
       <Head>
         <title>Política de Privacidade e Termos de Uso • Wefronti</title>
-        <meta name="description" content="Política de Privacidade, Termos de Uso e proteção de dados pessoais da Wefronti de acordo com a LGPD" />
+        <meta name="description" content="Política de Privacidade e proteção de dados pessoais da Wefronti de acordo com a LGPD" />
         <meta name="robots" content="noindex, nofollow" />
       </Head>
 
 
       <div className="min-h-screen" style={{ backgroundColor: colors.background.dark }}>
-        <main className="pb-16 px-4" style={{ paddingTop: '180px' }}>
-          <div className="max-w-4xl mx-auto">
+        <main className="pb-16 px-8 md:px-16 lg:px-24" style={{ paddingTop: '180px' }}>
+          <div className="max-w-3xl md:max-w-6xl mx-auto">
             
             {/* Header */}
             <div className="mb-12">
               <h1 
-                className="text-4xl md:text-5xl font-medium bg-gradient-to-br from-white via-gray-200 to-gray-500 bg-clip-text text-transparent mb-4"
+                className="text-4xl md:text-4xl lg:text-5xl font-regular mb-4"
+                style={{ color: colors.text.light }}
               >
                 Política de Privacidade e Termos de Uso
               </h1>
-              <p className="text-sm" style={{ color: colors.whiteColor, opacity: 0.6 }}>
-                Última atualização: 04 de dezembro de 2025
+              <p className="text-sm font-regular" style={{ color: colors.text.light, opacity: 0.6 }}>
+                Última atualização: 21 de janeiro de 2026
               </p>
             </div>
 
@@ -36,10 +37,10 @@ const PoliticaPrivacidade: React.FC = () => {
               
               {/* Introdução */}
               <section>
-                <h2 className="text-2xl font-medium mb-4" style={{ color: colors.whiteColor }}>
+                <h2 className="text-2xl font-regular mb-4" style={{ color: colors.text.light }}>
                   1. Introdução
                 </h2>
-                <div className="space-y-4 text-base leading-relaxed" style={{ color: colors.whiteColor, opacity: 0.8 }}>
+                <div className="space-y-4 text-base leading-relaxed" style={{ color: colors.text.light, opacity: 0.8 }}>
                   <p>
                     A <strong>Wefronti</strong> está comprometida com a proteção da privacidade e dos dados pessoais de seus clientes, usuários e visitantes.
                   </p>
@@ -54,20 +55,23 @@ const PoliticaPrivacidade: React.FC = () => {
 
               {/* Coleta de Dados */}
               <section>
-                <h2 className="text-2xl font-medium mb-4" style={{ color: colors.whiteColor }}>
+                <h2 className="text-2xl font-regular mb-4" style={{ color: colors.text.light }}>
                   2. Dados Coletados
                 </h2>
-                <div className="space-y-4 text-base leading-relaxed" style={{ color: colors.whiteColor, opacity: 0.8 }}>
+                <div className="space-y-4 text-base leading-relaxed" style={{ color: colors.text.light, opacity: 0.8 }}>
                   <p>
                     Coletamos apenas os dados estritamente necessários para prestar nossos serviços:
                   </p>
                   <ul className="list-disc list-inside space-y-2 ml-4">
-                    <li><strong>Dados de identificação:</strong> Nome completo, e-mail, WhatsApp</li>
-                    <li><strong>Dados profissionais:</strong> Empresa, cargo, faturamento estimado</li>
-                    <li><strong>Dados do projeto:</strong> Descrição do desafio, prazo desejado</li>
+                    <li><strong>Dados de identificação:</strong> Nome completo e e-mail</li>
+                    <li><strong>Dados de contato:</strong> Telefone</li>
+                    <li><strong>Dados profissionais:</strong> Nome da empresa</li>
+                    <li><strong>Dados do projeto:</strong> Investimento disponível, tipo de projeto desejado, urgência e detalhes do projeto</li>
                     <li><strong>Dados técnicos:</strong> Endereço IP, tipo de navegador, data e hora de acesso</li>
-                    <li><strong>Consentimento:</strong> Registro de consentimento explícito para tratamento de dados (LGPD)</li>
                   </ul>
+                  <p className="mt-4 font-regular" style={{ color: colors.text.light }}>
+                    Os dados são coletados através do formulário de contato em nossa página principal para que possamos elaborar propostas comerciais personalizadas e entrar em contato sobre sua solicitação.
+                  </p>
                   <p className="mt-4">
                     <strong>Não coletamos dados sensíveis</strong> como origem racial, convicções religiosas, filiação sindical, dados genéticos ou biométricos.
                   </p>
@@ -76,10 +80,10 @@ const PoliticaPrivacidade: React.FC = () => {
 
               {/* Uso dos Dados */}
               <section>
-                <h2 className="text-2xl font-medium mb-4" style={{ color: colors.whiteColor }}>
+                <h2 className="text-2xl font-regular mb-4" style={{ color: colors.text.light }}>
                   3. Finalidade do Tratamento de Dados
                 </h2>
-                <div className="space-y-4 text-base leading-relaxed" style={{ color: colors.whiteColor, opacity: 0.8 }}>
+                <div className="space-y-4 text-base leading-relaxed" style={{ color: colors.text.light, opacity: 0.8 }}>
                   <p>
                     Utilizamos seus dados pessoais exclusivamente para:
                   </p>
@@ -92,18 +96,18 @@ const PoliticaPrivacidade: React.FC = () => {
                     <li>Melhorar a experiência do usuário em nosso site</li>
                     <li>Prevenir fraudes e garantir a segurança</li>
                   </ul>
-                  <p className="mt-4 font-semibold">
-                    ⚠️ Não compartilhamos, vendemos ou alugamos seus dados pessoais para terceiros para fins comerciais ou de marketing.
+                  <p className="mt-4 font-regular">
+                    Não compartilhamos, vendemos ou alugamos seus dados pessoais para terceiros para fins comerciais ou de marketing.
                   </p>
                 </div>
               </section>
 
               {/* Compartilhamento */}
               <section>
-                <h2 className="text-2xl font-medium mb-4" style={{ color: colors.whiteColor }}>
+                <h2 className="text-2xl font-regular mb-4" style={{ color: colors.text.light }}>
                   4. Compartilhamento de Dados
                 </h2>
-                <div className="space-y-4 text-base leading-relaxed" style={{ color: colors.whiteColor, opacity: 0.8 }}>
+                <div className="space-y-4 text-base leading-relaxed" style={{ color: colors.text.light, opacity: 0.8 }}>
                   <p>
                     <strong>Seus dados NÃO são compartilhados com terceiros</strong>, exceto nas seguintes situações estritamente necessárias:
                   </p>
@@ -120,10 +124,10 @@ const PoliticaPrivacidade: React.FC = () => {
 
               {/* Segurança */}
               <section>
-                <h2 className="text-2xl font-medium mb-4" style={{ color: colors.whiteColor }}>
+                <h2 className="text-2xl font-regular mb-4" style={{ color: colors.text.light }}>
                   5. Segurança dos Dados
                 </h2>
-                <div className="space-y-4 text-base leading-relaxed" style={{ color: colors.whiteColor, opacity: 0.8 }}>
+                <div className="space-y-4 text-base leading-relaxed" style={{ color: colors.text.light, opacity: 0.8 }}>
                   <p>
                     Implementamos medidas técnicas e organizacionais para proteger seus dados:
                   </p>
@@ -141,10 +145,10 @@ const PoliticaPrivacidade: React.FC = () => {
 
               {/* Direitos do Titular */}
               <section>
-                <h2 className="text-2xl font-medium mb-4" style={{ color: colors.whiteColor }}>
+                <h2 className="text-2xl font-regular mb-4" style={{ color: colors.text.light }}>
                   6. Seus Direitos pela LGPD
                 </h2>
-                <div className="space-y-4 text-base leading-relaxed" style={{ color: colors.whiteColor, opacity: 0.8 }}>
+                <div className="space-y-4 text-base leading-relaxed" style={{ color: colors.text.light, opacity: 0.8 }}>
                   <p>
                     De acordo com a LGPD, você tem direito a:
                   </p>
@@ -158,17 +162,17 @@ const PoliticaPrivacidade: React.FC = () => {
                     <li><strong>Oposição:</strong> Se opor ao tratamento de dados</li>
                   </ul>
                   <p className="mt-4">
-                    Para exercer seus direitos, entre em contato: <a href="mailto:privacidade@wefronti.com" className="underline" style={{ color: colors.gradientOne }}>privacidade@wefronti.com</a>
+                    Para exercer seus direitos, entre em contato: <a href="mailto:privacidade@wefronti.com" style={{ color: colors.text.dark }}>privacidade@wefronti.com</a>
                   </p>
                 </div>
               </section>
 
               {/* Retenção */}
               <section>
-                <h2 className="text-2xl font-medium mb-4" style={{ color: colors.whiteColor }}>
+                <h2 className="text-2xl font-regular mb-4" style={{ color: colors.text.light }}>
                   7. Retenção de Dados
                 </h2>
-                <div className="space-y-4 text-base leading-relaxed" style={{ color: colors.whiteColor, opacity: 0.8 }}>
+                <div className="space-y-4 text-base leading-relaxed" style={{ color: colors.text.light, opacity: 0.8 }}>
                   <p>
                     Mantemos seus dados pessoais apenas pelo tempo necessário para:
                   </p>
@@ -185,44 +189,31 @@ const PoliticaPrivacidade: React.FC = () => {
 
               {/* Cookies */}
               <section>
-                <h2 className="text-2xl font-medium mb-4" style={{ color: colors.whiteColor }}>
+                <h2 className="text-2xl font-regular mb-4" style={{ color: colors.text.light }}>
                   8. Cookies e Tecnologias de Rastreamento
                 </h2>
-                <div className="space-y-4 text-base leading-relaxed" style={{ color: colors.whiteColor, opacity: 0.8 }}>
+                <div className="space-y-4 text-base leading-relaxed" style={{ color: colors.text.light, opacity: 0.8 }}>
                   <p>
-                    Nosso site utiliza cookies técnicos essenciais para funcionamento básico. <strong>Não utilizamos cookies de rastreamento, publicidade ou análise de terceiros.</strong>
+                    Nosso site utiliza cookies para melhorar sua experiência:
                   </p>
-                  <p>
-                    Você pode configurar seu navegador para bloquear cookies, mas isso pode afetar a funcionalidade do site.
+                  <ul className="list-disc list-inside space-y-2 ml-4">
+                    <li><strong>Cookies necessários:</strong> Essenciais para o funcionamento básico do site</li>
+                    <li><strong>Cookies de preferência:</strong> Armazenam suas escolhas (idioma, região)</li>
+                    <li><strong>Cookies analíticos:</strong> Google Analytics para entender como você usa o site (apenas com seu consentimento)</li>
+                  </ul>
+                  <p className="mt-4">
+                    Você pode gerenciar suas preferências de cookies através do banner de consentimento que aparece na primeira visita ao site. Você pode configurar seu navegador para bloquear cookies, mas isso pode afetar a funcionalidade do site.
                   </p>
                 </div>
               </section>
 
-              {/* Termos de Uso */}
-              <section>
-                <h2 className="text-2xl font-medium mb-4" style={{ color: colors.whiteColor }}>
-                  9. Termos de Uso do Site
-                </h2>
-                <div className="space-y-4 text-base leading-relaxed" style={{ color: colors.whiteColor, opacity: 0.8 }}>
-                  <p>
-                    Ao utilizar nosso site, você concorda em:
-                  </p>
-                  <ul className="list-disc list-inside space-y-2 ml-4">
-                    <li>Fornecer informações verdadeiras e atualizadas</li>
-                    <li>Não utilizar o site para fins ilegais ou não autorizados</li>
-                    <li>Não tentar violar a segurança do site</li>
-                    <li>Respeitar direitos de propriedade intelectual</li>
-                    <li>Não enviar conteúdo ofensivo, difamatório ou malicioso</li>
-                  </ul>
-                </div>
-              </section>
 
               {/* Propriedade Intelectual */}
               <section>
-                <h2 className="text-2xl font-medium mb-4" style={{ color: colors.whiteColor }}>
+                <h2 className="text-2xl font-regular mb-4" style={{ color: colors.text.light }}>
                   10. Propriedade Intelectual
                 </h2>
-                <div className="space-y-4 text-base leading-relaxed" style={{ color: colors.whiteColor, opacity: 0.8 }}>
+                <div className="space-y-4 text-base leading-relaxed" style={{ color: colors.text.light, opacity: 0.8 }}>
                   <p>
                     Todo o conteúdo do site (textos, imagens, logotipos, código-fonte) é de propriedade exclusiva da Wefronti e protegido por leis de direitos autorais.
                   </p>
@@ -234,10 +225,10 @@ const PoliticaPrivacidade: React.FC = () => {
 
               {/* Alterações */}
               <section>
-                <h2 className="text-2xl font-medium mb-4" style={{ color: colors.whiteColor }}>
+                <h2 className="text-2xl font-regular mb-4" style={{ color: colors.text.light }}>
                   11. Alterações na Política
                 </h2>
-                <div className="space-y-4 text-base leading-relaxed" style={{ color: colors.whiteColor, opacity: 0.8 }}>
+                <div className="space-y-4 text-base leading-relaxed" style={{ color: colors.text.light, opacity: 0.8 }}>
                   <p>
                     Podemos atualizar esta política periodicamente. Alterações significativas serão comunicadas por e-mail ou notificação no site.
                   </p>
@@ -249,10 +240,10 @@ const PoliticaPrivacidade: React.FC = () => {
 
               {/* Legislação */}
               <section>
-                <h2 className="text-2xl font-medium mb-4" style={{ color: colors.whiteColor }}>
+                <h2 className="text-2xl font-regular mb-4" style={{ color: colors.text.light }}>
                   12. Legislação Aplicável
                 </h2>
-                <div className="space-y-4 text-base leading-relaxed" style={{ color: colors.whiteColor, opacity: 0.8 }}>
+                <div className="space-y-4 text-base leading-relaxed" style={{ color: colors.text.light, opacity: 0.8 }}>
                   <p>
                     Esta política é regida pelas leis brasileiras, especialmente:
                   </p>
@@ -266,18 +257,18 @@ const PoliticaPrivacidade: React.FC = () => {
 
               {/* Contato */}
               <section>
-                <h2 className="text-2xl font-medium mb-4" style={{ color: colors.whiteColor }}>
+                <h2 className="text-2xl font-regular mb-4" style={{ color: colors.text.light }}>
                   13. Contato e Encarregado de Dados
                 </h2>
-                <div className="space-y-4 text-base leading-relaxed" style={{ color: colors.whiteColor, opacity: 0.8 }}>
+                <div className="space-y-4 text-base leading-relaxed" style={{ color: colors.text.light, opacity: 0.8 }}>
                   <p>
-                    Para dúvidas, solicitações ou exercício de direitos relacionados a dados pessoais:
+                    Para dúvidas, solicitações ou exercer seus direitos sobre dados pessoais, entre em contato:
                   </p>
-                  <div className="mt-4 p-6" style={{ backgroundColor: colors.colorGray, border: `1px solid ${colors.borderDark}`, borderRadius: '10px' }}>
-                    <p className="font-semibold mb-2">Wefronti</p>
-                    <p>E-mail: <a href="mailto:privacidade@wefronti.com" className="underline" style={{ color: colors.gradientOne }}>privacidade@wefronti.com</a></p>
-                    <p>WhatsApp: <a href="https://wa.me/5521981013467" className="underline" style={{ color: colors.gradientOne }}>+55 21 9 8101-3467</a></p>
-                    <p>Endereço: Rio de Janeiro, RJ - Brasil</p>
+                  <div className="mt-4 p-6" style={{ backgroundColor: colors.neutral.accordeon, border: `1px solid ${colors.neutral.borderDark}`, borderRadius: '10px' }}>
+                    <p className="font-regular mb-2">Wefronti Tecnologia Ltda</p>
+                    <p>CNPJ: 64.507.638/0001-04</p>
+                    <p>E-mail: <a href="mailto:privacidade@wefronti.com" style={{ color: colors.text.dark }}>privacidade@wefronti.com</a></p>
+                    <p>Endereço: Avenida Cristovao Colombo, 2144, Sala 408 Andar 3, Floresta, Porto Alegre, RS</p>
                   </div>
                   <p className="mt-4">
                     Responderemos sua solicitação em até <strong>15 dias úteis</strong>, conforme estabelecido pela LGPD.
@@ -286,11 +277,7 @@ const PoliticaPrivacidade: React.FC = () => {
               </section>
 
               {/* Aceite */}
-              <section className="mt-12 p-6" style={{ backgroundColor: colors.colorGray, border: `2px solid ${colors.borderCta}`, borderRadius: '10px' }}>
-                <p className="text-base font-medium" style={{ color: colors.whiteColor }}>
-                  ✓ Ao utilizar nosso site e serviços, você declara ter lido, compreendido e concordado com todos os termos desta Política de Privacidade e Termos de Uso.
-                </p>
-              </section>
+          
 
             </div>
           </div>

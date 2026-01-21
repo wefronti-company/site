@@ -19,11 +19,6 @@ const CookieConsent: React.FC = () => {
   });
 
   useEffect(() => {
-    // TEMPORÁRIO: Sempre mostrar o banner para ajustes
-    const timer = setTimeout(() => setShowBanner(true), 1000);
-    return () => clearTimeout(timer);
-    
-    /* CÓDIGO ORIGINAL (comentado para permitir ajustes):
     // Verificar se já existe consentimento salvo
     const savedConsent = localStorage.getItem('cookieConsent');
     if (!savedConsent) {
@@ -36,7 +31,6 @@ const CookieConsent: React.FC = () => {
       setPreferences(saved);
       loadCookieScripts(saved);
     }
-    */
   }, []);
 
   const loadCookieScripts = (prefs: CookiePreferences) => {

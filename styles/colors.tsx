@@ -25,15 +25,9 @@ export const colors = {
     accordeon: '#121212ff'
  },
 
- sucess: '#195dcaff',
 
 
- whiteColor: '#f7f7f7', //excluir após cookies e outros
- borderDark: '#dfdfdfff', //excluir após cookies e outros
- borderCta: '#95a0ffff', //excluir após cookies e outros
- colorGray: '#29292966', //excluir após cookies e outros
  gradientOne: '#4551BA', //excluir após cookies e outros
  gradientTwo:'#7E88E3', //excluir após cookies e outros
- x: '#ec0b0bff',
 
 } as const;

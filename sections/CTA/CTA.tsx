@@ -432,7 +432,7 @@ const CTA: React.FC = () => {
             transition={{ duration: 0.8, ease: "easeOut", delay: 0.4 }}
             style={{
               backgroundColor: colors.background.light,
-              border: `10px solid ${colors.borderDark}`
+              border: `10px solid ${colors.neutral.borderLight}`
             }}
           >
             <form onSubmit={handleSubmit} noValidate className="space-y-6">
