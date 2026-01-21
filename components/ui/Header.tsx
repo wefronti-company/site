@@ -1,3 +1,12 @@
+// Bloqueia clique direito e seleção de texto globalmente
+if (typeof window !== 'undefined') {
+  window.addEventListener('contextmenu', function (e) {
+    e.preventDefault();
+  });
+  window.addEventListener('selectstart', function (e) {
+    e.preventDefault();
+  });
+}
 import React, { useEffect, useState } from 'react';
 import Logo from './Logo';
 import { colors } from '../../styles/colors';
@@ -108,7 +117,7 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
               <div className="flex items-center justify-between relative">
                 {/* Logo à esquerda */}
                 <div className="flex items-center relative z-[110]">
-                  <Logo href="/" ariaLabel="Ir para a página inicial" isDark={false} className="h-8" />
+                  <Logo href="/" ariaLabel="Ir para a página inicial" isDark={false} className="h-8 w-auto" />
                 </div>
 
                 {/* Relógio no centro - posição absoluta em relação ao container maior */}
