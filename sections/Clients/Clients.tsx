@@ -87,7 +87,7 @@ const Clients: React.FC = () => {
      className="relative w-40 h-40 md:w-48 md:h-48 lg:w-56 lg:h-56 flex items-center justify-center"
    >
      <img 
-       src="/images/icons/icon-hero-circle.png" 
+       src="/images/icons/icon-circle.png" 
        alt="Badge" 
        className="w-full h-full"
      />

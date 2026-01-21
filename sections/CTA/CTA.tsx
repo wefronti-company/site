@@ -416,7 +416,7 @@ const CTA: React.FC = () => {
                 className="relative w-32 h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 flex items-center justify-center"
               >
                 <img 
-                  src="/images/icons/icon-hero-circle.png" 
+                  src="/images/icons/icon-circle.png" 
                   alt="Badge" 
                   className="w-full h-full"
                 />
