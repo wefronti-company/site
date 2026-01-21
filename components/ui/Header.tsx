@@ -107,17 +107,48 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                 </div>
 
                 {/* Relógio no centro - posição absoluta em relação ao container maior */}
-                <div className="hidden md:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-[105]">
+                <div className="hidden md:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-[105] group" style={{ position: 'absolute' }}>
                   <span 
-                    className="text-sm md:text-base font-light tracking-wider whitespace-nowrap px-3 py-1.5 rounded flex items-center gap-2"
+                    className="text-sm md:text-base font-light tracking-wider whitespace-nowrap px-3 py-1.5 rounded flex items-center gap-2 relative group"
                     style={{ 
                       color: colors.text.light,
                       border: `1px solid ${colors.neutral.borderDark}`
+                      // ...existing style
                     }}
                   >
                     <Clock className="w-4 h-4" style={{ color: colors.icons.light }} />
                     {currentTime}
                   </span>
+                  {/* Balão ao passar o mouse */}
+                  <div
+                    className="absolute left-1/2 -translate-x-1/2 mt-2 z-50 hidden group-hover:flex flex-col items-center"
+                    style={{ minWidth: 280 }}
+                  >
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 10 }}
+                      transition={{ duration: 0.3 }}
+                      className="bg-neutral-900 border border-white/10 shadow-xl rounded-xl px-6 py-4 flex flex-col items-center"
+                      style={{ color: colors.text.light }}
+                    >
+                      <span className="text-base mb-4 text-center">Excelente momento para por um projeto em execução, vamos conversar.</span>
+                      <button
+                        className="mt-1 px-5 py-2 rounded bg-white text-black font-medium text-sm hover:opacity-90 transition"
+                        onClick={() => {
+                          const el = document.querySelector('#contato');
+                          if (el) {
+                            window.scrollTo({
+                              top: el.getBoundingClientRect().top + window.scrollY - 80,
+                              behavior: 'smooth'
+                            });
+                          }
+                        }}
+                      >
+                        Iniciar conversa
+                      </button>
+                    </motion.div>
+                  </div>
                 </div>
 
                 {/* Botão à direita - Agora para desktop e mobile */}
