@@ -39,27 +39,97 @@ const Footer: React.FC = () => {
      <div>
        <h4 className="text-sm font-regular mb-3 uppercase" style={{ color: colors.text.dark }}>Navegação</h4>
        <ul className="flex flex-col gap-4">
-         {[
-           ['Início', '/'],
-           ['O que fazemos', '/solucoes'],
-           ['Sobre nós', '/sobre-nos'],
-           ['Casos de sucesso', '/projetos'],
-           ['Contato', '/contato'],
-           ['FAQ', '/faq']
-         ].map(([label, href]) => (
-           <li key={String(label)}>
-             <Link href={String(href)} className="inline-flex items-center gap-3 text-sm" style={{ color: colors.text.light }}>
-               <span>{label}</span>
-               <ArrowRight size={16} className="-rotate-45 ml-auto" aria-hidden />
-             </Link>
-           </li>
-         ))}
+         <li>
+           <button
+             className="inline-flex items-center gap-3 text-sm bg-transparent border-0 p-0 m-0 cursor-pointer"
+             style={{ color: colors.text.light }}
+             onClick={() => {
+               if (window.location.pathname === '/') {
+                 const el = document.querySelector('#hero');
+                 if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+               } else {
+                 window.location.href = '/#hero';
+               }
+             }}
+           >
+             <span>Início</span>
+             <ArrowRight size={16} className="-rotate-45 ml-auto" aria-hidden />
+           </button>
+         </li>
+         <li>
+           <button
+             className="inline-flex items-center gap-3 text-sm bg-transparent border-0 p-0 m-0 cursor-pointer"
+             style={{ color: colors.text.light }}
+             onClick={() => {
+               if (window.location.pathname === '/') {
+                 const el = document.querySelector('#clients');
+                 if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+               } else {
+                 window.location.href = '/#clients';
+               }
+             }}
+           >
+             <span>Clientes</span>
+             <ArrowRight size={16} className="-rotate-45 ml-auto" aria-hidden />
+           </button>
+         </li>
+         <li>
+           <button
+             className="inline-flex items-center gap-3 text-sm bg-transparent border-0 p-0 m-0 cursor-pointer"
+             style={{ color: colors.text.light }}
+             onClick={() => {
+               if (window.location.pathname === '/') {
+                 const el = document.querySelector('#sobre');
+                 if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+               } else {
+                 window.location.href = '/#sobre';
+               }
+             }}
+           >
+             <span>Sobre</span>
+             <ArrowRight size={16} className="-rotate-45 ml-auto" aria-hidden />
+           </button>
+         </li>
+         <li>
+           <button
+             className="inline-flex items-center gap-3 text-sm bg-transparent border-0 p-0 m-0 cursor-pointer"
+             style={{ color: colors.text.light }}
+             onClick={() => {
+               if (window.location.pathname === '/') {
+                 const el = document.querySelector('#contato');
+                 if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+               } else {
+                 window.location.href = '/#contato';
+               }
+             }}
+           >
+             <span>Contato</span>
+             <ArrowRight size={16} className="-rotate-45 ml-auto" aria-hidden />
+           </button>
+         </li>
+         <li>
+           <button
+             className="inline-flex items-center gap-3 text-sm bg-transparent border-0 p-0 m-0 cursor-pointer"
+             style={{ color: colors.text.light }}
+             onClick={() => {
+               if (window.location.pathname === '/') {
+                 const el = document.querySelector('#faq');
+                 if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+               } else {
+                 window.location.href = '/#faq';
+               }
+             }}
+           >
+             <span>FAQ</span>
+             <ArrowRight size={16} className="-rotate-45 ml-auto" aria-hidden />
+           </button>
+         </li>
        </ul>
      </div>
 
      {/* 3 — Conecte-se conosco */}
      <div>
-       <h4 className="text-sm font-regular mb-3 uppercase" style={{ color: colors.text.dark }}>Conecte-se conosco</h4>
+       <h4 className="text-sm font-regular mb-3 uppercase" style={{ color: colors.text.dark }}>Conecte-se</h4>
        <div className="flex flex-col gap-4">
          <a href="https://instagram.com/wefronti" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-sm" style={{ color: colors.text.light }}>
            <span className="w-8 h-8 flex items-center justify-center rounded-md -ml-2" style={{ color: colors.icons.light }} aria-hidden>
@@ -86,11 +156,11 @@ const Footer: React.FC = () => {
            </span>
            <span>contato@wefronti.com</span>
          </a>
-         <a href="https://wa.me/message/GMAON4GDQH3NA1" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-sm" style={{ color: colors.text.light }} aria-label="Abrir conversa no WhatsApp">
+         <a href="https://wa.me/message/3V45SAJMLIJJJ1" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-sm" style={{ color: colors.text.light }} aria-label="Abrir conversa no WhatsApp">
            <span className="w-8 h-8 flex items-center justify-center rounded-md -ml-2" style={{ color: colors.icons.light }} aria-hidden>
-             <FaWhatsapp />
+             <img src="/images/icons/icon-fran.svg" alt="Ícone Fran" className="w-6 h-6 object-contain" />
            </span>
-           <span>Falar por WhatsApp</span>
+           <span>Falar com a Fran</span>
          </a>
        </div>
 

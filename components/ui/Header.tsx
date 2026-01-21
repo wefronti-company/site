@@ -40,17 +40,22 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
   // Função para scroll suave até seção
   const scrollToSection = (sectionId: string) => {
     setMenuOpen(false);
-    const element = document.querySelector(sectionId);
-    if (element) {
-      const headerOffset = 100;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
-    }
+    setTimeout(() => {
+      const element = document.querySelector(sectionId);
+      if (element) {
+        const headerOffset = 100;
+        const elementPosition = element.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+      } else {
+        // fallback para scrollIntoView se não encontrar
+        const fallback = document.getElementById(sectionId.replace('#', ''));
+        if (fallback) fallback.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 300);
   };
 
   // pages that should always render a dark header with a bottom border
@@ -219,7 +224,7 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                   >
                     {/* Navegação */}
                     <div>
-                      <h4 className="text-xs font-semibold uppercase mb-6 tracking-wider" style={{ color: colors.text.dark }}>Navegar</h4>
+                      <h4 className="text-sm font-regular uppercase mb-6 tracking-wider" style={{ color: colors.text.dark }}>Navegação</h4>
                       <ul className="flex flex-col gap-3">
                         <li>
                           <button 
@@ -260,7 +265,11 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                         
                         <li>
                           <button 
-                            onClick={() => scrollToSection('#cta')}
+                            onClick={async () => {
+                              setMenuOpen(false);
+                              await new Promise(r => setTimeout(r, 10));
+                              scrollToSection('#contato');
+                            }}
                             className="text-2xl font-light transition-all duration-300 flex items-center gap-3 group"
                             style={{ color: colors.text.light }}
                           >
@@ -287,7 +296,7 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
 
                     {/* WhatsApp */}
                     <div>
-                      <h4 className="text-xs font-semibold uppercase mb-6 tracking-wider" style={{ color: colors.text.dark }}>Whatsapp</h4>
+                      <h4 className="text-sm font-regular uppercase mb-6 tracking-wider" style={{ color: colors.text.dark }}>Whatsapp</h4>
                       <a 
                         href="https://wa.me/message/3V45SAJMLIJJJ1" 
                         target="_blank" 
@@ -340,7 +349,7 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                     >
                       {/* Coluna 1 - Navegação Principal (alinhada à esquerda com logo) */}
                       <div>
-                        <h4 className="text-xs font-regular uppercase mb-8 tracking-wider" style={{ color: colors.text.dark }}>Navegar</h4>
+                        <h4 className="text-sm font-regular uppercase mb-8 tracking-wider" style={{ color: colors.text.dark }}>Navegação</h4>
                       <ul className="flex flex-col gap-3">
                         <li>
                           <button 
@@ -384,7 +393,7 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                         
                         <li>
                           <button 
-                            onClick={() => scrollToSection('#cta')}
+                            onClick={() => scrollToSection('#contato')}
                             className="text-2xl font-light transition-all duration-300 flex items-center gap-3 group"
                             style={{ color: colors.text.light }}
                           >
@@ -414,7 +423,7 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                     {/* Coluna 2 - WhatsApp (centralizada) */}
                     <div className="flex flex-col items-center justify-start">
                       <div>
-                        <h4 className="text-xs font-regular uppercase mb-8 tracking-wider" style={{ color: colors.text.dark }}>Whatsapp</h4>
+                        <h4 className="text-sm font-regular uppercase mb-8 tracking-wider" style={{ color: colors.text.dark }}>Whatsapp</h4>
                       <a 
                         href="https://wa.me/message/3V45SAJMLIJJJ1" 
                         target="_blank" 
@@ -444,7 +453,7 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                     {/* Coluna 3 - Redes Sociais (alinhada à direita com botão menu) */}
                     <div className="flex justify-end">
                       <div>
-                      <h4 className="text-xs font-regular uppercase mb-8 tracking-wider" style={{ color: colors.text.dark }}>Conecte-se</h4>
+                      <h4 className="text-sm font-regular uppercase mb-8 tracking-wider" style={{ color: colors.text.dark }}>Conecte-se</h4>
                       <div className="flex flex-col gap-4">
                         <a 
                           href="https://instagram.com/wefronti" 
