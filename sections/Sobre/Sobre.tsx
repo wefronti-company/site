@@ -81,12 +81,12 @@ const Sobre: React.FC = () => {
               </motion.p>
               <div className="flex flex-row gap-4">
                 <a href="https://instagram.com/witorlinhares" target="_blank" rel="noopener noreferrer">
-                  <ButtonCta className="flex items-center justify-center w-12 h-12 p-0">
+                  <ButtonCta className="flex items-center justify-center w-12 h-12 p-0" iconOnly>
                     <FaInstagram className="w-6 h-6" />
                   </ButtonCta>
                 </a>
                 <a href="https://linkedin.com/in/witorlinhares" target="_blank" rel="noopener noreferrer">
-                  <ButtonCta className="flex items-center justify-center w-12 h-12 p-0">
+                  <ButtonCta className="flex items-center justify-center w-12 h-12 p-0" iconOnly>
                     <FaLinkedin className="w-6 h-6" />
                   </ButtonCta>
                 </a>

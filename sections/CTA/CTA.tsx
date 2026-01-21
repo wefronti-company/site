@@ -632,7 +632,7 @@ const CTA: React.FC = () => {
               {submitStatus === 'success' && (
                 <div className="p-4 rounded" style={{ backgroundColor: 'rgba(34, 197, 94, 0.1)', border: '1px solid #22c55e' }}>
                   <p className="text-sm" style={{ color: '#22c55e' }}>
-                    ✓ Mensagem enviada com sucesso! Entraremos em contato em breve.
+                    Recebemos sua solicitação! Entraremos em contato em breve.
                   </p>
                 </div>
               )}
@@ -640,7 +640,7 @@ const CTA: React.FC = () => {
               {submitStatus === 'error' && (
                 <div className="p-4 rounded" style={{ backgroundColor: 'rgba(239, 68, 68, 0.1)', border: '1px solid #ef4444' }}>
                   <p className="text-sm" style={{ color: '#ef4444' }}>
-                    {errorMessage || 'Erro ao enviar mensagem. Tente novamente.'}
+                    {errorMessage || 'Erro ao enviar sua solicitação. Por favor, tente novamente.'}
                   </p>
                 </div>
               )}
