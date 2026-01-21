@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/router';
 import { colors } from '../../styles/colors';
+import AdminSidebar from '../../components/layout/AdminSidebar';
 
 const PanelPage: React.FC = () => {
   const [items, setItems] = useState<any[]>([]);
@@ -68,15 +69,22 @@ const PanelPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen p-6" style={{ background: colors.background.dark }}>
-      <div className="max-w-6xl mx-auto">
-        <div className="flex items-center justify-between mb-6">
-          <h1 className="text-2xl" style={{ color: colors.text.light }}>Painel Admin</h1>
-          <button onClick={logout} className="px-4 py-2 bg-red-500 text-white rounded">Logout</button>
+    <div className="min-h-screen" style={{ background: colors.background.dark }}>
+      <div className="flex w-full">
+        {/* Sidebar */}
+        <div className="w-64">
+          <AdminSidebar />
         </div>
 
-        <div className="bg-white rounded shadow p-4">
-          <h2 className="text-lg mb-4">Submissões ({total})</h2>
+        {/* Main content */}
+        <main className="flex-1 px-6">
+          <div className="flex items-center justify-between mb-6">
+            <h1 className="text-2xl" style={{ color: colors.text.light }}>Painel Admin</h1>
+            <button onClick={logout} className="px-4 py-2 bg-red-500 text-white rounded">Logout</button>
+          </div>
+
+          <div className="bg-white rounded shadow p-4 w-full">
+            <h2 className="text-lg mb-4">Submissões ({total})</h2>
 
           {loading ? (
             <p>Carregando...</p>
@@ -155,8 +163,9 @@ const PanelPage: React.FC = () => {
             </div>
           )}
         </div>
-      </div>
+      </main>
     </div>
+  </div>
   );
 };
 
