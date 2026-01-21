@@ -37,7 +37,7 @@ const Footer: React.FC = () => {
 
      {/* 2 — Navegação */}
      <div>
-       <h4 className="text-sm font-regular mb-3 uppercase" style={{ color: colors.neutral.grayHover }}>Navegação</h4>
+       <h4 className="text-sm font-regular mb-3 uppercase" style={{ color: colors.text.dark }}>Navegação</h4>
        <ul className="flex flex-col gap-4">
          {[
            ['Início', '/'],
@@ -59,16 +59,16 @@ const Footer: React.FC = () => {
 
      {/* 3 — Conecte-se conosco */}
      <div>
-       <h4 className="text-sm font-regular mb-3 uppercase" style={{ color: colors.neutral.grayHover }}>Conecte-se conosco</h4>
+       <h4 className="text-sm font-regular mb-3 uppercase" style={{ color: colors.text.dark }}>Conecte-se conosco</h4>
        <div className="flex flex-col gap-4">
          <a href="https://instagram.com/wefronti" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-sm" style={{ color: colors.text.light }}>
-           <span className="w-8 h-8 flex items-center justify-center rounded-md -ml-2" style={{ color: colors.neutral.grayHover }} aria-hidden>
+           <span className="w-8 h-8 flex items-center justify-center rounded-md -ml-2" style={{ color: colors.icons.light }} aria-hidden>
              <FaInstagram />
            </span>
            <span>Instagram</span>
          </a>
          <a href="https://linkedin.com/company/wefronti" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-sm" style={{ color: colors.text.light }}>
-           <span className="w-8 h-8 flex items-center justify-center rounded-md -ml-2" style={{ color: colors.neutral.grayHover }} aria-hidden>
+           <span className="w-8 h-8 flex items-center justify-center rounded-md -ml-2" style={{ color: colors.icons.light }} aria-hidden>
             <FaLinkedin />
            </span>
            <span>LinkedIn</span>
@@ -78,23 +78,23 @@ const Footer: React.FC = () => {
 
      {/* 4 — Fale conosco + Legal */}
      <div>
-       <h4 className="text-sm font-regular mb-3 uppercase" style={{ color: colors.neutral.grayHover }}>Fale conosco</h4>
+       <h4 className="text-sm font-regular mb-3 uppercase" style={{ color: colors.text.dark }}>Fale conosco</h4>
        <div className="flex flex-col gap-4 mb-8">
          <a href="mailto:contato@wefronti.com.br" className="flex items-center gap-3 text-sm" style={{ color: colors.text.light }} aria-label="Enviar e‑mail para contato@wefronti.com.br">
-           <span className="w-8 h-8 flex items-center justify-center rounded-md -ml-2" style={{ color: colors.neutral.grayHover }} aria-hidden>
+           <span className="w-8 h-8 flex items-center justify-center rounded-md -ml-2" style={{ color: colors.icons.light }} aria-hidden>
              <FaEnvelope />
            </span>
            <span>contato@wefronti.com.br</span>
          </a>
          <a href="https://wa.me/message/GMAON4GDQH3NA1" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-sm" style={{ color: colors.text.light }} aria-label="Abrir conversa no WhatsApp">
-           <span className="w-8 h-8 flex items-center justify-center rounded-md -ml-2" style={{ color: colors.neutral.grayHover }} aria-hidden>
+           <span className="w-8 h-8 flex items-center justify-center rounded-md -ml-2" style={{ color: colors.icons.light }} aria-hidden>
              <FaWhatsapp />
            </span>
            <span>Falar por WhatsApp</span>
          </a>
        </div>
 
-       <h4 className="text-sm font-regular mb-3 uppercase" style={{ color: colors.neutral.grayHover }}>Legal</h4>
+       <h4 className="text-sm font-regular mb-3 uppercase" style={{ color: colors.text.dark }}>Legal</h4>
        <div>
          <Link href="/politica-privacidade" className="text-sm inline-flex items-center gap-2" style={{ color: colors.text.light }}>
            Política de Privacidade
@@ -119,11 +119,11 @@ const Footer: React.FC = () => {
  <div className="px-8 md:px-16 lg:px-24 py-8">
  <div className="w-full max-w-3xl md:max-w-6xl mx-auto">
  <div className="grid grid-cols-1 md:grid-cols-3 items-center gap-2">
-   <div className="text-sm text-left" style={{ color: colors.neutral.grayHover, opacity: 0.6 }}>
+   <div className="text-sm text-left" style={{ color: colors.text.dark, opacity: 0.6 }}>
      CNPJ: 64.507.638/0001-04 • Wefronti Tecnologia Ltda
    </div>
 
-   <div className="text-sm text-left md:text-center" style={{ color: colors.neutral.grayHover, opacity: 0.6 }}>
+   <div className="text-sm text-left md:text-center" style={{ color: colors.text.dark, opacity: 0.6 }}>
      © {new Date().getFullYear()} Wefronti. Todos os direitos reservados.
    </div>
 

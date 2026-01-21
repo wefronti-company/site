@@ -4,15 +4,13 @@ export const colors = {
 
  background:{
     dark: '#040404ff', //Cor de fundo de todas as seções
-    light:'#ffffffff',
+    light:'#ffffffff', //Cor de fundo clara para seções específicas (div de formuláio)
  },
 
  text:{
    
     dark: '#6e6e6eff', //Cor do texto para backgrounds escuros
     light: '#ffffffff', //Cor do texto para backgrounds claros
-    primary: '#101019ff',
-    secondary: '#1f1f1fe3',
  },
 
  icons:{
@@ -21,24 +19,10 @@ export const colors = {
  },
 
  neutral:{
-    gray: '#7f7f7fff',
-    grayHover: '#6a6a6ae3',
-    cardDark: '#1a1a1aff',
-    cardLight: '#d1d1d1ff',
+    gray: '#7f7f7fff', //botões e container de destaque
     borderLight: '#cacacaff', //Cor padrão das bordas claras
     borderDark: '#8b8b8b2b', //Cor padrão das bordas escuras
  },
-
- purple:{
-   primary: '#eeeceeff',
-   secondary: '#101019ff',
-   tertiary:'#ba1919ff',
- },
-
- apoio:{
-   green: '#3c9968ff',
- },
-
 
 
     blackColor: '#010101',

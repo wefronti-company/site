@@ -9,7 +9,7 @@ const NotFound: React.FC = () => {
     <>
       <SEO title="404 |Página não encontrada" description="Ops, a página que você está procurando não existe." noindex />
 
-      <main className="min-h-screen flex items-center justify-center px-6 py-12 relative overflow-hidden" style={{ backgroundColor: colors.blackColor }}>
+      <main className="min-h-screen flex items-center justify-center px-6 py-12 relative overflow-hidden" style={{ backgroundColor: colors.background.dark }}>
 
         <div className="w-full max-w-[1400px] mx-auto flex items-center justify-center">
           <div className="flex flex-col items-center gap-6 text-center">

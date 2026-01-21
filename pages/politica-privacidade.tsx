@@ -3,7 +3,6 @@ import Head from 'next/head';
 import dynamic from 'next/dynamic';
 import { colors } from '../styles/colors';
 
-const AppBar = dynamic(() => import('../components/layout/AppBar'), { ssr: false });
 const Footer = dynamic(() => import('../sections/Footer'), { ssr: false });
 
 const PoliticaPrivacidade: React.FC = () => {
@@ -15,9 +14,8 @@ const PoliticaPrivacidade: React.FC = () => {
         <meta name="robots" content="noindex, nofollow" />
       </Head>
 
-      <AppBar />
 
-      <div className="min-h-screen" style={{ backgroundColor: colors.blackColor }}>
+      <div className="min-h-screen" style={{ backgroundColor: colors.background.dark }}>
         <main className="pb-16 px-4" style={{ paddingTop: '180px' }}>
           <div className="max-w-4xl mx-auto">
             

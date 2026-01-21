@@ -194,7 +194,6 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                             <span>Início</span>
                             <span 
                               className="w-2 h-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                              style={{ backgroundColor: colors.purple.tertiary }}
                             />
                           </button>
                         </li>
@@ -207,7 +206,6 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                             <span>Serviços</span>
                             <span 
                               className="w-2 h-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                              style={{ backgroundColor: colors.purple.tertiary }}
                             />
                           </button>
                         </li>
@@ -220,7 +218,6 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                             <span>Sobre nós</span>
                             <span 
                               className="w-2 h-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                              style={{ backgroundColor: colors.purple.tertiary }}
                             />
                           </button>
                         </li>
@@ -233,7 +230,6 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                             <span>Casos de sucesso</span>
                             <span 
                               className="w-2 h-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                              style={{ backgroundColor: colors.purple.tertiary }}
                             />
                           </button>
                         </li>
@@ -246,7 +242,6 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                             <span>Contato</span>
                             <span 
                               className="w-2 h-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                              style={{ backgroundColor: colors.purple.tertiary }}
                             />
                           </button>
                         </li>
@@ -259,7 +254,6 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                             <span>FAQ</span>
                             <span 
                               className="w-2 h-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                              style={{ backgroundColor: colors.purple.tertiary }}
                             />
                           </button>
                         </li>
@@ -321,7 +315,7 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                     >
                       {/* Coluna 1 - Navegação Principal (alinhada à esquerda com logo) */}
                       <div>
-                        <h4 className="text-xs font-semibold uppercase mb-8 tracking-wider" style={{ color: colors.text.light }}>Navegar</h4>
+                        <h4 className="text-xs font-regular uppercase mb-8 tracking-wider" style={{ color: colors.text.dark }}>Navegar</h4>
                       <ul className="flex flex-col gap-3">
                         <li>
                           <button 
@@ -332,7 +326,7 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                             <span>Início</span>
                             <span 
                               className="w-2 h-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                              style={{ backgroundColor: colors.purple.tertiary }}
+                              style={{ backgroundColor: colors.icons.light }}
                             />
                           </button>
                         </li>
@@ -345,7 +339,7 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                             <span>Serviços</span>
                             <span 
                               className="w-2 h-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                              style={{ backgroundColor: colors.purple.tertiary }}
+                              style={{ backgroundColor: colors.icons.light }}
                             />
                           </button>
                         </li>
@@ -358,7 +352,7 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                             <span>Sobre nós</span>
                             <span 
                               className="w-2 h-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                              style={{ backgroundColor: colors.purple.tertiary }}
+                              style={{ backgroundColor: colors.icons.light }}
                             />
                           </button>
                         </li>
@@ -371,7 +365,7 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                             <span>Casos de sucesso</span>
                             <span 
                               className="w-2 h-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                              style={{ backgroundColor: colors.purple.tertiary }}
+                              style={{ backgroundColor: colors.icons.light }}
                             />
                           </button>
                         </li>
@@ -384,7 +378,7 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                             <span>Contato</span>
                             <span 
                               className="w-2 h-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                              style={{ backgroundColor: colors.purple.tertiary }}
+                              style={{ backgroundColor: colors.icons.light }}
                             />
                           </button>
                         </li>
@@ -397,7 +391,7 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                             <span>FAQ</span>
                             <span 
                               className="w-2 h-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                              style={{ backgroundColor: colors.purple.tertiary }}
+                              style={{ backgroundColor: colors.icons.light }}
                             />
                           </button>
                         </li>
@@ -407,18 +401,17 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                     {/* Coluna 2 - WhatsApp (centralizada) */}
                     <div className="flex flex-col items-center justify-start">
                       <div>
-                        <h4 className="text-xs font-semibold uppercase mb-8 tracking-wider" style={{ color: colors.text.light }}>Tirar dúvidas</h4>
+                        <h4 className="text-xs font-regular uppercase mb-8 tracking-wider" style={{ color: colors.text.dark }}>Tirar dúvidas</h4>
                       <a 
                         href="https://wa.me/message/3V45SAJMLIJJJ1" 
                         target="_blank" 
                         rel="noopener noreferrer"
-                        className="block p-6 rounded-2xl transition-all duration-300"
+                        className="block rounded-2xl transition-all duration-300"
                       
                       >
                         <div className="flex items-center gap-3 mb-3">
                           <div 
                             className="w-16 h-16 rounded-xl overflow-hidden flex items-center justify-center"
-                            style={{ backgroundColor: colors.neutral.borderLight }}
                           >
                             <img 
                               src="/images/site/secetraria-whatsapp.webp" 
@@ -438,18 +431,18 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                     {/* Coluna 3 - Redes Sociais (alinhada à direita com botão menu) */}
                     <div className="flex justify-end">
                       <div>
-                      <h4 className="text-xs font-regular uppercase mb-8 tracking-wider" style={{ color: colors.text.dark }}>Conecte-se conosco</h4>
+                      <h4 className="text-xs font-regular uppercase mb-8 tracking-wider" style={{ color: colors.text.dark }}>Conecte-se</h4>
                       <div className="flex flex-col gap-4">
                         <a 
                           href="https://instagram.com/wefronti" 
                           target="_blank" 
                           rel="noopener noreferrer" 
-                          className="p-6 rounded-2xl transition-all duration-300 flex items-center gap-4"
+                          className="rounded-2xl transition-all duration-300 flex items-center"
                         >
                           <div 
-                            className="w-12 h-12 rounded-xl flex items-center justify-center"
+                            className="w-12 h-12 rounded-xl flex items-center justify-left"
                           >
-                            <FaInstagram className="w-6 h-6" style={{ color: colors.icons.dark }} />
+                            <FaInstagram className="w-6 h-6" style={{ color: colors.icons.light }} />
                           </div>
                           <div>
                             <div className="text-lg font-medium mb-1" style={{ color: colors.text.light }}>Instagram</div>
@@ -460,12 +453,12 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                           href="https://linkedin.com/company/wefronti" 
                           target="_blank" 
                           rel="noopener noreferrer" 
-                          className="p-6 rounded-2xl transition-all duration-300 flex items-center gap-4"
+                          className="rounded-2xl transition-all duration-300 flex items-center"
                         >
                           <div 
-                            className="w-12 h-12 rounded-xl flex items-center justify-center"
+                            className="w-12 h-12 rounded-xl flex items-center justify-left"
                           >
-                            <FaLinkedin className="w-6 h-6" style={{ color: colors.icons.dark }} />
+                            <FaLinkedin className="w-6 h-6" style={{ color: colors.icons.light }} />
                           </div>
                           <div>
                             <div className="text-lg font-medium mb-1" style={{ color: colors.text.light }}>LinkedIn</div>
@@ -483,94 +476,7 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
         </AnimatePresence>
       </header>
     );
-  }
-
-  // fallback: original floating/pill header (keeps same behavior)
-  return (
-    <div className="relative">
-      <div className="relative flex items-center justify-between gap-4 px-6 py-3 w-[720px] max-w-[92vw] mx-auto"
-        style={{ background: colors.text.light, border: `1px solid ${colors.neutral.borderLight}`, borderRadius: '999px' }}>
-
-        <div className="flex items-center">
-          <button
-            className="p-2 rounded-full relative flex items-center gap-3 transition-colors duration-200"
-            aria-expanded={menuOpen}
-            aria-controls="solutions-menu"
-            onClick={() => setMenuOpen(prev => !prev)}
-          >
-            <div className="w-7 h-6 relative flex items-center">
-              <span className={`absolute block w-6 h-[2px] bg-black rounded transition-all duration-200 ${menuOpen ? 'left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rotate-45' : 'left-0 top-1/2 -translate-y-1'}`} />
-              <span className={`absolute block w-6 h-[2px] bg-black rounded transition-all duration-200 ${menuOpen ? 'left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 -rotate-45' : 'left-0 top-1/2 translate-y-1'}`} />
-            </div>
-            <span className="text-sm font-medium">Menu</span>
-          </button>
-        </div>
-
-        <Logo href="/" ariaLabel="Ir para a página inicial" isDark className="h-6 absolute left-1/2 -translate-x-1/2" />
-
-        <div className="flex items-center">
-        </div>
-
-      </div>
-
-      {/* mobile/desktop panel (same as header panel) */}
-      <AnimatePresence>
-        {menuOpen && (
-          <motion.div
-            key="menu-panel"
-            initial={{ opacity: 0, scaleY: 0 }}
-            animate={{ opacity: 1, scaleY: 1 }}
-            exit={{ opacity: 0, scaleY: 0 }}
-            transition={{ duration: 0.28 }}
-            style={{ background: colors.text.light, borderRadius: '30px', transformOrigin: 'top' }}
-            className="absolute left-0 right-0 top-full mt-3 shadow-lg p-6 z-40"
-          >
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div>
-                <h4 className="text-sm font-medium uppercase mb-3" style={{ color: colors.text.dark }}>Navegação</h4>
-                <ul className="flex flex-col gap-3">
-                  <li><Link href="/home" className="inline-flex items-center gap-2 text-sm" ><span>Home</span> <ArrowUpRight className="w-4 h-4" /></Link></li>
-                  <li><Link href="/solucoes" className="inline-flex items-center gap-2 text-sm" ><span>Soluções</span> <ArrowUpRight className="w-4 h-4" /></Link></li>
-                  <li><Link href="/projetos" className="inline-flex items-center gap-2 text-sm" ><span>Projetos</span> <ArrowUpRight className="w-4 h-4" /></Link></li>
-                  <li><Link href="/sobre-nos" className="inline-flex items-center gap-2 text-sm" ><span>Sobre nós</span> <ArrowUpRight className="w-4 h-4" /></Link></li>
-                  <li><Link href="/contato" className="inline-flex items-center gap-2 text-sm" ><span>Contato</span> <ArrowUpRight className="w-4 h-4" /></Link></li>
-                </ul>
-              </div>
-
-              <div>
-                <h4 className="text-sm font-medium uppercase mb-3" style={{ color: colors.text.dark }}>Redes sociais</h4>
-                <div className="flex flex-col items-start gap-3">
-                  <a href="https://instagram.com/wefronti" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 text-sm" aria-label="Instagram">
-                    <span className="w-8 h-8 flex items-center justify-center rounded-md" style={{ color: colors.purple.tertiary }}>
-                      <FaInstagram className="w-5 h-5" aria-hidden />
-                    </span>
-                    <span>Instagram</span>
-                  </a>
-
-                  <a href="https://linkedin.com/company/wefronti" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 text-sm" aria-label="LinkedIn">
-                    <span className="w-8 h-8 flex items-center justify-center rounded-md" style={{ color: colors.purple.tertiary }}>
-                      <FaLinkedin className="w-5 h-5" aria-hidden />
-                    </span>
-                    <span>LinkedIn</span>
-                  </a>
-                </div>
-              </div>
-
-              <div>
-                <h4 className="text-sm font-regular uppercase mb-3" style={{ color: colors.text.dark }}>Tira dúvidas</h4>
-                <p className="text-sm text-gray-600 mb-3">Fale com nosso time via WhatsApp para tirar dúvidas rápidas.</p>
-                <a href="https://wa.me/message/3V45SAJMLIJJJ1" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 px-3 py-3 rounded-md shadow-sm" style={{ borderRadius: '999px', background: colors.apoio.green, color: colors.whiteColor }} aria-label="Tirar dúvidas no WhatsApp">
-                  <FaWhatsapp className="w-5 h-5" style={{ color: colors.whiteColor }} aria-hidden />
-                  <span className="font-regular">Tirar dúvidas</span>
-                </a>
-              </div>
-
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
-  );
+  };
 };
 
 export default Header;

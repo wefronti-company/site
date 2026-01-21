@@ -379,7 +379,7 @@ const CTA: React.FC = () => {
 
             input:focus,
             textarea:focus {
-              border-color: ${colors.neutral.grayHover} !important;
+              border-color: ${colors.neutral.borderDark} !important;
               outline: none;
             }
           `

@@ -8,7 +8,6 @@ import * as gtag from '../lib/gtag';
 
 const CookieConsent = dynamic(() => import('../components/CookieConsent'), { ssr: false });
 import { MenuProvider } from '../components/layout/MenuContext';
-import MenuPanel from '../components/layout/MenuPanel';
 import Header from '../components/ui/Header';
 import Footer from '../sections/Footer';
 import SideBorders from '../components/layout/SideBorders';
@@ -45,7 +44,6 @@ export default function MyApp({ Component, pageProps }: AppProps) {
  <Component {...pageProps} />
  {/* Footer on every page except home */}
  {router.pathname !== '/' && <Footer />}
- <MenuPanel />
  <CookieConsent />
  </>
  </MenuProvider>
