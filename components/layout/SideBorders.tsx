@@ -9,7 +9,7 @@ const SideBorders: React.FC = () => {
         className="fixed top-0 h-full pointer-events-none left-8 md:left-16 lg:left-24"
         style={{
           width: '1px',
-          backgroundColor: colors.neutral.borderLight,
+          backgroundColor: colors.neutral.borderDark,
           
           zIndex: 999
         }}
@@ -20,7 +20,7 @@ const SideBorders: React.FC = () => {
         className="fixed top-0 h-full pointer-events-none right-8 md:right-16 lg:right-24"
         style={{
           width: '1px',
-          backgroundColor: colors.neutral.borderLight,
+          backgroundColor: colors.neutral.borderDark,
           zIndex: 999
         }}
       />

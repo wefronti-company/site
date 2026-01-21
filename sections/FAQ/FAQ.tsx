@@ -57,7 +57,7 @@ const FAQ: React.FC = () => {
    animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
    transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
  >
-   <Box className="w-4 h-4" style={{ color: colors.purple.tertiary }} />
+   <Box className="w-4 h-4" style={{ color: colors.icons.light }} />
    <span className="text-xs md:text-sm font-regular text-white whitespace-nowrap">
      Dúvidas
    </span>
@@ -69,7 +69,7 @@ const FAQ: React.FC = () => {
    transition={{ duration: 0.6, ease: "easeOut", delay: 0.4 }}
  >
    <span style={{ color: colors.text.light }}>Perguntas </span>
-   <span style={{ color: colors.purple.tertiary }}>Frequentes</span>
+   <span style={{ color: colors.text.dark }}>Frequentes</span>
  </motion.h2>
  <motion.p
    className="text-lg text-gray-300 leading-relaxed"
@@ -118,7 +118,7 @@ const FAQ: React.FC = () => {
  key={index}
  className="border transition-colors"
  style={{
- borderColor: colors.borderDark,
+ borderColor: colors.neutral.borderDark,
  borderRadius: '4px',
  backgroundColor: colors.accordeonColor,
  }}

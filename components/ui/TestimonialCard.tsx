@@ -16,8 +16,7 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
 		<div
 			className="p-6 transition-colors border"
 			style={{
-				backgroundColor: colors.background.transparent,
-				borderColor: colors.neutral.borderLight,
+				borderColor: colors.neutral.borderDark,
 				borderRadius: '4px',
 			}}
 		>
@@ -27,7 +26,7 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
 		</p>
 
  {/* Informações do cliente */}
-	<div className="border-t pt-3" style={{ borderColor: colors.neutral.borderLight }}>
+	<div className="border-t pt-3" style={{ borderColor: colors.neutral.borderDark }}>
 			<p className="font-medium text-sm" style={{ color: colors.text.light }}>{name}</p>
       {location && (
         <p className="text-xs mt-1" style={{ color: colors.text.light, opacity: 0.6 }}>{location}</p>

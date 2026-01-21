@@ -49,7 +49,7 @@ const Clients: React.FC = () => {
    animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
    transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
  >
-   <Users className="w-4 h-4" style={{ color: colors.purple.tertiary }} />
+   <Users className="w-4 h-4" style={{ color: colors.icons.light }} />
    <span className="text-xs md:text-sm font-regular text-white whitespace-nowrap">
      Nossos parceiros
    </span>
@@ -62,7 +62,7 @@ const Clients: React.FC = () => {
    transition={{ duration: 0.6, ease: "easeOut", delay: 0.4 }}
  >
    <span style={{ color: colors.text.light }}>A visão de quem<br /></span>
-   <span style={{ color: colors.purple.tertiary }}>trabalha conosco</span>
+   <span style={{ color: colors.text.dark }}>trabalha conosco</span>
  </motion.h2>
  
  <motion.p 
@@ -132,7 +132,7 @@ const Clients: React.FC = () => {
  <div className="mt-12 px-8 md:px-16 lg:px-24">
    <div className="w-full max-w-3xl md:max-w-6xl mx-auto">
      <div className="w-full border p-6 flex flex-col md:flex-row items-center justify-between gap-4"
-       style={{ borderColor: '#e5e7eb', borderRadius: '4px', backgroundColor: '#ffffff' }}>
+       style={{ border: `10px solid ${colors.neutral.borderLight}`, borderRadius: '4px', backgroundColor: '#ffffff' }}>
        <p className="text-lg md:text-xl font-medium" style={{ color: '#000000' }}>
          Projetos sérios começam com boas conversas.
        </p>
@@ -146,7 +146,7 @@ const Clients: React.FC = () => {
            }}
            className="inline-flex items-center justify-center gap-2 transition-all duration-300 hover:opacity-90 group"
            style={{
-             backgroundColor: colors.purple.tertiary,
+             backgroundColor: colors.neutral.gray,
              color: colors.text.light,
              borderRadius: '4px',
              padding: '12px 24px',

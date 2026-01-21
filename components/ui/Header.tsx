@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Logo from './Logo';
 import { colors } from '../../styles/colors';
-import ButtonMenu from './ButtonMenu';
 import ButtonCta from './ButtonCta';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
@@ -27,7 +26,7 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
         hour: '2-digit',
         minute: '2-digit',
         second: '2-digit',
-        hour12: true
+        hour12: false
       });
       setCurrentTime(brazilTime);
     };
@@ -92,7 +91,7 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
         className="fixed top-0 left-0 right-0 z-[100]"
         style={{
           background: colors.background.dark,
-          transition: 'background 0.3s ease', borderBottom: `1px solid ${colors.neutral.borderLight}`
+          transition: 'background 0.3s ease', borderBottom: `1px solid ${colors.neutral.borderDark}`
         }}
       >
         <nav
@@ -113,10 +112,10 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                     className="text-sm md:text-base font-light tracking-wider whitespace-nowrap px-3 py-1.5 rounded flex items-center gap-2"
                     style={{ 
                       color: colors.text.light,
-                      border: `1px solid ${colors.neutral.borderLight}`
+                      border: `1px solid ${colors.neutral.borderDark}`
                     }}
                   >
-                    <Clock className="w-4 h-4" style={{ color: colors.text.light }} />
+                    <Clock className="w-4 h-4" style={{ color: colors.icons.light }} />
                     {currentTime}
                   </span>
                 </div>
@@ -136,7 +135,7 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                   <span 
                     className="absolute block w-11 h-[1.5px] rounded transition-all duration-700 ease-in-out"
                     style={{ 
-                      background: colors.primary.white,
+                      background: colors.text.light,
                       transform: menuOpen 
                         ? 'translateY(0) rotate(45deg)' 
                         : 'translateY(-3px) rotate(0deg)'
@@ -145,7 +144,7 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                   <span 
                     className="absolute block w-11 h-[1.5px] rounded transition-all duration-700 ease-in-out"
                     style={{ 
-                      background: colors.primary.white,
+                      background: colors.text.light,
                       transform: menuOpen 
                         ? 'translateY(0) rotate(-45deg)' 
                         : 'translateY(3px) rotate(0deg)'
@@ -275,9 +274,7 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                         target="_blank" 
                         rel="noopener noreferrer"
                         className="block transition-all duration-300"
-                        style={{ 
-                          backgroundColor: colors.background.transparent 
-                        }}
+                     
                       >
                         <div className="flex items-center gap-3 mb-3">
                           <div 
@@ -416,9 +413,7 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                         target="_blank" 
                         rel="noopener noreferrer"
                         className="block p-6 rounded-2xl transition-all duration-300"
-                        style={{ 
-                          backgroundColor: colors.background.transparent 
-                        }}
+                      
                       >
                         <div className="flex items-center gap-3 mb-3">
                           <div 
@@ -454,7 +449,7 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                           <div 
                             className="w-12 h-12 rounded-xl flex items-center justify-center"
                           >
-                            <FaInstagram className="w-6 h-6" style={{ color: colors.primary.white }} />
+                            <FaInstagram className="w-6 h-6" style={{ color: colors.icons.dark }} />
                           </div>
                           <div>
                             <div className="text-lg font-medium mb-1" style={{ color: colors.text.light }}>Instagram</div>
@@ -470,7 +465,7 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                           <div 
                             className="w-12 h-12 rounded-xl flex items-center justify-center"
                           >
-                            <FaLinkedin className="w-6 h-6" style={{ color: colors.primary.white }} />
+                            <FaLinkedin className="w-6 h-6" style={{ color: colors.icons.dark }} />
                           </div>
                           <div>
                             <div className="text-lg font-medium mb-1" style={{ color: colors.text.light }}>LinkedIn</div>
@@ -494,7 +489,7 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
   return (
     <div className="relative">
       <div className="relative flex items-center justify-between gap-4 px-6 py-3 w-[720px] max-w-[92vw] mx-auto"
-        style={{ background: colors.primary.white, border: `1px solid ${colors.neutral.borderLight}`, borderRadius: '999px' }}>
+        style={{ background: colors.text.light, border: `1px solid ${colors.neutral.borderLight}`, borderRadius: '999px' }}>
 
         <div className="flex items-center">
           <button
@@ -514,7 +509,6 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
         <Logo href="/" ariaLabel="Ir para a página inicial" isDark className="h-6 absolute left-1/2 -translate-x-1/2" />
 
         <div className="flex items-center">
-          <ButtonMenu label="Impulsionar meu negócio" />
         </div>
 
       </div>
@@ -528,7 +522,7 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
             animate={{ opacity: 1, scaleY: 1 }}
             exit={{ opacity: 0, scaleY: 0 }}
             transition={{ duration: 0.28 }}
-            style={{ background: colors.primary.white, borderRadius: '30px', transformOrigin: 'top' }}
+            style={{ background: colors.text.light, borderRadius: '30px', transformOrigin: 'top' }}
             className="absolute left-0 right-0 top-full mt-3 shadow-lg p-6 z-40"
           >
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

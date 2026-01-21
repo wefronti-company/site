@@ -358,7 +358,7 @@ const CTA: React.FC = () => {
       ref={sectionRef}
       id="contato"
       className="w-full py-20 md:py-32 relative overflow-hidden border-t"
-      style={{ backgroundColor: colors.blackColor, borderTopColor: colors.borderDark }}
+      style={{ background: colors.background.dark, borderTopColor: colors.neutral.borderDark }}
     >
       <div className="px-4 md:px-8 lg:px-16">
         <style dangerouslySetInnerHTML={{
@@ -396,7 +396,7 @@ const CTA: React.FC = () => {
             <div className="flex-1 text-left">
               <h2 className="text-4xl md:text-4xl lg:text-5xl font-regular mb-4">
                 <span style={{ color: colors.text.light }}>Vamos falar sobre<br /></span>
-                <span style={{ color: colors.purple.tertiary }}>o que você quer construir.</span>
+                <span style={{ color: colors.text.dark }}>o que você quer construir.</span>
               </h2>
               <p className="text-lg leading-relaxed" style={{ color: colors.text.light, opacity: 0.7 }}>
                 Projetos relevantes começam com boas conversas e expectativas bem definidas.
@@ -431,7 +431,7 @@ const CTA: React.FC = () => {
             animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
             transition={{ duration: 0.8, ease: "easeOut", delay: 0.4 }}
             style={{
-              backgroundColor: '#ffffff',
+              backgroundColor: colors.background.light,
               border: `10px solid ${colors.borderDark}`
             }}
           >
@@ -651,7 +651,7 @@ const CTA: React.FC = () => {
                 disabled={isSubmitting}
                 className="w-full px-8 py-4 font-medium text-base transition-all duration-300 hover:opacity-90 disabled:opacity-50"
                 style={{
-                  backgroundColor: colors.purple.tertiary,
+                  backgroundColor: colors.neutral.gray,
                   color: colors.text.light,
                   borderRadius: '4px'
                 }}

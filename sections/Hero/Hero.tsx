@@ -3,6 +3,7 @@ import dynamic from 'next/dynamic';
 import { motion } from 'framer-motion';
 import { ArrowUpRight, Globe, Server, Link2, BarChart3 } from 'lucide-react';
 import { colors } from '../../styles/colors';
+import ScrollIndicator from '../../components/ui/ScrollIndicator';
 
 const Hero: React.FC = () => {
   const [hasEntered, setHasEntered] = useState(false);
@@ -72,7 +73,7 @@ const Hero: React.FC = () => {
             className="text-4xl md:text-4xl lg:text-5xl xl:text-7xl font-light leading-[1.2] mb-8 text-left"
             style={{ color: colors.text.light }}
           >
-            Desenvolvemos seu <span style={{ color: colors.purple.tertiary }}>produto/projeto</span> com o melhor da tecnologia e Inteligência Artificial
+            Desenvolvemos seu <span style={{ color: colors.text.dark }}>produto/projeto</span> com o melhor da tecnologia e Inteligência Artificial
           </motion.h1>
 
           <motion.h2 
@@ -95,10 +96,10 @@ const Hero: React.FC = () => {
             {/* Service 1 */}
             <div 
               className="rounded-lg p-6 flex flex-col gap-3"
-              style={{ borderRadius: '0.5rem', border: `1px solid ${colors.neutral.borderLight}`, background: colors.background.transparent }}
+              style={{ borderRadius: '0.5rem', border: `1px solid ${colors.neutral.borderDark}` }}
             >
               <div className="flex items-center gap-3">
-                <Globe className="w-5 h-5 flex-shrink-0" style={{ color: colors.purple.tertiary }} />
+                <Globe className="w-5 h-5 flex-shrink-0" style={{ color: colors.icons.light }} />
                 <h3 className="text-lg md:text-xl font-medium" style={{ color: colors.text.light }}>
                   Sites e Ecommerce
                 </h3>
@@ -111,10 +112,10 @@ const Hero: React.FC = () => {
             {/* Service 2 */}
             <div 
               className="rounded-lg p-6 flex flex-col gap-3"
-              style={{ borderRadius: '0.5rem', border: `1px solid ${colors.neutral.borderLight}`, background: colors.background.transparent }}
+              style={{ borderRadius: '0.5rem', border: `1px solid ${colors.neutral.borderDark}` }}
             >
               <div className="flex items-center gap-3">
-                <Server className="w-5 h-5 flex-shrink-0" style={{ color: colors.purple.tertiary }} />
+                <Server className="w-5 h-5 flex-shrink-0" style={{ color: colors.icons.light }} />
                 <h3 className="text-lg md:text-xl font-medium" style={{ color: colors.text.light }}>
                   Sistemas
                 </h3>
@@ -127,10 +128,10 @@ const Hero: React.FC = () => {
             {/* Service 3 */}
             <div 
               className="rounded-lg p-6 flex flex-col gap-3"
-              style={{ borderRadius: '0.5rem', border: `1px solid ${colors.neutral.borderLight}`, background: colors.background.transparent }}
+              style={{ borderRadius: '0.5rem', border: `1px solid ${colors.neutral.borderDark}` }}
             >
               <div className="flex items-center gap-3">
-                <Link2 className="w-5 h-5 flex-shrink-0" style={{ color: colors.purple.tertiary }} />
+                <Link2 className="w-5 h-5 flex-shrink-0" style={{ color: colors.icons.light }} />
                 <h3 className="text-lg md:text-xl font-medium" style={{ color: colors.text.light }}>
                   API e Integrações
                 </h3>
@@ -143,10 +144,10 @@ const Hero: React.FC = () => {
             {/* Service 4 */}
             <div 
               className="rounded-lg p-6 flex flex-col gap-3"
-              style={{ borderRadius: '0.5rem', border: `1px solid ${colors.neutral.borderLight}`, background: colors.background.transparent }}
+              style={{ borderRadius: '0.5rem', border: `1px solid ${colors.neutral.borderDark}` }}
             >
               <div className="flex items-center gap-3">
-                <BarChart3 className="w-5 h-5 flex-shrink-0" style={{ color: colors.purple.tertiary }} />
+                <BarChart3 className="w-5 h-5 flex-shrink-0" style={{ color: colors.icons.light }} />
                 <h3 className="text-lg md:text-xl font-medium" style={{ color: colors.text.light }}>
                   SaaS e Dashboards
                 </h3>
@@ -159,6 +160,9 @@ const Hero: React.FC = () => {
 
         </div>
       </div>
+
+      {/* Scroll Indicator */}
+      <ScrollIndicator />
     </section>
   );
 };

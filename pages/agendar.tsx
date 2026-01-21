@@ -104,7 +104,7 @@ const AgendarPage: React.FC = () => {
               className="rounded-lg p-8"
               style={{ 
                 backgroundColor: colors.whiteColor,
-                border: `1px solid ${colors.borderLight}`,
+                border: `1px solid ${colors.borderDark}`,
               }}
             >
               <form onSubmit={handleInfoSubmit} className="space-y-6">
@@ -119,7 +119,7 @@ const AgendarPage: React.FC = () => {
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     className="w-full px-4 py-3 rounded-lg"
                     style={{ 
-                      border: `1px solid ${colors.borderLight}`,
+                      border: `1px solid ${colors.borderDark}`,
                       backgroundColor: colors.whiteColor,
                       color: colors.blackColor,
                     }}
@@ -138,7 +138,7 @@ const AgendarPage: React.FC = () => {
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     className="w-full px-4 py-3 rounded-lg"
                     style={{ 
-                      border: `1px solid ${colors.borderLight}`,
+                      border: `1px solid ${colors.borderDark}`,
                       backgroundColor: colors.whiteColor,
                       color: colors.blackColor,
                     }}
@@ -156,7 +156,7 @@ const AgendarPage: React.FC = () => {
                     onChange={(e) => setFormData({ ...formData, company: e.target.value })}
                     className="w-full px-4 py-3 rounded-lg"
                     style={{ 
-                      border: `1px solid ${colors.borderLight}`,
+                      border: `1px solid ${colors.borderDark}`,
                       backgroundColor: colors.whiteColor,
                       color: colors.blackColor,
                     }}
@@ -173,7 +173,7 @@ const AgendarPage: React.FC = () => {
                     onChange={(e) => setFormData({ ...formData, projectType: e.target.value })}
                     className="w-full px-4 py-3 rounded-lg"
                     style={{ 
-                      border: `1px solid ${colors.borderLight}`,
+                      border: `1px solid ${colors.borderDark}`,
                       backgroundColor: colors.whiteColor,
                       color: colors.blackColor,
                     }}
@@ -197,7 +197,7 @@ const AgendarPage: React.FC = () => {
                     onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
                     className="w-full px-4 py-3 rounded-lg"
                     style={{ 
-                      border: `1px solid ${colors.borderLight}`,
+                      border: `1px solid ${colors.borderDark}`,
                       backgroundColor: colors.whiteColor,
                       color: colors.blackColor,
                     }}
@@ -221,7 +221,7 @@ const AgendarPage: React.FC = () => {
                     rows={4}
                     className="w-full px-4 py-3 rounded-lg"
                     style={{ 
-                      border: `1px solid ${colors.borderLight}`,
+                      border: `1px solid ${colors.borderDark}`,
                       backgroundColor: colors.whiteColor,
                       color: colors.blackColor,
                     }}
@@ -264,7 +264,7 @@ const AgendarPage: React.FC = () => {
               className="rounded-lg p-8 text-center"
               style={{ 
                 backgroundColor: colors.whiteColor,
-                border: `1px solid ${colors.borderLight}`,
+                border: `1px solid ${colors.borderDark}`,
               }}
             >
               <div className="w-16 h-16 mx-auto mb-4 flex items-center justify-center rounded-full" style={{ backgroundColor: 'rgba(69, 81, 186, 0.1)' }}>

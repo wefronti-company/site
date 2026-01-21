@@ -18,9 +18,9 @@ const Footer: React.FC = () => {
  <footer 
  className="w-full transition-colors"
  style={{
- backgroundColor: colors.primary.black, borderTop: `1px solid ${colors.neutral.borderLight}`}}
+ backgroundColor: colors.background.dark, borderTop: `1px solid ${colors.neutral.borderDark}`}}
  >
- <div className="px-8 md:px-16 lg:px-24 pt-16 pb-12 md:pt-20 md:pb-14 relative" style={{ backgroundColor: colors.primary.black }}>
+ <div className="px-8 md:px-16 lg:px-24 pt-16 pb-12 md:pt-20 md:pb-14 relative" style={{ backgroundColor: colors.background.dark }}>
  <div className="w-full max-w-3xl md:max-w-6xl mx-auto" >
 
 
@@ -112,7 +112,7 @@ const Footer: React.FC = () => {
  <div 
  className="w-full h-px"
  style={{
- backgroundColor: colors.borderDark
+ backgroundColor: colors.background.dark, borderTop: `1px solid ${colors.neutral.borderDark}`
  }}
  />
 
@@ -128,7 +128,7 @@ const Footer: React.FC = () => {
    </div>
 
    <div className="flex items-center justify-end">
-     <button onClick={scrollToTop} aria-label="Voltar ao topo" className="p-2 rounded-full transition-colors hover:bg-white/5" style={{ background: colors.background.light, color: colors.primary.black }}>
+     <button onClick={scrollToTop} aria-label="Voltar ao topo" className="p-2 rounded-full transition-colors hover:bg-white/5" style={{ background: colors.neutral.gray, color: colors.icons.dark }}>
        <ArrowUp size={18} />
      </button>
    </div>
