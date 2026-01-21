@@ -204,7 +204,52 @@ jobs:
           echo "Deployment completed. URL: $url"
           echo "url=$url" >> $GITHUB_OUTPUT
           
-      - name: 4.9 - Purge Cloudflare cache (if token configured)
+      - name: 4.9 - Smoke tests (critical assets)
+        id: smoke-test
+        continue-on-error: true
+        run: |
+          set -euo pipefail
+          DEPLOY_URL="${{ steps.deploy-analyze.outputs.url }}"
+          if [ -z "$DEPLOY_URL" ]; then
+            DEPLOY_URL="https://wefronti.com"
+          fi
+          echo "Using deploy URL: $DEPLOY_URL"
+
+          urls=(
+            "$DEPLOY_URL/"
+            "$DEPLOY_URL/_next/static/chunks/c3d84ccfed430a4f.js"
+            "$DEPLOY_URL/_next/static/chunks/main.js"
+          )
+
+          failed=false
+          for asset in "${urls[@]}"; do
+            echo "Checking: $asset"
+            success=false
+            for attempt in 1 2 3 4 5; do
+              code=$(curl -L -s -o /dev/null -w "%{http_code}" "$asset") || code=000
+              if [ "$code" -eq 200 ] || [ "$code" -eq 401 ]; then
+                echo "OK: $asset -> $code"
+                success=true
+                break
+              fi
+              echo "Attempt $attempt for $asset returned $code; retrying in 5s..."
+              sleep 5
+            done
+            if [ "$success" != "true" ]; then
+              echo "SMOKE FAILURE for $asset (last status: $code)"
+              echo "--- Verbose headers for $asset ---"
+              curl -I -v "$asset" || true
+              failed=true
+            fi
+          done
+
+          if [ "$failed" = "true" ]; then
+            echo "One or more smoke tests failed. See logs above for details."
+            # Fail the step so logs are visible in action output, but allow job to continue
+            exit 1
+          fi
+
+      - name: 4.10 - Purge Cloudflare cache (if token configured)
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CF_ZONE_NAME: wefronti.com
