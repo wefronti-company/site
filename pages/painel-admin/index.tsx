@@ -11,6 +11,13 @@ const PanelPage: React.FC = () => {
   const perPage = 20;
   const router = useRouter();
 
+  React.useEffect(() => {
+    // guarantee the solicitations tab is active on first load
+    if (!router.query.tab) {
+      router.replace({ pathname: router.pathname, query: { ...router.query, tab: 'solicitations' } }, undefined, { shallow: true });
+    }
+  }, [router]);
+
   useEffect(() => {
     fetchData(page);
   }, [page]);
@@ -37,10 +44,7 @@ const PanelPage: React.FC = () => {
     }
   }
 
-  const logout = async () => {
-    await fetch('/api/admin/logout', { method: 'POST' });
-    router.replace('/painel-admin/login');
-  };
+
 
   const [selectedDetails, setSelectedDetails] = useState<string | null>(null);
   const closeBtnRef = useRef<HTMLButtonElement | null>(null);
@@ -80,7 +84,6 @@ const PanelPage: React.FC = () => {
         <main className="flex-1 px-6">
           <div className="flex items-center justify-between mb-6">
             <h1 className="text-2xl" style={{ color: colors.text.light }}>Painel Admin</h1>
-            <button onClick={logout} className="px-4 py-2 bg-red-500 text-white rounded">Logout</button>
           </div>
 
           <div className="bg-white rounded shadow p-4 w-full">

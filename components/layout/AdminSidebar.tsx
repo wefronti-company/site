@@ -21,8 +21,9 @@ const AdminSidebar: React.FC = () => {
   return (
     <aside className="flex flex-col w-64 h-[calc(100vh-2rem)] sticky top-6 shrink-0 px-4" style={{ color: colors.text.light, borderRight: `1px solid ${colors.neutral.borderDark}` }}>
       {/* Logo area */}
-      <div className="mb-6 pt-4">
-        <div className="flex items-center justify-start">
+      <div className="mt-6 pt-4 w-full relative pb-3">
+        <div style={{ position: 'absolute', left: '-1rem', right: '-1rem', bottom: 0, borderBottom: `1px solid ${colors.neutral.borderDark}` }} />
+        <div className="flex items-center justify-start w-full px-4">
           <Logo isDark={false} />
         </div>
       </div>
@@ -55,8 +56,13 @@ const AdminSidebar: React.FC = () => {
         </ul>
       </nav>
 
-      <div className="mt-6 px-3">
-        <p className="text-xs text-gray-400">Painel administrativo</p>
+      <div className="mt-12 px-3" style={{ paddingTop: '12px' }}>
+        <button
+          onClick={async () => { await fetch('/api/admin/logout', { method: 'POST' }); router.replace('/painel-admin/login'); }}
+          className="w-full px-3 py-2 bg-red-500 text-white rounded"
+        >
+          Logout
+        </button>
       </div>
     </aside>
   );
