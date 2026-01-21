@@ -14,6 +14,7 @@ import SideBorders from '../components/layout/SideBorders';
 
 export default function MyApp({ Component, pageProps }: AppProps) {
  const router = useRouter();
+ const isAdminRoute = router.pathname.startsWith('/painel-admin');
 
  React.useEffect(() => {
    const handleRouteChange = (url: string) => {
@@ -56,11 +57,11 @@ export default function MyApp({ Component, pageProps }: AppProps) {
  <Head>
  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
  </Head>
- <SideBorders />
- <Header variant="header" />
+ {!isAdminRoute && <SideBorders />}
+ {!isAdminRoute && <Header variant="header" />}
  <Component {...pageProps} />
  {/* Footer on every page except home */}
- {router.pathname !== '/' && <Footer />}
+ {!isAdminRoute && router.pathname !== '/' && <Footer />}
  <CookieConsent />
  </>
  </MenuProvider>

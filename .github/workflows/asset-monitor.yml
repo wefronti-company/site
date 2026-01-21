@@ -1,0 +1,72 @@
+name: Asset Monitor
+
+on:
+  schedule:
+    - cron: '*/15 * * * *' # every 15 minutes
+  workflow_dispatch:
+
+jobs:
+  check-assets:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Fetch homepage and extract script assets
+        id: list
+        run: |
+          set -euo pipefail
+          echo "Fetching https://wefronti.com"
+          html=$(curl -sS https://wefronti.com)
+          echo "Parsing script srcs"
+          echo "$html" | grep -oP '<script[^>]+src="\K[^"]+' | grep '/_next/static/' | sort -u > script_list.txt || true
+          echo "Found $(wc -l < script_list.txt || true) scripts"
+          echo "--- BEGIN SCRIPTS ---"
+          sed -n '1,200p' script_list.txt || true
+          echo "--- END SCRIPTS ---"
+          echo "scripts<<EOF" >> $GITHUB_OUTPUT
+          sed -n '1,1000p' script_list.txt >> $GITHUB_OUTPUT || true
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Check each asset status
+        id: check
+        run: |
+          set -euo pipefail
+          fails=0
+          details=""
+          while IFS= read -r src; do
+            echo "Checking: $src"
+            code=$(curl -L -s -o /dev/null -w "%{http_code}" "$src") || code=000
+            if [ "$code" -ne 200 ]; then
+              echo "FAIL: $src -> $code"
+              details="$details\n$src -> $code"
+              fails=$((fails+1))
+            else
+              echo "OK: $src -> $code"
+            fi
+          done < script_list.txt
+          echo "fails=$fails" >> $GITHUB_OUTPUT
+          echo "details<<EOF" >> $GITHUB_OUTPUT
+          echo -e "$details" >> $GITHUB_OUTPUT || true
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Create issue if failures
+        if: steps.check.outputs.fails != '0'
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fails = `${{ steps.check.outputs.fails }}`;
+            const details = `
+Asset monitor detected ${fails} failing assets on ${new Date().toISOString()}\n\n${{ steps.check.outputs.details }}\n\nThis workflow runs every 15 minutes. Please check Cloudflare/WAF and Vercel deployment logs for more info.`;
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `Asset monitor: ${fails} failing assets on ${new Date().toISOString()}`,
+              body: details
+            });
+
+      - name: Fail job when assets fail
+        if: steps.check.outputs.fails != '0'
+        run: |
+          echo "Asset monitor found failing assets; see issue for details."; exit 1

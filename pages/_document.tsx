@@ -27,6 +27,38 @@ export default function Document() {
  </Head>
  <body className="body-grid">
  <Main />
+
+ {/* Client-side JS chunk retry: if a script from /_next/static/chunks fails to load, attempt a few retries with cache-busting query param */}
+ <script dangerouslySetInnerHTML={{ __html: `
+  (function(){
+    try {
+      var MAX_RETRIES = 3;
+      window.addEventListener('error', function(e){
+        var t = e.target || e.srcElement;
+        if (!t) return;
+        if (t.tagName === 'SCRIPT' && t.src && t.src.indexOf('/_next/static/chunks/') !== -1) {
+          var current = parseInt(t.getAttribute('data-retry-count') || '0', 10) || 0;
+          if (current >= MAX_RETRIES) return;
+          var next = current + 1;
+          var src = t.src;
+          var sep = src.indexOf('?') === -1 ? '?' : '&';
+          var newSrc = src + sep + 'retry=' + next + '&cb=' + Date.now();
+          var s = document.createElement('script');
+          s.src = newSrc;
+          s.async = true;
+          s.setAttribute('data-retry-count', String(next));
+          if (t.crossOrigin) s.crossOrigin = t.crossOrigin;
+          s.onload = function(){ console.info('[retry] script loaded', newSrc); };
+          s.onerror = function(){ console.warn('[retry] script failed', newSrc); };
+          document.head.appendChild(s);
+        }
+      }, true);
+    } catch (err) {
+      console.error('chunk-retry init error', err);
+    }
+  })();
+ `}} />
+
  <NextScript />
  </body>
  </Html>
