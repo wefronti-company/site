@@ -168,8 +168,32 @@ const CTA: React.FC = () => {
         <label htmlFor={id} className="block text-sm font-regular mb-2" style={{ color: '#000000' }}>
           {label}
         </label>
+
+        {/* Hidden native select to ensure label association and browser autocomplete/accessibility support */}
+        <select
+          id={id}
+          name={name}
+          value={value}
+          onChange={(e) => handleSelectChange(name, e.target.value)}
+          className="sr-only"
+          aria-hidden="false"
+        >
+          <option value="">{placeholder}</option>
+          {options.map((opt) => (
+            <option key={opt.value} value={opt.value}>{opt.label}</option>
+          ))}
+        </select>
+
         <div
+          role="button"
+          tabIndex={0}
           onClick={() => setOpenDropdown(isOpen ? null : name)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              setOpenDropdown(isOpen ? null : name);
+            }
+          }}
           className="w-full px-4 py-3 text-sm transition-colors cursor-pointer flex items-center justify-between"
           style={{
             backgroundColor: '#ffffff',
@@ -177,6 +201,9 @@ const CTA: React.FC = () => {
             color: value ? '#000000' : '#9ca3af',
             borderRadius: '4px'
           }}
+          aria-haspopup="listbox"
+          aria-expanded={isOpen}
+          aria-labelledby={id}
         >
           <span>{getSelectLabel(value, options)}</span>
           <svg
@@ -199,6 +226,7 @@ const CTA: React.FC = () => {
         
         {isOpen && (
           <div
+            role="listbox"
             className="absolute w-full mt-1 py-2 z-50 shadow-lg"
             style={{
               backgroundColor: '#ffffff',
@@ -212,6 +240,8 @@ const CTA: React.FC = () => {
               <div
                 key={option.value}
                 onClick={() => handleSelectChange(name, option.value)}
+                role="option"
+                aria-selected={value === option.value}
                 className="px-4 py-3 cursor-pointer transition-colors text-sm"
                 style={{
                   backgroundColor: value === option.value ? '#f3f4f6' : '#ffffff',
@@ -459,6 +489,7 @@ const CTA: React.FC = () => {
                     type="text"
                     id="name"
                     name="name"
+                    autoComplete="name"
                     value={formData.name}
                     onChange={handleChange}
                     className="w-full px-4 py-3 text-sm transition-colors"
@@ -483,6 +514,7 @@ const CTA: React.FC = () => {
                     type="email"
                     id="email"
                     name="email"
+                    autoComplete="email"
                     value={formData.email}
                     onChange={handleChange}
                     className="w-full px-4 py-3 text-sm transition-colors"
@@ -510,6 +542,7 @@ const CTA: React.FC = () => {
                     type="tel"
                     id="phone"
                     name="phone"
+                    autoComplete="tel"
                     value={formData.phone}
                     onChange={handleChange}
                     className="w-full px-4 py-3 text-sm transition-colors"
@@ -534,6 +567,7 @@ const CTA: React.FC = () => {
                     type="text"
                     id="company"
                     name="company"
+                    autoComplete="organization"
                     value={formData.company}
                     onChange={handleChange}
                     className="w-full px-4 py-3 text-sm transition-colors"
@@ -611,6 +645,7 @@ const CTA: React.FC = () => {
                 <textarea
                   id="details"
                   name="details"
+                  autoComplete="off"
                   value={formData.details}
                   onChange={handleChange}
                   rows={5}
