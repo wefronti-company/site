@@ -312,9 +312,9 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                             style={{ backgroundColor: colors.neutral.borderLight }}
                           >
                             <img 
-                              src="/images/site/secetraria-whatsapp.webp" 
-                              alt="Secretária WhatsApp"
-                              className="w-full h-full object-cover"
+                              src="/images/icons/icon-fran.svg" 
+                              alt="Ícone Fran"
+                              className="w-full h-full object-contain"
                             />
                           </div>
                           <span className="text-lg font-medium" style={{ color: colors.text.light }}>Chamar no Whatsapp</span>
@@ -450,12 +450,12 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                             className="w-16 h-16 rounded-xl overflow-hidden flex items-center justify-center"
                           >
                             <img 
-                              src="/images/site/secetraria-whatsapp.webp" 
-                              alt="Secretária WhatsApp"
-                              className="w-full h-full object-cover"
+                              src="/images/icons/icon-fran.svg" 
+                              alt="Ícone Fran"
+                              className="w-full h-full object-contain"
                             />
                           </div>
-                          <span className="text-lg font-medium" style={{ color: colors.text.light }}>Chamar no Whatsapp</span>
+                          <span className="text-lg font-medium" style={{ color: colors.text.light }}>Falar com a Fran</span>
                         </div>
                         <p className="text-sm font-light" style={{ color: colors.text.light, opacity: 0.7 }}>
                           Fale com nosso time para tirar dúvidas rápidas sobre nossos serviços
