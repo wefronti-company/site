@@ -255,48 +255,7 @@ jobs:
             exit 1
           fi
 
-  # Job 5: Post-Deployment Verification
-  post-deployment:
-    name: 'Step 5: Post-Deployment Checks'
-    runs-on: ubuntu-latest
-    needs: [deploy-production]
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    
-    steps:
-      - name: 5.1 - Wait for deployment propagation
-        run: sleep 10
-        
-      - name: 5.2 - Check production endpoint
-        run: |
-          # Retry a few times to allow propagation (useful for DNS/caching)
-          # Accept HTTP 200 (OK) or HTTP 401 (site protected / requires auth)
-          for attempt in 1 2 3 4 5; do
-            response=$(curl -L -s -o /dev/null -w "%{http_code}" https://wefronti.com)
-            if [ "$response" -eq 200 ] || [ "$response" -eq 401 ]; then
-              if [ "$response" -eq 401 ]; then
-                echo "⚠️ Production site returned HTTP 401 (authentication required) — treating as successful protected deployment"
-              else
-                echo "✅ Production site is responding (HTTP $response)"
-              fi
-              success=true
-              break
-            fi
-            echo "Attempt $attempt: received HTTP $response; retrying in 5s..."
-            sleep 5
-          done
-          if [ "$success" != "true" ]; then
-            echo "⚠️ Production site returned HTTP $response"
-            exit 1
-          fi
-          
-      - name: 5.3 - Verify deployment completion
-        run: |
-          echo "## 🎉 Deployment Pipeline Complete!" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "All checks passed successfully:" >> $GITHUB_STEP_SUMMARY
-          echo "- ✅ Quality checks" >> $GITHUB_STEP_SUMMARY
-          echo "- ✅ Build verification" >> $GITHUB_STEP_SUMMARY
-          echo "- ✅ Production deployment" >> $GITHUB_STEP_SUMMARY
-          echo "- ✅ Health check" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "🌐 **Live at:** https://wefronti.com" >> $GITHUB_STEP_SUMMARY
+  # Job 5: Post-Deployment Verification — REMOVED
+  # The post-deployment verification step was removed per request because the deployment
+  # is performed in Step 4. Health checks and monitoring can be handled separately
+  # (e.g., via provider health checks or a dedicated monitoring job) if needed.
