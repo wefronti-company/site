@@ -20,8 +20,8 @@ const Footer: React.FC = () => {
  style={{
  backgroundColor: colors.primary.black, borderTop: `1px solid ${colors.neutral.borderLight}`}}
  >
- <div className="px-4 md:px-8 lg:px-16 pt-16 pb-12 md:pt-20 md:pb-14 relative" style={{ backgroundColor: colors.primary.black }}>
- <div className="w-full max-w-[1400px] mx-auto" >
+ <div className="px-8 md:px-16 lg:px-24 pt-16 pb-12 md:pt-20 md:pb-14 relative" style={{ backgroundColor: colors.primary.black }}>
+ <div className="w-full max-w-3xl md:max-w-6xl mx-auto" >
 
 
    {/* Main layout — 4 columns (desktop) */}
@@ -106,17 +106,19 @@ const Footer: React.FC = () => {
    </div>
 
     </div>
+ </div>
 
-    {/* Divider */}
+    {/* Divider - Full width */}
  <div 
- className="w-full h-px mt-6 mb-8"
+ className="w-full h-px"
  style={{
  backgroundColor: colors.borderDark
  }}
  />
 
- 
- <div className="grid grid-cols-1 md:grid-cols-3 items-center gap-2 pt-3">
+ <div className="px-8 md:px-16 lg:px-24 py-8">
+ <div className="w-full max-w-3xl md:max-w-6xl mx-auto">
+ <div className="grid grid-cols-1 md:grid-cols-3 items-center gap-2">
    <div className="text-sm text-left" style={{ color: colors.neutral.grayHover, opacity: 0.6 }}>
      CNPJ: 64.507.638/0001-04 • Wefronti Tecnologia Ltda
    </div>
@@ -126,13 +128,14 @@ const Footer: React.FC = () => {
    </div>
 
    <div className="flex items-center justify-end">
-     <button onClick={scrollToTop} aria-label="Voltar ao topo" className="p-2 rounded-full transition-colors hover:bg-white/5" style={{ color: colors.whiteColor }}>
+     <button onClick={scrollToTop} aria-label="Voltar ao topo" className="p-2 rounded-full transition-colors hover:bg-white/5" style={{ background: colors.background.light, color: colors.primary.black }}>
        <ArrowUp size={18} />
      </button>
    </div>
  </div>
-
  </div>
+ </div>
+
  </footer>
  );
 };

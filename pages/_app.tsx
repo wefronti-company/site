@@ -11,6 +11,7 @@ import { MenuProvider } from '../components/layout/MenuContext';
 import MenuPanel from '../components/layout/MenuPanel';
 import Header from '../components/ui/Header';
 import Footer from '../sections/Footer';
+import SideBorders from '../components/layout/SideBorders';
 
 export default function MyApp({ Component, pageProps }: AppProps) {
  const router = useRouter();
@@ -39,6 +40,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
  <Head>
  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
  </Head>
+ <SideBorders />
  <Header variant="header" />
  <Component {...pageProps} />
  {/* Footer on every page except home */}

@@ -92,7 +92,7 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
         className="fixed top-0 left-0 right-0 z-[100]"
         style={{
           background: colors.background.dark,
-          transition: 'background 0.3s ease',
+          transition: 'background 0.3s ease', borderBottom: `1px solid ${colors.neutral.borderLight}`
         }}
       >
         <nav
