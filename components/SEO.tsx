@@ -15,7 +15,7 @@ const SEO: React.FC<SEOProps> = ({
  title,
  description,
  canonical,
- ogImage = '/images/social-seo-image.png',
+ ogImage = '/images/brand/social-seo-image.png',
  ogType = 'website',
  noindex = false,
  keywords
@@ -54,12 +54,12 @@ defaultTitle: 'Wefronti | Sistemas, SaaS e Produtos Digitais Sob Medida',
  height: 180
  },
  description: pageDescription,
- foundingDate: '2019',
+ foundingDate: '2026',
  address: {
  '@type': 'PostalAddress',
  addressCountry: 'BR',
- addressRegion: 'RJ',
- addressLocality: 'Rio de Janeiro'
+ addressRegion: 'RS',
+ addressLocality: 'Porto Alegre'
  },
  sameAs: [
  'https://www.linkedin.com/company/wefronti',
@@ -78,17 +78,13 @@ defaultTitle: 'Wefronti | Sistemas, SaaS e Produtos Digitais Sob Medida',
  bestRating: '5',
  worstRating: '1'
  },
- slogan: 'Projetamos produtos com propósito',
+ slogan: 'Tecnologia começa pelas pessoas.',
  knowsAbout: [
  'Desenvolvimento de SaaS',
  'Produtos Digitais',
  'Software sob Medida',
  'Sistemas Web Complexos',
- 'Aplicativos Mobile',
  'E-commerce',
- 'Inteligência Artificial',
- 'Transformação Digital',
- 'Plataformas Escaláveis'
  ],
  audience: {
  '@type': 'Audience',
@@ -150,9 +146,14 @@ defaultTitle: 'Wefronti | Sistemas, SaaS e Produtos Digitais Sob Medida',
  <meta property="og:title" content={pageTitle} />
  <meta property="og:description" content={pageDescription} />
  <meta property="og:image" content={`${siteUrl}${ogImage}`} />
+ <meta property="og:image:secure_url" content={`${siteUrl}${ogImage}`} />
+ <meta property="og:image:type" content="image/png" />
  <meta property="og:image:width" content="1200" />
  <meta property="og:image:height" content="630" />
- <meta property="og:image:alt" content="Wefronti - Produtos Digitais com Propósito" />
+ <meta property="og:image:alt" content="Wefronti | Sistemas, SaaS e Produtos Digitais Sob Medida" />
+ {/* Common fallback/link used by some platforms */}
+ <link rel="image_src" href={`${siteUrl}${ogImage}`} />
+ <meta name="twitter:image:src" content={`${siteUrl}${ogImage}`} />
  <meta property="og:site_name" content="Wefronti" />
  <meta property="og:locale" content="pt_BR" />
  
@@ -163,7 +164,7 @@ defaultTitle: 'Wefronti | Sistemas, SaaS e Produtos Digitais Sob Medida',
  <meta name="twitter:title" content={pageTitle} />
  <meta name="twitter:description" content={pageDescription} />
  <meta name="twitter:image" content={`${siteUrl}${ogImage}`} />
- <meta name="twitter:image:alt" content="Wefronti - Produtos Digitais com Propósito" />
+ <meta name="twitter:image:alt" content="Wefronti | Sistemas, SaaS e Produtos Digitais Sob Medida" />
  
  {/* Mobile & PWA */}
  <meta name="mobile-web-app-capable" content="yes" />
