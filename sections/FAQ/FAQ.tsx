@@ -120,7 +120,7 @@ const FAQ: React.FC = () => {
  style={{
  borderColor: colors.neutral.borderDark,
  borderRadius: '4px',
- backgroundColor: colors.accordeonColor,
+ backgroundColor: colors.neutral.accordeon,
  }}
  >
  {/* Pergunta */}
@@ -130,7 +130,7 @@ const FAQ: React.FC = () => {
  >
  <span 
  className="text-base md:text-lg font-regular pr-4"
- style={{ color: colors.whiteColor }}
+ style={{ color: colors.text.light }}
  >
  {faq.question}
  </span>
@@ -143,7 +143,7 @@ const FAQ: React.FC = () => {
  className={`flex-shrink-0 transition-transform duration-300 ${
  openIndex === index ? 'rotate-180' : ''
  }`}
- style={{ color: colors.whiteColor }}
+ style={{ color: colors.icons.light }}
  >
  <polyline
  points="6 9 12 15 18 9"
@@ -166,7 +166,7 @@ const FAQ: React.FC = () => {
  <div className="px-6 pb-5">
  <p 
  className="text-regular leading-relaxed"
- style={{ color: colors.whiteColor, opacity: 0.8 }}
+ style={{ color: colors.text.light, opacity: 0.8 }}
  >
  {faq.answer}
  </p>

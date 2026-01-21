@@ -22,22 +22,16 @@ export const colors = {
     gray: '#7f7f7fff', //botões e container de destaque
     borderLight: '#cacacaff', //Cor padrão das bordas claras
     borderDark: '#8b8b8b2b', //Cor padrão das bordas escuras
+    accordeon: '#121212ff'
  },
 
 
-    blackColor: '#010101',
- whiteColor: '#f7f7f7',
- textSecondary: '#5c5c5cff', // Cor secundária do texto para backgrounds escuros
- iconDark: '#434343ff', //Cor de ícones para backgrounds escuros
- borderDark: '#dfdfdfff',
- borderCta: '#95a0ffff',
- colorGray: '#29292966',
- colorGrayhover: '#b0b0b0e3',
- gradientOne: '#4551BA',
- gradientTwo:'#7E88E3',
- cardsColor: '#1a1a1aff',
- accordeonColor: '#121212ff',
- starsColor: '#ffcc00ff',
- pinkColor: '#F288DB',
+    blackColor: '#010101', //excluir após cookies e outros
+ whiteColor: '#f7f7f7', //excluir após cookies e outros
+ borderDark: '#dfdfdfff', //excluir após cookies e outros
+ borderCta: '#95a0ffff', //excluir após cookies e outros
+ colorGray: '#29292966', //excluir após cookies e outros
+ gradientOne: '#4551BA', //excluir após cookies e outros
+ gradientTwo:'#7E88E3', //excluir após cookies e outros
  
 } as const;
