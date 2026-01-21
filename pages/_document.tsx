@@ -10,8 +10,13 @@ export default function Document() {
  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
  
  {/* Favicon */}
- <link rel="icon" href="/images/brand/favicon-site.png" type="image/webp" />
- <link rel="apple-touch-icon" href="/images/brand/favicon-site.png" />
+ <link rel="icon" href="/images/brand/favicon-light.png" type="image/png" sizes="32x32" media="(prefers-color-scheme: light)" />
+ <link rel="icon" href="/images/brand/favicon-dark.png" type="image/png" sizes="32x32" media="(prefers-color-scheme: dark)" />
+ {/* Fallback */}
+ <link rel="icon" href="/images/brand/favicon-light.png" type="image/png" sizes="32x32" />
+ <link rel="apple-touch-icon" href="/images/brand/favicon-light.png" sizes="180x180" />
+ <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+ <meta name="theme-color" content="#050505" media="(prefers-color-scheme: dark)" />
  
  {/* Google Fonts - Funnel Sans */}
  <link rel="preconnect" href="https://fonts.googleapis.com" />

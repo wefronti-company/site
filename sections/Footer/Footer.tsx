@@ -31,7 +31,7 @@ const Footer: React.FC = () => {
      <div className="flex flex-col gap-6">
        <Logo />
        <p className="text-sm max-w-[20rem]" style={{ color: colors.text.dark, opacity: 0.9 }}>
-         Avenida Cristovao Colombo, 2144, Sala 408 Andar 3, Floresta • Porto Alegre, RS
+         Avenida Cristovao Colombo, 2144, Sala 408 Andar 3, Floresta, Porto Alegre, RS
        </p>
      </div>
 
@@ -190,7 +190,7 @@ const Footer: React.FC = () => {
  <div className="w-full max-w-3xl md:max-w-6xl mx-auto">
  <div className="grid grid-cols-1 md:grid-cols-3 items-center gap-2">
    <div className="text-sm text-left" style={{ color: colors.text.dark, opacity: 0.6 }}>
-     CNPJ: 64.507.638/0001-04 • Wefronti Tecnologia Ltda
+     CNPJ: 64.507.638/0001-04 | Wefronti Tecnologia Ltda
    </div>
 
    <div className="text-sm text-left md:text-center" style={{ color: colors.text.dark, opacity: 0.6 }}>

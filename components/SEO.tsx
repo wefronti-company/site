@@ -23,12 +23,12 @@ const SEO: React.FC<SEOProps> = ({
  // Configuração SEO focada em Produtos Digitais com Propósito
  const seoConfig = {
  siteName: 'Wefronti',
- defaultTitle: 'Wefronti • Soluções em Tecnologia',
- defaultDescription: 'SaaS, software e sistemas web desenvolvidos com tecnologias modernas e escaláveis. Do planejamento ao lançamento, entregamos produtos prontos para gerar resultados.',
- defaultKeywords: 'desenvolvimento de produto digital, saas sob medida, desenvolvimento de software empresarial, sistema web complexo, aplicativo mobile, ecommerce personalizado, inteligência artificial, transformação digital, produto digital escalável, desenvolvimento saas, software como serviço, plataforma web, app para negócios, desenvolvimento rio de janeiro',
+defaultTitle: 'Wefronti | Sistemas, SaaS e Produtos Digitais Sob Medida',
+    defaultDescription: 'Desenvolvemos sistemas e produtos digitais sob medida para empresas que tratam tecnologia como parte do negócio. Planejamento, execução e responsabilidade.',
+ defaultKeywords: 'desenvolvimento de software sob medida, sistemas sob medida, produtos digitais sob medida, tecnologia para empresas, desenvolvimento de SaaS',
  };
 
-  const pageTitle = title ? `${title} • ${seoConfig.siteName}` : seoConfig.defaultTitle;
+  const pageTitle = title ? `${title} | ${seoConfig.siteName}` : seoConfig.defaultTitle;
  const pageDescription = description || seoConfig.defaultDescription;
  const pageKeywords = keywords || seoConfig.defaultKeywords;
  const siteUrl = 'https://wefronti.com';
