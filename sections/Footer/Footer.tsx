@@ -80,11 +80,11 @@ const Footer: React.FC = () => {
      <div>
        <h4 className="text-sm font-regular mb-3 uppercase" style={{ color: colors.text.dark }}>Fale conosco</h4>
        <div className="flex flex-col gap-4 mb-8">
-         <a href="mailto:contato@wefronti.com.br" className="flex items-center gap-3 text-sm" style={{ color: colors.text.light }} aria-label="Enviar e‑mail para contato@wefronti.com.br">
+         <a href="mailto:contato@wefronti.com" className="flex items-center gap-3 text-sm" style={{ color: colors.text.light }} aria-label="Enviar e‑mail para contato@wefronti.com">
            <span className="w-8 h-8 flex items-center justify-center rounded-md -ml-2" style={{ color: colors.icons.light }} aria-hidden>
              <FaEnvelope />
            </span>
-           <span>contato@wefronti.com.br</span>
+           <span>contato@wefronti.com</span>
          </a>
          <a href="https://wa.me/message/GMAON4GDQH3NA1" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-sm" style={{ color: colors.text.light }} aria-label="Abrir conversa no WhatsApp">
            <span className="w-8 h-8 flex items-center justify-center rounded-md -ml-2" style={{ color: colors.icons.light }} aria-hidden>

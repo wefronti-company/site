@@ -41,7 +41,7 @@ const Sobre: React.FC = () => {
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={isVisible ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
                 transition={{ duration: 0.8, ease: 'easeOut', delay: 0.2 }}
-                className="w-56 h-56 md:w-80 md:h-80 rounded-2xl overflow-hidden border-4 border-white/10 shadow-lg group"
+                className="w-72 h-72 md:w-[420px] md:h-[420px] rounded-2xl overflow-hidden border-4 border-white/10 shadow-lg group"
               >
                 <img
                   src="/images/site/witor-linhares.webp"

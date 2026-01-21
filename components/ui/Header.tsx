@@ -121,8 +121,10 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                   </span>
                   {/* Balão ao passar o mouse */}
                   <div
-                    className="absolute left-1/2 -translate-x-1/2 mt-2 z-50 hidden group-hover:flex flex-col items-center"
-                    style={{ minWidth: 280 }}
+                    className="absolute left-1/2 -translate-x-1/2 mt-0 z-50 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto flex flex-col items-center"
+                    style={{ minWidth: 370, top: '100%' }}
+                    onMouseEnter={e => { e.currentTarget.classList.add('opacity-100'); e.currentTarget.classList.add('pointer-events-auto'); }}
+                    onMouseLeave={e => { e.currentTarget.classList.remove('opacity-100'); e.currentTarget.classList.remove('pointer-events-auto'); }}
                   >
                     <motion.div
                       initial={{ opacity: 0, y: 10 }}
@@ -132,7 +134,10 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                       className="bg-neutral-900 border border-white/10 shadow-xl rounded-xl px-6 py-4 flex flex-col items-center"
                       style={{ color: colors.text.light }}
                     >
-                      <span className="text-base mb-4 text-center">Excelente momento para por um projeto em execução, vamos conversar.</span>
+                      <span className="text-base mb-4 text-center leading-snug">
+                        Toda boa decisão<br />
+                        começa com uma conversa!
+                      </span>
                       <button
                         className="mt-1 px-5 py-2 rounded bg-white text-black font-medium text-sm hover:opacity-90 transition"
                         onClick={() => {
