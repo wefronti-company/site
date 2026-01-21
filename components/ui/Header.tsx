@@ -219,7 +219,7 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                   >
                     {/* Navegação */}
                     <div>
-                      <h4 className="text-xs font-semibold uppercase mb-6 tracking-wider" style={{ color: colors.text.light }}>Navegar</h4>
+                      <h4 className="text-xs font-semibold uppercase mb-6 tracking-wider" style={{ color: colors.text.dark }}>Navegar</h4>
                       <ul className="flex flex-col gap-3">
                         <li>
                           <button 
@@ -235,35 +235,11 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                         </li>
                         <li>
                           <button 
-                            onClick={() => scrollToSection('#services')}
-                            className="text-2xl font-light transition-all duration-300 flex items-center gap-3 group"
-                            style={{ color: colors.text.light }}
-                          >
-                            <span>Serviços</span>
-                            <span 
-                              className="w-2 h-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                            />
-                          </button>
-                        </li>
-                        <li>
-                          <button 
-                            onClick={() => scrollToSection('#comparative')}
-                            className="text-2xl font-light transition-all duration-300 flex items-center gap-3 group"
-                            style={{ color: colors.text.light }}
-                          >
-                            <span>Sobre nós</span>
-                            <span 
-                              className="w-2 h-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                            />
-                          </button>
-                        </li>
-                        <li>
-                          <button 
                             onClick={() => scrollToSection('#clients')}
                             className="text-2xl font-light transition-all duration-300 flex items-center gap-3 group"
                             style={{ color: colors.text.light }}
                           >
-                            <span>Casos de sucesso</span>
+                            <span>Clientes</span>
                             <span 
                               className="w-2 h-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                             />
@@ -271,7 +247,20 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                         </li>
                         <li>
                           <button 
-                            onClick={() => scrollToSection('#contato')}
+                            onClick={() => scrollToSection('#sobre')}
+                            className="text-2xl font-light transition-all duration-300 flex items-center gap-3 group"
+                            style={{ color: colors.text.light }}
+                          >
+                            <span>Sobre</span>
+                            <span 
+                              className="w-2 h-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                            />
+                          </button>
+                        </li>
+                        
+                        <li>
+                          <button 
+                            onClick={() => scrollToSection('#cta')}
                             className="text-2xl font-light transition-all duration-300 flex items-center gap-3 group"
                             style={{ color: colors.text.light }}
                           >
@@ -298,7 +287,7 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
 
                     {/* WhatsApp */}
                     <div>
-                      <h4 className="text-xs font-semibold uppercase mb-6 tracking-wider" style={{ color: colors.text.light }}>Tirar dúvidas</h4>
+                      <h4 className="text-xs font-semibold uppercase mb-6 tracking-wider" style={{ color: colors.text.dark }}>Whatsapp</h4>
                       <a 
                         href="https://wa.me/message/3V45SAJMLIJJJ1" 
                         target="_blank" 
@@ -308,19 +297,19 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                       >
                         <div className="flex items-center gap-3 mb-3">
                           <div 
-                            className="w-16 h-16 rounded-xl overflow-hidden flex items-center justify-center"
-                            style={{ backgroundColor: colors.neutral.borderLight }}
+                            className="w-16 h-16 rounded-xl overflow-hidden flex items-center justify-center bg-transparent"
                           >
                             <img 
                               src="/images/icons/icon-fran.svg" 
                               alt="Ícone Fran"
-                              className="w-full h-full object-contain"
+                              className="w-full h-full object-contain bg-transparent"
+                              style={{ background: 'transparent' }}
                             />
                           </div>
-                          <span className="text-lg font-medium" style={{ color: colors.text.light }}>Chamar no Whatsapp</span>
+                          <span className="text-lg font-medium" style={{ color: colors.text.light }}>Falar com a Fran</span>
                         </div>
                         <p className="text-sm font-light" style={{ color: colors.text.light, opacity: 0.7 }}>
-                          Fale com nosso time para tirar dúvidas rápidas sobre nossos serviços
+                          Um primeiro contato via WhatsApp para entender seu contexto e avançar com clareza.
                         </p>
                       </a>
                     </div>
@@ -368,37 +357,11 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                         </li>
                         <li>
                           <button 
-                            onClick={() => scrollToSection('#services')}
-                            className="text-2xl font-light transition-all duration-300 flex items-center gap-3 group"
-                            style={{ color: colors.text.light }}
-                          >
-                            <span>Serviços</span>
-                            <span 
-                              className="w-2 h-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                              style={{ backgroundColor: colors.icons.light }}
-                            />
-                          </button>
-                        </li>
-                        <li>
-                          <button 
-                            onClick={() => scrollToSection('#comparative')}
-                            className="text-2xl font-light transition-all duration-300 flex items-center gap-3 group"
-                            style={{ color: colors.text.light }}
-                          >
-                            <span>Sobre nós</span>
-                            <span 
-                              className="w-2 h-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                              style={{ backgroundColor: colors.icons.light }}
-                            />
-                          </button>
-                        </li>
-                        <li>
-                          <button 
                             onClick={() => scrollToSection('#clients')}
                             className="text-2xl font-light transition-all duration-300 flex items-center gap-3 group"
                             style={{ color: colors.text.light }}
                           >
-                            <span>Casos de sucesso</span>
+                            <span>Clientes</span>
                             <span 
                               className="w-2 h-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                               style={{ backgroundColor: colors.icons.light }}
@@ -407,7 +370,21 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                         </li>
                         <li>
                           <button 
-                            onClick={() => scrollToSection('#contato')}
+                            onClick={() => scrollToSection('#sobre')}
+                            className="text-2xl font-light transition-all duration-300 flex items-center gap-3 group"
+                            style={{ color: colors.text.light }}
+                          >
+                            <span>Sobre</span>
+                            <span 
+                              className="w-2 h-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                              style={{ backgroundColor: colors.icons.light }}
+                            />
+                          </button>
+                        </li>
+                        
+                        <li>
+                          <button 
+                            onClick={() => scrollToSection('#cta')}
                             className="text-2xl font-light transition-all duration-300 flex items-center gap-3 group"
                             style={{ color: colors.text.light }}
                           >
@@ -437,7 +414,7 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                     {/* Coluna 2 - WhatsApp (centralizada) */}
                     <div className="flex flex-col items-center justify-start">
                       <div>
-                        <h4 className="text-xs font-regular uppercase mb-8 tracking-wider" style={{ color: colors.text.dark }}>Tirar dúvidas</h4>
+                        <h4 className="text-xs font-regular uppercase mb-8 tracking-wider" style={{ color: colors.text.dark }}>Whatsapp</h4>
                       <a 
                         href="https://wa.me/message/3V45SAJMLIJJJ1" 
                         target="_blank" 
@@ -458,7 +435,7 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                           <span className="text-lg font-medium" style={{ color: colors.text.light }}>Falar com a Fran</span>
                         </div>
                         <p className="text-sm font-light" style={{ color: colors.text.light, opacity: 0.7 }}>
-                          Fale com nosso time para tirar dúvidas rápidas sobre nossos serviços
+                          Um primeiro contato via WhatsApp para entender seu contexto e avançar com clareza.
                         </p>
                       </a>
                       </div>
