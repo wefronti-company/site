@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Box, HelpCircle } from 'lucide-react';
-import Badge from '../../components/ui/Badge';
 import ButtonCta from '../../components/ui/ButtonCta';
 import { colors } from '../../styles/colors';
 

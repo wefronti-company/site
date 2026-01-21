@@ -40,7 +40,7 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
       style={{ 
         border: `1px solid ${colors.neutral.borderDark}`, 
         background: 'transparent',
-        borderRadius: '999px', 
+        borderRadius: '6px', 
         padding: '12px 24px'
       }}
       onMouseEnter={(e) => e.currentTarget.style.background = colors.neutral.gray}

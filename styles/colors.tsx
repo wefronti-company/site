@@ -1,5 +1,3 @@
-import { tr } from "zod/v4/locales";
-
 export const colors = {
 
  background:{
@@ -24,10 +22,5 @@ export const colors = {
     borderDark: '#8b8b8b2b', //Cor padrão das bordas escuras
     accordeon: '#121212ff'
  },
-
-
-
- gradientOne: '#4551BA', //excluir após cookies e outros
- gradientTwo:'#7E88E3', //excluir após cookies e outros
 
 } as const;
