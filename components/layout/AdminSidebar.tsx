@@ -21,7 +21,7 @@ const AdminSidebar: React.FC = () => {
   return (
     <aside className="flex flex-col w-64 h-[calc(100vh-2rem)] sticky top-6 shrink-0 px-4" style={{ color: colors.text.light, borderRight: `1px solid ${colors.neutral.borderDark}` }}>
       {/* Logo area */}
-      <div className="mt-6 pt-4 w-full relative pb-3">
+      <div className="mt-6 pt-4 w-full relative pb-6">
         <div style={{ position: 'absolute', left: '-1rem', right: '-1rem', bottom: 0, borderBottom: `1px solid ${colors.neutral.borderDark}` }} />
         <div className="flex items-center justify-start w-full px-4">
           <Logo isDark={false} />
