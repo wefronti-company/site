@@ -46,12 +46,12 @@ const Hero: React.FC = () => {
       <div className="relative z-20 flex items-center justify-center min-h-screen px-8 md:px-16 lg:px-24">
         <div className="w-full max-w-3xl md:max-w-6xl mx-auto relative">
           
-          {/* Circular badge with rotating icon */}
+          {/* Circular badge com visibilidade apenas em md+ */}
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={hasEntered ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
             transition={{ duration: 0.8, ease: "easeOut", delay: 0.1 }}
-            className="absolute -top-12 md:-top-16 right-0 md:right-40 lg:right-64 z-30"
+            className="absolute -top-12 md:-top-16 right-0 md:right-40 lg:right-64 z-30 hidden md:block"
           >
             <motion.div
               animate={{ rotate: -360 }}
@@ -162,7 +162,9 @@ const Hero: React.FC = () => {
       </div>
 
       {/* Scroll Indicator */}
-      <ScrollIndicator />
+      <div className="pb-12 md:pb-20 lg:pb-24">
+        <ScrollIndicator />
+      </div>
     </section>
   );
 };

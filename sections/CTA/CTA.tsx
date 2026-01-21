@@ -360,7 +360,7 @@ const CTA: React.FC = () => {
       className="w-full py-20 md:py-32 relative overflow-hidden border-t"
       style={{ background: colors.background.dark, borderTopColor: colors.neutral.borderDark }}
     >
-      <div className="px-4 md:px-8 lg:px-16">
+      <div className="px-8 md:px-16 lg:px-24">
         <style dangerouslySetInnerHTML={{
           __html: `
             input:-webkit-autofill,
@@ -384,7 +384,7 @@ const CTA: React.FC = () => {
             }
           `
         }} />
-        <div className="max-w-4xl mx-auto">
+        <div className="w-full max-w-3xl md:max-w-6xl mx-auto">
           
           {/* Header */}
           <motion.div
