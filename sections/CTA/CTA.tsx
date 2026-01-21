@@ -613,8 +613,8 @@ const CTA: React.FC = () => {
                     { value: 'site', label: 'Site' },
                     { value: 'ecommerce', label: 'E-commerce' },
                     { value: 'sistema', label: 'Sistema' },
-                    { value: 'Saas', label: 'Saas' },
-                    { value: 'dashboard', label: 'Dashboard' },
+                    { value: 'saas', label: 'SaaS' },
+                    { value: 'app', label: 'Dashboard' },
                     { value: 'api', label: 'API / Integração' },
                     { value: 'outro', label: 'Outro' }
                   ]}
