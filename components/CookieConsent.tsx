@@ -97,8 +97,8 @@ const CookieConsent: React.FC = () => {
         <div
           className="fixed bottom-0 left-0 right-0 z-50 p-4 md:p-6 animate-slide-up"
           style={{
-            backgroundColor: colors.blackColor,
-            borderTop: `1px solid ${colors.borderDark}`,
+            backgroundColor: colors.background.dark,
+            borderTop: `1px solid ${colors.neutral.borderDark}`,
           }}
         >
           <div className="max-w-7xl mx-auto">
@@ -107,19 +107,19 @@ const CookieConsent: React.FC = () => {
               {/* Texto */}
               <div className="flex-1">
                 <div className="flex items-center gap-2 mb-2">
-                  <Cookie size={20} style={{ color: colors.gradientOne }} />
-                  <h3 className="text-lg font-medium" style={{ color: colors.whiteColor }}>
+                  <Cookie size={20} style={{ color: colors.icons.light }} />
+                  <h3 className="text-lg font-medium" style={{ color: colors.text.light }}>
                     Este site utiliza cookies
                   </h3>
                 </div>
-                <p className="text-sm leading-relaxed" style={{ color: colors.whiteColor, opacity: 0.8 }}>
+                <p className="text-sm leading-relaxed" style={{ color: colors.text.light, opacity: 0.8 }}>
                   Usamos cookies essenciais para o funcionamento do site e, com seu consentimento, cookies de análise e marketing para melhorar sua experiência. 
                   Você pode gerenciar suas preferências a qualquer momento.{' '}
                   <a 
                     href="/politica-privacidade" 
                     target="_blank"
                     className="underline"
-                    style={{ color: colors.gradientOne }}
+                    style={{ color: colors.text.dark }}
                   >
                     Saiba mais
                   </a>
@@ -132,10 +132,10 @@ const CookieConsent: React.FC = () => {
                   onClick={() => setShowSettings(true)}
                   className="px-4 py-2 text-sm font-medium transition-all hover:opacity-80 flex items-center justify-center gap-2"
                   style={{
-                    backgroundColor: colors.colorGray,
-                    color: colors.whiteColor,
-                    border: `1px solid ${colors.borderDark}`,
-                    borderRadius: '90px',
+                    backgroundColor: colors.background.dark,
+                    color: colors.text.light,
+                    border: `1px solid ${colors.neutral.borderDark}`,
+                    borderRadius: '6px',
                   }}
                 >
                   <Settings size={16} />
@@ -146,10 +146,10 @@ const CookieConsent: React.FC = () => {
                   onClick={handleRejectAll}
                   className="px-4 py-2 text-sm font-medium transition-all hover:opacity-80"
                   style={{
-                    backgroundColor: colors.colorGray,
-                    color: colors.whiteColor,
-                    border: `1px solid ${colors.borderDark}`,
-                    borderRadius: '90px',
+                    backgroundColor: colors.background.dark,
+                    color: colors.text.light,
+                    border: `1px solid ${colors.neutral.borderDark}`,
+                    borderRadius: '6px',
                   }}
                 >
                   Rejeitar
@@ -159,10 +159,10 @@ const CookieConsent: React.FC = () => {
                   onClick={handleAcceptAll}
                   className="px-6 py-2 text-sm font-medium transition-all hover:scale-105"
                   style={{
-                    background: `linear-gradient(135deg, ${colors.gradientOne}, ${colors.gradientTwo})`,
-                    color: colors.whiteColor,
-                    border: `1px solid ${colors.borderCta}`,
-                    borderRadius: '90px',
+                    background: colors.neutral.gray,
+                    color: colors.text.light,
+                    border: `1px solid ${colors.neutral.borderDark}`,
+                    borderRadius: '6px',
                   }}
                 >
                   Ok, entendi!
@@ -179,27 +179,27 @@ const CookieConsent: React.FC = () => {
           <div
             className="w-full max-w-2xl max-h-[90vh] overflow-y-auto p-6 md:p-8 animate-scale-in"
             style={{
-              backgroundColor: colors.blackColor,
-              border: `1px solid ${colors.borderDark}`,
-              borderRadius: '10px',
+              backgroundColor: colors.background.dark,
+              border: `1px solid ${colors.neutral.borderDark}`,
+              borderRadius: '6px',
             }}
           >
             {/* Header */}
             <div className="flex items-start justify-between mb-6">
               <div>
-                <h2 className="text-2xl font-medium mb-2" style={{ color: colors.whiteColor }}>
+                <h2 className="text-2xl font-medium mb-2" style={{ color: colors.text.light }}>
                   Configurações de Cookies
                 </h2>
-                <p className="text-sm" style={{ color: colors.whiteColor, opacity: 0.8 }}>
+                <p className="text-sm" style={{ color: colors.text.light, opacity: 0.8 }}>
                   Gerencie suas preferências de cookies. Você pode alterar essas configurações a qualquer momento.
                 </p>
               </div>
               <button
                 onClick={() => setShowSettings(false)}
                 className="p-2 rounded-lg transition-all hover:opacity-80"
-                style={{ backgroundColor: colors.colorGray }}
+                style={{ backgroundColor: colors.background.dark }}
               >
-                <X size={20} style={{ color: colors.whiteColor }} />
+                <X size={20} style={{ color: colors.text.light }} />
               </button>
             </div>
 
@@ -210,50 +210,48 @@ const CookieConsent: React.FC = () => {
               <div
                 className="p-4 rounded-lg"
                 style={{
-                  backgroundColor: colors.colorGray,
-                  border: `1px solid ${colors.borderDark}`,
-                  borderRadius: '10px',
+                
+                  border: `1px solid ${colors.neutral.borderDark}`,
+                  borderRadius: '6px',
                 }}
               >
                 <div className="flex items-start justify-between mb-2">
                   <div className="flex-1">
-                    <h3 className="text-lg font-medium mb-1" style={{ color: colors.whiteColor }}>
+                    <h3 className="text-lg font-regular mb-1" style={{ color: colors.text.light }}>
                       Cookies Necessários
                     </h3>
-                    <p className="text-sm" style={{ color: colors.whiteColor, opacity: 0.8 }}>
+                    <p className="text-sm font-regular" style={{ color: colors.text.dark, opacity: 0.8 }}>
                       Essenciais para o funcionamento do site. Não podem ser desabilitados.
                     </p>
                   </div>
                   <div
-                    className="px-3 py-1 rounded-full text-xs font-medium"
+                    className="px-3 py-1 rounded-full text-xs font-regular"
                     style={{
-                      backgroundColor: colors.gradientOne,
-                      color: colors.blackColor,
+                      backgroundColor: colors.neutral.gray,
+                      color: colors.text.light, borderRadius: '3px',
                     }}
                   >
                     Sempre ativo
                   </div>
                 </div>
-                <p className="text-xs mt-2" style={{ color: colors.whiteColor}}>
-                  Exemplos: Autenticação, segurança, preferências de idioma, carrinho de compras.
-                </p>
+                
               </div>
 
               {/* Cookies de Análise */}
               <div
                 className="p-4 rounded-lg"
                 style={{
-                  backgroundColor: colors.colorGray,
-                  border: `1px solid ${colors.borderDark}`,
-                  borderRadius: '10px',
+                  backgroundColor: colors.background.dark,
+                  border: `1px solid ${colors.neutral.borderDark}`,
+                  borderRadius: '6px',
                 }}
               >
                 <div className="flex items-start justify-between mb-2">
                   <div className="flex-1">
-                    <h3 className="text-lg font-medium mb-1" style={{ color: colors.whiteColor }}>
+                    <h3 className="text-lg font-medium mb-1" style={{ color: colors.text.light }}>
                       Cookies de Análise
                     </h3>
-                    <p className="text-sm" style={{ color: colors.whiteColor, opacity: 0.8 }}>
+                    <p className="text-sm" style={{ color: colors.text.dark, opacity: 0.8 }}>
                       Coletam dados sobre como você usa o site para melhorar a experiência.
                     </p>
                   </div>
@@ -261,7 +259,7 @@ const CookieConsent: React.FC = () => {
                     onClick={() => togglePreference('analytics')}
                     className="relative w-12 h-6 rounded-full transition-all"
                     style={{
-                      backgroundColor: preferences.analytics ? colors.gradientOne : colors.borderDark,
+                      backgroundColor: preferences.analytics ? colors.neutral.gray : colors.neutral.borderDark,
                     }}
                   >
                     <div
@@ -272,26 +270,23 @@ const CookieConsent: React.FC = () => {
                     />
                   </button>
                 </div>
-                <p className="text-xs mt-2" style={{ color: colors.whiteColor, opacity: 0.6 }}>
-                  Exemplos: Google Analytics, heatmaps, métricas de desempenho.
-                </p>
               </div>
 
               {/* Cookies de Marketing */}
               <div
                 className="p-4 rounded-lg"
                 style={{
-                  backgroundColor: colors.colorGray,
-                  border: `1px solid ${colors.borderDark}`,
-                  borderRadius: '10px',
+                  backgroundColor: colors.background.dark,
+                  border: `1px solid ${colors.neutral.borderDark}`,
+                  borderRadius: '6px',
                 }}
               >
                 <div className="flex items-start justify-between mb-2">
                   <div className="flex-1">
-                    <h3 className="text-lg font-medium mb-1" style={{ color: colors.whiteColor }}>
+                    <h3 className="text-lg font-regular mb-1" style={{ color: colors.text.light }}>
                       Cookies de Marketing
                     </h3>
-                    <p className="text-sm" style={{ color: colors.whiteColor, opacity: 0.8 }}>
+                    <p className="text-sm font-regular" style={{ color: colors.text.dark, opacity: 0.8 }}>
                       Utilizados para exibir anúncios personalizados e medir campanhas.
                     </p>
                   </div>
@@ -299,7 +294,7 @@ const CookieConsent: React.FC = () => {
                     onClick={() => togglePreference('marketing')}
                     className="relative w-12 h-6 rounded-full transition-all"
                     style={{
-                      backgroundColor: preferences.marketing ? colors.gradientOne : colors.borderDark,
+                      backgroundColor: preferences.marketing ? colors.neutral.gray : colors.neutral.borderDark,
                     }}
                   >
                     <div
@@ -310,9 +305,6 @@ const CookieConsent: React.FC = () => {
                     />
                   </button>
                 </div>
-                <p className="text-xs mt-2" style={{ color: colors.whiteColor, opacity: 0.6 }}>
-                  Exemplos: Facebook Pixel, Google Ads, LinkedIn Insight Tag.
-                </p>
               </div>
 
             </div>
@@ -323,10 +315,10 @@ const CookieConsent: React.FC = () => {
                 onClick={handleRejectAll}
                 className="flex-1 px-6 py-3 text-sm font-medium transition-all hover:opacity-80"
                 style={{
-                  backgroundColor: colors.colorGray,
-                  color: colors.whiteColor,
-                  border: `1px solid ${colors.borderDark}`,
-                  borderRadius: '90px',
+                  backgroundColor: colors.background.dark,
+                  color: colors.text.light,
+                  border: `1px solid ${colors.neutral.borderDark}`,
+                  borderRadius: '6px',
                 }}
               >
                 Rejeitar Todos
@@ -336,10 +328,10 @@ const CookieConsent: React.FC = () => {
                 onClick={handleSavePreferences}
                 className="flex-1 px-6 py-3 text-sm font-medium transition-all hover:scale-105"
                 style={{
-                  background: `linear-gradient(135deg, ${colors.gradientOne}, ${colors.gradientTwo})`,
-                  color: colors.whiteColor,
-                  border: `1px solid ${colors.borderCta}`,
-                  borderRadius: '90px',
+                  background: colors.neutral.gray,
+                  color: colors.text.light,
+                  border: `1px solid ${colors.neutral.borderDark}`,
+                  borderRadius: '6px',
                 }}
               >
                 Salvar Preferências
@@ -347,13 +339,13 @@ const CookieConsent: React.FC = () => {
             </div>
 
             {/* Link para Política */}
-            <p className="text-center text-xs mt-4" style={{ color: colors.whiteColor, opacity: 0.6 }}>
+            <p className="text-center text-xs mt-4" style={{ color: colors.text.light, opacity: 0.6 }}>
               Para mais informações, consulte nossa{' '}
               <a 
                 href="/politica-privacidade" 
                 target="_blank"
                 className="underline"
-                style={{ color: colors.gradientOne }}
+                style={{ color: colors.text.light }}
               >
                 Política de Privacidade
               </a>
