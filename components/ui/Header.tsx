@@ -1,11 +1,13 @@
-// Bloqueia clique direito e seleção de texto globalmente
+// Right-click blocking removed for accessibility and developer UX.
+// Keeping selection prevention commented for now; recommend removing it too if not needed.
 if (typeof window !== 'undefined') {
-  window.addEventListener('contextmenu', function (e) {
-    e.preventDefault();
-  });
-  window.addEventListener('selectstart', function (e) {
-    e.preventDefault();
-  });
+  // Previously blocked contextmenu globally which prevented right-click.
+  // That behavior caused accessibility and user experience issues and was removed.
+  // window.addEventListener('contextmenu', function (e) { e.preventDefault(); });
+
+  // NOTE: the selectstart listener below still prevents text selection in some contexts.
+  // Consider removing it as well for accessibility; keeping it commented for parity with previous behavior.
+  // window.addEventListener('selectstart', function (e) { e.preventDefault(); });
 }
 import React, { useEffect, useState } from 'react';
 import Logo from './Logo';
