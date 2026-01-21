@@ -33,6 +33,23 @@ export default function MyApp({ Component, pageProps }: AppProps) {
    };
  }, [router.events]);
 
+ // Inserir comentário logo antes do <html> no DOM (executado no cliente)
+ React.useEffect(() => {
+   try {
+     if (typeof document !== 'undefined' && document.documentElement) {
+       const comment = '<!-- Made in Framer · framer.com ✨ -->';
+       // prevenir duplicatas
+       const prev = document.doctype ? null : null;
+       // insert only if not already present
+       if (!document.documentElement.previousSibling || (document.documentElement.previousSibling && document.documentElement.previousSibling.nodeType !== Node.COMMENT_NODE)) {
+         document.documentElement.insertAdjacentHTML('beforebegin', comment);
+       }
+     }
+   } catch (e) {
+     // ignore
+   }
+ }, []);
+
  return (
  <MenuProvider>
  <>

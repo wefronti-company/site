@@ -109,6 +109,18 @@ defaultTitle: 'Wefronti | Sistemas, SaaS e Produtos Digitais Sob Medida',
  }
  ]
  };
+ 
+ // WebSite schema to help search engines display the site name in results
+ const websiteSchema = {
+ '@context': 'https://schema.org',
+ '@type': 'WebSite',
+ 'url': siteUrl,
+ 'name': 'Wefronti',
+ 'publisher': {
+   '@type': 'Organization',
+   'name': 'Wefronti'
+ }
+ };
 
  return (
  <Head>
@@ -158,7 +170,8 @@ defaultTitle: 'Wefronti | Sistemas, SaaS e Produtos Digitais Sob Medida',
  <meta name="apple-mobile-web-app-capable" content="yes" />
  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
  <meta name="apple-mobile-web-app-title" content="Wefronti" />
- <meta name="theme-color" content="#000000" />
+ <meta name="application-name" content="Wefronti" />
+ <meta name="theme-color" content="#010101" />
  
  {/* Schema.org JSON-LD */}
  <script
@@ -168,6 +181,10 @@ defaultTitle: 'Wefronti | Sistemas, SaaS e Produtos Digitais Sob Medida',
  <script
  type="application/ld+json"
  dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+ />
+ <script
+ type="application/ld+json"
+ dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
  />
  
  {/* Verificação de ferramentas */}
