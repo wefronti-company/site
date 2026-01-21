@@ -24,7 +24,23 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
   const [isScrolled, setIsScrolled] = useState(false);
   const [heroVisible, setHeroVisible] = useState(false);
   const [currentTime, setCurrentTime] = useState('');
+  const [menuTop, setMenuTop] = useState('100px');
   const router = require('next/router').useRouter();
+
+  // compute menu top to align with header bottom
+  useEffect(() => {
+    const updateMenuTop = () => {
+      const headerEl = document.querySelector('header');
+      if (headerEl) {
+        const h = headerEl.getBoundingClientRect().height;
+        setMenuTop(`${Math.round(h)}px`);
+      }
+    };
+
+    updateMenuTop();
+    window.addEventListener('resize', updateMenuTop);
+    return () => window.removeEventListener('resize', updateMenuTop);
+  }, []);
 
   // Atualizar hora do Brasil a cada segundo
   useEffect(() => {
@@ -220,7 +236,7 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                 transition={{ duration: 1, ease: [0.32, 0.72, 0, 1] }}
                 className="md:hidden fixed left-0 right-0 bottom-0 z-[90] overflow-hidden"
                 style={{ 
-                  top: '100px',
+                  top: menuTop,
                   background: colors.background.dark
                 }}
               >
@@ -344,7 +360,7 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                 transition={{ duration: 1, ease: [0.32, 0.72, 0, 1] }}
                 className="hidden md:block fixed left-0 right-0 bottom-0 z-[90] overflow-hidden"
                 style={{ 
-                  top: '100px',
+                  top: menuTop,
                   background: colors.background.dark
                 }}
               >
