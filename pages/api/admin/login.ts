@@ -16,6 +16,29 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     const { email, password } = req.body;
     if (!email || !password) return res.status(400).json({ success: false, message: 'Credenciais incompletas' });
 
+    // Try DB-backed admin first
+    try {
+      // Import lazily to keep startup fast
+      const { getAdminByEmail } = await import('../../../lib/adminUsers');
+      const admin = await getAdminByEmail(email);
+      if (admin) {
+        if (!admin.active) return res.status(401).json({ success: false, message: 'Credenciais inválidas' });
+        const ok = await compare(password, admin.password_hash);
+        if (!ok) return res.status(401).json({ success: false, message: 'Credenciais inválidas' });
+
+        const token = await createSession(email);
+        const isProd = process.env.NODE_ENV === 'production';
+        const cookieParts = [`admin_session=${token}`, 'Path=/', `Max-Age=${60 * 60}`, 'HttpOnly', 'SameSite=Strict'];
+        if (isProd) cookieParts.push('Secure');
+        res.setHeader('Set-Cookie', cookieParts.join('; '));
+        return res.status(200).json({ success: true });
+      }
+    } catch (e) {
+      // If DB is not configured or query fails, fall back to env-based admin (handled below)
+      console.warn('[ADMIN] db lookup failed, falling back to env:', e?.message || e);
+    }
+
+    // Fallback to environment-configured admin (legacy behaviour)
     const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
     const ADMIN_PASSWORD_HASH = process.env.ADMIN_PASSWORD_HASH;
 

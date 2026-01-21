@@ -53,3 +53,21 @@ CREATE TABLE IF NOT EXISTS console_sessions (
 
 COMMENT ON TABLE console_sessions IS 'Sessões ativas do console (hash das session ids, expiração e meta)';
 COMMENT ON COLUMN console_sessions.session_hash IS 'Hash (bcrypt) do session id armazenado no cookie (apenas hash salvo no DB)';
+
+-- Tabela para armazenar usuários administradores (credenciais de acesso ao painel)
+CREATE TABLE IF NOT EXISTS admin_users (
+  id SERIAL PRIMARY KEY,
+  email VARCHAR(255) NOT NULL UNIQUE,
+  password_hash VARCHAR(255) NOT NULL,
+  name VARCHAR(255),
+  role VARCHAR(100),
+  active BOOLEAN NOT NULL DEFAULT true,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX IF NOT EXISTS idx_admin_users_email ON admin_users(email);
+
+COMMENT ON TABLE admin_users IS 'Usuários com acesso ao painel administrativo';
+COMMENT ON COLUMN admin_users.password_hash IS 'Hash bcrypt da senha do usuário (não armazenar senhas em texto claro)';
+COMMENT ON COLUMN admin_users.active IS 'Se falso, o usuário está desativado e não pode se autenticar';

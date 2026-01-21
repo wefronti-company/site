@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import { colors } from '../../styles/colors';
 import { isValidEmail } from '../../utils/security-frontend';
+import Logo from '../../components/ui/Logo';
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -56,29 +57,33 @@ const LoginPage: React.FC = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center" style={{ background: colors.background.dark }}>
-      <div className="w-full max-w-md p-8 bg-white rounded shadow">
-        <style dangerouslySetInnerHTML={{ __html: `
-          input:-webkit-autofill,
-          input:-webkit-autofill:hover,
-          input:-webkit-autofill:focus,
-          input:-webkit-autofill:active,
-          textarea:-webkit-autofill,
-          textarea:-webkit-autofill:hover,
-          textarea:-webkit-autofill:focus,
-          textarea:-webkit-autofill:active {
-            -webkit-box-shadow: 0 0 0 30px #ffffff inset !important;
-            -webkit-text-fill-color: #000000 !important;
-            box-shadow: 0 0 0 30px #ffffff inset !important;
-            transition: background-color 5000s ease-in-out 0s;
-          }
+      <div className="w-full max-w-md">
+        <div className="flex justify-center mb-10 -mt-6">
+          <Logo isDark={false} />
+        </div>
+        <div className="p-8 bg-white rounded shadow">
+          <style dangerouslySetInnerHTML={{ __html: `
+            input:-webkit-autofill,
+            input:-webkit-autofill:hover,
+            input:-webkit-autofill:focus,
+            input:-webkit-autofill:active,
+            textarea:-webkit-autofill,
+            textarea:-webkit-autofill:hover,
+            textarea:-webkit-autofill:focus,
+            textarea:-webkit-autofill:active {
+              -webkit-box-shadow: 0 0 0 30px #ffffff inset !important;
+              -webkit-text-fill-color: #000000 !important;
+              box-shadow: 0 0 0 30px #ffffff inset !important;
+              transition: background-color 5000s ease-in-out 0s;
+            }
 
-          input:focus,
-          textarea:focus {
-            border-color: ${colors.neutral.borderDark} !important;
-            outline: none;
-          }
-        ` }} />
-        <form onSubmit={submit} className="space-y-4">
+            input:focus,
+            textarea:focus {
+              border-color: ${colors.neutral.borderDark} !important;
+              outline: none;
+            }
+          ` }} />
+          <form onSubmit={submit} className="space-y-4">
           <div>
             <label htmlFor="email" className="block text-sm font-regular mb-2" style={{ color: '#000000' }}>E-mail</label>
             <input
@@ -132,8 +137,7 @@ const LoginPage: React.FC = () => {
           >
             {isSubmitting ? 'Entrando...' : 'Entrar'}
           </button>
-        </form>
-      </div>
+        </form>        </div>      </div>
     </div>
   );
 };
