@@ -9,6 +9,11 @@
   --purple-primary: #1f1f1f;   /* thumb */
   --scrollbar-track: var(--purple-secondary);
   --scrollbar-thumb: var(--purple-primary);
+
+  /* Mobile / small-screen scrollbar overrides (thin & subtle) */
+  --scrollbar-track-mobile: rgba(255,255,255,0.02);
+  --scrollbar-thumb-mobile: rgba(255,255,255,0.06);
+  --scrollbar-thumb-mobile-hover: rgba(255,255,255,0.10);
 } 
 
 html { 
@@ -305,6 +310,18 @@ html::-webkit-scrollbar-thumb, body::-webkit-scrollbar-thumb, *::-webkit-scrollb
 /* Final catch-all to override any component-level styles */
 html *::-webkit-scrollbar-thumb { background: var(--purple-primary) !important; border-radius: 0 !important; box-shadow: none !important; }
 html *::-webkit-scrollbar-track { background: var(--purple-secondary) !important; border-radius: 0 !important; }
+
+/* Small-screen/mobile: make scrollbars thin and subtle */
+@media (max-width: 640px) {
+  /* Firefox */
+  * { scrollbar-width: thin; scrollbar-color: var(--scrollbar-thumb-mobile) var(--scrollbar-track-mobile); }
+
+  /* WebKit */
+  ::-webkit-scrollbar { width: 6px !important; height: 6px !important; }
+  ::-webkit-scrollbar-track { background: var(--scrollbar-track-mobile) !important; }
+  ::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb-mobile) !important; border-radius: 9999px !important; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--scrollbar-thumb-mobile-hover) !important; }
+}
 
 /* Floating badge animation (subtle) */
 @keyframes float {
