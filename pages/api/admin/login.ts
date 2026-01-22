@@ -35,7 +35,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       }
     } catch (e) {
       // If DB is not configured or query fails, fall back to env-based admin (handled below)
-      console.warn('[ADMIN] db lookup failed, falling back to env:', e?.message || e);
+      console.warn('[ADMIN] db lookup failed, falling back to env:', (e as any)?.message || e);
     }
 
     // Fallback to environment-configured admin (legacy behaviour)
