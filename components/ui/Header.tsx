@@ -94,7 +94,7 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
         const fallback = document.getElementById(sectionId.replace('#', ''));
         if (fallback) fallback.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
-    }, 300);
+    }, 1100);
   };
 
   // pages that should always render a dark header with a bottom border
