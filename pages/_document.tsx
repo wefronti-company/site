@@ -17,7 +17,7 @@ export default function Document() {
  {/* Fallback */}
  <link rel="icon" href="/images/brand/favicon-light.png" type="image/png" sizes="32x32" />
  <link rel="apple-touch-icon" href="/images/brand/favicon-light.png" sizes="180x180" />
- <meta name="theme-color" content="#010101" media="(prefers-color-scheme: dark)" />
+ <meta name="theme-color" content="#040404" media="(prefers-color-scheme: dark)" />
  
  {/* Google Fonts - Funnel Sans */}
  <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -25,7 +25,7 @@ export default function Document() {
  <link href="https://fonts.googleapis.com/css2?family=Funnel+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
  
  </Head>
- <body className="body-grid">
+ <body className="body-grid" style={{ backgroundColor: '#040404' }}>
  <Main />
 
  {/* Client-side JS chunk retry: if a script from /_next/static/chunks fails to load, attempt a few retries with cache-busting query param */}

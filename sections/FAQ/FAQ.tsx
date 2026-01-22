@@ -34,7 +34,7 @@ const FAQ: React.FC = () => {
  <section 
  ref={sectionRef}
  id="faq" 
- className="w-full py-20 md:py-32 md:h-screen md:w-screen md:flex md:items-center transition-colors relative overflow-hidden pb-32 md:pb-40"
+ className="w-full py-20 md:py-32 md:h-screen md:w-full md:flex md:items-center transition-colors relative overflow-hidden pb-32 md:pb-40"
  style={{ backgroundColor: colors.background.dark }}
  >
  {/* Background Boxes */}
