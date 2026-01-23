@@ -69,7 +69,8 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
     // Close menu first
     setMenuOpen(false);
 
-    // Give the close animation a short moment so overlay doesn't block the viewport (shorter duration)
+    // Wait for menu exit animation to finish before scrolling; longer delay on mobile
+    const exitWait = (typeof window !== 'undefined' && window.innerWidth < 768) ? 1000 : 550;
     setTimeout(() => {
       const element = document.querySelector(sectionId);
 
@@ -91,11 +92,20 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
           behavior: 'smooth'
         });
       } else {
-        // fallback for same-page id lookup
-        const fallback = document.getElementById(sectionId.replace('#', ''));
-        if (fallback) fallback.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // fallback for same-page id lookup; try again after a short delay then fallback to navigation
+        const id = sectionId.replace('#', '');
+        const fallback = document.getElementById(id);
+        if (fallback) {
+          fallback.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+          setTimeout(() => {
+            const retry = document.getElementById(id);
+            if (retry) retry.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            else if (window.location.pathname !== '/') window.location.href = `/#${id}`;
+          }, 500);
+        }
       }
-    }, 520);
+    }, exitWait);
   };
 
   // pages that should always render a dark header with a bottom border

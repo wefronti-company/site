@@ -64,8 +64,18 @@ const Footer: React.FC = () => {
              onClick={(e) => {
                if (window.location.pathname === '/') {
                  e.preventDefault();
-                 const el = document.querySelector('#clients');
-                 if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                 const id = 'clients';
+                 const el = document.getElementById(id);
+                 if (el) {
+                   el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                   return;
+                 }
+                 // retry shortly in case element is behind an animation/overlay
+                 setTimeout(() => {
+                   const retry = document.getElementById(id);
+                   if (retry) retry.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                   else window.location.href = '/#' + id;
+                 }, 700);
                }
              }}
            >
@@ -81,8 +91,17 @@ const Footer: React.FC = () => {
              onClick={(e) => {
                if (window.location.pathname === '/') {
                  e.preventDefault();
-                 const el = document.querySelector('#sobre');
-                 if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                 const id = 'sobre';
+                 const el = document.getElementById(id);
+                 if (el) {
+                   el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                   return;
+                 }
+                 setTimeout(() => {
+                   const retry = document.getElementById(id);
+                   if (retry) retry.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                   else window.location.href = '/#' + id;
+                 }, 700);
                }
              }}
            >
@@ -98,8 +117,17 @@ const Footer: React.FC = () => {
              onClick={(e) => {
                if (window.location.pathname === '/') {
                  e.preventDefault();
-                 const el = document.querySelector('#contato');
-                 if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                 const id = 'contato';
+                 const el = document.getElementById(id);
+                 if (el) {
+                   el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                   return;
+                 }
+                 setTimeout(() => {
+                   const retry = document.getElementById(id);
+                   if (retry) retry.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                   else window.location.href = '/#' + id;
+                 }, 700);
                }
              }}
            >
@@ -115,8 +143,17 @@ const Footer: React.FC = () => {
              onClick={(e) => {
                if (window.location.pathname === '/') {
                  e.preventDefault();
-                 const el = document.querySelector('#faq');
-                 if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                 const id = 'faq';
+                 const el = document.getElementById(id);
+                 if (el) {
+                   el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                   return;
+                 }
+                 setTimeout(() => {
+                   const retry = document.getElementById(id);
+                   if (retry) retry.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                   else window.location.href = '/#' + id;
+                 }, 700);
                }
              }}
            >
