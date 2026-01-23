@@ -69,6 +69,7 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
     // Close menu first
     setMenuOpen(false);
 
+    // Give the close animation a short moment so overlay doesn't block the viewport (shorter duration)
     setTimeout(() => {
       const element = document.querySelector(sectionId);
 
@@ -76,7 +77,7 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
       if (!element) {
         if (window.location.pathname !== '/') {
           // navigate to home with hash, browser will scroll to the anchor
-          window.location.href = `/${sectionId}`;
+          window.location.href = `/#${sectionId.replace('#','')}`;
           return;
         }
       }
@@ -94,7 +95,7 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
         const fallback = document.getElementById(sectionId.replace('#', ''));
         if (fallback) fallback.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
-    }, 1100);
+    }, 350);
   };
 
   // pages that should always render a dark header with a bottom border
@@ -246,8 +247,8 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                 key="mobile-menu"
                 initial={{ height: 0 }}
                 animate={{ height: 'calc(100vh - 100px)' }}
-                exit={{ height: 0, transition: { duration: 1, delay: 0.5, ease: [0.32, 0.72, 0, 1] } }}
-                transition={{ duration: 1, ease: [0.32, 0.72, 0, 1] }}
+                exit={{ height: 0, transition: { duration: 0.35, delay: 0.05, ease: [0.32, 0.72, 0, 1] } }}
+                transition={{ duration: 0.35, ease: [0.32, 0.72, 0, 1] }}
                 className="md:hidden fixed left-0 right-0 bottom-0 z-[90] overflow-hidden"
                 style={{ 
                   top: menuTop,
@@ -304,11 +305,7 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                         
                         <li>
                           <button 
-                            onClick={async () => {
-                              setMenuOpen(false);
-                              await new Promise(r => setTimeout(r, 10));
-                              scrollToSection('#contato');
-                            }}
+                            onClick={() => scrollToSection('#contato')}
                             className="text-2xl font-light transition-all duration-300 flex items-center gap-3 group"
                             style={{ color: colors.text.light }}
                           >
@@ -370,8 +367,8 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                 key="desktop-menu"
                 initial={{ height: 0 }}
                 animate={{ height: 'calc(100vh - 100px)' }}
-                exit={{ height: 0, transition: { duration: 1, delay: 0.5, ease: [0.32, 0.72, 0, 1] } }}
-                transition={{ duration: 1, ease: [0.32, 0.72, 0, 1] }}
+                exit={{ height: 0, transition: { duration: 0.35, delay: 0.05, ease: [0.32, 0.72, 0, 1] } }}
+                transition={{ duration: 0.35, ease: [0.32, 0.72, 0, 1] }}
                 className="hidden md:block fixed left-0 right-0 bottom-0 z-[90] overflow-hidden"
                 style={{ 
                   top: menuTop,

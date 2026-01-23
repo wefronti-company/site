@@ -133,15 +133,19 @@ const Clients: React.FC = () => {
    <div className="w-full max-w-3xl md:max-w-6xl mx-auto">
      <div className="w-full border p-6 flex flex-col md:flex-row items-center justify-between gap-4"
        style={{ border: `10px solid ${colors.neutral.borderLight}`, borderRadius: '4px', backgroundColor: '#ffffff' }}>
-       <p className="text-lg md:text-xl font-medium" style={{ color: '#000000' }}>
+       <p className="text-lg md:text-xl font-medium text-center md:text-left" style={{ color: '#000000' }}>
          Projetos sérios começam com boas conversas.
        </p>
        <div className="w-full md:w-auto flex justify-center md:justify-end">
-         <button
-           onClick={() => {
+         <a
+           href="#contato"
+           onClick={(e) => {
+             e.preventDefault();
              const ctaSection = document.getElementById('contato');
              if (ctaSection) {
                ctaSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+             } else {
+               window.location.href = '/#contato';
              }
            }}
            className="inline-flex items-center justify-center gap-2 transition-all duration-300 hover:opacity-90 group"
@@ -151,7 +155,8 @@ const Clients: React.FC = () => {
              borderRadius: '4px',
              padding: '12px 24px',
              border: 'none',
-             cursor: 'pointer'
+             cursor: 'pointer',
+             textDecoration: 'none'
            }}
          >
            <span className="text-base font-medium">Iniciar</span>
@@ -160,7 +165,7 @@ const Clients: React.FC = () => {
              color={colors.text.light}
              className="transition-transform duration-300 group-hover:rotate-45" 
            />
-         </button>
+         </a>
        </div>
      </div>
    </div>

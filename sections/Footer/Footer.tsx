@@ -40,89 +40,89 @@ const Footer: React.FC = () => {
        <h4 className="text-sm font-regular mb-3 uppercase" style={{ color: colors.text.dark }}>Navegação</h4>
        <ul className="flex flex-col gap-4">
          <li>
-           <button
-             className="inline-flex items-center gap-3 text-sm bg-transparent border-0 p-0 m-0 cursor-pointer"
-             style={{ color: colors.text.light }}
-             onClick={() => {
+           <a
+             href="#hero"
+             className="inline-flex items-center gap-3 text-sm bg-transparent border-0 p-0 m-0"
+             style={{ color: colors.text.light, textDecoration: 'none' }}
+             onClick={(e) => {
                if (window.location.pathname === '/') {
+                 e.preventDefault();
                  const el = document.querySelector('#hero');
                  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-               } else {
-                 window.location.href = '/#hero';
                }
              }}
            >
              <span>Início</span>
              <ArrowRight size={16} className="-rotate-45 ml-auto" aria-hidden />
-           </button>
+           </a>
          </li>
          <li>
-           <button
-             className="inline-flex items-center gap-3 text-sm bg-transparent border-0 p-0 m-0 cursor-pointer"
-             style={{ color: colors.text.light }}
-             onClick={() => {
+           <a
+             href="#clients"
+             className="inline-flex items-center gap-3 text-sm bg-transparent border-0 p-0 m-0"
+             style={{ color: colors.text.light, textDecoration: 'none' }}
+             onClick={(e) => {
                if (window.location.pathname === '/') {
+                 e.preventDefault();
                  const el = document.querySelector('#clients');
                  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-               } else {
-                 window.location.href = '/#clients';
                }
              }}
            >
              <span>Clientes</span>
              <ArrowRight size={16} className="-rotate-45 ml-auto" aria-hidden />
-           </button>
+           </a>
          </li>
          <li>
-           <button
-             className="inline-flex items-center gap-3 text-sm bg-transparent border-0 p-0 m-0 cursor-pointer"
-             style={{ color: colors.text.light }}
-             onClick={() => {
+           <a
+             href="#sobre"
+             className="inline-flex items-center gap-3 text-sm bg-transparent border-0 p-0 m-0"
+             style={{ color: colors.text.light, textDecoration: 'none' }}
+             onClick={(e) => {
                if (window.location.pathname === '/') {
+                 e.preventDefault();
                  const el = document.querySelector('#sobre');
                  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-               } else {
-                 window.location.href = '/#sobre';
                }
              }}
            >
              <span>Sobre</span>
              <ArrowRight size={16} className="-rotate-45 ml-auto" aria-hidden />
-           </button>
+           </a>
          </li>
          <li>
-           <button
-             className="inline-flex items-center gap-3 text-sm bg-transparent border-0 p-0 m-0 cursor-pointer"
-             style={{ color: colors.text.light }}
-             onClick={() => {
+           <a
+             href="#contato"
+             className="inline-flex items-center gap-3 text-sm bg-transparent border-0 p-0 m-0"
+             style={{ color: colors.text.light, textDecoration: 'none' }}
+             onClick={(e) => {
                if (window.location.pathname === '/') {
+                 e.preventDefault();
                  const el = document.querySelector('#contato');
                  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-               } else {
-                 window.location.href = '/#contato';
                }
              }}
            >
              <span>Contato</span>
              <ArrowRight size={16} className="-rotate-45 ml-auto" aria-hidden />
-           </button>
+           </a>
          </li>
          <li>
-           <button
-             className="inline-flex items-center gap-3 text-sm bg-transparent border-0 p-0 m-0 cursor-pointer"
-             style={{ color: colors.text.light }}
-             onClick={() => {
+           <a
+             href="#faq"
+             className="inline-flex items-center gap-3 text-sm bg-transparent border-0 p-0 m-0"
+             style={{ color: colors.text.light, textDecoration: 'none' }}
+             onClick={(e) => {
                if (window.location.pathname === '/') {
+                 e.preventDefault();
                  const el = document.querySelector('#faq');
                  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-               } else {
-                 window.location.href = '/#faq';
                }
              }}
            >
              <span>FAQ</span>
              <ArrowRight size={16} className="-rotate-45 ml-auto" aria-hidden />
-           </button>
+           </a>
          </li>
        </ul>
      </div>
