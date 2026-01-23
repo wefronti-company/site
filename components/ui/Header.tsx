@@ -247,8 +247,8 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                 key="mobile-menu"
                 initial={{ height: 0 }}
                 animate={{ height: 'calc(100vh - 100px)' }}
-                exit={{ height: 0, transition: { duration: 0.45, delay: 0.4, ease: [0.32, 0.72, 0, 1] } }}
-                transition={{ duration: 0.45, ease: [0.32, 0.72, 0, 1] }}
+                exit={{ height: 0, transition: { duration: 0.5, delay: 0.45, ease: [0.32, 0.72, 0, 1] } }}
+                transition={{ duration: 0.5, ease: [0.32, 0.72, 0, 1] }}
                 className="md:hidden fixed left-0 right-0 bottom-0 z-[90] overflow-hidden"
                 style={{ 
                   top: menuTop,
@@ -368,8 +368,8 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                 key="desktop-menu"
                 initial={{ height: 0 }}
                 animate={{ height: 'calc(100vh - 100px)' }}
-                exit={{ height: 0, transition: { duration: 0.45, delay: 0.4, ease: [0.32, 0.72, 0, 1] } }}
-                transition={{ duration: 0.45, ease: [0.32, 0.72, 0, 1] }}
+                exit={{ height: 0, transition: { duration: 0.5, delay: 0.45, ease: [0.32, 0.72, 0, 1] } }}
+                transition={{ duration: 0.5, ease: [0.32, 0.72, 0, 1] }}
                 className="hidden md:block fixed left-0 right-0 bottom-0 z-[90] overflow-hidden"
                 style={{ 
                   top: menuTop,
