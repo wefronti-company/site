@@ -95,7 +95,7 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
         const fallback = document.getElementById(sectionId.replace('#', ''));
         if (fallback) fallback.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
-    }, 350);
+    }, 520);
   };
 
   // pages that should always render a dark header with a bottom border
@@ -247,19 +247,20 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                 key="mobile-menu"
                 initial={{ height: 0 }}
                 animate={{ height: 'calc(100vh - 100px)' }}
-                exit={{ height: 0, transition: { duration: 0.35, delay: 0.05, ease: [0.32, 0.72, 0, 1] } }}
-                transition={{ duration: 0.35, ease: [0.32, 0.72, 0, 1] }}
+                exit={{ height: 0, transition: { duration: 0.45, delay: 0.4, ease: [0.32, 0.72, 0, 1] } }}
+                transition={{ duration: 0.45, ease: [0.32, 0.72, 0, 1] }}
                 className="md:hidden fixed left-0 right-0 bottom-0 z-[90] overflow-hidden"
                 style={{ 
                   top: menuTop,
-                  background: colors.background.dark
+                  background: colors.background.dark,
+                  pointerEvents: menuOpen ? 'auto' : 'none'
                 }}
               >
                 <div className="h-full flex flex-col p-6 overflow-y-auto">
                   <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0, transition: { duration: 0.5, delay: 0.5, ease: "easeOut" } }}
-                    exit={{ opacity: 0, y: 20, transition: { duration: 0.5, delay: 0, ease: "easeIn" } }}
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0, transition: { duration: 0.36, delay: 0.5, ease: "easeOut" } }}
+                    exit={{ opacity: 0, y: 12, transition: { duration: 0.36, delay: 0, ease: "easeIn" } }}
                     className="flex flex-col gap-12"
                   >
                     {/* Navegação */}
@@ -367,21 +368,22 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                 key="desktop-menu"
                 initial={{ height: 0 }}
                 animate={{ height: 'calc(100vh - 100px)' }}
-                exit={{ height: 0, transition: { duration: 0.35, delay: 0.05, ease: [0.32, 0.72, 0, 1] } }}
-                transition={{ duration: 0.35, ease: [0.32, 0.72, 0, 1] }}
+                exit={{ height: 0, transition: { duration: 0.45, delay: 0.4, ease: [0.32, 0.72, 0, 1] } }}
+                transition={{ duration: 0.45, ease: [0.32, 0.72, 0, 1] }}
                 className="hidden md:block fixed left-0 right-0 bottom-0 z-[90] overflow-hidden"
                 style={{ 
                   top: menuTop,
-                  background: colors.background.dark
+                  background: colors.background.dark,
+                  pointerEvents: menuOpen ? 'auto' : 'none'
                 }}
               >
                 <div className="w-full h-full flex items-center justify-center">
                   <div className="w-full max-w-3xl md:max-w-6xl">
                     <motion.div 
                       className="grid grid-cols-3 gap-16 w-full"
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0, transition: { duration: 0.5, delay: 0.5, ease: "easeOut" } }}
-                      exit={{ opacity: 0, y: 20, transition: { duration: 0.5, delay: 0, ease: "easeIn" } }}
+                      initial={{ opacity: 0, y: 12 }}
+                      animate={{ opacity: 1, y: 0, transition: { duration: 0.36, delay: 0.52, ease: "easeOut" } }}
+                      exit={{ opacity: 0, y: 12, transition: { duration: 0.36, delay: 0, ease: "easeIn" } }}
                     >
                       {/* Coluna 1 - Navegação Principal (alinhada à esquerda com logo) */}
                       <div>

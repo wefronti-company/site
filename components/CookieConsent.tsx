@@ -33,6 +33,22 @@ const CookieConsent: React.FC = () => {
     }
   }, []);
 
+  // Quando o banner está visível, adiciona padding-bottom no body para evitar que o banner sobreponha links no footer
+  useEffect(() => {
+    let prevPadding = '';
+    if (showBanner) {
+      prevPadding = document.body.style.paddingBottom || '';
+      // calcula altura do banner
+      const el = document.querySelector('.cookie-banner-inner') as HTMLElement | null;
+      const h = el ? `${el.offsetHeight}px` : '96px';
+      document.body.style.paddingBottom = h;
+    }
+    return () => {
+      // restaurar padding anterior
+      document.body.style.paddingBottom = prevPadding;
+    };
+  }, [showBanner]);
+
   const loadCookieScripts = (prefs: CookiePreferences) => {
     // Analytics (Google Analytics)
     if (prefs.analytics) {
@@ -89,13 +105,15 @@ const CookieConsent: React.FC = () => {
       {/* Banner Principal */}
       {!showSettings && (
         <div
-          className="fixed bottom-0 left-0 right-0 z-50 p-4 md:p-6 animate-slide-up"
+          className="cookie-banner fixed bottom-0 left-0 right-0 z-50 p-4 md:p-6 animate-slide-up"
           style={{
             backgroundColor: colors.background.dark,
             borderTop: `1px solid ${colors.neutral.borderDark}`,
+            // allow clicks to pass through the banner except on interactive controls
+            pointerEvents: 'none'
           }}
         >
-          <div className="max-w-7xl mx-auto">
+          <div style={{ pointerEvents: 'auto' }} className="cookie-banner-inner max-w-7xl mx-auto">
             <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
               
               {/* Texto */}
