@@ -133,4 +133,14 @@ module.exports = {
   poweredByHeader: false,
   // Compressão
   compress: true,
+
+  // Rewrites to support favicon route
+  async rewrites() {
+    return [
+      {
+        source: '/favicon.ico',
+        destination: '/images/brand/favicon-dark.png'
+      }
+    ];
+  },
 };
