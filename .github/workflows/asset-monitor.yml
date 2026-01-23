@@ -56,9 +56,8 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const fails = `${{ steps.check.outputs.fails }}`;
-            const details = `
-Asset monitor detected ${fails} failing assets on ${new Date().toISOString()}\n\n${{ steps.check.outputs.details }}\n\nThis workflow runs every 15 minutes. Please check Cloudflare/WAF and Vercel deployment logs for more info.`;
+            const fails = "${{ steps.check.outputs.fails }}";
+            const details = "Asset monitor detected " + fails + " failing assets on " + new Date().toISOString() + "\\n\\n" + "${{ steps.check.outputs.details }}" + "\\n\\nThis workflow runs every 15 minutes. Please check Cloudflare/WAF and Vercel deployment logs for more info.";
             await github.rest.issues.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
