@@ -13,7 +13,13 @@ export const colors = {
 
  icons:{
     dark: '#010101ff', //Icones para backgrounds claros
-    light: '#6a6a6ae3', //Icones para backgrounds escuros
+    light: '#9e89ecff', //Icones para backgrounds escuros
+ },
+
+ purple:{
+   primary: '#9e89ecff', //Cor principal do roxo (botões, links, destaques)
+   secondary: '#d5caffff',
+   tertiary: '#f8f5ffff' //Cor terciária do roxo (hover de botões, links)
  },
 
  neutral:{

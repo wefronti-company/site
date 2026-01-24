@@ -53,7 +53,7 @@ const Footer: React.FC = () => {
              }}
            >
              <span>Início</span>
-             <ArrowRight size={16} className="-rotate-45 ml-auto" aria-hidden />
+             <ArrowRight size={16} className="-rotate-45 ml-auto" style={{ color: colors.text.dark }} aria-hidden />
            </a>
          </li>
          <li>
@@ -80,7 +80,7 @@ const Footer: React.FC = () => {
              }}
            >
              <span>Clientes</span>
-             <ArrowRight size={16} className="-rotate-45 ml-auto" aria-hidden />
+             <ArrowRight size={16} className="-rotate-45 ml-auto" style={{ color: colors.text.dark }} aria-hidden />
            </a>
          </li>
          <li>
@@ -106,7 +106,7 @@ const Footer: React.FC = () => {
              }}
            >
              <span>Sobre</span>
-             <ArrowRight size={16} className="-rotate-45 ml-auto" aria-hidden />
+             <ArrowRight size={16} className="-rotate-45 ml-auto" style={{ color: colors.text.dark }} aria-hidden />
            </a>
          </li>
          <li>
@@ -132,7 +132,7 @@ const Footer: React.FC = () => {
              }}
            >
              <span>Contato</span>
-             <ArrowRight size={16} className="-rotate-45 ml-auto" aria-hidden />
+             <ArrowRight size={16} className="-rotate-45 ml-auto" style={{ color: colors.text.dark }} aria-hidden />
            </a>
          </li>
          <li>
@@ -158,7 +158,7 @@ const Footer: React.FC = () => {
              }}
            >
              <span>FAQ</span>
-             <ArrowRight size={16} className="-rotate-45 ml-auto" aria-hidden />
+             <ArrowRight size={16} className="-rotate-45 ml-auto"  style={{ color: colors.text.dark }} aria-hidden />
            </a>
          </li>
        </ul>
@@ -205,7 +205,7 @@ const Footer: React.FC = () => {
        <div>
          <Link href="/politica-privacidade" className="text-sm inline-flex items-center gap-2" style={{ color: colors.text.light }}>
            Política de Privacidade
-           <ArrowRight size={14} className="-rotate-45 ml-auto" aria-hidden />
+           <ArrowRight size={14} className="-rotate-45 ml-auto" style={{ color: colors.text.dark }} aria-hidden />
          </Link>
        </div>
      </div>
@@ -235,7 +235,7 @@ const Footer: React.FC = () => {
    </div>
 
    <div className="flex items-center justify-end">
-     <button onClick={scrollToTop} aria-label="Voltar ao topo" className="p-2 rounded-full transition-colors hover:bg-white/5" style={{ background: colors.neutral.gray, color: colors.icons.dark }}>
+     <button onClick={scrollToTop} aria-label="Voltar ao topo" className="p-2 rounded-full transition-colors hover:bg-white/5" style={{ background: colors.purple.primary, color: colors.text.light }}>
        <ArrowUp size={18} />
      </button>
    </div>

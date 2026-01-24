@@ -461,8 +461,8 @@ const CTA: React.FC = () => {
             animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
             transition={{ duration: 0.8, ease: "easeOut", delay: 0.4 }}
             style={{
-              backgroundColor: colors.background.light,
-              border: `10px solid ${colors.neutral.borderLight}`
+              backgroundColor: colors.purple.tertiary,
+              border: `10px solid ${colors.purple.secondary}`
             }}
           >
             <form onSubmit={handleSubmit} noValidate className="space-y-6">
@@ -686,7 +686,7 @@ const CTA: React.FC = () => {
                 disabled={isSubmitting}
                 className="w-full px-8 py-4 font-medium text-base transition-all duration-300 hover:opacity-90 disabled:opacity-50"
                 style={{
-                  backgroundColor: colors.neutral.gray,
+                  backgroundColor: colors.purple.primary,
                   color: colors.text.light,
                   borderRadius: '4px'
                 }}

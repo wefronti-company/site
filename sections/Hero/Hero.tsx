@@ -96,15 +96,15 @@ const Hero: React.FC = () => {
             {/* Service 1 */}
             <div 
               className="rounded-lg p-6 flex flex-col gap-3"
-              style={{ borderRadius: '0.5rem', border: `1px solid ${colors.neutral.borderDark}` }}
+              style={{ background: colors.purple.tertiary, borderRadius: '0.5rem', border: `10px solid ${colors.purple.secondary}` }}
             >
               <div className="flex items-center gap-3">
-                <Globe className="w-5 h-5 flex-shrink-0" style={{ color: colors.icons.light }} />
-                <h3 className="text-lg md:text-xl font-medium" style={{ color: colors.text.light }}>
+                <Globe className="w-5 h-5 flex-shrink-0" style={{ color: colors.purple.primary }} />
+                <h3 className="text-lg md:text-xl font-medium" style={{ color: '#010101' }}>
                   Sites e Ecommerce
                 </h3>
               </div>
-              <p className="text-sm font-light leading-relaxed" style={{ color: colors.text.light, opacity: 0.7 }}>
+              <p className="text-sm font-light leading-relaxed" style={{ color: '#010101'}}>
                 Plataformas web otimizadas para conversão, SEO e performance, com arquitetura escalável para suportar crescimento
               </p>
             </div>
@@ -112,15 +112,15 @@ const Hero: React.FC = () => {
             {/* Service 2 */}
             <div 
               className="rounded-lg p-6 flex flex-col gap-3"
-              style={{ borderRadius: '0.5rem', border: `1px solid ${colors.neutral.borderDark}` }}
+              style={{ background: colors.purple.tertiary, borderRadius: '0.5rem', border: `10px solid ${colors.purple.secondary}` }}
             >
               <div className="flex items-center gap-3">
-                <Server className="w-5 h-5 flex-shrink-0" style={{ color: colors.icons.light }} />
-                <h3 className="text-lg md:text-xl font-medium" style={{ color: colors.text.light }}>
+                <Server className="w-5 h-5 flex-shrink-0" style={{ color: colors.purple.primary }} />
+                <h3 className="text-lg md:text-xl font-medium" style={{ color: '#010101' }}>
                   Sistemas
                 </h3>
               </div>
-              <p className="text-sm font-light leading-relaxed" style={{ color: colors.text.light, opacity: 0.7 }}>
+              <p className="text-sm font-light leading-relaxed" style={{ color: '#010101' }}>
                 Software corporativo customizado para gestão, automação de processos e otimização operacional do seu negócio
               </p>
             </div>
@@ -128,15 +128,15 @@ const Hero: React.FC = () => {
             {/* Service 3 */}
             <div 
               className="rounded-lg p-6 flex flex-col gap-3"
-              style={{ borderRadius: '0.5rem', border: `1px solid ${colors.neutral.borderDark}` }}
+              style={{ background: colors.purple.tertiary, borderRadius: '0.5rem', border: `10px solid ${colors.purple.secondary}` }}
             >
               <div className="flex items-center gap-3">
-                <Link2 className="w-5 h-5 flex-shrink-0" style={{ color: colors.icons.light }} />
-                <h3 className="text-lg md:text-xl font-medium" style={{ color: colors.text.light }}>
+                <Link2 className="w-5 h-5 flex-shrink-0" style={{ color: colors.purple.primary }} />
+                <h3 className="text-lg md:text-xl font-medium" style={{ color: '#010101' }}>
                   API e Integrações
                 </h3>
               </div>
-              <p className="text-sm font-light leading-relaxed" style={{ color: colors.text.light, opacity: 0.7 }}>
+              <p className="text-sm font-light leading-relaxed" style={{ color: '#010101' }}>
                 Desenvolvimento de APIs RESTful e integração entre sistemas para unificar dados e automatizar fluxos
               </p>
             </div>
@@ -144,15 +144,15 @@ const Hero: React.FC = () => {
             {/* Service 4 */}
             <div 
               className="rounded-lg p-6 flex flex-col gap-3"
-              style={{ borderRadius: '0.5rem', border: `1px solid ${colors.neutral.borderDark}` }}
+              style={{ background: colors.purple.tertiary, borderRadius: '0.5rem', border: `10px solid ${colors.purple.secondary}` }}
             >
               <div className="flex items-center gap-3">
-                <BarChart3 className="w-5 h-5 flex-shrink-0" style={{ color: colors.icons.light }} />
-                <h3 className="text-lg md:text-xl font-medium" style={{ color: colors.text.light }}>
+                <BarChart3 className="w-5 h-5 flex-shrink-0" style={{ color: colors.purple.primary }} />
+                <h3 className="text-lg md:text-xl font-medium" style={{ color: '#010101' }}>
                   SaaS e Dashboards
                 </h3>
               </div>
-              <p className="text-sm font-light leading-relaxed" style={{ color: colors.text.light, opacity: 0.7 }}>
+              <p className="text-sm font-light leading-relaxed" style={{ color: '#010101' }}>
                 Produtos digitais como serviço e painéis analíticos para visualização de dados e tomada de decisão estratégica
               </p>
             </div>

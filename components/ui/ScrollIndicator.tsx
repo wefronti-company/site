@@ -26,7 +26,7 @@ const ScrollIndicator: React.FC = () => {
           style={{ color: colors.text.light }}
           strokeWidth={1.5}
         />
-      </motion.div>
+             </motion.div>
       
       <motion.p
         className="text-xs uppercase tracking-wider"

@@ -56,7 +56,7 @@ const FAQ: React.FC = () => {
    animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
    transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
  >
-   <Box className="w-4 h-4" style={{ color: colors.icons.light }} />
+   <Box className="w-4 h-4" style={{ color: colors.purple.primary }} />
    <span className="text-xs md:text-sm font-regular text-white whitespace-nowrap">
      Dúvidas
    </span>
@@ -71,7 +71,8 @@ const FAQ: React.FC = () => {
    <span style={{ color: colors.text.dark }}>Frequentes</span>
  </motion.h2>
  <motion.p
-   className="text-lg text-gray-300 leading-relaxed"
+   className="text-lg font-regular leading-relaxed"
+   style={{ color: colors.text.dark}}
    initial={{ opacity: 0, y: 20 }}
    animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
    transition={{ duration: 0.6, ease: "easeOut", delay: 0.6 }}
@@ -117,9 +118,10 @@ const FAQ: React.FC = () => {
  key={index}
  className="border transition-colors"
  style={{
- borderColor: colors.neutral.borderDark,
+ borderColor: colors.purple.secondary,
+ border: `10px solid ${colors.purple.secondary}`,
  borderRadius: '4px',
- backgroundColor: colors.neutral.accordeon,
+ backgroundColor: colors.purple.tertiary,
  }}
  >
  {/* Pergunta */}
@@ -129,7 +131,7 @@ const FAQ: React.FC = () => {
  >
  <span 
  className="text-base md:text-lg font-regular pr-4"
- style={{ color: colors.text.light }}
+ style={{ color: '#010101' }}
  >
  {faq.question}
  </span>
@@ -142,7 +144,7 @@ const FAQ: React.FC = () => {
  className={`flex-shrink-0 transition-transform duration-300 ${
  openIndex === index ? 'rotate-180' : ''
  }`}
- style={{ color: colors.icons.light }}
+ style={{ color: colors.purple.primary }}
  >
  <polyline
  points="6 9 12 15 18 9"
@@ -165,7 +167,7 @@ const FAQ: React.FC = () => {
  <div className="px-6 pb-5">
  <p 
  className="text-regular leading-relaxed"
- style={{ color: colors.text.light, opacity: 0.8 }}
+ style={{ color: colors.text.dark}}
  >
  {faq.answer}
  </p>

@@ -46,7 +46,7 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
         borderRadius: '6px', 
         ...(iconOnly ? {} : { padding: '12px 24px' })
       }}
-      onMouseEnter={(e) => e.currentTarget.style.background = colors.neutral.gray}
+      onMouseEnter={(e) => e.currentTarget.style.background = colors.purple.primary}
       onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
     >
       {iconOnly ? (

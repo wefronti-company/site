@@ -186,8 +186,8 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: 10 }}
                       transition={{ duration: 0.3 }}
-                      className="bg-neutral-900 border border-white/10 shadow-xl px-6 py-4 flex flex-col items-center"
-                      style={{ borderRadius: '6px', color: colors.text.light }}
+                      className="px-6 py-4 flex flex-col items-center"
+                      style={{ background: colors.purple.tertiary, border: `10px solid ${colors.purple.secondary}`, borderRadius: '6px', color: '#010101' }}
                     >
                       <span className="text-base mb-4 text-center leading-snug">
                         Toda boa decisão<br />
@@ -195,6 +195,7 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                       </span>
                       <button
                         className="mt-1 px-5 py-2 rounded bg-white text-black font-medium text-sm hover:opacity-90 transition"
+                        style={{ backgroundColor: colors.purple.primary, color: colors.text.light }}
                         onClick={() => {
                           const el = document.querySelector('#contato');
                           if (el) {

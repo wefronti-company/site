@@ -36,12 +36,13 @@ const Sobre: React.FC = () => {
         <div className="w-full max-w-3xl md:max-w-6xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             {/* Foto à esquerda, alinhada com a seção, border radius suave */}
-            <div className="order-2 lg:order-1 flex justify-start">
+            <div className="order-2 flex justify-start">
               <motion.div
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={isVisible ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
                 transition={{ duration: 0.8, ease: 'easeOut', delay: 0.2 }}
-                className="w-72 h-72 md:w-[420px] md:h-[420px] rounded-2xl overflow-hidden border-4 border-white/10 shadow-lg group"
+                className="w-72 h-72 md:w-[420px] md:h-[420px] overflow-hidden"
+                style={{ borderRadius: '0.5rem', border:`10px solid ${colors.purple.secondary}` }}
               >
                 <img
                   src="/images/site/witor-linhares.webp"
@@ -65,8 +66,8 @@ const Sobre: React.FC = () => {
                 Quem conduz os projetos
               </motion.h2>
               <motion.p
-                className="text-lg leading-relaxed mb-6"
-                style={{ color: colors.text.light }}
+                className="text-lg font-regular leading-relaxed mb-6"
+                style={{ color: colors.text.dark , opacity: 0.5 }}
                 
                 animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                 transition={{ duration: 0.6, ease: 'easeOut', delay: 0.3 }}
@@ -74,10 +75,11 @@ const Sobre: React.FC = () => {
                 Meu nome é Witor Linhares.
                 Sou o diretor responsável pela condução dos projetos e pelas decisões estratégicas da empresa.
 
-                Acredito que tecnologia não deve ser um risco para o negócio, mas uma alavanca clara de crescimento.
-                Por isso, participo diretamente das definições, acompanho os processos e assumo a responsabilidade pelos resultados entregues.
+                Na Wefronti, nosso trabalho começa antes do código. Iniciamos pela compreensão do contexto, dos processos e das necessidades do negócio, garantindo que cada solução seja construída com critério técnico e visão de longo prazo.
 
-                Não trabalhamos com promessas. Trabalhamos com contexto, decisão e execução responsável.
+                Trabalhamos de forma próxima aos clientes, analisando restrições, objetivos e fluxos operacionais, para construir soluções que funcionem no dia a dia, apoiem decisões e permitam crescimento com consistência e controle.
+
+                Atendemos empresas que entendem que tecnologia não é um fim, mas um meio para manter a operação funcionando, evoluir com segurança e gerar valor real ao longo do tempo.
               </motion.p>
               <div className="flex flex-row gap-4">
                 <a href="https://instagram.com/witorlinhares" target="_blank" rel="noopener noreferrer">
