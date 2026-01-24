@@ -195,7 +195,7 @@ const Footer: React.FC = () => {
          </a>
          <a href="https://wa.me/message/3V45SAJMLIJJJ1" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-sm" style={{ color: colors.text.light }} aria-label="Abrir conversa no WhatsApp">
            <span className="w-8 h-8 flex items-center justify-center rounded-md -ml-2" style={{ color: colors.icons.light }} aria-hidden>
-             <img src="/images/icons/icon-fran.svg" alt="Ícone Fran" className="w-6 h-6 object-contain" />
+             <img src="/images/icons/icon-fran.svg?v=2" alt="Ícone Fran" className="w-6 h-6 object-contain" />
            </span>
            <span>Falar com a Fran</span>
          </a>
