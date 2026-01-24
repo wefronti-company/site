@@ -11,13 +11,11 @@ export default function Document() {
  
  {/* Favicon */}
  <link rel="icon" href="/favicon.ico" />
- <link rel="icon" href="/images/brand/favicon-dark.png?v=2" type="image/png" sizes="32x32" />
- <link rel="shortcut icon" href="/images/brand/favicon-dark.png?v=2" />
- {/* Fallback */}
- <link rel="icon" href="/images/brand/favicon-dark.png?v=2" type="image/png" sizes="32x32" />
- <link rel="apple-touch-icon" href="/images/brand/favicon-dark.png?v=2" sizes="180x180" />
- <meta name="theme-color" content="#040404" />
- 
+  <link rel="icon" href="/images/brand/favicon-site.png?v=2" type="image/png" sizes="32x32" />
+  <link rel="shortcut icon" href="/images/brand/favicon-site.png?v=2" />
+  {/* Fallback */}
+  <link rel="icon" href="/images/brand/favicon-site.png?v=2" type="image/png" sizes="32x32" />
+  <link rel="apple-touch-icon" href="/images/brand/favicon-site.png?v=2" sizes="180x180" />
  {/* Google Fonts - Funnel Sans */}
  <link rel="preconnect" href="https://fonts.googleapis.com" />
  <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />

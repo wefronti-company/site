@@ -139,7 +139,7 @@ module.exports = {
     return [
       {
         source: '/favicon.ico',
-        destination: '/images/brand/favicon-dark.png'
+        destination: '/images/brand/favicon-site.png'
       }
     ];
   },
