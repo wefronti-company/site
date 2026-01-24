@@ -302,19 +302,7 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                             />
                           </button>
                         </li>
-                        <li>
-                          <button 
-                            onClick={() => scrollToSection('#sobre')}
-                            className="text-2xl font-light transition-all duration-300 flex items-center gap-3 group"
-                            style={{ color: colors.text.light }}
-                          >
-                            <span>Sobre</span>
-                            <span 
-                              className="w-2 h-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                            />
-                          </button>
-                        </li>
-                        
+
                         <li>
                           <button 
                             onClick={() => scrollToSection('#contato')}
@@ -322,6 +310,19 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                             style={{ color: colors.text.light }}
                           >
                             <span>Contato</span>
+                            <span 
+                              className="w-2 h-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                            />
+                          </button>
+                        </li>
+
+                        <li>
+                          <button 
+                            onClick={() => scrollToSection('#sobre')}
+                            className="text-2xl font-light transition-all duration-300 flex items-center gap-3 group"
+                            style={{ color: colors.text.light }}
+                          >
+                            <span>Sobre</span>
                             <span 
                               className="w-2 h-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                             />
@@ -428,25 +429,24 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                         </li>
                         <li>
                           <button 
-                            onClick={() => scrollToSection('#sobre')}
+                            onClick={() => scrollToSection('#contato')}
                             className="text-2xl font-light transition-all duration-300 flex items-center gap-3 group"
                             style={{ color: colors.text.light }}
                           >
-                            <span>Sobre</span>
+                            <span>Contato</span>
                             <span 
                               className="w-2 h-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                               style={{ backgroundColor: colors.icons.light }}
                             />
                           </button>
                         </li>
-                        
                         <li>
                           <button 
-                            onClick={() => scrollToSection('#contato')}
+                            onClick={() => scrollToSection('#sobre')}
                             className="text-2xl font-light transition-all duration-300 flex items-center gap-3 group"
                             style={{ color: colors.text.light }}
                           >
-                            <span>Contato</span>
+                            <span>Sobre</span>
                             <span 
                               className="w-2 h-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                               style={{ backgroundColor: colors.icons.light }}

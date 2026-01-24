@@ -14,6 +14,30 @@ const Footer: React.FC = () => {
  });
  };
 
+ // Navegar para seções com fallback ao carregar a home se estiver em outra página
+ const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+   if (typeof window === 'undefined') return;
+   // Se já estamos na home, realiza o scroll suave sem reload
+   if (window.location.pathname === '/') {
+     e.preventDefault();
+     const el = document.getElementById(id);
+     if (el) {
+       el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+       return;
+     }
+     // retry curto caso o elemento ainda não esteja disponível (overlay/anim)
+     setTimeout(() => {
+       const retry = document.getElementById(id);
+       if (retry) retry.scrollIntoView({ behavior: 'smooth', block: 'start' });
+       else window.location.href = '/#' + id;
+     }, 700);
+   } else {
+     // Se estiver em outra página, redireciona para a home com o hash
+     e.preventDefault();
+     window.location.href = '/#' + id;
+   }
+ };
+
  return (
  <footer 
  className="w-full transition-colors"
@@ -39,126 +63,69 @@ const Footer: React.FC = () => {
      <div>
        <h4 className="text-sm font-regular mb-3 uppercase" style={{ color: colors.text.dark }}>Navegação</h4>
        <ul className="flex flex-col gap-4">
+         {/* Ordem: Hero > Clients > Contato(CTA) > Sobre > FAQ */}
          <li>
            <a
-             href="#hero"
+             href="/#hero"
              className="inline-flex items-center gap-3 text-sm bg-transparent border-0 p-0 m-0"
              style={{ color: colors.text.light, textDecoration: 'none' }}
-             onClick={(e) => {
-               if (window.location.pathname === '/') {
-                 e.preventDefault();
-                 const el = document.querySelector('#hero');
-                 if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-               }
-             }}
+             onClick={(e) => handleNavClick(e, 'hero')}
+             aria-label="Ir para Início"
            >
              <span>Início</span>
              <ArrowRight size={16} className="-rotate-45 ml-auto" style={{ color: colors.text.dark }} aria-hidden />
            </a>
          </li>
+
          <li>
            <a
-             href="#clients"
+             href="/#clients"
              className="inline-flex items-center gap-3 text-sm bg-transparent border-0 p-0 m-0"
              style={{ color: colors.text.light, textDecoration: 'none' }}
-             onClick={(e) => {
-               if (window.location.pathname === '/') {
-                 e.preventDefault();
-                 const id = 'clients';
-                 const el = document.getElementById(id);
-                 if (el) {
-                   el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                   return;
-                 }
-                 // retry shortly in case element is behind an animation/overlay
-                 setTimeout(() => {
-                   const retry = document.getElementById(id);
-                   if (retry) retry.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                   else window.location.href = '/#' + id;
-                 }, 700);
-               }
-             }}
+             onClick={(e) => handleNavClick(e, 'clients')}
+             aria-label="Ir para Clientes"
            >
              <span>Clientes</span>
              <ArrowRight size={16} className="-rotate-45 ml-auto" style={{ color: colors.text.dark }} aria-hidden />
            </a>
          </li>
+
          <li>
            <a
-             href="#sobre"
+             href="/#contato"
              className="inline-flex items-center gap-3 text-sm bg-transparent border-0 p-0 m-0"
              style={{ color: colors.text.light, textDecoration: 'none' }}
-             onClick={(e) => {
-               if (window.location.pathname === '/') {
-                 e.preventDefault();
-                 const id = 'sobre';
-                 const el = document.getElementById(id);
-                 if (el) {
-                   el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                   return;
-                 }
-                 setTimeout(() => {
-                   const retry = document.getElementById(id);
-                   if (retry) retry.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                   else window.location.href = '/#' + id;
-                 }, 700);
-               }
-             }}
-           >
-             <span>Sobre</span>
-             <ArrowRight size={16} className="-rotate-45 ml-auto" style={{ color: colors.text.dark }} aria-hidden />
-           </a>
-         </li>
-         <li>
-           <a
-             href="#contato"
-             className="inline-flex items-center gap-3 text-sm bg-transparent border-0 p-0 m-0"
-             style={{ color: colors.text.light, textDecoration: 'none' }}
-             onClick={(e) => {
-               if (window.location.pathname === '/') {
-                 e.preventDefault();
-                 const id = 'contato';
-                 const el = document.getElementById(id);
-                 if (el) {
-                   el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                   return;
-                 }
-                 setTimeout(() => {
-                   const retry = document.getElementById(id);
-                   if (retry) retry.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                   else window.location.href = '/#' + id;
-                 }, 700);
-               }
-             }}
+             onClick={(e) => handleNavClick(e, 'contato')}
+             aria-label="Ir para Contato"
            >
              <span>Contato</span>
              <ArrowRight size={16} className="-rotate-45 ml-auto" style={{ color: colors.text.dark }} aria-hidden />
            </a>
          </li>
+
          <li>
            <a
-             href="#faq"
+             href="/#sobre"
              className="inline-flex items-center gap-3 text-sm bg-transparent border-0 p-0 m-0"
              style={{ color: colors.text.light, textDecoration: 'none' }}
-             onClick={(e) => {
-               if (window.location.pathname === '/') {
-                 e.preventDefault();
-                 const id = 'faq';
-                 const el = document.getElementById(id);
-                 if (el) {
-                   el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                   return;
-                 }
-                 setTimeout(() => {
-                   const retry = document.getElementById(id);
-                   if (retry) retry.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                   else window.location.href = '/#' + id;
-                 }, 700);
-               }
-             }}
+             onClick={(e) => handleNavClick(e, 'sobre')}
+             aria-label="Ir para Sobre"
+           >
+             <span>Sobre</span>
+             <ArrowRight size={16} className="-rotate-45 ml-auto" style={{ color: colors.text.dark }} aria-hidden />
+           </a>
+         </li>
+
+         <li>
+           <a
+             href="/#faq"
+             className="inline-flex items-center gap-3 text-sm bg-transparent border-0 p-0 m-0"
+             style={{ color: colors.text.light, textDecoration: 'none' }}
+             onClick={(e) => handleNavClick(e, 'faq')}
+             aria-label="Ir para FAQ"
            >
              <span>FAQ</span>
-             <ArrowRight size={16} className="-rotate-45 ml-auto"  style={{ color: colors.text.dark }} aria-hidden />
+             <ArrowRight size={16} className="-rotate-45 ml-auto" style={{ color: colors.text.dark }} aria-hidden />
            </a>
          </li>
        </ul>
