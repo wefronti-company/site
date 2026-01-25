@@ -141,9 +141,19 @@ const Clients: React.FC = () => {
            href="#contato"
            onClick={(e) => {
              e.preventDefault();
+             const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+             // If on another page, or on mobile, navigate via hash to ensure browser scroll works
+             if (typeof window !== 'undefined' && (window.location.pathname !== '/' || isMobile)) {
+               window.location.href = '/#contato';
+               return;
+             }
+
              const ctaSection = document.getElementById('contato');
              if (ctaSection) {
-               ctaSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+               // scroll with header offset
+               const headerOffset = 100;
+               const targetTop = ctaSection.getBoundingClientRect().top + window.pageYOffset - headerOffset;
+               window.scrollTo({ top: targetTop, behavior: 'smooth' });
              } else {
                window.location.href = '/#contato';
              }
