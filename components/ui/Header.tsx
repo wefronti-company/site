@@ -66,45 +66,58 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
 
   // Função para scroll suave até seção
   const scrollToSection = (sectionId: string) => {
-    // Close menu first
+    if (typeof window === 'undefined') return;
+
+    const id = sectionId.replace('#', '');
+    const onHome = window.location.pathname === '/';
+    const isMobile = window.innerWidth < 768;
+
+    // Helper that attempts to scroll to an element if present
+    const attemptScrollNow = (el?: Element) => {
+      const element = el || document.querySelector(sectionId) || document.getElementById(id);
+      if (!element) return false;
+      const headerOffset = 100;
+      const rectTop = (element as HTMLElement).getBoundingClientRect().top;
+      const offsetPosition = rectTop + window.pageYOffset - headerOffset;
+      window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+      return true;
+    };
+
+    // If we're not on the home page, redirect immediately to the home with the hash
+    if (!onHome) {
+      setMenuOpen(false);
+      window.location.href = `/#${id}`;
+      return;
+    }
+
+    // If element is present on the page
+    const el = document.querySelector(sectionId) || document.getElementById(id);
+    if (el) {
+      // If menu is open on mobile, closing the menu sets body overflow back to normal only after effect cleanup.
+      // In that case, scrolling immediately may be prevented; so prefer to close menu and retry after animation.
+      if (menuOpen && isMobile) {
+        setMenuOpen(false);
+        const exitWait = 900;
+        setTimeout(() => {
+          attemptScrollNow();
+        }, exitWait);
+        return;
+      }
+
+      // Otherwise, scroll immediately and close menu shortly after (so the scroll isn't interrupted)
+      attemptScrollNow(el);
+      if (menuOpen) setTimeout(() => setMenuOpen(false), isMobile ? 220 : 0);
+      return;
+    }
+
+    // If element not yet available (e.g., animation/overlay), close menu and retry after exit animation
     setMenuOpen(false);
-
-    // Wait for menu exit animation to finish before scrolling; longer delay on mobile
-    const exitWait = (typeof window !== 'undefined' && window.innerWidth < 768) ? 1000 : 550;
+    const exitWait = isMobile ? 900 : 550;
     setTimeout(() => {
-      const element = document.querySelector(sectionId);
-
-      // If element not found on current page, navigate to home with anchor
-      if (!element) {
-        if (window.location.pathname !== '/') {
-          // navigate to home with hash, browser will scroll to the anchor
-          window.location.href = `/#${sectionId.replace('#','')}`;
-          return;
-        }
-      }
-
-      if (element) {
-        const headerOffset = 100;
-        const elementPosition = element.getBoundingClientRect().top;
-        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: 'smooth'
-        });
-      } else {
-        // fallback for same-page id lookup; try again after a short delay then fallback to navigation
-        const id = sectionId.replace('#', '');
-        const fallback = document.getElementById(id);
-        if (fallback) {
-          fallback.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        } else {
-          setTimeout(() => {
-            const retry = document.getElementById(id);
-            if (retry) retry.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            else if (window.location.pathname !== '/') window.location.href = `/#${id}`;
-          }, 500);
-        }
-      }
+      if (attemptScrollNow()) return;
+      const retry = document.getElementById(id);
+      if (retry) retry.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      else window.location.href = `/#${id}`; // final fallback
     }, exitWait);
   };
 
