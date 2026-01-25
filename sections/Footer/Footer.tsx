@@ -8,10 +8,14 @@ import { FaWhatsapp, FaEnvelope, FaInstagram, FaLinkedin } from 'react-icons/fa'
 const Footer: React.FC = () => {
 
  const scrollToTop = () => {
- window.scrollTo({
- top: 0,
- behavior: 'smooth'
- });
+   if (typeof window === 'undefined') return;
+   // If not on the home page, navigate to home (hero) so users reach the top there
+   if (window.location.pathname !== '/') {
+     window.location.href = '/#hero';
+     return;
+   }
+   // On home, scroll smoothly to top
+   window.scrollTo({ top: 0, behavior: 'smooth' });
  };
 
  // Navegar para seções com fallback ao carregar a home se estiver em outra página
@@ -202,7 +206,7 @@ const Footer: React.FC = () => {
    </div>
 
    <div className="flex items-center justify-end">
-     <button onClick={scrollToTop} aria-label="Voltar ao topo" className="p-2 rounded-full transition-colors hover:bg-white/5" style={{ background: colors.purple.primary, color: colors.text.light }}>
+     <button type="button" onClick={scrollToTop} aria-label="Voltar ao topo" className="p-2 rounded-full transition-colors hover:bg-white/5" style={{ background: colors.purple.primary, color: colors.text.light, zIndex: 50 }}>
        <ArrowUp size={18} />
      </button>
    </div>
