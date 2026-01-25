@@ -126,10 +126,15 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
     const id = sectionId.replace(/^#/, '');
     if (typeof window === 'undefined') return;
 
-    // If we're on another page, close menu and navigate to home with hash
-    if (window.location.pathname !== '/') {
+    // If we're on another page, or on mobile, navigate via hash after closing the menu
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+    if (window.location.pathname !== '/' || isMobile) {
+      // Close menu first so the overlay is removed
       setMenuOpen(false);
-      window.location.href = `/#${id}`;
+      // Delay slightly to allow menu to visually close on mobile
+      setTimeout(() => {
+        window.location.href = `/#${id}`;
+      }, 180);
       return;
     }
 
@@ -137,7 +142,7 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
     const headerOffset = 100;
 
     if (el) {
-      // Scroll immediately
+      // Scroll immediately on desktop
       const targetTop = el.getBoundingClientRect().top + window.pageYOffset - headerOffset;
       window.scrollTo({ top: targetTop, behavior: 'smooth' });
 
@@ -153,9 +158,11 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
         }
       }, 600);
     } else {
-      // Element not found on this page — navigate to home with hash
+      // Element not found on this page — navigate to home with hash (desktop fallback)
       setMenuOpen(false);
-      window.location.href = `/#${id}`;
+      setTimeout(() => {
+        window.location.href = `/#${id}`;
+      }, 180);
     }
   };
 
