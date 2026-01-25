@@ -121,6 +121,44 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
     }, exitWait);
   };
 
+  // Handle navigation from menu (mobile and desktop) — try to scroll immediately, then close menu and retry if necessary
+  const handleMenuNav = (sectionId: string) => {
+    const id = sectionId.replace(/^#/, '');
+    if (typeof window === 'undefined') return;
+
+    // If we're on another page, close menu and navigate to home with hash
+    if (window.location.pathname !== '/') {
+      setMenuOpen(false);
+      window.location.href = `/#${id}`;
+      return;
+    }
+
+    const el = document.getElementById(id);
+    const headerOffset = 100;
+
+    if (el) {
+      // Scroll immediately
+      const targetTop = el.getBoundingClientRect().top + window.pageYOffset - headerOffset;
+      window.scrollTo({ top: targetTop, behavior: 'smooth' });
+
+      // Close menu shortly after to avoid overlay blocking (small delay improves UX)
+      setTimeout(() => setMenuOpen(false), 150);
+
+      // Retry after menu closes to ensure final position (in case overlay interrupted scrolling)
+      setTimeout(() => {
+        const retry = document.getElementById(id);
+        if (retry) {
+          const t = retry.getBoundingClientRect().top + window.pageYOffset - headerOffset;
+          window.scrollTo({ top: t, behavior: 'smooth' });
+        }
+      }, 600);
+    } else {
+      // Element not found on this page — navigate to home with hash
+      setMenuOpen(false);
+      window.location.href = `/#${id}`;
+    }
+  };
+
   // pages that should always render a dark header with a bottom border
   const routesWithDarkHeader = new Set(['/solucoes']);
   const forceDarkHeader = routesWithDarkHeader.has(router.pathname);
@@ -293,9 +331,10 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                       <ul className="flex flex-col gap-3">
                         <li>
                           <button 
-                            onClick={() => scrollToSection('#hero')}
+                            onClick={() => handleMenuNav('hero')}
                             className="text-2xl font-light transition-all duration-300 flex items-center gap-3 group"
                             style={{ color: colors.text.light }}
+                            type="button"
                           >
                             <span>Início</span>
                             <span 
@@ -305,9 +344,10 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                         </li>
                         <li>
                           <button 
-                            onClick={() => scrollToSection('#clients')}
+                            onClick={() => handleMenuNav('clients')}
                             className="text-2xl font-light transition-all duration-300 flex items-center gap-3 group"
                             style={{ color: colors.text.light }}
+                            type="button"
                           >
                             <span>Clientes</span>
                             <span 
@@ -318,9 +358,10 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
 
                         <li>
                           <button 
-                            onClick={() => scrollToSection('#contato')}
+                            onClick={() => handleMenuNav('contato')}
                             className="text-2xl font-light transition-all duration-300 flex items-center gap-3 group"
                             style={{ color: colors.text.light }}
+                            type="button"
                           >
                             <span>Contato</span>
                             <span 
@@ -331,9 +372,10 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
 
                         <li>
                           <button 
-                            onClick={() => scrollToSection('#sobre')}
+                            onClick={() => handleMenuNav('sobre')}
                             className="text-2xl font-light transition-all duration-300 flex items-center gap-3 group"
                             style={{ color: colors.text.light }}
+                            type="button"
                           >
                             <span>Sobre</span>
                             <span 
@@ -343,9 +385,10 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                         </li>
                         <li>
                           <button 
-                            onClick={() => scrollToSection('#faq')}
+                            onClick={() => handleMenuNav('faq')}
                             className="text-2xl font-light transition-all duration-300 flex items-center gap-3 group"
                             style={{ color: colors.text.light }}
+                            type="button"
                           >
                             <span>FAQ</span>
                             <span 
@@ -416,9 +459,10 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                       <ul className="flex flex-col gap-3">
                         <li>
                           <button 
-                            onClick={() => scrollToSection('#hero')}
+                            onClick={() => handleMenuNav('hero')}
                             className="text-2xl font-light transition-all duration-300 flex items-center gap-3 group"
                             style={{ color: colors.text.light }}
+                            type="button"
                           >
                             <span>Início</span>
                             <span 
@@ -429,9 +473,10 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                         </li>
                         <li>
                           <button 
-                            onClick={() => scrollToSection('#clients')}
+                            onClick={() => handleMenuNav('clients')}
                             className="text-2xl font-light transition-all duration-300 flex items-center gap-3 group"
                             style={{ color: colors.text.light }}
+                            type="button"
                           >
                             <span>Clientes</span>
                             <span 
@@ -442,9 +487,10 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                         </li>
                         <li>
                           <button 
-                            onClick={() => scrollToSection('#contato')}
+                            onClick={() => handleMenuNav('contato')}
                             className="text-2xl font-light transition-all duration-300 flex items-center gap-3 group"
                             style={{ color: colors.text.light }}
+                            type="button"
                           >
                             <span>Contato</span>
                             <span 
@@ -455,9 +501,10 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                         </li>
                         <li>
                           <button 
-                            onClick={() => scrollToSection('#sobre')}
+                            onClick={() => handleMenuNav('sobre')}
                             className="text-2xl font-light transition-all duration-300 flex items-center gap-3 group"
                             style={{ color: colors.text.light }}
+                            type="button"
                           >
                             <span>Sobre</span>
                             <span 
@@ -468,9 +515,10 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                         </li>
                         <li>
                           <button 
-                            onClick={() => scrollToSection('#faq')}
+                            onClick={() => handleMenuNav('faq')}
                             className="text-2xl font-light transition-all duration-300 flex items-center gap-3 group"
                             style={{ color: colors.text.light }}
+                            type="button"
                           >
                             <span>FAQ</span>
                             <span 
