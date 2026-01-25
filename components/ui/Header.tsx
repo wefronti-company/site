@@ -126,12 +126,16 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
     const id = sectionId.replace(/^#/, '');
     if (typeof window === 'undefined') return;
 
-    // If we're on another page, or on mobile, navigate via hash after closing the menu
+    // If we're on another page, navigate immediately via hash (no delay needed)
     const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-    if (window.location.pathname !== '/' || isMobile) {
-      // Close menu first so the overlay is removed
+    if (window.location.pathname !== '/') {
+      window.location.href = `/#${id}`;
+      return;
+    }
+
+    // On mobile, close menu first then navigate via hash after a short delay
+    if (isMobile) {
       setMenuOpen(false);
-      // Delay slightly to allow menu to visually close on mobile
       setTimeout(() => {
         window.location.href = `/#${id}`;
       }, 180);
@@ -254,15 +258,8 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                       <button
                         className="mt-1 px-5 py-2 rounded bg-white text-black font-medium text-sm hover:opacity-90 transition"
                         style={{ backgroundColor: colors.purple.primary, color: colors.text.light }}
-                        onClick={() => {
-                          const el = document.querySelector('#contato');
-                          if (el) {
-                            window.scrollTo({
-                              top: el.getBoundingClientRect().top + window.scrollY - 80,
-                              behavior: 'smooth'
-                            });
-                          }
-                        }}
+                        onClick={() => handleMenuNav('contato')}
+                        type="button"
                       >
                         Iniciar conversa
                       </button>
