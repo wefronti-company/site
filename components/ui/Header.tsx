@@ -418,7 +418,7 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                             className="w-16 h-16 rounded-xl overflow-hidden flex items-center justify-center bg-transparent"
                           >
                             <img 
-                              src="/images/icons/icon-fran.svg?v=2" 
+                              src="/images/icons/icon-fran-whatsapp.svg?v=2" 
                               alt="Ícone Fran"
                               className="w-full h-full object-contain bg-transparent"
                               style={{ background: 'transparent' }}
@@ -550,7 +550,7 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
                             className="w-16 h-16 rounded-xl overflow-hidden flex items-center justify-center"
                           >
                             <img 
-                              src="/images/icons/icon-fran.svg?v=2" 
+                              src="/images/icons/icon-fran-whatsapp.svg?v=2" 
                               alt="Ícone Fran"
                               className="w-full h-full object-contain"
                             />
