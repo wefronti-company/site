@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import ButtonCta from '../../components/ui/ButtonCta';
-import { FaInstagram, FaLinkedin } from 'react-icons/fa';
 import { colors } from '../../styles/colors';
 
 const Sobre: React.FC = () => {
@@ -41,17 +40,20 @@ const Sobre: React.FC = () => {
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={isVisible ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
                 transition={{ duration: 0.8, ease: 'easeOut', delay: 0.2 }}
-                className="w-72 h-72 md:w-[420px] md:h-[420px] overflow-hidden"
-                style={{ borderRadius: '0.5rem', border:`10px solid ${colors.purple.secondary}` }}
+                className="w-48 h-48 md:w-72 md:h-72 overflow-hidden flex items-center justify-center"
+                style={{ borderRadius: '9999px', background: colors.background.dark }}
               >
-                <img
-                  src="/images/site/witor-linhares.webp"
-                  alt="Witor Linhares"
-                  className="w-full h-full object-cover filter grayscale transition-all duration-500 group-hover:filter-none"
-                  style={{ filter: 'grayscale(1)', transition: 'filter 0.5s' }}
-                  onMouseOver={e => (e.currentTarget.style.filter = 'none')}
-                  onMouseOut={e => (e.currentTarget.style.filter = 'grayscale(1)')}
-                />
+                <motion.div
+                  animate={{ rotate: -360 }}
+                  transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+                  className="w-3/4 h-3/4 flex items-center justify-center"
+                >
+                  <img
+                    src="/images/icons/icon-circle.png"
+                    alt="Ícone Wefronti"
+                    className="w-full h-full object-contain"
+                  />
+                </motion.div>
               </motion.div>
             </div>
             {/* Texto à esquerda */}
@@ -63,35 +65,32 @@ const Sobre: React.FC = () => {
                 animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                 transition={{ duration: 0.6, ease: 'easeOut', delay: 0.2 }}
               >
-                Quem conduz os projetos
+                Com funciona.
               </motion.h2>
-              <motion.p
+              <motion.div
                 className="text-lg font-regular leading-relaxed mb-6"
-                style={{ color: colors.text.dark , opacity: 0.5 }}
-                
+                style={{ color: colors.text.dark , opacity: 0.9 }}
+                initial={{ opacity: 0, y: 20 }}
                 animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
                 transition={{ duration: 0.6, ease: 'easeOut', delay: 0.3 }}
               >
-                Meu nome é Witor Linhares.
-                Sou o diretor responsável pela condução dos projetos e pelas decisões estratégicas da empresa.
-
-                Na Wefronti, nosso trabalho começa antes do código. Iniciamos pela compreensão do contexto, dos processos e das necessidades do negócio, garantindo que cada solução seja construída com critério técnico e visão de longo prazo.
-
-                Trabalhamos de forma próxima aos clientes, analisando restrições, objetivos e fluxos operacionais, para construir soluções que funcionem no dia a dia, apoiem decisões e permitam crescimento com consistência e controle.
-
-                Atendemos empresas que entendem que tecnologia não é um fim, mas um meio para manter a operação funcionando, evoluir com segurança e gerar valor real ao longo do tempo.
-              </motion.p>
-              <div className="flex flex-row gap-4">
-                <a href="https://instagram.com/witorlinhares" target="_blank" rel="noopener noreferrer">
-                  <ButtonCta className="flex items-center justify-center w-12 h-12 p-0" iconOnly>
-                    <FaInstagram className="w-6 h-6" />
-                  </ButtonCta>
-                </a>
-                <a href="https://linkedin.com/in/witorlinhares" target="_blank" rel="noopener noreferrer">
-                  <ButtonCta className="flex items-center justify-center w-12 h-12 p-0" iconOnly>
-                    <FaLinkedin className="w-6 h-6" />
-                  </ButtonCta>
-                </a>
+                <p className="mb-4">
+                  Na Wefronti, nosso trabalho começa antes do código. Iniciamos pela compreensão do contexto, dos processos e das necessidades do negócio, garantindo que cada solução seja construída com critério técnico e visão de longo prazo.
+                </p>
+                <p className="mb-4">
+                  Atuamos no desenvolvimento de sistemas, plataformas e produtos digitais que fazem parte da operação das empresas. Não tratamos projetos como experimentos, nem tecnologia como promessa. Cada entrega carrega responsabilidade técnica, continuidade e compromisso com o negócio que ela sustenta.
+                </p>
+                <p className="mb-4">
+                  Trabalhamos de forma próxima aos clientes, analisando restrições, objetivos e fluxos operacionais, para construir soluções que funcionem no dia a dia, apoiem decisões e permitam crescimento com consistência e controle.
+                </p>
+                <p>
+                  Atendemos empresas que entendem que tecnologia não é um fim, mas um meio para manter a operação funcionando, evoluir com segurança e gerar valor real ao longo do tempo.
+                </p>
+              </motion.div>
+              <div className="flex flex-row gap-4 mt-4">
+                <ButtonCta onClick={() => (window.location.href = 'mailto:projetos@wefronti.com')}>
+                  Iniciar conversa
+                </ButtonCta>
               </div>
             </div>
           </div>
