@@ -60,14 +60,33 @@ jobs:
       - name: 2.4 - Build application
         run: npm run build
         
-      - name: 2.5 - Upload build artifacts
+      - name: 2.4.5 - Debug .next contents
+        run: |
+          echo "=== Debug: .next contents ==="
+          if [ -d .next ]; then
+            du -sh .next || true
+            ls -la .next | sed -n '1,200p'
+          else
+            echo ".next does not exist after build"
+            ls -la || true
+          fi
+      
+      - name: 2.4.6 - Archive .next as build-output.tar.gz
+        run: |
+          if [ -d .next ]; then
+            tar -czf build-output.tar.gz .next
+            echo "archive size:"
+            ls -lh build-output.tar.gz
+          else
+            echo "No .next to archive; skipping tar creation"
+            exit 1
+          fi
+
+      - name: 2.5 - Upload build artifact
         uses: actions/upload-artifact@v4
         with:
           name: build-output
-          path: .next/
-          retention-days: 1
-
-  # Job 3: Deploy Preview (Pull Requests)
+          path: build-output.tar.gz
   deploy-preview:
     name: 'Step 3: Deploy Preview'
     runs-on: ubuntu-latest
@@ -140,16 +159,25 @@ jobs:
         with:
           name: build-output
           path: ./
-      
-      - name: 4.2.6 - Verify .next artifact
+
+      - name: 4.2.6 - Verify / Extract .next artifact (or fallback)
         run: |
-          echo "Checking for .next directory from build artifact..."
-          if [ -d .next ]; then
-            echo ".next found. Listing contents:"
-            ls -la .next | sed -n '1,200p'
+          echo "Checking for build-output artifact..."
+          if [ -f build-output.tar.gz ]; then
+            echo "Found build-output.tar.gz. Listing archive contents..."
+            tar -tzf build-output.tar.gz | sed -n '1,200p' || true
+            echo "Extracting archive..."
+            tar -xzf build-output.tar.gz || { echo "Extraction failed"; exit 1; }
+            echo "Listing extracted .next"
+            ls -la .next | sed -n '1,200p' || true
+          elif [ -d .next ]; then
+            echo ".next present in workspace. Listing:"
+            ls -la .next | sed -n '1,200p' || true
           else
-            echo ".next not found. Listing workspace for debugging:"
-            ls -la || true
+            echo "No artifact found. Attempting to build here as fallback..."
+            npm ci
+            npm run vercel-build || { echo "Fallback build failed"; exit 1; }
+            ls -la .next | sed -n '1,200p' || true
           fi
 
       - name: 4.3 - Install Vercel CLI
