@@ -117,7 +117,7 @@ jobs:
       - name: 3.6 - Deploy to Vercel Preview
         id: deploy-preview
         run: |
-          url=$(vercel deploy --prebuilt --token="$VERCEL_TOKEN")
+          url=$(vercel deploy --token="$VERCEL_TOKEN")
           echo "url=$url" >> $GITHUB_OUTPUT
           
       - name: 3.7 - Comment PR with preview URL
@@ -199,7 +199,7 @@ jobs:
 
           echo "Starting Vercel production deploy (prebuilt)..."
           outfile=vercel_deploy_output.txt
-          vercel deploy --prebuilt --prod --token="$VERCEL_TOKEN" > "$outfile" 2>&1
+          vercel deploy --prod --token="$VERCEL_TOKEN" > "$outfile" 2>&1
           echo $? > vercel_deploy_retcode.txt
 
       - name: 4.7 - Dump deploy output (debug)
