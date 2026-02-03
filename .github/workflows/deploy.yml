@@ -134,7 +134,24 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
-          
+      
+      - name: 4.2.5 - Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-output
+          path: ./
+      
+      - name: 4.2.6 - Verify .next artifact
+        run: |
+          echo "Checking for .next directory from build artifact..."
+          if [ -d .next ]; then
+            echo ".next found. Listing contents:"
+            ls -la .next | sed -n '1,200p'
+          else
+            echo ".next not found. Listing workspace for debugging:"
+            ls -la || true
+          fi
+
       - name: 4.3 - Install Vercel CLI
         run: npm install --global vercel@latest
         
