@@ -2,9 +2,13 @@
   "name": "wefronti-site",
   "private": true,
   "version": "1.0.0",
+  "engines": {
+    "node": "18.x"
+  },
   "scripts": {
     "dev": "next dev --port 3000",
     "build": "next build",
+    "vercel-build": "npm run build && echo \"=== .next contents ===\" && ls -la .next || true",
     "start": "next start",
     "lint": "next lint"
   },
