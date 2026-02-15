@@ -51,12 +51,29 @@ const Header: React.FC = () => {
   };
 
   useEffect(() => {
-    if (typeof window === 'undefined') return;
-    setScrolled(window.scrollY > SCROLL_TOP_THRESHOLD);
-    const onScroll = () => setScrolled(window.scrollY > SCROLL_TOP_THRESHOLD);
+    if (!isMd) return;
+    if (typeof window === 'undefined' || typeof document === 'undefined') return;
+
+    const getScrollY = () =>
+      window.scrollY ?? window.pageYOffset ?? document.documentElement.scrollTop ?? document.body.scrollTop ?? 0;
+
+    const updateScrolled = () => {
+      const y = getScrollY();
+      setScrolled(y > SCROLL_TOP_THRESHOLD);
+    };
+
+    updateScrolled();
+    requestAnimationFrame(updateScrolled);
+
+    const onScroll = () => requestAnimationFrame(updateScrolled);
     window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
+    window.addEventListener('resize', onScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+    };
+  }, [isMd]);
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     if (typeof window === 'undefined') return;
@@ -71,18 +88,21 @@ const Header: React.FC = () => {
     }
   };
 
+  const showGlass = !isMd || scrolled;
   const headerStyle: React.CSSProperties = {
     position: 'fixed',
     top: 0,
     left: 0,
     right: 0,
     zIndex: 100,
-    backgroundColor: scrolled ? 'rgba(4, 4, 4, 0.75)' : 'transparent',
-    backdropFilter: scrolled ? 'saturate(180%) blur(12px)' : 'none',
-    WebkitBackdropFilter: scrolled ? 'saturate(180%) blur(12px)' : 'none',
-    borderBottom: scrolled ? `1px solid ${colors.neutral.borderDark}` : '1px solid transparent',
+    isolation: 'isolate',
+    backgroundColor: showGlass ? 'rgba(4, 4, 4, 0.75)' : 'transparent',
+    backdropFilter: showGlass ? 'saturate(180%) blur(12px)' : 'none',
+    WebkitBackdropFilter: showGlass ? 'saturate(180%) blur(12px)' : 'none',
+    borderBottom: showGlass ? `1px solid ${colors.neutral.borderDark}` : '1px solid transparent',
     transition: 'background-color 0.25s ease, backdrop-filter 0.25s ease, border-color 0.25s ease',
-    ...(scrolled ? { transform: 'translateZ(0)', WebkitTransform: 'translateZ(0)' } : {}),
+    transform: 'translateZ(0)',
+    WebkitTransform: 'translateZ(0)',
   };
 
   const innerStyle: React.CSSProperties = {
