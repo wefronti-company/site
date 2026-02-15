@@ -65,7 +65,7 @@ const badgeStyle: React.CSSProperties = {
   gap: spacing[2],
   alignSelf: 'flex-start',
   padding: `${spacing[2]}px ${spacing[4]}px`,
-  borderRadius: radii.full,
+  borderRadius: 6,
   border: `1px solid ${colors.neutral.borderDark}`,
   backgroundColor: 'rgba(255,255,255,0.04)',
   fontSize: fontSizes.xs,
@@ -76,7 +76,7 @@ const badgeStyle: React.CSSProperties = {
 };
 
 const titleStyle: React.CSSProperties = {
-  fontSize: 'clamp(2rem, 5vw, 2.75rem)',
+  fontSize: 'clamp(2rem, 5vw, 4rem)',
   fontWeight: 400,
   lineHeight: 1.2,
   letterSpacing: '-0.02em',
@@ -194,7 +194,7 @@ const Faq: React.FC = () => {
                         flexShrink: 0,
                         width: 28,
                         height: 28,
-                        transition: 'transform 0.3s ease',
+                        transition: 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
                         transform: isOpen ? 'rotate(45deg)' : 'rotate(0deg)',
                       }}
                       aria-hidden
@@ -203,27 +203,33 @@ const Faq: React.FC = () => {
                     </span>
                   </div>
                   <div
-                    id={`faq-answer-${index}`}
-                    role="region"
-                    aria-labelledby={`faq-question-${index}`}
                     style={{
-                      display: isOpen ? 'block' : 'none',
-                      paddingTop: isOpen ? spacing[4] : 0,
-                      paddingLeft: 0,
+                      display: 'grid',
+                      gridTemplateRows: isOpen ? '1fr' : '0fr',
+                      transition: 'grid-template-rows 0.45s cubic-bezier(0.4, 0, 0.2, 1)',
                     }}
                   >
-                    <p
-                      style={{
-                        fontSize: fontSizes.sm,
-                        lineHeight: 1.6,
-                        color: colors.text.light,
-                        opacity: 0.85,
-                        margin: 0,
-                        textAlign: 'left',
-                      }}
-                    >
-                      {item.answer}
-                    </p>
+                    <div style={{ overflow: 'hidden', minHeight: 0 }}>
+                      <div
+                        id={`faq-answer-${index}`}
+                        role="region"
+                        aria-labelledby={`faq-question-${index}`}
+                        style={{ paddingTop: spacing[4] }}
+                      >
+                        <p
+                          style={{
+                            fontSize: fontSizes.sm,
+                            lineHeight: 1.6,
+                            color: colors.text.light,
+                            opacity: 0.85,
+                            margin: 0,
+                            textAlign: 'left',
+                          }}
+                        >
+                          {item.answer}
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </li>
