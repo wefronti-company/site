@@ -53,16 +53,6 @@ const HERO_CHIPS: { label: string; icon: string }[] = [
   { label: 'Otimizado para Google', icon: '/images/icons/google.png' },
 ];
 
-const HERO_TESTIMONIAL_IMAGES = [
-  '/images/testimonials/test-1.png',
-  '/images/testimonials/test-2.png',
-  '/images/testimonials/test-3.png',
-  '/images/testimonials/test-4.png',
-  '/images/testimonials/test-5.png',
-];
-const HERO_AVATAR_SIZE = 34;
-const HERO_AVATAR_OVERLAP = 0.5; // 70% de sobreposição
-
 const heroSectionStyle: React.CSSProperties = {
   position: 'relative',
   minHeight: '100vh',
@@ -128,10 +118,10 @@ const heroContentStyle: React.CSSProperties = {
 };
 
 const heroTitleStyle: React.CSSProperties = {
-  fontWeight: 200,
+  fontWeight: 400,
   lineHeight: 1.06,
   letterSpacing: '-0.02em',
-  fontSize: 'clamp(3rem, 6.5vw, 4.5rem)',
+  fontSize: 'clamp(3rem, 6.5vw, 5rem)',
   color: colors.text.light,
   margin: 0,
 };
@@ -173,38 +163,6 @@ const chipIconStyle: React.CSSProperties = {
   flexShrink: 0,
 };
 
-const heroTrustBadgeWrapperStyle: React.CSSProperties = {
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  gap: spacing[4],
-  flexWrap: 'wrap',
-};
-
-const heroTrustAvatarsStyle: React.CSSProperties = {
-  display: 'flex',
-  alignItems: 'center',
-  flexShrink: 0,
-};
-
-const heroTrustAvatarStyle = (index: number): React.CSSProperties => ({
-  width: HERO_AVATAR_SIZE,
-  height: HERO_AVATAR_SIZE,
-  borderRadius: '50%',
-  objectFit: 'cover',
-  border: `2px solid ${colors.background.dark}`,
-  marginLeft: index === 0 ? 0 : -(HERO_AVATAR_SIZE * HERO_AVATAR_OVERLAP),
-  boxSizing: 'content-box',
-});
-
-const heroTrustTextStyle: React.CSSProperties = {
-  fontSize: fontSizes.sm,
-  fontWeight: 500,
-  color: colors.text.light,
-  opacity: 0.95,
-  margin: 0,
-};
-
 const Hero: React.FC = () => {
   const [hasEntered, setHasEntered] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
@@ -242,32 +200,13 @@ const Hero: React.FC = () => {
         ))}
       </div>
       <div style={heroContentStyle}>
-        <motion.div
-          style={heroTrustBadgeWrapperStyle}
-          initial={{ opacity: 0, y: 16 }}
-          animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
-          transition={{ duration: 0.5, ease: 'easeOut', delay: 0.05 }}
-        >
-          <div style={heroTrustAvatarsStyle} aria-hidden>
-            {HERO_TESTIMONIAL_IMAGES.map((src, index) => (
-              <img
-                key={src}
-                src={src}
-                alt=""
-                style={heroTrustAvatarStyle(index)}
-              />
-            ))}
-          </div>
-          <span style={heroTrustTextStyle}>Eles confiam e indicam.</span>
-        </motion.div>
-
         <motion.h1
           initial={{ opacity: 0, y: 24 }}
           animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
           transition={{ duration: 0.7, ease: 'easeOut', delay: 0.15 }}
           style={heroTitleStyle}
         >
-          Transformamos seu site em um ativo estratégico de geração de clientes.
+          Transformamos seu site em uma máquina online de vendas
         </motion.h1>
 
         <motion.h2

@@ -34,6 +34,9 @@ html, body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+button, input, select, textarea {
+  font-family: inherit;
+}
 #__next {
   min-height: 100%;
   overflow-x: hidden;

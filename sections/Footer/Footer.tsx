@@ -27,9 +27,12 @@ const Footer: React.FC = () => {
     maxWidth: containerMaxWidth.header,
     margin: '0 auto',
     paddingTop: spacing[12],
-    paddingBottom: spacing[8],
     paddingLeft: headerPaddingX,
     paddingRight: headerPaddingX,
+  };
+  const innerBottomStyle: React.CSSProperties = {
+    paddingTop: spacing[8],
+    paddingBottom: spacing[8],
   };
 
   const mainRowStyle: React.CSSProperties = {
@@ -83,19 +86,7 @@ const Footer: React.FC = () => {
     opacity: 0.9,
   };
 
-  const bottomStyle: React.CSSProperties = {
-    paddingTop: spacing[8],
-    paddingBottom: spacing[8],
-    paddingLeft: headerPaddingX,
-    paddingRight: headerPaddingX,
-  };
-
-  const bottomGridStyle: React.CSSProperties = {
-    width: '100%',
-    maxWidth: containerMaxWidth.header,
-    margin: '0 auto',
-    paddingLeft: headerPaddingX,
-    paddingRight: headerPaddingX,
+  const bottomRowStyle: React.CSSProperties = {
     display: 'grid',
     gridTemplateColumns: isMd ? '1fr 1fr' : '1fr',
     gap: spacing[2],
@@ -130,23 +121,21 @@ const Footer: React.FC = () => {
                   </a>
                 ))}
               </div>
-              <Link href="/politica-privacidade" style={privacyLinkStyle} aria-label="Política de Privacidade">
-                Política de Privacidade
-              </Link>
+              
             </div>
           </div>
-        </div>
-      </div>
 
-      <div style={{ width: '100%', height: 1, borderTop: `1px solid ${colors.neutral.borderDark}` }} />
+          <div style={{ width: '100%', height: 1, borderTop: `1px solid ${colors.neutral.borderDark}` }} />
 
-      <div style={bottomStyle}>
-        <div style={bottomGridStyle}>
-          <div style={{ ...smallTextStyle, textAlign: 'left' }}>
-            CNPJ: 64.507.638/0001-04 | Wefronti Tecnologia Ltda
-          </div>
-          <div style={{ ...smallTextStyle, textAlign: isMd ? 'right' : 'left' }}>
-            © {new Date().getFullYear()} Wefronti. Todos os direitos reservados.
+          <div style={innerBottomStyle}>
+            <div style={bottomRowStyle}>
+              <div style={{ ...smallTextStyle, textAlign: 'left' }}>
+                CNPJ: 64.507.638/0001-04 | Wefronti Tecnologia Ltda
+              </div>
+              <div style={{ ...smallTextStyle, textAlign: isMd ? 'right' : 'left' }}>
+                © {new Date().getFullYear()}. Todos os direitos reservados.
+              </div>
+            </div>
           </div>
         </div>
       </div>
