@@ -18,7 +18,7 @@ const Footer: React.FC = () => {
   const footerStyle: React.CSSProperties = {
     width: '100%',
     backgroundColor: colors.background.dark,
-    borderTop: `1px solid ${colors.neutral.borderDark}`,
+ 
   };
 
   const headerPaddingX = isMd ? spacing[12] : spacing[6];

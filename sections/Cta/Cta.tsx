@@ -9,8 +9,8 @@ const WHATSAPP_MESSAGE = 'Olá, tenho algumas dúvidas e gostaria de conversar.'
 
 const sectionStyle: React.CSSProperties = {
   width: '100%',
-  marginTop: spacing[12],
-  marginBottom: spacing[12],
+  marginTop: spacing[24],
+  marginBottom: spacing[24],
   padding: `${spacing[2]}px ${spacing[6]}px`,
   display: 'flex',
   justifyContent: 'center',

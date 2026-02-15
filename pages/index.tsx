@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import SEO from '../components/SEO';
 import Hero from '../sections/Hero';
+import Faq from '../sections/Faq';
 import Cta from '../sections/Cta';
 import Footer from '../sections/Footer';
 import SplashScreen from '../components/SplashScreen';
@@ -49,6 +50,7 @@ const Home: React.FC = () => {
       ) : (
         <>
           <Hero />
+          <Faq />
           <Cta />
           <Footer />
         </>
