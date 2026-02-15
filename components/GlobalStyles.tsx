@@ -28,7 +28,7 @@ html, body {
   height: 100%;
   overflow-x: hidden;
   max-width: 100vw;
-  background-color: #040404;
+  background-color: #0A0C12;
   color: #ffffff;
   font-family: "Funnel Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -37,7 +37,7 @@ html, body {
 #__next {
   min-height: 100%;
   overflow-x: hidden;
-  background-color: #040404;
+  background-color: #0A0C12;
 }
 
 @media (min-width: 768px) {
