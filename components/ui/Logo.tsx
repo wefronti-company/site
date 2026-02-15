@@ -16,8 +16,8 @@ const linkStyle: React.CSSProperties = {
 
 const imgBaseStyle: React.CSSProperties = {
   objectFit: 'contain',
-  maxHeight: 40,
-  maxWidth: 140,
+  maxHeight: 48,
+  maxWidth: 160,
 };
 
 const Logo: React.FC<LogoProps> = ({
@@ -31,8 +31,8 @@ const Logo: React.FC<LogoProps> = ({
       <img
         src={isDark ? '/images/brand/isologo-black.webp' : '/images/brand/isologo-white.webp'}
         alt="Wefronti Logo"
-        width={120}
-        height={32}
+        width={140}
+        height={38}
         style={{ ...imgBaseStyle, ...style }}
         loading="eager"
       />

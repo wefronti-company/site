@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { theme } from '../../styles/theme';
+import { useMediaQuery } from '../../hooks/useMediaQuery';
 import ButtonCta from '../../components/ui/ButtonCta';
 
 const SPARKLE_COUNT = 85;
@@ -53,10 +54,9 @@ const HERO_CHIPS: { label: string; icon: string }[] = [
   { label: 'Otimizado para Google', icon: '/images/icons/google.png' },
 ];
 
-const heroSectionStyle: React.CSSProperties = {
+const heroSectionStyleBase: React.CSSProperties = {
   position: 'relative',
   minHeight: '100vh',
-  padding: spacing[10],
   backgroundColor: colors.background.dark,
   backgroundImage: "url('/images/brand/background.png')",
   backgroundSize: 'cover',
@@ -64,7 +64,6 @@ const heroSectionStyle: React.CSSProperties = {
   zIndex: 0,
   display: 'flex',
   flexDirection: 'column',
-  alignItems: 'center',
   justifyContent: 'center',
   overflow: 'hidden',
 };
@@ -105,16 +104,14 @@ const sparkleStyle = (
   animation: `sparkle-twinkle ${duration}s ease-in-out ${delay}s infinite`,
 });
 
-const heroContentStyle: React.CSSProperties = {
+const heroContentStyleBase: React.CSSProperties = {
   position: 'relative',
   zIndex: 2,
   width: '100%',
   maxWidth: 1300,
   display: 'flex',
   flexDirection: 'column',
-  alignItems: 'center',
   gap: spacing[10],
-  textAlign: 'center',
 };
 
 const heroTitleStyle: React.CSSProperties = {
@@ -135,19 +132,12 @@ const heroSubtitleStyle: React.CSSProperties = {
   margin: 0,
 };
 
-const chipsGridStyle: React.CSSProperties = {
-  display: 'flex',
-  gridTemplateRows: '1fr 1fr',
-  gap: spacing[6],
-  justifyContent: 'center',
-};
 
-const chipStyle: React.CSSProperties = {
+const chipStyleBase: React.CSSProperties = {
   display: 'inline-flex',
   alignItems: 'center',
   gap: spacing[2],
   padding: `${spacing[2]}px ${spacing[4]}px`,
-  fontSize: fontSizes.sm,
   fontWeight: 200,
   color: colors.text.light,
   backgroundColor: 'transparent',
@@ -164,9 +154,38 @@ const chipIconStyle: React.CSSProperties = {
 };
 
 const Hero: React.FC = () => {
+  const isMd = useMediaQuery(theme.breakpoints.md);
   const [hasEntered, setHasEntered] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   const sparkles = useSparkles();
+
+  const heroSectionStyle: React.CSSProperties = {
+    ...heroSectionStyleBase,
+    padding: isMd ? spacing[10] : spacing[6],
+    alignItems: isMd ? 'center' : 'flex-start',
+  };
+  const heroContentStyle: React.CSSProperties = {
+    ...heroContentStyleBase,
+    alignItems: isMd ? 'center' : 'flex-start',
+    textAlign: isMd ? 'center' : 'left',
+  };
+  const chipsGridStyle: React.CSSProperties = isMd
+    ? {
+        display: 'flex',
+        flexWrap: 'nowrap',
+        justifyContent: 'center',
+        gap: spacing[6],
+      }
+    : {
+        display: 'grid',
+        gridTemplateColumns: '1fr 1fr',
+        gap: spacing[3],
+        justifyItems: 'start',
+      };
+  const chipStyle: React.CSSProperties = {
+    ...chipStyleBase,
+    fontSize: isMd ? fontSizes.sm : fontSizes.xs,
+  };
 
   useEffect(() => {
     if (hasEntered) return;

@@ -5,7 +5,7 @@ import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 
 const { colors, spacing, fontSizes, radii, containerMaxWidth } = theme;
-const SCROLL_TOP_THRESHOLD = 24;
+const SCROLL_TOP_THRESHOLD = 1;
 const REVERSE_DELAY_MS = 220;
 const REVERSED_HOLD_MS = 520;
 
@@ -82,6 +82,7 @@ const Header: React.FC = () => {
     WebkitBackdropFilter: scrolled ? 'saturate(180%) blur(12px)' : 'none',
     borderBottom: scrolled ? `1px solid ${colors.neutral.borderDark}` : '1px solid transparent',
     transition: 'background-color 0.25s ease, backdrop-filter 0.25s ease, border-color 0.25s ease',
+    ...(scrolled ? { transform: 'translateZ(0)', WebkitTransform: 'translateZ(0)' } : {}),
   };
 
   const innerStyle: React.CSSProperties = {
