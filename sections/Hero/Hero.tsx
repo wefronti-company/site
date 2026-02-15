@@ -1,8 +1,30 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { theme } from '../../styles/theme';
 import ButtonCta from '../../components/ui/ButtonCta';
-import Badge from '../../components/ui/Badge';
+
+const SPARKLE_COUNT = 85;
+
+function useSparkles() {
+  return useMemo(() => {
+    return Array.from({ length: SPARKLE_COUNT }, (_, i) => {
+      const s1 = (i * 17 + 31) % 100;
+      const s2 = (i * 7 + 41) % 100;
+      const s3 = (i * 23 + 11) % 100;
+      // Distribui mais no topo e nas laterais (fora da meia-lua na base)
+      const left = 2 + (s1 * 0.96) % 96;
+      const top = 4 + (s2 * 0.88) % 88;
+      return {
+        id: i,
+        left,
+        top,
+        size: 1.5 + (s3 % 2), // 1.5–3.5px, mais delicados
+        duration: 2 + (s1 % 4) * 0.5,
+        delay: (s2 % 25) * 0.12,
+      };
+    });
+  }, []);
+}
 
 const CONTACT_SECTION_ID = 'contato';
 const SCROLL_OFFSET = 24;
@@ -31,11 +53,22 @@ const HERO_CHIPS: { label: string; icon: string }[] = [
   { label: 'Otimizado para Google', icon: '/images/icons/google.png' },
 ];
 
+const HERO_TESTIMONIAL_IMAGES = [
+  '/images/testimonials/test-1.png',
+  '/images/testimonials/test-2.png',
+  '/images/testimonials/test-3.png',
+  '/images/testimonials/test-4.png',
+  '/images/testimonials/test-5.png',
+];
+const HERO_AVATAR_SIZE = 34;
+const HERO_AVATAR_OVERLAP = 0.5; // 70% de sobreposição
+
 const heroSectionStyle: React.CSSProperties = {
+  position: 'relative',
   minHeight: '100vh',
   padding: spacing[10],
   backgroundColor: colors.background.dark,
-  backgroundImage: "url('/images/brand/background.webp')",
+  backgroundImage: "url('/images/brand/background.png')",
   backgroundSize: 'cover',
   backgroundPosition: 'center',
   zIndex: 0,
@@ -43,15 +76,54 @@ const heroSectionStyle: React.CSSProperties = {
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
+  overflow: 'hidden',
 };
 
+// Meia-lua na base: brilhos só aparecem fora do círculo (circunferência do canto inferior esq → acima do H1 → canto inferior dir)
+const SPARKLE_MASK_RADIUS = '58%'; // raio menor = arco mais baixo = brilhos visíveis mais perto/sobre o H1
+
+const sparklesLayerStyle: React.CSSProperties = {
+  position: 'absolute',
+  inset: 0,
+  pointerEvents: 'none',
+  zIndex: 1,
+  maskImage: `radial-gradient(circle at 50% 100%, transparent 0, transparent ${SPARKLE_MASK_RADIUS}, black ${SPARKLE_MASK_RADIUS})`,
+  WebkitMaskImage: `radial-gradient(circle at 50% 100%, transparent 0, transparent ${SPARKLE_MASK_RADIUS}, black ${SPARKLE_MASK_RADIUS})`,
+  maskSize: '100% 100%',
+  maskPosition: '0 0',
+  maskRepeat: 'no-repeat',
+  WebkitMaskSize: '100% 100%',
+  WebkitMaskPosition: '0 0',
+  WebkitMaskRepeat: 'no-repeat',
+};
+
+const sparkleStyle = (
+  left: number,
+  top: number,
+  size: number,
+  duration: number,
+  delay: number
+): React.CSSProperties => ({
+  position: 'absolute',
+  left: `${left}%`,
+  top: `${top}%`,
+  width: size,
+  height: size,
+  borderRadius: '50%',
+  background: 'rgba(255,255,255,0.92)',
+  boxShadow: '0 0 8px rgba(255,255,255,0.7)',
+  animation: `sparkle-twinkle ${duration}s ease-in-out ${delay}s infinite`,
+});
+
 const heroContentStyle: React.CSSProperties = {
+  position: 'relative',
+  zIndex: 2,
   width: '100%',
   maxWidth: 1300,
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  gap: spacing[6],
+  gap: spacing[10],
   textAlign: 'center',
 };
 
@@ -65,7 +137,8 @@ const heroTitleStyle: React.CSSProperties = {
 };
 
 const heroSubtitleStyle: React.CSSProperties = {
-  fontSize: fontSizes.xl,
+  fontSize: '1.3rem',
+  fontWeight: 200,
   lineHeight: 1.45,
   color: colors.text.light,
   opacity: 0.92,
@@ -89,7 +162,7 @@ const chipStyle: React.CSSProperties = {
   color: colors.text.light,
   backgroundColor: 'transparent',
   border: `1px solid ${colors.neutral.borderDark}`,
-  borderRadius: radii.full,
+  borderRadius: 6,
   whiteSpace: 'nowrap',
 };
 
@@ -100,9 +173,42 @@ const chipIconStyle: React.CSSProperties = {
   flexShrink: 0,
 };
 
+const heroTrustBadgeWrapperStyle: React.CSSProperties = {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: spacing[4],
+  flexWrap: 'wrap',
+};
+
+const heroTrustAvatarsStyle: React.CSSProperties = {
+  display: 'flex',
+  alignItems: 'center',
+  flexShrink: 0,
+};
+
+const heroTrustAvatarStyle = (index: number): React.CSSProperties => ({
+  width: HERO_AVATAR_SIZE,
+  height: HERO_AVATAR_SIZE,
+  borderRadius: '50%',
+  objectFit: 'cover',
+  border: `2px solid ${colors.background.dark}`,
+  marginLeft: index === 0 ? 0 : -(HERO_AVATAR_SIZE * HERO_AVATAR_OVERLAP),
+  boxSizing: 'content-box',
+});
+
+const heroTrustTextStyle: React.CSSProperties = {
+  fontSize: fontSizes.sm,
+  fontWeight: 500,
+  color: colors.text.light,
+  opacity: 0.95,
+  margin: 0,
+};
+
 const Hero: React.FC = () => {
   const [hasEntered, setHasEntered] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
+  const sparkles = useSparkles();
 
   useEffect(() => {
     if (hasEntered) return;
@@ -126,15 +232,33 @@ const Hero: React.FC = () => {
 
   return (
     <section ref={sectionRef} id="hero" style={heroSectionStyle}>
+      <div style={sparklesLayerStyle} aria-hidden="true">
+        {sparkles.map((s) => (
+          <span
+            key={s.id}
+            className="hero-sparkle"
+            style={sparkleStyle(s.left, s.top, s.size, s.duration, s.delay)}
+          />
+        ))}
+      </div>
       <div style={heroContentStyle}>
         <motion.div
+          style={heroTrustBadgeWrapperStyle}
           initial={{ opacity: 0, y: 16 }}
           animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
           transition={{ duration: 0.5, ease: 'easeOut', delay: 0.05 }}
         >
-          <Badge segmentLabel="Sites profissionais">
-            Sob medida para sua empresa
-          </Badge>
+          <div style={heroTrustAvatarsStyle} aria-hidden>
+            {HERO_TESTIMONIAL_IMAGES.map((src, index) => (
+              <img
+                key={src}
+                src={src}
+                alt=""
+                style={heroTrustAvatarStyle(index)}
+              />
+            ))}
+          </div>
+          <span style={heroTrustTextStyle}>Eles confiam e indicam.</span>
         </motion.div>
 
         <motion.h1
@@ -143,7 +267,7 @@ const Hero: React.FC = () => {
           transition={{ duration: 0.7, ease: 'easeOut', delay: 0.15 }}
           style={heroTitleStyle}
         >
-          Transforme seu site em uma máquina de vendas. Atraia clientes qualificados e converta visitantes em negócios reais.
+          Transformamos seu site em um ativo estratégico de geração de clientes.
         </motion.h1>
 
         <motion.h2
@@ -152,7 +276,7 @@ const Hero: React.FC = () => {
           transition={{ duration: 0.6, ease: 'easeOut', delay: 0.25 }}
           style={heroSubtitleStyle}
         >
-          Especialistas em criar presença digital única para empresas: sites que ajudam a crescer e se destacar no mercado.
+          Planejamento, tecnologia e otimização contínua para tornar seu site um verdadeiro canal de aquisição.
         </motion.h2>
 
         <motion.div

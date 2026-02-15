@@ -92,6 +92,16 @@ section:not(#section-0) {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-6px); }
 }
+@keyframes sparkle-twinkle {
+  0%, 100% { opacity: 0; transform: scale(0.6); }
+  50% { opacity: 1; transform: scale(1); }
+}
+@keyframes sparkle-float {
+  0%, 100% { transform: translate(0, 0); }
+  25% { transform: translate(3px, -4px); }
+  50% { transform: translate(-2px, 2px); }
+  75% { transform: translate(2px, 3px); }
+}
 @keyframes header-letter-mix-in {
   0% { opacity: 0; transform: translateY(4px) scale(0.92); }
   100% { opacity: 1; transform: translateY(0) scale(1); }
@@ -109,8 +119,16 @@ section:not(#section-0) {
 .animate-fade-in { animation: fade-in 0.3s ease-out; }
 .animate-scale-in { animation: scale-in 0.3s ease-out; }
 .animate-float { animation: float 3s ease-in-out infinite; }
+.hero-sparkle {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.9);
+  box-shadow: 0 0 6px rgba(255,255,255,0.8);
+  pointer-events: none;
+}
 @media (prefers-reduced-motion: reduce) {
   .animate-float { animation: none !important; }
+  .hero-sparkle { animation: none !important; }
 }
 `,
     }}
