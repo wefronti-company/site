@@ -92,7 +92,18 @@ section:not(#section-0) {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-6px); }
 }
+@keyframes header-letter-mix-in {
+  0% { opacity: 0; transform: translateY(4px) scale(0.92); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
 .shake { animation: shake 0.4s ease-in-out; }
+.header-nav-link { text-shadow: none !important; box-shadow: none !important; }
+.header-nav-link:focus { outline: 2px solid rgba(255,255,255,0.4); outline-offset: 2px; }
+.header-nav-link-char { display: inline-block; }
+.header-nav-link-char.mix-in { animation: header-letter-mix-in 0.22s ease-out forwards; }
+@media (prefers-reduced-motion: reduce) {
+  .header-nav-link-char.mix-in { animation: none; }
+}
 .animate-slide-down { animation: slide-down 0.3s ease-out; }
 .animate-slide-up { animation: slide-up 0.4s ease-out; }
 .animate-fade-in { animation: fade-in 0.3s ease-out; }

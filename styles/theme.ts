@@ -48,7 +48,8 @@ export const breakpoints = {
 /** Container max-width em px */
 export const containerMaxWidth = {
   narrow: 768,
-  wide: 1152,
+  wide: 1280,
+  header: 1600,
 } as const;
 
 export const theme = {

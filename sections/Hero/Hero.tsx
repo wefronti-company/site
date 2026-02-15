@@ -28,8 +28,8 @@ const { colors, spacing, fontSizes, containerMaxWidth } = theme;
 const heroSectionStyle: React.CSSProperties = {
   minHeight: '100vh',
   paddingTop: spacing[8],
-  paddingLeft: spacing[6],
-  paddingRight: spacing[6],
+  paddingLeft: spacing[10],
+  paddingRight: spacing[10],
   backgroundColor: colors.background.dark,
   backgroundImage: "url('/images/brand/background.webp')",
   backgroundSize: 'cover',
@@ -42,12 +42,12 @@ const heroSectionStyle: React.CSSProperties = {
 
 const heroInnerStyle: React.CSSProperties = {
   width: '100%',
-  maxWidth: containerMaxWidth.wide,
+  maxWidth: containerMaxWidth.header,
   margin: '0 auto',
 };
 
 const heroContentStyle: React.CSSProperties = {
-  maxWidth: 640,
+  maxWidth: 680,
 };
 
 const heroTitleStyle: React.CSSProperties = {

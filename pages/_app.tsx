@@ -7,6 +7,7 @@ import GlobalStyles from '../components/GlobalStyles';
 import * as gtag from '../lib/gtag';
 
 const CookieConsent = dynamic(() => import('../components/CookieConsent'), { ssr: false });
+import Header from '../components/ui/Header';
 import Footer from '../sections/Footer';
 export default function MyApp({ Component, pageProps }: AppProps) {
  const router = useRouter();
@@ -53,8 +54,8 @@ export default function MyApp({ Component, pageProps }: AppProps) {
  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
  </Head>
  <GlobalStyles />
+ {!isAdminRoute && <Header />}
  <Component {...pageProps} />
- {/* Footer on every page except home */}
  {!isAdminRoute && router.pathname !== '/' && <Footer />}
  <CookieConsent />
  </>

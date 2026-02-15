@@ -1,164 +1,206 @@
-// Right-click blocking removed for accessibility and developer UX.
-if (typeof window !== 'undefined') {
-  // Previously blocked contextmenu globally — removed for accessibility.
-}
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import Link from 'next/link';
 import Logo from './Logo';
-import { colors } from '../../styles/colors';
+import { theme } from '../../styles/theme';
+import { useMediaQuery } from '../../hooks/useMediaQuery';
 
-type HeaderVariant = 'float' | 'header';
+const { colors, spacing, fontSizes, radii, containerMaxWidth } = theme;
+const SCROLL_TOP_THRESHOLD = 24;
+const REVERSE_DELAY_MS = 220;
+const REVERSED_HOLD_MS = 520;
 
+/** Links do menu (por enquanto fake – seções serão criadas depois) */
 const NAV_LINKS = [
-  { id: 'hero', label: 'Início' },
-  { id: 'clients', label: 'Clientes' },
-  { id: 'contato', label: 'Contato' },
-  { id: 'sobre', label: 'Sobre' },
-  { id: 'faq', label: 'FAQ' },
+  { id: 'hero', label: 'Início', href: '/#hero' },
+  { id: 'clients', label: 'Clientes', href: '/#clients' },
+  { id: 'contato', label: 'Contato', href: '/#contato' },
+  { id: 'sobre', label: 'Sobre', href: '/#sobre' },
+  { id: 'faq', label: 'FAQ', href: '/#faq' },
 ] as const;
 
-const HEADER_OFFSET = 100;
-const SCROLL_TOP_THRESHOLD = 20; // abaixo disso = "no topo" (hero)
-const SCROLL_DIRECTION_THRESHOLD = 5; // mínimo de movimento para considerar direção
+const Header: React.FC = () => {
+  const isMd = useMediaQuery(theme.breakpoints.md);
+  const [scrolled, setScrolled] = useState(false);
+  const [hoveredLinkId, setHoveredLinkId] = useState<string | null>(null);
+  const [reversedPhase, setReversedPhase] = useState(false);
+  const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
 
-const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) => {
-  const [atTop, setAtTop] = useState(true);
-  const [scrollDirection, setScrollDirection] = useState<'up' | 'down' | null>(null);
-  const lastScrollYRef = useRef(0);
+  const clearTimers = () => {
+    timersRef.current.forEach(clearTimeout);
+    timersRef.current = [];
+  };
+
+  const handleLinkMouseEnter = (id: string) => {
+    clearTimers();
+    setHoveredLinkId(id);
+    setReversedPhase(false);
+    const t1 = setTimeout(() => {
+      setReversedPhase(true);
+      const t2 = setTimeout(() => {
+        setReversedPhase(false);
+      }, REVERSED_HOLD_MS);
+      timersRef.current.push(t2);
+    }, REVERSE_DELAY_MS);
+    timersRef.current.push(t1);
+  };
+
+  const handleLinkMouseLeave = () => {
+    clearTimers();
+    setHoveredLinkId(null);
+    setReversedPhase(false);
+  };
 
   useEffect(() => {
-    const handleScroll = () => {
-      const y = window.scrollY;
-      const prev = lastScrollYRef.current;
-      lastScrollYRef.current = y;
-
-      setAtTop(y <= SCROLL_TOP_THRESHOLD);
-
-      if (y <= SCROLL_TOP_THRESHOLD) {
-        setScrollDirection(null);
-      } else {
-        const delta = y - prev;
-        if (Math.abs(delta) >= SCROLL_DIRECTION_THRESHOLD) {
-          setScrollDirection(delta > 0 ? 'down' : 'up');
-        }
-      }
-    };
-
-    const initialY = typeof window !== 'undefined' ? window.scrollY : 0;
-    lastScrollYRef.current = initialY;
-    setAtTop(initialY <= SCROLL_TOP_THRESHOLD);
-    if (initialY > SCROLL_TOP_THRESHOLD) setScrollDirection(null);
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    if (typeof window === 'undefined') return;
+    setScrolled(window.scrollY > SCROLL_TOP_THRESHOLD);
+    const onScroll = () => setScrolled(window.scrollY > SCROLL_TOP_THRESHOLD);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const handleNav = (sectionId: string) => {
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     if (typeof window === 'undefined') return;
-    const id = sectionId.replace(/^#/, '');
-
-    if (window.location.pathname !== '/') {
-      window.location.href = `/#${id}`;
-      return;
-    }
-
+    if (window.location.pathname !== '/') return;
+    e.preventDefault();
+    const id = href.replace(/^.*#/, '') || 'hero';
     const el = document.getElementById(id);
     if (el) {
-      const targetTop = el.getBoundingClientRect().top + window.pageYOffset - HEADER_OFFSET;
-      window.scrollTo({ top: targetTop, behavior: 'smooth' });
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     } else {
-      window.location.href = `/#${id}`;
+      window.location.href = href;
     }
   };
 
-  // Variant "header": no topo = transparente; mostra só ao scrollar para cima, com fundo desfocado
-  const showHeaderBar = atTop || scrollDirection === 'up';
-  const hasBlurredBackground = !atTop && scrollDirection === 'up';
+  const headerStyle: React.CSSProperties = {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    right: 0,
+    zIndex: 100,
+    backgroundColor: scrolled ? 'rgba(4, 4, 4, 0.75)' : 'transparent',
+    backdropFilter: scrolled ? 'saturate(180%) blur(12px)' : 'none',
+    WebkitBackdropFilter: scrolled ? 'saturate(180%) blur(12px)' : 'none',
+    borderBottom: scrolled ? `1px solid ${colors.neutral.borderDark}` : '1px solid transparent',
+    transition: 'background-color 0.25s ease, backdrop-filter 0.25s ease, border-color 0.25s ease',
+  };
 
-  if (variant === 'header') {
-    return (
-      <header
-        className="fixed top-0 left-0 right-0 z-100 transition-all duration-300 ease-out"
-        style={{
-          transform: showHeaderBar ? 'translateY(0)' : 'translateY(-100%)',
-          background: hasBlurredBackground
-            ? `rgba(0, 0, 0, 0.4)`
-            : 'transparent',
-          backdropFilter: hasBlurredBackground ? 'saturate(180%) blur(12px)' : 'none',
-          WebkitBackdropFilter: hasBlurredBackground ? 'saturate(180%) blur(12px)' : 'none',
-          borderBottom: hasBlurredBackground ? `1px solid ${colors.neutral.borderDark}` : '1px solid transparent',
-        }}
-      >
-        <nav aria-label="Navegação principal" className="w-full">
-          <div className="w-full px-4 md:px-8 lg:px-12">
-            <div className="max-w-3xl md:max-w-6xl mx-auto py-5 md:py-6">
-              <div className="flex items-center justify-between gap-4">
-                {/* Esquerda: logo */}
-                <div className="flex-shrink-0">
-                  <Logo href="/" ariaLabel="Ir para a página inicial" isDark={false} className="h-8 md:h-9 w-auto" />
-                </div>
+  const innerStyle: React.CSSProperties = {
+    width: '100%',
+    maxWidth: containerMaxWidth.header,
+    margin: '0 auto',
+    paddingLeft: isMd ? spacing[12] : spacing[6],
+    paddingRight: isMd ? spacing[12] : spacing[6],
+    paddingTop: spacing[5],
+    paddingBottom: spacing[5],
+  };
 
-                {/* Direita: links (desktop) + botão, alinhados */}
-                <div className="flex items-center gap-5 lg:gap-6">
-                  <ul className="hidden md:flex items-center gap-5 lg:gap-6">
-                    {NAV_LINKS.map(({ id, label }) => (
-                      <li key={id}>
-                        <button
-                          type="button"
-                          onClick={() => handleNav(id)}
-                          className="text-sm md:text-base font-normal tracking-wide transition-colors hover:opacity-80 whitespace-nowrap"
-                          style={{ color: colors.text.light }}
-                        >
-                          {label}
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
-                  <button
-                    type="button"
-                    onClick={() => handleNav('contato')}
-                    className="inline-flex items-center justify-center px-4 py-2 text-sm md:px-5 md:py-2.5 md:text-base font-medium rounded transition-opacity hover:opacity-90 flex-shrink-0"
-                    style={{
-                      background: colors.blue.primary,
-                      color: colors.text.light,
-                    }}
-                  >
-                    Quero ter um site
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </nav>
-      </header>
-    );
-  }
+  const rowStyle: React.CSSProperties = {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: spacing[8],
+  };
 
-  // Variant "float" (legacy): manter estrutura mínima para não quebrar se for usado em outro lugar
+  const leftCellStyle: React.CSSProperties = { flex: '1 1 0', minWidth: 0, display: 'flex', justifyContent: 'flex-start' };
+  const centerCellStyle: React.CSSProperties = { flex: '0 0 auto', display: 'flex', justifyContent: 'center' };
+  const rightCellStyle: React.CSSProperties = { flex: '1 1 0', minWidth: 0, display: 'flex', justifyContent: 'flex-end' };
+
+  const navStyle: React.CSSProperties = {
+    display: 'flex',
+    alignItems: 'center',
+    gap: isMd ? spacing[10] : spacing[6],
+  };
+
+  const linkListStyle: React.CSSProperties = {
+    display: isMd ? 'flex' : 'none',
+    alignItems: 'center',
+    gap: spacing[8],
+    listStyle: 'none',
+    margin: 0,
+    padding: 0,
+  };
+
+  const linkStyle: React.CSSProperties = {
+    fontSize: fontSizes.sm,
+    fontWeight: 400,
+    letterSpacing: '0.02em',
+    color: colors.text.light,
+    textDecoration: 'none',
+    whiteSpace: 'nowrap',
+    background: 'none',
+    border: 'none',
+    cursor: 'pointer',
+    padding: 0,
+    textShadow: 'none',
+    boxShadow: 'none',
+  };
+
+  const btnStyle: React.CSSProperties = {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: `${spacing[3]}px ${spacing[6]}px`,
+    fontSize: fontSizes.sm,
+    fontWeight: 500,
+    borderRadius: radii.md,
+    backgroundColor: colors.blue.primary,
+    color: colors.text.light,
+    border: 'none',
+    cursor: 'pointer',
+    textDecoration: 'none',
+    flexShrink: 0,
+  };
+
   return (
-    <header
-      className="fixed top-0 left-0 right-0 z-100"
-      style={{
-        background: colors.background.dark,
-        borderBottom: `1px solid ${colors.neutral.borderDark}`,
-      }}
-    >
-      <nav className="w-full px-4 md:px-8 py-5">
-        <div className="max-w-6xl mx-auto flex items-center justify-between">
-          <Logo href="/" ariaLabel="Ir para a página inicial" isDark={false} className="h-8 w-auto" />
-          <ul className="flex items-center gap-6">
-            {NAV_LINKS.map(({ id, label }) => (
-              <li key={id}>
-                <button
-                  type="button"
-                  onClick={() => handleNav(id)}
-                  className="text-sm font-medium"
-                  style={{ color: colors.text.light }}
-                >
-                  {label}
-                </button>
-              </li>
-            ))}
-          </ul>
+    <header style={headerStyle} role="banner">
+      <nav aria-label="Navegação principal" style={innerStyle}>
+        <div style={rowStyle}>
+          <div style={leftCellStyle}>
+            <Logo href="/" ariaLabel="Ir para a página inicial" isDark={false} />
+          </div>
+
+          <div style={centerCellStyle}>
+            <ul style={linkListStyle}>
+              {NAV_LINKS.map(({ id, label, href }) => {
+                const isHovered = hoveredLinkId === id;
+                const chars = isHovered && reversedPhase ? label.split('').reverse() : label.split('');
+                return (
+                  <li key={id}>
+                    <Link
+                      href={href}
+                      className="header-nav-link"
+                      style={linkStyle}
+                      onClick={(e) => handleNavClick(e, href)}
+                      onMouseEnter={() => handleLinkMouseEnter(id)}
+                      onMouseLeave={handleLinkMouseLeave}
+                    >
+                      {chars.map((char, i) => (
+                        <span
+                          key={`${id}-${reversedPhase ? 'r' : 'n'}-${i}-${char}`}
+                          className={isHovered ? 'header-nav-link-char mix-in' : 'header-nav-link-char'}
+                          style={isHovered ? { animationDelay: `${i * 0.028}s` } : undefined}
+                        >
+                          {char}
+                        </span>
+                      ))}
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+
+          <div style={rightCellStyle}>
+            <Link
+              href="/#contato"
+              style={btnStyle}
+              onClick={(e) => handleNavClick(e, '/#contato')}
+              onMouseEnter={(e) => { e.currentTarget.style.opacity = '0.9'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.opacity = '1'; }}
+            >
+              Solicitar orçamento
+            </Link>
+          </div>
         </div>
       </nav>
     </header>
