@@ -22,7 +22,7 @@ export default function Document() {
  <link href="https://fonts.googleapis.com/css2?family=Funnel+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
  
  </Head>
- <body className="body-grid" style={{ backgroundColor: '#040404' }}>
+ <body style={{ backgroundColor: '#040404' }}>
  <Main />
 
  {/* Client-side JS chunk retry: if a script from /_next/static/chunks fails to load, attempt a few retries with cache-busting query param */}

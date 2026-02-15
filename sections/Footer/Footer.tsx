@@ -1,11 +1,16 @@
 import React from 'react';
 import Link from 'next/link';
 import Logo from '../../components/ui/Logo';
-import { colors } from '../../styles/colors';
+import { theme } from '../../styles/theme';
+import { useMediaQuery } from '../../hooks/useMediaQuery';
 import { ArrowRight, ArrowUp } from 'lucide-react';
 import { FaWhatsapp, FaEnvelope, FaInstagram, FaLinkedin } from 'react-icons/fa';
 
+const { colors, spacing, fontSizes } = theme;
+const containerMaxWidth = 1152;
+
 const Footer: React.FC = () => {
+  const isMd = useMediaQuery(theme.breakpoints.md);
 
   const scrollToTop = () => {
     if (typeof window === 'undefined') return;
@@ -36,93 +41,168 @@ const Footer: React.FC = () => {
     }
   };
 
+  const footerStyle: React.CSSProperties = {
+    width: '100%',
+    backgroundColor: colors.background.dark,
+    borderTop: `1px solid ${colors.neutral.borderDark}`,
+  };
+
+  const innerStyle: React.CSSProperties = {
+    padding: `${spacing[12]}px ${spacing[8]}px ${spacing[8]}px`,
+    maxWidth: containerMaxWidth,
+    margin: '0 auto',
+  };
+
+  const gridStyle: React.CSSProperties = {
+    display: 'grid',
+    gridTemplateColumns: isMd ? 'repeat(4, 1fr)' : '1fr',
+    gap: spacing[12],
+    marginBottom: spacing[12],
+  };
+
+  const colStyle: React.CSSProperties = {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: spacing[4],
+  };
+
+  const titleStyle: React.CSSProperties = {
+    fontSize: fontSizes.sm,
+    fontWeight: 400,
+    marginBottom: spacing[3],
+    textTransform: 'uppercase' as const,
+    color: colors.text.dark,
+  };
+
+  const linkStyle: React.CSSProperties = {
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: spacing[3],
+    fontSize: fontSizes.sm,
+    background: 'transparent',
+    border: 0,
+    padding: 0,
+    margin: 0,
+    textDecoration: 'none',
+    cursor: 'pointer',
+    color: colors.text.light,
+  };
+
+  const bottomStyle: React.CSSProperties = {
+    padding: `${spacing[8]}px ${spacing[8]}px`,
+  };
+
+  const bottomGridStyle: React.CSSProperties = {
+    display: 'grid',
+    gridTemplateColumns: isMd ? 'repeat(3, 1fr)' : '1fr',
+    gap: spacing[2],
+    alignItems: 'center',
+    maxWidth: 1152,
+    margin: '0 auto',
+    paddingLeft: spacing[8],
+    paddingRight: spacing[8],
+  };
+
+  const btnTopStyle: React.CSSProperties = {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 44,
+    height: 44,
+    border: 0,
+    borderRadius: theme.radii.md,
+    background: colors.blue.primary,
+    color: colors.text.light,
+    cursor: 'pointer',
+    zIndex: 50,
+  };
+
+  const iconWrapStyle: React.CSSProperties = {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 32,
+    height: 32,
+    marginLeft: -spacing[2],
+    color: colors.icons.light,
+  };
+
+  const smallTextStyle: React.CSSProperties = {
+    fontSize: fontSizes.sm,
+    color: colors.text.dark,
+    opacity: 0.6,
+  };
+
   return (
-    <footer
-      className="footer"
-      style={{
-        backgroundColor: colors.background.dark,
-        borderTop: `1px solid ${colors.neutral.borderDark}`,
-      }}
-    >
+    <footer style={footerStyle}>
       <div style={{ backgroundColor: colors.background.dark }}>
-        <div className="footer-inner">
-          <div className="footer-grid">
-            <div className="footer-col">
+        <div style={innerStyle}>
+          <div style={gridStyle}>
+            <div style={colStyle}>
               <Logo />
-              <p className="text-sm max-w-20rem" style={{ color: colors.text.dark, opacity: 0.9 }}>
+              <p style={{ ...smallTextStyle, maxWidth: '20rem', opacity: 0.9 }}>
                 Avenida Cristovao Colombo, 2144, Sala 408 Andar 3, Floresta, Porto Alegre, RS
               </p>
             </div>
 
             <div>
-              <h4 className="footer-title" style={{ color: colors.text.dark }}>Navegação</h4>
-              <ul className="flex flex-col gap-4">
-                <li>
-                  <a href="/#hero" className="footer-link" style={{ color: colors.text.light }} onClick={(e) => handleNavClick(e, 'hero')} aria-label="Ir para Início">
-                    <span>Início</span>
-                    <ArrowRight size={16} className="-rotate-45 ml-auto" style={{ color: colors.text.dark }} aria-hidden />
-                  </a>
-                </li>
-                <li>
-                  <a href="/#clients" className="footer-link" style={{ color: colors.text.light }} onClick={(e) => handleNavClick(e, 'clients')} aria-label="Ir para Clientes">
-                    <span>Clientes</span>
-                    <ArrowRight size={16} className="-rotate-45 ml-auto" style={{ color: colors.text.dark }} aria-hidden />
-                  </a>
-                </li>
-                <li>
-                  <a href="/#contato" className="footer-link" style={{ color: colors.text.light }} onClick={(e) => handleNavClick(e, 'contato')} aria-label="Ir para Contato">
-                    <span>Contato</span>
-                    <ArrowRight size={16} className="-rotate-45 ml-auto" style={{ color: colors.text.dark }} aria-hidden />
-                  </a>
-                </li>
-                <li>
-                  <a href="/#sobre" className="footer-link" style={{ color: colors.text.light }} onClick={(e) => handleNavClick(e, 'sobre')} aria-label="Ir para Sobre">
-                    <span>Sobre</span>
-                    <ArrowRight size={16} className="-rotate-45 ml-auto" style={{ color: colors.text.dark }} aria-hidden />
-                  </a>
-                </li>
-                <li>
-                  <a href="/#faq" className="footer-link" style={{ color: colors.text.light }} onClick={(e) => handleNavClick(e, 'faq')} aria-label="Ir para FAQ">
-                    <span>FAQ</span>
-                    <ArrowRight size={16} className="-rotate-45 ml-auto" style={{ color: colors.text.dark }} aria-hidden />
-                  </a>
-                </li>
+              <h4 style={titleStyle}>Navegação</h4>
+              <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: spacing[4] }}>
+                {[
+                  { id: 'hero', label: 'Início' },
+                  { id: 'clients', label: 'Clientes' },
+                  { id: 'contato', label: 'Contato' },
+                  { id: 'sobre', label: 'Sobre' },
+                  { id: 'faq', label: 'FAQ' },
+                ].map(({ id, label }) => (
+                  <li key={id}>
+                    <a
+                      href={`/#${id}`}
+                      style={linkStyle}
+                      onClick={(e) => handleNavClick(e, id)}
+                      aria-label={`Ir para ${label}`}
+                    >
+                      <span>{label}</span>
+                      <ArrowRight size={16} style={{ color: colors.text.dark, transform: 'rotate(-45deg)', marginLeft: 'auto' }} aria-hidden />
+                    </a>
+                  </li>
+                ))}
               </ul>
             </div>
 
             <div>
-              <h4 className="footer-title" style={{ color: colors.text.dark }}>Conecte-se</h4>
-              <div className="flex flex-col gap-4">
-                <a href="https://instagram.com/wefronti" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-sm" style={{ color: colors.text.light }}>
-                  <span className="w-8 h-8 flex items-center justify-center rounded-md -ml-2" style={{ color: colors.icons.light }} aria-hidden><FaInstagram /></span>
+              <h4 style={titleStyle}>Conecte-se</h4>
+              <div style={{ ...colStyle, marginBottom: spacing[8] }}>
+                <a href="https://instagram.com/wefronti" target="_blank" rel="noopener noreferrer" style={{ ...linkStyle, gap: spacing[3] }}>
+                  <span style={iconWrapStyle} aria-hidden><FaInstagram /></span>
                   <span>Instagram</span>
                 </a>
-                <a href="https://linkedin.com/company/wefronti" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-sm" style={{ color: colors.text.light }}>
-                  <span className="w-8 h-8 flex items-center justify-center rounded-md -ml-2" style={{ color: colors.icons.light }} aria-hidden><FaLinkedin /></span>
+                <a href="https://linkedin.com/company/wefronti" target="_blank" rel="noopener noreferrer" style={{ ...linkStyle, gap: spacing[3] }}>
+                  <span style={iconWrapStyle} aria-hidden><FaLinkedin /></span>
                   <span>LinkedIn</span>
                 </a>
               </div>
             </div>
 
             <div>
-              <h4 className="footer-title" style={{ color: colors.text.dark }}>Fale conosco</h4>
-              <div className="flex flex-col gap-4" style={{ marginBottom: '2rem' }}>
-                <a href="mailto:projetos@wefronti.com" className="flex items-center gap-3 text-sm" style={{ color: colors.text.light }} aria-label="Enviar e‑mail para projetos@wefronti.com">
-                  <span className="w-8 h-8 flex items-center justify-center rounded-md -ml-2" style={{ color: colors.icons.light }} aria-hidden><FaEnvelope /></span>
+              <h4 style={titleStyle}>Fale conosco</h4>
+              <div style={{ ...colStyle, marginBottom: spacing[8] }}>
+                <a href="mailto:projetos@wefronti.com" style={{ ...linkStyle, gap: spacing[3] }} aria-label="Enviar e‑mail para projetos@wefronti.com">
+                  <span style={iconWrapStyle} aria-hidden><FaEnvelope /></span>
                   <span>projetos@wefronti.com</span>
                 </a>
-                <a href="https://wa.me/message/3V45SAJMLIJJJ1" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-sm" style={{ color: colors.text.light }} aria-label="Abrir conversa no WhatsApp">
-                  <span className="w-8 h-8 flex items-center justify-center rounded-md -ml-2" style={{ color: colors.icons.light }} aria-hidden>
-                    <img src="/images/icons/icon-fran-whatsapp.svg?v=2" alt="Ícone Fran" className="w-6 h-6 object-contain" />
+                <a href="https://wa.me/message/3V45SAJMLIJJJ1" target="_blank" rel="noopener noreferrer" style={{ ...linkStyle, gap: spacing[3] }} aria-label="Abrir conversa no WhatsApp">
+                  <span style={iconWrapStyle} aria-hidden>
+                    <img src="/images/icons/icon-fran-whatsapp.svg?v=2" alt="Ícone Fran" style={{ width: 24, height: 24, objectFit: 'contain' }} />
                   </span>
                   <span>Falar com a Fran</span>
                 </a>
               </div>
-              <h4 className="footer-title" style={{ color: colors.text.dark }}>Legal</h4>
+              <h4 style={titleStyle}>Legal</h4>
               <div>
-                <Link href="/politica-privacidade" className="text-sm inline-flex items-center gap-2" style={{ color: colors.text.light }}>
+                <Link href="/politica-privacidade" style={{ ...linkStyle, gap: spacing[2], fontSize: fontSizes.sm }}>
                   Política de Privacidade
-                  <ArrowRight size={14} className="-rotate-45 ml-auto" style={{ color: colors.text.dark }} aria-hidden />
+                  <ArrowRight size={14} style={{ color: colors.text.dark, transform: 'rotate(-45deg)' }} aria-hidden />
                 </Link>
               </div>
             </div>
@@ -132,20 +212,18 @@ const Footer: React.FC = () => {
 
       <div style={{ width: '100%', height: 1, borderTop: `1px solid ${colors.neutral.borderDark}` }} />
 
-      <div className="footer-bottom">
-        <div style={{ maxWidth: '72rem', margin: '0 auto', paddingLeft: '2rem', paddingRight: '2rem' }}>
-          <div className="footer-bottom-grid">
-            <div className="text-sm text-left" style={{ color: colors.text.dark, opacity: 0.6 }}>
-              CNPJ: 64.507.638/0001-04 | Wefronti Tecnologia Ltda
-            </div>
-            <div className="text-sm text-left md:text-center" style={{ color: colors.text.dark, opacity: 0.6 }}>
-              © {new Date().getFullYear()} Wefronti. Todos os direitos reservados.
-            </div>
-            <div className="flex items-center justify-end">
-              <button type="button" onClick={scrollToTop} aria-label="Voltar ao topo" className="footer-btn-top" style={{ background: colors.blue.primary, color: colors.text.light, zIndex: 50 }}>
-                <ArrowUp size={18} />
-              </button>
-            </div>
+      <div style={bottomStyle}>
+        <div style={bottomGridStyle}>
+          <div style={{ ...smallTextStyle, textAlign: 'left' }}>
+            CNPJ: 64.507.638/0001-04 | Wefronti Tecnologia Ltda
+          </div>
+          <div style={{ ...smallTextStyle, textAlign: isMd ? 'center' : 'left' }}>
+            © {new Date().getFullYear()} Wefronti. Todos os direitos reservados.
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
+            <button type="button" onClick={scrollToTop} aria-label="Voltar ao topo" style={btnTopStyle}>
+              <ArrowUp size={18} />
+            </button>
           </div>
         </div>
       </div>

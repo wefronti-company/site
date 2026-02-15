@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { colors } from '../../styles/colors';
+import { theme } from '../../styles/theme';
 import ButtonCta from '../../components/ui/ButtonCta';
 import Badge from '../../components/ui/Badge';
 import Logo from '../../components/ui/Logo';
@@ -21,6 +21,52 @@ const scrollToSection = (id: string) => {
   } else {
     window.location.href = `/#${id}`;
   }
+};
+
+const { colors, spacing, fontSizes, containerMaxWidth } = theme;
+
+const heroSectionStyle: React.CSSProperties = {
+  minHeight: '100vh',
+  paddingTop: spacing[8],
+  paddingLeft: spacing[6],
+  paddingRight: spacing[6],
+  backgroundColor: colors.background.dark,
+  backgroundImage: "url('/images/brand/background.webp')",
+  backgroundSize: 'cover',
+  backgroundPosition: 'center',
+  zIndex: 0,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+};
+
+const heroInnerStyle: React.CSSProperties = {
+  width: '100%',
+  maxWidth: containerMaxWidth.wide,
+  margin: '0 auto',
+};
+
+const heroContentStyle: React.CSSProperties = {
+  maxWidth: 640,
+};
+
+const heroTitleStyle: React.CSSProperties = {
+  fontWeight: 200,
+  lineHeight: 1.1,
+  letterSpacing: '-0.02em',
+  fontSize: 'clamp(2.25rem, 5vw, 4rem)',
+  color: colors.text.light,
+  margin: 0,
+  marginBottom: spacing[4],
+};
+
+const heroSubtitleStyle: React.CSSProperties = {
+  fontSize: fontSizes.lg,
+  lineHeight: 1.5,
+  color: colors.text.light,
+  opacity: 0.9,
+  margin: 0,
+  marginBottom: spacing[6],
 };
 
 const Hero: React.FC = () => {
@@ -48,34 +94,23 @@ const Hero: React.FC = () => {
   }, [hasEntered]);
 
   return (
-    <section
-      ref={sectionRef}
-      id="hero"
-      className="hero-section"
-      style={{
-        minHeight: '100vh',
-        paddingTop: '32px',
-        backgroundColor: colors.background.dark,
-        backgroundImage: "url('/images/brand/background.webp')",
-        zIndex: 0,
-      }}
-    >
-      <div className="hero-inner">
-        <div className="hero-content">
+    <section ref={sectionRef} id="hero" style={heroSectionStyle}>
+      <div style={heroInnerStyle}>
+        <div style={heroContentStyle}>
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
             transition={{ duration: 0.4, ease: 'easeOut', delay: 0 }}
-            style={{ marginBottom: '2rem' }}
+            style={{ marginBottom: spacing[8] }}
           >
-            <Logo href="/" ariaLabel="Ir para a página inicial" isDark={false} className="hero-logo" />
+            <Logo href="/" ariaLabel="Ir para a página inicial" isDark={false} style={logoStyle} />
           </motion.div>
 
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
             transition={{ duration: 0.5, ease: 'easeOut', delay: 0.05 }}
-            style={{ marginBottom: '1.5rem' }}
+            style={{ marginBottom: spacing[6] }}
           >
             <Badge segmentLabel="Sites profissionais">
               Sob medida para sua empresa
@@ -86,8 +121,7 @@ const Hero: React.FC = () => {
             initial={{ opacity: 0, y: 24 }}
             animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
             transition={{ duration: 0.7, ease: 'easeOut', delay: 0.15 }}
-            className="hero-title"
-            style={{ color: colors.text.light }}
+            style={heroTitleStyle}
           >
             Trasforme seu site em uma máquina de vendas e aquisição de clientes
           </motion.h1>
@@ -96,8 +130,7 @@ const Hero: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ duration: 0.6, ease: 'easeOut', delay: 0.35 }}
-            className="hero-subtitle"
-            style={{ color: colors.text.light, opacity: 0.9 }}
+            style={heroSubtitleStyle}
           >
             Especialistas em criar presença digital única para empresas: sites que ajudam a crescer e se destacar no mercado.
           </motion.h2>
@@ -115,6 +148,13 @@ const Hero: React.FC = () => {
       </div>
     </section>
   );
+};
+
+const logoStyle: React.CSSProperties = {
+  display: 'inline-block',
+  objectFit: 'contain',
+  maxHeight: 40,
+  maxWidth: 140,
 };
 
 export default Hero;

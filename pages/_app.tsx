@@ -2,8 +2,8 @@ import React from 'react';
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
-import '../styles/globals.css';
 import type { AppProps } from 'next/app';
+import GlobalStyles from '../components/GlobalStyles';
 import * as gtag from '../lib/gtag';
 
 const CookieConsent = dynamic(() => import('../components/CookieConsent'), { ssr: false });
@@ -52,6 +52,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
  <Head>
  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
  </Head>
+ <GlobalStyles />
  <Component {...pageProps} />
  {/* Footer on every page except home */}
  {!isAdminRoute && router.pathname !== '/' && <Footer />}

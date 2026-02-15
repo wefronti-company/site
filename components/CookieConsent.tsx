@@ -1,7 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { X, Cookie, Settings } from 'lucide-react';
-import { colors } from '../styles/colors';
+import { theme } from '../styles/theme';
+import { useMediaQuery } from '../hooks/useMediaQuery';
 import { loadGoogleAnalytics } from '../lib/gtag';
+
+const { colors, spacing, fontSizes, radii } = theme;
 
 interface CookiePreferences {
   necessary: boolean;
@@ -12,72 +15,50 @@ interface CookiePreferences {
 const CookieConsent: React.FC = () => {
   const [showBanner, setShowBanner] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
+  const bannerInnerRef = useRef<HTMLDivElement>(null);
+  const isMd = useMediaQuery(theme.breakpoints.md);
   const [preferences, setPreferences] = useState<CookiePreferences>({
-    necessary: true, // Sempre true, não pode ser desabilitado
+    necessary: true,
     analytics: false,
     marketing: false,
   });
 
   useEffect(() => {
-    // Verificar se já existe consentimento salvo
     const savedConsent = localStorage.getItem('cookieConsent');
     if (!savedConsent) {
-      // Aguardar 1 segundo antes de mostrar o banner
       const timer = setTimeout(() => setShowBanner(true), 1000);
       return () => clearTimeout(timer);
     } else {
-      // Carregar preferências salvas
       const saved = JSON.parse(savedConsent);
       setPreferences(saved);
       loadCookieScripts(saved);
     }
   }, []);
 
-  // Quando o banner está visível, adiciona padding-bottom no body para evitar que o banner sobreponha links no footer
   useEffect(() => {
     let prevPadding = '';
     if (showBanner) {
       prevPadding = document.body.style.paddingBottom || '';
-      // calcula altura do banner
-      const el = document.querySelector('.cookie-banner-inner') as HTMLElement | null;
+      const el = bannerInnerRef.current;
       const h = el ? `${el.offsetHeight}px` : '96px';
       document.body.style.paddingBottom = h;
     }
     return () => {
-      // restaurar padding anterior
       document.body.style.paddingBottom = prevPadding;
     };
   }, [showBanner]);
 
   const loadCookieScripts = (prefs: CookiePreferences) => {
-    // Analytics (Google Analytics)
-    if (prefs.analytics) {
-      loadGoogleAnalytics();
-    }
-
-    // Marketing (Facebook Pixel, LinkedIn Insight, etc.)
-    if (prefs.marketing) {
-      // Adicione aqui outros scripts de marketing quando necessário
-      // Exemplo: loadFacebookPixel();
-    }
+    if (prefs.analytics) loadGoogleAnalytics();
+    if (prefs.marketing) { /* future */ }
   };
 
   const handleAcceptAll = () => {
-    const allAccepted = {
-      necessary: true,
-      analytics: true,
-      marketing: true,
-    };
-    savePreferences(allAccepted);
+    savePreferences({ necessary: true, analytics: true, marketing: true });
   };
 
   const handleRejectAll = () => {
-    const onlyNecessary = {
-      necessary: true,
-      analytics: false,
-      marketing: false,
-    };
-    savePreferences(onlyNecessary);
+    savePreferences({ necessary: true, analytics: false, marketing: false });
   };
 
   const handleSavePreferences = () => {
@@ -94,271 +75,208 @@ const CookieConsent: React.FC = () => {
   };
 
   const togglePreference = (key: keyof CookiePreferences) => {
-    if (key === 'necessary') return; // Não permite desabilitar cookies necessários
+    if (key === 'necessary') return;
     setPreferences(prev => ({ ...prev, [key]: !prev[key] }));
   };
 
   if (!showBanner) return null;
 
+  const bannerStyle: React.CSSProperties = {
+    position: 'fixed',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    zIndex: 50,
+    padding: isMd ? spacing[6] : spacing[4],
+    backgroundColor: colors.background.dark,
+    borderTop: `1px solid ${colors.neutral.borderDark}`,
+    pointerEvents: 'none',
+    animation: 'slide-up 0.4s ease-out',
+  };
+
+  const innerStyle: React.CSSProperties = {
+    pointerEvents: 'auto',
+    maxWidth: 1280,
+    margin: '0 auto',
+  };
+
+  const rowStyle: React.CSSProperties = {
+    display: 'flex',
+    flexDirection: isMd ? 'row' : 'column',
+    alignItems: isMd ? 'center' : 'flex-start',
+    justifyContent: 'space-between',
+    gap: spacing[4],
+  };
+
+  const btnStyle: React.CSSProperties = {
+    padding: `${spacing[2]}px ${spacing[4]}px`,
+    fontSize: fontSizes.sm,
+    fontWeight: 500,
+    border: `1px solid ${colors.neutral.borderDark}`,
+    borderRadius: radii.md,
+    backgroundColor: colors.background.dark,
+    color: colors.text.light,
+    cursor: 'pointer',
+    transition: 'opacity 0.2s',
+  };
+
+  const btnPrimaryStyle: React.CSSProperties = {
+    ...btnStyle,
+    background: colors.blue.primary,
+  };
+
   return (
     <>
-      {/* Banner Principal */}
       {!showSettings && (
-        <div
-          className="cookie-banner fixed bottom-0 left-0 right-0 z-50 p-4 md:p-6 animate-slide-up"
-          style={{
-            backgroundColor: colors.background.dark,
-            borderTop: `1px solid ${colors.neutral.borderDark}`,
-            // allow clicks to pass through the banner except on interactive controls
-            pointerEvents: 'none'
-          }}
-        >
-          <div style={{ pointerEvents: 'auto' }} className="cookie-banner-inner max-w-7xl mx-auto">
-            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-              
-              {/* Texto */}
-              <div className="flex-1">
-                <div className="flex items-center gap-2 mb-2">
+        <div style={bannerStyle}>
+          <div ref={bannerInnerRef} style={innerStyle}>
+            <div style={rowStyle}>
+              <div style={{ flex: 1 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: spacing[2], marginBottom: spacing[2] }}>
                   <Cookie size={20} style={{ color: colors.icons.light }} />
-                  <h3 className="text-lg font-medium" style={{ color: colors.text.light }}>
+                  <h3 style={{ fontSize: fontSizes.lg, fontWeight: 500, color: colors.text.light, margin: 0 }}>
                     Este site utiliza cookies
                   </h3>
                 </div>
-                <p className="text-sm leading-relaxed" style={{ color: colors.text.light, opacity: 0.8 }}>
-                  Usamos cookies essenciais para o funcionamento do site e, com seu consentimento, cookies de análise e marketing para melhorar sua experiência. 
-                  Você pode gerenciar suas preferências a qualquer momento.{' '}
-                  <a 
-                    href="/politica-privacidade" 
-                    target="_blank"
-                    className="underline"
-                    style={{ color: colors.text.dark }}
-                  >
+                <p style={{ fontSize: fontSizes.sm, lineHeight: 1.6, color: colors.text.light, opacity: 0.8, margin: 0 }}>
+                  Usamos cookies essenciais para o funcionamento do site e, com seu consentimento, cookies de análise e marketing para melhorar sua experiência.{' '}
+                  <a href="/politica-privacidade" target="_blank" rel="noopener noreferrer" style={{ color: colors.text.dark, textDecoration: 'underline' }}>
                     Saiba mais
                   </a>
                 </p>
               </div>
-
-              {/* Botões */}
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full md:w-auto">
-                <button
-                  onClick={() => setShowSettings(true)}
-                  className="px-4 py-2 text-sm font-medium transition-all hover:opacity-80 flex items-center justify-center gap-2"
-                  style={{
-                    backgroundColor: colors.background.dark,
-                    color: colors.text.light,
-                    border: `1px solid ${colors.neutral.borderDark}`,
-                    borderRadius: '6px',
-                  }}
-                >
+              <div style={{ display: 'flex', flexDirection: isMd ? 'row' : 'column', gap: spacing[3], width: isMd ? 'auto' : '100%' }}>
+                <button onClick={() => setShowSettings(true)} style={{ ...btnStyle, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: spacing[2] }}>
                   <Settings size={16} />
                   Preferências
                 </button>
-                
-                <button
-                  onClick={handleRejectAll}
-                  className="px-4 py-2 text-sm font-medium transition-all hover:opacity-80"
-                  style={{
-                    backgroundColor: colors.background.dark,
-                    color: colors.text.light,
-                    border: `1px solid ${colors.neutral.borderDark}`,
-                    borderRadius: '6px',
-                  }}
-                >
-                  Rejeitar
-                </button>
-
-                <button
-                  onClick={handleAcceptAll}
-                  className="px-6 py-2 text-sm font-medium transition-all hover:scale-105"
-                  style={{
-                    background: colors.blue.primary,
-                    color: colors.text.light,
-                    border: `1px solid ${colors.neutral.borderDark}`,
-                    borderRadius: '6px',
-                  }}
-                >
-                  Ok, entendi!
-                </button>
+                <button onClick={handleRejectAll} style={btnStyle}>Rejeitar</button>
+                <button onClick={handleAcceptAll} style={btnPrimaryStyle}>Ok, entendi!</button>
               </div>
             </div>
           </div>
         </div>
       )}
 
-      {/* Modal de Configurações */}
       {showSettings && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 animate-fade-in" style={{ paddingTop: '100px', paddingBottom: '100px', backgroundColor: 'rgba(0,0,0,0.8)' }}>
+        <div
+          style={{
+            position: 'fixed',
+            inset: 0,
+            zIndex: 50,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: spacing[4],
+            paddingTop: 100,
+            paddingBottom: 100,
+            backgroundColor: 'rgba(0,0,0,0.8)',
+            animation: 'fade-in 0.3s ease-out',
+          }}
+        >
           <div
-            className="w-full max-w-2xl max-h-90vh overflow-y-auto p-6 md:p-8 animate-scale-in"
             style={{
+              width: '100%',
+              maxWidth: 672,
+              maxHeight: '90vh',
+              overflowY: 'auto',
+              padding: spacing[6],
               backgroundColor: colors.background.dark,
               border: `1px solid ${colors.neutral.borderDark}`,
-              borderRadius: '6px',
+              borderRadius: radii.md,
+              animation: 'scale-in 0.3s ease-out',
             }}
           >
-            {/* Header */}
-            <div className="flex items-start justify-between mb-6">
+            <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: spacing[6] }}>
               <div>
-                <h2 className="text-2xl font-medium mb-2" style={{ color: colors.text.light }}>
+                <h2 style={{ fontSize: 24, fontWeight: 500, color: colors.text.light, margin: 0, marginBottom: spacing[2] }}>
                   Configurações de Cookies
                 </h2>
-                <p className="text-sm" style={{ color: colors.text.light, opacity: 0.8 }}>
+                <p style={{ fontSize: fontSizes.sm, color: colors.text.light, opacity: 0.8, margin: 0 }}>
                   Gerencie suas preferências de cookies. Você pode alterar essas configurações a qualquer momento.
                 </p>
               </div>
               <button
                 onClick={() => setShowSettings(false)}
-                className="p-2 rounded-lg transition-all hover:opacity-80"
-                style={{ backgroundColor: colors.background.dark }}
+                style={{ padding: spacing[2], border: 0, borderRadius: radii.md, background: colors.background.dark, cursor: 'pointer' }}
+                onMouseEnter={(e) => { e.currentTarget.style.opacity = '0.8'; }}
+                onMouseLeave={(e) => { e.currentTarget.style.opacity = '1'; }}
               >
                 <X size={20} style={{ color: colors.text.light }} />
               </button>
             </div>
 
-            {/* Categorias de Cookies */}
-            <div className="space-y-6 mb-6">
-              
-              {/* Cookies Necessários */}
-              <div
-                className="p-4 rounded-lg"
-                style={{
-                
-                  border: `1px solid ${colors.neutral.borderDark}`,
-                  borderRadius: '6px',
-                }}
-              >
-                <div className="flex items-start justify-between mb-2">
-                  <div className="flex-1">
-                    <h3 className="text-lg font-regular mb-1" style={{ color: colors.text.light }}>
-                      Cookies Necessários
-                    </h3>
-                    <p className="text-sm font-regular" style={{ color: colors.text.dark, opacity: 0.8 }}>
-                      Essenciais para o funcionamento do site. Não podem ser desabilitados.
-                    </p>
-                  </div>
-                  <div
-                    className="px-3 py-1 rounded-full text-xs font-regular"
-                    style={{
-                      backgroundColor: colors.blue.primary,
-                      color: colors.text.light, borderRadius: '3px',
-                    }}
-                  >
-                    Sempre ativo
+            <div style={{ marginBottom: spacing[6] }}>
+              {[
+                { key: 'necessary' as const, title: 'Cookies Necessários', desc: 'Essenciais para o funcionamento do site. Não podem ser desabilitados.', always: true },
+                { key: 'analytics' as const, title: 'Cookies de Análise', desc: 'Coletam dados sobre como você usa o site para melhorar a experiência.', always: false },
+                { key: 'marketing' as const, title: 'Cookies de Marketing', desc: 'Utilizados para exibir anúncios personalizados e medir campanhas.', always: false },
+              ].map(({ key, title, desc, always }) => (
+                <div
+                  key={key}
+                  style={{
+                    padding: spacing[4],
+                    marginBottom: spacing[6],
+                    border: `1px solid ${colors.neutral.borderDark}`,
+                    borderRadius: radii.md,
+                    backgroundColor: colors.background.dark,
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: spacing[2] }}>
+                    <div style={{ flex: 1 }}>
+                      <h3 style={{ fontSize: fontSizes.lg, fontWeight: 400, color: colors.text.light, margin: 0, marginBottom: 4 }}>
+                        {title}
+                      </h3>
+                      <p style={{ fontSize: fontSizes.sm, color: colors.text.dark, opacity: 0.8, margin: 0 }}>{desc}</p>
+                    </div>
+                    {always ? (
+                      <span style={{ padding: `${4}px ${spacing[3]}px`, fontSize: 12, fontWeight: 400, background: colors.blue.primary, color: colors.text.light, borderRadius: 3 }}>
+                        Sempre ativo
+                      </span>
+                    ) : (
+                      <button
+                        onClick={() => togglePreference(key)}
+                        style={{
+                          position: 'relative',
+                          width: 48,
+                          height: 24,
+                          border: 0,
+                          borderRadius: 9999,
+                          cursor: 'pointer',
+                          background: preferences[key] ? colors.blue.primary : colors.neutral.borderDark,
+                        }}
+                      >
+                        <div
+                          style={{
+                            position: 'absolute',
+                            top: 4,
+                            left: preferences[key] ? 26 : 4,
+                            width: 16,
+                            height: 16,
+                            borderRadius: 9999,
+                            background: '#fff',
+                            transition: 'left 0.2s',
+                          }}
+                        />
+                      </button>
+                    )}
                   </div>
                 </div>
-                
-              </div>
-
-              {/* Cookies de Análise */}
-              <div
-                className="p-4 rounded-lg"
-                style={{
-                  backgroundColor: colors.background.dark,
-                  border: `1px solid ${colors.neutral.borderDark}`,
-                  borderRadius: '6px',
-                }}
-              >
-                <div className="flex items-start justify-between mb-2">
-                  <div className="flex-1">
-                    <h3 className="text-lg font-medium mb-1" style={{ color: colors.text.light }}>
-                      Cookies de Análise
-                    </h3>
-                    <p className="text-sm" style={{ color: colors.text.dark, opacity: 0.8 }}>
-                      Coletam dados sobre como você usa o site para melhorar a experiência.
-                    </p>
-                  </div>
-                  <button
-                    onClick={() => togglePreference('analytics')}
-                    className="relative w-12 h-6 rounded-full transition-all"
-                    style={{
-                      backgroundColor: preferences.analytics ? colors.blue.primary : colors.neutral.borderDark,
-                    }}
-                  >
-                    <div
-                      className="absolute top-1 w-4 h-4 rounded-full bg-white transition-all"
-                      style={{
-                        left: preferences.analytics ? '26px' : '4px',
-                      }}
-                    />
-                  </button>
-                </div>
-              </div>
-
-              {/* Cookies de Marketing */}
-              <div
-                className="p-4 rounded-lg"
-                style={{
-                  backgroundColor: colors.background.dark,
-                  border: `1px solid ${colors.neutral.borderDark}`,
-                  borderRadius: '6px',
-                }}
-              >
-                <div className="flex items-start justify-between mb-2">
-                  <div className="flex-1">
-                    <h3 className="text-lg font-regular mb-1" style={{ color: colors.text.light }}>
-                      Cookies de Marketing
-                    </h3>
-                    <p className="text-sm font-regular" style={{ color: colors.text.dark, opacity: 0.8 }}>
-                      Utilizados para exibir anúncios personalizados e medir campanhas.
-                    </p>
-                  </div>
-                  <button
-                    onClick={() => togglePreference('marketing')}
-                    className="relative w-12 h-6 rounded-full transition-all"
-                    style={{
-                      backgroundColor: preferences.marketing ? colors.blue.primary : colors.neutral.borderDark,
-                    }}
-                  >
-                    <div
-                      className="absolute top-1 w-4 h-4 rounded-full bg-white transition-all"
-                      style={{
-                        left: preferences.marketing ? '26px' : '4px',
-                      }}
-                    />
-                  </button>
-                </div>
-              </div>
-
+              ))}
             </div>
 
-            {/* Botões de Ação */}
-            <div className="flex flex-col sm:flex-row gap-3">
-              <button
-                onClick={handleRejectAll}
-                className="flex-1 px-6 py-3 text-sm font-medium transition-all hover:opacity-80"
-                style={{
-                  backgroundColor: colors.background.dark,
-                  color: colors.text.light,
-                  border: `1px solid ${colors.neutral.borderDark}`,
-                  borderRadius: '6px',
-                }}
-              >
+            <div style={{ display: 'flex', flexDirection: 'column', gap: spacing[3] }}>
+              <button onClick={handleRejectAll} style={{ ...btnStyle, flex: 1, padding: `${spacing[3]}px ${spacing[6]}px` }}>
                 Rejeitar Todos
               </button>
-              
-              <button
-                onClick={handleSavePreferences}
-                className="flex-1 px-6 py-3 text-sm font-medium transition-all hover:scale-105"
-                style={{
-                  background: colors.blue.primary,
-                  color: colors.text.light,
-                  border: `1px solid ${colors.neutral.borderDark}`,
-                  borderRadius: '6px',
-                }}
-              >
+              <button onClick={handleSavePreferences} style={{ ...btnPrimaryStyle, flex: 1, padding: `${spacing[3]}px ${spacing[6]}px` }}>
                 Salvar Preferências
               </button>
             </div>
 
-            {/* Link para Política */}
-            <p className="text-center text-xs mt-4" style={{ color: colors.text.light, opacity: 0.6 }}>
+            <p style={{ textAlign: 'center', fontSize: 12, marginTop: spacing[4], color: colors.text.light, opacity: 0.6 }}>
               Para mais informações, consulte nossa{' '}
-              <a 
-                href="/politica-privacidade" 
-                target="_blank"
-                className="underline"
-                style={{ color: colors.text.light }}
-              >
+              <a href="/politica-privacidade" target="_blank" rel="noopener noreferrer" style={{ color: colors.text.light, textDecoration: 'underline' }}>
                 Política de Privacidade
               </a>
             </p>
@@ -366,50 +284,6 @@ const CookieConsent: React.FC = () => {
         </div>
       )}
 
-      <style jsx>{`
-        @keyframes slide-up {
-          from {
-            transform: translateY(100%);
-            opacity: 0;
-          }
-          to {
-            transform: translateY(0);
-            opacity: 1;
-          }
-        }
-
-        @keyframes fade-in {
-          from {
-            opacity: 0;
-          }
-          to {
-            opacity: 1;
-          }
-        }
-
-        @keyframes scale-in {
-          from {
-            transform: scale(0.95);
-            opacity: 0;
-          }
-          to {
-            transform: scale(1);
-            opacity: 1;
-          }
-        }
-
-        .animate-slide-up {
-          animation: slide-up 0.4s ease-out;
-        }
-
-        .animate-fade-in {
-          animation: fade-in 0.3s ease-out;
-        }
-
-        .animate-scale-in {
-          animation: scale-in 0.3s ease-out;
-        }
-      `}</style>
     </>
   );
 };
