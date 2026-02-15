@@ -36,7 +36,7 @@ const Clients: React.FC = () => {
  style={{ backgroundColor: colors.background.dark }}
  >
  <div className="px-8 md:px-16 lg:px-24">
- <div className="w-full max-w-3xl md:max-w-6xl mx-auto">
+ <div className="container-narrow mx-auto">
  
  {/* Layout dividido: Título à esquerda, Cards à direita */}
  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
@@ -44,7 +44,8 @@ const Clients: React.FC = () => {
  {/* Lado Esquerdo - Título e Subtítulo */}
  <div className="flex flex-col justify-start">
  <motion.div 
-   className="mb-6 flex items-center gap-2 px-3 py-1.5 rounded border border-white/10 w-fit"
+   className="mb-6 flex items-center gap-2 px-3 py-1.5 rounded w-fit"
+   style={{ border: '1px solid rgba(255,255,255,0.1)' }}
    initial={{ opacity: 0, y: 20 }}
    animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
    transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
@@ -130,9 +131,9 @@ const Clients: React.FC = () => {
 
  {/* CTA container: text left, button right (responsive) */}
  <div className="mt-12 px-8 md:px-16 lg:px-24">
-   <div className="w-full max-w-3xl md:max-w-6xl mx-auto">
-     <div className="w-full border p-6 flex flex-col md:flex-row items-center justify-between gap-4"
-       style={{ border: `10px solid ${colors.blue.secondary}`, borderRadius: '4px', backgroundColor: colors.blue.tertiary }}>
+   <div className="container-narrow mx-auto">
+     <div className="w-full p-6 flex flex-col md:flex-row items-center justify-between gap-4 rounded-4"
+       style={{ border: `10px solid ${colors.blue.secondary}`, backgroundColor: colors.blue.tertiary }}>
        <p className="text-lg md:text-xl font-regular text-center md:text-left" style={{ color: '#010101' }}>
          Projetos sérios começam com boas conversas.
        </p>

@@ -77,7 +77,7 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
   if (variant === 'header') {
     return (
       <header
-        className="fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ease-out"
+        className="fixed top-0 left-0 right-0 z-100 transition-all duration-300 ease-out"
         style={{
           transform: showHeaderBar ? 'translateY(0)' : 'translateY(-100%)',
           background: hasBlurredBackground
@@ -136,7 +136,7 @@ const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) =>
   // Variant "float" (legacy): manter estrutura mínima para não quebrar se for usado em outro lugar
   return (
     <header
-      className="fixed top-0 left-0 right-0 z-[100]"
+      className="fixed top-0 left-0 right-0 z-100"
       style={{
         background: colors.background.dark,
         borderBottom: `1px solid ${colors.neutral.borderDark}`,

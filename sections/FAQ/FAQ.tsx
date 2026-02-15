@@ -43,7 +43,7 @@ const FAQ: React.FC = () => {
  </div>
 
  <div className="px-8 md:px-16 lg:px-24 relative z-10 w-full">
- <div className="w-full max-w-3xl md:max-w-6xl mx-auto">
+ <div className="container-narrow mx-auto">
  
  {/* Layout: Título à esquerda, Accordion à direita */}
  <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
@@ -51,7 +51,8 @@ const FAQ: React.FC = () => {
  {/* Coluna Esquerda - Título */}
  <div className="lg:col-span-4">
  <motion.div 
-   className="mb-6 flex items-center gap-2 px-3 py-1.5 rounded border border-white/10 w-fit"
+   className="mb-6 flex items-center gap-2 px-3 py-1.5 rounded w-fit"
+   style={{ border: '1px solid rgba(255,255,255,0.1)' }}
    initial={{ opacity: 0, y: 20 }}
    animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
    transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
@@ -116,11 +117,9 @@ const FAQ: React.FC = () => {
  ].map((faq, index) => (
  <div
  key={index}
- className="border transition-colors"
- style={{
- borderColor: colors.blue.secondary,
+className="rounded-4 transition-colors"
+style={{
  border: `10px solid ${colors.blue.secondary}`,
- borderRadius: '4px',
  backgroundColor: colors.blue.tertiary,
  }}
  >
@@ -157,7 +156,7 @@ const FAQ: React.FC = () => {
 
 
  <div
- className="overflow-hidden transition-all duration-600"
+ className="overflow-hidden transition-all"
  style={{
  maxHeight: openIndex === index ? '500px' : '0',
  opacity: openIndex === index ? 1 : 0,
@@ -166,7 +165,7 @@ const FAQ: React.FC = () => {
  >
  <div className="px-6 pb-5">
  <p 
- className="text-regular leading-relaxed"
+ className="font-regular leading-relaxed"
  style={{ color: colors.text.dark}}
  >
  {faq.answer}

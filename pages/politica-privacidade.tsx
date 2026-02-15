@@ -17,7 +17,7 @@ const PoliticaPrivacidade: React.FC = () => {
 
       <div className="min-h-screen" style={{ backgroundColor: colors.background.dark }}>
         <main className="pb-16 px-8 md:px-16 lg:px-24" style={{ paddingTop: '180px' }}>
-          <div className="max-w-3xl md:max-w-6xl mx-auto">
+          <div className="container-narrow mx-auto">
             
             {/* Header */}
             <div className="mb-12">

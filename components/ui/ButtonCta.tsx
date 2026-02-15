@@ -39,33 +39,35 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
       onClick={handleClick}
       disabled={disabled}
       aria-label={label || (typeof children === 'string' ? children : 'CTA')}
-      className={`inline-flex items-center justify-center gap-2 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed group ${className || ''}`}
-      style={{ 
-        border: `1px solid ${colors.blue.primary}`, 
+      style={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 8,
+        border: `1px solid ${colors.blue.primary}`,
         background: colors.blue.primary,
-        borderRadius: '6px', 
-        ...(iconOnly ? {} : { padding: '12px 24px' })
+        borderRadius: 6,
+        padding: iconOnly ? 0 : '12px 24px',
+        color: colors.text.light,
+        fontSize: 16,
+        fontWeight: 500,
+        cursor: disabled ? 'not-allowed' : 'pointer',
+        opacity: disabled ? 0.5 : 1,
+        transition: 'opacity 0.2s',
       }}
-      onMouseEnter={(e) => { e.currentTarget.style.opacity = '0.9'; }}
-      onMouseLeave={(e) => { e.currentTarget.style.opacity = '1'; }}
+      onMouseEnter={(e) => { if (!disabled) e.currentTarget.style.opacity = '0.9'; }}
+      onMouseLeave={(e) => { e.currentTarget.style.opacity = disabled ? '0.5' : '1'; }}
     >
       {iconOnly ? (
-        <span className="flex items-center justify-center" style={{ color: colors.text.light }}>
+        <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', color: colors.text.light }}>
           {children}
         </span>
       ) : (
         <>
-          <span
-            className="text-base font-medium leading-none transition-colors duration-300"
-            style={{ color: colors.text.light }}
-          >
+          <span style={{ color: colors.text.light }}>
             {children || label || 'Entre em contato'}
           </span>
-          <ArrowRight 
-            size={18} 
-            color={colors.text.light} 
-            className="transition-transform duration-300 group-hover:-rotate-45" 
-          />
+          <ArrowRight size={18} color={colors.text.light} />
         </>
       )}
     </button>

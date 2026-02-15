@@ -32,7 +32,7 @@ const Sobre: React.FC = () => {
       style={{ backgroundColor: colors.background.dark }}
     >
       <div className="px-8 md:px-16 lg:px-24">
-        <div className="w-full max-w-3xl md:max-w-6xl mx-auto">
+        <div className="container-narrow mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             {/* Foto à esquerda, alinhada com a seção, border radius suave */}
             <div className="order-2 flex justify-start">

@@ -10,15 +10,16 @@ interface LogoProps {
   ariaLabel?: string;
 }
 
-const Logo: React.FC<LogoProps> = ({ className = 'h-8 w-auto', isDark = false, href = 'https://wefronti.com', ariaLabel = 'Wefronti — voltar para a página inicial' }) => {
+const Logo: React.FC<LogoProps> = ({ className = 'hero-logo', isDark = false, href = 'https://wefronti.com', ariaLabel = 'Wefronti — voltar para a página inicial' }) => {
   return (
-    <Link href={href} aria-label={ariaLabel} className={`flex items-center gap-2 select-none hover:opacity-80 transition-opacity`}>
+    <Link href={href} aria-label={ariaLabel} className="logo-link">
       <img
         src={isDark ? "/images/brand/isologo-black.webp" : "/images/brand/isologo-white.webp"}
         alt="Wefronti Logo"
         width={120}
         height={32}
-        className={`${className} object-contain max-h-10 max-w-[140px]`}
+        className={className}
+        style={{ objectFit: 'contain', maxHeight: 40, maxWidth: 140 }}
         loading="eager"
       />
     </Link>

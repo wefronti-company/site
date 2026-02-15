@@ -14,10 +14,9 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
 }) => {
 	return (
 		<div
-			className="p-6 transition-colors border"
+			className="p-6 transition-colors rounded-4"
 			style={{
-				borderColor: colors.neutral.borderDark,
-				borderRadius: '4px',
+				border: `1px solid ${colors.neutral.borderDark}`,
 			}}
 		>
  {/* Texto do depoimento */}

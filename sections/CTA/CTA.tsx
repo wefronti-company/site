@@ -165,7 +165,7 @@ const CTA: React.FC = () => {
 
     return (
       <div ref={dropdownRef} className="relative">
-        <label htmlFor={id} className="block text-sm font-regular mb-2" style={{ color: '#000000' }}>
+        <label htmlFor={id} className="label-block text-sm" style={{ color: '#000000' }}>
           {label}
         </label>
 
@@ -194,7 +194,7 @@ const CTA: React.FC = () => {
               setOpenDropdown(isOpen ? null : name);
             }
           }}
-          className="w-full px-4 py-3 text-sm transition-colors cursor-pointer flex items-center justify-between"
+          className="input-base transition-colors cursor-pointer flex items-center justify-between"
           style={{
             backgroundColor: '#ffffff',
             border: `1px solid ${error ? '#ef4444' : '#e5e7eb'}`,
@@ -227,7 +227,7 @@ const CTA: React.FC = () => {
         {isOpen && (
           <div
             role="listbox"
-            className="absolute w-full mt-1 py-2 z-50 shadow-lg"
+            className="absolute w-full mt-1 py-2 z-50 shadow-lg rounded-4"
             style={{
               backgroundColor: '#ffffff',
               border: '1px solid #e5e7eb',
@@ -265,7 +265,7 @@ const CTA: React.FC = () => {
         )}
         
         {error && (
-          <p className="mt-1 text-xs" style={{ color: '#ef4444' }}>{error}</p>
+          <p className="error-text" style={{ color: '#ef4444' }}>{error}</p>
         )}
       </div>
     );
@@ -387,8 +387,8 @@ const CTA: React.FC = () => {
     <section 
       ref={sectionRef}
       id="contato"
-      className="w-full py-20 md:py-32 relative overflow-hidden border-t"
-      style={{ background: colors.background.dark, borderTopColor: colors.neutral.borderDark }}
+      className="section-wrap"
+      style={{ background: colors.background.dark, borderTop: `1px solid ${colors.neutral.borderDark}` }}
     >
       <div className="px-8 md:px-16 lg:px-24">
         <style dangerouslySetInnerHTML={{
@@ -414,7 +414,7 @@ const CTA: React.FC = () => {
             }
           `
         }} />
-        <div className="w-full max-w-3xl md:max-w-6xl mx-auto">
+        <div className="container-narrow mx-auto">
           
           {/* Header */}
           <motion.div
@@ -456,7 +456,7 @@ const CTA: React.FC = () => {
 
           {/* Form Card */}
           <motion.div
-            className="p-6 md:p-10 rounded-[4px]"
+            className="p-6 md:p-10 rounded-4"
             initial={{ opacity: 0, y: 40 }}
             animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
             transition={{ duration: 0.8, ease: "easeOut", delay: 0.4 }}
@@ -465,7 +465,7 @@ const CTA: React.FC = () => {
               border: `10px solid ${colors.blue.secondary}`
             }}
           >
-            <form onSubmit={handleSubmit} noValidate className="space-y-6">
+            <form onSubmit={handleSubmit} noValidate className="form-spacing">
               
               {/* Honeypot */}
               <input
@@ -480,9 +480,9 @@ const CTA: React.FC = () => {
               />
 
               {/* Grid: Nome e E-mail */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="form-grid-2">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-regular mb-2" style={{ color: '#000000' }}>
+                  <label htmlFor="name" className="label-block text-sm" style={{ color: '#000000' }}>
                     Nome completo *
                   </label>
                   <input
@@ -492,22 +492,21 @@ const CTA: React.FC = () => {
                     autoComplete="name"
                     value={formData.name}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 text-sm transition-colors"
+                    className="input-base transition-colors"
                     style={{
                       backgroundColor: '#ffffff',
                       border: `1px solid ${fieldErrors.name ? '#ef4444' : '#e5e7eb'}`,
-                      color: '#000000',
-                      borderRadius: '4px'
+                      color: '#000000'
                     }}
                     placeholder="Seu nome"
                   />
                   {fieldErrors.name && (
-                    <p className="mt-1 text-xs" style={{ color: '#ef4444' }}>{fieldErrors.name}</p>
+                    <p className="error-text" style={{ color: '#ef4444' }}>{fieldErrors.name}</p>
                   )}
                 </div>
 
                 <div>
-                  <label htmlFor="email" className="block text-sm font-regular mb-2" style={{ color: '#000000' }}>
+                  <label htmlFor="email" className="label-block text-sm" style={{ color: '#000000' }}>
                     E-mail *
                   </label>
                   <input
@@ -517,25 +516,24 @@ const CTA: React.FC = () => {
                     autoComplete="email"
                     value={formData.email}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 text-sm transition-colors"
+                    className="input-base transition-colors"
                     style={{
                       backgroundColor: '#ffffff',
                       border: `1px solid ${fieldErrors.email ? '#ef4444' : '#e5e7eb'}`,
-                      color: '#000000',
-                      borderRadius: '4px'
+                      color: '#000000'
                     }}
                     placeholder="seu@email.com"
                   />
                   {fieldErrors.email && (
-                    <p className="mt-1 text-xs" style={{ color: '#ef4444' }}>{fieldErrors.email}</p>
+                    <p className="error-text" style={{ color: '#ef4444' }}>{fieldErrors.email}</p>
                   )}
                 </div>
               </div>
 
               {/* Grid: Celular e Empresa */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="form-grid-2">
                 <div>
-                  <label htmlFor="phone" className="block text-sm font-regular mb-2" style={{ color: '#000000' }}>
+                  <label htmlFor="phone" className="label-block text-sm" style={{ color: '#000000' }}>
                     Celular *
                   </label>
                   <input
@@ -545,22 +543,21 @@ const CTA: React.FC = () => {
                     autoComplete="tel"
                     value={formData.phone}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 text-sm transition-colors"
+                    className="input-base transition-colors"
                     style={{
                       backgroundColor: '#ffffff',
                       border: `1px solid ${fieldErrors.phone ? '#ef4444' : '#e5e7eb'}`,
-                      color: '#000000',
-                      borderRadius: '4px'
+                      color: '#000000'
                     }}
                     placeholder="(00) 0 0000-0000"
                   />
                   {fieldErrors.phone && (
-                    <p className="mt-1 text-xs" style={{ color: '#ef4444' }}>{fieldErrors.phone}</p>
+                    <p className="error-text" style={{ color: '#ef4444' }}>{fieldErrors.phone}</p>
                   )}
                 </div>
 
                 <div>
-                  <label htmlFor="company" className="block text-sm font-regular mb-2" style={{ color: '#000000' }}>
+                  <label htmlFor="company" className="label-block text-sm" style={{ color: '#000000' }}>
                     Empresa *
                   </label>
                   <input
@@ -570,23 +567,22 @@ const CTA: React.FC = () => {
                     autoComplete="organization"
                     value={formData.company}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 text-sm transition-colors"
+                    className="input-base transition-colors"
                     style={{
                       backgroundColor: '#ffffff',
                       border: `1px solid ${fieldErrors.company ? '#ef4444' : '#e5e7eb'}`,
-                      color: '#000000',
-                      borderRadius: '4px'
+                      color: '#000000'
                     }}
                     placeholder="Nome da empresa"
                   />
                   {fieldErrors.company && (
-                    <p className="mt-1 text-xs" style={{ color: '#ef4444' }}>{fieldErrors.company}</p>
+                    <p className="error-text" style={{ color: '#ef4444' }}>{fieldErrors.company}</p>
                   )}
                 </div>
               </div>
 
               {/* Grid: Investimento, Tipo de Projeto e Urgência - 3 colunas */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="form-grid-3">
                 <CustomSelect
                   id="investment"
                   name="investment"
@@ -639,7 +635,7 @@ const CTA: React.FC = () => {
 
               {/* Detalhes do Projeto */}
               <div>
-                <label htmlFor="details" className="block text-sm font-regular mb-2" style={{ color: '#000000' }}>
+                <label htmlFor="details" className="label-block text-sm" style={{ color: '#000000' }}>
                   Conte mais sobre seu projeto *
                 </label>
                 <textarea
@@ -649,23 +645,22 @@ const CTA: React.FC = () => {
                   value={formData.details}
                   onChange={handleChange}
                   rows={5}
-                  className="w-full px-4 py-3 text-sm transition-colors resize-none"
+                  className="input-base transition-colors resize-none"
                   style={{
                     backgroundColor: '#ffffff',
                     border: `1px solid ${fieldErrors.details ? '#ef4444' : '#e5e7eb'}`,
-                    color: '#000000',
-                    borderRadius: '4px'
+                    color: '#000000'
                   }}
                   placeholder="Descreva seu projeto, desafios, objetivos e qualquer outra informação relevante..."
                 />
                 {fieldErrors.details && (
-                  <p className="mt-1 text-xs" style={{ color: '#ef4444' }}>{fieldErrors.details}</p>
+                  <p className="error-text" style={{ color: '#ef4444' }}>{fieldErrors.details}</p>
                 )}
               </div>
 
               {/* Status Messages */}
               {submitStatus === 'success' && (
-                <div className="p-4 rounded" style={{ backgroundColor: 'rgba(34, 197, 94, 0.1)', border: '1px solid #22c55e' }}>
+                <div className="p-4 rounded-4" style={{ backgroundColor: 'rgba(34, 197, 94, 0.1)', border: '1px solid #22c55e' }}>
                   <p className="text-sm" style={{ color: '#22c55e' }}>
                     Recebemos sua solicitação! Entraremos em contato em breve.
                   </p>
@@ -673,7 +668,7 @@ const CTA: React.FC = () => {
               )}
 
               {submitStatus === 'error' && (
-                <div className="p-4 rounded" style={{ backgroundColor: 'rgba(239, 68, 68, 0.1)', border: '1px solid #ef4444' }}>
+                <div className="p-4 rounded-4" style={{ backgroundColor: 'rgba(239, 68, 68, 0.1)', border: '1px solid #ef4444' }}>
                   <p className="text-sm" style={{ color: '#ef4444' }}>
                     {errorMessage || 'Erro ao enviar sua solicitação. Por favor, tente novamente.'}
                   </p>
@@ -684,7 +679,7 @@ const CTA: React.FC = () => {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full px-8 py-4 font-medium text-base transition-all duration-300 hover:opacity-90 disabled:opacity-50"
+                className="btn-submit w-full px-8 py-4 font-medium text-base transition-all duration-300 hover:opacity-90"
                 style={{
                   backgroundColor: colors.blue.primary,
                   color: colors.text.light,
@@ -696,7 +691,7 @@ const CTA: React.FC = () => {
 
               {/* Privacy Notice */}
               <p className="text-xs text-center flex items-center justify-center gap-2" style={{ color: '#6b7280' }}>
-                <Lock className="w-3 h-3" /> Seus dados estão seguros. Não compartilhamos suas informações com terceiros.
+                <Lock size={12} /> Seus dados estão seguros. Não compartilhamos suas informações com terceiros.
               </p>
             </form>
           </motion.div>

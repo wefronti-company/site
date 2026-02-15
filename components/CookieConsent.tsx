@@ -187,9 +187,9 @@ const CookieConsent: React.FC = () => {
 
       {/* Modal de Configurações */}
       {showSettings && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 animate-fade-in" style={{ paddingTop: '100px', paddingBottom: '100px' }}>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 animate-fade-in" style={{ paddingTop: '100px', paddingBottom: '100px', backgroundColor: 'rgba(0,0,0,0.8)' }}>
           <div
-            className="w-full max-w-2xl max-h-[90vh] overflow-y-auto p-6 md:p-8 animate-scale-in"
+            className="w-full max-w-2xl max-h-90vh overflow-y-auto p-6 md:p-8 animate-scale-in"
             style={{
               backgroundColor: colors.background.dark,
               border: `1px solid ${colors.neutral.borderDark}`,

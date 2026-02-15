@@ -22,8 +22,10 @@ const Badge: React.FC<BadgeProps> = ({
 }) => {
   return (
     <span
-      className={`inline-flex items-center overflow-hidden ${className}`}
       style={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        overflow: 'hidden',
         border: `1px solid ${colors.neutral.borderDark}`,
         background: colors.background.dark,
         borderRadius: BORDER_RADIUS,
@@ -45,7 +47,7 @@ const Badge: React.FC<BadgeProps> = ({
         {segmentLabel}
       </span>
       {(emoji != null && emoji !== '') && (
-        <span className="flex items-center justify-center px-1.5" aria-hidden>
+        <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 6px' }} aria-hidden>
           {emoji}
         </span>
       )}

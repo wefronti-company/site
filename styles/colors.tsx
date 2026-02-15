@@ -9,6 +9,7 @@ export const colors = {
    
     dark: '#6e6e6eff', //Cor do texto para backgrounds escuros
     light: '#ffffffff', //Cor do texto para backgrounds claros
+    emphasis:'#6fc6f1',
  },
 
  icons:{

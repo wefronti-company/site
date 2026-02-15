@@ -1,5 +1,10 @@
+const path = require('path');
+
 module.exports = {
   reactStrictMode: true,
+  turbopack: {
+    root: path.resolve(__dirname),
+  },
   // Performance Optimizations
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',

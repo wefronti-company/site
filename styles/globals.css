@@ -1,9 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-
-  :root{
+:root{
   /* Explicit dark scrollbar colors to match site theme and avoid white track */
   --blue-secondary: #0b0b0b; /* track */
   --blue-primary: #1f1f1f;   /* thumb */
@@ -47,10 +42,9 @@ body {
 
 /* Display heading utility for a studio-like, oversized, light-weight H1 */
 .display-heading {
-  font-weight: 200; /* extra-light for a delicate, dramatic feel */
-  line-height: 1; /* slightly more breathing to avoid awkward line breaks */
+  font-weight: 200;
+  line-height: 1;
   letter-spacing: -0.02em;
-  /* fluid responsive size: min 40px, scales responsibly to avoid single-word lines */
   font-size: clamp(2.75rem, 5.5vw, 6.5rem);
   -webkit-font-smoothing: antialiased;
   text-wrap: balance;
@@ -58,7 +52,7 @@ body {
   hyphens: none;
   overflow-wrap: normal;
   word-break: keep-all;
-} 
+}
 
 
 
@@ -338,5 +332,3 @@ html *::-webkit-scrollbar-track { background: var(--blue-secondary) !important; 
 @media (prefers-reduced-motion: reduce) {
   .animate-float { animation: none !important; }
 }
-
-
