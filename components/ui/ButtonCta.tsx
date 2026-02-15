@@ -39,15 +39,15 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
       onClick={handleClick}
       disabled={disabled}
       aria-label={label || (typeof children === 'string' ? children : 'CTA')}
-      className={`inline-flex items-center justify-center gap-2 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed group hover:bg-purple-tertiary ${className || ''}`}
+      className={`inline-flex items-center justify-center gap-2 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed group ${className || ''}`}
       style={{ 
-        border: `1px solid ${colors.neutral.borderDark}`, 
-        background: 'transparent',
+        border: `1px solid ${colors.blue.primary}`, 
+        background: colors.blue.primary,
         borderRadius: '6px', 
         ...(iconOnly ? {} : { padding: '12px 24px' })
       }}
-      onMouseEnter={(e) => e.currentTarget.style.background = colors.purple.primary}
-      onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+      onMouseEnter={(e) => { e.currentTarget.style.opacity = '0.9'; }}
+      onMouseLeave={(e) => { e.currentTarget.style.opacity = '1'; }}
     >
       {iconOnly ? (
         <span className="flex items-center justify-center" style={{ color: colors.text.light }}>

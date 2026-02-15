@@ -206,7 +206,7 @@ const Footer: React.FC = () => {
    </div>
 
    <div className="flex items-center justify-end">
-     <button type="button" onClick={scrollToTop} aria-label="Voltar ao topo" className="p-2 rounded-full transition-colors hover:bg-white/5" style={{ background: colors.purple.primary, color: colors.text.light, zIndex: 50 }}>
+     <button type="button" onClick={scrollToTop} aria-label="Voltar ao topo" className="p-2 rounded-full transition-colors hover:bg-white/5" style={{ background: colors.blue.primary, color: colors.text.light, zIndex: 50 }}>
        <ArrowUp size={18} />
      </button>
    </div>

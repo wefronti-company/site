@@ -6,8 +6,10 @@
     "node": "24.x"
   },
   "scripts": {
-    "dev": "next dev --port 3000",
-    "build": "next build",
+    "dev": "next dev --port 3000 --webpack",
+    "dev:clean": "rm -rf .next && next dev --port 3000 --webpack",
+    "dev:3001": "next dev --port 3001 --webpack",
+    "build": "next build --webpack",
     "vercel-build": "npm run build && echo \"=== .next contents ===\" && ls -la .next || true",
     "start": "next start",
     "lint": "next lint"

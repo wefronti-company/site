@@ -1,618 +1,168 @@
 // Right-click blocking removed for accessibility and developer UX.
-// Keeping selection prevention commented for now; recommend removing it too if not needed.
 if (typeof window !== 'undefined') {
-  // Previously blocked contextmenu globally which prevented right-click.
-  // That behavior caused accessibility and user experience issues and was removed.
-  // window.addEventListener('contextmenu', function (e) { e.preventDefault(); });
-
-  // NOTE: the selectstart listener below still prevents text selection in some contexts.
-  // Consider removing it as well for accessibility; keeping it commented for parity with previous behavior.
-  // window.addEventListener('selectstart', function (e) { e.preventDefault(); });
+  // Previously blocked contextmenu globally — removed for accessibility.
 }
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Logo from './Logo';
 import { colors } from '../../styles/colors';
-import ButtonCta from './ButtonCta';
-import { motion, AnimatePresence } from 'framer-motion';
-import Link from 'next/link';
-import Image from 'next/image';
-import { ArrowUpRight, ArrowRight, Clock } from 'lucide-react';
-import { FaInstagram, FaLinkedin, FaWhatsapp } from 'react-icons/fa';
 
 type HeaderVariant = 'float' | 'header';
 
+const NAV_LINKS = [
+  { id: 'hero', label: 'Início' },
+  { id: 'clients', label: 'Clientes' },
+  { id: 'contato', label: 'Contato' },
+  { id: 'sobre', label: 'Sobre' },
+  { id: 'faq', label: 'FAQ' },
+] as const;
+
+const HEADER_OFFSET = 100;
+const SCROLL_TOP_THRESHOLD = 20; // abaixo disso = "no topo" (hero)
+const SCROLL_DIRECTION_THRESHOLD = 5; // mínimo de movimento para considerar direção
+
 const Header: React.FC<{ variant?: HeaderVariant }> = ({ variant = 'float' }) => {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [heroVisible, setHeroVisible] = useState(false);
-  const [currentTime, setCurrentTime] = useState('');
-  const [menuTop, setMenuTop] = useState('100px');
-  const router = require('next/router').useRouter();
+  const [atTop, setAtTop] = useState(true);
+  const [scrollDirection, setScrollDirection] = useState<'up' | 'down' | null>(null);
+  const lastScrollYRef = useRef(0);
 
-  // compute menu top to align with header bottom
   useEffect(() => {
-    const updateMenuTop = () => {
-      const headerEl = document.querySelector('header');
-      if (headerEl) {
-        const h = headerEl.getBoundingClientRect().height;
-        setMenuTop(`${Math.round(h)}px`);
+    const handleScroll = () => {
+      const y = window.scrollY;
+      const prev = lastScrollYRef.current;
+      lastScrollYRef.current = y;
+
+      setAtTop(y <= SCROLL_TOP_THRESHOLD);
+
+      if (y <= SCROLL_TOP_THRESHOLD) {
+        setScrollDirection(null);
+      } else {
+        const delta = y - prev;
+        if (Math.abs(delta) >= SCROLL_DIRECTION_THRESHOLD) {
+          setScrollDirection(delta > 0 ? 'down' : 'up');
+        }
       }
     };
 
-    updateMenuTop();
-    window.addEventListener('resize', updateMenuTop);
-    return () => window.removeEventListener('resize', updateMenuTop);
+    const initialY = typeof window !== 'undefined' ? window.scrollY : 0;
+    lastScrollYRef.current = initialY;
+    setAtTop(initialY <= SCROLL_TOP_THRESHOLD);
+    if (initialY > SCROLL_TOP_THRESHOLD) setScrollDirection(null);
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Atualizar hora do Brasil a cada segundo
-  useEffect(() => {
-    const updateTime = () => {
-      const now = new Date();
-      const brazilTime = now.toLocaleTimeString('pt-BR', {
-        timeZone: 'America/Sao_Paulo',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-        hour12: false
-      });
-      setCurrentTime(brazilTime);
-    };
-
-    updateTime();
-    const interval = setInterval(updateTime, 1000);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  // Função para scroll suave até seção
-  const scrollToSection = (sectionId: string) => {
+  const handleNav = (sectionId: string) => {
     if (typeof window === 'undefined') return;
-
-    const id = sectionId.replace('#', '');
-    const onHome = window.location.pathname === '/';
-    const isMobile = window.innerWidth < 768;
-
-    // Helper that attempts to scroll to an element if present
-    const attemptScrollNow = (el?: Element) => {
-      const element = el || document.querySelector(sectionId) || document.getElementById(id);
-      if (!element) return false;
-      const headerOffset = 100;
-      const rectTop = (element as HTMLElement).getBoundingClientRect().top;
-      const offsetPosition = rectTop + window.pageYOffset - headerOffset;
-      window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
-      return true;
-    };
-
-    // If we're not on the home page, redirect immediately to the home with the hash
-    if (!onHome) {
-      setMenuOpen(false);
-      window.location.href = `/#${id}`;
-      return;
-    }
-
-    // If element is present on the page
-    const el = document.querySelector(sectionId) || document.getElementById(id);
-    if (el) {
-      // If menu is open on mobile, closing the menu sets body overflow back to normal only after effect cleanup.
-      // In that case, scrolling immediately may be prevented; so prefer to close menu and retry after animation.
-      if (menuOpen && isMobile) {
-        setMenuOpen(false);
-        const exitWait = 900;
-        setTimeout(() => {
-          attemptScrollNow();
-        }, exitWait);
-        return;
-      }
-
-      // Otherwise, scroll immediately and close menu shortly after (so the scroll isn't interrupted)
-      attemptScrollNow(el);
-      if (menuOpen) setTimeout(() => setMenuOpen(false), isMobile ? 220 : 0);
-      return;
-    }
-
-    // If element not yet available (e.g., animation/overlay), close menu and retry after exit animation
-    setMenuOpen(false);
-    const exitWait = isMobile ? 900 : 550;
-    setTimeout(() => {
-      if (attemptScrollNow()) return;
-      const retry = document.getElementById(id);
-      if (retry) retry.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      else window.location.href = `/#${id}`; // final fallback
-    }, exitWait);
-  };
-
-  // Handle navigation from menu (mobile and desktop) — try to scroll immediately, then close menu and retry if necessary
-  const handleMenuNav = (sectionId: string) => {
     const id = sectionId.replace(/^#/, '');
-    if (typeof window === 'undefined') return;
 
-    // If we're on another page, navigate immediately via hash (no delay needed)
-    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
     if (window.location.pathname !== '/') {
       window.location.href = `/#${id}`;
       return;
     }
 
-    // On mobile, close menu first then navigate via hash after a short delay
-    if (isMobile) {
-      setMenuOpen(false);
-      setTimeout(() => {
-        window.location.href = `/#${id}`;
-      }, 180);
-      return;
-    }
-
     const el = document.getElementById(id);
-    const headerOffset = 100;
-
     if (el) {
-      // Scroll immediately on desktop
-      const targetTop = el.getBoundingClientRect().top + window.pageYOffset - headerOffset;
+      const targetTop = el.getBoundingClientRect().top + window.pageYOffset - HEADER_OFFSET;
       window.scrollTo({ top: targetTop, behavior: 'smooth' });
-
-      // Close menu shortly after to avoid overlay blocking (small delay improves UX)
-      setTimeout(() => setMenuOpen(false), 150);
-
-      // Retry after menu closes to ensure final position (in case overlay interrupted scrolling)
-      setTimeout(() => {
-        const retry = document.getElementById(id);
-        if (retry) {
-          const t = retry.getBoundingClientRect().top + window.pageYOffset - headerOffset;
-          window.scrollTo({ top: t, behavior: 'smooth' });
-        }
-      }, 600);
     } else {
-      // Element not found on this page — navigate to home with hash (desktop fallback)
-      setMenuOpen(false);
-      setTimeout(() => {
-        window.location.href = `/#${id}`;
-      }, 180);
+      window.location.href = `/#${id}`;
     }
   };
 
-  // pages that should always render a dark header with a bottom border
-  const routesWithDarkHeader = new Set(['/solucoes']);
-  const forceDarkHeader = routesWithDarkHeader.has(router.pathname);
+  // Variant "header": no topo = transparente; mostra só ao scrollar para cima, com fundo desfocado
+  const showHeaderBar = atTop || scrollDirection === 'up';
+  const hasBlurredBackground = !atTop && scrollDirection === 'up';
 
-  // Track page scroll (legacy fallback) and detect visibility of the Hero section.
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
-    };
-
-    handleScroll();
-    window.addEventListener('scroll', handleScroll, { passive: true });
-
-    // Observe the hero section — while it's visible the header should be transparent.
-    const heroEl = document.querySelector('#hero');
-    let obs: IntersectionObserver | null = null;
-    if (heroEl) {
-      obs = new IntersectionObserver((entries) => {
-        const e = entries[0];
-        // consider visible when at least 40% of the hero is in view
-        setHeroVisible(e.isIntersecting && e.intersectionRatio > 0.4);
-      }, { threshold: [0, 0.25, 0.4, 0.6, 1] });
-      obs.observe(heroEl);
-    }
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      if (obs && heroEl) obs.unobserve(heroEl);
-    };
-  }, []);
-
-  // Header variant
   if (variant === 'header') {
     return (
       <header
-        className="fixed top-0 left-0 right-0 z-[100]"
+        className="fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ease-out"
         style={{
-          background: colors.background.dark,
-          transition: 'background 0.3s ease', borderBottom: `1px solid ${colors.neutral.borderDark}`
+          transform: showHeaderBar ? 'translateY(0)' : 'translateY(-100%)',
+          background: hasBlurredBackground
+            ? `rgba(0, 0, 0, 0.4)`
+            : 'transparent',
+          backdropFilter: hasBlurredBackground ? 'saturate(180%) blur(12px)' : 'none',
+          WebkitBackdropFilter: hasBlurredBackground ? 'saturate(180%) blur(12px)' : 'none',
+          borderBottom: hasBlurredBackground ? `1px solid ${colors.neutral.borderDark}` : '1px solid transparent',
         }}
       >
-        <nav
-          aria-label="Main navigation"
-          className="w-full transition-all duration-300"
-        >
+        <nav aria-label="Navegação principal" className="w-full">
           <div className="w-full px-4 md:px-8 lg:px-12">
-            <div className="max-w-3xl md:max-w-6xl mx-auto py-8 md:py-10 relative">
-              <div className="flex items-center justify-between relative">
-                {/* Logo à esquerda */}
-                <div className="flex items-center relative z-[110]">
-                  <Logo href="/" ariaLabel="Ir para a página inicial" isDark={false} className="h-8 w-auto" />
+            <div className="max-w-3xl md:max-w-6xl mx-auto py-5 md:py-6">
+              <div className="flex items-center justify-between gap-4">
+                {/* Esquerda: logo */}
+                <div className="flex-shrink-0">
+                  <Logo href="/" ariaLabel="Ir para a página inicial" isDark={false} className="h-8 md:h-9 w-auto" />
                 </div>
 
-                {/* Relógio no centro - posição absoluta em relação ao container maior */}
-                <div className="hidden md:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-[105] group" style={{ position: 'absolute' }}>
-                  <span 
-                    className="text-sm md:text-base font-light tracking-wider whitespace-nowrap px-3 py-1.5 rounded flex items-center gap-2 relative group"
-                    style={{ 
+                {/* Direita: links (desktop) + botão, alinhados */}
+                <div className="flex items-center gap-5 lg:gap-6">
+                  <ul className="hidden md:flex items-center gap-5 lg:gap-6">
+                    {NAV_LINKS.map(({ id, label }) => (
+                      <li key={id}>
+                        <button
+                          type="button"
+                          onClick={() => handleNav(id)}
+                          className="text-sm md:text-base font-normal tracking-wide transition-colors hover:opacity-80 whitespace-nowrap"
+                          style={{ color: colors.text.light }}
+                        >
+                          {label}
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                  <button
+                    type="button"
+                    onClick={() => handleNav('contato')}
+                    className="inline-flex items-center justify-center px-4 py-2 text-sm md:px-5 md:py-2.5 md:text-base font-medium rounded transition-opacity hover:opacity-90 flex-shrink-0"
+                    style={{
+                      background: colors.blue.primary,
                       color: colors.text.light,
-                      border: `1px solid ${colors.neutral.borderDark}`
-                      // ...existing style
                     }}
                   >
-                    <Clock className="w-4 h-4" style={{ color: colors.icons.light }} />
-                    {currentTime}
-                  </span>
-                  {/* Balão ao passar o mouse */}
-                  <div
-                    className="absolute left-1/2 -translate-x-1/2 mt-0 z-50 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto flex flex-col items-center"
-                    style={{ minWidth: 370, top: '100%' }}
-                    onMouseEnter={e => { e.currentTarget.classList.add('opacity-100'); e.currentTarget.classList.add('pointer-events-auto'); }}
-                    onMouseLeave={e => { e.currentTarget.classList.remove('opacity-100'); e.currentTarget.classList.remove('pointer-events-auto'); }}
-                  >
-                    <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 10 }}
-                      transition={{ duration: 0.3 }}
-                      className="px-6 py-4 flex flex-col items-center"
-                      style={{ background: colors.purple.tertiary, border: `10px solid ${colors.purple.secondary}`, borderRadius: '6px', color: '#010101' }}
-                    >
-                      <span className="text-base mb-4 text-center leading-snug">
-                        Toda boa decisão<br />
-                        começa com uma conversa!
-                      </span>
-                      <button
-                        className="mt-1 px-5 py-2 rounded bg-white text-black font-medium text-sm hover:opacity-90 transition"
-                        style={{ backgroundColor: colors.purple.primary, color: colors.text.light }}
-                        onClick={() => handleMenuNav('contato')}
-                        type="button"
-                      >
-                        Iniciar conversa
-                      </button>
-                    </motion.div>
-                  </div>
+                    Quero ter um site
+                  </button>
                 </div>
-
-                {/* Botão à direita - Agora para desktop e mobile */}
-                <div className="flex items-center gap-3 relative z-[110]">
-              <button
-                className="relative flex items-center justify-center transition-colors duration-200 cursor-pointer"
-                aria-expanded={menuOpen}
-                aria-controls="main-menu"
-                onClick={() => setMenuOpen(prev => !prev)}
-                aria-label={menuOpen ? 'Fechar menu' : 'Abrir menu'}
-                type="button"
-                style={{ padding: 0, margin: 0 }}
-              >
-                <div className="w-12 h-6 relative flex items-center justify-center">
-                  <span 
-                    className="absolute block w-11 h-[1.5px] rounded transition-all duration-700 ease-in-out"
-                    style={{ 
-                      background: colors.text.light,
-                      transform: menuOpen 
-                        ? 'translateY(0) rotate(45deg)' 
-                        : 'translateY(-3px) rotate(0deg)'
-                    }} 
-                  />
-                  <span 
-                    className="absolute block w-11 h-[1.5px] rounded transition-all duration-700 ease-in-out"
-                    style={{ 
-                      background: colors.text.light,
-                      transform: menuOpen 
-                        ? 'translateY(0) rotate(-45deg)' 
-                        : 'translateY(3px) rotate(0deg)'
-                    }} 
-                  />
-                </div>
-              </button>
               </div>
-            </div>
             </div>
           </div>
         </nav>
-
-        <AnimatePresence>
-          {menuOpen && (
-            <>
-              {/* Menu Mobile - Dropdown de cima para baixo */}
-              <motion.div
-                key="mobile-menu"
-                initial={{ height: 0 }}
-                animate={{ height: 'calc(100vh - 100px)' }}
-                exit={{ height: 0, transition: { duration: 1, delay: 0.45, ease: [0.32, 0.72, 0, 1] } }}
-                transition={{ duration: 0.5, ease: [0.32, 0.72, 0, 1] }}
-                className="md:hidden fixed left-0 right-0 bottom-0 z-[90] overflow-hidden"
-                style={{ 
-                  top: menuTop,
-                  background: colors.background.dark,
-                  pointerEvents: menuOpen ? 'auto' : 'none'
-                }}
-              >
-                <div className="h-full flex flex-col p-6 overflow-y-auto">
-                  <motion.div
-                    initial={{ opacity: 0, y: 12 }}
-                    animate={{ opacity: 1, y: 0, transition: { duration: 0.36, delay: 0.5, ease: "easeOut" } }}
-                    exit={{ opacity: 0, y: 12, transition: { duration: 0.36, delay: 0, ease: "easeIn" } }}
-                    className="flex flex-col gap-12"
-                  >
-                    {/* Navegação */}
-                    <div>
-                      <h4 className="text-sm font-regular uppercase mb-6 tracking-wider" style={{ color: colors.text.dark }}>Navegação</h4>
-                      <ul className="flex flex-col gap-3">
-                        <li>
-                          <button 
-                            onClick={() => handleMenuNav('hero')}
-                            className="text-2xl font-light transition-all duration-300 flex items-center gap-3 group"
-                            style={{ color: colors.text.light }}
-                            type="button"
-                          >
-                            <span>Início</span>
-                            <span 
-                              className="w-2 h-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                            />
-                          </button>
-                        </li>
-                        <li>
-                          <button 
-                            onClick={() => handleMenuNav('clients')}
-                            className="text-2xl font-light transition-all duration-300 flex items-center gap-3 group"
-                            style={{ color: colors.text.light }}
-                            type="button"
-                          >
-                            <span>Clientes</span>
-                            <span 
-                              className="w-2 h-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                            />
-                          </button>
-                        </li>
-
-                        <li>
-                          <button 
-                            onClick={() => handleMenuNav('contato')}
-                            className="text-2xl font-light transition-all duration-300 flex items-center gap-3 group"
-                            style={{ color: colors.text.light }}
-                            type="button"
-                          >
-                            <span>Contato</span>
-                            <span 
-                              className="w-2 h-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                            />
-                          </button>
-                        </li>
-
-                        <li>
-                          <button 
-                            onClick={() => handleMenuNav('sobre')}
-                            className="text-2xl font-light transition-all duration-300 flex items-center gap-3 group"
-                            style={{ color: colors.text.light }}
-                            type="button"
-                          >
-                            <span>Sobre</span>
-                            <span 
-                              className="w-2 h-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                            />
-                          </button>
-                        </li>
-                        <li>
-                          <button 
-                            onClick={() => handleMenuNav('faq')}
-                            className="text-2xl font-light transition-all duration-300 flex items-center gap-3 group"
-                            style={{ color: colors.text.light }}
-                            type="button"
-                          >
-                            <span>FAQ</span>
-                            <span 
-                              className="w-2 h-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                            />
-                          </button>
-                        </li>
-                      </ul>
-                    </div>
-
-                    {/* WhatsApp */}
-                    <div>
-                      <h4 className="text-sm font-regular uppercase mb-6 tracking-wider" style={{ color: colors.text.dark }}>Whatsapp</h4>
-                      <a 
-                        href="https://wa.me/message/3V45SAJMLIJJJ1" 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="block transition-all duration-300"
-                     
-                      >
-                        <div className="flex items-center gap-3 mb-3">
-                          <div 
-                            className="w-16 h-16 rounded-xl overflow-hidden flex items-center justify-center bg-transparent"
-                          >
-                            <img 
-                              src="/images/icons/icon-fran-whatsapp.svg?v=2" 
-                              alt="Ícone Fran"
-                              className="w-full h-full object-contain bg-transparent"
-                              style={{ background: 'transparent' }}
-                            />
-                          </div>
-                          <span className="text-lg font-medium" style={{ color: colors.text.light }}>Falar com a Fran</span>
-                        </div>
-                        <p className="text-sm font-light" style={{ color: colors.text.light, opacity: 0.7 }}>
-                          Um primeiro contato via WhatsApp para entender seu contexto e avançar com clareza.
-                        </p>
-                      </a>
-                    </div>
-                  </motion.div>
-                </div>
-              </motion.div>
-
-              {/* Menu Desktop - Dropdown de cima para baixo */}
-              <motion.div
-                key="desktop-menu"
-                initial={{ height: 0 }}
-                animate={{ height: 'calc(100vh - 100px)' }}
-                exit={{ height: 0, transition: { duration: 1, delay: 0.45, ease: [0.32, 0.72, 0, 1] } }}
-                transition={{ duration: 0.5, ease: [0.32, 0.72, 0, 1] }}
-                className="hidden md:block fixed left-0 right-0 bottom-0 z-[90] overflow-hidden"
-                style={{ 
-                  top: menuTop,
-                  background: colors.background.dark,
-                  pointerEvents: menuOpen ? 'auto' : 'none'
-                }}
-              >
-                <div className="w-full h-full flex items-center justify-center">
-                  <div className="w-full max-w-3xl md:max-w-6xl">
-                    <motion.div 
-                      className="grid grid-cols-3 gap-16 w-full"
-                      initial={{ opacity: 0, y: 12 }}
-                      animate={{ opacity: 1, y: 0, transition: { duration: 0.36, delay: 0.52, ease: "easeOut" } }}
-                      exit={{ opacity: 0, y: 12, transition: { duration: 0.36, delay: 0, ease: "easeIn" } }}
-                    >
-                      {/* Coluna 1 - Navegação Principal (alinhada à esquerda com logo) */}
-                      <div>
-                        <h4 className="text-sm font-regular uppercase mb-8 tracking-wider" style={{ color: colors.text.dark }}>Navegação</h4>
-                      <ul className="flex flex-col gap-3">
-                        <li>
-                          <button 
-                            onClick={() => handleMenuNav('hero')}
-                            className="text-2xl font-light transition-all duration-300 flex items-center gap-3 group"
-                            style={{ color: colors.text.light }}
-                            type="button"
-                          >
-                            <span>Início</span>
-                            <span 
-                              className="w-2 h-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                              style={{ backgroundColor: colors.icons.light }}
-                            />
-                          </button>
-                        </li>
-                        <li>
-                          <button 
-                            onClick={() => handleMenuNav('clients')}
-                            className="text-2xl font-light transition-all duration-300 flex items-center gap-3 group"
-                            style={{ color: colors.text.light }}
-                            type="button"
-                          >
-                            <span>Clientes</span>
-                            <span 
-                              className="w-2 h-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                              style={{ backgroundColor: colors.icons.light }}
-                            />
-                          </button>
-                        </li>
-                        <li>
-                          <button 
-                            onClick={() => handleMenuNav('contato')}
-                            className="text-2xl font-light transition-all duration-300 flex items-center gap-3 group"
-                            style={{ color: colors.text.light }}
-                            type="button"
-                          >
-                            <span>Contato</span>
-                            <span 
-                              className="w-2 h-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                              style={{ backgroundColor: colors.icons.light }}
-                            />
-                          </button>
-                        </li>
-                        <li>
-                          <button 
-                            onClick={() => handleMenuNav('sobre')}
-                            className="text-2xl font-light transition-all duration-300 flex items-center gap-3 group"
-                            style={{ color: colors.text.light }}
-                            type="button"
-                          >
-                            <span>Sobre</span>
-                            <span 
-                              className="w-2 h-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                              style={{ backgroundColor: colors.icons.light }}
-                            />
-                          </button>
-                        </li>
-                        <li>
-                          <button 
-                            onClick={() => handleMenuNav('faq')}
-                            className="text-2xl font-light transition-all duration-300 flex items-center gap-3 group"
-                            style={{ color: colors.text.light }}
-                            type="button"
-                          >
-                            <span>FAQ</span>
-                            <span 
-                              className="w-2 h-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                              style={{ backgroundColor: colors.icons.light }}
-                            />
-                          </button>
-                        </li>
-                      </ul>
-                    </div>
-
-                    {/* Coluna 2 - WhatsApp (centralizada) */}
-                    <div className="flex flex-col items-center justify-start">
-                      <div>
-                        <h4 className="text-sm font-regular uppercase mb-8 tracking-wider" style={{ color: colors.text.dark }}>Whatsapp</h4>
-                      <a 
-                        href="https://wa.me/message/3V45SAJMLIJJJ1" 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="block rounded-2xl transition-all duration-300"
-                      
-                      >
-                        <div className="flex items-center gap-3 mb-3">
-                          <div 
-                            className="w-16 h-16 rounded-xl overflow-hidden flex items-center justify-center"
-                          >
-                            <img 
-                              src="/images/icons/icon-fran-whatsapp.svg?v=2" 
-                              alt="Ícone Fran"
-                              className="w-full h-full object-contain"
-                            />
-                          </div>
-                          <span className="text-lg font-medium" style={{ color: colors.text.light }}>Falar com a Fran</span>
-                        </div>
-                        <p className="text-sm font-light" style={{ color: colors.text.light, opacity: 0.7 }}>
-                          Um primeiro contato via WhatsApp para entender seu contexto e avançar com clareza.
-                        </p>
-                      </a>
-                      </div>
-                    </div>
-
-                    {/* Coluna 3 - Redes Sociais (alinhada à direita com botão menu) */}
-                    <div className="flex justify-end">
-                      <div>
-                      <h4 className="text-sm font-regular uppercase mb-8 tracking-wider" style={{ color: colors.text.dark }}>Conecte-se</h4>
-                      <div className="flex flex-col gap-4">
-                        <a 
-                          href="https://instagram.com/wefronti" 
-                          target="_blank" 
-                          rel="noopener noreferrer" 
-                          className="rounded-2xl transition-all duration-300 flex items-center"
-                        >
-                          <div 
-                            className="w-12 h-12 rounded-xl flex items-center justify-left"
-                          >
-                            <FaInstagram className="w-6 h-6" style={{ color: colors.icons.light }} />
-                          </div>
-                          <div>
-                            <div className="text-lg font-medium mb-1" style={{ color: colors.text.light }}>Instagram</div>
-                          </div>
-                        </a>
-                        
-                        <a 
-                          href="https://linkedin.com/company/wefronti" 
-                          target="_blank" 
-                          rel="noopener noreferrer" 
-                          className="rounded-2xl transition-all duration-300 flex items-center"
-                        >
-                          <div 
-                            className="w-12 h-12 rounded-xl flex items-center justify-left"
-                          >
-                            <FaLinkedin className="w-6 h-6" style={{ color: colors.icons.light }} />
-                          </div>
-                          <div>
-                            <div className="text-lg font-medium mb-1" style={{ color: colors.text.light }}>LinkedIn</div>
-                          </div>
-                        </a>
-                      </div>
-                      </div>
-                    </div>
-                    </motion.div>
-                  </div>
-                </div>
-              </motion.div>
-            </>
-          )}
-        </AnimatePresence>
       </header>
     );
-  };
+  }
+
+  // Variant "float" (legacy): manter estrutura mínima para não quebrar se for usado em outro lugar
+  return (
+    <header
+      className="fixed top-0 left-0 right-0 z-[100]"
+      style={{
+        background: colors.background.dark,
+        borderBottom: `1px solid ${colors.neutral.borderDark}`,
+      }}
+    >
+      <nav className="w-full px-4 md:px-8 py-5">
+        <div className="max-w-6xl mx-auto flex items-center justify-between">
+          <Logo href="/" ariaLabel="Ir para a página inicial" isDark={false} className="h-8 w-auto" />
+          <ul className="flex items-center gap-6">
+            {NAV_LINKS.map(({ id, label }) => (
+              <li key={id}>
+                <button
+                  type="button"
+                  onClick={() => handleNav(id)}
+                  className="text-sm font-medium"
+                  style={{ color: colors.text.light }}
+                >
+                  {label}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </nav>
+    </header>
+  );
 };
 
 export default Header;

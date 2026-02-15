@@ -132,7 +132,7 @@ const Clients: React.FC = () => {
  <div className="mt-12 px-8 md:px-16 lg:px-24">
    <div className="w-full max-w-3xl md:max-w-6xl mx-auto">
      <div className="w-full border p-6 flex flex-col md:flex-row items-center justify-between gap-4"
-       style={{ border: `10px solid ${colors.purple.secondary}`, borderRadius: '4px', backgroundColor: colors.purple.tertiary }}>
+       style={{ border: `10px solid ${colors.blue.secondary}`, borderRadius: '4px', backgroundColor: colors.blue.tertiary }}>
        <p className="text-lg md:text-xl font-regular text-center md:text-left" style={{ color: '#010101' }}>
          Projetos sérios começam com boas conversas.
        </p>
@@ -160,7 +160,7 @@ const Clients: React.FC = () => {
            }}
            className="inline-flex items-center justify-center gap-2 transition-all duration-300 hover:opacity-90 group"
            style={{
-             backgroundColor: colors.purple.primary,
+             backgroundColor: colors.blue.primary,
              color: colors.text.light,
              borderRadius: '4px',
              padding: '12px 24px',

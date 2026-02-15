@@ -7,11 +7,8 @@ import type { AppProps } from 'next/app';
 import * as gtag from '../lib/gtag';
 
 const CookieConsent = dynamic(() => import('../components/CookieConsent'), { ssr: false });
-import { MenuProvider } from '../components/layout/MenuContext';
 import Header from '../components/ui/Header';
 import Footer from '../sections/Footer';
-import SideBorders from '../components/layout/SideBorders';
-
 export default function MyApp({ Component, pageProps }: AppProps) {
  const router = useRouter();
  const isAdminRoute = router.pathname.startsWith('/painel-admin');
@@ -52,18 +49,15 @@ export default function MyApp({ Component, pageProps }: AppProps) {
  }, []);
 
  return (
- <MenuProvider>
  <>
  <Head>
  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
  </Head>
- {!isAdminRoute && <SideBorders />}
  {!isAdminRoute && <Header variant="header" />}
  <Component {...pageProps} />
  {/* Footer on every page except home */}
  {!isAdminRoute && router.pathname !== '/' && <Footer />}
  <CookieConsent />
  </>
- </MenuProvider>
  );
 }

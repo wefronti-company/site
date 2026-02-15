@@ -1,9 +1,26 @@
 import React, { useState, useEffect, useRef } from 'react';
-import dynamic from 'next/dynamic';
 import { motion } from 'framer-motion';
-import { ArrowUpRight, Globe, Server, Link2, BarChart3 } from 'lucide-react';
 import { colors } from '../../styles/colors';
-import ScrollIndicator from '../../components/ui/ScrollIndicator';
+import ButtonCta from '../../components/ui/ButtonCta';
+import Badge from '../../components/ui/Badge';
+
+const CONTACT_SECTION_ID = 'contato';
+const HEADER_OFFSET = 100;
+
+const scrollToSection = (id: string) => {
+  if (typeof window === 'undefined') return;
+  if (window.location.pathname !== '/') {
+    window.location.href = `/#${id}`;
+    return;
+  }
+  const el = document.getElementById(id);
+  if (el) {
+    const targetTop = el.getBoundingClientRect().top + window.pageYOffset - HEADER_OFFSET;
+    window.scrollTo({ top: targetTop, behavior: 'smooth' });
+  } else {
+    window.location.href = `/#${id}`;
+  }
+};
 
 const Hero: React.FC = () => {
   const [hasEntered, setHasEntered] = useState(false);
@@ -33,137 +50,76 @@ const Hero: React.FC = () => {
     <section
       ref={sectionRef}
       id="hero"
-      className="w-full relative overflow-hidden"
-      style={{ 
+      className="w-full relative overflow-hidden bg-cover bg-center bg-no-repeat"
+      style={{
         minHeight: '100vh',
         paddingTop: '100px',
         backgroundColor: colors.background.dark,
-        zIndex: 0
+        backgroundImage: "url('/images/brand/background.webp')",
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        zIndex: 0,
       }}
     >
-
-      {/* Content */}
-      <div className="relative z-20 flex items-center justify-center min-h-screen px-8 md:px-16 lg:px-24">
-        <div className="w-full max-w-3xl md:max-w-6xl mx-auto relative">
-          
-          {/* Circular badge com visibilidade apenas em md+ */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={hasEntered ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
-            transition={{ duration: 0.8, ease: "easeOut", delay: 0.1 }}
-            className="absolute -top-12 md:-top-16 right-0 md:right-40 lg:right-64 z-30 hidden md:block"
-          >
+      <div className="relative z-20 flex items-center min-h-[calc(100vh-100px)] w-full px-4 md:px-8 lg:px-12">
+        <div className="w-full max-w-3xl md:max-w-6xl mx-auto flex flex-col lg:flex-row lg:items-center lg:gap-12 xl:gap-16">
+          {/* Coluna esquerda: conteúdo alinhado à esquerda */}
+          <div className="w-full lg:flex-1 text-left">
             <motion.div
-              animate={{ rotate: -360 }}
-              transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-              className="relative w-32 h-32 flex items-center justify-center"
+              initial={{ opacity: 0, y: 16 }}
+              animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
+              transition={{ duration: 0.5, ease: 'easeOut', delay: 0.05 }}
+              className="mb-6"
             >
-              <img 
-                src="/images/icons/icon-circle.png" 
-                alt="Badge" 
-                className="w-full h-full"
-              />
+              <Badge segmentLabel="Sites profissionais">
+                Sob medida para sua empresa
+              </Badge>
             </motion.div>
-          </motion.div>
 
-          <motion.h1 
-            initial={{ opacity: 0, y: 30 }}
-            animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-            transition={{ duration: 0.9, ease: "easeOut", delay: 0.2 }}
-            className="text-4xl md:text-4xl lg:text-5xl xl:text-7xl font-light leading-[1.2] mb-8 text-left"
-            style={{ color: colors.text.light }}
-          >
-            Desenvolvemos seu <span style={{ color: colors.text.dark }}>produto/projeto</span> com o melhor da tecnologia e Inteligência Artificial
-          </motion.h1>
-
-          <motion.h2 
-            initial={{ opacity: 0, y: 20 }}
-            animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{ duration: 0.8, ease: "easeOut", delay: 0.5 }}
-            className="text-lg md:text-xl lg:text-2xl leading-relaxed font-light mb-12 text-left"
-            style={{ color: colors.text.light, opacity: 0.8 }}
-          >
-            Soluções sob medida para empresas que buscam eficiência operacional, segurança e escalabilidade real
-          </motion.h2>
-
-          {/* Services Grid */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{ duration: 0.8, ease: "easeOut", delay: 0.7 }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"
-          >
-            {/* Service 1 */}
-            <div 
-              className="rounded-lg p-6 flex flex-col gap-3"
-              style={{ background: colors.purple.tertiary, borderRadius: '0.5rem', border: `10px solid ${colors.purple.secondary}` }}
+            <motion.h1
+              initial={{ opacity: 0, y: 24 }}
+              animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
+              transition={{ duration: 0.7, ease: 'easeOut', delay: 0.15 }}
+              className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-light leading-[1.15] mb-6"
+              style={{ color: colors.text.light }}
             >
-              <div className="flex items-center gap-3">
-                <Globe className="w-5 h-5 flex-shrink-0" style={{ color: colors.purple.primary }} />
-                <h3 className="text-lg md:text-xl font-medium" style={{ color: '#010101' }}>
-                  Sites e Ecommerce
-                </h3>
-              </div>
-              <p className="text-sm font-light leading-relaxed" style={{ color: '#010101'}}>
-                Plataformas web otimizadas para conversão, SEO e performance, com arquitetura escalável para suportar crescimento
-              </p>
-            </div>
+              Seu site não deve apenas existir. Ele deve vender.
+              {' '}
+              <span style={{ color: colors.text.dark }}>E gerar lucro para sua empresa.</span>
+            </motion.h1>
 
-            {/* Service 2 */}
-            <div 
-              className="rounded-lg p-6 flex flex-col gap-3"
-              style={{ background: colors.purple.tertiary, borderRadius: '0.5rem', border: `10px solid ${colors.purple.secondary}` }}
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+              transition={{ duration: 0.6, ease: 'easeOut', delay: 0.35 }}
+              className="text-lg md:text-xl lg:text-2xl leading-relaxed font-light mb-10 max-w-2xl"
+              style={{ color: colors.text.light, opacity: 0.9 }}
             >
-              <div className="flex items-center gap-3">
-                <Server className="w-5 h-5 flex-shrink-0" style={{ color: colors.purple.primary }} />
-                <h3 className="text-lg md:text-xl font-medium" style={{ color: '#010101' }}>
-                  Sistemas
-                </h3>
-              </div>
-              <p className="text-sm font-light leading-relaxed" style={{ color: '#010101' }}>
-                Software corporativo customizado para gestão, automação de processos e otimização operacional do seu negócio
-              </p>
-            </div>
+              Especialistas em criar presença digital única para empresas: sites que ajudam a crescer e se destacar no mercado.
+            </motion.h2>
 
-            {/* Service 3 */}
-            <div 
-              className="rounded-lg p-6 flex flex-col gap-3"
-              style={{ background: colors.purple.tertiary, borderRadius: '0.5rem', border: `10px solid ${colors.purple.secondary}` }}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
+              transition={{ duration: 0.5, ease: 'easeOut', delay: 0.5 }}
             >
-              <div className="flex items-center gap-3">
-                <Link2 className="w-5 h-5 flex-shrink-0" style={{ color: colors.purple.primary }} />
-                <h3 className="text-lg md:text-xl font-medium" style={{ color: '#010101' }}>
-                  API e Integrações
-                </h3>
-              </div>
-              <p className="text-sm font-light leading-relaxed" style={{ color: '#010101' }}>
-                Desenvolvimento de APIs RESTful e integração entre sistemas para unificar dados e automatizar fluxos
-              </p>
-            </div>
+              <ButtonCta onClick={() => scrollToSection(CONTACT_SECTION_ID)}>
+                Solicitar orçamento
+              </ButtonCta>
+            </motion.div>
+          </div>
 
-            {/* Service 4 */}
-            <div 
-              className="rounded-lg p-6 flex flex-col gap-3"
-              style={{ background: colors.purple.tertiary, borderRadius: '0.5rem', border: `10px solid ${colors.purple.secondary}` }}
+          {/* Coluna direita: espaço para imagem */}
+          <div className="w-full lg:flex-1 flex items-center justify-center lg:justify-end">
+            <div
+              className="w-full max-w-md aspect-square rounded-lg overflow-hidden bg-black/20"
+              style={{ border: `1px solid ${colors.neutral.borderDark}` }}
+              aria-hidden
             >
-              <div className="flex items-center gap-3">
-                <BarChart3 className="w-5 h-5 flex-shrink-0" style={{ color: colors.purple.primary }} />
-                <h3 className="text-lg md:text-xl font-medium" style={{ color: '#010101' }}>
-                  SaaS e Dashboards
-                </h3>
-              </div>
-              <p className="text-sm font-light leading-relaxed" style={{ color: '#010101' }}>
-                Produtos digitais como serviço e painéis analíticos para visualização de dados e tomada de decisão estratégica
-              </p>
+              {/* Coloque sua imagem aqui, ex: <Image src="..." ... /> */}
             </div>
-          </motion.div>
-
+          </div>
         </div>
-      </div>
-
-      {/* Scroll Indicator */}
-      <div className="pb-12 md:pb-20 lg:pb-24">
-        <ScrollIndicator />
       </div>
     </section>
   );

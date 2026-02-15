@@ -18,8 +18,7 @@ const Logo: React.FC<LogoProps> = ({ className = 'h-8 w-auto', isDark = false, h
         alt="Wefronti Logo"
         width={120}
         height={32}
-        className={className}
-        style={{ width: 'auto', height: 'auto', maxWidth: '120px', maxHeight: '32px' }}
+        className={`${className} object-contain max-h-10 max-w-[140px]`}
         loading="eager"
       />
     </Link>

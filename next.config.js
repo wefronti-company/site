@@ -1,8 +1,5 @@
 module.exports = {
   reactStrictMode: true,
-  turbopack: {
-    root: ".",
-  },
   // Performance Optimizations
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',

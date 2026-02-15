@@ -16,8 +16,8 @@ export const colors = {
     light: '#dededeff', //Icones para backgrounds escuros
  },
 
- purple:{
-   primary: '#2e2e2eff', //Cor principal do roxo (botões, links, destaques)
+ blue:{
+   primary: '#3598FF', //Cor principal (botões, links, destaques)
    secondary: '#dededeff',
    tertiary: '#efefefff' //Cor terciária do roxo (hover de botões, links)
  },

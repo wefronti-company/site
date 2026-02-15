@@ -171,7 +171,7 @@ const CookieConsent: React.FC = () => {
                   onClick={handleAcceptAll}
                   className="px-6 py-2 text-sm font-medium transition-all hover:scale-105"
                   style={{
-                    background: colors.purple.primary,
+                    background: colors.blue.primary,
                     color: colors.text.light,
                     border: `1px solid ${colors.neutral.borderDark}`,
                     borderRadius: '6px',
@@ -239,7 +239,7 @@ const CookieConsent: React.FC = () => {
                   <div
                     className="px-3 py-1 rounded-full text-xs font-regular"
                     style={{
-                      backgroundColor: colors.purple.primary,
+                      backgroundColor: colors.blue.primary,
                       color: colors.text.light, borderRadius: '3px',
                     }}
                   >
@@ -271,7 +271,7 @@ const CookieConsent: React.FC = () => {
                     onClick={() => togglePreference('analytics')}
                     className="relative w-12 h-6 rounded-full transition-all"
                     style={{
-                      backgroundColor: preferences.analytics ? colors.purple.primary : colors.neutral.borderDark,
+                      backgroundColor: preferences.analytics ? colors.blue.primary : colors.neutral.borderDark,
                     }}
                   >
                     <div
@@ -306,7 +306,7 @@ const CookieConsent: React.FC = () => {
                     onClick={() => togglePreference('marketing')}
                     className="relative w-12 h-6 rounded-full transition-all"
                     style={{
-                      backgroundColor: preferences.marketing ? colors.purple.primary : colors.neutral.borderDark,
+                      backgroundColor: preferences.marketing ? colors.blue.primary : colors.neutral.borderDark,
                     }}
                   >
                     <div
@@ -340,7 +340,7 @@ const CookieConsent: React.FC = () => {
                 onClick={handleSavePreferences}
                 className="flex-1 px-6 py-3 text-sm font-medium transition-all hover:scale-105"
                 style={{
-                  background: colors.purple.primary,
+                  background: colors.blue.primary,
                   color: colors.text.light,
                   border: `1px solid ${colors.neutral.borderDark}`,
                   borderRadius: '6px',

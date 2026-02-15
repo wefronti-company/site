@@ -56,7 +56,7 @@ const FAQ: React.FC = () => {
    animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
    transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
  >
-   <Box className="w-4 h-4" style={{ color: colors.purple.primary }} />
+   <Box className="w-4 h-4" style={{ color: colors.blue.primary }} />
    <span className="text-xs md:text-sm font-regular text-white whitespace-nowrap">
      Dúvidas
    </span>
@@ -118,10 +118,10 @@ const FAQ: React.FC = () => {
  key={index}
  className="border transition-colors"
  style={{
- borderColor: colors.purple.secondary,
- border: `10px solid ${colors.purple.secondary}`,
+ borderColor: colors.blue.secondary,
+ border: `10px solid ${colors.blue.secondary}`,
  borderRadius: '4px',
- backgroundColor: colors.purple.tertiary,
+ backgroundColor: colors.blue.tertiary,
  }}
  >
  {/* Pergunta */}
@@ -144,7 +144,7 @@ const FAQ: React.FC = () => {
  className={`flex-shrink-0 transition-transform duration-300 ${
  openIndex === index ? 'rotate-180' : ''
  }`}
- style={{ color: colors.purple.primary }}
+ style={{ color: colors.blue.primary }}
  >
  <polyline
  points="6 9 12 15 18 9"
