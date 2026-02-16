@@ -47,7 +47,7 @@ const sectionStyleBase: React.CSSProperties = {
 
 const innerStyleBase: React.CSSProperties = {
   width: '100%',
-  maxWidth: containerMaxWidth.header,
+  maxWidth: containerMaxWidth.wide,
   margin: '0 auto',
   display: 'grid',
   gap: spacing[12],
@@ -57,6 +57,7 @@ const leftColumnStyle: React.CSSProperties = {
   display: 'flex',
   flexDirection: 'column',
   gap: spacing[6],
+  padding: spacing[12],
 };
 
 const badgeStyle: React.CSSProperties = {
@@ -97,6 +98,11 @@ const descriptionStyle: React.CSSProperties = {
   maxWidth: 420,
 };
 
+const rightColumnStyle: React.CSSProperties = {
+  minWidth: 0,
+  padding: spacing[12],
+};
+
 const accordionListStyle: React.CSSProperties = {
   display: 'flex',
   flexDirection: 'column',
@@ -127,7 +133,7 @@ const Faq: React.FC = () => {
       <div style={gridStyle}>
         <div style={leftColumnStyle}>
           <span style={badgeStyle} aria-hidden>
-            <span style={{ width: 6, height: 6, borderRadius: '50%', background: colors.blue.primary }} />
+            <span className="badge-dot-pulse" style={{ width: 6, height: 6, borderRadius: '50%', background: colors.blue.primary }} />
             FAQ
           </span>
           <h2 id="faq-heading" style={titleStyle}>
@@ -138,7 +144,8 @@ const Faq: React.FC = () => {
           </p>
         </div>
 
-        <ul style={accordionListStyle} role="list">
+        <div style={rightColumnStyle}>
+          <ul style={accordionListStyle} role="list">
           {FAQ_ITEMS.map((item, index) => {
             const isOpen = openIndex === index;
             return (
@@ -233,7 +240,8 @@ const Faq: React.FC = () => {
               </li>
             );
           })}
-        </ul>
+          </ul>
+        </div>
       </div>
     </section>
   );

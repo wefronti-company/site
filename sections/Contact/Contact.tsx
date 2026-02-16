@@ -12,21 +12,31 @@ const sectionStyleBase: React.CSSProperties = {
   backgroundColor: colors.background.dark,
 };
 
-const contentStyleBase: React.CSSProperties = {
+const innerStyleBase: React.CSSProperties = {
   width: '100%',
   maxWidth: containerMaxWidth.wide,
   margin: '0 auto',
+  display: 'grid',
+  gap: spacing[12],
+};
+
+const leftColumnStyle: React.CSSProperties = {
   display: 'flex',
   flexDirection: 'column',
-  alignItems: 'center',
-  gap: spacing[10],
-  textAlign: 'center',
+  gap: spacing[6],
+  padding: spacing[12],
+};
+
+const rightColumnStyle: React.CSSProperties = {
+  minWidth: 0,
+  padding: spacing[12],
 };
 
 const badgeStyle: React.CSSProperties = {
   display: 'inline-flex',
   alignItems: 'center',
   gap: spacing[2],
+  alignSelf: 'flex-start',
   padding: `${spacing[2]}px ${spacing[4]}px`,
   borderRadius: radii.md,
   border: `1px solid ${colors.neutral.borderDark}`,
@@ -47,24 +57,19 @@ const titleStyle: React.CSSProperties = {
   margin: 0,
 };
 
-const titleFadedStyle: React.CSSProperties = {
-  opacity: 0.7,
-};
-
 const descriptionStyle: React.CSSProperties = {
   fontSize: '1.3rem',
   lineHeight: 1.6,
   color: colors.text.light,
   opacity: 0.85,
   margin: 0,
-  maxWidth: 560,
 };
 
 const formStyle: React.CSSProperties = {
   width: '100%',
-  maxWidth: 640,
+  maxWidth: 560,
   padding: spacing[6],
-  borderRadius: 6,
+  borderRadius: radii.md,
   border: `1px solid ${colors.neutral.borderDark}`,
   display: 'flex',
   flexDirection: 'column',
@@ -133,7 +138,10 @@ const Contact: React.FC = () => {
     paddingLeft: headerPaddingX,
     paddingRight: headerPaddingX,
   };
-  const contentStyle: React.CSSProperties = contentStyleBase;
+  const innerStyle: React.CSSProperties = {
+    ...innerStyleBase,
+    gridTemplateColumns: isMd ? '1fr 1.1fr' : '1fr',
+  };
   const formRowLayout: React.CSSProperties = isMd
     ? formRowStyle
     : { display: 'flex', flexDirection: 'column', gap: spacing[4] };
@@ -152,26 +160,30 @@ const Contact: React.FC = () => {
 
   return (
     <section id="contato" style={sectionStyle} aria-labelledby="contact-heading">
-      <div style={contentStyle}>
-        <span style={badgeStyle} aria-hidden>
-          <span
-            style={{
-              width: 6,
-              height: 6,
-              borderRadius: '50%',
-              background: colors.blue.primary,
-            }}
-          />
-          Contato
-        </span>
-        <h2 id="contact-heading" style={titleStyle}>
-          Vamos conversar?
-        </h2>
-        <p style={descriptionStyle}>
-          Preencha o formulário e retornamos em breve. Sem compromisso — é só para entendermos sua necessidade.
-        </p>
+      <div style={innerStyle}>
+        <div style={leftColumnStyle}>
+          <span style={badgeStyle} aria-hidden>
+            <span
+              className="badge-dot-pulse"
+              style={{
+                width: 6,
+                height: 6,
+                borderRadius: '50%',
+                background: colors.blue.primary,
+              }}
+            />
+            Contato
+          </span>
+          <h2 id="contact-heading" style={titleStyle}>
+            Vamos conversar?
+          </h2>
+          <p style={descriptionStyle}>
+            Preencha o formulário e retornamos em breve. Sem compromisso — é só para entendermos sua necessidade.
+          </p>
+        </div>
 
-        <form onSubmit={handleSubmit} style={formStyle} noValidate>
+        <div style={rightColumnStyle}>
+          <form onSubmit={handleSubmit} style={formStyle} noValidate>
           <div style={formRowLayout}>
             <div>
               <label htmlFor="contact-nome" style={labelStyle}>
@@ -277,6 +289,7 @@ const Contact: React.FC = () => {
             </p>
           </div>
         </form>
+        </div>
       </div>
     </section>
   );

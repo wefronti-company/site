@@ -107,7 +107,7 @@ const Header: React.FC = () => {
 
   const innerStyle: React.CSSProperties = {
     width: '100%',
-    maxWidth: containerMaxWidth.header,
+    maxWidth: containerMaxWidth.wide,
     margin: '0 auto',
     paddingLeft: isMd ? spacing[12] : spacing[6],
     paddingRight: isMd ? spacing[12] : spacing[6],

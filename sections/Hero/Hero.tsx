@@ -45,7 +45,7 @@ const scrollToSection = (id: string) => {
   }
 };
 
-const { colors, spacing, fontSizes, radii } = theme;
+const { colors, spacing, fontSizes, radii, containerMaxWidth } = theme;
 
 const HERO_CHIPS: { label: string; icon: string }[] = [
   { label: 'Site rápido e seguro', icon: '/images/icons/seguro.png' },
@@ -108,7 +108,7 @@ const heroContentStyleBase: React.CSSProperties = {
   position: 'relative',
   zIndex: 2,
   width: '100%',
-  maxWidth: 1300,
+  maxWidth: containerMaxWidth.wide,
   display: 'flex',
   flexDirection: 'column',
   gap: spacing[10],

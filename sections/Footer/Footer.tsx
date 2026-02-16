@@ -24,15 +24,15 @@ const Footer: React.FC = () => {
   const headerPaddingX = isMd ? spacing[12] : spacing[6];
   const innerStyle: React.CSSProperties = {
     width: '100%',
-    maxWidth: containerMaxWidth.header,
+    maxWidth: containerMaxWidth.wide,
     margin: '0 auto',
     paddingTop: spacing[12],
     paddingLeft: headerPaddingX,
     paddingRight: headerPaddingX,
   };
   const innerBottomStyle: React.CSSProperties = {
-    paddingTop: spacing[8],
-    paddingBottom: spacing[8],
+    paddingTop: spacing[2],
+    paddingBottom: spacing[16],
   };
 
   const mainRowStyle: React.CSSProperties = {
@@ -124,9 +124,11 @@ const Footer: React.FC = () => {
               
             </div>
           </div>
+        </div>
 
-          <div style={{ width: '100%', height: 1, borderTop: `1px solid ${colors.neutral.borderDark}` }} />
+        <div style={{ width: '100%', borderTop: `1px solid ${colors.neutral.borderDark}` }} />
 
+        <div style={innerStyle}>
           <div style={innerBottomStyle}>
             <div style={bottomRowStyle}>
               <div style={{ ...smallTextStyle, textAlign: 'left' }}>
