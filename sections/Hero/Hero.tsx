@@ -56,16 +56,18 @@ const HERO_CHIPS: { label: string; icon: string }[] = [
 
 const heroSectionStyleBase: React.CSSProperties = {
   position: 'relative',
-  minHeight: '100vh',
+  minHeight: '90vh',
   backgroundColor: colors.background.dark,
   backgroundImage: "url('/images/brand/background.png')",
   backgroundSize: 'cover',
   backgroundPosition: 'center',
-  zIndex: 0,
+  zIndex: 25,
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
   overflow: 'hidden',
+  borderBottomLeftRadius: 60,
+  borderBottomRightRadius: 60,
 };
 
 // Meia-lua na base: brilhos só aparecem fora do círculo (circunferência do canto inferior esq → acima do H1 → canto inferior dir)

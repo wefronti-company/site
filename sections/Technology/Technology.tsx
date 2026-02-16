@@ -186,7 +186,7 @@ const Technology: React.FC = () => {
             Tecnologia
           </span>
           <h2 id="tech-heading" style={titleStyle}>
-            Excelência em tecnologia e criação de sites
+            Excelência em<br />tecnologia e criação de sites
           </h2>
           <p style={introStyle}>
             Usamos as melhores tecnologias do mercado para elevar o nível do seu projeto. 
