@@ -114,7 +114,7 @@ const privacyNoteStyle: React.CSSProperties = {
   margin: 0,
   marginTop: spacing[3],
   lineHeight: 1.5,
-  textAlign: 'center',
+  textAlign: 'left',
 };
 
 const Contact: React.FC = () => {
@@ -261,13 +261,15 @@ const Contact: React.FC = () => {
             />
           </div>
 
-          <div style={{ marginTop: spacing[2], display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <div style={{ marginTop: spacing[2], display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
             <ButtonCta type="submit">Enviar mensagem</ButtonCta>
             <p style={privacyNoteStyle}>
-              Seus dados estão seguros e não são compartilhados com terceiros. Ao enviar, você concorda com nossa{' '}
+              Seus dados estão seguros e não são compartilhados com terceiros.
+              <br />
+              Ao enviar, você concorda com nossa{' '}
               <a
                 href="/politica-privacidade"
-                style={{ color: colors.text.light, opacity: 0.9, textDecoration: 'underline' }}
+                style={{ color: colors.text.light, opacity: 0.9, textDecoration: 'none' }}
               >
                 Política de Privacidade
               </a>
