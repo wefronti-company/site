@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import SEO from '../components/SEO';
 import Hero from '../sections/Hero';
+import Comparison from '../sections/Comparison';
 import Contact from '../sections/Contact';
 import Faq from '../sections/Faq';
 import Cta from '../sections/Cta';
@@ -49,6 +50,7 @@ const Home: React.FC = () => {
       ) : (
         <>
           <Hero />
+          <Comparison />
           <Contact />
           <Faq />
           <Cta />
