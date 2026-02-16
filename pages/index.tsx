@@ -4,6 +4,7 @@ import Hero from '../sections/Hero';
 import Technology from '../sections/Technology';
 import Contact from '../sections/Contact';
 import Testimonials from '../sections/Testimonials';
+import Timeline from '../sections/Timeline';
 import Faq from '../sections/Faq';
 import Cta from '../sections/Cta';
 import Footer from '../sections/Footer';
@@ -53,6 +54,7 @@ const Home: React.FC = () => {
           <Hero />
           <Technology />
           <Testimonials />
+          <Timeline />
           <Contact />
           
           <Faq />
