@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
+import { ArrowUpRight } from 'lucide-react';
 import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 
 const { colors, spacing, fontSizes, radii, containerMaxWidth } = theme;
+
+const CURSOR_SIZE = 48;
 
 const sectionStyleBase: React.CSSProperties = {
   width: '100%',
@@ -25,7 +28,7 @@ const badgeStyle: React.CSSProperties = {
   alignItems: 'center',
   gap: spacing[2],
   padding: `${spacing[2]}px ${spacing[4]}px`,
-  borderRadius: radii.md,
+  borderRadius: radii.full,
   border: `1px solid ${colors.neutral.borderDark}`,
   backgroundColor: 'rgba(255,255,255,0.04)',
   fontSize: fontSizes.xs,
@@ -71,7 +74,7 @@ const gridStyleMobile: React.CSSProperties = {
 };
 
 const cardStyle: React.CSSProperties = {
-  borderRadius: radii.md,
+  borderRadius: 30,
   border: `1px solid ${colors.neutral.borderDark}`,
   overflow: 'hidden',
   background: colors.background.dark,
@@ -121,6 +124,15 @@ const cardDescStyle: React.CSSProperties = {
 const Portfolio: React.FC = () => {
   const isMd = useMediaQuery(theme.breakpoints.md);
   const headerPaddingX = isMd ? spacing[12] : spacing[6];
+  const [cursor, setCursor] = useState({ x: 0, y: 0, hoveredIndex: -1 });
+
+  const handleCardMouseEnter = useCallback((e: React.MouseEvent, index: number) => {
+    setCursor({ x: e.clientX, y: e.clientY, hoveredIndex: index });
+  }, []);
+  const handleCardMouseLeave = useCallback(() => setCursor((c) => ({ ...c, hoveredIndex: -1 })), []);
+  const handleCardMouseMove = useCallback((e: React.MouseEvent) => {
+    setCursor((c) => (c.hoveredIndex >= 0 ? { ...c, x: e.clientX, y: e.clientY } : c));
+  }, []);
 
   const sectionStyle: React.CSSProperties = {
     ...sectionStyleBase,
@@ -160,7 +172,17 @@ const Portfolio: React.FC = () => {
         <ul style={grid} role="list">
           {projects.map((project, index) => (
             <li key={index}>
-              <a href="#" style={cardStyle} aria-label={project.name}>
+              <a
+                href="#"
+                style={{
+                  ...cardStyle,
+                  cursor: cursor.hoveredIndex === index ? 'none' : undefined,
+                }}
+                aria-label={project.name}
+                onMouseEnter={(e) => handleCardMouseEnter(e, index)}
+                onMouseLeave={handleCardMouseLeave}
+                onMouseMove={handleCardMouseMove}
+              >
                 <div style={coverWrapStyle}>
                   <img
                     src={project.cover}
@@ -178,6 +200,32 @@ const Portfolio: React.FC = () => {
           ))}
         </ul>
       </div>
+      {cursor.hoveredIndex >= 0 && (
+        <div
+          aria-hidden
+          style={{
+            position: 'fixed',
+            left: cursor.x,
+            top: cursor.y,
+            width: CURSOR_SIZE,
+            height: CURSOR_SIZE,
+            marginLeft: -CURSOR_SIZE / 2,
+            marginTop: -CURSOR_SIZE / 2,
+            borderRadius: '50%',
+            background: 'rgba(255, 255, 255, 0.12)',
+            backdropFilter: 'blur(10px)',
+            WebkitBackdropFilter: 'blur(10px)',
+            border: '1px solid rgba(255, 255, 255, 0.2)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            pointerEvents: 'none',
+            zIndex: 9999,
+          }}
+        >
+          <ArrowUpRight size={22} color={colors.text.light} strokeWidth={2.5} />
+        </div>
+      )}
     </section>
   );
 };

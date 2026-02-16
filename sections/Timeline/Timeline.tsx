@@ -1,7 +1,8 @@
 import React from 'react';
 import { MessageCircle, ClipboardList, Code2, Rocket, Headphones } from 'lucide-react';
-import { theme } from '../../styles/theme';
+import { radii, theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
+import ButtonCta from '../../components/ui/ButtonCta';
 
 const { colors, spacing, fontSizes, containerMaxWidth } = theme;
 
@@ -36,7 +37,7 @@ const badgeStyle: React.CSSProperties = {
   alignItems: 'center',
   gap: spacing[2],
   padding: `${spacing[2]}px ${spacing[4]}px`,
-  borderRadius: 6,
+  borderRadius: radii.full,
   border: `1px solid ${colors.neutral.borderDark}`,
   backgroundColor: 'rgba(255,255,255,0.04)',
   fontSize: fontSizes.xs,
@@ -143,6 +144,9 @@ const stepTitleStyle: React.CSSProperties = {
 const stepIconStyle: React.CSSProperties = {
   flexShrink: 0,
   color: colors.blue.primary,
+  display: 'inline-flex',
+  alignItems: 'center',
+  marginTop: 2,
 };
 
 const stepDescStyle: React.CSSProperties = {
@@ -202,6 +206,9 @@ const Timeline: React.FC = () => {
               );
             })}
           </ul>
+          <div style={{ display: 'flex', justifyContent: 'center', marginTop: spacing[12] }}>
+            <ButtonCta label="Solicitar orçamento" />
+          </div>
         </div>
       </section>
     );
@@ -247,6 +254,9 @@ const Timeline: React.FC = () => {
               );
             })}
           </ul>
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: spacing[12] }}>
+          <ButtonCta label="Solicitar orçamento" />
         </div>
       </div>
     </section>

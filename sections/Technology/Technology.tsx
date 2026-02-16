@@ -1,6 +1,7 @@
 import React from 'react';
 import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
+import ButtonCta from '../../components/ui/ButtonCta';
 
 const { colors, spacing, fontSizes, radii, containerMaxWidth } = theme;
 
@@ -212,6 +213,10 @@ const Technology: React.FC = () => {
               </div>
             </div>
           ))}
+        </div>
+
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: spacing[12] }}>
+          <ButtonCta label="Solicitar orçamento" />
         </div>
       </div>
     </section>
