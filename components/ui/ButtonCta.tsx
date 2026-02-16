@@ -2,6 +2,7 @@ import React from 'react';
 import { colors } from '../../styles/colors';
 import { useRouter } from 'next/router';
 import { ArrowRight } from 'lucide-react';
+import { radii } from '@/styles/theme';
 
 interface ButtonCtaProps {
   label?: string;
@@ -46,7 +47,7 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
         gap: 8,
         border: `1px solid ${colors.blue.primary}`,
         background: colors.blue.primary,
-        borderRadius: 6,
+        borderRadius: radii.full,
         padding: iconOnly ? 0 : '12px 24px',
         color: colors.text.light,
         fontSize: 16,

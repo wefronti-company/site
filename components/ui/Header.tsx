@@ -89,6 +89,7 @@ const Header: React.FC = () => {
   };
 
   const showGlass = !isMd || scrolled;
+  const headerPaddingX = isMd ? spacing[12] : spacing[6];
   const headerStyle: React.CSSProperties = {
     position: 'fixed',
     top: 0,
@@ -96,26 +97,36 @@ const Header: React.FC = () => {
     right: 0,
     zIndex: 100,
     isolation: 'isolate',
+    paddingTop: isMd ? spacing[4] : spacing[3],
+    paddingLeft: headerPaddingX,
+    paddingRight: headerPaddingX,
+    paddingBottom: isMd ? spacing[4] : spacing[3],
+    transition: 'padding 0.25s ease',
+  };
+
+  const headerWrapperStyle: React.CSSProperties = {
+    width: '100%',
+    maxWidth: containerMaxWidth.wide - headerPaddingX * 2,
+    margin: '0 auto',
+  };
+
+  const innerBarStyle: React.CSSProperties = {
+    width: '100%',
+    paddingLeft: isMd ? spacing[6] : spacing[4],
+    paddingRight: isMd ? spacing[6] : spacing[4],
+    paddingTop: spacing[3],
+    paddingBottom: spacing[3],
+    borderRadius: radii.full,
     backgroundColor: showGlass ? 'rgba(4, 4, 4, 0.75)' : 'transparent',
     backdropFilter: showGlass ? 'saturate(180%) blur(12px)' : 'none',
     WebkitBackdropFilter: showGlass ? 'saturate(180%) blur(12px)' : 'none',
-    borderBottom: showGlass ? `1px solid ${colors.neutral.borderDark}` : '1px solid transparent',
+    border: showGlass ? `1px solid ${colors.neutral.borderDark}` : '1px solid transparent',
     transition: 'background-color 0.25s ease, backdrop-filter 0.25s ease, border-color 0.25s ease',
     transform: 'translateZ(0)',
     WebkitTransform: 'translateZ(0)',
   };
 
   const innerStyle: React.CSSProperties = {
-    width: '100%',
-    maxWidth: containerMaxWidth.wide,
-    margin: '0 auto',
-    paddingLeft: isMd ? spacing[12] : spacing[6],
-    paddingRight: isMd ? spacing[12] : spacing[6],
-    paddingTop: spacing[5],
-    paddingBottom: spacing[5],
-  };
-
-  const rowStyle: React.CSSProperties = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -163,7 +174,7 @@ const Header: React.FC = () => {
     padding: `${spacing[3]}px ${spacing[6]}px`,
     fontSize: fontSizes.sm,
     fontWeight: 500,
-    borderRadius: radii.md,
+    borderRadius: radii.full,
     backgroundColor: colors.blue.primary,
     color: colors.text.light,
     border: 'none',
@@ -174,8 +185,9 @@ const Header: React.FC = () => {
 
   return (
     <header style={headerStyle} role="banner">
-      <nav aria-label="Navegação principal" style={innerStyle}>
-        <div style={rowStyle}>
+      <div style={headerWrapperStyle}>
+        <div style={innerBarStyle}>
+        <nav aria-label="Navegação principal" style={innerStyle}>
           <div style={leftCellStyle}>
             <Logo href="/" ariaLabel="Ir para a página inicial" isDark={false} />
           </div>
@@ -222,8 +234,9 @@ const Header: React.FC = () => {
               Solicitar orçamento
             </Link>
           </div>
+        </nav>
         </div>
-      </nav>
+      </div>
     </header>
   );
 };

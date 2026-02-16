@@ -33,7 +33,7 @@ const badgeStyle: React.CSSProperties = {
   alignItems: 'center',
   gap: spacing[2],
   padding: `${spacing[2]}px ${spacing[4]}px`,
-  borderRadius: radii.md,
+  borderRadius: radii.full,
   border: `1px solid ${colors.neutral.borderDark}`,
   backgroundColor: 'rgba(255,255,255,0.04)',
   fontSize: fontSizes.xs,
@@ -87,7 +87,7 @@ const gridLayoutWide: React.CSSProperties = {
 };
 
 const cardStyle: React.CSSProperties = {
-  borderRadius: radii.md,
+  borderRadius: 30,
   border: `1px solid ${colors.neutral.borderDark}`,
   background: 'transparent',
   display: 'flex',

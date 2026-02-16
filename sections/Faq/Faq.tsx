@@ -66,7 +66,7 @@ const badgeStyle: React.CSSProperties = {
   gap: spacing[2],
   alignSelf: 'flex-start',
   padding: `${spacing[2]}px ${spacing[4]}px`,
-  borderRadius: 6,
+  borderRadius: radii.full,
   border: `1px solid ${colors.neutral.borderDark}`,
   backgroundColor: 'rgba(255,255,255,0.04)',
   fontSize: fontSizes.xs,
@@ -166,7 +166,7 @@ const Faq: React.FC = () => {
                   style={{
                     background: colors.neutral.accordeon,
                     border: `1px solid ${colors.neutral.borderDark}`,
-                    borderRadius: 12,
+                    borderRadius: 30,
                     padding: `${spacing[5]}px ${spacing[6]}px`,
                     cursor: 'pointer',
                     transition: 'border-color 0.2s ease',
