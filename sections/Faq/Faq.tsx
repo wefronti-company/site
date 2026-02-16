@@ -131,9 +131,7 @@ const Faq: React.FC = () => {
             FAQ
           </span>
           <h2 id="faq-heading" style={titleStyle}>
-            Perguntas
-            <br />
-            <span style={titleFadedStyle}>frequentes</span>
+            Perguntas<br/>frequentes
           </h2>
           <p style={descriptionStyle}>
             Tem dúvidas? Confira as respostas mais comuns abaixo ou entre em contato pelo WhatsApp.

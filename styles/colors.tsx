@@ -3,6 +3,7 @@ export const colors = {
  background:{
     dark: '#040404ff', //Cor de fundo de todas as seções
     light:'#ffffffff', //Cor de fundo clara para seções específicas (div de formuláio)
+    blue: '#ffffff',
  },
 
  text:{

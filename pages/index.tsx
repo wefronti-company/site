@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import SEO from '../components/SEO';
 import Hero from '../sections/Hero';
+import Contact from '../sections/Contact';
 import Faq from '../sections/Faq';
 import Cta from '../sections/Cta';
 import Footer from '../sections/Footer';
@@ -16,7 +17,6 @@ const Home: React.FC = () => {
     setMounted(true);
   }, []);
 
-  // Só pular a splash se já tiver sido vista nesta sessão (sessionStorage)
   useEffect(() => {
     if (!mounted || typeof window === 'undefined') return;
     const seen = sessionStorage.getItem(SPLASH_STORAGE_KEY);
@@ -32,7 +32,6 @@ const Home: React.FC = () => {
     setShowSplash(false);
   };
 
-  // Durante SSR/hidratação: evitar flash do conteúdo antes da splash
   if (!mounted) {
     return (
       <>
@@ -50,6 +49,7 @@ const Home: React.FC = () => {
       ) : (
         <>
           <Hero />
+          <Contact />
           <Faq />
           <Cta />
           <Footer />

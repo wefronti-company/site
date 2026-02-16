@@ -9,11 +9,10 @@ const GlobalStyles: React.FC = () => (
     dangerouslySetInnerHTML={{
       __html: `
 :root {
-  --scrollbar-track: #0b0b0b;
-  --scrollbar-thumb: #1f1f1f;
-  --scrollbar-track-mobile: rgba(255,255,255,0.02);
-  --scrollbar-thumb-mobile: rgba(255,255,255,0.06);
-  --scrollbar-thumb-mobile-hover: rgba(255,255,255,0.10);
+  --scrollbar-track: transparent;
+  --scrollbar-thumb: rgba(255,255,255,0.03);
+  --scrollbar-thumb-hover: rgba(255,255,255,0.08);
+  --scrollbar-width: 3px;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -53,22 +52,18 @@ section:not(#section-0) {
   background: transparent;
 }
 
-/* Scrollbar - Firefox */
+/* Scrollbar - quase invisível, fina (Firefox + WebKit) */
 * { scrollbar-width: thin; scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track); }
-/* WebKit */
-::-webkit-scrollbar { width: 10px; height: 10px; background: var(--scrollbar-track); }
-::-webkit-scrollbar-track { background: var(--scrollbar-track) !important; border-radius: 0 !important; }
-::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb) !important; border-radius: 0 !important; min-height: 28px; }
-::-webkit-scrollbar-thumb:hover { filter: brightness(0.95); }
+/* WebKit (Chrome, Safari, Edge, Opera) */
+::-webkit-scrollbar { width: var(--scrollbar-width); height: var(--scrollbar-width); background: var(--scrollbar-track); }
+::-webkit-scrollbar-track { background: var(--scrollbar-track) !important; }
+::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb) !important; border-radius: 9999px !important; }
+::-webkit-scrollbar-thumb:hover { background: var(--scrollbar-thumb-hover) !important; }
+::-webkit-scrollbar-thumb:active { background: var(--scrollbar-thumb-hover) !important; }
 ::-webkit-scrollbar-button { display: none !important; width: 0 !important; height: 0 !important; }
 ::-webkit-scrollbar-corner { background: var(--scrollbar-track) !important; }
-@media (max-width: 640px) {
-  * { scrollbar-color: var(--scrollbar-thumb-mobile) var(--scrollbar-track-mobile); }
-  ::-webkit-scrollbar { width: 6px !important; height: 6px !important; }
-  ::-webkit-scrollbar-track { background: var(--scrollbar-track-mobile) !important; }
-  ::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb-mobile) !important; border-radius: 9999px !important; }
-  ::-webkit-scrollbar-thumb:hover { background: var(--scrollbar-thumb-mobile-hover) !important; }
-}
+
+.contact-field:focus { outline: none; border-color: rgba(53, 152, 255, 0.6) !important; box-shadow: 0 0 0 2px rgba(53, 152, 255, 0.2); }
 
 @keyframes shake {
   0%, 100% { transform: translateX(0); }
