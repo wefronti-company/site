@@ -209,6 +209,12 @@ const Pricing: React.FC = () => {
     ? gridStyle
     : { ...gridStyle, gridTemplateColumns: '1fr', gap: spacing[6] };
 
+  /** Em telas menores, menos padding nos cards para não ficar tão alto */
+  const cardStyleResponsive: React.CSSProperties = {
+    ...cardBaseStyle,
+    padding: isMd ? spacing[16] : spacing[6],
+  };
+
   return (
     <section id="precos" style={sectionStyle} aria-labelledby="pricing-heading">
       <div style={innerStyleBase}>
@@ -235,7 +241,7 @@ const Pricing: React.FC = () => {
 
         <div style={gridWrapStyle}>
           <div style={grid}>
-          <div style={cardBaseStyle}>
+          <div style={cardStyleResponsive}>
             <h3 style={cardTitleStyle}>Landing Page</h3>
             <p style={{ fontSize: fontSizes.sm, color: colors.text.light, opacity: 0.88, margin: 0 }}>
               Uma página focada em converter visitantes em leads ou vendas. Ideal para campanhas e ofertas específicas.
@@ -264,7 +270,7 @@ const Pricing: React.FC = () => {
             </div>
           </div>
 
-          <div style={{ ...cardBaseStyle, ...cardEmphasisStyle }}>
+          <div style={{ ...cardStyleResponsive, ...cardEmphasisStyle }}>
             <h3 style={cardTitleStyle}>Site completo</h3>
             <p style={{ fontSize: fontSizes.sm, color: colors.text.light, opacity: 0.88, margin: 0 }}>
               Site com múltiplas páginas, otimizado para busca no Google e suporte pós-entrega. O pacote mais completo.

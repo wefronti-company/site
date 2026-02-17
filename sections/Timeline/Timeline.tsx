@@ -233,8 +233,8 @@ const Timeline: React.FC = () => {
         <div style={innerStyleBase}>
           <div style={{
             ...headerStyle,
-            paddingLeft: headerPaddingX,
-            paddingRight: headerPaddingX,
+            paddingLeft: isMd ? headerPaddingX : 0,
+            paddingRight: isMd ? headerPaddingX : 0,
             alignItems: 'flex-start',
           }}>
             <span style={badgeStyle} aria-hidden>
@@ -277,7 +277,7 @@ const Timeline: React.FC = () => {
               })}
             </ul>
           </div>
-          <div style={{ display: 'flex', justifyContent: 'flex-start', marginTop: spacing[12] }}>
+          <div style={{ display: 'flex', justifyContent: 'flex-start', marginTop: isMd ? spacing[12] : spacing[6] }}>
             <ButtonCta label="Solicitar orçamento" />
           </div>
         </div>
@@ -288,7 +288,7 @@ const Timeline: React.FC = () => {
   return (
     <section id="processo" style={sectionStyle} aria-labelledby="timeline-heading">
       <div style={innerStyleBase}>
-        <div style={{ ...headerStyle, paddingLeft: headerPaddingX, paddingRight: headerPaddingX }}>
+        <div style={{ ...headerStyle, paddingLeft: isMd ? headerPaddingX : 0, paddingRight: isMd ? headerPaddingX : 0 }}>
           <span style={badgeStyle} aria-hidden>
             <span
               className="badge-dot-pulse"
@@ -326,7 +326,7 @@ const Timeline: React.FC = () => {
             })}
           </ul>
         </div>
-        <div style={{ display: 'flex', justifyContent: 'center', marginTop: spacing[12] }}>
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: isMd ? spacing[12] : spacing[6] }}>
           <ButtonCta label="Solicitar orçamento" />
         </div>
       </div>

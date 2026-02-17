@@ -247,8 +247,8 @@ const Testimonials: React.FC = () => {
       <div style={innerStyleBase}>
         <div style={{
           ...headerStyle,
-          paddingLeft: headerPaddingX,
-          paddingRight: headerPaddingX,
+          paddingLeft: isMd ? headerPaddingX : 0,
+          paddingRight: isMd ? headerPaddingX : 0,
           alignItems: isMd ? 'center' : 'flex-start',
         }}>
           <span style={badgeStyle} aria-hidden>

@@ -83,8 +83,8 @@ const gridStyle: React.CSSProperties = {
 /** Layout referência: esquerda e direita = cards altos; centro = 2 cards empilhados */
 const gridLayoutWide: React.CSSProperties = {
   gridTemplateColumns: '1fr 1fr 1fr',
-  gridTemplateRows: 'minmax(260px, 1fr) minmax(260px, 1fr)',
-  gridAutoRows: 'minmax(260px, 1fr)',
+  gridTemplateRows: 'minmax(320px, 1fr) minmax(320px, 1fr)',
+  gridAutoRows: 'minmax(320px, 1fr)',
 };
 
 const cardStyle: React.CSSProperties = {
@@ -98,7 +98,7 @@ const cardStyle: React.CSSProperties = {
 
 const illustrationWrapStyle: React.CSSProperties = {
   width: '100%',
-  minHeight: 220,
+  minHeight: 280,
   flex: 1,
   position: 'relative' as const,
   background: 'linear-gradient(135deg, rgba(53, 152, 255, 0.12) 0%, rgba(100, 80, 200, 0.1) 50%, rgba(180, 80, 160, 0.08) 100%)',
@@ -109,7 +109,7 @@ const illustrationWrapStyle: React.CSSProperties = {
 
 const illustrationWrapTallStyle: React.CSSProperties = {
   ...illustrationWrapStyle,
-  minHeight: 340,
+  minHeight: 400,
 };
 
 const illustrationImageStyle: React.CSSProperties = {
@@ -216,7 +216,7 @@ const Technology: React.FC = () => {
           ))}
         </div>
 
-        <div style={{ display: 'flex', justifyContent: 'center', marginTop: spacing[12] }}>
+        <div style={{ display: 'flex', justifyContent: 'flex-start', marginTop: spacing[12] }}>
           <ButtonCta label="Solicitar orçamento" />
         </div>
       </div>

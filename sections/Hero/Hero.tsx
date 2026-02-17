@@ -66,8 +66,6 @@ const heroSectionStyleBase: React.CSSProperties = {
   flexDirection: 'column',
   justifyContent: 'center',
   overflow: 'hidden',
-  borderBottomLeftRadius: 60,
-  borderBottomRightRadius: 60,
 };
 
 // Meia-lua na base: brilhos só aparecem fora do círculo (circunferência do canto inferior esq → acima do H1 → canto inferior dir)
@@ -113,7 +111,7 @@ const heroContentStyleBase: React.CSSProperties = {
   maxWidth: containerMaxWidth.wide,
   display: 'flex',
   flexDirection: 'column',
-  gap: spacing[10],
+  gap: spacing[8],
 };
 
 const heroTitleStyle: React.CSSProperties = {
@@ -163,7 +161,10 @@ const Hero: React.FC = () => {
 
   const heroSectionStyle: React.CSSProperties = {
     ...heroSectionStyleBase,
-    padding: isMd ? spacing[10] : spacing[8],
+    padding: isMd ? spacing[10] : spacing[6],
+    paddingBottom: isMd ? spacing[10] : spacing[6],
+    borderBottomLeftRadius: isMd ? 48 : 28,
+    borderBottomRightRadius: isMd ? 48 : 28,
     alignItems: isMd ? 'center' : 'flex-start',
   };
   const heroContentStyle: React.CSSProperties = {

@@ -125,6 +125,7 @@ const Faq: React.FC = () => {
   const gridStyle: React.CSSProperties = {
     ...innerStyleBase,
     gridTemplateColumns: isMd ? '1fr 1.2fr' : '1fr',
+    gap: isMd ? spacing[12] : spacing[6],
     alignItems: 'start',
   };
   /** Em telas menores, sem padding horizontal nas colunas para igualar à largura da seção Preços */

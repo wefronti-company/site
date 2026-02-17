@@ -141,6 +141,7 @@ const Contact: React.FC = () => {
   const innerStyle: React.CSSProperties = {
     ...innerStyleBase,
     gridTemplateColumns: isMd ? '1fr 1.1fr' : '1fr',
+    gap: isMd ? spacing[12] : spacing[6],
   };
   /** Em telas menores, sem padding horizontal nas colunas para igualar à largura da seção Preços */
   const leftColumnStyleResponsive: React.CSSProperties = {

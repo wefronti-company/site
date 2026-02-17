@@ -17,12 +17,10 @@ const wrapperStyleBase: React.CSSProperties = {
   backgroundImage: "url('/images/brand/background.png')",
   backgroundSize: 'cover',
   backgroundPosition: 'center',
-  padding: `${spacing[16]}px ${spacing[10]}px`,
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
   textAlign: 'center',
-  gap: spacing[6],
   border: `1px solid ${colors.neutral.borderDark}`,
 };
 
@@ -82,9 +80,16 @@ const Cta: React.FC = () => {
     backgroundColor: colors.background.dark,
   };
 
+  /** Em telas menores, menos padding na div de CTA */
+  const wrapperStyle: React.CSSProperties = {
+    ...wrapperStyleBase,
+    padding: isMd ? `${spacing[16]}px ${spacing[10]}px` : `${spacing[8]}px ${spacing[6]}px`,
+    gap: isMd ? spacing[6] : spacing[4],
+  };
+
   return (
     <section id="cta" style={sectionStyle} aria-labelledby="cta-heading">
-      <div style={wrapperStyleBase}>
+      <div style={wrapperStyle}>
         <h2 id="cta-heading" style={headingStyle}>
           Tire suas dúvidas com a gente
         </h2>
