@@ -112,6 +112,10 @@ section:not(#section-0) {
   0%, 100% { box-shadow: 0 0 8px 0 rgba(53, 152, 255, 0.6); }
   50% { box-shadow: 0 0 18px 4px rgba(53, 152, 255, 0.9); }
 }
+@keyframes floating-whatsapp-glow {
+  0%, 100% { box-shadow: 0 0 12px 2px rgba(53, 152, 255, 0.5); }
+  50% { box-shadow: 0 0 24px 8px rgba(53, 152, 255, 0.8); }
+}
 @keyframes testimonials-scroll {
   0% { transform: translate3d(0, 0, 0); }
   100% { transform: translate3d(-50%, 0, 0); }
@@ -125,6 +129,7 @@ section:not(#section-0) {
 .testimonials-track-reverse { animation: testimonials-scroll-reverse 80s linear infinite; backface-visibility: hidden; }
 .badge-dot-pulse { animation: badge-dot-pulse 2s ease-in-out infinite; }
 .timeline-dot-pulse { animation: timeline-dot-pulse 2s ease-in-out infinite; }
+.floating-whatsapp-glow { animation: floating-whatsapp-glow 2s ease-in-out infinite; }
 .header-nav-link { text-shadow: none !important; box-shadow: none !important; }
 .header-nav-link:focus { outline: 2px solid rgba(255,255,255,0.4); outline-offset: 2px; }
 .header-nav-link-char { display: inline-block; }
@@ -149,6 +154,7 @@ section:not(#section-0) {
   .hero-sparkle { animation: none !important; }
   .badge-dot-pulse { animation: none !important; }
   .timeline-dot-pulse { animation: none !important; }
+  .floating-whatsapp-glow { animation: none !important; }
   .testimonials-track { animation: none !important; }
   .testimonials-track-reverse { animation: none !important; }
 }

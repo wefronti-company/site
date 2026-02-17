@@ -56,7 +56,7 @@ const HERO_CHIPS: { label: string; icon: string }[] = [
 
 const heroSectionStyleBase: React.CSSProperties = {
   position: 'relative',
-  minHeight: '90vh',
+  minHeight: '100vh',
   backgroundColor: colors.background.dark,
   backgroundImage: "url('/images/brand/background.png')",
   backgroundSize: 'cover',
