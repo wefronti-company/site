@@ -54,8 +54,11 @@ const headerStyle: React.CSSProperties = {
   gap: spacing[6],
 };
 
+/** Largura dos cards de preço menor que a seção para não ficarem tão largos */
+const PRICING_GRID_MAX_WIDTH = 920;
+
 const gridWrapStyle: React.CSSProperties = {
-  maxWidth: containerMaxWidth.wide,
+  maxWidth: PRICING_GRID_MAX_WIDTH,
   margin: '0 auto',
 };
 

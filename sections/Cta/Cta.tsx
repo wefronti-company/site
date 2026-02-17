@@ -8,9 +8,12 @@ const { colors, spacing, fontSizes, radii, containerMaxWidth } = theme;
 const WHATSAPP_LINK = 'https://wa.me/message/3V45SAJMLIJJJ1';
 const WHATSAPP_MESSAGE = 'Olá, tenho algumas dúvidas e gostaria de conversar.';
 
+/** Largura alinhada aos cards de preço para não ficar tão largo */
+const CTA_MAX_WIDTH = 920;
+
 const wrapperStyleBase: React.CSSProperties = {
   width: '100%',
-  maxWidth: containerMaxWidth.wide,
+  maxWidth: CTA_MAX_WIDTH,
   margin: '0 auto',
   borderRadius: 16,
   overflow: 'hidden',
