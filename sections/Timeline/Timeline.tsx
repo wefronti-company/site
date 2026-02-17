@@ -215,6 +215,10 @@ const Timeline: React.FC = () => {
       position: 'relative' as const,
       zIndex: 1,
     };
+    const mobileStepIconStyle: React.CSSProperties = {
+      ...stepIconStyle,
+      marginTop: 0,
+    };
     const mobileStepContentStyle: React.CSSProperties = {
       flex: 1,
       minWidth: 0,
@@ -263,7 +267,7 @@ const Timeline: React.FC = () => {
                     </div>
                     <div style={mobileStepContentStyle}>
                       <div style={mobileTitleRowStyle}>
-                        <span style={stepIconStyle} aria-hidden><Icon size={18} /></span>
+                        <span style={mobileStepIconStyle} aria-hidden><Icon size={18} /></span>
                         <h3 style={stepTitleStyle}>{step.title}</h3>
                       </div>
                       <p style={{ ...stepDescStyle, maxWidth: 'none' }}>{step.description}</p>
