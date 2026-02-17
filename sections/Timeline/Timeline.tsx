@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useState, useLayoutEffect } from 'react';
 import { MessageCircle, ClipboardList, Code2, Rocket, Headphones } from 'lucide-react';
 import { radii, theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
@@ -160,7 +160,25 @@ const stepDescStyle: React.CSSProperties = {
 
 const Timeline: React.FC = () => {
   const isMd = useMediaQuery(theme.breakpoints.md);
-  const headerPaddingX = isMd ? spacing[12] : spacing[6];
+  const headerPaddingX = isMd ? spacing[12] : spacing[4];
+  const mobileWrapRef = useRef<HTMLDivElement>(null);
+  const firstDotRef = useRef<HTMLDivElement>(null);
+  const lastDotRef = useRef<HTMLDivElement>(null);
+  const [mobileLineBounds, setMobileLineBounds] = useState({ top: 0, height: 0 });
+
+  useLayoutEffect(() => {
+    if (isMd) return;
+    const wrap = mobileWrapRef.current;
+    const first = firstDotRef.current;
+    if (!wrap || !first) return;
+    const last = lastDotRef.current ?? first;
+    const wrapRect = wrap.getBoundingClientRect();
+    const firstRect = first.getBoundingClientRect();
+    const lastRect = last.getBoundingClientRect();
+    const firstCenterY = firstRect.top - wrapRect.top + firstRect.height / 2;
+    const lastCenterY = lastRect.top - wrapRect.top + lastRect.height / 2;
+    setMobileLineBounds({ top: firstCenterY, height: Math.max(0, lastCenterY - firstCenterY) });
+  }, [isMd]);
 
   const sectionStyle: React.CSSProperties = {
     ...sectionStyleBase,
@@ -169,10 +187,49 @@ const Timeline: React.FC = () => {
   };
 
   if (!isMd) {
+    const lineLeft = 7;
+    const mobileLineStyle: React.CSSProperties = {
+      position: 'absolute' as const,
+      left: lineLeft,
+      top: mobileLineBounds.top,
+      height: mobileLineBounds.height,
+      width: 0,
+      borderLeft: '2px dashed rgba(255,255,255,0.25)',
+      pointerEvents: 'none',
+    };
+    const mobileWrapStyle: React.CSSProperties = {
+      position: 'relative' as const,
+      paddingLeft: 0,
+    };
+    const mobileStepRowStyle: React.CSSProperties = {
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'flex-start',
+      gap: spacing[3],
+      marginBottom: spacing[10],
+    };
+    const mobileDotWrapStyle: React.CSSProperties = {
+      ...dotRowWrapperStyle,
+      marginTop: 2,
+    };
+    const mobileStepContentStyle: React.CSSProperties = {
+      flex: 1,
+      minWidth: 0,
+      textAlign: 'left',
+    };
+    const mobileTitleRowStyle: React.CSSProperties = {
+      ...stepTitleRowStyle,
+      justifyContent: 'flex-start',
+    };
     return (
       <section id="processo" style={sectionStyle} aria-labelledby="timeline-heading">
         <div style={innerStyleBase}>
-          <div style={{ ...headerStyle, paddingLeft: headerPaddingX, paddingRight: headerPaddingX }}>
+          <div style={{
+            ...headerStyle,
+            paddingLeft: headerPaddingX,
+            paddingRight: headerPaddingX,
+            alignItems: 'flex-start',
+          }}>
             <span style={badgeStyle} aria-hidden>
               <span
                 className="badge-dot-pulse"
@@ -185,28 +242,35 @@ const Timeline: React.FC = () => {
               />
               Processo
             </span>
-            <h2 id="timeline-heading" style={titleStyle}>
+            <h2 id="timeline-heading" style={{ ...titleStyle, textAlign: 'left' }}>
               Do primeiro contato à entrega
             </h2>
           </div>
-          <ul style={{ ...stepsGridStyle, gridTemplateColumns: '1fr', gap: spacing[8] }} role="list">
-            {TIMELINE_STEPS.map((step, index) => {
-              const Icon = step.Icon;
-              return (
-                <li key={index} style={stepColumnStyle}>
-                  <div style={dotRowWrapperStyle}>
-                    <span className="timeline-dot-pulse" style={dotStyle} aria-hidden />
-                  </div>
-                  <div style={stepTitleRowStyle}>
-                    <span style={stepIconStyle} aria-hidden><Icon size={18} /></span>
-                    <h3 style={stepTitleStyle}>{step.title}</h3>
-                  </div>
-                  <p style={stepDescStyle}>{step.description}</p>
-                </li>
-              );
-            })}
-          </ul>
-          <div style={{ display: 'flex', justifyContent: 'center', marginTop: spacing[12] }}>
+          <div ref={mobileWrapRef} style={mobileWrapStyle}>
+            <div style={mobileLineStyle} aria-hidden="true" />
+            <ul style={{ listStyle: 'none', margin: 0, padding: 0 }} role="list">
+              {TIMELINE_STEPS.map((step, index) => {
+                const Icon = step.Icon;
+                const isFirst = index === 0;
+                const isLast = index === TIMELINE_STEPS.length - 1;
+                return (
+                  <li key={index} style={mobileStepRowStyle}>
+                    <div ref={isFirst ? firstDotRef : isLast ? lastDotRef : undefined} style={mobileDotWrapStyle}>
+                      <span className="timeline-dot-pulse" style={dotStyle} aria-hidden />
+                    </div>
+                    <div style={mobileStepContentStyle}>
+                      <div style={mobileTitleRowStyle}>
+                        <span style={stepIconStyle} aria-hidden><Icon size={18} /></span>
+                        <h3 style={stepTitleStyle}>{step.title}</h3>
+                      </div>
+                      <p style={{ ...stepDescStyle, maxWidth: 'none' }}>{step.description}</p>
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'flex-start', marginTop: spacing[12] }}>
             <ButtonCta label="Solicitar orçamento" />
           </div>
         </div>

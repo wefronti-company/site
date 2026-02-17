@@ -149,7 +149,7 @@ const cardDescStyle: React.CSSProperties = {
 
 const Technology: React.FC = () => {
   const isMd = useMediaQuery(theme.breakpoints.md);
-  const headerPaddingX = isMd ? spacing[12] : spacing[6];
+  const headerPaddingX = isMd ? spacing[12] : spacing[4];
   const sectionStyle: React.CSSProperties = {
     ...sectionStyleBase,
     paddingLeft: headerPaddingX,

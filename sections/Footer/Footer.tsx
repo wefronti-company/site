@@ -21,7 +21,7 @@ const Footer: React.FC = () => {
  
   };
 
-  const headerPaddingX = isMd ? spacing[12] : spacing[6];
+  const headerPaddingX = isMd ? spacing[12] : spacing[4];
   const innerStyle: React.CSSProperties = {
     width: '100%',
     maxWidth: containerMaxWidth.wide,

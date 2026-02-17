@@ -132,7 +132,7 @@ const Contact: React.FC = () => {
     motivoContato: '',
   });
 
-  const headerPaddingX = isMd ? spacing[12] : spacing[6];
+  const headerPaddingX = isMd ? spacing[12] : spacing[4];
   const sectionStyle: React.CSSProperties = {
     ...sectionStyleBase,
     paddingLeft: headerPaddingX,

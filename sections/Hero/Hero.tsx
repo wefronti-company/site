@@ -163,7 +163,7 @@ const Hero: React.FC = () => {
 
   const heroSectionStyle: React.CSSProperties = {
     ...heroSectionStyleBase,
-    padding: isMd ? spacing[10] : spacing[6],
+    padding: isMd ? spacing[10] : spacing[8],
     alignItems: isMd ? 'center' : 'flex-start',
   };
   const heroContentStyle: React.CSSProperties = {

@@ -116,7 +116,7 @@ const Faq: React.FC = () => {
   const isMd = useMediaQuery(theme.breakpoints.md);
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
-  const headerPaddingX = isMd ? spacing[12] : spacing[6];
+  const headerPaddingX = isMd ? spacing[12] : spacing[4];
   const sectionStyle: React.CSSProperties = {
     ...sectionStyleBase,
     paddingLeft: headerPaddingX,

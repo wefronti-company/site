@@ -200,7 +200,7 @@ const cardLocationStyle: React.CSSProperties = {
 
 const Testimonials: React.FC = () => {
   const isMd = useMediaQuery(theme.breakpoints.md);
-  const headerPaddingX = isMd ? spacing[12] : spacing[6];
+  const headerPaddingX = isMd ? spacing[12] : spacing[4];
   const sectionStyle: React.CSSProperties = {
     ...sectionStyleBase,
     paddingLeft: headerPaddingX,
@@ -245,7 +245,12 @@ const Testimonials: React.FC = () => {
         }}
       />
       <div style={innerStyleBase}>
-        <div style={{ ...headerStyle, paddingLeft: headerPaddingX, paddingRight: headerPaddingX }}>
+        <div style={{
+          ...headerStyle,
+          paddingLeft: headerPaddingX,
+          paddingRight: headerPaddingX,
+          alignItems: isMd ? 'center' : 'flex-start',
+        }}>
           <span style={badgeStyle} aria-hidden>
             <span
               className="badge-dot-pulse"
@@ -258,7 +263,7 @@ const Testimonials: React.FC = () => {
             />
             Depoimentos
           </span>
-          <h2 id="testimonials-heading" style={titleStyle}>
+          <h2 id="testimonials-heading" style={{ ...titleStyle, textAlign: isMd ? 'center' : 'left' }}>
             O que nossos clientes dizem
           </h2>
         </div>

@@ -152,7 +152,7 @@ const iconPositiveStyle: React.CSSProperties = {
 
 const Comparison: React.FC = () => {
   const isMd = useMediaQuery(theme.breakpoints.md);
-  const headerPaddingX = isMd ? spacing[12] : spacing[6];
+  const headerPaddingX = isMd ? spacing[12] : spacing[4];
   const sectionStyle: React.CSSProperties = {
     ...sectionStyleBase,
     paddingLeft: headerPaddingX,
@@ -168,7 +168,12 @@ const Comparison: React.FC = () => {
   return (
     <section id="comparativo" style={sectionStyle} aria-labelledby="comparison-heading">
       <div style={innerStyleBase}>
-        <div style={{ ...headerStyle, paddingLeft: headerPaddingX, paddingRight: headerPaddingX }}>
+        <div style={{
+          ...headerStyle,
+          paddingLeft: headerPaddingX,
+          paddingRight: headerPaddingX,
+          alignItems: isMd ? 'center' : 'flex-start',
+        }}>
           <span style={badgeStyle} aria-hidden>
             <span
               className="badge-dot-pulse"
@@ -181,7 +186,7 @@ const Comparison: React.FC = () => {
             />
             Comparação
           </span>
-          <h2 id="comparison-heading" style={titleStyle}>
+          <h2 id="comparison-heading" style={{ ...titleStyle, textAlign: isMd ? 'center' : 'left' }}>
             Por que trabalhar conosco?
           </h2>
         </div>

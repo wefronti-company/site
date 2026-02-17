@@ -123,7 +123,7 @@ const cardDescStyle: React.CSSProperties = {
 
 const Portfolio: React.FC = () => {
   const isMd = useMediaQuery(theme.breakpoints.md);
-  const headerPaddingX = isMd ? spacing[12] : spacing[6];
+  const headerPaddingX = isMd ? spacing[12] : spacing[4];
   const [cursor, setCursor] = useState({ x: 0, y: 0, hoveredIndex: -1 });
 
   const handleCardMouseEnter = useCallback((e: React.MouseEvent, index: number) => {
@@ -152,7 +152,10 @@ const Portfolio: React.FC = () => {
   return (
     <section id="portfolio" style={sectionStyle} aria-labelledby="portfolio-heading">
       <div style={innerStyleBase}>
-        <div style={headerStyle}>
+        <div style={{
+          ...headerStyle,
+          alignItems: isMd ? 'center' : 'flex-start',
+        }}>
           <span style={badgeStyle} aria-hidden>
             <span
               className="badge-dot-pulse"
@@ -165,7 +168,7 @@ const Portfolio: React.FC = () => {
             />
             Portfólio
           </span>
-          <h2 id="portfolio-heading" style={titleStyle}>
+          <h2 id="portfolio-heading" style={{ ...titleStyle, textAlign: isMd ? 'center' : 'left' }}>
             Projetos recentes
           </h2>
         </div>

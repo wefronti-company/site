@@ -197,7 +197,7 @@ const SITE_FEATURES = [
 
 const Pricing: React.FC = () => {
   const isMd = useMediaQuery(theme.breakpoints.md);
-  const headerPaddingX = isMd ? spacing[12] : spacing[6];
+  const headerPaddingX = isMd ? spacing[12] : spacing[4];
 
   const sectionStyle: React.CSSProperties = {
     ...sectionStyleBase,
@@ -212,7 +212,10 @@ const Pricing: React.FC = () => {
   return (
     <section id="precos" style={sectionStyle} aria-labelledby="pricing-heading">
       <div style={innerStyleBase}>
-        <div style={headerStyle}>
+        <div style={{
+          ...headerStyle,
+          alignItems: isMd ? 'center' : 'flex-start',
+        }}>
           <span style={badgeStyle} aria-hidden>
             <span
               className="badge-dot-pulse"
@@ -225,7 +228,7 @@ const Pricing: React.FC = () => {
             />
             Preços
           </span>
-          <h2 id="pricing-heading" style={titleStyle}>
+          <h2 id="pricing-heading" style={{ ...titleStyle, textAlign: isMd ? 'center' : 'left' }}>
             Invista no seu negócio
           </h2>
         </div>
