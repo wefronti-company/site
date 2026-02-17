@@ -161,7 +161,8 @@ const Hero: React.FC = () => {
 
   const heroSectionStyle: React.CSSProperties = {
     ...heroSectionStyleBase,
-    padding: isMd ? spacing[10] : spacing[6],
+
+    padding: isMd ? spacing[10] : spacing[4],
     paddingBottom: isMd ? spacing[10] : spacing[6],
     borderBottomLeftRadius: isMd ? 48 : 28,
     borderBottomRightRadius: isMd ? 48 : 28,

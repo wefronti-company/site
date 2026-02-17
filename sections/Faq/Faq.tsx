@@ -125,19 +125,22 @@ const Faq: React.FC = () => {
   const gridStyle: React.CSSProperties = {
     ...innerStyleBase,
     gridTemplateColumns: isMd ? '1fr 1.2fr' : '1fr',
-    gap: isMd ? spacing[12] : spacing[6],
+    gap: isMd ? spacing[12] : spacing[3],
     alignItems: 'start',
   };
-  /** Em telas menores, sem padding horizontal nas colunas para igualar à largura da seção Preços */
+  /** Em telas menores, sem padding horizontal e menos padding bottom na coluna do título/subtítulo */
   const leftColumnStyleResponsive: React.CSSProperties = {
     ...leftColumnStyle,
     paddingLeft: isMd ? spacing[12] : 0,
     paddingRight: isMd ? spacing[12] : 0,
+    paddingBottom: isMd ? spacing[12] : spacing[2],
   };
+  /** Em telas menores, menos padding top na coluna do accordion */
   const rightColumnStyleResponsive: React.CSSProperties = {
     ...rightColumnStyle,
     paddingLeft: isMd ? spacing[12] : 0,
     paddingRight: isMd ? spacing[12] : 0,
+    paddingTop: isMd ? spacing[12] : spacing[3],
   };
 
   return (

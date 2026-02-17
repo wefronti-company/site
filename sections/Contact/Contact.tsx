@@ -102,7 +102,7 @@ const labelStyle: React.CSSProperties = {
   fontSize: fontSizes.sm,
   fontWeight: 500,
   color: colors.text.light,
-  marginBottom: spacing[2],
+  marginBottom: spacing[4],
 };
 
 const textareaStyle: React.CSSProperties = {
@@ -141,22 +141,31 @@ const Contact: React.FC = () => {
   const innerStyle: React.CSSProperties = {
     ...innerStyleBase,
     gridTemplateColumns: isMd ? '1fr 1.1fr' : '1fr',
-    gap: isMd ? spacing[12] : spacing[6],
+    gap: isMd ? spacing[12] : spacing[3],
   };
-  /** Em telas menores, sem padding horizontal nas colunas para igualar à largura da seção Preços */
+  /** Em telas menores, sem padding horizontal e menos padding bottom na coluna do título/subtítulo */
   const leftColumnStyleResponsive: React.CSSProperties = {
     ...leftColumnStyle,
     paddingLeft: isMd ? spacing[12] : 0,
     paddingRight: isMd ? spacing[12] : 0,
+    paddingBottom: isMd ? spacing[12] : spacing[2],
   };
+  /** Em telas menores, menos padding top na coluna do form para aproximar do subtítulo */
   const rightColumnStyleResponsive: React.CSSProperties = {
     ...rightColumnStyle,
     paddingLeft: isMd ? spacing[12] : 0,
     paddingRight: isMd ? spacing[12] : 0,
+    paddingTop: isMd ? spacing[12] : 0,
+  };
+  /** Em telas menores: padding top no form para dar respiro às labels; gap maior entre linhas */
+  const formStyleResponsive: React.CSSProperties = {
+    ...formStyle,
+    padding: isMd ? spacing[6] : `${spacing[4]}px ${spacing[6]}px ${spacing[6]}px`,
+    gap: isMd ? formStyle.gap : spacing[6],
   };
   const formRowLayout: React.CSSProperties = isMd
     ? formRowStyle
-    : { display: 'flex', flexDirection: 'column', gap: spacing[4] };
+    : { display: 'flex', flexDirection: 'column', gap: spacing[6] };
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -195,7 +204,7 @@ const Contact: React.FC = () => {
         </div>
 
         <div style={rightColumnStyleResponsive}>
-          <form onSubmit={handleSubmit} style={formStyle} noValidate>
+          <form onSubmit={handleSubmit} style={formStyleResponsive} noValidate>
           <div style={formRowLayout}>
             <div>
               <label htmlFor="contact-nome" style={labelStyle}>
