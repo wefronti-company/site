@@ -29,7 +29,7 @@ const badgeStyle: React.CSSProperties = {
   padding: `${spacing[2]}px ${spacing[4]}px`,
   borderRadius: radii.full,
   border: `1px solid ${colors.neutral.borderDark}`,
-  backgroundColor: 'rgba(255,255,255,0.04)',
+  backgroundColor: 'rgba(226, 31, 31, 0.04)',
   fontSize: fontSizes.xs,
   fontWeight: 500,
   color: colors.text.light,
@@ -73,7 +73,7 @@ const cardBaseStyle: React.CSSProperties = {
   display: 'flex',
   flexDirection: 'column',
   gap: spacing[6],
-  background: 'rgba(255,255,255,0.02)',
+  background: colors.neutral.accordeon,
 };
 
 const cardEmphasisStyle: React.CSSProperties = {

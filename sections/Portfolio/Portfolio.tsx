@@ -140,7 +140,10 @@ const Portfolio: React.FC = () => {
     paddingRight: headerPaddingX,
   };
 
-  const grid = isMd ? gridStyle : { ...gridStyleMobile, paddingLeft: 0, paddingRight: 0 };
+  /** Em telas maiores, mesmo recuo horizontal da seção Contato (padding das colunas) */
+  const grid = isMd
+    ? { ...gridStyle, paddingLeft: headerPaddingX, paddingRight: headerPaddingX }
+    : { ...gridStyleMobile, paddingLeft: 0, paddingRight: 0 };
 
   const projects = [
     { cover: '/images/portfolio/capa-01.png', name: 'Projeto 1', description: 'Breve descrição do projeto e do resultado entregue.' },
