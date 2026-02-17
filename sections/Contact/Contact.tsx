@@ -142,6 +142,17 @@ const Contact: React.FC = () => {
     ...innerStyleBase,
     gridTemplateColumns: isMd ? '1fr 1.1fr' : '1fr',
   };
+  /** Em telas menores, sem padding horizontal nas colunas para igualar à largura da seção Preços */
+  const leftColumnStyleResponsive: React.CSSProperties = {
+    ...leftColumnStyle,
+    paddingLeft: isMd ? spacing[12] : 0,
+    paddingRight: isMd ? spacing[12] : 0,
+  };
+  const rightColumnStyleResponsive: React.CSSProperties = {
+    ...rightColumnStyle,
+    paddingLeft: isMd ? spacing[12] : 0,
+    paddingRight: isMd ? spacing[12] : 0,
+  };
   const formRowLayout: React.CSSProperties = isMd
     ? formRowStyle
     : { display: 'flex', flexDirection: 'column', gap: spacing[4] };
@@ -161,7 +172,7 @@ const Contact: React.FC = () => {
   return (
     <section id="contato" style={sectionStyle} aria-labelledby="contact-heading">
       <div style={innerStyle}>
-        <div style={leftColumnStyle}>
+        <div style={leftColumnStyleResponsive}>
           <span style={badgeStyle} aria-hidden>
             <span
               className="badge-dot-pulse"
@@ -182,7 +193,7 @@ const Contact: React.FC = () => {
           </p>
         </div>
 
-        <div style={rightColumnStyle}>
+        <div style={rightColumnStyleResponsive}>
           <form onSubmit={handleSubmit} style={formStyle} noValidate>
           <div style={formRowLayout}>
             <div>

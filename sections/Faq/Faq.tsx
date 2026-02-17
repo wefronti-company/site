@@ -127,11 +127,22 @@ const Faq: React.FC = () => {
     gridTemplateColumns: isMd ? '1fr 1.2fr' : '1fr',
     alignItems: 'start',
   };
+  /** Em telas menores, sem padding horizontal nas colunas para igualar à largura da seção Preços */
+  const leftColumnStyleResponsive: React.CSSProperties = {
+    ...leftColumnStyle,
+    paddingLeft: isMd ? spacing[12] : 0,
+    paddingRight: isMd ? spacing[12] : 0,
+  };
+  const rightColumnStyleResponsive: React.CSSProperties = {
+    ...rightColumnStyle,
+    paddingLeft: isMd ? spacing[12] : 0,
+    paddingRight: isMd ? spacing[12] : 0,
+  };
 
   return (
     <section id="faq" style={sectionStyle} aria-labelledby="faq-heading">
       <div style={gridStyle}>
-        <div style={leftColumnStyle}>
+        <div style={leftColumnStyleResponsive}>
           <span style={badgeStyle} aria-hidden>
             <span className="badge-dot-pulse" style={{ width: 6, height: 6, borderRadius: '50%', background: colors.blue.primary }} />
             FAQ
@@ -144,7 +155,7 @@ const Faq: React.FC = () => {
           </p>
         </div>
 
-        <div style={rightColumnStyle}>
+        <div style={rightColumnStyleResponsive}>
           <ul style={accordionListStyle} role="list">
           {FAQ_ITEMS.map((item, index) => {
             const isOpen = openIndex === index;

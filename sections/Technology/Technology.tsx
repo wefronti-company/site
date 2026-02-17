@@ -155,9 +155,10 @@ const Technology: React.FC = () => {
     paddingLeft: headerPaddingX,
     paddingRight: headerPaddingX,
   };
+  /** Em telas menores, sem padding horizontal no header/grid para igualar à largura da seção Preços */
   const gridLayout: React.CSSProperties = isMd
-    ? { ...gridStyle, ...gridLayoutWide, paddingLeft: headerPaddingX, paddingRight: headerPaddingX }
-    : { ...gridStyle, gridTemplateColumns: '1fr', paddingLeft: headerPaddingX, paddingRight: headerPaddingX };
+    ? { ...gridStyle, ...gridLayoutWide, paddingLeft: spacing[12], paddingRight: spacing[12] }
+    : { ...gridStyle, gridTemplateColumns: '1fr', paddingLeft: 0, paddingRight: 0 };
 
   const getCardGridStyle = (index: number): React.CSSProperties => {
     if (!isMd) return {};
@@ -173,7 +174,7 @@ const Technology: React.FC = () => {
   return (
     <section id="tecnologia" style={sectionStyle} aria-labelledby="tech-heading">
       <div style={innerStyleBase}>
-        <div style={{ ...headerStyle, paddingLeft: headerPaddingX, paddingRight: headerPaddingX }}>
+        <div style={{ ...headerStyle, paddingLeft: isMd ? spacing[12] : 0, paddingRight: isMd ? spacing[12] : 0 }}>
           <span style={badgeStyle} aria-hidden>
             <span
               className="badge-dot-pulse"

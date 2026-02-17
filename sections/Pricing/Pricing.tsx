@@ -55,7 +55,7 @@ const headerStyle: React.CSSProperties = {
 };
 
 const gridWrapStyle: React.CSSProperties = {
-  maxWidth: 890,
+  maxWidth: containerMaxWidth.wide,
   margin: '0 auto',
 };
 

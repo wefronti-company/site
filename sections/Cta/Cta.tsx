@@ -1,5 +1,6 @@
 import React from 'react';
 import { theme } from '../../styles/theme';
+import { useMediaQuery } from '../../hooks/useMediaQuery';
 import { ArrowUpRight } from 'lucide-react';
 
 const { colors, spacing, fontSizes, radii, containerMaxWidth } = theme;
@@ -7,20 +8,10 @@ const { colors, spacing, fontSizes, radii, containerMaxWidth } = theme;
 const WHATSAPP_LINK = 'https://wa.me/message/3V45SAJMLIJJJ1';
 const WHATSAPP_MESSAGE = 'Olá, tenho algumas dúvidas e gostaria de conversar.';
 
-const sectionStyle: React.CSSProperties = {
+const wrapperStyleBase: React.CSSProperties = {
   width: '100%',
-  marginTop: spacing[24],
-  marginBottom: spacing[24],
-  padding: `${spacing[2]}px ${spacing[6]}px`,
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  backgroundColor: colors.background.dark,
-};
-
-const wrapperStyle: React.CSSProperties = {
-  width: '100%',
-  maxWidth: containerMaxWidth.narrow,
+  maxWidth: containerMaxWidth.wide,
+  margin: '0 auto',
   borderRadius: 16,
   overflow: 'hidden',
   backgroundImage: "url('/images/brand/background.png')",
@@ -73,11 +64,27 @@ const buttonStyle: React.CSSProperties = {
 };
 
 const Cta: React.FC = () => {
+  const isMd = useMediaQuery(theme.breakpoints.md);
+  const headerPaddingX = isMd ? spacing[12] : spacing[4];
   const whatsappUrl = `${WHATSAPP_LINK}${WHATSAPP_LINK.includes('?') ? '&' : '?'}text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
+
+  const sectionStyle: React.CSSProperties = {
+    width: '100%',
+    marginTop: spacing[24],
+    marginBottom: spacing[24],
+    paddingTop: spacing[2],
+    paddingBottom: spacing[2],
+    paddingLeft: headerPaddingX,
+    paddingRight: headerPaddingX,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: colors.background.dark,
+  };
 
   return (
     <section id="cta" style={sectionStyle} aria-labelledby="cta-heading">
-      <div style={wrapperStyle}>
+      <div style={wrapperStyleBase}>
         <h2 id="cta-heading" style={headingStyle}>
           Tire suas dúvidas com a gente
         </h2>
@@ -98,5 +105,6 @@ const Cta: React.FC = () => {
     </section>
   );
 };
+
 
 export default Cta;

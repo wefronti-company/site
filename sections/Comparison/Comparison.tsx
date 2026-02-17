@@ -3,7 +3,7 @@ import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 import { X, Check } from 'lucide-react';
 
-const { colors, spacing, fontSizes, radii } = theme;
+const { colors, spacing, fontSizes, radii, containerMaxWidth } = theme;
 
 const OUTRAS_AGENCIAS: string[] = [
   'Processos engessados e lentos',
@@ -28,12 +28,9 @@ const sectionStyleBase: React.CSSProperties = {
   backgroundColor: colors.background.dark,
 };
 
-/** Largura menor que wide — comparativo não precisa acompanhar o header */
-const comparisonMaxWidth = 960;
-
 const innerStyleBase: React.CSSProperties = {
   width: '100%',
-  maxWidth: comparisonMaxWidth,
+  maxWidth: containerMaxWidth.wide,
   margin: '0 auto',
   display: 'grid',
   gap: spacing[12],
