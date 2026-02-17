@@ -1,5 +1,5 @@
 import React from 'react';
-import { Check } from 'lucide-react';
+import { CheckCircle, CheckCircle2, CheckCircleIcon } from 'lucide-react';
 import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 import ButtonCta from '../../components/ui/ButtonCta';
@@ -157,6 +157,7 @@ const featureItemStyle = (dimmed?: boolean): React.CSSProperties => ({
   color: colors.text.light,
   opacity: dimmed ? 0.45 : 1,
   fontStyle: dimmed ? ('italic' as const) : 'normal',
+  transition: 'transform 0.2s ease',
 });
 
 const checkIconStyle: React.CSSProperties = {
@@ -171,13 +172,13 @@ const checkIconDimmedStyle: React.CSSProperties = {
 
 const LANDING_FEATURES = [
   { text: 'Desenvolvimento ágil', dimmed: false },
-  { text: 'Focado em conversão', dimmed: false },
+  { text: 'Copy focada em conversão', dimmed: false },
   { text: '1 única página', dimmed: false },
   { text: 'Otimizada para ads', dimmed: false },
   { text: 'Design moderno e responsivo', dimmed: false },
   { text: 'Formulário de contato', dimmed: false },
   { text: 'SEO básico', dimmed: false },
-  { text: 'Múltiplas páginas', dimmed: true },
+  { text: 'Performance (carregamento rápido)', dimmed: false },
   { text: 'Blog ou seção de recursos', dimmed: true },
   { text: 'Área administrativa', dimmed: true },
   { text: 'Suporte pós-entrega estendido', dimmed: true },
@@ -185,14 +186,12 @@ const LANDING_FEATURES = [
 
 const SITE_FEATURES = [
   'Desenvolvimento ágil',
-  'Focado em conversão',
+  'Focado em conversão e engajamento',
   'Múltiplas páginas',
-  'Otimizado para ads',
+  ' Google Analytics / Google Tag Manager',
   'Design moderno e responsivo',
   'Formulário de contato',
-  'SEO básico',
-  'Blog ou seção de recursos',
-  'Área administrativa',
+  'SEO avançado',
   'Suporte pós-entrega estendido',
 ];
 
@@ -249,9 +248,9 @@ const Pricing: React.FC = () => {
             </div>
             <ul style={featureListStyle}>
               {LANDING_FEATURES.map((item, i) => (
-                <li key={i} style={featureItemStyle(item.dimmed)}>
+                <li key={i} className="pricing-feature-item" style={featureItemStyle(item.dimmed)}>
                   <span style={item.dimmed ? checkIconDimmedStyle : checkIconStyle} aria-hidden>
-                    <Check size={18} strokeWidth={2.5} />
+                    <CheckCircle2 size={20} strokeWidth={2} />
                   </span>
                   {item.text}
                 </li>
@@ -278,9 +277,9 @@ const Pricing: React.FC = () => {
             </div>
             <ul style={featureListStyle}>
               {SITE_FEATURES.map((text, i) => (
-                <li key={i} style={featureItemStyle(false)}>
+                <li key={i} className="pricing-feature-item" style={featureItemStyle(false)}>
                   <span style={checkIconStyle} aria-hidden>
-                    <Check size={18} strokeWidth={2.5} />
+                    <CheckCircle2 size={20} strokeWidth={2} />
                   </span>
                   {text}
                 </li>

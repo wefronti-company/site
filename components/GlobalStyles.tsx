@@ -130,6 +130,7 @@ section:not(#section-0) {
 .badge-dot-pulse { animation: badge-dot-pulse 2s ease-in-out infinite; }
 .timeline-dot-pulse { animation: timeline-dot-pulse 2s ease-in-out infinite; }
 .floating-whatsapp-glow { animation: floating-whatsapp-glow 2s ease-in-out infinite; }
+.pricing-feature-item:hover { transform: translateX(6px); }
 .header-nav-link { text-shadow: none !important; box-shadow: none !important; }
 .header-nav-link:focus { outline: 2px solid rgba(255,255,255,0.4); outline-offset: 2px; }
 .header-nav-link-char { display: inline-block; }
@@ -157,6 +158,7 @@ section:not(#section-0) {
   .floating-whatsapp-glow { animation: none !important; }
   .testimonials-track { animation: none !important; }
   .testimonials-track-reverse { animation: none !important; }
+  .pricing-feature-item:hover { transform: none !important; }
 }
 `,
     }}
