@@ -176,8 +176,8 @@ const Timeline: React.FC = () => {
     const firstRect = first.getBoundingClientRect();
     const lastRect = last.getBoundingClientRect();
     const firstCenterY = firstRect.top - wrapRect.top + firstRect.height / 2;
-    const lastCenterY = lastRect.top - wrapRect.top + lastRect.height / 2;
-    setMobileLineBounds({ top: firstCenterY, height: Math.max(0, lastCenterY - firstCenterY) });
+    const lastTopY = lastRect.top - wrapRect.top;
+    setMobileLineBounds({ top: firstCenterY, height: Math.max(0, lastTopY - firstCenterY) });
   }, [isMd]);
 
   const sectionStyle: React.CSSProperties = {
@@ -196,6 +196,7 @@ const Timeline: React.FC = () => {
       width: 0,
       borderLeft: '2px dashed rgba(255,255,255,0.25)',
       pointerEvents: 'none',
+      zIndex: 0,
     };
     const mobileWrapStyle: React.CSSProperties = {
       position: 'relative' as const,
@@ -211,6 +212,8 @@ const Timeline: React.FC = () => {
     const mobileDotWrapStyle: React.CSSProperties = {
       ...dotRowWrapperStyle,
       marginTop: 2,
+      position: 'relative' as const,
+      zIndex: 1,
     };
     const mobileStepContentStyle: React.CSSProperties = {
       flex: 1,
