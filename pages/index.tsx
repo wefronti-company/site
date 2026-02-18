@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import SEO from '../components/SEO';
 import Hero from '../sections/Hero';
 import Technology from '../sections/Technology';
-import Contact from '../sections/Contact';
 import Testimonials from '../sections/Testimonials';
 import Timeline from '../sections/Timeline';
 import Portfolio from '../sections/Portfolio';
+import About from '../sections/About';
 import Pricing from '../sections/Pricing';
+import Comparison from '../sections/Comparison';
 import Faq from '../sections/Faq';
 import Cta from '../sections/Cta';
 import Footer from '../sections/Footer';
@@ -58,9 +59,9 @@ const Home: React.FC = () => {
           <Testimonials />
           <Timeline />
           <Portfolio />
+          <About />
           <Pricing />
-          <Contact />
-          
+          <Comparison />
           <Faq />
           <Cta />
           <Footer />

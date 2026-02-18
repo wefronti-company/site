@@ -9,12 +9,14 @@ const SCROLL_TOP_THRESHOLD = 1;
 const REVERSE_DELAY_MS = 220;
 const REVERSED_HOLD_MS = 520;
 
-/** Links do menu (por enquanto fake – seções serão criadas depois) */
+/** Links do menu — cada um leva à seção correspondente na página */
 const NAV_LINKS = [
   { id: 'hero', label: 'Início', href: '/#hero' },
-  { id: 'clients', label: 'Clientes', href: '/#clients' },
-  { id: 'contato', label: 'Contato', href: '/#contato' },
+  { id: 'depoimentos', label: 'Clientes', href: '/#depoimentos' },
+  { id: 'processo', label: 'Processos', href: '/#processo' },
+  { id: 'portfolio', label: 'Portfolio', href: '/#portfolio' },
   { id: 'sobre', label: 'Sobre', href: '/#sobre' },
+  { id: 'precos', label: 'Preços', href: '/#precos' },
   { id: 'faq', label: 'FAQ', href: '/#faq' },
 ] as const;
 
@@ -225,9 +227,9 @@ const Header: React.FC = () => {
 
           <div style={rightCellStyle}>
             <Link
-              href="/#contato"
+              href="/#cta"
               style={btnStyle}
-              onClick={(e) => handleNavClick(e, '/#contato')}
+              onClick={(e) => handleNavClick(e, '/#cta')}
               onMouseEnter={(e) => { e.currentTarget.style.opacity = '0.9'; }}
               onMouseLeave={(e) => { e.currentTarget.style.opacity = '1'; }}
             >

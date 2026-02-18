@@ -1,0 +1,196 @@
+import React from 'react';
+import { theme } from '../../styles/theme';
+import { useMediaQuery } from '../../hooks/useMediaQuery';
+import { Check } from 'lucide-react';
+
+const { colors, spacing, fontSizes, radii, containerMaxWidth } = theme;
+
+const sectionStyleBase: React.CSSProperties = {
+  width: '100%',
+  paddingTop: spacing[16],
+  paddingBottom: spacing[16],
+  backgroundColor: colors.background.dark,
+};
+
+const innerStyleBase: React.CSSProperties = {
+  width: '100%',
+  maxWidth: containerMaxWidth.wide,
+  margin: '0 auto',
+  display: 'grid',
+  gap: spacing[12],
+};
+
+const badgeStyle: React.CSSProperties = {
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: spacing[2],
+  alignSelf: 'flex-start',
+  padding: `${spacing[2]}px ${spacing[4]}px`,
+  borderRadius: radii.full,
+  border: `1px solid ${colors.neutral.borderDark}`,
+  backgroundColor: 'rgba(255,255,255,0.04)',
+  fontSize: fontSizes.xs,
+  fontWeight: 500,
+  color: colors.text.light,
+  textTransform: 'uppercase' as const,
+  letterSpacing: '0.06em',
+};
+
+const titleStyle: React.CSSProperties = {
+  fontSize: 'clamp(2rem, 5vw, 4rem)',
+  fontWeight: 400,
+  lineHeight: 1.2,
+  letterSpacing: '-0.02em',
+  color: colors.text.light,
+  margin: 0,
+};
+
+const descriptionStyle: React.CSSProperties = {
+  fontSize: '1.3rem',
+  lineHeight: 1.6,
+  color: colors.text.light,
+  opacity: 0.88,
+  margin: 0,
+};
+
+const listStyle: React.CSSProperties = {
+  listStyle: 'none',
+  margin: 0,
+  marginTop: spacing[6],
+  padding: 0,
+  display: 'flex',
+  flexDirection: 'column',
+  gap: spacing[4],
+};
+
+const listItemStyle: React.CSSProperties = {
+  display: 'flex',
+  alignItems: 'center',
+  gap: spacing[3],
+  fontSize: fontSizes.base,
+  lineHeight: 1.5,
+  color: colors.text.light,
+  opacity: 0.92,
+};
+
+const checkIconStyle: React.CSSProperties = {
+  flexShrink: 0,
+  width: 22,
+  height: 22,
+  borderRadius: '50%',
+  background: 'rgba(53, 152, 255, 0.2)',
+  color: colors.blue.primary,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+};
+
+const imageWrapStyle: React.CSSProperties = {
+  width: '100%',
+  aspectRatio: '3 / 4',
+  maxHeight: 520,
+  borderRadius: 24,
+  overflow: 'hidden',
+  border: `1px solid ${colors.neutral.borderDark}`,
+  boxShadow: `0 24px 48px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.04), 0 0 80px rgba(53, 152, 255, 0.08)`,
+  position: 'relative' as const,
+};
+
+const imageStyle: React.CSSProperties = {
+  width: '100%',
+  height: '100%',
+  objectFit: 'cover' as const,
+  display: 'block',
+};
+
+const ABOUT_ITEMS: string[] = [
+  'Sites otimizados para conversão e para o Google',
+  'Parceria e suporte pós-entrega — não somimos depois da entrega',
+];
+
+const About: React.FC = () => {
+  const isMd = useMediaQuery(theme.breakpoints.md);
+  const headerPaddingX = isMd ? spacing[12] : spacing[4];
+
+  const sectionStyle: React.CSSProperties = {
+    ...sectionStyleBase,
+    paddingLeft: headerPaddingX,
+    paddingRight: headerPaddingX,
+  };
+
+  const gridStyle: React.CSSProperties = {
+    ...innerStyleBase,
+    gridTemplateColumns: isMd ? '0.9fr 1.1fr' : '1fr',
+    alignItems: 'center',
+    gap: isMd ? spacing[12] : spacing[8],
+  };
+
+  const imageColumnStyle: React.CSSProperties = {
+    minWidth: 0,
+    order: isMd ? 0 : 1,
+  };
+
+  const textColumnStyle: React.CSSProperties = {
+    minWidth: 0,
+    display: 'flex',
+    flexDirection: 'column',
+    gap: spacing[6],
+    paddingLeft: isMd ? spacing[12] : 0,
+    paddingRight: isMd ? spacing[12] : 0,
+    order: isMd ? 0 : 0,
+  };
+
+  return (
+    <section id="sobre" style={sectionStyle} aria-labelledby="about-heading">
+      <div style={gridStyle}>
+        <div style={imageColumnStyle}>
+          <div style={imageWrapStyle}>
+            <img
+              src="/images/about/sobre.jpg"
+              alt=""
+              style={imageStyle}
+              loading="lazy"
+              onError={(e) => {
+                e.currentTarget.style.background = 'linear-gradient(135deg, rgba(53, 152, 255, 0.12) 0%, rgba(100, 80, 200, 0.08) 100%)';
+                e.currentTarget.style.minHeight = '320px';
+              }}
+            />
+          </div>
+        </div>
+
+        <div style={textColumnStyle}>
+          <span style={badgeStyle} aria-hidden>
+            <span
+              className="badge-dot-pulse"
+              style={{
+                width: 6,
+                height: 6,
+                borderRadius: '50%',
+                background: colors.blue.primary,
+              }}
+            />
+            Sobre
+          </span>
+          <h2 id="about-heading" style={titleStyle}>
+            Sites que vendem e geram resultado para o seu negócio.
+          </h2>
+          <p style={descriptionStyle}>
+            A Wefronti nasceu da frustração com agências que prometem e não entregam. Nosso foco é criar sites que não só impressionam, mas convertem e aparecem no Google. Trabalhamos com transparência, prazos claros e suporte contínuo — porque seu sucesso é nosso resultado.
+          </p>
+          <ul style={listStyle} role="list">
+            {ABOUT_ITEMS.map((text, i) => (
+              <li key={i} style={listItemStyle}>
+                <span style={checkIconStyle} aria-hidden>
+                  <Check size={14} strokeWidth={2.5} />
+                </span>
+                <span>{text}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default About;

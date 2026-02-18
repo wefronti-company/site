@@ -27,7 +27,7 @@ function useSparkles() {
   }, []);
 }
 
-const CONTACT_SECTION_ID = 'contato';
+const CTA_SECTION_ID = 'cta';
 const SCROLL_OFFSET = 24;
 
 const scrollToSection = (id: string) => {
@@ -260,7 +260,7 @@ const Hero: React.FC = () => {
           animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
           transition={{ duration: 0.5, ease: 'easeOut', delay: 0.5 }}
         >
-          <ButtonCta onClick={() => scrollToSection(CONTACT_SECTION_ID)}>
+          <ButtonCta onClick={() => scrollToSection(CTA_SECTION_ID)}>
             Solicitar orçamento
           </ButtonCta>
         </motion.div>

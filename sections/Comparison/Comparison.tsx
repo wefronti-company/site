@@ -2,23 +2,24 @@ import React from 'react';
 import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 import { X, Check } from 'lucide-react';
+import ButtonCta from '../../components/ui/ButtonCta';
 
 const { colors, spacing, fontSizes, radii, containerMaxWidth } = theme;
 
 const OUTRAS_AGENCIAS: string[] = [
-  'Processos engessados e lentos',
-  'Só focam em fazer site bonito',
-  'Não se preocupam em gerar resultado',
-  'Entregam o site e somem',
-  'Deixam o cliente na mão quando mais precisa',
+  'Recebem o pagamento e somem — você fica sem site e sem dinheiro',
+  'Prometem o mundo, entregam qualquer coisa e não respondem mais',
+  'Processos lentos, prazos que estouram e zero transparência',
+  'Site “bonito” que não converte e não aparece no Google',
+  'Abrem o chamado e te deixam na mão quando mais precisa',
 ];
 
 const WEFRONTI: string[] = [
-  'Processos ágeis e adaptados ao seu negócio',
-  'Design que converte, não só “bonito”',
-  'Foco em resultados e métricas que importam',
-  'Suporte contínuo e parceria pós-entrega',
-  'Ao seu lado quando mais precisar',
+  'Transparência total: prazos claros, etapas definidas e comunicação constante',
+  'Parceria de verdade: suporte pós-entrega e melhorias contínuas',
+  'Processos ágeis, adaptados ao seu negócio, sem enrolação',
+  'Foco em resultado: site que converte e aparece na busca',
+  'Ao seu lado quando mais precisar — não somimos depois da entrega',
 ];
 
 const sectionStyleBase: React.CSSProperties = {
@@ -41,7 +42,7 @@ const badgeStyle: React.CSSProperties = {
   alignItems: 'center',
   gap: spacing[2],
   padding: `${spacing[2]}px ${spacing[4]}px`,
-  borderRadius: radii.md,
+  borderRadius: radii.full,
   border: `1px solid ${colors.neutral.borderDark}`,
   backgroundColor: 'rgba(255,255,255,0.04)',
   fontSize: fontSizes.xs,
@@ -81,7 +82,7 @@ const gridStyle: React.CSSProperties = {
 
 const cardStyle: React.CSSProperties = {
   padding: spacing[8],
-  borderRadius: radii.md,
+  borderRadius: 30,
   border: `1px solid ${colors.neutral.borderDark}`,
   background: colors.neutral.accordeon,
   display: 'flex',
@@ -181,16 +182,19 @@ const Comparison: React.FC = () => {
                 background: colors.blue.primary,
               }}
             />
-            Comparação
+            Diferenciais
           </span>
           <h2 id="comparison-heading" style={{ ...titleStyle, textAlign: isMd ? 'center' : 'left' }}>
-            Por que trabalhar conosco?
+            Você já passou por isso<br />com outra empresa?
           </h2>
+          <p style={{ margin: 0, fontSize: '1.3rem', color: colors.text.light, opacity: 0.88, lineHeight: 1.5, textAlign: isMd ? 'center' : 'left', maxWidth: 640 }}>
+            Veja o que acontece na prática com muitas agências e por que a Wefronti é diferente.
+          </p>
         </div>
 
         <div style={gridLayout}>
           <div style={cardStyle}>
-            <h3 style={cardTitleStyle}>Outras empresas</h3>
+            <h3 style={cardTitleStyle}>O que muita gente sofre por aí</h3>
             <ul style={listStyle} role="list">
               {OUTRAS_AGENCIAS.map((text, i) => (
                 <li key={i} style={itemStyle}>
@@ -204,7 +208,7 @@ const Comparison: React.FC = () => {
           </div>
 
           <div style={cardHighlightStyle}>
-            <h3 style={cardTitleStyle}>Wefronti</h3>
+            <h3 style={cardTitleStyle}>Como é trabalhar com a Wefronti</h3>
             <ul style={listStyle} role="list">
               {WEFRONTI.map((text, i) => (
                 <li key={i} style={itemStyle}>
@@ -216,6 +220,34 @@ const Comparison: React.FC = () => {
               ))}
             </ul>
           </div>
+        </div>
+
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: isMd ? 'center' : 'flex-start',
+          gap: spacing[6],
+          marginTop: spacing[12],
+          textAlign: isMd ? 'center' : 'left',
+        }}>
+          <p style={{
+            margin: 0,
+            fontSize: '1.3rem',
+            lineHeight: 1.6,
+            color: colors.text.light,
+            opacity: 0.92,
+            maxWidth: 720,
+          }}>
+            Não deixe seu investimento e seu negócio na mão de quem some. A Wefronti entrega o que promete, com transparência, suporte e foco no seu resultado. Conte sua necessidade e veja como podemos resolver.
+          </p>
+          <ButtonCta
+            label="Solicitar orçamento"
+            onClick={() => {
+              const el = document.getElementById('cta');
+              if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              else if (typeof window !== 'undefined') window.location.href = '/#cta';
+            }}
+          />
         </div>
       </div>
     </section>
