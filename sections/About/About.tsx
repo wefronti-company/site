@@ -118,11 +118,14 @@ const About: React.FC = () => {
     paddingRight: headerPaddingX,
   };
 
+  /** Em telas maiores, mesmo recuo horizontal da seção Projetos (padding do grid) */
   const gridStyle: React.CSSProperties = {
     ...innerStyleBase,
     gridTemplateColumns: isMd ? '0.9fr 1.1fr' : '1fr',
     alignItems: 'center',
     gap: isMd ? spacing[12] : spacing[8],
+    paddingLeft: isMd ? headerPaddingX : 0,
+    paddingRight: isMd ? headerPaddingX : 0,
   };
 
   const imageColumnStyle: React.CSSProperties = {
@@ -135,8 +138,8 @@ const About: React.FC = () => {
     display: 'flex',
     flexDirection: 'column',
     gap: spacing[6],
-    paddingLeft: isMd ? spacing[12] : 0,
-    paddingRight: isMd ? spacing[12] : 0,
+    paddingLeft: 0,
+    paddingRight: 0,
     order: isMd ? 0 : 0,
   };
 

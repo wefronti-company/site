@@ -1,7 +1,9 @@
 import React, { useState, useCallback } from 'react';
+import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
 import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
+import { projects } from '../../data/projects';
 
 const { colors, spacing, fontSizes, radii, containerMaxWidth } = theme;
 
@@ -145,13 +147,6 @@ const Portfolio: React.FC = () => {
     ? { ...gridStyle, paddingLeft: headerPaddingX, paddingRight: headerPaddingX }
     : { ...gridStyleMobile, paddingLeft: 0, paddingRight: 0 };
 
-  const projects = [
-    { cover: '/images/portfolio/capa-01.png', name: 'Projeto 1', description: 'Breve descrição do projeto e do resultado entregue.' },
-    { cover: '/images/portfolio/capa-01.png', name: 'Projeto 2', description: 'Breve descrição do projeto e do resultado entregue.' },
-    { cover: '/images/portfolio/capa-01.png', name: 'Projeto 3', description: 'Breve descrição do projeto e do resultado entregue.' },
-    { cover: '/images/portfolio/capa-01.png', name: 'Projeto 4', description: 'Breve descrição do projeto e do resultado entregue.' },
-  ];
-
   return (
     <section id="portfolio" style={sectionStyle} aria-labelledby="portfolio-heading">
       <div style={innerStyleBase}>
@@ -177,14 +172,14 @@ const Portfolio: React.FC = () => {
         </div>
         <ul style={grid} role="list">
           {projects.map((project, index) => (
-            <li key={index}>
-              <a
-                href="#"
+            <li key={project.slug}>
+              <Link
+                href={`/projetos/${project.slug}`}
                 style={{
                   ...cardStyle,
                   cursor: cursor.hoveredIndex === index ? 'none' : undefined,
                 }}
-                aria-label={project.name}
+                aria-label={`Ver detalhes do projeto ${project.name}`}
                 onMouseEnter={(e) => handleCardMouseEnter(e, index)}
                 onMouseLeave={handleCardMouseLeave}
                 onMouseMove={handleCardMouseMove}
@@ -201,7 +196,7 @@ const Portfolio: React.FC = () => {
                   <h3 style={cardTitleStyle}>{project.name}</h3>
                   <p style={cardDescStyle}>{project.description}</p>
                 </div>
-              </a>
+              </Link>
             </li>
           ))}
         </ul>
