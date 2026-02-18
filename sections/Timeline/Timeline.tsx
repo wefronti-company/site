@@ -9,11 +9,11 @@ const { colors, spacing, fontSizes, containerMaxWidth } = theme;
 type StepIcon = React.ComponentType<{ size?: number; className?: string }>;
 
 const TIMELINE_STEPS: { title: string; description: string; Icon: StepIcon }[] = [
-  { title: 'Onboarding', description: 'Alinhamos expectativas, entendemos seu negócio e definimos o briefing do projeto.', Icon: MessageCircle },
-  { title: 'Planejamento', description: 'Desenhamos a estratégia e arquitetura de conversão.', Icon: ClipboardList },
-  { title: 'Desenvolvimento', description: 'Construção do site com as melhores práticas, performance e SEO em mente.', Icon: Code2 },
-  { title: 'Lançamento', description: 'Colocamos tudo no ar, pronto para converter.', Icon: Rocket },
-  { title: 'Suporte', description: 'Suporte pós-entrega e melhorias contínuas para o site gerar resultado.', Icon: Headphones },
+  { title: 'Onboarding', description: 'Mergulhamos no seu negócio, entendemos seus objetivos e alinhamos tudo antes de escrever uma linha de código. Aqui nasce a estratégia.', Icon: MessageCircle },
+  { title: 'Planejamento', description: 'Desenhamos a arquitetura do site com foco em conversão cada página, cada seção e cada CTA pensados para transformar visitante em cliente.', Icon: ClipboardList },
+  { title: 'Desenvolvimento', description: 'Construímos o site com as melhores tecnologias do mercado, garantindo velocidade máxima, SEO estruturado e uma experiência que impressiona.', Icon: Code2 },
+  { title: 'Lançamento', description: 'Colocamos tudo no ar com atenção a cada detalhe testado, otimizado e pronto para começar a gerar resultado desde o primeiro acesso', Icon: Rocket },
+  { title: 'Suporte', description: 'Não sumimos depois da entrega. Acompanhamos, melhoramos e otimizamos continuamente para o seu site vender cada vez mais.', Icon: Headphones },
 ];
 
 const sectionStyleBase: React.CSSProperties = {
@@ -55,6 +55,16 @@ const titleStyle: React.CSSProperties = {
   color: colors.text.light,
   margin: 0,
   textAlign: 'center',
+};
+
+const subtitleStyle: React.CSSProperties = {
+  fontSize: '1.25rem',
+  lineHeight: 1.55,
+  color: colors.text.light,
+  opacity: 0.88,
+  margin: 0,
+  textAlign: 'center',
+  maxWidth: 820,
 };
 
 const headerStyle: React.CSSProperties = {
@@ -249,9 +259,14 @@ const Timeline: React.FC = () => {
               />
               Processo
             </span>
-            <h2 id="timeline-heading" style={{ ...titleStyle, textAlign: 'left' }}>
-              Um processo sem surpresas, do início ao resultado
-            </h2>
+            <div style={{ maxWidth: 820, display: 'flex', flexDirection: 'column', gap: spacing[4] }}>
+              <h2 id="timeline-heading" style={{ ...titleStyle, textAlign: 'left' }}>
+                Um processo sem surpresas, do início ao resultado
+              </h2>
+              <p style={{ ...subtitleStyle, textAlign: 'left' }}>
+                Cada fase do nosso processo foi pensada para eliminar retrabalho, garantir qualidade e entregar um site que trabalha por você todos os dias.
+              </p>
+            </div>
           </div>
           <div ref={mobileWrapRef} style={mobileWrapStyle}>
             <div style={mobileLineStyle} aria-hidden="true" />
@@ -301,9 +316,14 @@ const Timeline: React.FC = () => {
             />
             Processo
           </span>
-          <h2 id="timeline-heading" style={titleStyle}>
-            Do primeiro contato à entrega
-          </h2>
+          <div style={{ maxWidth: 820, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: spacing[4] }}>
+            <h2 id="timeline-heading" style={titleStyle}>
+              Um processo sem surpresas, do início ao resultado.
+            </h2>
+            <p style={subtitleStyle}>
+              Cada fase do nosso processo foi pensada para eliminar retrabalho, garantir qualidade e entregar um site que trabalha por você todos os dias.
+            </p>
+          </div>
         </div>
 
         <div style={timelineWrapStyle}>
