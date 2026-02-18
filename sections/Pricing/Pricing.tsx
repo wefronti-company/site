@@ -29,7 +29,7 @@ const badgeStyle: React.CSSProperties = {
   padding: `${spacing[2]}px ${spacing[4]}px`,
   borderRadius: radii.full,
   border: `1px solid ${colors.neutral.borderDark}`,
-  backgroundColor: 'rgba(226, 31, 31, 0.04)',
+  backgroundColor: 'rgba(255,255,255,0.04)',
   fontSize: fontSizes.xs,
   fontWeight: 500,
   color: colors.text.light,
@@ -43,6 +43,15 @@ const titleStyle: React.CSSProperties = {
   lineHeight: 1.2,
   letterSpacing: '-0.02em',
   color: colors.text.light,
+  margin: 0,
+  textAlign: 'center',
+};
+
+const subtitleStyle: React.CSSProperties = {
+  fontSize: '1.25rem',
+  lineHeight: 1.55,
+  color: colors.text.light,
+  opacity: 0.88,
   margin: 0,
   textAlign: 'center',
 };
@@ -174,27 +183,24 @@ const checkIconDimmedStyle: React.CSSProperties = {
 };
 
 const LANDING_FEATURES = [
-  { text: 'Desenvolvimento ágil', dimmed: false },
-  { text: 'Copy focada em conversão', dimmed: false },
-  { text: '1 única página', dimmed: false },
-  { text: 'Otimizada para ads', dimmed: false },
+  { text: '1 página única', dimmed: false },
   { text: 'Design moderno e responsivo', dimmed: false },
-  { text: 'Formulário de contato', dimmed: false },
+  { text: 'Copy focada em conversão', dimmed: false },
+  { text: 'Otimizada para rodar anúncios', dimmed: false },
+  { text: 'Formulário integrado', dimmed: false },
   { text: 'SEO básico', dimmed: false },
   { text: 'Performance (carregamento rápido)', dimmed: false },
-  { text: 'Blog ou seção de recursos', dimmed: true },
-  { text: 'Área administrativa', dimmed: true },
-  { text: 'Suporte pós-entrega estendido', dimmed: true },
+  { text: 'Entrega ágil', dimmed: false },
 ];
 
 const SITE_FEATURES = [
-  'Desenvolvimento ágil',
+  'Múltiplas páginas estratégicas',
   'Focado em conversão e engajamento',
-  'Múltiplas páginas',
-  ' Google Analytics / Google Tag Manager',
-  'Design moderno e responsivo',
-  'Formulário de contato',
+  'Acessível em todo os dispositivos',
   'SEO avançado',
+  'Google Analytics + Google Tag Manager',
+  'Integração com WhatsApp',
+  'Relatório mensal de performance',
   'Suporte pós-entrega estendido',
 ];
 
@@ -237,9 +243,14 @@ const Pricing: React.FC = () => {
             />
             Preços
           </span>
-          <h2 id="pricing-heading" style={{ ...titleStyle, textAlign: isMd ? 'center' : 'left' }}>
-            Invista no seu negócio
-          </h2>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: isMd ? 'center' : 'flex-start', gap: spacing[4], width: '100%', maxWidth: 880 }}>
+            <h2 id="pricing-heading" style={{ ...titleStyle, textAlign: isMd ? 'center' : 'left' }}>
+            Escolha como vamos transformar seu site em uma máquina de vendas
+            </h2>
+            <p style={{ ...subtitleStyle, textAlign: isMd ? 'center' : 'left' }}>
+            Escolha o que faz mais sentido para o seu momento e deixe o resto com a gente.
+            </p>
+          </div>
         </div>
 
         <div style={gridWrapStyle}>
@@ -247,7 +258,7 @@ const Pricing: React.FC = () => {
           <div style={cardStyleResponsive}>
             <h3 style={cardTitleStyle}>Landing Page</h3>
             <p style={{ fontSize: fontSizes.sm, color: colors.text.light, opacity: 0.88, margin: 0 }}>
-              Uma página focada em converter visitantes em leads ou vendas. Ideal para campanhas e ofertas específicas.
+            A solução ideal para empresas que precisam de uma página de alta conversão para campanhas, lançamentos ou captação de leads. Rápida, objetiva e focada em um único resultado.
             </p>
             <div style={priceBlockStyle}>
               <p style={priceFromLabelStyle}>A partir de:</p>
@@ -288,7 +299,7 @@ const Pricing: React.FC = () => {
           <div style={{ ...cardStyleResponsive, ...cardEmphasisStyle }}>
             <h3 style={cardTitleStyle}>Site completo</h3>
             <p style={{ fontSize: fontSizes.sm, color: colors.text.light, opacity: 0.88, margin: 0 }}>
-              Site com múltiplas páginas, otimizado para busca no Google e suporte pós-entrega. O pacote mais completo.
+            Para empresas que querem construir uma presença digital sólida, aparecer no Google e ter um site que gera clientes de forma contínua não só em campanhas.
             </p>
             <div style={priceBlockStyle}>
               <p style={priceFromLabelStyle}>A partir de:</p>

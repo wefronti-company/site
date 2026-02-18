@@ -1,7 +1,7 @@
 import React from 'react';
 import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
-import { Check } from 'lucide-react';
+import { Check, Instagram, Linkedin } from 'lucide-react';
 
 const { colors, spacing, fontSizes, radii, containerMaxWidth } = theme;
 
@@ -103,6 +103,42 @@ const imageStyle: React.CSSProperties = {
   display: 'block',
 };
 
+const directorOverlayStyle: React.CSSProperties = {
+  position: 'absolute' as const,
+  bottom: 0,
+  left: 0,
+  padding: spacing[6],
+  background: 'linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 60%, transparent 100%)',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'flex-start',
+  gap: spacing[2],
+  maxWidth: '85%',
+};
+
+const directorTitleStyle: React.CSSProperties = {
+  fontSize: '1.4rem',
+  fontWeight: 600,
+  color: colors.text.light,
+  margin: 0,
+};
+
+const directorSubtitleStyle: React.CSSProperties = {
+  display: 'flex',
+  alignItems: 'center',
+  gap: spacing[3],
+  margin: 0,
+  fontSize: '1.05rem',
+  color: colors.text.light,
+  opacity: 0.92,
+};
+
+const directorIconStyle: React.CSSProperties = {
+  flexShrink: 0,
+  color: colors.text.light,
+  opacity: 0.88,
+};
+
 const ABOUT_ITEMS: string[] = [
   'Sites otimizados para conversão e para o Google',
   'Parceria e suporte pós-entrega — não somimos depois da entrega',
@@ -158,6 +194,14 @@ const About: React.FC = () => {
                 e.currentTarget.style.minHeight = '320px';
               }}
             />
+            <div style={directorOverlayStyle}>
+              <h3 style={directorTitleStyle}>Diretor Wefronti</h3>
+              <div style={directorSubtitleStyle} aria-label="@witorlinhares no Instagram e LinkedIn">
+                <Instagram size={20} style={directorIconStyle} aria-hidden />
+                <Linkedin size={20} style={directorIconStyle} aria-hidden />
+                <span>@witorlinhares</span>
+              </div>
+            </div>
           </div>
         </div>
 
