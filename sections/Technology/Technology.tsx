@@ -5,8 +5,20 @@ import ButtonCta from '../../components/ui/ButtonCta';
 
 const { colors, spacing, fontSizes, radii, containerMaxWidth } = theme;
 
-/** Coloque suas ilustrações em public/images/tech/ (ex: nextjs.png, react.png, etc.) */
-const TECH_ITEMS: { name: string; description: string; imagePath: string }[] = [
+/**
+ * Regra para imagens em telas menores:
+ * - Telas maiores: imagePath (ex: /images/tech/framer.webp)
+ * - Telas menores: mesmo caminho com "-mobile" antes da extensão (ex: /images/tech/framer-mobile.webp).
+ *   Coloque os arquivos em public/images/tech/ (ex: framer-mobile.webp). Se não existir, usa imagePath.
+ * - Opcional: imagePathMobile no item sobrescreve esse padrão.
+ */
+function getMobileImagePath(desktopPath: string): string {
+  const lastDot = desktopPath.lastIndexOf('.');
+  if (lastDot === -1) return `${desktopPath}-mobile`;
+  return `${desktopPath.slice(0, lastDot)}-mobile${desktopPath.slice(lastDot)}`;
+}
+
+const TECH_ITEMS: { name: string; description: string; imagePath: string; imagePathMobile?: string }[] = [
   { name: 'Next.js + React', description: 'A combinação de tecnologia escolhida pelas empresas que dominam o digital: sites ultrarrápidos, bem posicionados no Google e preparados para converter.', imagePath: '/images/tech/nextjs-react.webp' },
   { name: 'Framer', description: 'O design certo não enfeita, ele vende. Usamos o Framer para criar experiências visuais que transformam visitantes em clientes.', imagePath: '/images/tech/framer.webp' },
   { name: 'Cloudflare', description: 'A infraestrutura que protege seu site 24 horas por dia, porque um site fora do ar ou lento não é só um problema técnico, é dinheiro deixado na mesa.', imagePath: '/images/tech/cloudflare.webp' },
@@ -120,6 +132,13 @@ const illustrationImageStyle: React.CSSProperties = {
   inset: 0,
 };
 
+/** Em telas menores: cover para preencher todo o card, sem faixas nas laterais */
+const illustrationImageStyleMobile: React.CSSProperties = {
+  ...illustrationImageStyle,
+  objectFit: 'cover' as const,
+  objectPosition: 'center',
+};
+
 const cardContentStyle: React.CSSProperties = {
   position: 'absolute' as const,
   bottom: 0,
@@ -200,12 +219,24 @@ const Technology: React.FC = () => {
         <div style={gridLayout}>
           {TECH_ITEMS.map((item, index) => (
             <div key={item.name} style={{ ...cardStyle, ...getCardGridStyle(index) }}>
-              <div style={isTallCard(index) ? illustrationWrapTallStyle : illustrationWrapStyle}>
+              <div style={isTallCard(index) ? illustrationWrapTallStyle : { ...illustrationWrapStyle, minHeight: isMd ? 280 : 340 }}>
                 <img
-                  src={item.imagePath}
+                  src={isMd ? item.imagePath : (item.imagePathMobile ?? getMobileImagePath(item.imagePath))}
                   alt=""
-                  style={illustrationImageStyle}
-                  onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                  style={isMd ? illustrationImageStyle : illustrationImageStyleMobile}
+                  onError={(e) => {
+                    const el = e.currentTarget;
+                    const mobilePath = item.imagePathMobile ?? getMobileImagePath(item.imagePath);
+                    if (!isMd) {
+                      const isMobilePath = el.src.includes('-mobile.');
+                      if (isMobilePath && mobilePath !== item.imagePath) {
+                        el.src = item.imagePath;
+                        el.onerror = () => { el.style.display = 'none'; };
+                        return;
+                      }
+                    }
+                    el.style.display = 'none';
+                  }}
                 />
                 <div style={cardContentStyle}>
                   <h3 style={cardTitleStyle}>{item.name}</h3>

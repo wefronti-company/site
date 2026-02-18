@@ -149,7 +149,7 @@ const About: React.FC = () => {
         <div style={imageColumnStyle}>
           <div style={imageWrapStyle}>
             <img
-              src="/images/tech/react.png"
+              src="/images/tech/framer.webp"
               alt=""
               style={imageStyle}
               loading="lazy"
@@ -180,16 +180,7 @@ const About: React.FC = () => {
           <p style={descriptionStyle}>
             A Wefronti nasceu da frustração com agências que prometem e não entregam. Nosso foco é criar sites que não só impressionam, mas convertem e aparecem no Google. Trabalhamos com transparência, prazos claros e suporte contínuo — porque seu sucesso é nosso resultado.
           </p>
-          <ul style={listStyle} role="list">
-            {ABOUT_ITEMS.map((text, i) => (
-              <li key={i} style={listItemStyle}>
-                <span style={checkIconStyle} aria-hidden>
-                  <Check size={14} strokeWidth={2.5} />
-                </span>
-                <span>{text}</span>
-              </li>
-            ))}
-          </ul>
+
         </div>
       </div>
     </section>
