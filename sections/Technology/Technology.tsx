@@ -193,7 +193,12 @@ const Technology: React.FC = () => {
   return (
     <section id="tecnologia" style={sectionStyle} aria-labelledby="tech-heading">
       <div style={innerStyleBase}>
-        <div style={{ ...headerStyle, paddingLeft: isMd ? spacing[12] : 0, paddingRight: isMd ? spacing[12] : 0 }}>
+        <div style={{
+          ...headerStyle,
+          paddingLeft: isMd ? spacing[12] : 0,
+          paddingRight: isMd ? spacing[12] : 0,
+          alignItems: isMd ? 'center' : 'flex-start',
+        }}>
           <span style={badgeStyle} aria-hidden>
             <span
               className="badge-dot-pulse"
@@ -206,14 +211,23 @@ const Technology: React.FC = () => {
             />
             Tecnologia
           </span>
-          <h2 id="tech-heading" style={titleStyle}>
-            Excelência em<br />tecnologia e criação de sites
-          </h2>
-          <p style={introStyle}>
-            Usamos as melhores tecnologias do mercado para elevar o nível do seu projeto. 
-            O resultado é um site extremamente rápido, bonito e, principalmente, preparado 
-            para converter visitantes em clientes e fazer sua empresa faturar mais.
-          </p>
+          <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: isMd ? 'center' : 'flex-start',
+            gap: spacing[4],
+            width: '100%',
+            maxWidth: isMd ? 880 : undefined,
+          }}>
+            <h2 id="tech-heading" style={{ ...titleStyle, textAlign: isMd ? 'center' : 'left' }}>
+              Excelência em<br />tecnologia e criação de sites
+            </h2>
+            <p style={{ ...introStyle, textAlign: isMd ? 'center' : 'left' }}>
+              Usamos as melhores tecnologias do mercado para elevar o nível do seu projeto.
+              O resultado é um site extremamente rápido, bonito e, principalmente, preparado
+              para converter visitantes em clientes e fazer sua empresa faturar mais.
+            </p>
+          </div>
         </div>
 
         <div style={gridLayout}>
