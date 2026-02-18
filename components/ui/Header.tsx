@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Logo from './Logo';
+import ButtonCta from './ButtonCta';
 import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 
@@ -76,6 +77,16 @@ const Header: React.FC = () => {
       window.removeEventListener('resize', onScroll);
     };
   }, [isMd]);
+
+  const scrollToPrecos = () => {
+    if (typeof window === 'undefined') return;
+    if (window.location.pathname !== '/') {
+      window.location.href = '/#precos';
+    } else {
+      const el = document.getElementById('precos');
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     if (typeof window === 'undefined') return;
@@ -232,16 +243,11 @@ const Header: React.FC = () => {
           </div>
 
           <div style={rightCellStyle}>
-            <Link
-              href="/#cta"
+            <ButtonCta
+              label="Solicitar orçamento"
               className="header-cta-btn"
-              style={btnStyle}
-              onClick={(e) => handleNavClick(e, '/#cta')}
-              onMouseEnter={(e) => { e.currentTarget.style.opacity = '0.9'; }}
-              onMouseLeave={(e) => { e.currentTarget.style.opacity = '1'; }}
-            >
-              Solicitar orçamento
-            </Link>
+              onClick={scrollToPrecos}
+            />
           </div>
         </nav>
         </div>

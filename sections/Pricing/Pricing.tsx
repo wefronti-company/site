@@ -269,7 +269,19 @@ const Pricing: React.FC = () => {
               ))}
             </ul>
             <div style={{ marginTop: 'auto' }}>
-              <ButtonCta label="Quero uma landing page" />
+              <ButtonCta
+              label="Quero uma landing page"
+              onClick={() => {
+                if (typeof window === 'undefined') return;
+                if (window.location.pathname !== '/') {
+                  window.location.href = '/#precos';
+                } else {
+                  const el = document.getElementById('precos');
+                  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  else window.location.href = '/#precos';
+                }
+              }}
+            />
             </div>
           </div>
 
@@ -298,7 +310,19 @@ const Pricing: React.FC = () => {
               ))}
             </ul>
             <div style={{ marginTop: 'auto' }}>
-              <ButtonCta label="Quero um site" />
+              <ButtonCta
+              label="Quero um site"
+              onClick={() => {
+                if (typeof window === 'undefined') return;
+                if (window.location.pathname !== '/') {
+                  window.location.href = '/#precos';
+                } else {
+                  const el = document.getElementById('precos');
+                  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  else window.location.href = '/#precos';
+                }
+              }}
+            />
             </div>
           </div>
           </div>

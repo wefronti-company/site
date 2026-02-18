@@ -262,7 +262,19 @@ const Technology: React.FC = () => {
         </div>
 
         <div style={{ display: 'flex', justifyContent: isMd ? 'center' : 'flex-start', marginTop: spacing[12] }}>
-          <ButtonCta label="Solicitar orçamento" />
+          <ButtonCta
+            label="Solicitar orçamento"
+            onClick={() => {
+              if (typeof window === 'undefined') return;
+              if (window.location.pathname !== '/') {
+                window.location.href = '/#precos';
+              } else {
+                const el = document.getElementById('precos');
+                if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                else window.location.href = '/#precos';
+              }
+            }}
+          />
         </div>
       </div>
     </section>

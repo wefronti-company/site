@@ -37,6 +37,7 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
   return (
     <button
       type={type}
+      className={className}
       onClick={handleClick}
       disabled={disabled}
       aria-label={label || (typeof children === 'string' ? children : 'CTA')}

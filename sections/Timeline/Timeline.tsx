@@ -293,7 +293,19 @@ const Timeline: React.FC = () => {
             </ul>
           </div>
           <div style={{ display: 'flex', justifyContent: 'flex-start', marginTop: isMd ? spacing[12] : spacing[6] }}>
-            <ButtonCta label="Solicitar orçamento" />
+            <ButtonCta
+              label="Solicitar orçamento"
+              onClick={() => {
+                if (typeof window === 'undefined') return;
+                if (window.location.pathname !== '/') {
+                  window.location.href = '/#precos';
+                } else {
+                  const el = document.getElementById('precos');
+                  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  else window.location.href = '/#precos';
+                }
+              }}
+            />
           </div>
         </div>
       </section>
@@ -347,7 +359,19 @@ const Timeline: React.FC = () => {
           </ul>
         </div>
         <div style={{ display: 'flex', justifyContent: 'center', marginTop: isMd ? spacing[12] : spacing[6] }}>
-          <ButtonCta label="Solicitar orçamento" />
+          <ButtonCta
+            label="Solicitar orçamento"
+            onClick={() => {
+              if (typeof window === 'undefined') return;
+              if (window.location.pathname !== '/') {
+                window.location.href = '/#precos';
+              } else {
+                const el = document.getElementById('precos');
+                if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                else window.location.href = '/#precos';
+              }
+            }}
+          />
         </div>
       </div>
     </section>

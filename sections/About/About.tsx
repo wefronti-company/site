@@ -149,7 +149,7 @@ const About: React.FC = () => {
         <div style={imageColumnStyle}>
           <div style={imageWrapStyle}>
             <img
-              src="/images/tech/framer.webp"
+              src="/images/about/witor-linhares.webp"
               alt=""
               style={imageStyle}
               loading="lazy"
@@ -175,10 +175,11 @@ const About: React.FC = () => {
             Sobre
           </span>
           <h2 id="about-heading" style={titleStyle}>
-            Sites que vendem e geram resultado para o seu negócio.
+          Nascemos para provar que site bom é site que vende
           </h2>
           <p style={descriptionStyle}>
-            A Wefronti nasceu da frustração com agências que prometem e não entregam. Nosso foco é criar sites que não só impressionam, mas convertem e aparecem no Google. Trabalhamos com transparência, prazos claros e suporte contínuo — porque seu sucesso é nosso resultado.
+          A Wefronti surgiu da frustração de ver empresas sérias presas a sites lentos, feios e invisíveis no Google enquanto pagavam caro por isso. Decidimos fazer diferente: unir design de alto nível, tecnologia de ponta e estratégia de conversão em um único lugar. Transparência, prazos reais e suporte de verdade porque o seu sucesso é a única métrica que nos importa.
+
           </p>
 
         </div>

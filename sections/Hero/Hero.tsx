@@ -27,7 +27,7 @@ function useSparkles() {
   }, []);
 }
 
-const CTA_SECTION_ID = 'cta';
+const CTA_SECTION_ID = 'precos';
 const SCROLL_OFFSET = 24;
 
 const scrollToSection = (id: string) => {

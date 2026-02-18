@@ -244,9 +244,14 @@ const Comparison: React.FC = () => {
           <ButtonCta
             label="Solicitar orçamento"
             onClick={() => {
-              const el = document.getElementById('cta');
-              if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-              else if (typeof window !== 'undefined') window.location.href = '/#cta';
+              if (typeof window === 'undefined') return;
+              if (window.location.pathname !== '/') {
+                window.location.href = '/#precos';
+              } else {
+                const el = document.getElementById('precos');
+                if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                else window.location.href = '/#precos';
+              }
             }}
           />
         </div>
