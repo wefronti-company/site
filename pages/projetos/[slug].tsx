@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 import { getProjectBySlug, getAllProjectSlugs, type Project } from '../../data/projects';
-import { ArrowLeft, ArrowUpRight, Check, ExternalLink } from 'lucide-react';
+import { ArrowLeft, ArrowUpRight, CheckCircle2, ExternalLink } from 'lucide-react';
 import SEO from '../../components/SEO';
 
 const { colors, spacing, fontSizes, radii, containerMaxWidth } = theme;
@@ -106,14 +106,7 @@ const listItemStyle: React.CSSProperties = {
 
 const checkIconStyle: React.CSSProperties = {
   flexShrink: 0,
-  width: 22,
-  height: 22,
-  borderRadius: '50%',
-  background: 'rgba(53, 152, 255, 0.2)',
   color: colors.blue.primary,
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
   marginTop: 2,
 };
 
@@ -201,7 +194,7 @@ const ProjectPage: React.FC<{ project: Project }> = ({ project }) => {
         <main style={getContainerStyle(paddingX)}>
           <Link href="/#portfolio" style={backLinkStyle} aria-label="Voltar ao portfólio">
             <ArrowLeft size={18} strokeWidth={2} aria-hidden />
-            Voltar ao portfólio
+            Voltar
           </Link>
 
           <h1 style={titleStyle}>{project.name}</h1>
@@ -223,7 +216,7 @@ const ProjectPage: React.FC<{ project: Project }> = ({ project }) => {
               {project.challenges.map((text, i) => (
                 <li key={i} style={listItemStyle}>
                   <span style={checkIconStyle} aria-hidden>
-                    <Check size={14} strokeWidth={2.5} />
+                    <CheckCircle2 size={20} strokeWidth={2} />
                   </span>
                   <span>{text}</span>
                 </li>

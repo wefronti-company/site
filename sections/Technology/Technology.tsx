@@ -7,10 +7,10 @@ const { colors, spacing, fontSizes, radii, containerMaxWidth } = theme;
 
 /** Coloque suas ilustrações em public/images/tech/ (ex: nextjs.png, react.png, etc.) */
 const TECH_ITEMS: { name: string; description: string; imagePath: string }[] = [
-  { name: 'Next.js + React', description: 'A combinação de tecnologia escolhida pelas empresas que dominam o digital: sites ultrarrápidos, bem posicionados no Google e preparados para converter.', imagePath: '/images/tech/nextjs.png' },
-  { name: 'Framer', description: 'O design certo não enfeita, ele vende. Usamos o Framer para criar experiências visuais que transformam visitantes em clientes.', imagePath: '/images/tech/react.png' },
-  { name: 'Cloudflare', description: 'A infraestrutura que protege seu site 24 horas por dia, porque um site fora do ar ou lento não é só um problema técnico, é dinheiro deixado na mesa.', imagePath: '/images/tech/cloudflare.png' },
-  { name: 'Google Analytics', description: 'Saiba exatamente de onde vêm seus clientes, o que eles fazem no seu site e onde você está perdendo vendas e tome decisões com dados, não com achismo.', imagePath: '/images/tech/google-analytics.png' },
+  { name: 'Next.js + React', description: 'A combinação de tecnologia escolhida pelas empresas que dominam o digital: sites ultrarrápidos, bem posicionados no Google e preparados para converter.', imagePath: '/images/tech/nextjs-react.webp' },
+  { name: 'Framer', description: 'O design certo não enfeita, ele vende. Usamos o Framer para criar experiências visuais que transformam visitantes em clientes.', imagePath: '/images/tech/framer.webp' },
+  { name: 'Cloudflare', description: 'A infraestrutura que protege seu site 24 horas por dia, porque um site fora do ar ou lento não é só um problema técnico, é dinheiro deixado na mesa.', imagePath: '/images/tech/cloudflare.webp' },
+  { name: 'Google Analytics', description: 'Saiba exatamente de onde vêm seus clientes, o que eles fazem no seu site e onde você está perdendo vendas e tome decisões com dados, não com achismo.', imagePath: '/images/tech/google-analytics.webp' },
 ];
 
 const sectionStyleBase: React.CSSProperties = {

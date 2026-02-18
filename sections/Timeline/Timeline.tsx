@@ -318,7 +318,7 @@ const Timeline: React.FC = () => {
           </span>
           <div style={{ maxWidth: 820, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: spacing[4] }}>
             <h2 id="timeline-heading" style={titleStyle}>
-              Um processo sem surpresas, do início ao resultado.
+              Um processo sem surpresas, do início ao resultado
             </h2>
             <p style={subtitleStyle}>
               Cada fase do nosso processo foi pensada para eliminar retrabalho, garantir qualidade e entregar um site que trabalha por você todos os dias.

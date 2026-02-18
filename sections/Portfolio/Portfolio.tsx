@@ -50,6 +50,15 @@ const titleStyle: React.CSSProperties = {
   textAlign: 'center',
 };
 
+const subtitleStyle: React.CSSProperties = {
+  fontSize: '1.25rem',
+  lineHeight: 1.55,
+  color: colors.text.light,
+  opacity: 0.88,
+  margin: 0,
+  textAlign: 'center',
+};
+
 const headerStyle: React.CSSProperties = {
   display: 'flex',
   flexDirection: 'column',
@@ -166,9 +175,14 @@ const Portfolio: React.FC = () => {
             />
             Portfólio
           </span>
-          <h2 id="portfolio-heading" style={{ ...titleStyle, textAlign: isMd ? 'center' : 'left' }}>
-            Projetos recentes
-          </h2>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: isMd ? 'center' : 'flex-start', gap: spacing[4], width: '100%', maxWidth: 880 }}>
+            <h2 id="portfolio-heading" style={{ ...titleStyle, textAlign: isMd ? 'center' : 'left' }}>
+              Veja o que entregamos para nossos clientes
+            </h2>
+            <p style={{ ...subtitleStyle, textAlign: isMd ? 'center' : 'left', maxWidth: 560 }}>
+              Conheça alguns dos projetos que desenvolvemos e imagine o que podemos fazer pelo seu negócio.
+            </p>
+          </div>
         </div>
         <ul style={grid} role="list">
           {projects.map((project, index) => (

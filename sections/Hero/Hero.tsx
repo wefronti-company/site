@@ -58,7 +58,7 @@ const heroSectionStyleBase: React.CSSProperties = {
   position: 'relative',
   minHeight: '100vh',
   backgroundColor: colors.background.dark,
-  backgroundImage: "url('/images/brand/background.png')",
+  backgroundImage: "url('/images/brand/background.webp')",
   backgroundSize: 'cover',
   backgroundPosition: 'center',
   zIndex: 25,
