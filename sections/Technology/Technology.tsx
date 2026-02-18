@@ -7,10 +7,10 @@ const { colors, spacing, fontSizes, radii, containerMaxWidth } = theme;
 
 /** Coloque suas ilustrações em public/images/tech/ (ex: nextjs.png, react.png, etc.) */
 const TECH_ITEMS: { name: string; description: string; imagePath: string }[] = [
-  { name: 'Next.js', description: 'Performance e SEO de alto nível', imagePath: '/images/tech/nextjs.png' },
-  { name: 'React', description: 'Interface moderna e fluida', imagePath: '/images/tech/react.png' },
-  { name: 'Cloudflare', description: 'Velocidade e segurança global', imagePath: '/images/tech/cloudflare.png' },
-  { name: 'Google Analytics', description: 'Dados para decisões que vendem', imagePath: '/images/tech/google-analytics.png' },
+  { name: 'Next.js + React', description: 'A combinação de tecnologia escolhida pelas empresas que dominam o digital: sites ultrarrápidos, bem posicionados no Google e preparados para converter.', imagePath: '/images/tech/nextjs.png' },
+  { name: 'Framer', description: 'O design certo não enfeita, ele vende. Usamos o Framer para criar experiências visuais que transformam visitantes em clientes.', imagePath: '/images/tech/react.png' },
+  { name: 'Cloudflare', description: 'A infraestrutura que protege seu site 24 horas por dia, porque um site fora do ar ou lento não é só um problema técnico, é dinheiro deixado na mesa.', imagePath: '/images/tech/cloudflare.png' },
+  { name: 'Google Analytics', description: 'Saiba exatamente de onde vêm seus clientes, o que eles fazem no seu site e onde você está perdendo vendas e tome decisões com dados, não com achismo.', imagePath: '/images/tech/google-analytics.png' },
 ];
 
 const sectionStyleBase: React.CSSProperties = {
@@ -133,14 +133,14 @@ const cardContentStyle: React.CSSProperties = {
 };
 
 const cardTitleStyle: React.CSSProperties = {
-  fontSize: fontSizes.xl,
+  fontSize: '1.3rem',
   fontWeight: 600,
   color: colors.text.light,
   margin: 0,
 };
 
 const cardDescStyle: React.CSSProperties = {
-  fontSize: fontSizes.sm,
+  fontSize: '1rem',
   lineHeight: 1.5,
   color: colors.text.light,
   opacity: 0.8,

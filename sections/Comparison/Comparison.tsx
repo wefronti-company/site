@@ -156,11 +156,12 @@ const Comparison: React.FC = () => {
     paddingLeft: headerPaddingX,
     paddingRight: headerPaddingX,
   };
+  /** Em telas menores, sem padding horizontal no header/grid para igualar à largura da seção FAQ */
   const gridLayout: React.CSSProperties = {
     ...gridStyle,
     gridTemplateColumns: isMd ? '1fr 1fr' : '1fr',
-    paddingLeft: headerPaddingX,
-    paddingRight: headerPaddingX,
+    paddingLeft: isMd ? headerPaddingX : 0,
+    paddingRight: isMd ? headerPaddingX : 0,
   };
 
   return (
@@ -168,8 +169,8 @@ const Comparison: React.FC = () => {
       <div style={innerStyleBase}>
         <div style={{
           ...headerStyle,
-          paddingLeft: headerPaddingX,
-          paddingRight: headerPaddingX,
+          paddingLeft: isMd ? headerPaddingX : 0,
+          paddingRight: isMd ? headerPaddingX : 0,
           alignItems: isMd ? 'center' : 'flex-start',
         }}>
           <span style={badgeStyle} aria-hidden>
@@ -226,8 +227,8 @@ const Comparison: React.FC = () => {
           display: 'flex',
           flexDirection: 'column',
           alignItems: isMd ? 'center' : 'flex-start',
-          gap: spacing[6],
-          marginTop: spacing[12],
+          gap: isMd ? spacing[6] : spacing[4],
+          marginTop: isMd ? spacing[12] : spacing[8],
           textAlign: isMd ? 'center' : 'left',
         }}>
           <p style={{

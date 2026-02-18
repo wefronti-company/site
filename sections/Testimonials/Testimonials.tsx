@@ -264,7 +264,7 @@ const Testimonials: React.FC = () => {
             Depoimentos
           </span>
           <h2 id="testimonials-heading" style={{ ...titleStyle, textAlign: isMd ? 'center' : 'left' }}>
-            O que nossos clientes dizem
+          Resultados reais de quem apostou em um site que vende
           </h2>
         </div>
       </div>

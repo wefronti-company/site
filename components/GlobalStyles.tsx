@@ -132,7 +132,8 @@ section:not(#section-0) {
 .floating-whatsapp-glow { animation: floating-whatsapp-glow 2s ease-in-out infinite; }
 .pricing-feature-item:hover { transform: translateX(6px); }
 .header-nav-link { text-shadow: none !important; box-shadow: none !important; }
-.header-nav-link:focus { outline: 2px solid rgba(255,255,255,0.4); outline-offset: 2px; }
+.header-nav-link:focus { outline: none; }
+.header-cta-btn:focus { outline: none; }
 .header-nav-link-char { display: inline-block; }
 .header-nav-link-char.mix-in { animation: header-letter-mix-in 0.22s ease-out forwards; }
 @media (prefers-reduced-motion: reduce) {

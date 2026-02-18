@@ -79,9 +79,13 @@ const Header: React.FC = () => {
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     if (typeof window === 'undefined') return;
-    if (window.location.pathname !== '/') return;
-    e.preventDefault();
     const id = href.replace(/^.*#/, '') || 'hero';
+    if (window.location.pathname !== '/') {
+      e.preventDefault();
+      window.location.href = href;
+      return;
+    }
+    e.preventDefault();
     const el = document.getElementById(id);
     if (el) {
       el.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -167,6 +171,7 @@ const Header: React.FC = () => {
     padding: 0,
     textShadow: 'none',
     boxShadow: 'none',
+    outline: 'none',
   };
 
   const btnStyle: React.CSSProperties = {
@@ -183,6 +188,7 @@ const Header: React.FC = () => {
     cursor: 'pointer',
     textDecoration: 'none',
     flexShrink: 0,
+    outline: 'none',
   };
 
   return (
@@ -228,6 +234,7 @@ const Header: React.FC = () => {
           <div style={rightCellStyle}>
             <Link
               href="/#cta"
+              className="header-cta-btn"
               style={btnStyle}
               onClick={(e) => handleNavClick(e, '/#cta')}
               onMouseEnter={(e) => { e.currentTarget.style.opacity = '0.9'; }}
