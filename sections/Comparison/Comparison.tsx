@@ -7,19 +7,19 @@ import ButtonCta from '../../components/ui/ButtonCta';
 const { colors, spacing, fontSizes, radii, containerMaxWidth } = theme;
 
 const OUTRAS_AGENCIAS: string[] = [
-  'Recebem o pagamento e somem — você fica sem site e sem dinheiro',
-  'Prometem o mundo, entregam qualquer coisa e não respondem mais',
-  'Processos lentos, prazos que estouram e zero transparência',
-  'Site “bonito” que não converte e não aparece no Google',
-  'Abrem o chamado e te deixam na mão quando mais precisa',
+  'Pagou pelo site, ficou esperando e sumiram com o seu dinheiro',
+  'Te prometeram um site incrível e entregaram algo que você teve vergonha de mostrar',
+  'O prazo era 30 dias e 4 meses depois o site ainda não estava no ar',
+  'Recebeu um site bonito que não gerou um único lead sequer',
+  'Abriu um chamado de suporte e nunca mais teve resposta',
 ];
 
 const WEFRONTI: string[] = [
-  'Transparência total: prazos claros, etapas definidas e comunicação constante',
-  'Parceria de verdade: suporte pós-entrega e melhorias contínuas',
-  'Processos ágeis, adaptados ao seu negócio, sem enrolação',
-  'Foco em resultado: site que converte e aparece na busca',
-  'Ao seu lado quando mais precisar — não somimos depois da entrega',
+  'Processo 100% transparente: você acompanha cada etapa, do briefing à entrega',
+  'Site entregue no prazo combinado, sem desculpas, sem surpresas',
+  'Design estratégico pensado para converter visitantes em clientes',
+  'SEO estruturado para você aparecer no Google e atrair clientes',
+  'Entrega com suporte: o site no ar, testado e funcionando perfeitamente.',
 ];
 
 const sectionStyleBase: React.CSSProperties = {
@@ -189,13 +189,13 @@ const Comparison: React.FC = () => {
             Você já passou por isso<br />com outra empresa?
           </h2>
           <p style={{ margin: 0, fontSize: '1.3rem', color: colors.text.light, opacity: 0.88, lineHeight: 1.5, textAlign: isMd ? 'center' : 'left', maxWidth: 640 }}>
-            Veja o que acontece na prática com muitas agências e por que a Wefronti é diferente.
+            Veja o que acontece na prática com a maioria das empresas do mercado, e por que líderes escolhem a wefronti:
           </p>
         </div>
 
         <div style={gridLayout}>
           <div style={cardStyle}>
-            <h3 style={cardTitleStyle}>O que muita gente sofre por aí</h3>
+            <h3 style={cardTitleStyle}>É bem provável que isso já aconteceu com você:</h3>
             <ul style={listStyle} role="list">
               {OUTRAS_AGENCIAS.map((text, i) => (
                 <li key={i} style={itemStyle}>
@@ -239,7 +239,7 @@ const Comparison: React.FC = () => {
             opacity: 0.92,
             maxWidth: 720,
           }}>
-            Não deixe seu investimento e seu negócio na mão de quem some. A Wefronti entrega o que promete, com transparência, suporte e foco no seu resultado. Conte sua necessidade e veja como podemos resolver.
+            Você já sabe o que não quer. Agora é hora de ter um site que realmente trabalha pelo seu negócio.
           </p>
           <ButtonCta
             label="Solicitar orçamento"

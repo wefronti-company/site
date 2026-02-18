@@ -1,7 +1,7 @@
 import React from 'react';
 import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
-import { Check, Instagram, Linkedin } from 'lucide-react';
+import { Check } from 'lucide-react';
 
 const { colors, spacing, fontSizes, radii, containerMaxWidth } = theme;
 
@@ -135,8 +135,10 @@ const directorSubtitleStyle: React.CSSProperties = {
 
 const directorIconStyle: React.CSSProperties = {
   flexShrink: 0,
-  color: colors.text.light,
-  opacity: 0.88,
+  width: 20,
+  height: 20,
+  objectFit: 'contain' as const,
+  opacity: 0.92,
 };
 
 const ABOUT_ITEMS: string[] = [
@@ -197,8 +199,8 @@ const About: React.FC = () => {
             <div style={directorOverlayStyle}>
               <h3 style={directorTitleStyle}>Diretor Wefronti</h3>
               <div style={directorSubtitleStyle} aria-label="@witorlinhares no Instagram e LinkedIn">
-                <Instagram size={20} style={directorIconStyle} aria-hidden />
-                <Linkedin size={20} style={directorIconStyle} aria-hidden />
+                <img src="/images/icons/instagram.webp" alt="" style={directorIconStyle} aria-hidden />
+                <img src="/images/icons/linkedin.webp" alt="" style={directorIconStyle} aria-hidden />
                 <span>@witorlinhares</span>
               </div>
             </div>

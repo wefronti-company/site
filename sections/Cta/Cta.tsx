@@ -17,7 +17,7 @@ const wrapperStyleBase: React.CSSProperties = {
   margin: '0 auto',
   borderRadius: 30,
   overflow: 'hidden',
-  backgroundImage: "url('/images/brand/background.png')",
+  backgroundImage: "url('/images/brand/background.webp')",
   backgroundSize: 'cover',
   backgroundPosition: 'center',
   display: 'flex',
@@ -94,10 +94,12 @@ const Cta: React.FC = () => {
     <section id="cta" style={sectionStyle} aria-labelledby="cta-heading">
       <div style={wrapperStyle}>
         <h2 id="cta-heading" style={headingStyle}>
-          Tire suas dúvidas com a gente
+        Vamos transformar o seu site em uma máquina de vendas?
+
         </h2>
         <p style={subheadingStyle}>
-          Fale no WhatsApp e receba uma resposta rápida. Estamos prontos para ajudar.
+        Fale com a gente pelo WhatsApp, vamos conversar sobre o seu negócio e como podemos ajudar.
+
         </p>
         <a
           href={whatsappUrl}

@@ -7,34 +7,34 @@ const { colors, spacing, fontSizes, radii, containerMaxWidth } = theme;
 
 const FAQ_ITEMS: { question: string; answer: string }[] = [
   {
-    question: 'Quanto tempo leva para desenvolver um site?',
+    question: 'Em quanto tempo meu site vai estar no ar?',
     answer:
-      'O prazo varia conforme o escopo. Um site institucional simples pode ficar pronto em 2 a 4 semanas. Projetos com mais páginas e funcionalidades podem levar de 6 a 12 semanas.',
+      'O prazo varia conforme o escopo. Uma landing page fica pronta em até 5 dias. Um site completo entre 14 e 21 dias. Trabalhamos com prazos reais sem enrolar e sem surpresas no meio do caminho.',
   },
   {
-    question: 'O que está incluso no desenvolvimento?',
+    question: 'O site vai aparecer no Google?',
     answer:
-      'Incluímos planejamento, design, desenvolvimento responsivo, otimização para buscadores (SEO), integração com ferramentas de análise e suporte pós-entrega para ajustes iniciais.',
+      'Sim. Todo projeto sai com SEO estruturado, não é opcional é obrigatório. Trabalhamos a arquitetura, os títulos, as descrições e a performance para o Google entender e ranquear o seu site.',
   },
   {
-    question: 'Preciso ter o conteúdo pronto antes de começar?',
+    question: 'Preciso ter todo o conteúdo pronto para começar?',
     answer:
-      'Não é obrigatório. Podemos começar pela estrutura e design. Você pode enviar textos e imagens ao longo do projeto. Também podemos sugerir conteúdo ou adaptar o que você já tem.',
+      'Não necessariamente. No processo de onboarding mergulhamos no seu negócio e podemos te orientar sobre o conteúdo ideal. Quanto mais você nos passar, mais estratégico o resultado final.',
   },
   {
-    question: 'O site funciona bem em celular?',
+    question: 'O site vai funcionar bem no celular?',
     answer:
-      'Sim. Todos os sites que desenvolvemos são responsivos: se adaptam a celulares, tablets e desktops, com boa experiência de uso em qualquer dispositivo.',
+      'Todo site que entregamos é 100% responsivo e otimizado para mobile porque hoje mais de 60% dos acessos vêm do celular, e um site que trava no smartphone perde venda na hora.',
   },
   {
-    question: 'Como funciona a manutenção após a entrega?',
+    question: 'E se eu precisar de ajuda depois que o site for entregue?',
     answer:
-      'Após a entrega, combinamos um período de suporte para ajustes. Depois, você pode contratar pacotes de manutenção para atualizações de conteúdo, segurança e melhorias contínuas.',
+      'Garantimos suporte no lançamento para que tudo vá ao ar funcionando perfeitamente. Para melhorias e otimizações contínuas, temos planos de manutenção mensal disponíveis.',
   },
   {
-    question: 'Posso atualizar o conteúdo do site sozinho?',
+    question: 'O site vai ser meu ou fico preso com vocês?',
     answer:
-      'Depende do projeto. Podemos entregar com um painel de administração (CMS) para você editar textos e imagens, ou manter atualizações sob demanda, conforme sua necessidade.',
+      'O site é 100% seu. Entregamos todos os acessos, credenciais e arquivos ao final do projeto sem dependência, sem armadilha.',
   },
 ];
 
