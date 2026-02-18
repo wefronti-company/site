@@ -7,13 +7,13 @@ const { colors, spacing, fontSizes, radii, containerMaxWidth } = theme;
 const TESTIMONIALS: { description: string; name: string; state: string; country: string }[] = [
   {
     description: 'A Wefronti entregou nosso site com agilidade e profissionalismo. O resultado superou as expectativas e as visitas ao site aumentaram bastante.',
-    name: 'Maria Silva',
+    name: 'Mariana Alves',
     state: 'São Paulo',
     country: 'Brasil',
   },
   {
     description: 'Site rápido, moderno e que realmente converte. A equipe entendeu nossa necessidade e entregou além do combinado. Recomendo muito.',
-    name: 'Carlos Mendes',
+    name: 'Carlos H. Mendes',
     state: 'Minas Gerais',
     country: 'Brasil',
   },
@@ -24,14 +24,14 @@ const TESTIMONIALS: { description: string; name: string; state: string; country:
     country: 'Brasil',
   },
   {
-    description: 'Não é só um site bonito — é uma ferramenta de vendas. Nosso faturamento online melhorou e a credibilidade da marca aumentou.',
-    name: 'Roberto Oliveira',
+    description: 'Não é só um site bonito é uma ferramenta de vendas. Nosso faturamento online melhorou e a credibilidade da marca aumentou.',
+    name: 'Roberto Amâncio',
     state: 'Paraná',
     country: 'Brasil',
   },
   {
     description: 'Trabalho de excelência do início ao fim. Comunicação constante, prazos cumpridos e um site que nos representa muito bem.',
-    name: 'Fernanda Lima',
+    name: 'Fernanda Frigs',
     state: 'Santa Catarina',
     country: 'Brasil',
   },
@@ -108,6 +108,15 @@ const titleStyle: React.CSSProperties = {
   lineHeight: 1.2,
   letterSpacing: '-0.02em',
   color: colors.text.light,
+  margin: 0,
+  textAlign: 'center',
+};
+
+const subtitleStyle: React.CSSProperties = {
+  fontSize: '1.25rem',
+  lineHeight: 1.55,
+  color: colors.text.light,
+  opacity: 0.88,
   margin: 0,
   textAlign: 'center',
 };
@@ -263,9 +272,14 @@ const Testimonials: React.FC = () => {
             />
             Depoimentos
           </span>
-          <h2 id="testimonials-heading" style={{ ...titleStyle, textAlign: isMd ? 'center' : 'left' }}>
-          Resultados reais de quem apostou em um site que vende
-          </h2>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: isMd ? 'center' : 'flex-start', gap: spacing[4], width: '100%', maxWidth: 880 }}>
+            <h2 id="testimonials-heading" style={{ ...titleStyle, textAlign: isMd ? 'center' : 'left' }}>
+              Resultados reais de quem apostou em um site que vende
+            </h2>
+            <p style={{ ...subtitleStyle, textAlign: isMd ? 'center' : 'left', whiteSpace: isMd ? 'nowrap' : 'normal' }}>
+              Veja o que aconteceu quando elas decidiram levar o digital a sério.
+            </p>
+          </div>
         </div>
       </div>
 

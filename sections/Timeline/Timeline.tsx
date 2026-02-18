@@ -250,7 +250,7 @@ const Timeline: React.FC = () => {
               Processo
             </span>
             <h2 id="timeline-heading" style={{ ...titleStyle, textAlign: 'left' }}>
-              Do primeiro contato à entrega
+              Um processo sem surpresas, do início ao resultado
             </h2>
           </div>
           <div ref={mobileWrapRef} style={mobileWrapStyle}>

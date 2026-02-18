@@ -149,7 +149,7 @@ const About: React.FC = () => {
         <div style={imageColumnStyle}>
           <div style={imageWrapStyle}>
             <img
-              src="/images/about/sobre.jpg"
+              src="/images/tech/react.png"
               alt=""
               style={imageStyle}
               loading="lazy"
