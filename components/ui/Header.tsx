@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Logo from './Logo';
 import ButtonCta from './ButtonCta';
-import { Plus } from 'lucide-react';
+import { Plus, ArrowRight } from 'lucide-react';
 import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 
@@ -110,11 +110,6 @@ const Header: React.FC = () => {
     } else {
       window.location.href = href;
     }
-  };
-
-  const handleMobileCtaClick = () => {
-    setMobileMenuOpen(false);
-    scrollToPrecos();
   };
 
   const showGlass = !isMd || scrolled;
@@ -296,6 +291,21 @@ const Header: React.FC = () => {
       </div>
 
       {!isMd && (
+        <>
+        <div
+          role="presentation"
+          aria-hidden={!mobileMenuOpen}
+          onClick={() => setMobileMenuOpen(false)}
+          style={{
+            position: 'fixed',
+            inset: 0,
+            top: 88,
+            zIndex: 98,
+            backgroundColor: mobileMenuOpen ? 'rgba(0, 0, 0, 0.5)' : 'transparent',
+            pointerEvents: mobileMenuOpen ? 'auto' : 'none',
+            transition: 'background-color 0.3s ease-out',
+          }}
+        />
         <div
           role="dialog"
           aria-label="Menu de navegação"
@@ -303,29 +313,27 @@ const Header: React.FC = () => {
           style={{
             position: 'fixed',
             top: 88,
+            right: 0,
             bottom: 0,
-            left: headerPaddingX,
-            right: headerPaddingX,
-            width: 'auto',
+            left: 'auto',
+            width: 'min(320px, 85vw)',
             overflowY: 'auto',
-            maxWidth: containerMaxWidth.wide - headerPaddingX * 2,
-            marginLeft: 'auto',
-            marginRight: 'auto',
             zIndex: 99,
             backgroundColor: 'rgba(4, 4, 4, 0.75)',
             backdropFilter: 'saturate(180%) blur(12px)',
             WebkitBackdropFilter: 'saturate(180%) blur(12px)',
             border: `1px solid ${colors.neutral.borderDark}`,
-            borderRadius: 30,
+            borderTopLeftRadius: 24,
+            borderBottomLeftRadius: 24,
             paddingTop: spacing[8],
-            paddingBottom: spacing[2],
+            paddingBottom: 0,
             paddingLeft: spacing[8],
             paddingRight: spacing[8],
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'stretch',
             gap: spacing[6],
-            transform: mobileMenuOpen ? 'translateY(0)' : 'translateY(100%)',
+            transform: mobileMenuOpen ? 'translateX(0)' : 'translateX(100%)',
             transition: 'transform 0.3s ease-out',
             boxShadow: '0 -8px 32px rgba(0,0,0,0.4)',
             pointerEvents: mobileMenuOpen ? 'auto' : 'none',
@@ -336,16 +344,23 @@ const Header: React.FC = () => {
               key={id}
               href={href}
               className="header-nav-link"
-              style={{ ...linkStyle, fontSize: 'clamp(1.2rem, 3vw, 1.5rem)', lineHeight: 1.3, padding: `${spacing[2]}px 0` }}
+              style={{
+                ...linkStyle,
+                fontSize: 'clamp(1.2rem, 3vw, 1.5rem)',
+                lineHeight: 1.3,
+                padding: `${spacing[2]}px 0`,
+                display: 'flex',
+                alignItems: 'center',
+                gap: spacing[2],
+              }}
               onClick={(e) => handleNavClick(e, href)}
             >
-              {label}
+              <span>{label}</span>
+              <ArrowRight size={18} color={colors.text.light} style={{ flexShrink: 0 }} aria-hidden />
             </Link>
           ))}
-          <div style={{ marginTop: spacing[2] }}>
-            <ButtonCta label="Solicitar orçamento" onClick={handleMobileCtaClick} />
-          </div>
         </div>
+        </>
       )}
     </header>
   );
