@@ -242,7 +242,7 @@ const Comparison: React.FC = () => {
           }}>
             Você já sabe o que não quer. Agora é hora de ter um site que realmente trabalha pelo seu negócio.
           </p>
-          <ButtonCta label="Solicitar orçamento" />
+          <ButtonCta label="Quero um site que vende" />
         </div>
       </div>
     </section>

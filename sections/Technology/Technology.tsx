@@ -262,7 +262,7 @@ const Technology: React.FC = () => {
         </div>
 
         <div style={{ display: 'flex', justifyContent: isMd ? 'center' : 'flex-start', marginTop: spacing[12] }}>
-          <ButtonCta label="Solicitar orçamento" />
+          <ButtonCta label="Quero um site que vende" />
         </div>
       </div>
     </section>

@@ -32,7 +32,7 @@ const Footer: React.FC = () => {
   };
   const innerBottomStyle: React.CSSProperties = {
     paddingTop: spacing[2],
-    paddingBottom: spacing[16],
+    paddingBottom: spacing[2],
   };
 
   const mainRowStyle: React.CSSProperties = {

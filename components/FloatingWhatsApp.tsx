@@ -1,11 +1,76 @@
-import React from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { colors } from '../styles/colors';
 
 const WHATSAPP_LINK = 'https://wa.me/message/3V45SAJMLIJJJ1';
 const WHATSAPP_MESSAGE = 'Olá, tenho algumas dúvidas e gostaria de conversar.';
+const BADGE_DELAY_MS = 4000;
 
 const FloatingWhatsApp: React.FC = () => {
+  const [isVisible, setIsVisible] = useState(false);
+  const [showBadge, setShowBadge] = useState(false);
+  const badgeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const observerCleanupRef = useRef<(() => void) | null>(null);
+  const hasReachedRef = useRef(false);
+
+  useEffect(() => {
+    if (typeof window === 'undefined' || typeof document === 'undefined') return;
+
+    const isHome = window.location.pathname === '/';
+
+    const attachObserver = (techSection: HTMLElement) => {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (!entry.isIntersecting) continue;
+            if (hasReachedRef.current) return;
+            hasReachedRef.current = true;
+            setIsVisible(true);
+            badgeTimerRef.current = setTimeout(() => setShowBadge(true), BADGE_DELAY_MS);
+            break;
+          }
+        },
+        { threshold: 0, rootMargin: '0px 0px -30% 0px' }
+      );
+      observer.observe(techSection);
+      return () => {
+        observer.disconnect();
+        observerCleanupRef.current = null;
+      };
+    };
+
+    let techSection = document.getElementById('tecnologia');
+    if (techSection) {
+      observerCleanupRef.current = attachObserver(techSection);
+    } else if (!isHome) {
+      setIsVisible(true);
+      badgeTimerRef.current = setTimeout(() => setShowBadge(true), BADGE_DELAY_MS);
+    } else {
+      const interval = setInterval(() => {
+        techSection = document.getElementById('tecnologia');
+        if (techSection) {
+          clearInterval(interval);
+          observerCleanupRef.current = attachObserver(techSection);
+        }
+      }, 150);
+      const timeout = setTimeout(() => clearInterval(interval), 5000);
+
+      return () => {
+        clearInterval(interval);
+        clearTimeout(timeout);
+        observerCleanupRef.current?.();
+        if (badgeTimerRef.current) clearTimeout(badgeTimerRef.current);
+      };
+    }
+
+    return () => {
+      observerCleanupRef.current?.();
+      if (badgeTimerRef.current) clearTimeout(badgeTimerRef.current);
+    };
+  }, []);
+
   const url = `${WHATSAPP_LINK}${WHATSAPP_LINK.includes('?') ? '&' : '?'}text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
+
+  if (!isVisible) return null;
 
   return (
     <a
@@ -27,7 +92,7 @@ const FloatingWhatsApp: React.FC = () => {
         justifyContent: 'center',
         boxShadow: `0 0 12px 2px ${colors.blue.primary}80`,
         zIndex: 9998,
-        transition: 'transform 0.2s ease',
+        transition: 'transform 0.2s ease, opacity 0.3s ease',
       }}
       onMouseEnter={(e) => {
         e.currentTarget.style.transform = 'scale(1.08)';
@@ -49,6 +114,31 @@ const FloatingWhatsApp: React.FC = () => {
           fill="#fff"
         />
       </svg>
+      {showBadge && (
+        <span
+          role="status"
+          aria-label="1 nova mensagem"
+          style={{
+            position: 'absolute',
+            top: -4,
+            right: -4,
+            minWidth: 22,
+            height: 22,
+            borderRadius: '50%',
+            backgroundColor: '#e53935',
+            color: '#fff',
+            fontSize: 12,
+            fontWeight: 600,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '0 6px',
+            boxShadow: '0 1px 3px rgba(0,0,0,0.3)',
+          }}
+        >
+          1
+        </span>
+      )}
     </a>
   );
 };

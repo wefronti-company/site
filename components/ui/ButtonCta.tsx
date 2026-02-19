@@ -67,7 +67,7 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
       ) : (
         <>
           <span style={{ color: colors.text.light }}>
-            {children || label || 'Entre em contato'}
+            {children || label || 'Quero um site que vende'}
           </span>
           <span
             style={{

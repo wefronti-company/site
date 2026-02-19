@@ -239,7 +239,7 @@ const Header: React.FC = () => {
           <div style={rightCellStyle}>
             {isMd ? (
               <ButtonCta
-                label="Solicitar orçamento"
+                label="Quero um site que vende"
                 className="header-cta-btn"
                 onClick={scrollToPrecos}
               />

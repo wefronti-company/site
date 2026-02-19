@@ -15,7 +15,7 @@ const SEO: React.FC<SEOProps> = ({
  title,
  description,
  canonical,
- ogImage = '/images/brand/social-seo-image.png',
+ ogImage = '/images/brand/social-seo-image.webp',
  ogType = 'website',
  noindex = false,
  keywords

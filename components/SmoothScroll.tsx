@@ -8,7 +8,7 @@ const LENIS_OPTIONS = {
   smoothWheel: true,
   touchMultiplier: 2,
   autoRaf: true,
-  anchors: true,
+  anchors: false, // Desabilitado: usamos useScrollToSection com offset para o badge
 } as const;
 
 /**

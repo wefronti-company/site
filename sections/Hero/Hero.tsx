@@ -1,7 +1,10 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { motion } from 'framer-motion';
+import Link from 'next/link';
+import { Shield, Palette, TrendingUp, Search } from 'lucide-react';
 import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
+import { useScrollToSection } from '../../hooks/useScrollToSection';
 import ButtonCta from '../../components/ui/ButtonCta';
 
 const SPARKLE_COUNT = 85;
@@ -29,11 +32,11 @@ function useSparkles() {
 
 const { colors, spacing, fontSizes, radii, containerMaxWidth } = theme;
 
-const HERO_CHIPS: { label: string; icon: string }[] = [
-  { label: 'Site rápido e seguro', icon: '/images/icons/seguro.png' },
-  { label: 'Design de alto nível', icon: '/images/icons/design.png' },
-  { label: 'Focado em conversão', icon: '/images/icons/conversao.png' },
-  { label: 'Otimizado para Google', icon: '/images/icons/google.png' },
+const HERO_CHIPS: { label: string; Icon: React.ComponentType<{ size?: number }> }[] = [
+  { label: 'Site rápido e seguro', Icon: Shield },
+  { label: 'Design de alto nível', Icon: Palette },
+  { label: 'Focado em conversão', Icon: TrendingUp },
+  { label: 'Otimizado para Google', Icon: Search },
 ];
 
 const heroSectionStyleBase: React.CSSProperties = {
@@ -124,19 +127,14 @@ const chipStyleBase: React.CSSProperties = {
   color: colors.text.light,
   backgroundColor: 'transparent',
   border: `1px solid ${colors.neutral.borderDark}`,
-  borderRadius: 6,
+  borderRadius: radii.full,
   whiteSpace: 'nowrap',
 };
 
-const chipIconStyle: React.CSSProperties = {
-  width: 18,
-  height: 18,
-  objectFit: 'contain',
-  flexShrink: 0,
-};
 
 const Hero: React.FC = () => {
   const isMd = useMediaQuery(theme.breakpoints.md);
+  const scrollToSection = useScrollToSection();
   const [hasEntered, setHasEntered] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   const sparkles = useSparkles();
@@ -229,20 +227,59 @@ const Hero: React.FC = () => {
           animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
           transition={{ duration: 0.5, ease: 'easeOut', delay: 0.4 }}
         >
-          {HERO_CHIPS.map(({ label, icon }, i) => (
-            <span key={i} style={chipStyle}>
-              <img src={icon} alt="" style={chipIconStyle} />
+          {HERO_CHIPS.map(({ label, Icon }, i) => (
+            <span key={i} className="hero-chip-float" style={{ ...chipStyle, animationDelay: `${i * 0.25}s` }}>
+              <span style={{ display: 'flex', flexShrink: 0 }}><Icon size={18} /></span>
               {label}
             </span>
           ))}
         </motion.div>
 
         <motion.div
+          style={{ display: 'flex', flexWrap: 'wrap', gap: spacing[4], alignItems: 'center' }}
           initial={{ opacity: 0, y: 16 }}
           animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
           transition={{ duration: 0.5, ease: 'easeOut', delay: 0.5 }}
         >
-          <ButtonCta>Solicitar orçamento</ButtonCta>
+          <ButtonCta>Quero um site que vende</ButtonCta>
+          <Link
+            href="/#portfolio"
+            aria-label="Ver portfolio"
+            onClick={(e) => {
+              if (typeof window !== 'undefined' && window.location.pathname === '/') {
+                e.preventDefault();
+                scrollToSection('portfolio');
+              }
+            }}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: 8,
+              padding: '12px 24px',
+              minHeight: 52,
+              borderRadius: 9999,
+              fontWeight: 500,
+              fontSize: 16,
+              color: colors.text.light,
+              border: `1px solid ${colors.neutral.borderDark}`,
+              background: 'rgba(255,255,255,0.06)',
+              backdropFilter: 'blur(12px)',
+              WebkitBackdropFilter: 'blur(12px)',
+              textDecoration: 'none',
+              transition: 'opacity 0.2s, border-color 0.2s',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.opacity = '0.95';
+              e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.opacity = '1';
+              e.currentTarget.style.borderColor = colors.neutral.borderDark;
+            }}
+          >
+            Ver Portfolio
+          </Link>
         </motion.div>
       </div>
     </section>

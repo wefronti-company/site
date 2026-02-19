@@ -293,7 +293,7 @@ const Timeline: React.FC = () => {
             </ul>
           </div>
           <div style={{ display: 'flex', justifyContent: 'flex-start', marginTop: isMd ? spacing[12] : spacing[6] }}>
-            <ButtonCta label="Solicitar orçamento" />
+            <ButtonCta label="Quero um site que vende" />
           </div>
         </div>
       </section>
@@ -347,7 +347,7 @@ const Timeline: React.FC = () => {
           </ul>
         </div>
         <div style={{ display: 'flex', justifyContent: 'center', marginTop: isMd ? spacing[12] : spacing[6] }}>
-          <ButtonCta label="Solicitar orçamento" />
+          <ButtonCta label="Quero um site que vende" />
         </div>
       </div>
     </section>

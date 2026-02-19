@@ -158,6 +158,7 @@ section[id] {
 .animate-fade-in { animation: fade-in 0.3s ease-out; }
 .animate-scale-in { animation: scale-in 0.3s ease-out; }
 .animate-float { animation: float 3s ease-in-out infinite; }
+.hero-chip-float { animation: float 3.5s ease-in-out infinite; }
 .hero-sparkle {
   position: absolute;
   border-radius: 50%;
@@ -167,6 +168,7 @@ section[id] {
 }
 @media (prefers-reduced-motion: reduce) {
   .animate-float { animation: none !important; }
+  .hero-chip-float { animation: none !important; }
   .hero-sparkle { animation: none !important; }
   .badge-dot-pulse { animation: none !important; }
   .timeline-dot-pulse { animation: none !important; }
