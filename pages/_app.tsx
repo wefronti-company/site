@@ -5,9 +5,11 @@ import { useRouter } from 'next/router';
 import type { AppProps } from 'next/app';
 import GlobalStyles from '../components/GlobalStyles';
 import * as gtag from '../lib/gtag';
+import 'lenis/dist/lenis.css';
+import SmoothScroll from '../components/SmoothScroll';
+import Header from '../components/ui/Header';
 
 const CookieConsent = dynamic(() => import('../components/CookieConsent'), { ssr: false });
-import Header from '../components/ui/Header';
 import Footer from '../sections/Footer';
 import FloatingWhatsApp from '../components/FloatingWhatsApp';
 export default function MyApp({ Component, pageProps }: AppProps) {
@@ -49,6 +51,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
  }, []);
 
  return (
+ <SmoothScroll>
  <>
  <Head>
  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
@@ -60,5 +63,6 @@ export default function MyApp({ Component, pageProps }: AppProps) {
  <FloatingWhatsApp />
  <CookieConsent />
  </>
+ </SmoothScroll>
  );
 }

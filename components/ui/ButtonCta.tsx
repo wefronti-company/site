@@ -2,6 +2,7 @@ import React from 'react';
 import { colors } from '../../styles/colors';
 import { ArrowRight } from 'lucide-react';
 import { radii } from '@/styles/theme';
+import { useScrollToSection } from '../../hooks/useScrollToSection';
 
 interface ButtonCtaProps {
   label?: string;
@@ -23,19 +24,13 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
   className,
   iconOnly = false
 }) => {
+  const scrollToSection = useScrollToSection();
+
   const handleClick = () => {
     if (onClick) {
       onClick();
     } else if (type === 'button') {
-      if (typeof window !== 'undefined') {
-        if (window.location.pathname !== '/') {
-          window.location.href = '/#precos';
-        } else {
-          const el = document.getElementById('precos');
-          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          else window.location.href = '/#precos';
-        }
-      }
+      scrollToSection('precos');
     }
   };
   

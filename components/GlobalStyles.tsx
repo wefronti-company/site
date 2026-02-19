@@ -19,7 +19,8 @@ const GlobalStyles: React.FC = () => (
 html {
   height: 100%;
   overflow-x: hidden;
-  scroll-behavior: smooth;
+  scroll-padding-top: 100px;
+  scroll-padding-bottom: 80px;
 }
 html, body {
   margin: 0;
@@ -40,6 +41,14 @@ button, input, select, textarea {
   min-height: 100%;
   overflow-x: hidden;
   background-color: #040404;
+  padding-bottom: 80px;
+}
+
+/* Scroll suave — respeita preferência de movimento reduzido */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 @media (min-width: 768px) {

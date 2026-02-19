@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Logo from './Logo';
 import ButtonCta from './ButtonCta';
 import { Plus, ArrowRight } from 'lucide-react';
+import { useScrollToSection } from '../../hooks/useScrollToSection';
 import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 
@@ -84,32 +85,16 @@ const Header: React.FC = () => {
     };
   }, [isMd]);
 
-  const scrollToPrecos = () => {
-    if (typeof window === 'undefined') return;
-    if (window.location.pathname !== '/') {
-      window.location.href = '/#precos';
-    } else {
-      const el = document.getElementById('precos');
-      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  };
+  const scrollToSection = useScrollToSection();
+
+  const scrollToPrecos = () => scrollToSection('precos');
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     if (typeof window === 'undefined') return;
     setMobileMenuOpen(false);
     const id = href.replace(/^.*#/, '') || 'hero';
-    if (window.location.pathname !== '/') {
-      e.preventDefault();
-      window.location.href = href;
-      return;
-    }
     e.preventDefault();
-    const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    } else {
-      window.location.href = href;
-    }
+    scrollToSection(id);
   };
 
   const showGlass = !isMd || scrolled;

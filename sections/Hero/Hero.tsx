@@ -27,24 +27,6 @@ function useSparkles() {
   }, []);
 }
 
-const CTA_SECTION_ID = 'precos';
-const SCROLL_OFFSET = 24;
-
-const scrollToSection = (id: string) => {
-  if (typeof window === 'undefined') return;
-  if (window.location.pathname !== '/') {
-    window.location.href = `/#${id}`;
-    return;
-  }
-  const el = document.getElementById(id);
-  if (el) {
-    const targetTop = el.getBoundingClientRect().top + window.pageYOffset - SCROLL_OFFSET;
-    window.scrollTo({ top: targetTop, behavior: 'smooth' });
-  } else {
-    window.location.href = `/#${id}`;
-  }
-};
-
 const { colors, spacing, fontSizes, radii, containerMaxWidth } = theme;
 
 const HERO_CHIPS: { label: string; icon: string }[] = [
@@ -260,9 +242,7 @@ const Hero: React.FC = () => {
           animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
           transition={{ duration: 0.5, ease: 'easeOut', delay: 0.5 }}
         >
-          <ButtonCta onClick={() => scrollToSection(CTA_SECTION_ID)}>
-            Solicitar orçamento
-          </ButtonCta>
+          <ButtonCta>Solicitar orçamento</ButtonCta>
         </motion.div>
       </div>
     </section>

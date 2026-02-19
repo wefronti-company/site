@@ -242,19 +242,7 @@ const Comparison: React.FC = () => {
           }}>
             Você já sabe o que não quer. Agora é hora de ter um site que realmente trabalha pelo seu negócio.
           </p>
-          <ButtonCta
-            label="Solicitar orçamento"
-            onClick={() => {
-              if (typeof window === 'undefined') return;
-              if (window.location.pathname !== '/') {
-                window.location.href = '/#precos';
-              } else {
-                const el = document.getElementById('precos');
-                if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                else window.location.href = '/#precos';
-              }
-            }}
-          />
+          <ButtonCta label="Solicitar orçamento" />
         </div>
       </div>
     </section>
