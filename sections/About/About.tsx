@@ -195,14 +195,14 @@ const About: React.FC = () => {
               style={imageStyle}
             />
             <div style={directorOverlayStyle}>
-              <h3 style={directorTitleStyle}>Diretor Wefronti</h3>
+              <p style={directorTitleStyle}>Diretor Wefronti</p>
               <div style={directorSubtitleStyle} aria-label="@witorlinhares no Instagram e LinkedIn">
                 <Image src="/images/icons/instagram.webp" alt="" width={20} height={20} style={directorIconStyle} aria-hidden />
                 <Image src="/images/icons/linkedin.webp" alt="" width={20} height={20} style={directorIconStyle} aria-hidden />
                 <span>@witorlinhares</span>
               </div>
             </div>
-          </div>s
+          </div>
         </div>
 
         <div style={textColumnStyle}>

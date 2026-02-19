@@ -212,14 +212,14 @@ const Hero: React.FC = () => {
           Transformamos seu site em uma máquina online de vendas
         </motion.h1>
 
-        <motion.h2
+        <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.6, ease: 'easeOut', delay: 0.25 }}
           style={heroSubtitleStyle}
         >
           Planejamento, tecnologia e otimização contínua para tornar seu site um verdadeiro canal de aquisição.
-        </motion.h2>
+        </motion.p>
 
         <motion.div
           style={chipsGridStyle}

@@ -23,7 +23,7 @@ const SEO: React.FC<SEOProps> = ({
  // Configuração SEO focada em sites que convertem e geram vendas
  const seoConfig = {
    siteName: 'Wefronti',
-   defaultTitle: 'Wefronti | Site que Converte e Gera Vendas',
+   defaultTitle: 'Wefronti | Criação de Sites que Convertem em Clientes',
    defaultDescription: 'Transformamos seu site em canal de vendas. Planejamento, design e tecnologia focados em conversão para sua empresa vender mais online.',
    defaultKeywords: 'criação de sites, site que converte, site profissional, site para empresas, site de vendas, desenvolvimento web, design de sites, otimização de conversão, SEO',
  };
