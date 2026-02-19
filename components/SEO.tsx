@@ -20,12 +20,12 @@ const SEO: React.FC<SEOProps> = ({
  noindex = false,
  keywords
 }) => {
- // Configuração SEO focada em Produtos Digitais com Propósito
+ // Configuração SEO focada em sites que convertem e geram vendas
  const seoConfig = {
- siteName: 'Wefronti',
-defaultTitle: 'Wefronti | Sites, Sistemas, APIs, SaaS e Produtos Digitais Sob Medida',
-    defaultDescription: 'Desenvolvemos sistemas e produtos digitais sob medida para empresas que tratam tecnologia como parte do negócio. Planejamento, execução e responsabilidade.',
- defaultKeywords: 'desenvolvimento de software sob medida, sistemas sob medida, produtos digitais sob medida, tecnologia para empresas, desenvolvimento de SaaS',
+   siteName: 'Wefronti',
+   defaultTitle: 'Wefronti | Site que Converte e Gera Vendas',
+   defaultDescription: 'Transformamos seu site em canal de vendas. Planejamento, design e tecnologia focados em conversão para sua empresa vender mais online.',
+   defaultKeywords: 'criação de sites, site que converte, site profissional, site para empresas, site de vendas, desenvolvimento web, design de sites, otimização de conversão, SEO',
  };
 
   const pageTitle = title ? `${title} | ${seoConfig.siteName}` : seoConfig.defaultTitle;
@@ -80,11 +80,12 @@ defaultTitle: 'Wefronti | Sites, Sistemas, APIs, SaaS e Produtos Digitais Sob Me
  },
  slogan: 'Tecnologia começa pelas pessoas.',
  knowsAbout: [
- 'Desenvolvimento de SaaS',
- 'Produtos Digitais',
- 'Software sob Medida',
- 'Sistemas Web Complexos',
- 'E-commerce',
+   'Sites institucionais',
+   'Sites de conversão',
+   'Desenvolvimento web',
+   'Design de sites',
+   'Landing pages',
+   'E-commerce',
  ],
  audience: {
  '@type': 'Audience',
@@ -150,7 +151,7 @@ defaultTitle: 'Wefronti | Sites, Sistemas, APIs, SaaS e Produtos Digitais Sob Me
  <meta property="og:image:type" content="image/png" />
  <meta property="og:image:width" content="1200" />
  <meta property="og:image:height" content="630" />
- <meta property="og:image:alt" content="Wefronti | Sistemas, SaaS e Produtos Digitais Sob Medida" />
+ <meta property="og:image:alt" content="Wefronti | Site que Converte e Gera Vendas" />
  {/* Common fallback/link used by some platforms */}
  <link rel="image_src" href={`${siteUrl}${ogImage}`} />
  <meta name="twitter:image:src" content={`${siteUrl}${ogImage}`} />
@@ -164,7 +165,7 @@ defaultTitle: 'Wefronti | Sites, Sistemas, APIs, SaaS e Produtos Digitais Sob Me
  <meta name="twitter:title" content={pageTitle} />
  <meta name="twitter:description" content={pageDescription} />
  <meta name="twitter:image" content={`${siteUrl}${ogImage}`} />
- <meta name="twitter:image:alt" content="Wefronti | Sistemas, SaaS e Produtos Digitais Sob Medida" />
+ <meta name="twitter:image:alt" content="Wefronti | Site que Converte e Gera Vendas" />
  
  {/* Mobile & PWA */}
  <meta name="mobile-web-app-capable" content="yes" />
