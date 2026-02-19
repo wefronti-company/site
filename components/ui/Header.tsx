@@ -292,20 +292,21 @@ const Header: React.FC = () => {
 
       {!isMd && (
         <>
-        <div
-          role="presentation"
-          aria-hidden={!mobileMenuOpen}
-          onClick={() => setMobileMenuOpen(false)}
-          style={{
-            position: 'fixed',
-            inset: 0,
-            top: 88,
-            zIndex: 98,
-            backgroundColor: mobileMenuOpen ? 'rgba(0, 0, 0, 0.5)' : 'transparent',
-            pointerEvents: mobileMenuOpen ? 'auto' : 'none',
-            transition: 'background-color 0.3s ease-out',
-          }}
-        />
+        {mobileMenuOpen && (
+          <div
+            role="presentation"
+            aria-hidden={!mobileMenuOpen}
+            onClick={() => setMobileMenuOpen(false)}
+            style={{
+              position: 'fixed',
+              inset: 0,
+              top: 88,
+              zIndex: 98,
+              backgroundColor: 'rgba(0, 0, 0, 0.5)',
+              transition: 'background-color 0.3s ease-out',
+            }}
+          />
+        )}
         <div
           role="dialog"
           aria-label="Menu de navegação"

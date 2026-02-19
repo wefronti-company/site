@@ -54,7 +54,7 @@ section:not(#section-0) {
 
 /* Margem de scroll para seções com âncora: o badge fica visível abaixo do header fixo */
 section[id] {
-  scroll-margin-top: 100px;
+  scroll-margin-top: 50px;
 }
 
 /* Scrollbar - quase invisível, fina (Firefox + WebKit) */
