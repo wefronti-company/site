@@ -11,6 +11,7 @@ import Comparison from '../sections/Comparison';
 import Faq from '../sections/Faq';
 import Cta from '../sections/Cta';
 import Footer from '../sections/Footer';
+
 import SplashScreen from '../components/SplashScreen';
 
 const SPLASH_STORAGE_KEY = 'wefronti_splash_seen_v2';

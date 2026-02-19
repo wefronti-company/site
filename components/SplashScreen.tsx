@@ -7,7 +7,7 @@ const DURATION_MS = 5000; // 5 segundos
 const HOLD_AT_100_MS = 2000; // 2s em 100% antes do slide
 const SLIDE_DURATION_MS = 500;
 
-const LOADING_TEXT = 'Carregando a melhor experiência para você...';
+const LOADING_TEXT = 'Você está a um site de distância do seu próximo cliente.';
 
 interface SplashScreenProps {
   onComplete: () => void;

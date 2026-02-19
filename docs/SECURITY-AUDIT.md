@@ -31,10 +31,7 @@
 | Área | Status |
 |------|--------|
 | **Headers de segurança** | HSTS, X-Frame-Options, X-Content-Type-Options, CSP, Permissions-Policy |
-| **API /quote** | Rate limit (Redis + in-memory), validação Zod, sanitização (validator.escape), prepared statements (Neon) |
 | **Middleware** | Bloqueio de path traversal (`..`, `//`), bloqueio de `.env`, `.git`, etc., validação de origem para POST/PUT/DELETE |
-| **Banco de dados** | Neon com queries parametrizadas (previne SQL injection) |
-| **Formulário** | Validação com `containsMaliciousPatterns`, `sanitizeInput`, `sanitizeEmail` |
 | **Projetos estáticos** | Slugs vindos de `data/projects.ts` (dados controlados), sem SSG dinâmico de user input |
 | **`.env`** | Incluído em `.gitignore` |
 
@@ -45,4 +42,3 @@
 1. **CSP `unsafe-inline`:** O Next.js usa inline scripts para hidratação. Considerar nonces ou hashes para reduzir a dependência de `unsafe-inline`.
 2. **`Cross-Origin-Embedder-Policy: require-corp`:** Pode causar problemas com recursos de terceiros. Testar com Google Fonts e Analytics.
 3. **`npm audit`:** Executar periodicamente e corrigir vulnerabilidades de dependências.
-4. **Formulário de contato:** O componente `Contact` ainda tem `TODO: enviar para API`. Quando integrar com `/api/quote` (ou similar), reutilizar validação e sanitização existentes.

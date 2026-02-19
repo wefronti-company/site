@@ -1,6 +1,5 @@
 import React from 'react';
 import { colors } from '../../styles/colors';
-import { useRouter } from 'next/router';
 import { ArrowRight } from 'lucide-react';
 import { radii } from '@/styles/theme';
 
@@ -24,13 +23,19 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
   className,
   iconOnly = false
 }) => {
-  const router = useRouter();
-  
   const handleClick = () => {
     if (onClick) {
       onClick();
     } else if (type === 'button') {
-      router.push('/form');
+      if (typeof window !== 'undefined') {
+        if (window.location.pathname !== '/') {
+          window.location.href = '/#precos';
+        } else {
+          const el = document.getElementById('precos');
+          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          else window.location.href = '/#precos';
+        }
+      }
     }
   };
   

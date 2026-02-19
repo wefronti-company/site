@@ -132,6 +132,8 @@ const Header: React.FC = () => {
     width: '100%',
     maxWidth: containerMaxWidth.wide - headerPaddingX * 2,
     margin: '0 auto',
+    position: 'relative',
+    zIndex: 100,
   };
 
   const innerBarStyle: React.CSSProperties = {
