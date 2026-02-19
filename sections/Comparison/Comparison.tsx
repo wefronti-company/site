@@ -1,7 +1,7 @@
 import React from 'react';
 import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
-import { X, Check } from 'lucide-react';
+import { X, Check, CheckCircle, CheckCircle2 } from 'lucide-react';
 import ButtonCta from '../../components/ui/ButtonCta';
 
 const { colors, spacing, fontSizes, radii, containerMaxWidth } = theme;
@@ -94,7 +94,7 @@ const cardHighlightStyle: React.CSSProperties = {
   ...cardStyle,
   borderColor: 'rgba(53, 152, 255, 0.25)',
   boxShadow: '0 0 32px rgba(53, 152, 255, 0.08)',
-  backgroundImage: "linear-gradient(rgba(4, 4, 4, 0.72), rgba(4, 4, 4, 0.78)), url('/images/brand/background.webp')",
+  backgroundImage: "url('/images/brand/background.webp')",
   backgroundSize: 'cover',
   backgroundPosition: 'center',
   backgroundRepeat: 'no-repeat',
@@ -103,6 +103,7 @@ const cardHighlightStyle: React.CSSProperties = {
 const cardTitleStyle: React.CSSProperties = {
   fontSize: fontSizes['2xl'],
   fontWeight: 500,
+  paddingBottom: spacing[4],
   color: colors.text.light,
   margin: 0,
   opacity: 0.9,
@@ -189,13 +190,13 @@ const Comparison: React.FC = () => {
             Você já passou por isso<br />com outra empresa?
           </h2>
           <p style={{ margin: 0, fontSize: '1.3rem', color: colors.text.light, opacity: 0.88, lineHeight: 1.5, textAlign: isMd ? 'center' : 'left', maxWidth: 640 }}>
-            Veja o que acontece na prática com a maioria das empresas do mercado, e por que líderes escolhem a wefronti:
+            Veja o que acontece na prática com a maioria das empresas do mercado, e por que líderes escolhem a Wefronti:
           </p>
         </div>
 
         <div style={gridLayout}>
           <div style={cardStyle}>
-            <h3 style={cardTitleStyle}>É bem provável que isso já aconteceu com você:</h3>
+            <h3 style={cardTitleStyle}>99% de chance de você ter passado por isso:</h3>
             <ul style={listStyle} role="list">
               {OUTRAS_AGENCIAS.map((text, i) => (
                 <li key={i} style={itemStyle}>
@@ -214,7 +215,7 @@ const Comparison: React.FC = () => {
               {WEFRONTI.map((text, i) => (
                 <li key={i} style={itemStyle}>
                   <span style={iconPositiveStyle} aria-hidden>
-                    <Check size={14} strokeWidth={2.5} />
+                    <CheckCircle2 size={22} />
                   </span>
                   <span>{text}</span>
                 </li>

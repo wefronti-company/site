@@ -74,7 +74,19 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
           <span style={{ color: colors.text.light }}>
             {children || label || 'Entre em contato'}
           </span>
-          <ArrowRight size={18} color={colors.text.light} />
+          <span
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: 28,
+              height: 28,
+              borderRadius: '50%',
+              backgroundColor: 'rgba(255,255,255,0.95)',
+            }}
+          >
+            <ArrowRight size={16} color={colors.blue.primary} strokeWidth={2.5} />
+          </span>
         </>
       )}
     </button>

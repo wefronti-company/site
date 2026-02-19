@@ -6,6 +6,10 @@ import ButtonCta from '../../components/ui/ButtonCta';
 
 const { colors, spacing, fontSizes, radii, containerMaxWidth } = theme;
 
+const WHATSAPP_LINK = 'https://wa.me/message/3V45SAJMLIJJJ1';
+const LANDING_PAGE_MESSAGE = 'Olá! Quero uma landing page focada em conversão.';
+const SITE_COMPLETO_MESSAGE = 'Oi! Quero um site que gere clientes e apareça no Google.';
+
 const sectionStyleBase: React.CSSProperties = {
   width: '100%',
   paddingTop: spacing[16],
@@ -281,18 +285,14 @@ const Pricing: React.FC = () => {
             </ul>
             <div style={{ marginTop: 'auto' }}>
               <ButtonCta
-              label="Quero uma landing page"
-              onClick={() => {
-                if (typeof window === 'undefined') return;
-                if (window.location.pathname !== '/') {
-                  window.location.href = '/#precos';
-                } else {
-                  const el = document.getElementById('precos');
-                  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                  else window.location.href = '/#precos';
-                }
-              }}
-            />
+                label="Quero uma landing page"
+                onClick={() => {
+                  if (typeof window !== 'undefined') {
+                    const url = `${WHATSAPP_LINK}${WHATSAPP_LINK.includes('?') ? '&' : '?'}text=${encodeURIComponent(LANDING_PAGE_MESSAGE)}`;
+                    window.open(url, '_blank', 'noopener,noreferrer');
+                  }
+                }}
+              />
             </div>
           </div>
 
@@ -322,18 +322,14 @@ const Pricing: React.FC = () => {
             </ul>
             <div style={{ marginTop: 'auto' }}>
               <ButtonCta
-              label="Quero um site"
-              onClick={() => {
-                if (typeof window === 'undefined') return;
-                if (window.location.pathname !== '/') {
-                  window.location.href = '/#precos';
-                } else {
-                  const el = document.getElementById('precos');
-                  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                  else window.location.href = '/#precos';
-                }
-              }}
-            />
+                label="Quero um site"
+                onClick={() => {
+                  if (typeof window !== 'undefined') {
+                    const url = `${WHATSAPP_LINK}${WHATSAPP_LINK.includes('?') ? '&' : '?'}text=${encodeURIComponent(SITE_COMPLETO_MESSAGE)}`;
+                    window.open(url, '_blank', 'noopener,noreferrer');
+                  }
+                }}
+              />
             </div>
           </div>
           </div>

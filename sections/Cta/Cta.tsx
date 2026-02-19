@@ -1,7 +1,7 @@
 import React from 'react';
 import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 
 const { colors, spacing, fontSizes, radii, containerMaxWidth } = theme;
 
@@ -28,8 +28,8 @@ const wrapperStyleBase: React.CSSProperties = {
 };
 
 const headingStyle: React.CSSProperties = {
-  fontSize: 'clamp(1.5rem, 4vw, 1.875rem)',
-  fontWeight: 600,
+  fontSize: 'clamp(1.75rem, 5vw, 3.4rem)',
+  fontWeight: 400,
   lineHeight: 1.2,
   letterSpacing: '-0.02em',
   color: colors.text.light,
@@ -109,7 +109,19 @@ const Cta: React.FC = () => {
           aria-label="Abrir conversa no WhatsApp para tirar dúvidas"
         >
           Falar no WhatsApp
-          <ArrowUpRight size={20} strokeWidth={2.5} aria-hidden />
+          <span
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: 28,
+              height: 28,
+              borderRadius: '50%',
+              backgroundColor: 'rgba(255,255,255,0.95)',
+            }}
+          >
+            <ArrowRight size={16} color={colors.blue.primary} strokeWidth={2.5} aria-hidden />
+          </span>
         </a>
       </div>
     </section>

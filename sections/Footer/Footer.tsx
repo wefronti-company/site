@@ -46,9 +46,11 @@ const Footer: React.FC = () => {
 
   const rightBlockStyle: React.CSSProperties = {
     display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'flex-end',
-    gap: spacing[4],
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    alignItems: 'flex-start',
+    justifyContent: 'flex-end',
+    gap: spacing[8],
   };
 
   const networksRowStyle: React.CSSProperties = {
@@ -81,7 +83,7 @@ const Footer: React.FC = () => {
 
   const privacyLinkStyle: React.CSSProperties = {
     fontSize: fontSizes.sm,
-    textDecoration: 'none',
+    textDecoration: 'underline',
     color: colors.text.light,
     opacity: 0.9,
   };
@@ -120,8 +122,10 @@ const Footer: React.FC = () => {
                     <Icon size={18} />
                   </a>
                 ))}
+                <Link href="/politica-privacidade" style={privacyLinkStyle}>
+                  Política de Privacidade
+                </Link>
               </div>
-              
             </div>
           </div>
         </div>
