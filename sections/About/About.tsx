@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 import { Check } from 'lucide-react';
@@ -186,25 +187,22 @@ const About: React.FC = () => {
       <div style={gridStyle}>
         <div style={imageColumnStyle}>
           <div style={imageWrapStyle}>
-            <img
+            <Image
               src="/images/about/witor-linhares.webp"
               alt=""
+              fill
+              sizes="(max-width: 767px) 100vw, 480px"
               style={imageStyle}
-              loading="lazy"
-              onError={(e) => {
-                e.currentTarget.style.background = 'linear-gradient(135deg, rgba(53, 152, 255, 0.12) 0%, rgba(100, 80, 200, 0.08) 100%)';
-                e.currentTarget.style.minHeight = '320px';
-              }}
             />
             <div style={directorOverlayStyle}>
               <h3 style={directorTitleStyle}>Diretor Wefronti</h3>
               <div style={directorSubtitleStyle} aria-label="@witorlinhares no Instagram e LinkedIn">
-                <img src="/images/icons/instagram.webp" alt="" style={directorIconStyle} aria-hidden />
-                <img src="/images/icons/linkedin.webp" alt="" style={directorIconStyle} aria-hidden />
+                <Image src="/images/icons/instagram.webp" alt="" width={20} height={20} style={directorIconStyle} aria-hidden />
+                <Image src="/images/icons/linkedin.webp" alt="" width={20} height={20} style={directorIconStyle} aria-hidden />
                 <span>@witorlinhares</span>
               </div>
             </div>
-          </div>
+          </div>s
         </div>
 
         <div style={textColumnStyle}>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Head from 'next/head';
 import SEO from '../components/SEO';
 import Hero from '../sections/Hero';
 import Technology from '../sections/Technology';
@@ -51,22 +52,22 @@ const Home: React.FC = () => {
   return (
     <>
       <SEO />
-      {showSplash ? (
+      <Head>
+        <link rel="preload" href="/images/brand/background.webp" as="image" />
+      </Head>
+      <Hero />
+      <Technology />
+      <Testimonials />
+      <Timeline />
+      <Portfolio />
+      <About />
+      <Pricing />
+      <Comparison />
+      <Faq />
+      <Cta />
+      <Footer />
+      {showSplash && (
         <SplashScreen onComplete={handleSplashComplete} />
-      ) : (
-        <>
-          <Hero />
-          <Technology />
-          <Testimonials />
-          <Timeline />
-          <Portfolio />
-          <About />
-          <Pricing />
-          <Comparison />
-          <Faq />
-          <Cta />
-          <Footer />
-        </>
       )}
     </>
   );

@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
@@ -53,7 +54,9 @@ const clientStyle: React.CSSProperties = {
 };
 
 const coverWrapStyle: React.CSSProperties = {
+  position: 'relative' as const,
   width: '100%',
+  aspectRatio: '16 / 10',
   borderRadius: 24,
   overflow: 'hidden',
   border: `1px solid ${colors.neutral.borderDark}`,
@@ -61,10 +64,6 @@ const coverWrapStyle: React.CSSProperties = {
 };
 
 const coverImageStyle: React.CSSProperties = {
-  width: '100%',
-  height: 'auto',
-  display: 'block',
-  aspectRatio: '16 / 10',
   objectFit: 'cover' as const,
 };
 
@@ -201,10 +200,13 @@ const ProjectPage: React.FC<{ project: Project }> = ({ project }) => {
           {project.client && <p style={clientStyle}>{project.client}</p>}
 
           <div style={coverWrapStyle}>
-            <img
+            <Image
               src={project.cover}
               alt=""
+              fill
+              sizes="(max-width: 768px) 100vw, 1200px"
               style={coverImageStyle}
+              priority
             />
           </div>
 

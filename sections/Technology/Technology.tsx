@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 import ButtonCta from '../../components/ui/ButtonCta';
@@ -234,23 +235,12 @@ const Technology: React.FC = () => {
           {TECH_ITEMS.map((item, index) => (
             <div key={item.name} style={{ ...cardStyle, ...getCardGridStyle(index) }}>
               <div style={isTallCard(index) ? illustrationWrapTallStyle : { ...illustrationWrapStyle, minHeight: isMd ? 280 : 340 }}>
-                <img
+                <Image
                   src={isMd ? item.imagePath : (item.imagePathMobile ?? getMobileImagePath(item.imagePath))}
                   alt=""
+                  fill
+                  sizes="(max-width: 767px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   style={isMd ? illustrationImageStyle : illustrationImageStyleMobile}
-                  onError={(e) => {
-                    const el = e.currentTarget;
-                    const mobilePath = item.imagePathMobile ?? getMobileImagePath(item.imagePath);
-                    if (!isMd) {
-                      const isMobilePath = el.src.includes('-mobile.');
-                      if (isMobilePath && mobilePath !== item.imagePath) {
-                        el.src = item.imagePath;
-                        el.onerror = () => { el.style.display = 'none'; };
-                        return;
-                      }
-                    }
-                    el.style.display = 'none';
-                  }}
                 />
                 <div style={cardContentStyle}>
                   <h3 style={cardTitleStyle}>{item.name}</h3>

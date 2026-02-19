@@ -16,6 +16,7 @@ export default function Document() {
   {/* Fallback */}
   <link rel="icon" href="/images/brand/favicon-site.png?v=2" type="image/png" sizes="32x32" />
   <link rel="apple-touch-icon" href="/images/brand/favicon-site.png?v=2" sizes="180x180" />
+ 
  {/* Google Fonts - Funnel Sans */}
  <link rel="preconnect" href="https://fonts.googleapis.com" />
  <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />

@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
 import { theme } from '../../styles/theme';
@@ -199,11 +200,12 @@ const Portfolio: React.FC = () => {
                 onMouseMove={handleCardMouseMove}
               >
                 <div style={coverWrapStyle}>
-                  <img
+                  <Image
                     src={project.cover}
                     alt=""
+                    fill
+                    sizes="(max-width: 767px) 100vw, 50vw"
                     style={coverImageStyle}
-                    loading="lazy"
                   />
                 </div>
                 <div style={cardFooterStyle}>

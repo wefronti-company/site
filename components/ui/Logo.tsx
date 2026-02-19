@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 
 interface LogoProps {
@@ -28,13 +29,13 @@ const Logo: React.FC<LogoProps> = ({
 }) => {
   return (
     <Link href={href} aria-label={ariaLabel} style={linkStyle}>
-      <img
+      <Image
         src={isDark ? '/images/brand/isologo-black.webp' : '/images/brand/isologo-white.webp'}
         alt="Wefronti Logo"
-        width={140}
-        height={38}
+        width={160}
+        height={43}
         style={{ ...imgBaseStyle, ...style }}
-        loading="eager"
+        priority
       />
     </Link>
   );

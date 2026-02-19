@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import Image from 'next/image';
 import { theme } from '../styles/theme';
 
 const { colors, spacing, fontSizes } = theme;
@@ -113,11 +114,12 @@ const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete }) => {
   return (
     <div style={wrapStyle} aria-hidden="true">
       <div style={contentStyle}>
-        <img
+        <Image
           src="/images/brand/isologo-white.webp"
           alt="Wefronti"
           width={160}
           height={43}
+          priority
           style={{ objectFit: 'contain', maxWidth: '100%' }}
         />
         <p style={taglineStyle}>{LOADING_TEXT}</p>
