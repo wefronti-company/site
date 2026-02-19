@@ -118,7 +118,7 @@ const directorOverlayStyle: React.CSSProperties = {
 
 const directorTitleStyle: React.CSSProperties = {
   fontSize: '1.4rem',
-  fontWeight: 600,
+  fontWeight: 400,
   color: colors.text.light,
   margin: 0,
 };

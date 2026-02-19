@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Logo from './Logo';
 import ButtonCta from './ButtonCta';
+import { Plus } from 'lucide-react';
 import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 
@@ -24,9 +25,14 @@ const NAV_LINKS = [
 const Header: React.FC = () => {
   const isMd = useMediaQuery(theme.breakpoints.md);
   const [scrolled, setScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [hoveredLinkId, setHoveredLinkId] = useState<string | null>(null);
   const [reversedPhase, setReversedPhase] = useState(false);
   const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+
+  useEffect(() => {
+    if (isMd) setMobileMenuOpen(false);
+  }, [isMd]);
 
   const clearTimers = () => {
     timersRef.current.forEach(clearTimeout);
@@ -90,6 +96,7 @@ const Header: React.FC = () => {
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     if (typeof window === 'undefined') return;
+    setMobileMenuOpen(false);
     const id = href.replace(/^.*#/, '') || 'hero';
     if (window.location.pathname !== '/') {
       e.preventDefault();
@@ -103,6 +110,11 @@ const Header: React.FC = () => {
     } else {
       window.location.href = href;
     }
+  };
+
+  const handleMobileCtaClick = () => {
+    setMobileMenuOpen(false);
+    scrollToPrecos();
   };
 
   const showGlass = !isMd || scrolled;
@@ -243,15 +255,98 @@ const Header: React.FC = () => {
           </div>
 
           <div style={rightCellStyle}>
-            <ButtonCta
-              label="Solicitar orçamento"
-              className="header-cta-btn"
-              onClick={scrollToPrecos}
-            />
+            {isMd ? (
+              <ButtonCta
+                label="Solicitar orçamento"
+                className="header-cta-btn"
+                onClick={scrollToPrecos}
+              />
+            ) : (
+              <button
+                type="button"
+                aria-label={mobileMenuOpen ? 'Fechar menu' : 'Abrir menu'}
+                aria-expanded={mobileMenuOpen}
+                className="header-cta-btn"
+                onClick={() => setMobileMenuOpen((o) => !o)}
+                style={{
+                  ...btnStyle,
+                  width: 44,
+                  height: 44,
+                  padding: 0,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <Plus
+                  size={22}
+                  strokeWidth={2}
+                  color={colors.text.light}
+                  style={{
+                    transition: 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                    transform: mobileMenuOpen ? 'rotate(45deg)' : 'rotate(0deg)',
+                  }}
+                  aria-hidden
+                />
+              </button>
+            )}
           </div>
         </nav>
         </div>
       </div>
+
+      {!isMd && (
+        <div
+          role="dialog"
+          aria-label="Menu de navegação"
+          aria-hidden={!mobileMenuOpen}
+          style={{
+            position: 'fixed',
+            top: 88,
+            bottom: 0,
+            left: headerPaddingX,
+            right: headerPaddingX,
+            width: 'auto',
+            overflowY: 'auto',
+            maxWidth: containerMaxWidth.wide - headerPaddingX * 2,
+            marginLeft: 'auto',
+            marginRight: 'auto',
+            zIndex: 99,
+            backgroundColor: 'rgba(4, 4, 4, 0.75)',
+            backdropFilter: 'saturate(180%) blur(12px)',
+            WebkitBackdropFilter: 'saturate(180%) blur(12px)',
+            border: `1px solid ${colors.neutral.borderDark}`,
+            borderRadius: 30,
+            paddingTop: spacing[8],
+            paddingBottom: spacing[2],
+            paddingLeft: spacing[8],
+            paddingRight: spacing[8],
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'stretch',
+            gap: spacing[6],
+            transform: mobileMenuOpen ? 'translateY(0)' : 'translateY(100%)',
+            transition: 'transform 0.3s ease-out',
+            boxShadow: '0 -8px 32px rgba(0,0,0,0.4)',
+            pointerEvents: mobileMenuOpen ? 'auto' : 'none',
+          }}
+        >
+          {NAV_LINKS.map(({ id, label, href }) => (
+            <Link
+              key={id}
+              href={href}
+              className="header-nav-link"
+              style={{ ...linkStyle, fontSize: 'clamp(1.2rem, 3vw, 1.5rem)', lineHeight: 1.3, padding: `${spacing[2]}px 0` }}
+              onClick={(e) => handleNavClick(e, href)}
+            >
+              {label}
+            </Link>
+          ))}
+          <div style={{ marginTop: spacing[2] }}>
+            <ButtonCta label="Solicitar orçamento" onClick={handleMobileCtaClick} />
+          </div>
+        </div>
+      )}
     </header>
   );
 };
