@@ -1,8 +1,9 @@
 // Google Analytics tracking ID
 // Read the GA tracking ID from environment so it can be configured per-deploy
 // Use NEXT_PUBLIC_GA_ID since this value must be available in the client bundle.
-// Require NEXT_PUBLIC_GA_ID to be provided. No fallback allowed for security.
-export const GA_TRACKING_ID = process.env.NEXT_PUBLIC_GA_ID || ''
+// Sanitize to prevent XSS if env is ever compromised (GA4: G-XXX, Universal: UA-XXX-X).
+const RAW_GA_ID = process.env.NEXT_PUBLIC_GA_ID || '';
+export const GA_TRACKING_ID = /^(G-[A-Za-z0-9]+|UA-\d+-\d+)$/.test(RAW_GA_ID) ? RAW_GA_ID : '';
 
 // https://developers.google.com/analytics/devguides/collection/gtagjs/pages
 export const pageview = (url: string) => {

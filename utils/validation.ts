@@ -139,49 +139,71 @@ setInterval(() => {
  });
 }, 60000);
 
+// Hostnames permitidos (evita bypass como wefronti.com.attacker.com ou evil.com?wefronti.com)
+const ALLOWED_ORIGIN_HOSTNAMES = new Set([
+  'wefronti.com',
+  'www.wefronti.com',
+  'localhost',
+  '127.0.0.1',
+  '0.0.0.0',
+]);
+
 // Validar origem da requisição (CSRF protection)
 export function validateOrigin(origin: string | null, host: string | null): boolean {
- // Em desenvolvimento local, permitir quando não houver origin
- if (process.env.NODE_ENV === 'development') {
- if (!origin) return true;
- }
- 
- // Allow if host is localhost/127.0.0.1 even when NODE_ENV is not 'development'
- if (!origin || !host) {
-   // If host indicates loopback, allow for local testing
-   const hostLower = (host || '').toLowerCase();
-   if (hostLower.includes('localhost') || hostLower.includes('127.0.0.1') || hostLower.includes('0.0.0.0')) {
-     if (process.env.ALLOWED_ORIGINS_DEBUG === 'true' || process.env.NODE_ENV === 'development') console.warn('[SECURITY] validateOrigin: allowing missing origin for localhost', { origin, host });
-     return true;
-   }
-   return false;
- }
- 
- // Debug override: accept all origins when ALLOWED_ORIGINS_DEBUG is true (only use for local testing)
- if (process.env.ALLOWED_ORIGINS_DEBUG === 'true') {
-   console.warn('[SECURITY] validateOrigin: ALLOWED_ORIGINS_DEBUG enabled — accepting origin', { origin, host });
-   return true;
- }
- 
- // Allow additional origins via ALLOWED_ORIGINS env var (CSV)
- const envAllowed = process.env.ALLOWED_ORIGINS ? process.env.ALLOWED_ORIGINS.split(',').map(s => s.trim()).filter(Boolean) : [];
- 
- const allowedOrigins = [
- 'https://wefronti.com',
- 'https://www.wefronti.com',
- ...envAllowed,
- ];
- 
- // Match when origin starts with an allowed origin or is localhost/127.0.0.1 with any port
- const isLocalhost = origin.match(/^https?:\/\/(localhost|127\.0\.0\.1|0\.0\.0\.0)(:\d+)?$/);
- const matched = allowedOrigins.some(allowed => origin.startsWith(allowed)) || origin.includes(host) || !!isLocalhost;
- 
- const debug = process.env.ALLOWED_ORIGINS_DEBUG === 'true' || process.env.NODE_ENV === 'development';
- if (!matched && debug) {
-   // Log minimal debug info to help identify missing origin/host combinations during testing
-   console.warn('[SECURITY] validateOrigin: origin rejected', { origin, host, allowedOrigins });
- }
- 
- return matched;
+  // Em desenvolvimento local, permitir quando não houver origin
+  if (process.env.NODE_ENV === 'development') {
+    if (!origin) return true;
+  }
+
+  // Allow if host is localhost/127.0.0.1 even when NODE_ENV is not 'development'
+  if (!origin || !host) {
+    const hostLower = (host || '').toLowerCase();
+    if (hostLower.includes('localhost') || hostLower.includes('127.0.0.1') || hostLower.includes('0.0.0.0')) {
+      if (process.env.NODE_ENV === 'development') console.warn('[SECURITY] validateOrigin: allowing missing origin for localhost');
+      return true;
+    }
+    return false;
+  }
+
+  // NUNCA aceitar bypass em produção — ALLOWED_ORIGINS_DEBUG só em dev
+  if (process.env.ALLOWED_ORIGINS_DEBUG === 'true' && process.env.NODE_ENV !== 'production') {
+    console.warn('[SECURITY] validateOrigin: ALLOWED_ORIGINS_DEBUG enabled (dev only)');
+    return true;
+  }
+
+  try {
+    const url = new URL(origin);
+    const originHostname = url.hostname.toLowerCase();
+
+    // Match exato do hostname (evita wefronti.com.attacker.com)
+    if (ALLOWED_ORIGIN_HOSTNAMES.has(originHostname)) return true;
+
+    // Allow additional hostnames via ALLOWED_ORIGINS env (formato: https://dominio.com)
+    const envAllowed = process.env.ALLOWED_ORIGINS
+      ? process.env.ALLOWED_ORIGINS.split(',')
+          .map((s) => s.trim())
+          .filter(Boolean)
+      : [];
+    for (const allowed of envAllowed) {
+      try {
+        const allowedUrl = new URL(allowed);
+        if (allowedUrl.hostname.toLowerCase() === originHostname) return true;
+      } catch {
+        // ignore URLs inválidas no env
+      }
+    }
+
+    const debug = process.env.NODE_ENV === 'development';
+    if (debug) {
+      console.warn('[SECURITY] validateOrigin: origin rejected', { originHostname, host });
+    }
+  } catch {
+    // origin não é URL válida
+    if (process.env.NODE_ENV === 'development') {
+      console.warn('[SECURITY] validateOrigin: invalid origin URL', { origin });
+    }
+  }
+
+  return false;
 }
 

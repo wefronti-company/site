@@ -12,7 +12,6 @@ import Footer from '../sections/Footer';
 import FloatingWhatsApp from '../components/FloatingWhatsApp';
 export default function MyApp({ Component, pageProps }: AppProps) {
  const router = useRouter();
- const isAdminRoute = router.pathname.startsWith('/painel-admin');
 
  React.useEffect(() => {
    const handleRouteChange = (url: string) => {
@@ -55,10 +54,10 @@ export default function MyApp({ Component, pageProps }: AppProps) {
  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
  </Head>
  <GlobalStyles />
- {!isAdminRoute && <Header />}
+ <Header />
  <Component {...pageProps} />
- {!isAdminRoute && router.pathname !== '/' && <Footer />}
- {!isAdminRoute && <FloatingWhatsApp />}
+ {router.pathname !== '/' && <Footer />}
+ <FloatingWhatsApp />
  <CookieConsent />
  </>
  );

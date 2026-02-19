@@ -300,7 +300,6 @@ const Header: React.FC = () => {
             style={{
               position: 'fixed',
               inset: 0,
-              top: 88,
               zIndex: 98,
               backgroundColor: 'rgba(0, 0, 0, 0.5)',
               transition: 'background-color 0.3s ease-out',

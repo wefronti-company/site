@@ -21,6 +21,7 @@ dist/
 
 # Debug logs
 npm-debug.log*
+origin_debug.log
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*

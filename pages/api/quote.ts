@@ -76,8 +76,8 @@ export default async function handler(
  const origin = req.headers.origin || req.headers.referer || null;
  const host = req.headers.host || null;
  
- // When debugging, persist incoming origin/host/referer headers to a local file for inspection
- if (process.env.ALLOWED_ORIGINS_DEBUG === 'true') {
+ // When debugging (apenas em desenvolvimento), persistir origin/host para diagnóstico
+ if (process.env.ALLOWED_ORIGINS_DEBUG === 'true' && process.env.NODE_ENV !== 'production') {
    try {
      const fs = require('fs');
      const path = require('path');

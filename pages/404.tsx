@@ -13,7 +13,7 @@ const pageStyle: React.CSSProperties = {
   justifyContent: 'center',
   padding: spacing[8],
   backgroundColor: colors.background.dark,
-  backgroundImage: "url('/images/brand/background.png')",
+  backgroundImage: "url('/images/brand/background.webp')",
   backgroundSize: 'cover',
   backgroundPosition: 'center',
 };
