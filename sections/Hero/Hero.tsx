@@ -262,21 +262,14 @@ const Hero: React.FC = () => {
               fontWeight: 500,
               fontSize: 16,
               color: colors.text.light,
-              border: `1px solid ${colors.neutral.borderDark}`,
-              background: 'rgba(255,255,255,0.06)',
+              border: `1px solid rgba(255, 255, 255, 0.38)`,
+              background: 'rgba(255, 255, 255, 0.09)',
               backdropFilter: 'blur(12px)',
               WebkitBackdropFilter: 'blur(12px)',
               textDecoration: 'none',
               transition: 'opacity 0.2s, border-color 0.2s',
             }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.opacity = '0.95';
-              e.currentTarget.style.borderColor = 'rgba(255,255,255,0.2)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.opacity = '1';
-              e.currentTarget.style.borderColor = colors.neutral.borderDark;
-            }}
+           
           >
             Ver Portfolio
           </Link>

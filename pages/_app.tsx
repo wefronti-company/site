@@ -37,7 +37,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
  React.useEffect(() => {
    try {
      if (typeof document !== 'undefined' && document.documentElement) {
-       const comment = '<!-- Made in Framer · framer.com ✨ -->';
+       const comment = '<!-- Desenvolvido por Wefronti · wefronti.com -->';
        // prevenir duplicatas
        const prev = document.doctype ? null : null;
        // insert only if not already present
