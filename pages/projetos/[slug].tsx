@@ -56,7 +56,7 @@ const clientStyle: React.CSSProperties = {
 const coverWrapStyle: React.CSSProperties = {
   position: 'relative' as const,
   width: '100%',
-  aspectRatio: '16 / 10',
+  aspectRatio: '16 / 9',
   borderRadius: 24,
   overflow: 'hidden',
   border: `1px solid ${colors.neutral.borderDark}`,
