@@ -24,17 +24,25 @@ export default function Document() {
  <body style={{ backgroundColor: '#040404' }}>
  <Main />
 
- {/* Client-side JS chunk retry: if a script from /_next/static/chunks fails to load, attempt a few retries with cache-busting query param */}
+ {/* Client-side JS chunk retry: se um script de /_next/static/chunks falhar (503, rede, deploy), tenta novamente e, se falhar, recarrega a página para obter HTML novo */}
  <script dangerouslySetInnerHTML={{ __html: `
   (function(){
     try {
-      var MAX_RETRIES = 3;
+      var MAX_RETRIES = 2;
+      var RELOAD_KEY = 'wefronti_chunk_reload';
       window.addEventListener('error', function(e){
         var t = e.target || e.srcElement;
         if (!t) return;
         if (t.tagName === 'SCRIPT' && t.src && t.src.indexOf('/_next/static/chunks/') !== -1) {
           var current = parseInt(t.getAttribute('data-retry-count') || '0', 10) || 0;
-          if (current >= MAX_RETRIES) return;
+          if (current >= MAX_RETRIES) {
+            var last = parseInt(sessionStorage.getItem(RELOAD_KEY) || '0', 10);
+            if (Date.now() - last > 10000) {
+              sessionStorage.setItem(RELOAD_KEY, String(Date.now()));
+              window.location.reload();
+            }
+            return;
+          }
           var next = current + 1;
           var src = t.src;
           var sep = src.indexOf('?') === -1 ? '?' : '&';
@@ -44,14 +52,12 @@ export default function Document() {
           s.async = true;
           s.setAttribute('data-retry-count', String(next));
           if (t.crossOrigin) s.crossOrigin = t.crossOrigin;
-          s.onload = function(){ console.info('[retry] script loaded', newSrc); };
-          s.onerror = function(){ console.warn('[retry] script failed', newSrc); };
+          s.onload = function(){ /* chunk carregou */ };
+          s.onerror = function(){ /* will trigger error handler again */ };
           document.head.appendChild(s);
         }
       }, true);
-    } catch (err) {
-      console.error('chunk-retry init error', err);
-    }
+    } catch (err) { console.error('chunk-retry init error', err); }
   })();
  `}} />
 
