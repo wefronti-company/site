@@ -305,7 +305,7 @@ const Pricing: React.FC = () => {
               <p style={priceFromLabelStyle}>A partir de:</p>
               <div style={priceRowStyle}>
                 <span style={priceSymbolStyle}>R$</span>
-                <span style={priceValueStyle}>4.697,00</span>
+                <span style={priceValueStyle}>3.497,00</span>
               </div>
               <p style={priceSecondaryStyle}>Parcelado em até 10x</p>
               <p style={pricePixStyle}>À vista no PIX: 10% de desconto</p>
