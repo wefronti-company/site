@@ -109,22 +109,6 @@ const checkIconStyle: React.CSSProperties = {
   marginTop: 2,
 };
 
-const techWrapStyle: React.CSSProperties = {
-  display: 'flex',
-  flexWrap: 'wrap',
-  gap: spacing[3],
-};
-
-const techTagStyle: React.CSSProperties = {
-  padding: `${spacing[2]}px ${spacing[4]}px`,
-  borderRadius: radii.full,
-  border: `1px solid ${colors.neutral.borderDark}`,
-  backgroundColor: 'rgba(255,255,255,0.04)',
-  fontSize: fontSizes.sm,
-  color: colors.text.light,
-  opacity: 0.9,
-};
-
 const ctaWrapStyle: React.CSSProperties = {
   display: 'flex',
   flexWrap: 'wrap',
@@ -231,19 +215,6 @@ const ProjectPage: React.FC<{ project: Project }> = ({ project }) => {
               Solução
             </h2>
             <p style={paragraphStyle}>{project.solution}</p>
-          </section>
-
-          <section style={sectionBlockStyle} aria-labelledby="tech-heading">
-            <h2 id="tech-heading" style={sectionTitleStyle}>
-              Tecnologias
-            </h2>
-            <div style={techWrapStyle}>
-              {project.techStack.map((tech, i) => (
-                <span key={i} style={techTagStyle}>
-                  {tech}
-                </span>
-              ))}
-            </div>
           </section>
 
           {project.results && (

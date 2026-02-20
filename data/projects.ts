@@ -13,8 +13,6 @@ export type Project = {
   challenges: string[];
   /** Como foi resolvido / abordagem */
   solution: string;
-  /** Tecnologias ou ferramentas usadas */
-  techStack: string[];
   /** Resultados alcançados (opcional) */
   results?: string;
   /** URL do site no ar (opcional) */
@@ -38,10 +36,9 @@ export const projects: Project[] = [
     ],
     solution:
       'Desenvolvemos um site institucional completo com hero impactante, seção de serviços detalhada, tabela de preços comparativa e prova social com depoimentos reais. O design em tom profissional transmite confiança e o fluxo de navegação guia o visitante até o cadastro. Incluímos FAQ e blog para reforçar autoridade e SEO.',
-    techStack: ['Framer', 'Design responsivo', 'SEO', 'Conversão'],
     results: 'Site alinhado ao posicionamento da marca, com foco em conversão e experiência de primeira para gestores de imóveis.',
     liveUrl: 'https://moovis.framer.ai/',
-    gallery: ['/images/portfolio/moovis-site.png'],
+    gallery: ['/images/portfolio/projeto-moovis.webp'],
   },
   {
     slug: 'openspace',
@@ -57,49 +54,46 @@ export const projects: Project[] = [
     ],
     solution:
       'Desenvolvemos um site institucional elegante com hero impactante, seção de serviços detalhada (cozinhas, banheiros, extensões, restaurações, obras externas), galeria de projetos, depoimentos de clientes e FAQ estratégico. O design transmite excelência e o CTA "Iniciar um projeto" guia o visitante para o contato. Modelo turnkey e transparência no processo reforçam a confiança.',
-    techStack: ['Framer', 'Design responsivo', 'SEO', 'Conversão'],
     results: 'Site alinhado ao posicionamento premium da marca e fluxo de contato otimizado para novos projetos.',
     liveUrl: 'https://openspace.framer.ai/',
     gallery: ['/images/portfolio/projeto-open-space.webp'],
   },
-  // Projeto 3 – descomente ao adicionar imagens e conteúdo
-  // {
-  //   slug: 'projeto-3',
-  //   name: 'Projeto 3',
-  //   cover: '/images/portfolio/moovis-site.png',
-  //   description: 'Breve descrição do projeto e do resultado entregue.',
-  //   client: 'Cliente / Setor',
-  //   challenges: [
-  //     'Necessidade de uma landing page para campanha de lançamento.',
-  //     'Alto volume de acessos esperado no dia do lançamento.',
-  //     'Objetivo de capturar e-mails e qualificar leads.',
-  //   ],
-  //   solution:
-  //     'Criamos uma landing page enxuta e rápida, otimizada para conversão e para suportar picos de acesso. Formulário em etapas e copy direcionado aumentaram a taxa de cadastro e a qualidade dos leads.',
-  //   techStack: ['Next.js', 'Formulários em etapas', 'Otimização de performance'],
-  //   results: 'Meta de cadastros atingida e site estável durante o pico de acessos.',
-  //   liveUrl: 'https://exemplo.com',
-  //   gallery: ['/images/portfolio/moovis-site.png'],
-  // },
-  // Projeto 4 – descomente ao adicionar imagens e conteúdo
-  // {
-  //   slug: 'projeto-4',
-  //   name: 'Projeto 4',
-  //   cover: '/images/portfolio/moovis-site.png',
-  //   description: 'Breve descrição do projeto e do resultado entregue.',
-  //   client: 'Cliente / Setor',
-  //   challenges: [
-  //     'Múltiplos serviços e públicos em um único negócio.',
-  //     'Site anterior confuso e com alta taxa de rejeição.',
-  //     'Necessidade de destacar diferenciais em um mercado competitivo.',
-  //   ],
-  //   solution:
-  //     'Reorganizamos a arquitetura de informação em páginas por serviço e persona. O novo fluxo de navegação e os blocos de prova social (depoimentos, casos) reforçam a confiança e direcionam o visitante para a ação desejada.',
-  //   techStack: ['Next.js', 'React', 'SEO', 'Google Analytics'],
-  //   results: 'Redução da taxa de rejeição e crescimento no número de solicitações de orçamento.',
-  //   liveUrl: 'https://exemplo.com',
-  //   gallery: ['/images/portfolio/moovis-site.png'],
-  // },
+  {
+    slug: 'r3-digital',
+    name: 'R3-Digital',
+    cover: '/images/portfolio/projeto-r3-digital.webp',
+    description: 'Site institucional para agência de marketing digital com foco em conversão e apresentação de serviços estratégicos.',
+    client: 'Marketing digital',
+    challenges: [
+      'Posicionar a agência como referência em estratégias digitais e resultados mensuráveis.',
+      'Comunicar múltiplos serviços (marketing, consultoria, leads, branding, conteúdo) de forma clara.',
+      'Diferenciar da concorrência com prova social (casos de sucesso, depoimentos, métricas).',
+      'Converter visitantes em agendamentos de apresentação com CTA estratégico.',
+    ],
+    solution:
+      'Desenvolvemos um site institucional completo com hero impactante "Expanda seu negócio, domine cada etapa", seção de serviços detalhada, casos de sucesso com resultados (ROI, receita gerada), comparação R3-Digital vs outras agências, depoimentos e FAQ. O design transmite profissionalismo e o CTA "Agendar uma apresentação" guia o visitante para o contato. Métricas em destaque (+2 mil campanhas, +R$11.2M receita) reforçam credibilidade.',
+    results: 'Site alinhado ao posicionamento da agência, com foco em KPIs reais e fluxo otimizado para captação de leads.',
+    liveUrl: 'https://r3-digital.framer.ai/',
+    gallery: ['/images/portfolio/projeto-r3-digital.webp'],
+  },
+  {
+    slug: 'aibazz',
+    name: 'Aibazz',
+    cover: '/images/portfolio/projeto-aibazz.webp',
+    description: 'Plataforma de automação com IA com site institucional focado em conversão e apresentação de planos de assinatura.',
+    client: 'Automação com IA',
+    challenges: [
+      'Posicionar a marca como parceiro de automação de IA para empresas.',
+      'Comunicar serviços (automação de fluxos, modelos de IA, chatbots, insights) de forma clara.',
+      'Transmitir credibilidade com prova social (10k+ usuários, 250k+ horas economizadas).',
+      'Converter visitantes em cadastros com planos de preços (Starter grátis, PRO, Enterprise).',
+    ],
+    solution:
+      'Desenvolvemos um site institucional completo com hero impactante "Automatize processos com IA e produza mais", seção de processo em 3 etapas (avaliação, implementação, suporte), serviços de automação de IA, galeria de projetos (OnzeLabs, MedAssist AI, AutoTag Pro), depoimentos de clientes, tabela de preços e integrações. O design transmite inovação e os CTAs "Comece agora grátis" guiam o visitante até o cadastro.',
+    results: 'Site alinhado ao posicionamento da plataforma, com foco em conversão e credibilidade no mercado de IA.',
+    liveUrl: 'https://aibazz.framer.ai/',
+    gallery: ['/images/portfolio/projeto-aibazz.webp'],
+  },
 ];
 
 export function getProjectBySlug(slug: string): Project | undefined {
