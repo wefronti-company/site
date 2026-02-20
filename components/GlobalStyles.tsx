@@ -15,7 +15,7 @@ const GlobalStyles: React.FC = () => (
   --scrollbar-width: 3px;
 }
 
-*, *::before, *::after { box-sizing: border-box; }
+*, *::before, *::after { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 html {
   height: 100%;
   overflow-x: hidden;
@@ -148,6 +148,7 @@ section[id] {
 .header-nav-link { text-shadow: none !important; box-shadow: none !important; }
 .header-nav-link:focus { outline: none; }
 .header-cta-btn:focus { outline: none; }
+button:focus-visible, a:focus-visible, [role="button"]:focus-visible, summary:focus-visible { outline: 2px solid rgba(53, 152, 255, 0.8); outline-offset: 2px; }
 .header-nav-link-char { display: inline-block; }
 .header-nav-link-char.mix-in { animation: header-letter-mix-in 0.22s ease-out forwards; }
 @media (prefers-reduced-motion: reduce) {
