@@ -12,12 +12,13 @@ import Comparison from '../sections/Comparison';
 import Faq from '../sections/Faq';
 import Cta from '../sections/Cta';
 import Footer from '../sections/Footer';
-
 import SplashScreen from '../components/SplashScreen';
+import { useSplash } from '../contexts/SplashContext';
 
 const SPLASH_STORAGE_KEY = 'wefronti_splash_seen_v2';
 
 const Home: React.FC = () => {
+  const { setSplashActive } = useSplash() ?? {};
   const [showSplash, setShowSplash] = useState(true);
   const [mounted, setMounted] = useState(false);
 
@@ -30,14 +31,16 @@ const Home: React.FC = () => {
     const seen = sessionStorage.getItem(SPLASH_STORAGE_KEY);
     if (seen === '1') {
       setShowSplash(false);
+      setSplashActive?.(false);
     }
-  }, [mounted]);
+  }, [mounted, setSplashActive]);
 
   const handleSplashComplete = () => {
     if (typeof window !== 'undefined') {
       sessionStorage.setItem(SPLASH_STORAGE_KEY, '1');
     }
     setShowSplash(false);
+    setSplashActive?.(false);
   };
 
   if (!mounted) {
