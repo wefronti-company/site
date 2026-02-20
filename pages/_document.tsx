@@ -1,10 +1,27 @@
 import React from 'react';
 import { Html, Head, Main, NextScript } from 'next/document';
+import { GA_TRACKING_ID } from '../lib/gtag';
 
 export default function Document() {
  return (
  <Html lang="pt-BR" data-scroll-behavior="smooth">
  <Head>
+ {/* Google tag (gtag.js) — instalação manual conforme recomendação do Google */}
+ {GA_TRACKING_ID && (
+   <>
+     <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}></script>
+     <script
+       dangerouslySetInnerHTML={{
+         __html: `
+           window.dataLayer = window.dataLayer || [];
+           function gtag(){dataLayer.push(arguments);}
+           gtag('js', new Date());
+           gtag('config', '${GA_TRACKING_ID}');
+         `,
+       }}
+     />
+   </>
+ )}
  {/* Meta tags para SEO */}
  <meta httpEquiv="x-ua-compatible" content="ie=edge" />
  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
