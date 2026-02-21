@@ -59,10 +59,10 @@ export default function MyApp({ Component, pageProps }: AppProps) {
  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
  </Head>
  <GlobalStyles />
- <Header />
+ {!router.pathname.startsWith('/admin') && <Header />}
  <Component {...pageProps} />
- {router.pathname !== '/' && <Footer />}
- <FloatingWhatsApp />
+ {router.pathname !== '/' && !router.pathname.startsWith('/admin') && <Footer />}
+ {!router.pathname.startsWith('/admin') && <FloatingWhatsApp />}
  <CookieConsent />
  </>
  </SmoothScroll>

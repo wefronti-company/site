@@ -57,6 +57,7 @@ function isValidOrigin(request: NextRequest): boolean {
 		'localhost:3000',
 		'wefronti.com',
 		'www.wefronti.com',
+		'admin.wefronti.com',
 		'.vercel.app', // Para preview deployments (subdomains)
 	];
 
@@ -106,11 +107,37 @@ function isValidOrigin(request: NextRequest): boolean {
 	return false
 }
 
+// Host do subdomínio admin (acesso permitido)
+const ADMIN_HOST = 'admin.wefronti.com';
+// Hosts do site público (acesso a /admin bloqueado)
+const MAIN_HOSTS = ['wefronti.com', 'www.wefronti.com'];
+
 export function middleware(request: NextRequest) {
  const clientIp = getClientIp(request);
  const userAgent = request.headers.get('user-agent');
  const url = request.nextUrl;
- 
+ const host = request.headers.get('host')?.split(':')[0] || '';
+
+ // 0. Regras do subdomínio admin (admin.wefronti.com)
+ if (host === ADMIN_HOST) {
+   // Se alguém acessar admin.wefronti.com/admin/*, redirecionar para admin.wefronti.com/*
+   if (url.pathname.startsWith('/admin/') || url.pathname === '/admin') {
+     const redirectUrl = url.clone();
+     redirectUrl.pathname = url.pathname.replace(/^\/admin/, '') || '/';
+     return NextResponse.redirect(redirectUrl);
+   }
+   // Rewrite: admin.wefronti.com/ → /admin (login), admin.wefronti.com/dashboard → /admin/dashboard
+   const skipRewrite = url.pathname.startsWith('/api') || url.pathname.startsWith('/_next') || url.pathname.startsWith('/images') || url.pathname.startsWith('/favicon');
+   if (!skipRewrite) {
+     const rewriteUrl = url.clone();
+     rewriteUrl.pathname = url.pathname === '/' ? '/admin' : `/admin${url.pathname}`;
+     return NextResponse.rewrite(rewriteUrl);
+   }
+ } else if (MAIN_HOSTS.includes(host) && url.pathname.startsWith('/admin')) {
+   // wefronti.com ou www: bloquear acesso a /admin (apenas via admin.wefronti.com)
+   return new NextResponse('Not Found', { status: 404 });
+ }
+
  // 1. Bloquear IPs maliciosos
  if (BLOCKED_IPS.has(clientIp)) {
  console.warn(`[SECURITY] IP bloqueado tentou acesso: ${clientIp}`);

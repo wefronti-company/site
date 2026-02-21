@@ -145,6 +145,7 @@ section[id] {
 .timeline-dot-pulse { animation: timeline-dot-pulse 2s ease-in-out infinite; }
 .floating-whatsapp-glow { animation: floating-whatsapp-glow 2s ease-in-out infinite; }
 .pricing-feature-item:hover { transform: translateX(6px); }
+.admin-nav-item:hover { opacity: 1; }
 .header-nav-link { text-shadow: none !important; box-shadow: none !important; }
 .header-nav-link:focus { outline: none; }
 .header-cta-btn:focus { outline: none; }

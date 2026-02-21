@@ -31,4 +31,11 @@ export const colors = {
     accordeon: '#121212ff'
  },
 
+
+admin:{
+   background:'#0A0C12',
+   active: '#3598FF',
+   inactive: '#111520',
+},
+
 } as const;
