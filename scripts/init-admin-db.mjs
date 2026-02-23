@@ -110,6 +110,20 @@ async function run() {
   await sql`CREATE INDEX IF NOT EXISTS idx_pagamentos_mes_ref ON pagamentos_mensalidade(mes_ref)`;
   console.log('  ✓ índices de clientes e pagamentos');
 
+  await sql`
+    CREATE TABLE IF NOT EXISTS metas (
+      id SMALLINT PRIMARY KEY DEFAULT 1,
+      meta_receita INTEGER NOT NULL DEFAULT 0,
+      meta_clientes INTEGER NOT NULL DEFAULT 0
+    )
+  `;
+  await sql`
+    INSERT INTO metas (id, meta_receita, meta_clientes)
+    VALUES (1, 0, 0)
+    ON CONFLICT (id) DO NOTHING
+  `;
+  console.log('  ✓ metas');
+
   console.log('\nTabelas criadas com sucesso.');
 }
 

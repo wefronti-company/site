@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { Users, CreditCard, AlertCircle, UserMinus, LayoutDashboard, FileText, FileX, PlusCircle, LogOut, UserPlus, List } from 'lucide-react';
+import { Users, CreditCard, AlertCircle, UserMinus, LayoutDashboard, FileText, FileX, PlusCircle, LogOut, UserPlus, List, Target } from 'lucide-react';
 import { theme } from '../../styles/theme';
 
 const { colors, spacing, fontSizes, radii } = theme;
@@ -26,16 +26,22 @@ const PROPOSTA_ITEMS = [
   { label: 'Proposta expiradas', href: '/admin/dashboard/proposta/expiradas', icon: <FileX size={18} strokeWidth={1.5} /> },
 ];
 
+const METAS_ITEMS = [
+  { label: 'Configurar metas', href: '/admin/dashboard/metas', icon: <Target size={18} strokeWidth={1.5} /> },
+];
+
 const sidebarStyle: React.CSSProperties = {
   position: 'fixed',
   top: 0,
   left: 0,
   bottom: 0,
   width: sidebarWidth,
+  height: '100vh',
   backgroundColor: colors.admin.background,
   borderRight: `1px solid ${colors.neutral.borderDark}`,
   display: 'flex',
   flexDirection: 'column',
+  overflow: 'hidden',
   zIndex: 40,
 };
 
@@ -54,10 +60,31 @@ const logoLinkStyle: React.CSSProperties = {
   textDecoration: 'none',
 };
 
-const navStyle: React.CSSProperties = {
+const navWrapStyle: React.CSSProperties = {
   flex: 1,
+  minHeight: 0,
+  position: 'relative',
+};
+
+const navScrollStyle: React.CSSProperties = {
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  right: 0,
+  bottom: 60,
   overflowY: 'auto',
+  overflowX: 'hidden',
   padding: spacing[3],
+  WebkitOverflowScrolling: 'touch',
+};
+
+const logoutWrapStyle: React.CSSProperties = {
+  position: 'absolute',
+  bottom: 0,
+  left: 0,
+  right: 0,
+  padding: spacing[3],
+  borderTop: `1px solid ${colors.neutral.borderDark}`,
 };
 
 const sectionLabelStyle: React.CSSProperties = {
@@ -115,7 +142,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPath }) => {
         </Link>
       </div>
 
-      <nav style={navStyle}>
+      <div style={navWrapStyle}>
+        <nav style={navScrollStyle} data-lenis-prevent>
         <Link
           href="/admin/dashboard"
           style={{ ...navLinkStyle(isDashboardActive(currentPath)), marginBottom: spacing[2] }}
@@ -155,7 +183,22 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPath }) => {
           ))}
         </div>
 
-        <div style={{ marginTop: 'auto', paddingTop: spacing[4], borderTop: `1px solid ${colors.neutral.borderDark}` }}>
+        <div style={{ ...sectionLabelStyle, marginTop: spacing[8] }}>Metas</div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: spacing[3] }}>
+          {METAS_ITEMS.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              style={navLinkStyle(currentPath === item.href)}
+              className="admin-nav-item"
+            >
+              {item.icon}
+              {item.label}
+            </Link>
+          ))}
+        </div>
+        </nav>
+        <div style={logoutWrapStyle}>
           <button
             type="button"
             onClick={handleLogout}
@@ -173,7 +216,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPath }) => {
             Sair
           </button>
         </div>
-      </nav>
+      </div>
     </aside>
   );
 };

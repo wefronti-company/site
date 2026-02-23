@@ -1,18 +1,17 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
 import AdminLayout from '../../../components/admin/AdminLayout';
 import { CircleProgressChart } from '../../../components/admin/CircleProgressChart';
 import { theme } from '../../../styles/theme';
-import { DollarSign, Users, TrendingUp } from 'lucide-react';
+import { DollarSign, Users, Wallet } from 'lucide-react';
 
 const { colors, spacing, fontSizes } = theme;
 
-// Dados mockados – substituir por dados reais da API
-const DASHBOARD_DATA = {
-  receitaTotalMes: { valor: 12450, meta: 15000 },
-  clientesAtivos: { total: 12, meta: 15 },
-  previsaoMes: { valor: 15800, meta: 20000 },
-};
+interface DashboardDados {
+  receitaTotalMes: { valor: number; meta: number };
+  clientesAtivos: { total: number; meta: number };
+  aReceber: number;
+}
 
 const cardWrapStyle: React.CSSProperties = {
   display: 'grid',
@@ -102,8 +101,25 @@ function formatBRL(val: number): string {
   }).format(val);
 }
 
+const DEFAULT_DADOS: DashboardDados = {
+  receitaTotalMes: { valor: 0, meta: 0 },
+  clientesAtivos: { total: 0, meta: 0 },
+  aReceber: 0,
+};
+
 const AdminDashboardPage: React.FC = () => {
-  const { receitaTotalMes, clientesAtivos, previsaoMes } = DASHBOARD_DATA;
+  const [dados, setDados] = useState<DashboardDados>(DEFAULT_DADOS);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch('/api/dashboard')
+      .then((r) => r.json())
+      .then((data) => setDados(data))
+      .catch(() => setDados(DEFAULT_DADOS))
+      .finally(() => setLoading(false));
+  }, []);
+
+  const { receitaTotalMes, clientesAtivos, aReceber } = dados;
 
   return (
     <>
@@ -113,6 +129,11 @@ const AdminDashboardPage: React.FC = () => {
       </Head>
       <AdminLayout>
         <h1 style={titleStyle}>Visão geral</h1>
+        {loading && (
+          <p style={{ margin: 0, marginTop: spacing[4], color: colors.text.light, opacity: 0.7 }}>
+            Carregando...
+          </p>
+        )}
         <div style={cardWrapStyle}>
           <div style={cardStyle}>
             <p style={cardTitleStyle}>
@@ -154,19 +175,14 @@ const AdminDashboardPage: React.FC = () => {
 
           <div style={cardStyle}>
             <p style={cardTitleStyle}>
-              <TrendingUp size={18} aria-hidden />
-              Previsão do mês
+              <Wallet size={18} aria-hidden />
+              A receber
             </p>
             <div style={cardBodyStyle}>
-              <CircleProgressChart
-                current={previsaoMes.valor}
-                goal={previsaoMes.meta}
-              />
               <div style={cardRightStyle}>
-                <p style={cardTotalLabelStyle}>Total até o momento</p>
-                <p style={cardTotalValueStyle}>{formatBRL(previsaoMes.valor)}</p>
-                <p style={cardMetaLabelStyle}>Meta de previsão</p>
-                <p style={cardMetaValueStyle}>{formatBRL(previsaoMes.meta)}</p>
+                <p style={cardTotalLabelStyle}>Mensalidades em aberto</p>
+                <p style={cardTotalValueStyle}>{formatBRL(aReceber)}</p>
+                <p style={cardMetaLabelStyle}>Baseado nas mensalidades dos clientes que ainda não pagaram este mês</p>
               </div>
             </div>
           </div>

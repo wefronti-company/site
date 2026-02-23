@@ -80,3 +80,14 @@ CREATE INDEX IF NOT EXISTS idx_clientes_cnpj ON clientes(cnpj);
 CREATE INDEX IF NOT EXISTS idx_clientes_status ON clientes(status);
 CREATE INDEX IF NOT EXISTS idx_pagamentos_cliente ON pagamentos_mensalidade(cliente_id);
 CREATE INDEX IF NOT EXISTS idx_pagamentos_mes_ref ON pagamentos_mensalidade(mes_ref);
+
+-- Metas do dashboard (valores em centavos)
+CREATE TABLE IF NOT EXISTS metas (
+  id SMALLINT PRIMARY KEY DEFAULT 1,
+  meta_receita INTEGER NOT NULL DEFAULT 0,
+  meta_clientes INTEGER NOT NULL DEFAULT 0
+);
+
+INSERT INTO metas (id, meta_receita, meta_clientes)
+VALUES (1, 0, 0)
+ON CONFLICT (id) DO NOTHING;
