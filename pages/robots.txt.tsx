@@ -23,6 +23,7 @@ Allow: /
 Disallow: /api/
 Disallow: /_next/
 Disallow: /admin/
+Disallow: /proposta/
 
 # Sitemap
 Sitemap: ${baseUrl}/sitemap.xml

@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import { getTokenFromCookie, verifyTokenInEdge } from './lib/auth-middleware';
 
 // Lista de IPs bloqueados (adicionar IPs suspeitos aqui)
 const BLOCKED_IPS = new Set<string>([
@@ -112,26 +113,40 @@ const ADMIN_HOST = 'admin.wefronti.com';
 // Hosts do site público (acesso a /admin bloqueado)
 const MAIN_HOSTS = ['wefronti.com', 'www.wefronti.com'];
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
  const clientIp = getClientIp(request);
  const userAgent = request.headers.get('user-agent');
  const url = request.nextUrl;
  const host = request.headers.get('host')?.split(':')[0] || '';
 
- // 0. Regras do subdomínio admin (admin.wefronti.com)
- if (host === ADMIN_HOST) {
-   // Se alguém acessar admin.wefronti.com/admin/*, redirecionar para admin.wefronti.com/*
-   if (url.pathname.startsWith('/admin/') || url.pathname === '/admin') {
+ // 0. Regras do subdomínio admin (admin.wefronti.com) ou localhost (dev)
+ const isAdminDomain = host === ADMIN_HOST || host?.startsWith('localhost');
+ if (isAdminDomain) {
+   // Em admin.wefronti.com: se acessar /admin/*, redirecionar para /* (ex: /admin/dashboard -> /dashboard)
+   if (host === ADMIN_HOST && (url.pathname.startsWith('/admin/') || url.pathname === '/admin')) {
      const redirectUrl = url.clone();
      redirectUrl.pathname = url.pathname.replace(/^\/admin/, '') || '/';
      return NextResponse.redirect(redirectUrl);
    }
-   // Rewrite: admin.wefronti.com/ → /admin (login), admin.wefronti.com/dashboard → /admin/dashboard
-   const skipRewrite = url.pathname.startsWith('/api') || url.pathname.startsWith('/_next') || url.pathname.startsWith('/images') || url.pathname.startsWith('/favicon');
-   if (!skipRewrite) {
-     const rewriteUrl = url.clone();
-     rewriteUrl.pathname = url.pathname === '/' ? '/admin' : `/admin${url.pathname}`;
-     return NextResponse.rewrite(rewriteUrl);
+   // Proteger dashboard: /dashboard ou /admin/dashboard (dev local)
+   const isDashboard = url.pathname === '/dashboard' || url.pathname.startsWith('/dashboard/') ||
+     url.pathname === '/admin/dashboard' || url.pathname.startsWith('/admin/dashboard/');
+   if (isDashboard) {
+     const token = getTokenFromCookie(request.headers.get('cookie'));
+     if (!token || !(await verifyTokenInEdge(token))) {
+       const loginUrl = url.clone();
+       loginUrl.pathname = host === ADMIN_HOST ? '/' : '/admin';
+       return NextResponse.redirect(loginUrl);
+     }
+   }
+   // Rewrite apenas em admin.wefronti.com: / → /admin, /dashboard → /admin/dashboard
+   if (host === ADMIN_HOST) {
+     const skipRewrite = url.pathname.startsWith('/api') || url.pathname.startsWith('/_next') || url.pathname.startsWith('/images') || url.pathname.startsWith('/favicon') || url.pathname.startsWith('/proposta');
+     if (!skipRewrite) {
+       const rewriteUrl = url.clone();
+       rewriteUrl.pathname = url.pathname === '/' ? '/admin' : `/admin${url.pathname}`;
+       return NextResponse.rewrite(rewriteUrl);
+     }
    }
  } else if (MAIN_HOSTS.includes(host) && url.pathname.startsWith('/admin')) {
    // wefronti.com ou www: bloquear acesso a /admin (apenas via admin.wefronti.com)
@@ -210,11 +225,10 @@ export function middleware(request: NextRequest) {
 export const config = {
  matcher: [
  /*
- * Match all request paths except for the ones starting with:
- * - _next/static (static files)
- * - _next/image (image optimization files)
- * - favicon.ico (favicon file)
+ * Match all request paths except:
+ * - _next/static, _next/image, favicon.ico
+ * - /proposta/* (páginas públicas de proposta – sem middleware para evitar interferência)
  */
- '/((?!_next/static|_next/image|favicon.ico).*)',
+ '/((?!_next/static|_next/image|favicon\\.ico|proposta).*)',
  ],
 };

@@ -147,6 +147,7 @@ jobs:
       url: https://wefronti.com
     env:
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
     
     steps:
       - name: 4.1 - Checkout code
@@ -189,6 +190,11 @@ jobs:
         
       - name: 4.4 - Pull Vercel environment
         run: vercel pull --yes --environment=production --token="$VERCEL_TOKEN"
+
+      - name: 4.4.5 - Sync JWT_SECRET to Vercel (from GitHub)
+        if: env.JWT_SECRET != ''
+        run: |
+          printf '%s' "$JWT_SECRET" | vercel env add JWT_SECRET production --force --token="$VERCEL_TOKEN"
         
       - name: 4.5 - Build project artifacts
         run: vercel build --prod --token="$VERCEL_TOKEN"

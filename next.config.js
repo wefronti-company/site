@@ -136,12 +136,16 @@ module.exports = {
   // Compressão
   compress: true,
 
-  // Rewrites to support favicon route
+  // Rewrites to support favicon route e rotas dinâmicas
   async rewrites() {
     return [
       {
         source: '/favicon.ico',
         destination: '/images/brand/favicon-site.png'
+      },
+      {
+        source: '/proposta/:slug',
+        destination: '/api/proposta/:slug'
       }
     ];
   },

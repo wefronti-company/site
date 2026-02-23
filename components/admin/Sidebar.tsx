@@ -1,7 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Users, CreditCard, AlertCircle, UserMinus, LayoutDashboard } from 'lucide-react';
+import { useRouter } from 'next/router';
+import { Users, CreditCard, AlertCircle, UserMinus, LayoutDashboard, FileText, FileX, PlusCircle, LogOut } from 'lucide-react';
 import { theme } from '../../styles/theme';
 
 const { colors, spacing, fontSizes, radii } = theme;
@@ -11,10 +12,16 @@ import { ADMIN_HEADER_HEIGHT, SIDEBAR_WIDTH } from './constants';
 export const sidebarWidth = SIDEBAR_WIDTH;
 
 const CLIENTE_ITEMS = [
-  { label: 'Ativos', href: '/dashboard/clientes/ativos', icon: <Users size={18} strokeWidth={1.5} /> },
-  { label: 'Pagamentos', href: '/dashboard/clientes/pagamento', icon: <CreditCard size={18} strokeWidth={1.5} /> },
-  { label: 'Inadimplentes', href: '/dashboard/clientes/inadiplentes', icon: <AlertCircle size={18} strokeWidth={1.5} /> },
-  { label: 'Desligados', href: '/dashboard/clientes/desligados', icon: <UserMinus size={18} strokeWidth={1.5} /> },
+  { label: 'Ativos', href: '/admin/dashboard/clientes/ativos', icon: <Users size={18} strokeWidth={1.5} /> },
+  { label: 'Pagamentos', href: '/admin/dashboard/clientes/pagamento', icon: <CreditCard size={18} strokeWidth={1.5} /> },
+  { label: 'Inadimplentes', href: '/admin/dashboard/clientes/inadiplentes', icon: <AlertCircle size={18} strokeWidth={1.5} /> },
+  { label: 'Desligados', href: '/admin/dashboard/clientes/desligados', icon: <UserMinus size={18} strokeWidth={1.5} /> },
+];
+
+const PROPOSTA_ITEMS = [
+  { label: 'Nova proposta', href: '/admin/dashboard/proposta/nova', icon: <PlusCircle size={18} strokeWidth={1.5} /> },
+  { label: 'Proposta ativa', href: '/admin/dashboard/proposta/ativa', icon: <FileText size={18} strokeWidth={1.5} /> },
+  { label: 'Proposta expiradas', href: '/admin/dashboard/proposta/expiradas', icon: <FileX size={18} strokeWidth={1.5} /> },
 ];
 
 const sidebarStyle: React.CSSProperties = {
@@ -81,13 +88,21 @@ interface SidebarProps {
 }
 
 const isDashboardActive = (path: string) =>
-  path === '/dashboard' || path === '/admin/dashboard';
+  path === '/admin/dashboard' || path === '/dashboard';
 
 export const Sidebar: React.FC<SidebarProps> = ({ currentPath }) => {
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    await fetch('/api/admin/logout', { method: 'POST' });
+    router.push('/admin');
+    router.reload();
+  };
+
   return (
     <aside style={sidebarStyle} role="navigation" aria-label="Menu principal">
       <div style={logoWrapStyle}>
-        <Link href="/dashboard" style={logoLinkStyle} aria-label="Dashboard">
+        <Link href="/admin/dashboard" style={logoLinkStyle} aria-label="Dashboard">
           <Image
             src="/images/brand/isologo-white.webp"
             alt="Wefronti"
@@ -100,7 +115,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPath }) => {
 
       <nav style={navStyle}>
         <Link
-          href="/dashboard"
+          href="/admin/dashboard"
           style={{ ...navLinkStyle(isDashboardActive(currentPath)), marginBottom: spacing[2] }}
           className="admin-nav-item"
         >
@@ -121,6 +136,40 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPath }) => {
               {item.label}
             </Link>
           ))}
+        </div>
+
+        <div style={{ ...sectionLabelStyle, marginTop: spacing[8] }}>Proposta comercial</div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: spacing[3] }}>
+          {PROPOSTA_ITEMS.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              style={navLinkStyle(currentPath === item.href)}
+              className="admin-nav-item"
+            >
+              {item.icon}
+              {item.label}
+            </Link>
+          ))}
+        </div>
+
+        <div style={{ marginTop: 'auto', paddingTop: spacing[4], borderTop: `1px solid ${colors.neutral.borderDark}` }}>
+          <button
+            type="button"
+            onClick={handleLogout}
+            style={{
+              ...navLinkStyle(false),
+              width: '100%',
+              border: 'none',
+              cursor: 'pointer',
+              textAlign: 'left',
+              font: 'inherit',
+            }}
+            className="admin-nav-item"
+          >
+            <LogOut size={18} strokeWidth={1.5} />
+            Sair
+          </button>
         </div>
       </nav>
     </aside>

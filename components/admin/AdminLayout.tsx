@@ -25,9 +25,9 @@ const contentStyle: React.CSSProperties = {
   padding: spacing[8],
 };
 
-/** Path para highlight da sidebar (remove prefixo /admin) */
+/** Path completo para highlight da sidebar */
 function getNavPath(pathname: string): string {
-  return pathname.replace(/^\/admin/, '') || '/dashboard';
+  return pathname || '/admin/dashboard';
 }
 
 interface AdminLayoutProps {
