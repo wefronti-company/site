@@ -9,6 +9,7 @@ import 'lenis/dist/lenis.css';
 import SmoothScroll from '../components/SmoothScroll';
 import Header from '../components/ui/Header';
 import { SplashProvider } from '../contexts/SplashContext';
+import { SnackbarProvider } from '../contexts/SnackbarContext';
 
 const CookieConsent = dynamic(() => import('../components/CookieConsent'), { ssr: false });
 import Footer from '../sections/Footer';
@@ -64,6 +65,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
 
  return (
  <SplashProvider>
+ <SnackbarProvider>
  <SmoothScroll>
  <>
  <Head>
@@ -77,6 +79,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
  <CookieConsent />
  </>
  </SmoothScroll>
+ </SnackbarProvider>
  </SplashProvider>
  );
 }

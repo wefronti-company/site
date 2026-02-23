@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { Sidebar, sidebarWidth } from './Sidebar';
 import { AppBar } from './AppBar';
@@ -36,8 +36,31 @@ interface AdminLayoutProps {
   children: React.ReactNode;
 }
 
+/** Intervalo de refresh: 10 min (antes dos 15 min de inatividade) */
+const REFRESH_INTERVAL_MS = 10 * 60 * 1000;
+
 export const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
   const router = useRouter();
+
+  useEffect(() => {
+    const refresh = () => {
+      if (typeof document !== 'undefined' && document.visibilityState !== 'visible') return;
+      fetch('/api/admin/refresh', { method: 'POST', credentials: 'include' })
+        .then((r) => {
+          if (!r.ok) router.replace('/admin');
+        })
+        .catch(() => {});
+    };
+    const id = setInterval(refresh, REFRESH_INTERVAL_MS);
+    const onVisible = () => {
+      if (document.visibilityState === 'visible') refresh();
+    };
+    document.addEventListener('visibilitychange', onVisible);
+    return () => {
+      clearInterval(id);
+      document.removeEventListener('visibilitychange', onVisible);
+    };
+  }, [router]);
 
   return (
     <div style={layoutStyle}>

@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { Users, CreditCard, AlertCircle, UserMinus, LayoutDashboard, FileText, FileX, PlusCircle, LogOut, UserPlus, List, Target } from 'lucide-react';
+import { Users, CreditCard, AlertCircle, UserMinus, LayoutDashboard, FileText, FileX, PlusCircle, LogOut, UserPlus, List, Target, User, ShieldPlus } from 'lucide-react';
 import { theme } from '../../styles/theme';
+import { useSnackbar } from '../../contexts/SnackbarContext';
+import { clearAdminCache } from '../../lib/adminCache';
+import ButtonPainel from '../ui/ButtonPainel';
 
 const { colors, spacing, fontSizes, radii } = theme;
 
@@ -71,7 +74,7 @@ const navScrollStyle: React.CSSProperties = {
   top: 0,
   left: 0,
   right: 0,
-  bottom: 60,
+  bottom: 88,
   overflowY: 'auto',
   overflowX: 'hidden',
   padding: spacing[3],
@@ -84,6 +87,8 @@ const logoutWrapStyle: React.CSSProperties = {
   left: 0,
   right: 0,
   padding: spacing[3],
+  paddingTop: spacing[6],
+  marginTop: spacing[4],
   borderTop: `1px solid ${colors.neutral.borderDark}`,
 };
 
@@ -119,13 +124,27 @@ interface SidebarProps {
 const isDashboardActive = (path: string) =>
   path === '/admin/dashboard' || path === '/dashboard';
 
+const LOGOUT_RED = '#f87171';
+
 export const Sidebar: React.FC<SidebarProps> = ({ currentPath }) => {
   const router = useRouter();
+  const { showSuccess } = useSnackbar();
+  const [superAdmin, setSuperAdmin] = useState(false);
+  const [modalAberto, setModalAberto] = useState(false);
+
+  useEffect(() => {
+    fetch('/api/admin/me', { credentials: 'same-origin' })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => data && setSuperAdmin(data.superAdmin === true))
+      .catch(() => {});
+  }, []);
 
   const handleLogout = async () => {
+    setModalAberto(false);
+    clearAdminCache();
     await fetch('/api/admin/logout', { method: 'POST' });
+    showSuccess('Você saiu do painel.');
     router.push('/admin');
-    router.reload();
   };
 
   return (
@@ -197,26 +216,116 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPath }) => {
             </Link>
           ))}
         </div>
+
+        <div style={{ ...sectionLabelStyle, marginTop: spacing[8] }}>Administrador</div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: spacing[3] }}>
+          <Link
+            href="/admin/dashboard/admin/perfil"
+            style={navLinkStyle(currentPath === '/admin/dashboard/admin/perfil')}
+            className="admin-nav-item"
+          >
+            <User size={18} strokeWidth={1.5} />
+            Perfil
+          </Link>
+          {superAdmin && (
+            <Link
+              href="/admin/dashboard/admin/novo"
+              style={navLinkStyle(currentPath === '/admin/dashboard/admin/novo')}
+              className="admin-nav-item"
+            >
+              <ShieldPlus size={18} strokeWidth={1.5} />
+              Adicionar admin
+            </Link>
+          )}
+        </div>
         </nav>
         <div style={logoutWrapStyle}>
           <button
             type="button"
-            onClick={handleLogout}
+            onClick={() => setModalAberto(true)}
             style={{
-              ...navLinkStyle(false),
+              display: 'flex',
+              alignItems: 'center',
+              gap: spacing[3],
+              padding: `${spacing[4]}px ${spacing[5]}px ${spacing[4]}px ${spacing[4]}px`,
               width: '100%',
-              border: 'none',
+              border: `1px solid rgba(248, 113, 113, 0.5)`,
+              borderRadius: radii.md,
               cursor: 'pointer',
               textAlign: 'left',
               font: 'inherit',
+              fontSize: fontSizes.base,
+              fontWeight: 500,
+              color: LOGOUT_RED,
+              backgroundColor: 'rgba(248, 113, 113, 0.1)',
             }}
             className="admin-nav-item"
           >
-            <LogOut size={18} strokeWidth={1.5} />
+            <LogOut size={18} strokeWidth={1.5} style={{ flexShrink: 0, color: LOGOUT_RED }} />
             Sair
           </button>
         </div>
       </div>
+
+      {modalAberto && (
+        <div
+          style={{
+            position: 'fixed',
+            inset: 0,
+            zIndex: 100,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: 'rgba(0,0,0,0.6)',
+            padding: spacing[4],
+          }}
+          onClick={() => setModalAberto(false)}
+          role="dialog"
+          aria-modal
+          aria-labelledby="modal-titulo"
+        >
+          <div
+            style={{
+              backgroundColor: colors.admin.inactive,
+              border: `1px solid ${colors.neutral.borderDark}`,
+              borderRadius: 12,
+              padding: spacing[6],
+              maxWidth: 360,
+              width: '100%',
+              textAlign: 'left',
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3 id="modal-titulo" style={{ margin: 0, marginBottom: spacing[4], fontSize: fontSizes.lg, fontWeight: 600, color: colors.text.light, textAlign: 'left' }}>
+              Sair do painel?
+            </h3>
+            <p style={{ margin: 0, marginBottom: spacing[6], fontSize: fontSizes.base, color: colors.text.light, opacity: 0.8, textAlign: 'left' }}>
+              Deseja realmente sair do painel administrativo?
+            </p>
+            <div style={{ display: 'flex', gap: spacing[3], justifyContent: 'flex-start' }}>
+              <button
+                type="button"
+                onClick={() => setModalAberto(false)}
+                style={{
+                  padding: `${spacing[2]}px ${spacing[4]}`,
+                  fontSize: fontSizes.sm,
+                  fontWeight: 500,
+                  color: colors.text.light,
+                  backgroundColor: 'transparent',
+                  border: `1px solid ${colors.neutral.borderDark}`,
+                  borderRadius: 6,
+                  cursor: 'pointer',
+                }}
+              >
+                Cancelar
+              </button>
+              <ButtonPainel type="button" onClick={handleLogout}>
+                Sim, sair
+              </ButtonPainel>
+            </div>
+          </div>
+        </div>
+      )}
     </aside>
   );
 };

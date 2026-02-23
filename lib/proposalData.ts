@@ -17,6 +17,7 @@ export interface Proposal {
   enviadoEm: string; // ISO date - início das 24h
   itens: ProposalItem[];
   observacoes?: string;
+  linkAtivo?: boolean; // false = link indisponível
 }
 
 function gerarCodigoProposta(): string {

@@ -9,7 +9,9 @@ import {
   hashCodigoAcesso,
   verifyCodigoAcesso,
   createSessionToken,
+  createRefreshToken,
   COOKIE_NAME,
+  COOKIE_REFRESH_NAME,
 } from '../../../lib/auth';
 
 const MAX_EMAIL_LENGTH = 254;
@@ -71,12 +73,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(401).json({ error: 'E-mail ou código de acesso incorretos.' });
     }
 
-    const token = await createSessionToken(admin.id, admin.email);
+    const [sessionToken, refreshToken] = await Promise.all([
+      createSessionToken(admin.id, admin.email),
+      createRefreshToken(admin.id, admin.email),
+    ]);
     const isProd = process.env.NODE_ENV === 'production';
-    const maxAge = 7 * 24 * 60 * 60; // 7 dias em segundos
+    const sessionMaxAge = 15 * 60; // 15 min em segundos
+    const refreshMaxAge = 8 * 60 * 60; // 8h em segundos
 
     res.setHeader('Set-Cookie', [
-      `${COOKIE_NAME}=${token}; Path=/; HttpOnly; SameSite=Strict; Max-Age=${maxAge}` +
+      `${COOKIE_NAME}=${sessionToken}; Path=/; HttpOnly; SameSite=Strict; Max-Age=${sessionMaxAge}` +
+        (isProd ? '; Secure' : ''),
+      `${COOKIE_REFRESH_NAME}=${refreshToken}; Path=/; HttpOnly; SameSite=Strict; Max-Age=${refreshMaxAge}` +
         (isProd ? '; Secure' : ''),
     ]);
     return res.status(200).json({ ok: true });

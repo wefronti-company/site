@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
-import AdminLayout from '../../../../components/admin/AdminLayout';
-import { theme } from '../../../../styles/theme';
-import type { Proposal, ProposalItem } from '../../../../lib/proposalData';
-import { PropostaTemplate } from '../../../../components/proposta/PropostaTemplate';
-import ButtonPainel from '../../../../components/ui/ButtonPainel';
-import { useSnackbar } from '../../../../contexts/SnackbarContext';
+import { useRouter } from 'next/router';
+import AdminLayout from '../../../../../components/admin/AdminLayout';
+import { theme } from '../../../../../styles/theme';
+import type { Proposal } from '../../../../../lib/proposalData';
+import { PropostaTemplate } from '../../../../../components/proposta/PropostaTemplate';
+import ButtonPainel from '../../../../../components/ui/ButtonPainel';
+import { useSnackbar } from '../../../../../contexts/SnackbarContext';
 
 const { colors, spacing, fontSizes } = theme;
 
@@ -79,120 +80,137 @@ const OPCOES_MANUTENCAO = [
   { value: 'sim', label: 'Manutenção' },
 ] as const;
 
-const emptyProposal: Proposal = {
-  slug: 'exemplo',
-  codigo: 'PROP-PREVIEW',
-  cliente: 'Nome do cliente',
-  empresa: 'Empresa LTDA',
-  enviadoEm: new Date().toISOString(),
-  itens: [
-    { descricao: 'Site completo', valor: 3500 },
-    { descricao: 'Landing Page', valor: 500 },
-  ],
-  observacoes: 'Proposta válida por 24 horas.',
-};
-
-const PropostaNovaPage: React.FC = () => {
+const PropostaEditarPage: React.FC = () => {
+  const router = useRouter();
+  const { slug } = router.query;
   const { showSuccess, showError } = useSnackbar();
-  const [slug, setSlug] = useState('');
+
+  const [loading, setLoading] = useState(false);
+  const [loadingData, setLoadingData] = useState(true);
+  const [empresa, setEmpresa] = useState('');
   const [cliente, setCliente] = useState('');
-  const [itens, setItens] = useState<ProposalItem[]>([
-    { descricao: 'Site', valor: 0 },
-  ]);
+  const [servico, setServico] = useState<'Site' | 'Landing Page'>('Site');
+  const [preco, setPreco] = useState<number>(0);
   const [manutencao, setManutencao] = useState<'sim' | ''>('');
   const [manutencaoPreco, setManutencaoPreco] = useState<number>(0);
-  const [generatedLink, setGeneratedLink] = useState<string | null>(null);
-  const [generatedCodigo, setGeneratedCodigo] = useState<string | null>(null);
 
-  const previewItens = [
-    ...itens
-      .filter((i) => i.descricao.trim())
-      .map((i) => ({ descricao: i.descricao.trim(), valor: Number(i.valor) || 0 })),
-    ...(manutencao === 'sim' && Number(manutencaoPreco) > 0
-      ? [{ descricao: 'Manutenção', valor: Number(manutencaoPreco) }]
-      : []),
-  ];
+  useEffect(() => {
+    if (typeof slug !== 'string') return;
+    fetch(`/api/proposta/${slug}/dados`)
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.error) {
+          showError(data.error || 'Proposta não encontrada.');
+          return;
+        }
+        setEmpresa(data.empresa ?? '');
+        setCliente(data.cliente ?? '');
+        const s = data.itens?.[0]?.descricao;
+        setServico(s === 'Landing Page' ? 'Landing Page' : 'Site');
+        setPreco(data.itens?.[0]?.valor ?? 0);
+        const temManut = data.itens?.some((i: { descricao: string }) => i.descricao === 'Manutenção');
+        if (temManut) {
+          const val = data.itens?.find((i: { descricao: string }) => i.descricao === 'Manutenção')?.valor ?? 0;
+          setManutencao('sim');
+          setManutencaoPreco(val);
+        } else {
+          setManutencao('');
+          setManutencaoPreco(0);
+        }
+      })
+      .catch(() => showError('Erro ao carregar proposta.'))
+      .finally(() => setLoadingData(false));
+  }, [slug, showError]);
 
   const previewProposal: Proposal = {
-    slug: slug || 'exemplo',
+    slug: String(slug || ''),
     codigo: 'PROP-PREVIEW',
     cliente: cliente || 'Nome do cliente',
-    empresa: slug.trim() || undefined,
+    empresa: empresa.trim() || undefined,
     enviadoEm: new Date().toISOString(),
-    itens: previewItens.length > 0 ? previewItens : emptyProposal.itens,
-    observacoes: emptyProposal.observacoes,
+    itens: [
+      { descricao: servico, valor: preco },
+      ...(manutencao === 'sim' && manutencaoPreco > 0 ? [{ descricao: 'Manutenção', valor: manutencaoPreco }] : []),
+    ],
+    observacoes: 'Proposta válida por 24 horas após o envio.',
   };
 
-  const updateItem = (i: number, field: 'descricao' | 'valor', value: string | number) => {
-    setItens((prev) => {
-      const next = [...prev];
-      next[i] = { ...next[i], [field]: value };
-      return next;
-    });
-  };
-
-  const generateProposal = async () => {
-    const erros: string[] = [];
-    if (!slug.trim()) erros.push('Nome da empresa');
-    if (!cliente.trim()) erros.push('Cliente');
-    if (!itens[0]?.descricao?.trim()) erros.push('Serviços');
-    const valor = Number(itens[0]?.valor);
-    if (!valor || valor <= 100) erros.push('Preço');
-    if (erros.length > 0) {
-      showError('Todos os campos são obrigatórios.');
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (typeof slug !== 'string') return;
+    if (!empresa.trim() || !cliente.trim()) {
+      showError('Preencha empresa e cliente.');
       return;
     }
+    if (!preco || preco < 100) {
+      showError('Preço inválido (mínimo R$ 100).');
+      return;
+    }
+    setLoading(true);
     try {
-      const res = await fetch('/api/proposta/create', {
-        method: 'POST',
+      const res = await fetch(`/api/proposta/${slug}/update`, {
+        method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          empresa: slug.trim(),
+          empresa: empresa.trim(),
           cliente: cliente.trim(),
-          servico: itens[0]?.descricao?.trim() || 'Site',
-          preco: Number(itens[0]?.valor) || 0,
-          manutencao: manutencao || '',
-          precoManutencao: manutencao === 'sim' ? Number(manutencaoPreco) || 0 : 0,
+          servico,
+          preco,
+          manutencao,
+          precoManutencao: manutencao === 'sim' ? manutencaoPreco : 0,
         }),
       });
-      const data = await res.json();
       if (!res.ok) {
-        showError(data.error || 'Erro ao gerar proposta.');
+        const data = await res.json();
+        showError(data.error || 'Erro ao atualizar.');
         return;
       }
-      setGeneratedLink(data.link);
-      setGeneratedCodigo(data.codigo || null);
-      await navigator.clipboard.writeText(data.link);
-      showSuccess('Proposta gerada com sucesso. Link copiado para a área de transferência.');
-    } catch (e) {
+      showSuccess('Proposta atualizada com sucesso.');
+    } catch {
       showError('Erro ao conectar. Tente novamente.');
+    } finally {
+      setLoading(false);
     }
   };
+
+  if (loadingData) {
+    return (
+      <>
+        <Head>
+          <title>Editar proposta | Wefronti Admin</title>
+          <meta name="robots" content="noindex, nofollow" />
+        </Head>
+        <AdminLayout>
+          <p style={{ color: colors.text.light, opacity: 0.7 }}>Carregando...</p>
+        </AdminLayout>
+      </>
+    );
+  }
 
   return (
     <>
       <Head>
-        <title>Nova proposta | Wefronti Admin</title>
+        <title>Editar proposta | Wefronti Admin</title>
         <meta name="robots" content="noindex, nofollow" />
       </Head>
       <AdminLayout>
-        <h1 style={titleStyle}>Nova proposta</h1>
+        <h1 style={titleStyle}>Editar proposta</h1>
 
-        <div className="proposta-nova-grid">
+        <form className="proposta-editar-grid" onSubmit={handleSubmit}>
           <div style={formStyle}>
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'stretch' }}>
+            <div>
               <label style={labelStyle}>Nome da empresa *</label>
               <input
                 type="text"
                 style={inputStyle}
-                value={slug}
-                onChange={(e) => setSlug(e.target.value)}
+                value={empresa}
+                onChange={(e) => setEmpresa(e.target.value)}
                 placeholder="Nome da empresa"
                 required
               />
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'stretch' }}>
+            <div>
               <label style={labelStyle}>Cliente *</label>
               <input
                 type="text"
@@ -204,13 +222,12 @@ const PropostaNovaPage: React.FC = () => {
               />
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'stretch' }}>
+            <div>
               <label style={labelStyle}>Serviços *</label>
               <select
                 style={inputStyle}
-                value={itens[0]?.descricao ?? TIPOS_SERVICO[0].value}
-                onChange={(e) => updateItem(0, 'descricao', e.target.value)}
-                required
+                value={servico}
+                onChange={(e) => setServico(e.target.value === 'Landing Page' ? 'Landing Page' : 'Site')}
               >
                 {TIPOS_SERVICO.map((opt) => (
                   <option key={opt.value} value={opt.value} style={{ backgroundColor: colors.admin.inactive }}>
@@ -222,18 +239,17 @@ const PropostaNovaPage: React.FC = () => {
               <input
                 type="number"
                 inputMode="numeric"
-                pattern="[0-9]*"
-                min={1}
+                min={100}
                 className="input-no-spinner"
                 style={inputStyle}
-                value={itens[0]?.valor ?? ''}
-                onChange={(e) => updateItem(0, 'valor', e.target.value)}
+                value={preco || ''}
+                onChange={(e) => setPreco(Number(e.target.value) || 0)}
                 placeholder="0"
                 required
               />
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'stretch' }}>
+            <div>
               <label style={labelStyle}>Manutenção</label>
               <select
                 style={inputStyle}
@@ -250,7 +266,6 @@ const PropostaNovaPage: React.FC = () => {
               <input
                 type="number"
                 inputMode="numeric"
-                pattern="[0-9]*"
                 min={0}
                 className="input-no-spinner"
                 style={{
@@ -265,67 +280,20 @@ const PropostaNovaPage: React.FC = () => {
               />
             </div>
 
-            {generatedLink && (
-              <div
-                style={{
-                  padding: spacing[4],
-                  backgroundColor: 'rgba(34, 197, 94, 0.1)',
-                  borderRadius: 8,
-                  fontSize: fontSizes.sm,
-                  color: '#4ade80',
-                }}
-              >
-                {generatedCodigo && (
-                  <p style={{ margin: 0, marginBottom: spacing[2] }}>
-                    <strong>Código da proposta:</strong> {generatedCodigo}
-                  </p>
-                )}
-                <p style={{ margin: 0 }}>
-                  Link copiado: <br />
-                  <a href={generatedLink} target="_blank" rel="noopener noreferrer" style={{ color: colors.blue.primary, wordBreak: 'break-all' }}>
-                    {generatedLink}
-                  </a>
-                </p>
-              </div>
-            )}
-
-            <ButtonPainel onClick={generateProposal}>
-              Gerar proposta
+            <ButtonPainel type="submit" disabled={loading}>
+              {loading ? 'Salvando...' : 'Atualizar'}
             </ButtonPainel>
           </div>
 
           <div style={templateWrapStyle}>
-            <div
-              style={{
-                ...templateHeaderStyle,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                gap: spacing[3],
-              }}
-            >
-              <span>Proposta</span>
-              <a
-                href="/admin/dashboard/proposta/preview"
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={(e) => {
-                  localStorage.setItem('proposta-preview', JSON.stringify(previewProposal));
-                }}
-                style={{
-                  fontSize: fontSizes.xs,
-                  color: colors.blue.primary,
-                  textDecoration: 'none',
-                }}
-              >
-                Ver proposta
-              </a>
+            <div style={templateHeaderStyle}>
+              <span>Preview</span>
             </div>
             <div style={previewWrapStyle}>
               <PropostaTemplate proposal={previewProposal} showCountdown={false} />
             </div>
           </div>
-        </div>
+        </form>
 
         <style jsx global>{`
           .input-no-spinner::-webkit-inner-spin-button,
@@ -336,22 +304,21 @@ const PropostaNovaPage: React.FC = () => {
           .input-no-spinner {
             -moz-appearance: textfield;
           }
-          .proposta-nova-grid input:focus,
-          .proposta-nova-grid select:focus,
-          .proposta-nova-grid textarea:focus {
+          .proposta-editar-grid input:focus,
+          .proposta-editar-grid select:focus {
             outline: none;
             box-shadow: none;
           }
         `}</style>
         <style jsx>{`
-          .proposta-nova-grid {
+          .proposta-editar-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 32px;
             align-items: start;
           }
           @media (max-width: 768px) {
-            .proposta-nova-grid {
+            .proposta-editar-grid {
               grid-template-columns: 1fr;
             }
           }
@@ -361,4 +328,4 @@ const PropostaNovaPage: React.FC = () => {
   );
 };
 
-export default PropostaNovaPage;
+export default PropostaEditarPage;

@@ -1,10 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { getProposalBySlug, isProposalExpired } from '../../../lib/proposalDb';
+import { getProposalBySlug, isProposalExpired } from '../../../../lib/proposalDb';
 import {
   generateProposalHtml,
   generateExpiredHtml,
   generateNotFoundHtml,
-} from '../../../lib/proposalHtml';
+} from '../../../../lib/proposalHtml';
 
 /**
  * API que gera e retorna a página temporária da proposta em HTML.
@@ -27,6 +27,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   if (isProposalExpired(proposal)) {
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
     return res.status(410).send(generateExpiredHtml());
+  }
+
+  if (proposal.linkAtivo === false) {
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    return res.status(404).send(generateNotFoundHtml());
   }
 
   res.setHeader('Content-Type', 'text/html; charset=utf-8');

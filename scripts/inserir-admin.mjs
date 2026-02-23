@@ -13,9 +13,9 @@ function hashCodigoAcesso(plain) {
   return `${salt}:${hash}`;
 }
 
-const [email, codigo] = process.argv.slice(2);
+const [email, codigo, nome] = process.argv.slice(2);
 if (!email || !codigo) {
-  console.error('Uso: npm run db:inserir-admin -- seu@email.com SEU_CODIGO');
+  console.error('Uso: npm run db:inserir-admin -- seu@email.com SEU_CODIGO [nome]');
   process.exit(1);
 }
 
@@ -30,10 +30,14 @@ const hash = hashCodigoAcesso(codigo);
 const emailLower = email.toLowerCase().trim();
 
 async function run() {
+  const nomeVal = nome ? String(nome).trim().slice(0, 150) : null;
   await sql`
-    INSERT INTO admins (email, codigo_acesso_hash)
-    VALUES (${emailLower}, ${hash})
-    ON CONFLICT (email) DO UPDATE SET codigo_acesso_hash = ${hash}, atualizado_em = NOW()
+    INSERT INTO admins (nome, email, codigo_acesso_hash)
+    VALUES (${nomeVal}, ${emailLower}, ${hash})
+    ON CONFLICT (email) DO UPDATE SET
+      nome = COALESCE(EXCLUDED.nome, admins.nome),
+      codigo_acesso_hash = EXCLUDED.codigo_acesso_hash,
+      atualizado_em = NOW()
   `;
   console.log(`Admin criado/atualizado: ${emailLower}`);
 }

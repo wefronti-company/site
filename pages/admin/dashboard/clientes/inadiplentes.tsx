@@ -4,6 +4,7 @@ import AdminLayout from '../../../../components/admin/AdminLayout';
 import { theme } from '../../../../styles/theme';
 import type { ClienteComPagamento } from '../../../../lib/clientDb';
 import { AlertCircle } from 'lucide-react';
+import { useSnackbar } from '../../../../contexts/SnackbarContext';
 
 const { colors, spacing, fontSizes } = theme;
 
@@ -90,6 +91,28 @@ function empresaLabel(c: ClienteComPagamento): string {
   return c.nomeFantasia || c.razaoSocial || '—';
 }
 
+function getIniciais(c: ClienteComPagamento): string {
+  const label = empresaLabel(c);
+  if (!label || label === '—') return '?';
+  const palavras = label.trim().split(/\s+/);
+  if (palavras.length === 1) return palavras[0].charAt(0).toUpperCase();
+  return (palavras[0].charAt(0) + palavras[1].charAt(0)).toUpperCase();
+}
+
+const avatarStyle: React.CSSProperties = {
+  width: 44,
+  height: 44,
+  borderRadius: '50%',
+  backgroundColor: colors.neutral.borderDark,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  fontSize: fontSizes.base,
+  fontWeight: 600,
+  color: colors.text.light,
+  flexShrink: 0,
+};
+
 const btnDesligarStyle: React.CSSProperties = {
   padding: `${spacing[2]}px ${spacing[3]}px`,
   fontSize: fontSizes.sm,
@@ -102,6 +125,7 @@ const btnDesligarStyle: React.CSSProperties = {
 };
 
 const ClientesInadiplentesPage: React.FC = () => {
+  const { showSuccess, showError } = useSnackbar();
   const [clientes, setClientes] = useState<ClienteComPagamento[]>([]);
   const [loading, setLoading] = useState(true);
   const [pagando, setPagando] = useState<string | null>(null);
@@ -122,8 +146,15 @@ const ClientesInadiplentesPage: React.FC = () => {
   const handlePagar = async (id: string) => {
     setPagando(id);
     try {
-      await fetch(`/api/clientes/${id}/pagar`, { method: 'POST', headers: { 'Content-Type': 'application/json' } });
+      const res = await fetch(`/api/clientes/${id}/pagar`, { method: 'POST', headers: { 'Content-Type': 'application/json' } });
+      if (!res.ok) {
+        showError('Erro ao marcar pagamento.');
+        return;
+      }
       load();
+      showSuccess('Pagamento registrado com sucesso.');
+    } catch {
+      showError('Erro ao conectar.');
     } finally {
       setPagando(null);
     }
@@ -132,12 +163,19 @@ const ClientesInadiplentesPage: React.FC = () => {
   const handleDesligar = async (id: string) => {
     setDesligando(id);
     try {
-      await fetch(`/api/clientes/${id}/status`, {
+      const res = await fetch(`/api/clientes/${id}/status`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: 2 }),
       });
+      if (!res.ok) {
+        showError('Erro ao desligar cliente.');
+        return;
+      }
       load();
+      showSuccess('Cliente marcado como desligado.');
+    } catch {
+      showError('Erro ao conectar.');
     } finally {
       setDesligando(null);
     }
@@ -163,9 +201,12 @@ const ClientesInadiplentesPage: React.FC = () => {
           <div style={listStyle}>
             {clientes.map((c) => (
               <div key={c.id} style={cardStyle}>
-                <div style={cardInfoStyle}>
-                  <span style={cardLabelStyle}>{empresaLabel(c)}</span>
-                  <span style={cardMetaStyle}>{c.nome} · {c.email}</span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: spacing[4], flex: 1, minWidth: 0 }}>
+                  <div style={avatarStyle}>{getIniciais(c)}</div>
+                  <div style={cardInfoStyle}>
+                    <span style={cardLabelStyle}>{empresaLabel(c)}</span>
+                    <span style={cardMetaStyle}>{c.nome} · {c.email}</span>
+                  </div>
                 </div>
                 <span style={cardLabelStyle}>{formatBRL(c.mensalidade)}</span>
                 <span style={badgeInadimplenteStyle}>

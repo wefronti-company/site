@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
+import Link from 'next/link';
 import AdminLayout from '../../../../components/admin/AdminLayout';
 import { theme } from '../../../../styles/theme';
 import type { Proposal } from '../../../../lib/proposalData';
 import { ExternalLink } from 'lucide-react';
+import { useSnackbar } from '../../../../contexts/SnackbarContext';
 
 const { colors, spacing, fontSizes } = theme;
 
@@ -83,19 +85,61 @@ function formatData(iso: string): string {
   });
 }
 
+const btnStyle: React.CSSProperties = {
+  padding: `${theme.spacing[2]}px ${theme.spacing[3]}px`,
+  fontSize: theme.fontSizes.sm,
+  fontWeight: 500,
+  color: theme.colors.text.light,
+  background: 'transparent',
+  border: `1px solid ${theme.colors.neutral.borderDark}`,
+  borderRadius: 6,
+  cursor: 'pointer',
+  textDecoration: 'none',
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: theme.spacing[2],
+};
+
+const btnAtivarStyle: React.CSSProperties = {
+  ...btnStyle,
+  color: theme.colors.blue.primary,
+  borderColor: theme.colors.blue.primary,
+};
+
 const PropostaExpiradasPage: React.FC = () => {
+  const { showSuccess, showError } = useSnackbar();
   const [propostas, setPropostas] = useState<Proposal[]>([]);
   const [loading, setLoading] = useState(true);
+  const [ativando, setAtivando] = useState<string | null>(null);
 
-  useEffect(() => {
+  const load = () => {
     fetch('/api/proposta/expiradas')
       .then((r) => r.json())
-      .then((data) => {
-        setPropostas(Array.isArray(data) ? data : []);
-      })
+      .then((data) => setPropostas(Array.isArray(data) ? data : []))
       .catch(() => setPropostas([]))
       .finally(() => setLoading(false));
+  };
+
+  useEffect(() => {
+    load();
   }, []);
+
+  const handleReativar = async (slug: string) => {
+    setAtivando(slug);
+    try {
+      const res = await fetch(`/api/proposta/${slug}/reativar`, { method: 'PATCH' });
+      if (!res.ok) {
+        showError('Erro ao reativar.');
+        return;
+      }
+      load();
+      showSuccess('Proposta reativada. Nova validade de 24 horas.');
+    } catch {
+      showError('Erro ao conectar.');
+    } finally {
+      setAtivando(null);
+    }
+  };
 
   return (
     <>
@@ -128,6 +172,14 @@ const PropostaExpiradasPage: React.FC = () => {
                   </div>
                   <span style={cardLabelStyle}>{formatBRL(total)}</span>
                   <span style={badgeExpiradaStyle}>Expirada</span>
+                  <button
+                    type="button"
+                    style={btnAtivarStyle}
+                    onClick={() => handleReativar(proposal.slug)}
+                    disabled={!!ativando}
+                  >
+                    {ativando === proposal.slug ? '...' : 'Ativar'}
+                  </button>
                   <a
                     href={link}
                     target="_blank"
@@ -143,6 +195,9 @@ const PropostaExpiradasPage: React.FC = () => {
                   >
                     Ver proposta <ExternalLink size={14} />
                   </a>
+                  <Link href={`/admin/dashboard/proposta/${proposal.slug}/editar`} style={btnStyle}>
+                    Editar
+                  </Link>
                 </div>
               );
             })}

@@ -9,8 +9,12 @@ export interface Metas {
   metaClientes: number;
 }
 
-function getMesRef(): number {
+export function getMesRef(): number {
   const d = new Date();
+  return d.getFullYear() * 100 + (d.getMonth() + 1);
+}
+
+function getMesRefFromDate(d: Date): number {
   return d.getFullYear() * 100 + (d.getMonth() + 1);
 }
 
@@ -54,6 +58,72 @@ export async function getDashboardDados(): Promise<DashboardDados> {
     receitaTotalMes: { valor: receitaReais, meta: metas.metaReceita },
     clientesAtivos: { total: clientesTotal, meta: metas.metaClientes },
     aReceber: aReceberReais,
+  };
+}
+
+export interface PagamentoResumoMes {
+  mesRef: number;
+  ano: number;
+  mes: number;
+  nomeMes: string;
+  receitaRecebida: number;
+  aReceber: number;
+  totalEsperado: number;
+  clientesPagos: number;
+  clientesPendentes: number;
+  totalClientes: number;
+}
+
+export async function getPagamentoResumoPorMes(mesRef: number): Promise<PagamentoResumoMes> {
+  if (!sql) throw new Error('Banco de dados não configurado.');
+
+  const ano = Math.floor(mesRef / 100);
+  const mes = mesRef % 100;
+  const nomeMes = new Date(ano, mes - 1, 1).toLocaleString('pt-BR', { month: 'long' });
+
+  const receitaRows = await sql`
+    SELECT COALESCE(SUM(c.mensalidade), 0) AS total
+    FROM clientes c
+    INNER JOIN pagamentos_mensalidade p ON p.cliente_id = c.id AND p.mes_ref = ${mesRef}
+    WHERE c.status != 2
+  `;
+  const receitaCentavos = Number((receitaRows[0] as { total: number })?.total ?? 0);
+  const receitaRecebida = receitaCentavos / 100;
+
+  const aReceberRows = await sql`
+    SELECT COALESCE(SUM(c.mensalidade), 0) AS total
+    FROM clientes c
+    LEFT JOIN pagamentos_mensalidade p ON p.cliente_id = c.id AND p.mes_ref = ${mesRef}
+    WHERE c.status != 2 AND c.mensalidade > 0 AND p.id IS NULL
+  `;
+  const aReceberCentavos = Number((aReceberRows[0] as { total: number })?.total ?? 0);
+  const aReceberReais = aReceberCentavos / 100;
+
+  const countRows = await sql`
+    SELECT
+      COUNT(*) FILTER (WHERE p.id IS NOT NULL)::int AS pagos,
+      COUNT(*) FILTER (WHERE p.id IS NULL AND c.mensalidade > 0)::int AS pendentes,
+      COUNT(*) FILTER (WHERE c.mensalidade > 0)::int AS total
+    FROM clientes c
+    LEFT JOIN pagamentos_mensalidade p ON p.cliente_id = c.id AND p.mes_ref = ${mesRef}
+    WHERE c.status != 2 AND c.mensalidade > 0
+  `;
+  const r = countRows[0] as { pagos: number; pendentes: number; total: number };
+  const clientesPagos = r?.pagos ?? 0;
+  const clientesPendentes = r?.pendentes ?? 0;
+  const totalClientes = r?.total ?? 0;
+
+  return {
+    mesRef,
+    ano,
+    mes,
+    nomeMes: nomeMes.charAt(0).toUpperCase() + nomeMes.slice(1),
+    receitaRecebida,
+    aReceber: aReceberReais,
+    totalEsperado: receitaRecebida + aReceberReais,
+    clientesPagos,
+    clientesPendentes,
+    totalClientes,
   };
 }
 

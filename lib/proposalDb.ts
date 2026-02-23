@@ -32,6 +32,7 @@ type PropostaRow = {
   manutencao: boolean;
   preco_manutencao: number;
   enviado_em: Date | string;
+  link_ativo?: boolean;
 };
 
 function rowToProposal(row: PropostaRow): Proposal {
@@ -58,13 +59,14 @@ function rowToProposal(row: PropostaRow): Proposal {
     enviadoEm,
     itens,
     observacoes: 'Proposta válida por 24 horas após o envio.',
+    linkAtivo: row.link_ativo !== false,
   };
 }
 
 export async function getProposalBySlug(slug: string): Promise<Proposal | null> {
   if (!sql) throw new Error('Banco de dados não configurado.');
   const rows = await sql`
-    SELECT slug, codigo, empresa, cliente, servico, preco, manutencao, preco_manutencao, enviado_em
+    SELECT slug, codigo, empresa, cliente, servico, preco, manutencao, preco_manutencao, enviado_em, link_ativo
     FROM propostas
     WHERE slug = ${slug}
     LIMIT 1
@@ -134,7 +136,7 @@ export async function upsertProposal(input: UpsertProposalInput): Promise<Propos
 export async function getProposalsAtivas(): Promise<Proposal[]> {
   if (!sql) throw new Error('Banco de dados não configurado.');
   const rows = await sql`
-    SELECT slug, codigo, empresa, cliente, servico, preco, manutencao, preco_manutencao, enviado_em
+    SELECT slug, codigo, empresa, cliente, servico, preco, manutencao, preco_manutencao, enviado_em, COALESCE(link_ativo, true) AS link_ativo
     FROM propostas
     WHERE enviado_em > NOW() - INTERVAL '24 hours'
     ORDER BY enviado_em DESC
@@ -145,7 +147,7 @@ export async function getProposalsAtivas(): Promise<Proposal[]> {
 export async function getProposalsExpiradas(): Promise<Proposal[]> {
   if (!sql) throw new Error('Banco de dados não configurado.');
   const rows = await sql`
-    SELECT slug, codigo, empresa, cliente, servico, preco, manutencao, preco_manutencao, enviado_em
+    SELECT slug, codigo, empresa, cliente, servico, preco, manutencao, preco_manutencao, enviado_em, COALESCE(link_ativo, true) AS link_ativo
     FROM propostas
     WHERE enviado_em <= NOW() - INTERVAL '24 hours'
     ORDER BY enviado_em DESC
@@ -163,4 +165,48 @@ export function getRemainingMs(proposal: Proposal): number {
   const sent = new Date(proposal.enviadoEm).getTime();
   const expiresAt = sent + PROPOSAL_VALID_HOURS * 60 * 60 * 1000;
   return Math.max(0, expiresAt - Date.now());
+}
+
+export async function setProposalLinkAtivo(slug: string, ativo: boolean): Promise<boolean> {
+  if (!sql) throw new Error('Banco de dados não configurado.');
+  const rows = await sql`
+    UPDATE propostas SET link_ativo = ${ativo} WHERE slug = ${slug} RETURNING slug
+  `;
+  return rows.length > 0;
+}
+
+export async function reativarProposta(slug: string): Promise<boolean> {
+  if (!sql) throw new Error('Banco de dados não configurado.');
+  const now = new Date().toISOString();
+  const rows = await sql`
+    UPDATE propostas SET enviado_em = ${now}::timestamptz, link_ativo = true WHERE slug = ${slug} RETURNING slug
+  `;
+  return rows.length > 0;
+}
+
+export async function updateProposal(
+  slug: string,
+  input: Omit<UpsertProposalInput, 'slug'>
+): Promise<Proposal | null> {
+  if (!sql) throw new Error('Banco de dados não configurado.');
+
+  const servicoInt = input.servico === 'Landing Page' ? 1 : 0;
+  const precoCentavos = Math.round(input.preco * 100);
+  const precoManutencaoCentavos = Math.round(input.precoManutencao * 100);
+  const manutencaoBool = input.manutencao === 'sim';
+
+  const rows = await sql`
+    UPDATE propostas SET
+      empresa = ${input.empresa.trim().slice(0, 150)},
+      cliente = ${input.cliente.trim().slice(0, 150)},
+      servico = ${servicoInt},
+      preco = ${precoCentavos},
+      manutencao = ${manutencaoBool},
+      preco_manutencao = ${precoManutencaoCentavos}
+    WHERE slug = ${slug}
+    RETURNING slug, codigo, empresa, cliente, servico, preco, manutencao, preco_manutencao, enviado_em, COALESCE(link_ativo, true) AS link_ativo
+  `;
+
+  const row = rows[0] as PropostaRow | undefined;
+  return row ? rowToProposal(row) : null;
 }

@@ -12,6 +12,7 @@ export interface Cliente {
   id: string;
   nome: string;
   email: string;
+  cpf?: string;
   telefone?: string;
   celular?: string;
   cargo?: string;
@@ -30,6 +31,15 @@ export interface Cliente {
   site?: string;
   ramo?: string;
   observacoes?: string;
+  /** Serviço contratado: Site ou Landing Page */
+  servicoTipo?: string;
+  /** Cliente tem plano de manutenção */
+  manutencao?: boolean;
+  /** Preço do serviço em reais */
+  precoServico?: number;
+  /** Preço da manutenção em reais (quando manutencao=true) */
+  precoManutencao?: number;
+  /** Total mensal (precoServico + precoManutencao quando aplicável). Usado em receita e clientes ativos. */
   mensalidade: number;
   status: ClienteStatus;
   criadoEm: string;
@@ -53,6 +63,7 @@ function rowToCliente(row: Record<string, unknown>): Cliente {
     id: String(row.id ?? ''),
     nome: String(row.nome ?? ''),
     email: String(row.email ?? ''),
+    cpf: row.cpf ? String(row.cpf) : undefined,
     telefone: row.telefone ? String(row.telefone) : undefined,
     celular: row.celular ? String(row.celular) : undefined,
     cargo: row.cargo ? String(row.cargo) : undefined,
@@ -71,6 +82,10 @@ function rowToCliente(row: Record<string, unknown>): Cliente {
     site: row.site ? String(row.site) : undefined,
     ramo: row.ramo ? String(row.ramo) : undefined,
     observacoes: row.observacoes ? String(row.observacoes) : undefined,
+    servicoTipo: row.servico_tipo ? String(row.servico_tipo) : undefined,
+    manutencao: Boolean(row.manutencao),
+    precoServico: (Number(row.preco_servico) || 0) / 100,
+    precoManutencao: (Number(row.preco_manutencao) || 0) / 100,
     mensalidade: (Number(row.mensalidade) || 0) / 100,
     status: (row.status as ClienteStatus) ?? 0,
     criadoEm,
@@ -82,9 +97,9 @@ function rowToClienteComPagamento(row: Record<string, unknown>, mensalidadePaga:
   return { ...c, mensalidadePaga, etiqueta };
 }
 
-export async function getClientesAtivos(): Promise<ClienteComPagamento[]> {
+export async function getClientesAtivos(mesRefParam?: number): Promise<ClienteComPagamento[]> {
   if (!sql) throw new Error('Banco de dados não configurado.');
-  const mesRef = getMesRef();
+  const mesRef = mesRefParam ?? getMesRef();
   const rows = await sql`
     SELECT c.*, (p.id IS NOT NULL) AS pago
     FROM clientes c
@@ -98,9 +113,9 @@ export async function getClientesAtivos(): Promise<ClienteComPagamento[]> {
   });
 }
 
-export async function getClientesInadimplentes(): Promise<ClienteComPagamento[]> {
+export async function getClientesInadimplentes(mesRefParam?: number): Promise<ClienteComPagamento[]> {
   if (!sql) throw new Error('Banco de dados não configurado.');
-  const mesRef = getMesRef();
+  const mesRef = mesRefParam ?? getMesRef();
   const rows = await sql`
     SELECT c.*, FALSE AS pago
     FROM clientes c
@@ -120,6 +135,15 @@ export async function getClientesDesligados(): Promise<ClienteComPagamento[]> {
     ORDER BY c.nome_fantasia, c.razao_social
   `;
   return (rows as Record<string, unknown>[]).map((r) => rowToClienteComPagamento(r, false, 'desligado'));
+}
+
+export async function getClienteById(id: string): Promise<Cliente | null> {
+  if (!sql) throw new Error('Banco de dados não configurado.');
+  const rows = await sql`
+    SELECT * FROM clientes WHERE id = ${id}
+  `;
+  const row = rows[0] as Record<string, unknown> | undefined;
+  return row ? rowToCliente(row) : null;
 }
 
 export async function getClientesTodos(): Promise<ClienteComPagamento[]> {
@@ -163,6 +187,7 @@ export async function registrarPagamento(clienteId: string, mesRef?: number): Pr
 export interface CreateClienteInput {
   nome: string;
   email: string;
+  cpf?: string;
   telefone?: string;
   celular?: string;
   cargo?: string;
@@ -181,6 +206,15 @@ export interface CreateClienteInput {
   site?: string;
   ramo?: string;
   observacoes?: string;
+  /** Tipo de serviço: 'Site' ou 'Landing Page' */
+  servicoTipo?: string;
+  /** Cliente tem manutenção */
+  manutencao?: boolean;
+  /** Preço do serviço em reais */
+  precoServico?: number;
+  /** Preço da manutenção em reais (quando manutencao=true) */
+  precoManutencao?: number;
+  /** Total mensal (calculado: precoServico + precoManutencao se manutencao). Usado em receita. */
   mensalidade?: number;
 }
 
@@ -189,22 +223,36 @@ function trimSlice(str: string | undefined, max: number): string | null {
   return str.trim().slice(0, max) || null;
 }
 
+function computeMensalidade(input: CreateClienteInput): number {
+  const precoServico = input.precoServico ?? 0;
+  const precoManutencao = (input.manutencao ? (input.precoManutencao ?? 0) : 0);
+  const computed = precoServico + precoManutencao;
+  return input.mensalidade != null && input.mensalidade > 0 ? input.mensalidade : computed;
+}
+
 export async function createCliente(input: CreateClienteInput): Promise<Cliente> {
   if (!sql) throw new Error('Banco de dados não configurado.');
 
-  const mensalidadeCentavos = Math.round((input.mensalidade ?? 0) * 100);
+  const mensalidadeReais = computeMensalidade(input);
+  const mensalidadeCentavos = Math.round(mensalidadeReais * 100);
+  const precoServicoCentavos = Math.round((input.precoServico ?? 0) * 100);
+  const precoManutencaoCentavos = Math.round((input.precoManutencao ?? 0) * 100);
+  const servicoTipo = trimSlice(input.servicoTipo, 50) ?? null;
+  const manutencao = Boolean(input.manutencao);
 
   const rows = await sql`
     INSERT INTO clientes (
-      nome, email, telefone, celular, cargo,
+      nome, email, cpf, telefone, celular, cargo,
       razao_social, nome_fantasia, cnpj, ie,
       endereco_logradouro, endereco_numero, endereco_complemento,
       endereco_bairro, endereco_cidade, endereco_uf, endereco_cep,
-      telefone_empresa, site, ramo, observacoes, mensalidade
+      telefone_empresa, site, ramo, observacoes,
+      servico_tipo, manutencao, preco_servico, preco_manutencao, mensalidade
     )
     VALUES (
       ${trimSlice(input.nome, 150) ?? ''},
       ${trimSlice(input.email, 254) ?? ''},
+      ${trimSlice(input.cpf, 14)},
       ${trimSlice(input.telefone, 20)},
       ${trimSlice(input.celular, 20)},
       ${trimSlice(input.cargo, 80)},
@@ -223,15 +271,67 @@ export async function createCliente(input: CreateClienteInput): Promise<Cliente>
       ${trimSlice(input.site, 200)},
       ${trimSlice(input.ramo, 100)},
       ${trimSlice(input.observacoes, 500)},
-      ${mensalidadeCentavos}
+      ${servicoTipo}, ${manutencao}, ${precoServicoCentavos}, ${precoManutencaoCentavos}, ${mensalidadeCentavos}
     )
-    RETURNING id, nome, email, telefone, celular, cargo,
+    RETURNING id, nome, email, cpf, telefone, celular, cargo,
       razao_social, nome_fantasia, cnpj, ie,
       endereco_logradouro, endereco_numero, endereco_complemento,
       endereco_bairro, endereco_cidade, endereco_uf, endereco_cep,
-      telefone_empresa, site, ramo, observacoes, mensalidade, status, criado_em
+      telefone_empresa, site, ramo, observacoes,
+      servico_tipo, manutencao, preco_servico, preco_manutencao, mensalidade, status, criado_em
   `;
 
   const row = rows[0] as Record<string, unknown>;
   return rowToCliente(row);
+}
+
+export async function updateCliente(id: string, input: CreateClienteInput): Promise<Cliente | null> {
+  if (!sql) throw new Error('Banco de dados não configurado.');
+
+  const mensalidadeReais = computeMensalidade(input);
+  const mensalidadeCentavos = Math.round(mensalidadeReais * 100);
+  const precoServicoCentavos = Math.round((input.precoServico ?? 0) * 100);
+  const precoManutencaoCentavos = Math.round((input.precoManutencao ?? 0) * 100);
+  const servicoTipo = trimSlice(input.servicoTipo, 50) ?? null;
+  const manutencao = Boolean(input.manutencao);
+
+  const rows = await sql`
+    UPDATE clientes SET
+      nome = ${trimSlice(input.nome, 150) ?? ''},
+      email = ${trimSlice(input.email, 254) ?? ''},
+      cpf = ${trimSlice(input.cpf, 14)},
+      telefone = ${trimSlice(input.telefone, 20)},
+      celular = ${trimSlice(input.celular, 20)},
+      cargo = ${trimSlice(input.cargo, 80)},
+      razao_social = ${trimSlice(input.razaoSocial, 200) ?? ''},
+      nome_fantasia = ${trimSlice(input.nomeFantasia, 150)},
+      cnpj = ${trimSlice(input.cnpj, 18)},
+      ie = ${trimSlice(input.ie, 25)},
+      endereco_logradouro = ${trimSlice(input.enderecoLogradouro, 150)},
+      endereco_numero = ${trimSlice(input.enderecoNumero, 20)},
+      endereco_complemento = ${trimSlice(input.enderecoComplemento, 80)},
+      endereco_bairro = ${trimSlice(input.enderecoBairro, 80)},
+      endereco_cidade = ${trimSlice(input.enderecoCidade, 80)},
+      endereco_uf = ${input.enderecoUf ? (trimSlice(input.enderecoUf, 2)?.toUpperCase() ?? null) : null},
+      endereco_cep = ${trimSlice(input.enderecoCep, 10)},
+      telefone_empresa = ${trimSlice(input.telefoneEmpresa, 20)},
+      site = ${trimSlice(input.site, 200)},
+      ramo = ${trimSlice(input.ramo, 100)},
+      observacoes = ${trimSlice(input.observacoes, 500)},
+      servico_tipo = ${servicoTipo},
+      manutencao = ${manutencao},
+      preco_servico = ${precoServicoCentavos},
+      preco_manutencao = ${precoManutencaoCentavos},
+      mensalidade = ${mensalidadeCentavos}
+    WHERE id = ${id}
+    RETURNING id, nome, email, cpf, telefone, celular, cargo,
+      razao_social, nome_fantasia, cnpj, ie,
+      endereco_logradouro, endereco_numero, endereco_complemento,
+      endereco_bairro, endereco_cidade, endereco_uf, endereco_cep,
+      telefone_empresa, site, ramo, observacoes,
+      servico_tipo, manutencao, preco_servico, preco_manutencao, mensalidade, status, criado_em
+  `;
+
+  const row = rows[0] as Record<string, unknown> | undefined;
+  return row ? rowToCliente(row) : null;
 }

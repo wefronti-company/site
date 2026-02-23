@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import { theme } from '../../styles/theme';
 import ButtonPainel from '../../components/ui/ButtonPainel';
+import { useSnackbar } from '../../contexts/SnackbarContext';
+import { setAdminCache } from '../../lib/adminCache';
 
 const { colors, spacing, fontSizes } = theme;
 
@@ -60,9 +63,10 @@ const inputStyle: React.CSSProperties = {
 };
 
 const AdminLoginPage: React.FC = () => {
+  const router = useRouter();
+  const { showSuccess, showError } = useSnackbar();
   const [email, setEmail] = useState('');
   const [codigoAcesso, setCodigoAcesso] = useState('');
-  const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
   const sanitize = (v: string, max: number) =>
@@ -72,11 +76,10 @@ const AdminLoginPage: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(null);
     const eTrim = email.trim();
     const cTrim = codigoAcesso.trim();
     if (!eTrim || !cTrim) {
-      setError('Preencha e-mail e código de acesso.');
+      showError('Preencha e-mail e código de acesso.');
       return;
     }
     setLoading(true);
@@ -92,12 +95,16 @@ const AdminLoginPage: React.FC = () => {
       });
       const data = await res.json();
       if (!res.ok) {
-        setError(data.error || 'Erro ao fazer login.');
+        showError(data.error || 'Erro ao fazer login.');
         return;
       }
-      window.location.href = '/admin/dashboard';
+      const meRes = await fetch('/api/admin/me', { credentials: 'same-origin' });
+      const meData = meRes.ok ? await meRes.json() : null;
+      if (meData) setAdminCache({ nome: meData.nome ?? null, email: meData.email });
+      showSuccess('Login realizado com sucesso.');
+      router.push('/admin/dashboard');
     } catch {
-      setError('Erro ao conectar. Tente novamente.');
+      showError('Erro ao conectar. Tente novamente.');
     } finally {
       setLoading(false);
     }
@@ -133,7 +140,7 @@ const AdminLoginPage: React.FC = () => {
                 style={inputStyle}
                 value={email}
                 onChange={(e) => setEmail(sanitize(e.target.value, 254))}
-                placeholder="seu@email.com"
+                placeholder="e-mail de acesso"
                 maxLength={254}
                 disabled={loading}
               />
@@ -154,9 +161,6 @@ const AdminLoginPage: React.FC = () => {
                 disabled={loading}
               />
             </div>
-            {error && (
-              <p style={{ margin: 0, fontSize: fontSizes.sm, color: '#f87171' }}>{error}</p>
-            )}
             <ButtonPainel type="submit" disabled={loading}>
               {loading ? 'Entrando...' : 'Entrar'}
             </ButtonPainel>

@@ -26,7 +26,8 @@ Para `DATABASE_URL` e outras variáveis, defina em **Vercel → Project → Sett
 ## 3. Banco de dados (Neon)
 
 - Rodar o script de criação de tabelas: `npm run db:init`
-- Criar o primeiro admin: `npm run db:inserir-admin -- email codigo`
+- Criar o primeiro admin: `npm run db:inserir-admin -- email codigo [nome]`
+- Se o banco já existia: rodar migrações (`npm run db:migrate-admins`, etc.)
 
 ## 4. Verificações
 

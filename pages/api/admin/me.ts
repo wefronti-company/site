@@ -3,6 +3,7 @@
  */
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { verifySessionToken, COOKIE_NAME } from '../../../lib/auth';
+import { sql } from '../../../lib/db';
 
 function getTokenFromCookie(req: NextApiRequest): string | null {
   const cookie = req.headers.cookie;
@@ -26,5 +27,31 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(401).json({ error: 'Sessão inválida ou expirada' });
   }
 
-  return res.status(200).json({ adminId: payload.adminId, email: payload.email });
+  if (!sql) {
+    return res.status(200).json({
+      adminId: payload.adminId,
+      email: payload.email,
+      nome: null,
+      superAdmin: false,
+    });
+  }
+
+  const rows = await sql`
+    SELECT nome, super_admin FROM admins WHERE id = ${payload.adminId} LIMIT 1
+  `;
+  const admin = rows[0] as { nome: string | null; super_admin: boolean } | undefined;
+  let superAdmin = admin?.super_admin ?? false;
+
+  if (!superAdmin) {
+    const countRows = await sql`SELECT COUNT(*)::int AS total FROM admins`;
+    const total = (countRows[0] as { total: number })?.total ?? 0;
+    if (total === 1) superAdmin = true;
+  }
+
+  return res.status(200).json({
+    adminId: payload.adminId,
+    email: payload.email,
+    nome: admin?.nome ?? null,
+    superAdmin,
+  });
 }

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { theme } from '../../styles/theme';
+import { getAdminCache, setAdminCache } from '../../lib/adminCache';
 import { ADMIN_HEADER_HEIGHT, SIDEBAR_WIDTH } from './constants';
 
 const { colors, spacing, fontSizes } = theme;
@@ -49,28 +50,37 @@ const userNameStyle: React.CSSProperties = {
   margin: 0,
 };
 
-function getInitial(email: string): string {
-  const first = email.charAt(0);
+function getInitial(nameOrEmail: string): string {
+  const first = nameOrEmail.charAt(0);
   return first ? first.toUpperCase() : 'A';
 }
 
 export const AppBar: React.FC = () => {
-  const [email, setEmail] = useState<string | null>(null);
+  const [admin, setAdmin] = useState<{ nome: string | null; email: string } | null>(getAdminCache);
 
   useEffect(() => {
     fetch('/api/admin/me', { credentials: 'same-origin' })
       .then((res) => (res.ok ? res.json() : null))
-      .then((data) => data && setEmail(data.email))
+      .then((data) => {
+        if (data) {
+          const v = { nome: data.nome ?? null, email: data.email };
+          setAdminCache(v);
+          setAdmin(v);
+        }
+      })
       .catch(() => {});
   }, []);
+
+  const displayName = admin?.nome?.trim() || admin?.email || 'Admin';
+  const initial = admin ? getInitial(admin.nome?.trim() || admin.email) : 'A';
 
   return (
     <header style={appBarStyle} role="banner">
       <div style={userWrapStyle}>
         <div style={avatarStyle} aria-hidden>
-          {email ? getInitial(email) : 'A'}
+          {initial}
         </div>
-        <span style={userNameStyle}>{email || 'Admin'}</span>
+        <span style={userNameStyle}>{displayName}</span>
       </div>
     </header>
   );

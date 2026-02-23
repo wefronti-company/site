@@ -27,8 +27,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const cliente = await createCliente({
       nome,
       email,
-      telefone: typeof body.telefone === 'string' ? body.telefone.trim() || undefined : undefined,
-      celular: typeof body.celular === 'string' ? body.celular.trim() || undefined : undefined,
+      cpf: typeof body.cpf === 'string' ? body.cpf.replace(/\D/g, '').slice(0, 11) || undefined : undefined,
+      telefone: typeof body.telefone === 'string' ? body.telefone.replace(/\D/g, '').slice(0, 11) || undefined : undefined,
+      celular: typeof body.celular === 'string' ? body.celular.replace(/\D/g, '').slice(0, 11) || undefined : undefined,
       cargo: typeof body.cargo === 'string' ? body.cargo.trim() || undefined : undefined,
       razaoSocial,
       nomeFantasia: typeof body.nomeFantasia === 'string' ? body.nomeFantasia.trim() || undefined : undefined,
@@ -41,11 +42,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       enderecoCidade: typeof body.enderecoCidade === 'string' ? body.enderecoCidade.trim() || undefined : undefined,
       enderecoUf: typeof body.enderecoUf === 'string' ? body.enderecoUf.trim().slice(0, 2).toUpperCase() || undefined : undefined,
       enderecoCep: typeof body.enderecoCep === 'string' ? body.enderecoCep.replace(/\D/g, '').slice(0, 8) || undefined : undefined,
-      telefoneEmpresa: typeof body.telefoneEmpresa === 'string' ? body.telefoneEmpresa.trim() || undefined : undefined,
+      telefoneEmpresa: typeof body.telefoneEmpresa === 'string' ? body.telefoneEmpresa.replace(/\D/g, '').slice(0, 11) || undefined : undefined,
       site: typeof body.site === 'string' ? body.site.trim() || undefined : undefined,
       ramo: typeof body.ramo === 'string' ? body.ramo.trim() || undefined : undefined,
       observacoes: typeof body.observacoes === 'string' ? body.observacoes.trim() || undefined : undefined,
-      mensalidade: typeof body.mensalidade === 'number' ? body.mensalidade : (typeof body.mensalidade === 'string' ? parseFloat(body.mensalidade) || undefined : undefined),
+      servicoTipo: typeof body.servicoTipo === 'string' ? body.servicoTipo.trim() || undefined : undefined,
+      manutencao: body.manutencao === true || body.manutencao === 'sim',
+      precoServico: typeof body.precoServico === 'number' ? body.precoServico : (typeof body.precoServico === 'string' ? parseFloat(String(body.precoServico).replace(',', '.')) || undefined : undefined),
+      precoManutencao: typeof body.precoManutencao === 'number' ? body.precoManutencao : (typeof body.precoManutencao === 'string' ? parseFloat(String(body.precoManutencao).replace(',', '.')) || undefined : undefined),
     });
 
     return res.status(201).json(cliente);

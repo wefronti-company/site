@@ -3,6 +3,7 @@ import Head from 'next/head';
 import AdminLayout from '../../../../components/admin/AdminLayout';
 import { theme } from '../../../../styles/theme';
 import ButtonPainel from '../../../../components/ui/ButtonPainel';
+import { useSnackbar } from '../../../../contexts/SnackbarContext';
 
 const { colors, spacing, fontSizes } = theme;
 
@@ -55,10 +56,9 @@ const inputStyle: React.CSSProperties = {
 };
 
 const MetasPage: React.FC = () => {
+  const { showSuccess, showError } = useSnackbar();
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState(false);
 
   const [metaReceita, setMetaReceita] = useState('');
   const [metaClientes, setMetaClientes] = useState('');
@@ -70,18 +70,16 @@ const MetasPage: React.FC = () => {
         setMetaReceita(String(data.metaReceita ?? ''));
         setMetaClientes(String(data.metaClientes ?? ''));
       })
-      .catch(() => setError('Erro ao carregar metas.'))
+      .catch(() => showError('Erro ao carregar metas.'))
       .finally(() => setLoading(false));
-  }, []);
+  }, [showError]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(null);
-    setSuccess(false);
     const receita = parseFloat(metaReceita.replace(',', '.')) || 0;
     const clientes = parseInt(metaClientes, 10) || 0;
     if (clientes < 0 || receita < 0) {
-      setError('Valores devem ser positivos.');
+      showError('Valores devem ser positivos.');
       return;
     }
     setSaving(true);
@@ -96,12 +94,12 @@ const MetasPage: React.FC = () => {
       });
       if (!res.ok) {
         const data = await res.json();
-        setError(data.error || 'Erro ao salvar.');
+        showError(data.error || 'Erro ao salvar.');
         return;
       }
-      setSuccess(true);
+      showSuccess('Metas salvas com sucesso.');
     } catch {
-      setError('Erro ao conectar.');
+      showError('Erro ao conectar.');
     } finally {
       setSaving(false);
     }
@@ -158,25 +156,6 @@ const MetasPage: React.FC = () => {
               />
             </div>
           </div>
-
-          {error && (
-            <p style={{ margin: 0, marginTop: spacing[4], fontSize: fontSizes.sm, color: '#f87171' }}>
-              {error}
-            </p>
-          )}
-
-          {success && (
-            <p
-              style={{
-                margin: 0,
-                marginTop: spacing[4],
-                fontSize: fontSizes.sm,
-                color: '#4ade80',
-              }}
-            >
-              Metas salvas com sucesso.
-            </p>
-          )}
 
           <div style={{ marginTop: spacing[6] }}>
             <ButtonPainel type="submit" disabled={saving}>

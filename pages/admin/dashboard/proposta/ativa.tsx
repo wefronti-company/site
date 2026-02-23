@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
+import Link from 'next/link';
 import AdminLayout from '../../../../components/admin/AdminLayout';
 import { theme } from '../../../../styles/theme';
 import type { Proposal } from '../../../../lib/proposalData';
 import { PROPOSAL_VALID_HOURS } from '../../../../lib/proposalData';
 import { ExternalLink } from 'lucide-react';
+import { useSnackbar } from '../../../../contexts/SnackbarContext';
 
 const { colors, spacing, fontSizes } = theme;
 
@@ -87,19 +89,91 @@ function formatRemaining(proposal: Proposal): string {
   return `${m}min`;
 }
 
+const btnStyle: React.CSSProperties = {
+  padding: `${theme.spacing[2]}px ${theme.spacing[3]}px`,
+  fontSize: theme.fontSizes.sm,
+  fontWeight: 500,
+  color: theme.colors.text.light,
+  background: 'transparent',
+  border: `1px solid ${theme.colors.neutral.borderDark}`,
+  borderRadius: 6,
+  cursor: 'pointer',
+  textDecoration: 'none',
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: theme.spacing[2],
+};
+
+const toggleWrapStyle: React.CSSProperties = {
+  display: 'flex',
+  alignItems: 'center',
+  gap: theme.spacing[2],
+  fontSize: theme.fontSizes.sm,
+  color: theme.colors.text.light,
+};
+
+const toggleTrackStyle = (active: boolean): React.CSSProperties => ({
+  width: 44,
+  height: 24,
+  borderRadius: 12,
+  backgroundColor: active ? theme.colors.blue.primary : 'rgba(255,255,255,0.2)',
+  cursor: 'pointer',
+  position: 'relative' as const,
+  flexShrink: 0,
+});
+
+const toggleThumbStyle = (active: boolean): React.CSSProperties => ({
+  position: 'absolute' as const,
+  top: 2,
+  left: active ? 22 : 2,
+  width: 20,
+  height: 20,
+  borderRadius: '50%',
+  backgroundColor: '#fff',
+  transition: 'left 0.2s ease',
+});
+
 const PropostaAtivaPage: React.FC = () => {
+  const { showSuccess, showError } = useSnackbar();
   const [propostas, setPropostas] = useState<Proposal[]>([]);
   const [loading, setLoading] = useState(true);
+  const [toggling, setToggling] = useState<string | null>(null);
 
-  useEffect(() => {
+  const load = () => {
     fetch('/api/proposta/ativas')
       .then((r) => r.json())
-      .then((data) => {
-        setPropostas(Array.isArray(data) ? data : []);
+      .then((data) => setPropostas(Array.isArray(data) ? data : []))
+      .catch(() => {
+        setPropostas([]);
+        showError('Erro ao carregar propostas.');
       })
-      .catch(() => setPropostas([]))
       .finally(() => setLoading(false));
+  };
+
+  useEffect(() => {
+    load();
   }, []);
+
+  const handleToggle = async (slug: string, current: boolean) => {
+    setToggling(slug);
+    try {
+      const res = await fetch(`/api/proposta/${slug}/link`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ativo: !current }),
+      });
+      if (!res.ok) {
+        showError('Erro ao atualizar.');
+        return;
+      }
+      load();
+      showSuccess(current ? 'Link desativado.' : 'Link ativado.');
+    } catch {
+      showError('Erro ao conectar.');
+    } finally {
+      setToggling(null);
+    }
+  };
 
   return (
     <>
@@ -122,6 +196,7 @@ const PropostaAtivaPage: React.FC = () => {
             {propostas.map((proposal) => {
               const total = proposal.itens.reduce((s, i) => s + i.valor, 0);
               const link = `${typeof window !== 'undefined' ? window.location.origin : ''}/proposta/${proposal.slug}`;
+              const linkAtivo = proposal.linkAtivo !== false;
               return (
                 <div key={proposal.slug} style={cardStyle}>
                   <div style={cardInfoStyle}>
@@ -132,21 +207,47 @@ const PropostaAtivaPage: React.FC = () => {
                   </div>
                   <span style={cardLabelStyle}>{formatBRL(total)}</span>
                   <span style={badgeStyle}>{formatRemaining(proposal)} restantes</span>
-                  <a
-                    href={link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: spacing[2],
-                      color: colors.blue.primary,
-                      textDecoration: 'none',
-                      fontSize: fontSizes.sm,
-                    }}
-                  >
-                    Ver proposta <ExternalLink size={14} />
-                  </a>
+                  <div style={toggleWrapStyle}>
+                    <button
+                      type="button"
+                      role="switch"
+                      aria-checked={linkAtivo}
+                      disabled={!!toggling}
+                      onClick={() => handleToggle(proposal.slug, linkAtivo)}
+                      style={{
+                        ...toggleTrackStyle(linkAtivo),
+                        border: 'none',
+                        padding: 0,
+                      }}
+                    >
+                      <span style={toggleThumbStyle(linkAtivo)} />
+                    </button>
+                    <span>Link {linkAtivo ? 'ativo' : 'desativado'}</span>
+                  </div>
+                  {linkAtivo ? (
+                    <a
+                      href={link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: spacing[2],
+                        color: colors.blue.primary,
+                        textDecoration: 'none',
+                        fontSize: fontSizes.sm,
+                      }}
+                    >
+                      Ver proposta <ExternalLink size={14} />
+                    </a>
+                  ) : (
+                    <span style={{ fontSize: fontSizes.sm, color: colors.text.light, opacity: 0.6 }}>
+                      Link indisponível
+                    </span>
+                  )}
+                  <Link href={`/admin/dashboard/proposta/${proposal.slug}/editar`} style={btnStyle}>
+                    Editar
+                  </Link>
                 </div>
               );
             })}

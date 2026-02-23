@@ -79,21 +79,31 @@ function empresaLabel(c: ClienteComPagamento): string {
   return c.nomeFantasia || c.razaoSocial || '—';
 }
 
-const btnDesligarStyle: React.CSSProperties = {
-  padding: `${spacing[2]}px ${spacing[3]}px`,
-  fontSize: fontSizes.sm,
-  fontWeight: 500,
-  color: '#9ca3af',
-  background: 'transparent',
-  border: '1px solid rgba(156, 163, 175, 0.5)',
-  borderRadius: 6,
-  cursor: 'pointer',
+function getIniciais(c: ClienteComPagamento): string {
+  const label = empresaLabel(c);
+  if (!label || label === '—') return '?';
+  const palavras = label.trim().split(/\s+/);
+  if (palavras.length === 1) return palavras[0].charAt(0).toUpperCase();
+  return (palavras[0].charAt(0) + palavras[1].charAt(0)).toUpperCase();
+}
+
+const avatarStyle: React.CSSProperties = {
+  width: 44,
+  height: 44,
+  borderRadius: '50%',
+  backgroundColor: colors.neutral.borderDark,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  fontSize: fontSizes.base,
+  fontWeight: 600,
+  color: colors.text.light,
+  flexShrink: 0,
 };
 
 const ClientesAtivosPage: React.FC = () => {
   const [clientes, setClientes] = useState<ClienteComPagamento[]>([]);
   const [loading, setLoading] = useState(true);
-  const [atualizando, setAtualizando] = useState<string | null>(null);
 
   const load = () => {
     fetch('/api/clientes/ativos')
@@ -106,20 +116,6 @@ const ClientesAtivosPage: React.FC = () => {
   useEffect(() => {
     load();
   }, []);
-
-  const handleDesligar = async (id: string) => {
-    setAtualizando(id);
-    try {
-      await fetch(`/api/clientes/${id}/status`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ status: 2 }),
-      });
-      load();
-    } finally {
-      setAtualizando(null);
-    }
-  };
 
   return (
     <>
@@ -141,22 +137,17 @@ const ClientesAtivosPage: React.FC = () => {
           <div style={listStyle}>
             {clientes.map((c) => (
               <div key={c.id} style={cardStyle}>
-                <div style={cardInfoStyle}>
-                  <span style={cardLabelStyle}>{empresaLabel(c)}</span>
-                  <span style={cardMetaStyle}>{c.nome} · {c.email}</span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: spacing[4], flex: 1, minWidth: 0 }}>
+                  <div style={avatarStyle}>{getIniciais(c)}</div>
+                  <div style={cardInfoStyle}>
+                    <span style={cardLabelStyle}>{empresaLabel(c)}</span>
+                    <span style={cardMetaStyle}>{c.nome} · {c.email}</span>
+                  </div>
                 </div>
                 <span style={cardLabelStyle}>{formatBRL(c.mensalidade)}</span>
                 <span style={badgePagoStyle}>
                   <CheckCircle size={16} /> Pago no mês
                 </span>
-                <button
-                  type="button"
-                  style={btnDesligarStyle}
-                  onClick={() => handleDesligar(c.id)}
-                  disabled={!!atualizando}
-                >
-                  {atualizando === c.id ? '...' : 'Marcar como desligado'}
-                </button>
               </div>
             ))}
           </div>
