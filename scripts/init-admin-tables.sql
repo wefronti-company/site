@@ -38,3 +38,45 @@ CREATE TABLE IF NOT EXISTS propostas (
 
 CREATE INDEX IF NOT EXISTS idx_propostas_slug ON propostas(slug);
 CREATE INDEX IF NOT EXISTS idx_propostas_enviado_em ON propostas(enviado_em);
+
+-- Tabela de clientes (status: 0=ativo, 1=inativo, 2=desligado)
+CREATE TABLE IF NOT EXISTS clientes (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  nome VARCHAR(150) NOT NULL,
+  email VARCHAR(254) NOT NULL,
+  telefone VARCHAR(20),
+  celular VARCHAR(20),
+  cargo VARCHAR(80),
+  razao_social VARCHAR(200) NOT NULL,
+  nome_fantasia VARCHAR(150),
+  cnpj VARCHAR(18),
+  ie VARCHAR(25),
+  endereco_logradouro VARCHAR(150),
+  endereco_numero VARCHAR(20),
+  endereco_complemento VARCHAR(80),
+  endereco_bairro VARCHAR(80),
+  endereco_cidade VARCHAR(80),
+  endereco_uf CHAR(2),
+  endereco_cep VARCHAR(10),
+  telefone_empresa VARCHAR(20),
+  site VARCHAR(200),
+  ramo VARCHAR(100),
+  observacoes VARCHAR(500),
+  mensalidade INTEGER NOT NULL DEFAULT 0,
+  status SMALLINT NOT NULL DEFAULT 0,
+  criado_em TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS pagamentos_mensalidade (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  cliente_id UUID NOT NULL REFERENCES clientes(id) ON DELETE CASCADE,
+  mes_ref INTEGER NOT NULL,
+  pago_em TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  UNIQUE(cliente_id, mes_ref)
+);
+
+CREATE INDEX IF NOT EXISTS idx_clientes_email ON clientes(email);
+CREATE INDEX IF NOT EXISTS idx_clientes_cnpj ON clientes(cnpj);
+CREATE INDEX IF NOT EXISTS idx_clientes_status ON clientes(status);
+CREATE INDEX IF NOT EXISTS idx_pagamentos_cliente ON pagamentos_mensalidade(cliente_id);
+CREATE INDEX IF NOT EXISTS idx_pagamentos_mes_ref ON pagamentos_mensalidade(mes_ref);

@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { Users, CreditCard, AlertCircle, UserMinus, LayoutDashboard, FileText, FileX, PlusCircle, LogOut } from 'lucide-react';
+import { Users, CreditCard, AlertCircle, UserMinus, LayoutDashboard, FileText, FileX, PlusCircle, LogOut, UserPlus, List } from 'lucide-react';
 import { theme } from '../../styles/theme';
 
 const { colors, spacing, fontSizes, radii } = theme;
@@ -12,6 +12,8 @@ import { ADMIN_HEADER_HEIGHT, SIDEBAR_WIDTH } from './constants';
 export const sidebarWidth = SIDEBAR_WIDTH;
 
 const CLIENTE_ITEMS = [
+  { label: 'Cadastrar novo', href: '/admin/dashboard/clientes/novo', icon: <UserPlus size={18} strokeWidth={1.5} /> },
+  { label: 'Todos os clientes', href: '/admin/dashboard/clientes/todos', icon: <List size={18} strokeWidth={1.5} /> },
   { label: 'Ativos', href: '/admin/dashboard/clientes/ativos', icon: <Users size={18} strokeWidth={1.5} /> },
   { label: 'Pagamentos', href: '/admin/dashboard/clientes/pagamento', icon: <CreditCard size={18} strokeWidth={1.5} /> },
   { label: 'Inadimplentes', href: '/admin/dashboard/clientes/inadiplentes', icon: <AlertCircle size={18} strokeWidth={1.5} /> },
