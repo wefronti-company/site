@@ -326,6 +326,9 @@ jobs:
           fi
           echo "Zone ID: $ZONE_ID"
 
+          echo "Aguardando 30s para propagação do Vercel antes do purge..."
+          sleep 30
+
           echo "Purging Cloudflare cache (purge_everything=true)"
           resp=$(curl -s -X POST "https://api.cloudflare.com/client/v4/zones/$ZONE_ID/purge_cache" \
             -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \

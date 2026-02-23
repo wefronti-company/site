@@ -1,44 +1,45 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { addProposal } from '../../../lib/proposalData';
-import type { ProposalItem } from '../../../lib/proposalData';
+import { upsertProposal } from '../../../lib/proposalDb';
 
 interface Body {
-  slug: string;
+  empresa: string;
   cliente: string;
-  empresa?: string;
-  itens: ProposalItem[];
-  observacoes?: string;
+  servico: string;
+  preco: number;
+  manutencao?: '' | 'sim';
+  precoManutencao?: number;
 }
 
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
   const body = req.body as Body;
 
-  if (!body.slug?.trim() || !body.cliente?.trim() || !body.itens?.length) {
+  if (!body.empresa?.trim() || !body.cliente?.trim() || !body.servico?.trim()) {
     return res.status(400).json({
-      error: 'Preencha slug, cliente e pelo menos um item.',
+      error: 'Preencha empresa, cliente e serviço.',
     });
   }
 
-  const slug = body.slug.trim().toLowerCase().replace(/\s+/g, '-');
-  const itens = body.itens.filter((i) => i.descricao?.trim()).map((i) => ({
-    descricao: i.descricao.trim(),
-    valor: Number(i.valor) || 0,
-  }));
-
-  if (itens.length === 0) {
-    return res.status(400).json({ error: 'Adicione pelo menos um serviço.' });
+  const preco = Number(body.preco);
+  if (!preco || preco < 100) {
+    return res.status(400).json({ error: 'Preço inválido (mínimo R$ 100).' });
   }
 
-  const proposal = addProposal({
+  const slug = body.empresa.trim().toLowerCase().replace(/\s+/g, '-');
+  const manutencao = body.manutencao === 'sim' ? 'sim' : '';
+  const precoManutencao = manutencao === 'sim' ? Math.max(0, Number(body.precoManutencao) || 0) : 0;
+
+  const proposal = await upsertProposal({
     slug,
+    empresa: body.empresa.trim(),
     cliente: body.cliente.trim(),
-    empresa: body.empresa?.trim() || undefined,
-    itens,
-    observacoes: body.observacoes?.trim() || undefined,
+    servico: body.servico.trim(),
+    preco,
+    manutencao,
+    precoManutencao,
   });
 
   const host = req.headers.host || '';

@@ -41,11 +41,11 @@ export default function Document() {
  <body style={{ backgroundColor: '#040404' }}>
  <Main />
 
- {/* Client-side JS chunk retry: se um script de /_next/static/chunks falhar (503, rede, deploy), tenta novamente e, se falhar, recarrega a página para obter HTML novo */}
+ {/* Client-side JS chunk retry: se um script de /_next/static/chunks falhar (503, rede, deploy), tenta novamente */}
  <script dangerouslySetInnerHTML={{ __html: `
   (function(){
     try {
-      var MAX_RETRIES = 2;
+      var MAX_RETRIES = 3;
       var RELOAD_KEY = 'wefronti_chunk_reload';
       window.addEventListener('error', function(e){
         var t = e.target || e.srcElement;

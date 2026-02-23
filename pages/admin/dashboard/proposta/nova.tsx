@@ -137,31 +137,22 @@ const PropostaNovaPage: React.FC = () => {
     if (!cliente.trim()) erros.push('Cliente');
     if (!itens[0]?.descricao?.trim()) erros.push('Serviços');
     const valor = Number(itens[0]?.valor);
-    if (!valor || valor <= 0) erros.push('Preço');
+    if (!valor || valor <= 100) erros.push('Preço');
     if (erros.length > 0) {
       setError('Todos os campos são obrigatórios.');
       return;
     }
-    const slugClean = slug.trim().toLowerCase().replace(/\s+/g, '-');
-    const validItens: ProposalItem[] = [
-      ...itens
-        .filter((i) => i.descricao.trim())
-        .map((i) => ({ descricao: i.descricao.trim(), valor: Number(i.valor) || 0 })),
-      ...(manutencao === 'sim' && Number(manutencaoPreco) > 0
-        ? [{ descricao: 'Manutenção', valor: Number(manutencaoPreco) }]
-        : []),
-    ];
-
     try {
       const res = await fetch('/api/proposta/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          slug: slugClean,
+          empresa: slug.trim(),
           cliente: cliente.trim(),
-          empresa: slug.trim() || undefined,
-          itens: validItens,
-          observacoes: 'Proposta válida por 24 horas após o envio.',
+          servico: itens[0]?.descricao?.trim() || 'Site',
+          preco: Number(itens[0]?.valor) || 0,
+          manutencao: manutencao || '',
+          precoManutencao: manutencao === 'sim' ? Number(manutencaoPreco) || 0 : 0,
         }),
       });
       const data = await res.json();

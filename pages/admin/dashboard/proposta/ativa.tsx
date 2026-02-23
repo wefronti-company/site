@@ -1,16 +1,19 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
 import AdminLayout from '../../../../components/admin/AdminLayout';
 import { theme } from '../../../../styles/theme';
+import type { Proposal } from '../../../../lib/proposalData';
+import { PROPOSAL_VALID_HOURS } from '../../../../lib/proposalData';
+import { ExternalLink } from 'lucide-react';
 
-const { colors, fontSizes } = theme;
+const { colors, spacing, fontSizes } = theme;
 
 const titleStyle: React.CSSProperties = {
   fontSize: 'clamp(1.5rem, 4vw, 2.5rem)',
   fontWeight: 600,
   color: colors.text.light,
   margin: 0,
-  marginBottom: 16,
+  marginBottom: spacing[2],
 };
 
 const subtitleStyle: React.CSSProperties = {
@@ -18,20 +21,137 @@ const subtitleStyle: React.CSSProperties = {
   color: colors.text.light,
   opacity: 0.7,
   margin: 0,
+  marginBottom: spacing[6],
 };
 
+const listStyle: React.CSSProperties = {
+  display: 'flex',
+  flexDirection: 'column',
+  gap: spacing[3],
+};
+
+const cardStyle: React.CSSProperties = {
+  backgroundColor: colors.admin.inactive,
+  border: `1px solid ${colors.neutral.borderDark}`,
+  borderRadius: 12,
+  padding: spacing[4],
+  display: 'flex',
+  flexWrap: 'wrap',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  gap: spacing[4],
+};
+
+const cardInfoStyle: React.CSSProperties = {
+  display: 'flex',
+  flexDirection: 'column',
+  gap: spacing[1],
+};
+
+const cardLabelStyle: React.CSSProperties = {
+  fontSize: fontSizes.sm,
+  fontWeight: 600,
+  color: colors.text.light,
+};
+
+const cardMetaStyle: React.CSSProperties = {
+  fontSize: fontSizes.sm,
+  color: colors.text.light,
+  opacity: 0.7,
+};
+
+const badgeStyle: React.CSSProperties = {
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: spacing[2],
+  padding: `${spacing[2]}px ${spacing[3]}px`,
+  backgroundColor: 'rgba(34, 197, 94, 0.15)',
+  color: '#4ade80',
+  borderRadius: 8,
+  fontSize: fontSizes.sm,
+  fontWeight: 500,
+};
+
+function formatBRL(val: number): string {
+  return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(val);
+}
+
+function formatRemaining(proposal: Proposal): string {
+  const sent = new Date(proposal.enviadoEm).getTime();
+  const expiresAt = sent + PROPOSAL_VALID_HOURS * 60 * 60 * 1000;
+  const ms = Math.max(0, expiresAt - Date.now());
+  if (ms <= 0) return 'Expirada';
+  const h = Math.floor(ms / (1000 * 60 * 60));
+  const m = Math.floor((ms % (1000 * 60 * 60)) / (1000 * 60));
+  if (h > 0) return `${h}h ${m}min`;
+  return `${m}min`;
+}
+
 const PropostaAtivaPage: React.FC = () => {
+  const [propostas, setPropostas] = useState<Proposal[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch('/api/proposta/ativas')
+      .then((r) => r.json())
+      .then((data) => {
+        setPropostas(Array.isArray(data) ? data : []);
+      })
+      .catch(() => setPropostas([]))
+      .finally(() => setLoading(false));
+  }, []);
+
   return (
     <>
       <Head>
-        <title>Proposta ativa | Wefronti Admin</title>
+        <title>Propostas ativas | Wefronti Admin</title>
         <meta name="robots" content="noindex, nofollow" />
       </Head>
       <AdminLayout>
-        <h1 style={titleStyle}>Proposta ativa</h1>
+        <h1 style={titleStyle}>Propostas ativas</h1>
         <p style={subtitleStyle}>
-          Listagem de propostas comerciais ativas. Em desenvolvimento.
+          Propostas válidas nas últimas 24 horas.
         </p>
+
+        {loading ? (
+          <p style={cardMetaStyle}>Carregando...</p>
+        ) : propostas.length === 0 ? (
+          <p style={cardMetaStyle}>Nenhuma proposta ativa no momento.</p>
+        ) : (
+          <div style={listStyle}>
+            {propostas.map((proposal) => {
+              const total = proposal.itens.reduce((s, i) => s + i.valor, 0);
+              const link = `${typeof window !== 'undefined' ? window.location.origin : ''}/proposta/${proposal.slug}`;
+              return (
+                <div key={proposal.slug} style={cardStyle}>
+                  <div style={cardInfoStyle}>
+                    <span style={cardLabelStyle}>{proposal.empresa || proposal.cliente}</span>
+                    <span style={cardMetaStyle}>
+                      {proposal.codigo} · {proposal.cliente}
+                    </span>
+                  </div>
+                  <span style={cardLabelStyle}>{formatBRL(total)}</span>
+                  <span style={badgeStyle}>{formatRemaining(proposal)} restantes</span>
+                  <a
+                    href={link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: spacing[2],
+                      color: colors.blue.primary,
+                      textDecoration: 'none',
+                      fontSize: fontSizes.sm,
+                    }}
+                  >
+                    Ver proposta <ExternalLink size={14} />
+                  </a>
+                </div>
+              );
+            })}
+          </div>
+        )}
       </AdminLayout>
     </>
   );

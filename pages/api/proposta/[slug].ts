@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { getProposalBySlug, isProposalExpired } from '../../../lib/proposalData';
+import { getProposalBySlug, isProposalExpired } from '../../../lib/proposalDb';
 import {
   generateProposalHtml,
   generateExpiredHtml,
@@ -10,14 +10,14 @@ import {
  * API que gera e retorna a página temporária da proposta em HTML.
  * Acessado via rewrite: /proposta/:slug -> /api/proposta/:slug
  */
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'GET') {
     res.setHeader('Allow', 'GET');
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
   const slug = typeof req.query.slug === 'string' ? req.query.slug : '';
-  const proposal = getProposalBySlug(slug);
+  const proposal = await getProposalBySlug(slug);
 
   if (!proposal) {
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
