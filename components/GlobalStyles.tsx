@@ -44,6 +44,18 @@ button, input, select, textarea {
   padding-bottom: 80px;
 }
 
+/* Painel admin: fundo unificado (admin.background) */
+body.admin-route,
+body.admin-route #__next,
+html.admin-route,
+html.admin-route body {
+  background-color: #0A0C12 !important;
+}
+body.admin-route #__next {
+  padding-bottom: 0;
+  min-height: 100vh;
+}
+
 /* Scroll suave — respeita preferência de movimento reduzido */
 @media (prefers-reduced-motion: no-preference) {
   html {

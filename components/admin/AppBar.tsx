@@ -1,19 +1,13 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { theme } from '../../styles/theme';
-import { ADMIN_HEADER_HEIGHT } from './constants';
+import { ADMIN_HEADER_HEIGHT, SIDEBAR_WIDTH } from './constants';
 
 const { colors, spacing, fontSizes } = theme;
 
-// Usuário mockado – substituir por dados da sessão quando houver auth
-const CURRENT_USER = {
-  name: 'Admin',
-  initials: 'A',
-};
-
 const appBarStyle: React.CSSProperties = {
-  position: 'sticky',
+  position: 'fixed',
   top: 0,
-  left: 0,
+  left: SIDEBAR_WIDTH,
   right: 0,
   height: ADMIN_HEADER_HEIGHT,
   minHeight: ADMIN_HEADER_HEIGHT,
@@ -55,14 +49,28 @@ const userNameStyle: React.CSSProperties = {
   margin: 0,
 };
 
+function getInitial(email: string): string {
+  const first = email.charAt(0);
+  return first ? first.toUpperCase() : 'A';
+}
+
 export const AppBar: React.FC = () => {
+  const [email, setEmail] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetch('/api/admin/me', { credentials: 'same-origin' })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => data && setEmail(data.email))
+      .catch(() => {});
+  }, []);
+
   return (
     <header style={appBarStyle} role="banner">
       <div style={userWrapStyle}>
         <div style={avatarStyle} aria-hidden>
-          {CURRENT_USER.initials}
+          {email ? getInitial(email) : 'A'}
         </div>
-        <span style={userNameStyle}>{CURRENT_USER.name}</span>
+        <span style={userNameStyle}>{email || 'Admin'}</span>
       </div>
     </header>
   );

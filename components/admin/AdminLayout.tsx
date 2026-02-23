@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { Sidebar, sidebarWidth } from './Sidebar';
 import { AppBar } from './AppBar';
 import { theme } from '../../styles/theme';
+import { ADMIN_HEADER_HEIGHT } from './constants';
 
 const { colors, spacing } = theme;
 
@@ -18,6 +19,7 @@ const mainWrapStyle: React.CSSProperties = {
   minWidth: 0,
   display: 'flex',
   flexDirection: 'column',
+  paddingTop: ADMIN_HEADER_HEIGHT,
 };
 
 const contentStyle: React.CSSProperties = {

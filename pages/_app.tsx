@@ -35,6 +35,17 @@ export default function MyApp({ Component, pageProps }: AppProps) {
  }, [router.events]);
 
  // Inserir comentário logo antes do <html> no DOM (executado no cliente)
+ // Admin: usa admin.background (#0A0C12) em html/body/#__next
+ React.useEffect(() => {
+   const isAdmin = router.pathname.startsWith('/admin');
+   document.documentElement.classList.toggle('admin-route', isAdmin);
+   document.body.classList.toggle('admin-route', isAdmin);
+   return () => {
+     document.documentElement.classList.remove('admin-route');
+     document.body.classList.remove('admin-route');
+   };
+ }, [router.pathname]);
+
  React.useEffect(() => {
    try {
      if (typeof document !== 'undefined' && document.documentElement) {

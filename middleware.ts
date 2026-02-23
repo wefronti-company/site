@@ -149,8 +149,10 @@ export async function middleware(request: NextRequest) {
      }
    }
  } else if (MAIN_HOSTS.includes(host) && url.pathname.startsWith('/admin')) {
-   // wefronti.com ou www: bloquear acesso a /admin (apenas via admin.wefronti.com)
-   return new NextResponse('Not Found', { status: 404 });
+   // wefronti.com ou www: bloquear acesso a /admin (mostrar 404)
+   const notFoundUrl = url.clone();
+   notFoundUrl.pathname = '/404';
+   return NextResponse.rewrite(notFoundUrl);
  }
 
  // 1. Bloquear IPs maliciosos

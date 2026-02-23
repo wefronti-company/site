@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Head from 'next/head';
+import Image from 'next/image';
 import { theme } from '../../styles/theme';
 import ButtonPainel from '../../components/ui/ButtonPainel';
 
@@ -24,22 +25,10 @@ const cardStyle: React.CSSProperties = {
   padding: spacing[8],
 };
 
-const titleStyle: React.CSSProperties = {
-  fontSize: 'clamp(1.5rem, 4vw, 2rem)',
-  fontWeight: 600,
-  color: colors.text.light,
-  margin: 0,
-  marginBottom: spacing[2],
-  textAlign: 'center',
-};
-
-const subtitleStyle: React.CSSProperties = {
-  fontSize: fontSizes.sm,
-  color: colors.text.light,
-  opacity: 0.7,
-  margin: 0,
+const logoWrapStyle: React.CSSProperties = {
+  display: 'flex',
+  justifyContent: 'center',
   marginBottom: spacing[6],
-  textAlign: 'center',
 };
 
 const formStyle: React.CSSProperties = {
@@ -121,9 +110,17 @@ const AdminLoginPage: React.FC = () => {
         <meta name="robots" content="noindex, nofollow" />
       </Head>
       <main style={pageStyle}>
-        <div style={cardStyle}>
-          <h1 style={titleStyle}>Login</h1>
-          <p style={subtitleStyle}>Acesso ao painel administrativo</p>
+        <div style={cardStyle} className="admin-login-card">
+          <div style={logoWrapStyle}>
+            <Image
+              src="/images/brand/isologo-white.webp"
+              alt="Wefronti"
+              width={140}
+              height={38}
+              style={{ objectFit: 'contain' }}
+              priority
+            />
+          </div>
           <form onSubmit={handleSubmit} style={formStyle}>
             <div>
               <label style={labelStyle} htmlFor="admin-email">
@@ -165,6 +162,21 @@ const AdminLoginPage: React.FC = () => {
             </ButtonPainel>
           </form>
         </div>
+        <style jsx global>{`
+          .admin-login-card input {
+            -webkit-appearance: none;
+            appearance: none;
+          }
+          .admin-login-card input:-webkit-autofill,
+          .admin-login-card input:-webkit-autofill:hover,
+          .admin-login-card input:-webkit-autofill:focus,
+          .admin-login-card input:-webkit-autofill:active {
+            -webkit-text-fill-color: #ffffff;
+            -webkit-box-shadow: 0 0 0px 1000px #0A0C12 inset;
+            caret-color: #ffffff;
+            transition: background-color 5000s ease-in-out 0s;
+          }
+        `}</style>
       </main>
     </>
   );
