@@ -124,7 +124,7 @@ const PerfilAdminPage: React.FC = () => {
     return (
       <>
         <Head>
-          <title>Perfil | Wefronti Admin</title>
+          <title>Perfil | Wefronti</title>
           <meta name="robots" content="noindex, nofollow" />
         </Head>
         <AdminLayout>
@@ -137,7 +137,7 @@ const PerfilAdminPage: React.FC = () => {
   return (
     <>
       <Head>
-        <title>Perfil | Wefronti Admin</title>
+        <title>Perfil | Wefronti</title>
         <meta name="robots" content="noindex, nofollow" />
       </Head>
       <AdminLayout>

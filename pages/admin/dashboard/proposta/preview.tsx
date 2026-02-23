@@ -26,7 +26,7 @@ export default function PropostaPreviewPage() {
     return (
       <AdminLayout>
         <Head>
-          <title>Preview da proposta | Wefronti Admin</title>
+          <title>Preview da proposta | Wefronti</title>
           <meta name="robots" content="noindex, nofollow" />
         </Head>
         <p style={{ color: 'var(--color-text-light, #fff)', padding: 24 }}>
@@ -39,7 +39,7 @@ export default function PropostaPreviewPage() {
   return (
     <>
       <Head>
-        <title>Preview da proposta | Wefronti Admin</title>
+        <title>Preview da proposta | Wefronti</title>
         <meta name="robots" content="noindex, nofollow" />
       </Head>
       <AdminLayout>

@@ -120,7 +120,7 @@ const ClientesAtivosPage: React.FC = () => {
   return (
     <>
       <Head>
-        <title>Clientes ativos | Wefronti Admin</title>
+        <title>Clientes ativos | Wefronti</title>
         <meta name="robots" content="noindex, nofollow" />
       </Head>
       <AdminLayout>

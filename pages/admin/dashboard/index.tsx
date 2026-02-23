@@ -124,7 +124,7 @@ const AdminDashboardPage: React.FC = () => {
   return (
     <>
       <Head>
-        <title>Dashboard | Wefronti Admin</title>
+        <title>Dashboard | Wefronti</title>
         <meta name="robots" content="noindex, nofollow" />
       </Head>
       <AdminLayout>

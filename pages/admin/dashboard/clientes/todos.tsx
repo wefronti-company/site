@@ -193,7 +193,7 @@ const ClientesTodosPage: React.FC = () => {
   return (
     <>
       <Head>
-        <title>Todos os clientes | Wefronti Admin</title>
+        <title>Todos os clientes | Wefronti</title>
         <meta name="robots" content="noindex, nofollow" />
       </Head>
       <AdminLayout>

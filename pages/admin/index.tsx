@@ -113,7 +113,7 @@ const AdminLoginPage: React.FC = () => {
   return (
     <>
       <Head>
-        <title>Login | Wefronti Admin</title>
+        <title>Login | Wefronti</title>
         <meta name="robots" content="noindex, nofollow" />
       </Head>
       <main style={pageStyle}>

@@ -137,6 +137,24 @@ export async function getClientesDesligados(): Promise<ClienteComPagamento[]> {
   return (rows as Record<string, unknown>[]).map((r) => rowToClienteComPagamento(r, false, 'desligado'));
 }
 
+export async function buscarClientes(termo: string): Promise<Cliente[]> {
+  if (!sql) throw new Error('Banco de dados não configurado.');
+  const q = String(termo || '').trim();
+  if (!q || q.length < 1) return [];
+  const pattern = `%${q}%`;
+  const rows = await sql`
+    SELECT * FROM clientes
+    WHERE
+      nome ILIKE ${pattern}
+      OR nome_fantasia ILIKE ${pattern}
+      OR razao_social ILIKE ${pattern}
+      OR email ILIKE ${pattern}
+    ORDER BY nome_fantasia NULLS LAST, razao_social
+    LIMIT 10
+  `;
+  return (rows as Record<string, unknown>[]).map((r) => rowToCliente(r));
+}
+
 export async function getClienteById(id: string): Promise<Cliente | null> {
   if (!sql) throw new Error('Banco de dados não configurado.');
   const rows = await sql`

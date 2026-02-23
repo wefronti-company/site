@@ -1,7 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { Search } from 'lucide-react';
 import { theme } from '../../styles/theme';
 import { getAdminCache, setAdminCache } from '../../lib/adminCache';
 import { ADMIN_HEADER_HEIGHT, SIDEBAR_WIDTH } from './constants';
+
+interface ClienteBusca {
+  id: string;
+  nome: string;
+  email: string;
+  nomeFantasia?: string;
+  razaoSocial: string;
+}
 
 const { colors, spacing, fontSizes } = theme;
 
@@ -15,12 +26,89 @@ const appBarStyle: React.CSSProperties = {
   boxSizing: 'border-box',
   display: 'flex',
   alignItems: 'center',
-  justifyContent: 'flex-end',
+  justifyContent: 'space-between',
   paddingLeft: spacing[6],
   paddingRight: spacing[6],
   backgroundColor: colors.admin.background,
   borderBottom: `1px solid ${colors.neutral.borderDark}`,
   zIndex: 30,
+};
+
+const searchWrapStyle: React.CSSProperties = {
+  position: 'relative',
+  flex: 1,
+  maxWidth: 320,
+  marginRight: spacing[6],
+  display: 'flex',
+  alignItems: 'center',
+  gap: spacing[3],
+  padding: `0 ${spacing[3]}px`,
+  minHeight: 44,
+  backgroundColor: colors.admin.inactive,
+  border: `1px solid ${colors.neutral.borderDark}`,
+  borderRadius: 6,
+};
+
+const searchInputStyle: React.CSSProperties = {
+  flex: 1,
+  minWidth: 0,
+  padding: 0,
+  border: 'none',
+  background: 'none',
+  fontSize: fontSizes.base,
+  color: colors.text.light,
+  outline: 'none',
+};
+
+const searchIconStyle: React.CSSProperties = {
+  flexShrink: 0,
+  color: colors.text.light,
+  opacity: 0.6,
+};
+
+const dropdownStyle: React.CSSProperties = {
+  position: 'absolute',
+  top: '100%',
+  left: 0,
+  right: 0,
+  marginTop: spacing[1],
+  backgroundColor: colors.admin.inactive,
+  border: `1px solid ${colors.neutral.borderDark}`,
+  borderRadius: 8,
+  maxHeight: 280,
+  overflowY: 'auto',
+  boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+  zIndex: 50,
+};
+
+const resultItemStyle: React.CSSProperties = {
+  display: 'block',
+  width: '100%',
+  padding: `${spacing[3]}px ${spacing[4]}`,
+  textAlign: 'left',
+  border: 'none',
+  background: 'none',
+  cursor: 'pointer',
+  fontSize: fontSizes.sm,
+  color: colors.text.light,
+  textDecoration: 'none',
+  borderBottom: `1px solid ${colors.neutral.borderDark}`,
+};
+
+const resultItemLastName: React.CSSProperties = {
+  ...resultItemStyle,
+  borderBottom: 'none',
+};
+
+const resultLabelStyle: React.CSSProperties = {
+  fontWeight: 600,
+  display: 'block',
+  marginBottom: 2,
+};
+
+const resultMetaStyle: React.CSSProperties = {
+  fontSize: fontSizes.xs,
+  opacity: 0.7,
 };
 
 const userWrapStyle: React.CSSProperties = {
@@ -55,8 +143,16 @@ function getInitial(nameOrEmail: string): string {
   return first ? first.toUpperCase() : 'A';
 }
 
+const DEBOUNCE_MS = 300;
+
 export const AppBar: React.FC = () => {
+  const router = useRouter();
+  const searchRef = useRef<HTMLDivElement>(null);
   const [admin, setAdmin] = useState<{ nome: string | null; email: string } | null>(getAdminCache);
+  const [busca, setBusca] = useState('');
+  const [resultados, setResultados] = useState<ClienteBusca[]>([]);
+  const [buscando, setBuscando] = useState(false);
+  const [dropdownAberto, setDropdownAberto] = useState(false);
 
   useEffect(() => {
     fetch('/api/admin/me', { credentials: 'same-origin' })
@@ -71,11 +167,85 @@ export const AppBar: React.FC = () => {
       .catch(() => {});
   }, []);
 
+  useEffect(() => {
+    const t = busca.trim();
+    if (t.length < 1) {
+      setResultados([]);
+      setDropdownAberto(false);
+      return;
+    }
+    const id = setTimeout(() => {
+      setBuscando(true);
+      fetch(`/api/clientes/busca?q=${encodeURIComponent(t)}`, { credentials: 'same-origin' })
+        .then((r) => (r.ok ? r.json() : []))
+        .then((data) => {
+          setResultados(Array.isArray(data) ? data : []);
+          setDropdownAberto(true);
+        })
+        .catch(() => setResultados([]))
+        .finally(() => setBuscando(false));
+    }, DEBOUNCE_MS);
+    return () => clearTimeout(id);
+  }, [busca]);
+
+  const handleClickFora = useCallback((e: MouseEvent) => {
+    if (searchRef.current && !searchRef.current.contains(e.target as Node)) {
+      setDropdownAberto(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickFora);
+    return () => document.removeEventListener('mousedown', handleClickFora);
+  }, [handleClickFora]);
+
+  const selecionarCliente = (id: string) => {
+    setBusca('');
+    setResultados([]);
+    setDropdownAberto(false);
+    router.push(`/admin/dashboard/clientes/${id}/editar`);
+  };
+
   const displayName = admin?.nome?.trim() || admin?.email || 'Admin';
   const initial = admin ? getInitial(admin.nome?.trim() || admin.email) : 'A';
 
   return (
     <header style={appBarStyle} role="banner">
+      <div style={searchWrapStyle} ref={searchRef}>
+        <Search size={20} style={searchIconStyle} aria-hidden />
+        <input
+          type="search"
+          placeholder="Buscar cliente..."
+          aria-label="Buscar cliente"
+          value={busca}
+          onChange={(e) => setBusca(e.target.value)}
+          onFocus={() => resultados.length > 0 && setDropdownAberto(true)}
+          style={searchInputStyle}
+        />
+        {dropdownAberto && resultados.length > 0 && (
+          <div style={dropdownStyle} role="listbox">
+            {resultados.map((c, i) => (
+              <Link
+                key={c.id}
+                href={`/admin/dashboard/clientes/${c.id}/editar`}
+                style={i === resultados.length - 1 ? resultItemLastName : resultItemStyle}
+                onClick={(e) => {
+                  e.preventDefault();
+                  selecionarCliente(c.id);
+                }}
+              >
+                <span style={resultLabelStyle}>{c.nomeFantasia || c.razaoSocial}</span>
+                <span style={resultMetaStyle}>{c.nome} · {c.email}</span>
+              </Link>
+            ))}
+          </div>
+        )}
+        {dropdownAberto && busca.trim().length >= 1 && !buscando && resultados.length === 0 && (
+          <div style={{ ...dropdownStyle, padding: spacing[4], color: colors.text.light, opacity: 0.8 }}>
+            Nenhum cliente encontrado.
+          </div>
+        )}
+      </div>
       <div style={userWrapStyle}>
         <div style={avatarStyle} aria-hidden>
           {initial}

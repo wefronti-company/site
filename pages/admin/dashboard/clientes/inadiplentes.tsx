@@ -184,7 +184,7 @@ const ClientesInadiplentesPage: React.FC = () => {
   return (
     <>
       <Head>
-        <title>Clientes inadimplentes | Wefronti Admin</title>
+        <title>Clientes inadimplentes | Wefronti</title>
         <meta name="robots" content="noindex, nofollow" />
       </Head>
       <AdminLayout>

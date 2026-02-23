@@ -212,7 +212,7 @@ const ClientesPagamentoPage: React.FC = () => {
   return (
     <>
       <Head>
-        <title>Pagamentos | Wefronti Admin</title>
+        <title>Pagamentos | Wefronti</title>
         <meta name="robots" content="noindex, nofollow" />
       </Head>
       <AdminLayout>

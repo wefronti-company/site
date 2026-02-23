@@ -178,7 +178,7 @@ const PropostaAtivaPage: React.FC = () => {
   return (
     <>
       <Head>
-        <title>Propostas ativas | Wefronti Admin</title>
+        <title>Propostas ativas | Wefronti</title>
         <meta name="robots" content="noindex, nofollow" />
       </Head>
       <AdminLayout>

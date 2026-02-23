@@ -97,7 +97,7 @@ const EditarClientePage: React.FC = () => {
     return (
       <>
         <Head>
-          <title>Editar cliente | Wefronti Admin</title>
+          <title>Editar cliente | Wefronti</title>
           <meta name="robots" content="noindex, nofollow" />
         </Head>
         <AdminLayout>
@@ -110,7 +110,7 @@ const EditarClientePage: React.FC = () => {
   return (
     <>
       <Head>
-        <title>Editar cliente | Wefronti Admin</title>
+        <title>Editar cliente | Wefronti</title>
         <meta name="robots" content="noindex, nofollow" />
       </Head>
       <AdminLayout>

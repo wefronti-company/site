@@ -104,7 +104,7 @@ const NovoAdminPage: React.FC = () => {
   return (
     <>
       <Head>
-        <title>Adicionar admin | Wefronti Admin</title>
+        <title>Adicionar admin | Wefronti</title>
         <meta name="robots" content="noindex, nofollow" />
       </Head>
       <AdminLayout>

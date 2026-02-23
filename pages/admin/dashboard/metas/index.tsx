@@ -109,7 +109,7 @@ const MetasPage: React.FC = () => {
     return (
       <>
         <Head>
-          <title>Configurar metas | Wefronti Admin</title>
+          <title>Configurar metas | Wefronti</title>
           <meta name="robots" content="noindex, nofollow" />
         </Head>
         <AdminLayout>
@@ -122,7 +122,7 @@ const MetasPage: React.FC = () => {
   return (
     <>
       <Head>
-        <title>Configurar metas | Wefronti Admin</title>
+        <title>Configurar metas | Wefronti</title>
         <meta name="robots" content="noindex, nofollow" />
       </Head>
       <AdminLayout>

@@ -77,7 +77,7 @@ const ClienteNovoPage: React.FC = () => {
   return (
     <>
       <Head>
-        <title>Cadastrar cliente | Wefronti Admin</title>
+        <title>Cadastrar cliente | Wefronti</title>
         <meta name="robots" content="noindex, nofollow" />
       </Head>
       <AdminLayout>

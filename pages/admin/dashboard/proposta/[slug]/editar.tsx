@@ -177,7 +177,7 @@ const PropostaEditarPage: React.FC = () => {
     return (
       <>
         <Head>
-          <title>Editar proposta | Wefronti Admin</title>
+          <title>Editar proposta | Wefronti</title>
           <meta name="robots" content="noindex, nofollow" />
         </Head>
         <AdminLayout>
@@ -190,7 +190,7 @@ const PropostaEditarPage: React.FC = () => {
   return (
     <>
       <Head>
-        <title>Editar proposta | Wefronti Admin</title>
+        <title>Editar proposta | Wefronti</title>
         <meta name="robots" content="noindex, nofollow" />
       </Head>
       <AdminLayout>

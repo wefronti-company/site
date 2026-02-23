@@ -138,7 +138,7 @@ const ClientesDesligadosPage: React.FC = () => {
   return (
     <>
       <Head>
-        <title>Clientes desligados | Wefronti Admin</title>
+        <title>Clientes desligados | Wefronti</title>
         <meta name="robots" content="noindex, nofollow" />
       </Head>
       <AdminLayout>

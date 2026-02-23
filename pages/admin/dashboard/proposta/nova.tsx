@@ -172,7 +172,7 @@ const PropostaNovaPage: React.FC = () => {
   return (
     <>
       <Head>
-        <title>Nova proposta | Wefronti Admin</title>
+        <title>Nova proposta | Wefronti</title>
         <meta name="robots" content="noindex, nofollow" />
       </Head>
       <AdminLayout>

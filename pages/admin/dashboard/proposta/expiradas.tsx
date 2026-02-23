@@ -144,7 +144,7 @@ const PropostaExpiradasPage: React.FC = () => {
   return (
     <>
       <Head>
-        <title>Propostas expiradas | Wefronti Admin</title>
+        <title>Propostas expiradas | Wefronti</title>
         <meta name="robots" content="noindex, nofollow" />
       </Head>
       <AdminLayout>
