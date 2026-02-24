@@ -124,23 +124,35 @@ const btnDesligarStyle: React.CSSProperties = {
   cursor: 'pointer',
 };
 
+let cacheClientesInadimplentes: ClienteComPagamento[] | null = null;
+
 const ClientesInadiplentesPage: React.FC = () => {
   const { showSuccess, showError } = useSnackbar();
-  const [clientes, setClientes] = useState<ClienteComPagamento[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [clientes, setClientes] = useState<ClienteComPagamento[]>(() => cacheClientesInadimplentes ?? []);
+  const [loading, setLoading] = useState(() => !cacheClientesInadimplentes);
   const [pagando, setPagando] = useState<string | null>(null);
   const [desligando, setDesligando] = useState<string | null>(null);
 
-  const load = () => {
+  const load = (opts?: { silent?: boolean }) => {
+    const silent = opts?.silent ?? false;
+    if (!silent) setLoading(true);
     fetch('/api/clientes/inadimplentes')
       .then((r) => r.json())
-      .then((data) => setClientes(Array.isArray(data) ? data : []))
-      .catch(() => setClientes([]))
-      .finally(() => setLoading(false));
+      .then((data) => {
+        const list = Array.isArray(data) ? data : [];
+        cacheClientesInadimplentes = list;
+        setClientes(list);
+      })
+      .catch(() => {
+        if (!cacheClientesInadimplentes) setClientes([]);
+      })
+      .finally(() => {
+        if (!silent) setLoading(false);
+      });
   };
 
   useEffect(() => {
-    load();
+    load({ silent: !!cacheClientesInadimplentes });
   }, []);
 
   const handlePagar = async (id: string) => {
@@ -194,7 +206,11 @@ const ClientesInadiplentesPage: React.FC = () => {
         </p>
 
         {loading ? (
-          <p style={cardMetaStyle}>Carregando...</p>
+          <div style={listStyle}>
+            <div style={{ ...cardStyle, minHeight: 68, opacity: 0.55 }} />
+            <div style={{ ...cardStyle, minHeight: 68, opacity: 0.45 }} />
+            <div style={{ ...cardStyle, minHeight: 68, opacity: 0.35 }} />
+          </div>
         ) : clientes.length === 0 ? (
           <p style={cardMetaStyle}>Nenhum cliente inadimplente.</p>
         ) : (

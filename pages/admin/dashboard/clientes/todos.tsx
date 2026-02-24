@@ -151,22 +151,34 @@ const btnDetalhesStyle: React.CSSProperties = {
   display: 'inline-flex',
 };
 
+let cacheClientesTodos: ClienteComPagamento[] | null = null;
+
 const ClientesTodosPage: React.FC = () => {
   const { showSuccess, showError } = useSnackbar();
-  const [clientes, setClientes] = useState<ClienteComPagamento[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [clientes, setClientes] = useState<ClienteComPagamento[]>(() => cacheClientesTodos ?? []);
+  const [loading, setLoading] = useState(() => !cacheClientesTodos);
   const [atualizando, setAtualizando] = useState<string | null>(null);
 
-  const load = () => {
+  const load = (opts?: { silent?: boolean }) => {
+    const silent = opts?.silent ?? false;
+    if (!silent) setLoading(true);
     fetch('/api/clientes/todos')
       .then((r) => r.json())
-      .then((data) => setClientes(Array.isArray(data) ? data : []))
-      .catch(() => setClientes([]))
-      .finally(() => setLoading(false));
+      .then((data) => {
+        const list = Array.isArray(data) ? data : [];
+        cacheClientesTodos = list;
+        setClientes(list);
+      })
+      .catch(() => {
+        if (!cacheClientesTodos) setClientes([]);
+      })
+      .finally(() => {
+        if (!silent) setLoading(false);
+      });
   };
 
   useEffect(() => {
-    load();
+    load({ silent: !!cacheClientesTodos });
   }, []);
 
   const handleStatus = async (id: string, status: number) => {
@@ -203,7 +215,11 @@ const ClientesTodosPage: React.FC = () => {
         </p>
 
         {loading ? (
-          <p style={cardMetaStyle}>Carregando...</p>
+          <div style={listStyle}>
+            <div style={{ ...cardStyle, minHeight: 68, opacity: 0.55 }} />
+            <div style={{ ...cardStyle, minHeight: 68, opacity: 0.45 }} />
+            <div style={{ ...cardStyle, minHeight: 68, opacity: 0.35 }} />
+          </div>
         ) : clientes.length === 0 ? (
           <p style={cardMetaStyle}>Nenhum cliente cadastrado.</p>
         ) : (

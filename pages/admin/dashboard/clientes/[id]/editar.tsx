@@ -101,7 +101,15 @@ const EditarClientePage: React.FC = () => {
           <meta name="robots" content="noindex, nofollow" />
         </Head>
         <AdminLayout>
-          <p style={{ color: colors.text.light, opacity: 0.7 }}>Carregando...</p>
+          <div
+            style={{
+              height: 220,
+              borderRadius: 12,
+              backgroundColor: colors.admin.inactive,
+              border: `1px solid ${colors.neutral.borderDark}`,
+              opacity: 0.5,
+            }}
+          />
         </AdminLayout>
       </>
     );
@@ -110,11 +118,11 @@ const EditarClientePage: React.FC = () => {
   return (
     <>
       <Head>
-        <title>Editar cliente | Wefronti</title>
+        <title>Detalhes do Cliente | Wefronti</title>
         <meta name="robots" content="noindex, nofollow" />
       </Head>
       <AdminLayout>
-        <h1 style={titleStyle}>Editar cliente</h1>
+        <h1 style={titleStyle}>Detalhes do Cliente</h1>
 
         <ClienteForm
           values={values}

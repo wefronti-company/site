@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { getTokenFromCookie, verifyTokenInEdge } from './lib/auth-middleware';
+import { getUsuarioTokenFromCookie, verifyUsuarioTokenInEdge } from './lib/auth-middleware-usuario';
 
 // Lista de IPs bloqueados (adicionar IPs suspeitos aqui)
 const BLOCKED_IPS = new Set<string>([
@@ -59,6 +60,7 @@ function isValidOrigin(request: NextRequest): boolean {
 		'wefronti.com',
 		'www.wefronti.com',
 		'admin.wefronti.com',
+		'dash.wefronti.com',
 		'.vercel.app', // Para preview deployments (subdomains)
 	];
 
@@ -110,6 +112,8 @@ function isValidOrigin(request: NextRequest): boolean {
 
 // Host do subdomínio admin (acesso permitido)
 const ADMIN_HOST = 'admin.wefronti.com';
+// Host do painel de usuário (indique e ganhe)
+const DASH_HOST = 'dash.wefronti.com';
 // Hosts do site público (acesso a /admin bloqueado)
 const MAIN_HOSTS = ['wefronti.com', 'www.wefronti.com'];
 
@@ -119,9 +123,48 @@ export async function middleware(request: NextRequest) {
  const url = request.nextUrl;
  const host = request.headers.get('host')?.split(':')[0] || '';
 
- // 0. Regras do subdomínio admin (admin.wefronti.com) ou localhost (dev)
+ // 0.5 Proteger APIs administrativas legadas/sem guard local
+ const pathname = url.pathname;
+ const isPublicProposalPageApi = /^\/api\/proposta\/[^/]+$/.test(pathname) && request.method === 'GET';
+ const isProtectedAdminApi =
+   pathname.startsWith('/api/clientes') ||
+   pathname.startsWith('/api/metas') ||
+   pathname === '/api/dashboard' ||
+   (pathname.startsWith('/api/proposta') && !isPublicProposalPageApi);
+
+ if (isProtectedAdminApi) {
+   const token = getTokenFromCookie(request.headers.get('cookie'));
+   if (!token || !(await verifyTokenInEdge(token))) {
+     return NextResponse.json({ error: 'Não autenticado' }, { status: 401 });
+   }
+ }
+
+ // 0. Regras do subdomínio dash (dash.wefronti.com) - painel de usuário
+ const isDashDomain = host === DASH_HOST;
+ const isDashPath = url.pathname.startsWith('/dash');
+ if (isDashDomain || (host?.startsWith('localhost') && isDashPath)) {
+   const isDashDashboard = url.pathname === '/dash/dashboard' || url.pathname.startsWith('/dash/dashboard/');
+   if (isDashDashboard) {
+     const uToken = getUsuarioTokenFromCookie(request.headers.get('cookie'));
+     if (!uToken || !(await verifyUsuarioTokenInEdge(uToken))) {
+       const loginUrl = url.clone();
+       loginUrl.pathname = '/dash';
+       return NextResponse.redirect(loginUrl);
+     }
+   }
+   if (isDashDomain) {
+     const skipDashRewrite = url.pathname.startsWith('/api') || url.pathname.startsWith('/_next') || url.pathname.startsWith('/images') || url.pathname.startsWith('/favicon');
+     if (!skipDashRewrite && !url.pathname.startsWith('/dash')) {
+       const rewriteUrl = url.clone();
+       rewriteUrl.pathname = url.pathname === '/' ? '/dash' : `/dash${url.pathname}`;
+       return NextResponse.rewrite(rewriteUrl);
+     }
+   }
+ }
+
+ // 1. Regras do subdomínio admin (admin.wefronti.com) ou localhost (dev)
  const isAdminDomain = host === ADMIN_HOST || host?.startsWith('localhost');
- if (isAdminDomain) {
+ if (isAdminDomain && !isDashDomain) {
    // Em admin.wefronti.com: se acessar /admin/*, redirecionar para /* (ex: /admin/dashboard -> /dashboard)
    if (host === ADMIN_HOST && (url.pathname.startsWith('/admin/') || url.pathname === '/admin')) {
      const redirectUrl = url.clone();
@@ -198,9 +241,20 @@ export async function middleware(request: NextRequest) {
  response.headers.set('X-XSS-Protection', '1; mode=block');
  response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
  response.headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
-	// Basic Content Security Policy to mitigate XSS.
-	// Keep it permissive for analytics and external assets (https:) — tighten when possible.
-	response.headers.set('Content-Security-Policy', "default-src 'self' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; connect-src 'self' https:; frame-ancestors 'none';")
+	// Content Security Policy: mitiga XSS e injeção de recursos não confiáveis.
+	// script-src: 'unsafe-inline' necessário para Next.js; object-src 'none' bloqueia plugins.
+	response.headers.set('Content-Security-Policy', [
+		"default-src 'self' https:",
+		"script-src 'self' 'unsafe-inline' https:",
+		"style-src 'self' 'unsafe-inline' https:",
+		"img-src 'self' data: https: blob:",
+		"connect-src 'self' https:",
+		"frame-ancestors 'none'",
+		"base-uri 'self'",
+		"form-action 'self'",
+		"object-src 'none'",
+		"upgrade-insecure-requests",
+	].join('; '));
  
  // Prevenir cache de dados sensíveis e APIs
  if (url.pathname.startsWith('/api/')) {

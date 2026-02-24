@@ -302,7 +302,7 @@ const ClientesPagamentoPage: React.FC = () => {
           <div style={cardBaseStyle}>
             <h2 style={cardTitleStyle}>Fechamento do mês</h2>
             {loading ? (
-              <p style={{ color: colors.text.light, opacity: 0.7 }}>Carregando...</p>
+              <div style={{ height: 140, borderRadius: 12, backgroundColor: colors.admin.inactive, opacity: 0.45 }} />
             ) : dados ? (
               <div style={{ display: 'flex', flexDirection: 'column', gap: spacing[4] }}>
                 <p style={{ margin: 0, fontSize: fontSizes.base, color: colors.text.light }}>
@@ -367,7 +367,7 @@ const ClientesPagamentoPage: React.FC = () => {
               Cobrança
             </h2>
             {loading ? (
-              <p style={{ color: colors.text.light, opacity: 0.7 }}>Carregando...</p>
+              <div style={{ height: 140, borderRadius: 12, backgroundColor: colors.admin.inactive, opacity: 0.45 }} />
             ) : dados ? (
               <div style={{ display: 'flex', flexDirection: 'column', gap: spacing[4] }}>
                 {dados.inadimplentes.length > 0 ? (
@@ -445,7 +445,7 @@ const ClientesPagamentoPage: React.FC = () => {
               Relatórios
             </h2>
             {loading ? (
-              <p style={{ color: colors.text.light, opacity: 0.7 }}>Carregando...</p>
+              <div style={{ height: 140, borderRadius: 12, backgroundColor: colors.admin.inactive, opacity: 0.45 }} />
             ) : dados ? (
               <div style={{ display: 'flex', flexDirection: 'column', gap: spacing[4] }}>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: spacing[2] }}>

@@ -110,10 +110,26 @@ const PoliticaPrivacidade: React.FC = () => {
 
           <h2 style={sectionTitleStyle}>2. Dados coletados</h2>
           <p style={textStyle}>
-            Não coletamos dados pessoais por meio de formulários. O contato é feito diretamente via WhatsApp, conforme o link disponível no site. Dados técnicos (endereço IP, navegador) podem ser registrados automaticamente pelo Analytics, quando você aceita cookies de análise.
+            <strong>Visitantes do site:</strong> não coletamos dados pessoais por meio de formulários de contato no site institucional; o contato é feito diretamente via WhatsApp. Dados técnicos (endereço IP, navegador) podem ser registrados pelo Analytics quando você aceita cookies de análise.
+          </p>
+          <p style={textStyle}>
+            <strong>Usuários cadastrados (programa “Indique e Ganhe”):</strong> ao criar conta e usar a área logada, coletamos e armazenamos: nome completo, e-mail, senha (criptografada), código de referência para o link de indicação e, quando você preenche seu perfil, celular, data de nascimento, CPF, endereço (logradouro, número, complemento, bairro, cidade, UF, CEP) e chave PIX para eventual pagamento de comissões. Também registramos acessos ao seu link de indicação (para contagem de indicações e operação do programa).
+          </p>
+          <p style={textStyle}>
+            Esses dados são utilizados para: gestão da sua conta, operação do programa de indicação, contato sobre o programa e, quando aplicável, pagamento de comissões. O tratamento está em conformidade com a LGPD e com nossa base legal (execução de contrato/relacionamento e consentimento quando cabível).
           </p>
 
-          <h2 style={sectionTitleStyle}>3. Contato</h2>
+          <h2 style={sectionTitleStyle}>3. Compartilhamento e retenção</h2>
+          <p style={textStyle}>
+            Não vendemos seus dados. Podemos compartilhar informações com prestadores de serviço que nos auxiliam na operação do site e do programa (por exemplo, hospedagem, e-mail, banco de dados), sob obrigação de confidencialidade. Mantemos os dados pelo tempo necessário para cumprir as finalidades descritas e obrigações legais.
+          </p>
+
+          <h2 style={sectionTitleStyle}>4. Seus direitos (LGPD)</h2>
+          <p style={textStyle}>
+            Você pode solicitar acesso, correção, exclusão, portabilidade ou revisão do tratamento dos seus dados pessoais, nos termos da LGPD. Para exercer esses direitos ou tirar dúvidas sobre esta política, entre em contato pelo e-mail abaixo.
+          </p>
+
+          <h2 style={sectionTitleStyle}>5. Contato</h2>
           <p style={textStyle}>
             Para dúvidas sobre esta política ou seus dados, entre em contato:{' '}
             <a href="mailto:privacidade@wefronti.com" style={linkStyle}>privacidade@wefronti.com</a>

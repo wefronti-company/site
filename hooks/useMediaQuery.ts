@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
  * Útil para aplicar estilos responsivos em React (inline).
  */
 export function useMediaQuery(breakpointPx: number): boolean {
-  const [matches, setMatches] = useState(false);
+  const [matches, setMatches] = useState(true);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;

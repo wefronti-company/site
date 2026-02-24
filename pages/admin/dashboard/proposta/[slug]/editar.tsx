@@ -181,7 +181,15 @@ const PropostaEditarPage: React.FC = () => {
           <meta name="robots" content="noindex, nofollow" />
         </Head>
         <AdminLayout>
-          <p style={{ color: colors.text.light, opacity: 0.7 }}>Carregando...</p>
+          <div
+            style={{
+              height: 220,
+              borderRadius: 12,
+              backgroundColor: colors.admin.inactive,
+              border: `1px solid ${colors.neutral.borderDark}`,
+              opacity: 0.5,
+            }}
+          />
         </AdminLayout>
       </>
     );

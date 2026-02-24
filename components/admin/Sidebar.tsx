@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { Users, CreditCard, AlertCircle, UserMinus, LayoutDashboard, FileText, FileX, PlusCircle, LogOut, UserPlus, List, Target, User, ShieldPlus } from 'lucide-react';
+import { Users, CreditCard, AlertCircle, UserMinus, LayoutDashboard, FileText, FileX, PlusCircle, LogOut, UserPlus, List, Target, User, ShieldPlus, Gift, Banknote } from 'lucide-react';
 import { theme } from '../../styles/theme';
 import { useSnackbar } from '../../contexts/SnackbarContext';
 import { clearAdminCache } from '../../lib/adminCache';
@@ -31,6 +31,11 @@ const PROPOSTA_ITEMS = [
 
 const METAS_ITEMS = [
   { label: 'Configurar metas', href: '/admin/dashboard/metas', icon: <Target size={18} strokeWidth={1.5} /> },
+];
+
+const INDICACAO_ITEMS = [
+  { label: 'Participantes', href: '/admin/dashboard/indicacao/participantes', icon: <Gift size={18} strokeWidth={1.5} /> },
+  { label: 'Comissão', href: '/admin/dashboard/indicacao/comissao', icon: <Banknote size={18} strokeWidth={1.5} /> },
 ];
 
 const sidebarStyle: React.CSSProperties = {
@@ -205,6 +210,21 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPath }) => {
         <div style={{ ...sectionLabelStyle, marginTop: spacing[8] }}>Metas</div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: spacing[3] }}>
           {METAS_ITEMS.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              style={navLinkStyle(currentPath === item.href)}
+              className="admin-nav-item"
+            >
+              {item.icon}
+              {item.label}
+            </Link>
+          ))}
+        </div>
+
+        <div style={{ ...sectionLabelStyle, marginTop: spacing[8] }}>Indique e Ganhe</div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: spacing[3] }}>
+          {INDICACAO_ITEMS.map((item) => (
             <Link
               key={item.href}
               href={item.href}

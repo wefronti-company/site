@@ -1,5 +1,6 @@
 import React from 'react';
 import { colors } from '../../styles/colors';
+import { radii } from '../../styles/theme';
 
 interface ButtonPainelProps {
   label?: string;
@@ -31,7 +32,7 @@ const ButtonPainel: React.FC<ButtonPainelProps> = ({
       gap: 8,
       border: `1px solid ${colors.blue.primary}`,
       background: colors.blue.primary,
-      borderRadius: 6,
+      borderRadius: radii.full,
       padding: '12px 24px',
       color: colors.text.light,
       fontSize: 16,

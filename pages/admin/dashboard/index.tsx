@@ -109,9 +109,10 @@ const DEFAULT_DADOS: DashboardDados = {
 
 const AdminDashboardPage: React.FC = () => {
   const [dados, setDados] = useState<DashboardDados>(DEFAULT_DADOS);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     fetch('/api/dashboard')
       .then((r) => r.json())
       .then((data) => setDados(data))
@@ -129,11 +130,6 @@ const AdminDashboardPage: React.FC = () => {
       </Head>
       <AdminLayout>
         <h1 style={titleStyle}>Visão geral</h1>
-        {loading && (
-          <p style={{ margin: 0, marginTop: spacing[4], color: colors.text.light, opacity: 0.7 }}>
-            Carregando...
-          </p>
-        )}
         <div style={cardWrapStyle}>
           <div style={cardStyle}>
             <p style={cardTitleStyle}>

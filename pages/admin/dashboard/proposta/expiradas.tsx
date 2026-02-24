@@ -106,22 +106,34 @@ const btnAtivarStyle: React.CSSProperties = {
   borderColor: theme.colors.blue.primary,
 };
 
+let cachePropostasExpiradas: Proposal[] | null = null;
+
 const PropostaExpiradasPage: React.FC = () => {
   const { showSuccess, showError } = useSnackbar();
-  const [propostas, setPropostas] = useState<Proposal[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [propostas, setPropostas] = useState<Proposal[]>(() => cachePropostasExpiradas ?? []);
+  const [loading, setLoading] = useState(() => !cachePropostasExpiradas);
   const [ativando, setAtivando] = useState<string | null>(null);
 
-  const load = () => {
+  const load = (opts?: { silent?: boolean }) => {
+    const silent = opts?.silent ?? false;
+    if (!silent) setLoading(true);
     fetch('/api/proposta/expiradas')
       .then((r) => r.json())
-      .then((data) => setPropostas(Array.isArray(data) ? data : []))
-      .catch(() => setPropostas([]))
-      .finally(() => setLoading(false));
+      .then((data) => {
+        const list = Array.isArray(data) ? data : [];
+        cachePropostasExpiradas = list;
+        setPropostas(list);
+      })
+      .catch(() => {
+        if (!cachePropostasExpiradas) setPropostas([]);
+      })
+      .finally(() => {
+        if (!silent) setLoading(false);
+      });
   };
 
   useEffect(() => {
-    load();
+    load({ silent: !!cachePropostasExpiradas });
   }, []);
 
   const handleReativar = async (slug: string) => {
@@ -154,7 +166,11 @@ const PropostaExpiradasPage: React.FC = () => {
         </p>
 
         {loading ? (
-          <p style={cardMetaStyle}>Carregando...</p>
+          <div style={listStyle}>
+            <div style={{ ...cardStyle, minHeight: 76, opacity: 0.55 }} />
+            <div style={{ ...cardStyle, minHeight: 76, opacity: 0.45 }} />
+            <div style={{ ...cardStyle, minHeight: 76, opacity: 0.35 }} />
+          </div>
         ) : propostas.length === 0 ? (
           <p style={cardMetaStyle}>Nenhuma proposta expirada.</p>
         ) : (

@@ -28,7 +28,8 @@ export const colors = {
     gray: '#7f7f7fff', //botões e container de destaque
     borderLight: '#cacacaff', //Cor padrão das bordas claras
     borderDark: '#8b8b8b2b', //Cor padrão das bordas escuras
-    accordeon: '#121212ff'
+    accordeon: '#121212ff',
+    border: '#363636'
  },
 
 

@@ -83,7 +83,7 @@ const Footer: React.FC = () => {
 
   const privacyLinkStyle: React.CSSProperties = {
     fontSize: fontSizes.sm,
-    textDecoration: 'underline',
+    textDecoration: 'none',
     color: colors.text.light,
     opacity: 0.9,
   };
@@ -124,6 +124,12 @@ const Footer: React.FC = () => {
                 ))}
                 <Link href="/politica-privacidade" style={privacyLinkStyle}>
                   Política de Privacidade
+                </Link>
+                <Link href="/termos-de-uso" style={privacyLinkStyle}>
+                  Termos de Uso
+                </Link>
+                <Link href="/indique-e-ganhe-regras" style={privacyLinkStyle}>
+                  Indique e Ganhe
                 </Link>
               </div>
             </div>

@@ -1,12 +1,11 @@
 import React, { createContext, useContext, useState, useCallback } from 'react';
-import { CheckCircle, AlertCircle } from 'lucide-react';
+import { AlertCircle, CheckCircle2 } from 'lucide-react';
 
 export type SnackbarVariant = 'success' | 'error';
 
 export interface SnackbarItem {
   id: string;
   variant: SnackbarVariant;
-  title: string;
   message: string;
 }
 
@@ -19,17 +18,33 @@ const SnackbarContext = createContext<SnackbarContextValue | null>(null);
 
 let idCounter = 0;
 
+const SNACKBAR_DURATION_SUCCESS_MS = 4500;
+const SNACKBAR_DURATION_ERROR_MS = 6000;
+
 export function SnackbarProvider({ children }: { children: React.ReactNode }) {
   const [items, setItems] = useState<SnackbarItem[]>([]);
+  const [closingIds, setClosingIds] = useState<Set<string>>(new Set());
+
+  const removeItem = useCallback((id: string) => {
+    setItems((prev) => prev.filter((i) => i.id !== id));
+    setClosingIds((prev) => {
+      const next = new Set(prev);
+      next.delete(id);
+      return next;
+    });
+  }, []);
+
+  const startClosing = useCallback((id: string) => {
+    setClosingIds((prev) => new Set(prev).add(id));
+  }, []);
 
   const add = useCallback((variant: SnackbarVariant, message: string, title?: string) => {
     const id = String(++idCounter);
-    const titleDefault = variant === 'success' ? 'Sucesso' : 'Erro';
-    setItems((prev) => [...prev, { id, variant, title: title ?? titleDefault, message }]);
-    setTimeout(() => {
-      setItems((prev) => prev.filter((i) => i.id !== id));
-    }, 4000);
-  }, []);
+    void title; // mantemos assinatura para compatibilidade
+    setItems((prev) => [...prev, { id, variant, message }]);
+    const duration = variant === 'error' ? SNACKBAR_DURATION_ERROR_MS : SNACKBAR_DURATION_SUCCESS_MS;
+    setTimeout(() => startClosing(id), duration);
+  }, [startClosing]);
 
   const showSuccess = useCallback((message: string, title?: string) => add('success', message, title), [add]);
   const showError = useCallback((message: string, title?: string) => add('error', message, title), [add]);
@@ -37,7 +52,12 @@ export function SnackbarProvider({ children }: { children: React.ReactNode }) {
   return (
     <SnackbarContext.Provider value={{ showSuccess, showError }}>
       {children}
-      <SnackbarStack items={items} onDismiss={(id) => setItems((prev) => prev.filter((i) => i.id !== id))} />
+      <SnackbarStack
+        items={items}
+        closingIds={closingIds}
+        onDismiss={startClosing}
+        onExitEnd={removeItem}
+      />
     </SnackbarContext.Provider>
   );
 }
@@ -49,73 +69,115 @@ export function useSnackbar() {
 
 function SnackbarStack({
   items,
+  closingIds,
   onDismiss,
+  onExitEnd,
 }: {
   items: SnackbarItem[];
+  closingIds: Set<string>;
   onDismiss: (id: string) => void;
+  onExitEnd: (id: string) => void;
 }) {
   if (items.length === 0) return null;
   return (
-    <div
-      style={{
-        position: 'fixed',
-        bottom: 24,
-        right: 24,
-        zIndex: 9999,
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 12,
-        maxWidth: 380,
-        pointerEvents: 'none',
-      }}
-    >
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 12, pointerEvents: 'auto' }}>
-        {items.map((item) => (
-          <SnackbarItem key={item.id} item={item} onDismiss={() => onDismiss(item.id)} />
-        ))}
+    <>
+      <style>{`
+        @keyframes snackbar-slide-down {
+          from { transform: translateY(-100%); opacity: 0; }
+          to { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes snackbar-slide-up {
+          from { transform: translateY(0); opacity: 1; }
+          to { transform: translateY(-100%); opacity: 0; }
+        }
+        .snackbar-item-enter {
+          animation: snackbar-slide-down 0.3s ease-out forwards;
+        }
+        .snackbar-item-exit {
+          animation: snackbar-slide-up 0.25s ease-in forwards;
+        }
+      `}</style>
+      <div
+        style={{
+          position: 'fixed',
+          top: 24,
+          right: 24,
+          zIndex: 9999,
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 12,
+          maxWidth: 'calc(100vw - 32px)',
+          pointerEvents: 'none',
+        }}
+      >
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 12, pointerEvents: 'auto' }}>
+          {items.map((item) => (
+            <SnackbarItem
+              key={item.id}
+              item={item}
+              isClosing={closingIds.has(item.id)}
+              onDismiss={() => onDismiss(item.id)}
+              onExitEnd={() => onExitEnd(item.id)}
+            />
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
 function SnackbarItem({
   item,
+  isClosing,
   onDismiss,
+  onExitEnd,
 }: {
   item: SnackbarItem;
+  isClosing: boolean;
   onDismiss: () => void;
+  onExitEnd: () => void;
 }) {
   const isSuccess = item.variant === 'success';
-  const bg = isSuccess ? 'rgba(34, 197, 94, 0.12)' : 'rgba(248, 113, 113, 0.12)';
-  const border = isSuccess ? 'rgba(34, 197, 94, 0.4)' : 'rgba(248, 113, 113, 0.4)';
-  const iconColor = isSuccess ? '#22c55e' : '#f87171';
+  const border = isSuccess ? 'rgba(53, 152, 255, 0.4)' : 'rgba(248, 113, 113, 0.4)';
+  const iconColor = isSuccess ? '#3598FF' : '#f87171';
+
+  const handleAnimationEnd = (e: React.AnimationEvent<HTMLDivElement>) => {
+    if (e.animationName === 'snackbar-slide-up') onExitEnd();
+  };
 
   return (
     <div
       role="alert"
       onClick={onDismiss}
+      onAnimationEnd={handleAnimationEnd}
+      className={isClosing ? 'snackbar-item-exit' : 'snackbar-item-enter'}
       style={{
         display: 'flex',
+        alignItems: 'center',
         gap: 14,
         padding: '14px 18px',
-        backgroundColor: bg,
+        width: 'fit-content',
+        maxWidth: 'min(560px, calc(100vw - 48px))',
+        alignSelf: 'flex-end',
+        backgroundColor: 'rgba(10, 12, 24, 0.5)',
+        backdropFilter: 'saturate(150%) blur(14px)',
+        WebkitBackdropFilter: 'saturate(150%) blur(14px)',
         border: `1px solid ${border}`,
-        borderRadius: 10,
-        boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
+        borderRadius: 9999,
+        boxShadow: '0 4px 24px rgba(0,0,0,0.25)',
         cursor: 'pointer',
         pointerEvents: 'auto',
       }}
     >
-      <div style={{ flexShrink: 0, marginTop: 2 }}>
+      <div style={{ flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         {isSuccess ? (
-          <CheckCircle size={22} color={iconColor} strokeWidth={2.5} />
+          <CheckCircle2 size={22} color={iconColor} strokeWidth={2.5} />
         ) : (
           <AlertCircle size={22} color={iconColor} strokeWidth={2.5} />
         )}
       </div>
       <div style={{ flex: 1, minWidth: 0 }}>
-        <p style={{ margin: 0, fontSize: 14, fontWeight: 600, color: '#fff' }}>{item.title}</p>
-        <p style={{ margin: '4px 0 0', fontSize: 13, color: 'rgba(255,255,255,0.85)', lineHeight: 1.4 }}>
+        <p style={{ margin: 0, fontSize: 14, color: '#fff', lineHeight: 1.25 }}>
           {item.message}
         </p>
       </div>

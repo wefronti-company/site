@@ -133,25 +133,35 @@ const toggleThumbStyle = (active: boolean): React.CSSProperties => ({
   transition: 'left 0.2s ease',
 });
 
+let cachePropostasAtivas: Proposal[] | null = null;
+
 const PropostaAtivaPage: React.FC = () => {
   const { showSuccess, showError } = useSnackbar();
-  const [propostas, setPropostas] = useState<Proposal[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [propostas, setPropostas] = useState<Proposal[]>(() => cachePropostasAtivas ?? []);
+  const [loading, setLoading] = useState(() => !cachePropostasAtivas);
   const [toggling, setToggling] = useState<string | null>(null);
 
-  const load = () => {
+  const load = (opts?: { silent?: boolean }) => {
+    const silent = opts?.silent ?? false;
+    if (!silent) setLoading(true);
     fetch('/api/proposta/ativas')
       .then((r) => r.json())
-      .then((data) => setPropostas(Array.isArray(data) ? data : []))
+      .then((data) => {
+        const list = Array.isArray(data) ? data : [];
+        cachePropostasAtivas = list;
+        setPropostas(list);
+      })
       .catch(() => {
-        setPropostas([]);
+        if (!cachePropostasAtivas) setPropostas([]);
         showError('Erro ao carregar propostas.');
       })
-      .finally(() => setLoading(false));
+      .finally(() => {
+        if (!silent) setLoading(false);
+      });
   };
 
   useEffect(() => {
-    load();
+    load({ silent: !!cachePropostasAtivas });
   }, []);
 
   const handleToggle = async (slug: string, current: boolean) => {
@@ -188,7 +198,11 @@ const PropostaAtivaPage: React.FC = () => {
         </p>
 
         {loading ? (
-          <p style={cardMetaStyle}>Carregando...</p>
+          <div style={listStyle}>
+            <div style={{ ...cardStyle, minHeight: 76, opacity: 0.55 }} />
+            <div style={{ ...cardStyle, minHeight: 76, opacity: 0.45 }} />
+            <div style={{ ...cardStyle, minHeight: 76, opacity: 0.35 }} />
+          </div>
         ) : propostas.length === 0 ? (
           <p style={cardMetaStyle}>Nenhuma proposta ativa no momento.</p>
         ) : (

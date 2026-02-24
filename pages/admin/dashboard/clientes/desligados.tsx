@@ -96,22 +96,34 @@ const avatarStyle: React.CSSProperties = {
   flexShrink: 0,
 };
 
+let cacheClientesDesligados: ClienteComPagamento[] | null = null;
+
 const ClientesDesligadosPage: React.FC = () => {
   const { showSuccess, showError } = useSnackbar();
-  const [clientes, setClientes] = useState<ClienteComPagamento[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [clientes, setClientes] = useState<ClienteComPagamento[]>(() => cacheClientesDesligados ?? []);
+  const [loading, setLoading] = useState(() => !cacheClientesDesligados);
   const [atualizando, setAtualizando] = useState<string | null>(null);
 
-  const load = () => {
+  const load = (opts?: { silent?: boolean }) => {
+    const silent = opts?.silent ?? false;
+    if (!silent) setLoading(true);
     fetch('/api/clientes/desligados')
       .then((r) => r.json())
-      .then((data) => setClientes(Array.isArray(data) ? data : []))
-      .catch(() => setClientes([]))
-      .finally(() => setLoading(false));
+      .then((data) => {
+        const list = Array.isArray(data) ? data : [];
+        cacheClientesDesligados = list;
+        setClientes(list);
+      })
+      .catch(() => {
+        if (!cacheClientesDesligados) setClientes([]);
+      })
+      .finally(() => {
+        if (!silent) setLoading(false);
+      });
   };
 
   useEffect(() => {
-    load();
+    load({ silent: !!cacheClientesDesligados });
   }, []);
 
   const handleReativar = async (id: string) => {
@@ -148,7 +160,11 @@ const ClientesDesligadosPage: React.FC = () => {
         </p>
 
         {loading ? (
-          <p style={cardMetaStyle}>Carregando...</p>
+          <div style={listStyle}>
+            <div style={{ ...cardStyle, minHeight: 68, opacity: 0.55 }} />
+            <div style={{ ...cardStyle, minHeight: 68, opacity: 0.45 }} />
+            <div style={{ ...cardStyle, minHeight: 68, opacity: 0.35 }} />
+          </div>
         ) : clientes.length === 0 ? (
           <p style={cardMetaStyle}>Nenhum cliente desligado.</p>
         ) : (

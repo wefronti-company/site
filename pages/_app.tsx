@@ -10,6 +10,7 @@ import SmoothScroll from '../components/SmoothScroll';
 import Header from '../components/ui/Header';
 import { SplashProvider } from '../contexts/SplashContext';
 import { SnackbarProvider } from '../contexts/SnackbarContext';
+import { DashUsuarioProvider } from '../contexts/DashUsuarioContext';
 
 const CookieConsent = dynamic(() => import('../components/CookieConsent'), { ssr: false });
 import Footer from '../sections/Footer';
@@ -37,15 +38,41 @@ export default function MyApp({ Component, pageProps }: AppProps) {
 
  // Inserir comentário logo antes do <html> no DOM (executado no cliente)
  // Admin: usa admin.background (#0A0C12) em html/body/#__next
+ // Dash (painel usuário): mesma estética
  React.useEffect(() => {
    const isAdmin = router.pathname.startsWith('/admin');
-   document.documentElement.classList.toggle('admin-route', isAdmin);
-   document.body.classList.toggle('admin-route', isAdmin);
+   const isDash = router.pathname.startsWith('/dash');
+   document.documentElement.classList.toggle('admin-route', isAdmin || isDash);
+   document.body.classList.toggle('admin-route', isAdmin || isDash);
    return () => {
      document.documentElement.classList.remove('admin-route');
      document.body.classList.remove('admin-route');
    };
  }, [router.pathname]);
+
+ // Registrar acesso via link de indicação (?ref=). Se o dono do link estiver banido → 404.
+ React.useEffect(() => {
+   const ref = router.query.ref;
+   if (typeof ref !== 'string' || !ref.trim()) return;
+   const key = `ref_${ref.trim()}`;
+   try {
+     if (sessionStorage.getItem(key)) return;
+     fetch('/api/referencia/registrar-acesso', {
+       method: 'POST',
+       headers: { 'Content-Type': 'application/json' },
+       body: JSON.stringify({ ref: ref.trim() }),
+     })
+       .then((res) => {
+         if (res.status === 404) {
+           sessionStorage.setItem(key, '1');
+           router.replace('/404');
+           return;
+         }
+         if (res.ok) sessionStorage.setItem(key, '1');
+       })
+       .catch(() => {});
+   } catch { /* ignore */ }
+ }, [router.query.ref]);
 
  React.useEffect(() => {
    try {
@@ -72,10 +99,16 @@ export default function MyApp({ Component, pageProps }: AppProps) {
  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
  </Head>
  <GlobalStyles />
- {!router.pathname.startsWith('/admin') && !router.pathname.startsWith('/proposta') && <Header />}
- <Component {...pageProps} />
- {router.pathname !== '/' && !router.pathname.startsWith('/admin') && !router.pathname.startsWith('/proposta') && <Footer />}
- {!router.pathname.startsWith('/admin') && !router.pathname.startsWith('/proposta') && <FloatingWhatsApp />}
+ {!router.pathname.startsWith('/admin') && !router.pathname.startsWith('/proposta') && !router.pathname.startsWith('/dash') && <Header />}
+ {router.pathname.startsWith('/dash') ? (
+   <DashUsuarioProvider>
+     <Component {...pageProps} />
+   </DashUsuarioProvider>
+ ) : (
+   <Component {...pageProps} />
+ )}
+ {router.pathname !== '/' && !router.pathname.startsWith('/admin') && !router.pathname.startsWith('/proposta') && !router.pathname.startsWith('/dash') && <Footer />}
+ {!router.pathname.startsWith('/admin') && !router.pathname.startsWith('/proposta') && !router.pathname.startsWith('/dash') && <FloatingWhatsApp />}
  <CookieConsent />
  </>
  </SmoothScroll>

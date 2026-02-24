@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Logo from './Logo';
-import ButtonCta from './ButtonCta';
+import ButtonUser from './ButtonUser';
 import { Plus, ArrowRight } from 'lucide-react';
 import { useScrollToSection } from '../../hooks/useScrollToSection';
 import { useSplash } from '../../contexts/SplashContext';
@@ -88,8 +88,6 @@ const Header: React.FC = () => {
   }, [isMd]);
 
   const scrollToSection = useScrollToSection();
-
-  const scrollToPrecos = () => scrollToSection('precos');
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     if (typeof window === 'undefined') return;
@@ -242,11 +240,7 @@ const Header: React.FC = () => {
 
           <div style={rightCellStyle}>
             {isMd ? (
-              <ButtonCta
-                label="Quero um site que vende"
-                className="header-cta-btn"
-                onClick={scrollToPrecos}
-              />
+              <ButtonUser className="header-user-btn" />
             ) : (
               <button
                 type="button"
@@ -350,6 +344,13 @@ const Header: React.FC = () => {
               <ArrowRight size={18} color={colors.text.light} style={{ flexShrink: 0 }} aria-hidden />
             </Link>
           ))}
+          <div style={{ paddingTop: spacing[2] }} onClick={() => setMobileMenuOpen(false)}>
+            <ButtonUser
+              href="/dash"
+              className="header-user-btn"
+              fullWidth
+            />
+          </div>
         </div>
         </>
       )}

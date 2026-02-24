@@ -148,13 +148,16 @@ const DEBOUNCE_MS = 300;
 export const AppBar: React.FC = () => {
   const router = useRouter();
   const searchRef = useRef<HTMLDivElement>(null);
-  const [admin, setAdmin] = useState<{ nome: string | null; email: string } | null>(getAdminCache);
+  const [admin, setAdmin] = useState<{ nome: string | null; email: string } | null>(null);
   const [busca, setBusca] = useState('');
   const [resultados, setResultados] = useState<ClienteBusca[]>([]);
   const [buscando, setBuscando] = useState(false);
   const [dropdownAberto, setDropdownAberto] = useState(false);
 
   useEffect(() => {
+    const cached = getAdminCache();
+    if (cached) setAdmin(cached);
+
     fetch('/api/admin/me', { credentials: 'same-origin' })
       .then((res) => (res.ok ? res.json() : null))
       .then((data) => {
@@ -206,8 +209,8 @@ export const AppBar: React.FC = () => {
     router.push(`/admin/dashboard/clientes/${id}/editar`);
   };
 
-  const displayName = admin?.nome?.trim() || admin?.email || 'Admin';
-  const initial = admin ? getInitial(admin.nome?.trim() || admin.email) : 'A';
+  const displayName = admin?.nome?.trim() || admin?.email || '';
+  const initial = admin ? getInitial(admin.nome?.trim() || admin.email) : '';
 
   return (
     <header style={appBarStyle} role="banner">
@@ -247,10 +250,12 @@ export const AppBar: React.FC = () => {
         )}
       </div>
       <div style={userWrapStyle}>
-        <div style={avatarStyle} aria-hidden>
-          {initial}
-        </div>
-        <span style={userNameStyle}>{displayName}</span>
+        {initial ? (
+          <div style={avatarStyle} aria-hidden>
+            {initial}
+          </div>
+        ) : null}
+        {displayName ? <span style={userNameStyle}>{displayName}</span> : null}
       </div>
     </header>
   );

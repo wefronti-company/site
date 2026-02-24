@@ -101,20 +101,32 @@ const avatarStyle: React.CSSProperties = {
   flexShrink: 0,
 };
 
-const ClientesAtivosPage: React.FC = () => {
-  const [clientes, setClientes] = useState<ClienteComPagamento[]>([]);
-  const [loading, setLoading] = useState(true);
+let cacheClientesAtivos: ClienteComPagamento[] | null = null;
 
-  const load = () => {
+const ClientesAtivosPage: React.FC = () => {
+  const [clientes, setClientes] = useState<ClienteComPagamento[]>(() => cacheClientesAtivos ?? []);
+  const [loading, setLoading] = useState(() => !cacheClientesAtivos);
+
+  const load = (opts?: { silent?: boolean }) => {
+    const silent = opts?.silent ?? false;
+    if (!silent) setLoading(true);
     fetch('/api/clientes/ativos')
       .then((r) => r.json())
-      .then((data) => setClientes(Array.isArray(data) ? data : []))
-      .catch(() => setClientes([]))
-      .finally(() => setLoading(false));
+      .then((data) => {
+        const list = Array.isArray(data) ? data : [];
+        cacheClientesAtivos = list;
+        setClientes(list);
+      })
+      .catch(() => {
+        if (!cacheClientesAtivos) setClientes([]);
+      })
+      .finally(() => {
+        if (!silent) setLoading(false);
+      });
   };
 
   useEffect(() => {
-    load();
+    load({ silent: !!cacheClientesAtivos });
   }, []);
 
   return (
@@ -130,7 +142,11 @@ const ClientesAtivosPage: React.FC = () => {
         </p>
 
         {loading ? (
-          <p style={cardMetaStyle}>Carregando...</p>
+          <div style={listStyle}>
+            <div style={{ ...cardStyle, minHeight: 68, opacity: 0.55 }} />
+            <div style={{ ...cardStyle, minHeight: 68, opacity: 0.45 }} />
+            <div style={{ ...cardStyle, minHeight: 68, opacity: 0.35 }} />
+          </div>
         ) : clientes.length === 0 ? (
           <p style={cardMetaStyle}>Nenhum cliente ativo no momento.</p>
         ) : (
