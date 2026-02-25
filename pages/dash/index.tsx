@@ -8,7 +8,7 @@ import { theme } from '../../styles/theme';
 import { colors } from '../../styles/colors';
 import ButtonPainel from '../../components/ui/ButtonPainel';
 import { useSnackbar } from '../../contexts/SnackbarContext';
-import { getDashPath } from '../../lib/dash-url';
+import { toDashUrl } from '../../lib/dash-url';
 
 const { spacing, fontSizes, radii } = theme;
 
@@ -60,7 +60,11 @@ const DashLoginPage: React.FC = () => {
         return;
       }
       showSuccess('Login realizado com sucesso.');
-      router.push(getDashPath('/dashboard'));
+      if (typeof window !== 'undefined' && window.location.hostname === 'dash.wefronti.com') {
+        window.location.href = toDashUrl('/dashboard');
+      } else {
+        router.push('/dash/dashboard');
+      }
     } catch {
       showError('Erro ao conectar. Tente novamente.');
     } finally {

@@ -153,6 +153,7 @@ jobs:
       SMTP_USER: ${{ secrets.SMTP_USER }}
       SMTP_PASS: ${{ secrets.SMTP_PASS }}
       SMTP_SECURE: ${{ secrets.SMTP_SECURE }}
+      MAIL_FROM: ${{ secrets.MAIL_FROM }}
     
     steps:
       - name: 4.1 - Checkout code
@@ -209,6 +210,9 @@ jobs:
           printf '%s' "$SMTP_USER" | vercel env add SMTP_USER production --force --token="$VERCEL_TOKEN"
           printf '%s' "$SMTP_PASS" | vercel env add SMTP_PASS production --force --token="$VERCEL_TOKEN"
           printf '%s' "$SMTP_SECURE" | vercel env add SMTP_SECURE production --force --token="$VERCEL_TOKEN"
+          if [ -n "${MAIL_FROM:-}" ]; then
+            printf '%s' "$MAIL_FROM" | vercel env add MAIL_FROM production --force --token="$VERCEL_TOKEN"
+          fi
         
       - name: 4.5 - Build project artifacts
         run: vercel build --prod --token="$VERCEL_TOKEN"
