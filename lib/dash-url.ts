@@ -10,3 +10,10 @@ export function toDashUrl(path = '/'): string {
   return `${base}${normalizedPath}`;
 }
 
+/** Path para rotas do painel: no subdomínio dash usa /dashboard, em localhost usa /dash/dashboard */
+export function getDashPath(path: string): string {
+  if (typeof window === 'undefined') return `/dash${path}`;
+  const isDashHost = window.location.hostname === 'dash.wefronti.com';
+  return isDashHost ? path : `/dash${path}`;
+}
+

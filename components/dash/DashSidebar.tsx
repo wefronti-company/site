@@ -11,6 +11,7 @@ const { colors, spacing, fontSizes, radii } = theme;
 
 export const dashSidebarWidth = DASH_SIDEBAR_WIDTH;
 
+// No subdomínio dash, o middleware redireciona /dash/dashboard -> /dashboard (URL limpa)
 const navItems = [
   { label: 'Dashboard', href: '/dash/dashboard', icon: <LayoutDashboard size={18} strokeWidth={1.5} /> },
   { label: 'Meus dados', href: '/dash/dashboard/perfil', icon: <User size={18} strokeWidth={1.5} /> },

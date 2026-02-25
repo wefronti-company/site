@@ -8,6 +8,7 @@ import { theme } from '../../styles/theme';
 import { colors } from '../../styles/colors';
 import ButtonPainel from '../../components/ui/ButtonPainel';
 import { useSnackbar } from '../../contexts/SnackbarContext';
+import { getDashPath } from '../../lib/dash-url';
 
 const { spacing, fontSizes, radii } = theme;
 
@@ -59,7 +60,7 @@ const DashLoginPage: React.FC = () => {
         return;
       }
       showSuccess('Login realizado com sucesso.');
-      router.push('/dashboard');
+      router.push(getDashPath('/dashboard'));
     } catch {
       showError('Erro ao conectar. Tente novamente.');
     } finally {
