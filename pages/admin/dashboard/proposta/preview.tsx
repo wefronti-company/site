@@ -2,9 +2,19 @@ import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import AdminLayout from '../../../../components/admin/AdminLayout';
 import { PropostaTemplate } from '../../../../components/proposta/PropostaTemplate';
+import { theme } from '../../../../styles/theme';
 import type { Proposal } from '../../../../lib/proposalData';
 
+const { colors, spacing, fontSizes } = theme;
 const PREVIEW_KEY = 'proposta-preview';
+
+const pageTitleStyle: React.CSSProperties = {
+  fontSize: fontSizes.lg,
+  fontWeight: 400,
+  color: colors.text.light,
+  margin: 0,
+  marginBottom: spacing[4],
+};
 
 export default function PropostaPreviewPage() {
   const [proposal, setProposal] = useState<Proposal | null>(null);
@@ -29,7 +39,8 @@ export default function PropostaPreviewPage() {
           <title>Preview da proposta | Wefronti</title>
           <meta name="robots" content="noindex, nofollow" />
         </Head>
-        <p style={{ color: 'var(--color-text-light, #fff)', padding: 24 }}>
+        <h1 style={pageTitleStyle}>Preview da proposta</h1>
+        <p style={{ color: colors.text.light, padding: 24 }}>
           Nenhuma proposta para visualizar. Preencha o formulário em Nova proposta e clique em &quot;Ver proposta&quot;.
         </p>
       </AdminLayout>
@@ -43,6 +54,7 @@ export default function PropostaPreviewPage() {
         <meta name="robots" content="noindex, nofollow" />
       </Head>
       <AdminLayout>
+        <h1 style={pageTitleStyle}>Preview da proposta</h1>
         <div style={{ maxWidth: 800, margin: '0 auto', padding: 24 }}>
           <PropostaTemplate proposal={proposal} showCountdown={false} />
         </div>

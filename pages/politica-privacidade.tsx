@@ -113,10 +113,10 @@ const PoliticaPrivacidade: React.FC = () => {
             <strong>Visitantes do site:</strong> não coletamos dados pessoais por meio de formulários de contato no site institucional; o contato é feito diretamente via WhatsApp. Dados técnicos (endereço IP, navegador) podem ser registrados pelo Analytics quando você aceita cookies de análise.
           </p>
           <p style={textStyle}>
-            <strong>Usuários cadastrados (programa “Indique e Ganhe”):</strong> ao criar conta e usar a área logada, coletamos e armazenamos: nome completo, e-mail, senha (criptografada), código de referência para o link de indicação e, quando você preenche seu perfil, celular, data de nascimento, CPF, endereço (logradouro, número, complemento, bairro, cidade, UF, CEP) e chave PIX para eventual pagamento de comissões. Também registramos acessos ao seu link de indicação (para contagem de indicações e operação do programa).
+            <strong>Usuários cadastrados (programa “área do cliente”):</strong> ao criar conta e usar a área logada, coletamos e armazenamos: nome completo, e-mail, senha (criptografada) e, quando você preenche seu perfil, celular, data de nascimento, CPF e endereço (logradouro, número, complemento, bairro, cidade, UF, CEP).
           </p>
           <p style={textStyle}>
-            Esses dados são utilizados para: gestão da sua conta, operação do programa de indicação, contato sobre o programa e, quando aplicável, pagamento de comissões. O tratamento está em conformidade com a LGPD e com nossa base legal (execução de contrato/relacionamento e consentimento quando cabível).
+            Esses dados são utilizados para: gestão da sua conta, acesso ao hub do cliente (consulta de contrato e pagamentos) e contato. O tratamento está em conformidade com a LGPD e com nossa base legal (execução de contrato/relacionamento e consentimento quando cabível).
           </p>
 
           <h2 style={sectionTitleStyle}>3. Compartilhamento e retenção</h2>

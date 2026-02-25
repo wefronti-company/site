@@ -18,31 +18,32 @@ const { colors, spacing, fontSizes } = theme;
 
 const appBarStyle: React.CSSProperties = {
   position: 'fixed',
-  top: 0,
-  left: SIDEBAR_WIDTH,
-  right: 0,
+  top: spacing[4],
+  left: SIDEBAR_WIDTH + spacing[4],
+  right: spacing[4],
   height: ADMIN_HEADER_HEIGHT,
   minHeight: ADMIN_HEADER_HEIGHT,
   boxSizing: 'border-box',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
-  paddingLeft: spacing[6],
-  paddingRight: spacing[6],
-  backgroundColor: colors.admin.background,
-  borderBottom: `1px solid ${colors.neutral.borderDark}`,
+  paddingLeft: spacing[4],
+  paddingRight: spacing[4],
+  backgroundColor: colors.admin.sidebar,
+  borderRadius: 8,
+  border: `1px solid ${colors.neutral.borderDark}`,
   zIndex: 30,
 };
 
 const searchWrapStyle: React.CSSProperties = {
   position: 'relative',
   flex: 1,
-  maxWidth: 320,
+  maxWidth: 460,
   marginRight: spacing[6],
   display: 'flex',
   alignItems: 'center',
   gap: spacing[3],
-  padding: `0 ${spacing[3]}px`,
+  padding: `${spacing[3]}px`,
   minHeight: 44,
   backgroundColor: colors.admin.inactive,
   border: `1px solid ${colors.neutral.borderDark}`,
@@ -71,7 +72,8 @@ const dropdownStyle: React.CSSProperties = {
   top: '100%',
   left: 0,
   right: 0,
-  marginTop: spacing[1],
+  marginTop: spacing[2],
+  padding: spacing[3],
   backgroundColor: colors.admin.inactive,
   border: `1px solid ${colors.neutral.borderDark}`,
   borderRadius: 8,
@@ -82,7 +84,9 @@ const dropdownStyle: React.CSSProperties = {
 };
 
 const resultItemStyle: React.CSSProperties = {
-  display: 'block',
+  display: 'flex',
+  alignItems: 'center',
+  gap: spacing[3],
   width: '100%',
   padding: `${spacing[3]}px ${spacing[4]}`,
   textAlign: 'left',
@@ -92,22 +96,45 @@ const resultItemStyle: React.CSSProperties = {
   fontSize: fontSizes.sm,
   color: colors.text.light,
   textDecoration: 'none',
-  borderBottom: `1px solid ${colors.neutral.borderDark}`,
+  borderRadius: 6,
+  marginBottom: spacing[1],
+  boxSizing: 'border-box',
 };
 
 const resultItemLastName: React.CSSProperties = {
   ...resultItemStyle,
-  borderBottom: 'none',
+  marginBottom: 0,
+};
+
+const resultAvatarStyle: React.CSSProperties = {
+  width: 40,
+  height: 40,
+  borderRadius: '50%',
+  backgroundColor: 'rgba(53, 152, 255, 0.2)',
+  border: `1px solid ${colors.blue.primary}`,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  fontSize: fontSizes.sm,
+  fontWeight: 600,
+  color: colors.blue.primary,
+  flexShrink: 0,
+};
+
+const resultContentStyle: React.CSSProperties = {
+  minWidth: 0,
+  flex: 1,
 };
 
 const resultLabelStyle: React.CSSProperties = {
   fontWeight: 600,
   display: 'block',
   marginBottom: 2,
+  fontSize: fontSizes.base,
 };
 
 const resultMetaStyle: React.CSSProperties = {
-  fontSize: fontSizes.xs,
+  fontSize: fontSizes.sm,
   opacity: 0.7,
 };
 
@@ -237,8 +264,13 @@ export const AppBar: React.FC = () => {
                   selecionarCliente(c.id);
                 }}
               >
-                <span style={resultLabelStyle}>{c.nomeFantasia || c.razaoSocial}</span>
-                <span style={resultMetaStyle}>{c.nome} · {c.email}</span>
+                <div style={resultAvatarStyle} aria-hidden>
+                  {getInitial(c.nome || c.email)}
+                </div>
+                <div style={resultContentStyle}>
+                  <span style={resultLabelStyle}>{c.nomeFantasia || c.razaoSocial}</span>
+                  <span style={resultMetaStyle}>{c.nome} · {c.email}</span>
+                </div>
               </Link>
             ))}
           </div>

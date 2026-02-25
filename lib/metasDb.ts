@@ -127,6 +127,22 @@ export async function getPagamentoResumoPorMes(mesRef: number): Promise<Pagament
   };
 }
 
+/** Quantidade de pagamentos registrados por dia do mês (para o mes_ref). Chave = dia 1..31, valor = quantidade. */
+export async function getPagamentosPorDia(mesRef: number): Promise<Record<number, number>> {
+  if (!sql) throw new Error('Banco de dados não configurado.');
+  const rows = await sql`
+    SELECT EXTRACT(DAY FROM pago_em)::int AS dia, COUNT(*)::int AS total
+    FROM pagamentos_mensalidade
+    WHERE mes_ref = ${mesRef}
+    GROUP BY EXTRACT(DAY FROM pago_em)
+  `;
+  const out: Record<number, number> = {};
+  for (const r of rows as { dia: number; total: number }[]) {
+    out[r.dia] = r.total;
+  }
+  return out;
+}
+
 export async function getMetas(): Promise<Metas> {
   if (!sql) throw new Error('Banco de dados não configurado.');
   const rows = await sql`

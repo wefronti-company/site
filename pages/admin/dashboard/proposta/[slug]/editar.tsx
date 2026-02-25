@@ -10,14 +10,6 @@ import { useSnackbar } from '../../../../../contexts/SnackbarContext';
 
 const { colors, spacing, fontSizes } = theme;
 
-const titleStyle: React.CSSProperties = {
-  fontSize: 'clamp(1.5rem, 4vw, 2rem)',
-  fontWeight: 600,
-  color: colors.text.light,
-  margin: 0,
-  marginBottom: spacing[6],
-};
-
 const formStyle: React.CSSProperties = {
   display: 'flex',
   flexDirection: 'column',
@@ -202,8 +194,7 @@ const PropostaEditarPage: React.FC = () => {
         <meta name="robots" content="noindex, nofollow" />
       </Head>
       <AdminLayout>
-        <h1 style={titleStyle}>Editar proposta</h1>
-
+        <h1 style={pageTitleStyle}>Editar proposta</h1>
         <form className="proposta-editar-grid" onSubmit={handleSubmit}>
           <div style={formStyle}>
             <div>

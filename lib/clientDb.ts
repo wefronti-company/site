@@ -2,7 +2,9 @@
  * Persistência de clientes no PostgreSQL (Neon).
  */
 
+import { createHash } from 'crypto';
 import { sql } from './db';
+import { verifyCodigoAcesso, hashCodigoAcesso } from './auth';
 
 export type ClienteStatus = 0 | 1 | 2; // 0=ativo, 1=inativo, 2=desligado
 
@@ -39,8 +41,12 @@ export interface Cliente {
   precoServico?: number;
   /** Preço da manutenção em reais (quando manutencao=true) */
   precoManutencao?: number;
-  /** Total mensal (precoServico + precoManutencao quando aplicável). Usado em receita e clientes ativos. */
+  /** Total mensal (apenas valor da manutenção; o que o cliente paga todo mês). Usado em receita e clientes ativos. */
   mensalidade: number;
+  /** Forma de pagamento do projeto: 'cartao' | 'pix' | '50_50' (50% entrada, 50% entrega). */
+  formaPagamentoProjeto?: string;
+  /** Número de parcelas quando forma de pagamento é cartão. */
+  parcelasCartao?: number;
   status: ClienteStatus;
   criadoEm: string;
 }
@@ -53,6 +59,45 @@ export interface ClienteComPagamento extends Cliente {
 function getMesRef(): number {
   const d = new Date();
   return d.getFullYear() * 100 + (d.getMonth() + 1);
+}
+
+/** Dia de vencimento no mês (baseado na data de cadastro). */
+function getDiaVencimento(criadoEm: string): number {
+  const d = new Date(criadoEm);
+  return isNaN(d.getTime()) ? 1 : d.getDate();
+}
+
+/** Data de vencimento para o mês (mesRef = AAAAMM). Se o dia não existir no mês, usa o último dia. */
+function getDataVencimentoParaMesRef(criadoEm: string, mesRef: number): Date {
+  const ano = Math.floor(mesRef / 100);
+  const mes = mesRef % 100;
+  const diaVenc = getDiaVencimento(criadoEm);
+  const ultimoDia = new Date(ano, mes, 0).getDate();
+  const diaUsar = Math.min(diaVenc, ultimoDia);
+  return new Date(ano, mes - 1, diaUsar);
+}
+
+/** Move para inativos (status 2) clientes com mensalidade > 0, sem pagamento no mês e vencimento + 5 dias já passou. */
+export async function moveOverdueToInativos(mesRefParam?: number): Promise<void> {
+  if (!sql) throw new Error('Banco de dados não configurado.');
+  const mesRef = mesRefParam ?? getMesRef();
+  const rows = await sql`
+    SELECT c.id, c.criado_em
+    FROM clientes c
+    LEFT JOIN pagamentos_mensalidade p ON p.cliente_id = c.id AND p.mes_ref = ${mesRef}
+    WHERE c.status != 2 AND c.mensalidade > 0 AND p.id IS NULL
+  `;
+  const hoje = new Date();
+  hoje.setHours(0, 0, 0, 0);
+  const cincoDiasMs = 5 * 24 * 60 * 60 * 1000;
+  for (const r of rows as { id: string; criado_em: Date | string }[]) {
+    const criadoEm = r.criado_em instanceof Date ? r.criado_em.toISOString() : String(r.criado_em ?? '');
+    const venc = getDataVencimentoParaMesRef(criadoEm, mesRef);
+    venc.setHours(0, 0, 0, 0);
+    if (hoje.getTime() - venc.getTime() > cincoDiasMs) {
+      await updateClienteStatus(r.id, 2);
+    }
+  }
 }
 
 function rowToCliente(row: Record<string, unknown>): Cliente {
@@ -87,6 +132,8 @@ function rowToCliente(row: Record<string, unknown>): Cliente {
     precoServico: (Number(row.preco_servico) || 0) / 100,
     precoManutencao: (Number(row.preco_manutencao) || 0) / 100,
     mensalidade: (Number(row.mensalidade) || 0) / 100,
+    formaPagamentoProjeto: row.forma_pagamento_projeto ? String(row.forma_pagamento_projeto) : undefined,
+    parcelasCartao: row.parcelas_cartao != null ? Number(row.parcelas_cartao) : undefined,
     status: (row.status as ClienteStatus) ?? 0,
     criadoEm,
   };
@@ -100,11 +147,12 @@ function rowToClienteComPagamento(row: Record<string, unknown>, mensalidadePaga:
 export async function getClientesAtivos(mesRefParam?: number): Promise<ClienteComPagamento[]> {
   if (!sql) throw new Error('Banco de dados não configurado.');
   const mesRef = mesRefParam ?? getMesRef();
+  await moveOverdueToInativos(mesRef);
   const rows = await sql`
     SELECT c.*, (p.id IS NOT NULL) AS pago
     FROM clientes c
     LEFT JOIN pagamentos_mensalidade p ON p.cliente_id = c.id AND p.mes_ref = ${mesRef}
-    WHERE c.status != 2 AND c.mensalidade > 0 AND p.id IS NOT NULL
+    WHERE c.status != 2
     ORDER BY c.nome_fantasia, c.razao_social
   `;
   return (rows as (Record<string, unknown> & { pago: boolean })[]).map((r) => {
@@ -142,16 +190,31 @@ export async function buscarClientes(termo: string): Promise<Cliente[]> {
   const q = String(termo || '').trim();
   if (!q || q.length < 1) return [];
   const pattern = `%${q}%`;
-  const rows = await sql`
-    SELECT * FROM clientes
-    WHERE
-      nome ILIKE ${pattern}
-      OR nome_fantasia ILIKE ${pattern}
-      OR razao_social ILIKE ${pattern}
-      OR email ILIKE ${pattern}
-    ORDER BY nome_fantasia NULLS LAST, razao_social
-    LIMIT 10
-  `;
+  const digitsOnly = q.replace(/\D/g, '');
+  const digitsPattern = digitsOnly.length >= 2 ? `%${digitsOnly}%` : null;
+  const rows = digitsPattern
+    ? await sql`
+        SELECT * FROM clientes
+        WHERE
+          nome ILIKE ${pattern}
+          OR nome_fantasia ILIKE ${pattern}
+          OR razao_social ILIKE ${pattern}
+          OR email ILIKE ${pattern}
+          OR (cpf IS NOT NULL AND regexp_replace(cpf, '[^0-9]', '', 'g') LIKE ${digitsPattern})
+          OR (cnpj IS NOT NULL AND regexp_replace(cnpj, '[^0-9]', '', 'g') LIKE ${digitsPattern})
+        ORDER BY nome_fantasia NULLS LAST, razao_social
+        LIMIT 10
+      `
+    : await sql`
+        SELECT * FROM clientes
+        WHERE
+          nome ILIKE ${pattern}
+          OR nome_fantasia ILIKE ${pattern}
+          OR razao_social ILIKE ${pattern}
+          OR email ILIKE ${pattern}
+        ORDER BY nome_fantasia NULLS LAST, razao_social
+        LIMIT 10
+      `;
   return (rows as Record<string, unknown>[]).map((r) => rowToCliente(r));
 }
 
@@ -162,6 +225,56 @@ export async function getClienteById(id: string): Promise<Cliente | null> {
   `;
   const row = rows[0] as Record<string, unknown> | undefined;
   return row ? rowToCliente(row) : null;
+}
+
+/** Hub do cliente: busca cliente pelo e-mail (para vincular conta logada ao contrato). */
+export async function getClienteByEmail(email: string): Promise<Cliente | null> {
+  if (!sql) throw new Error('Banco de dados não configurado.');
+  const normalized = String(email || '').trim().toLowerCase();
+  if (!normalized) return null;
+  const rows = await sql`
+    SELECT * FROM clientes WHERE LOWER(TRIM(email)) = ${normalized} LIMIT 1
+  `;
+  const row = rows[0] as Record<string, unknown> | undefined;
+  return row ? rowToCliente(row) : null;
+}
+
+export interface PagamentoMensalidadeItem {
+  mesRef: number;
+  pagoEm: string;
+  formaPagamento: 'pix' | 'cartao' | null;
+}
+
+/** Lista pagamentos de mensalidade do cliente (para hub). */
+export async function getPagamentosByClienteId(clienteId: string): Promise<PagamentoMensalidadeItem[]> {
+  if (!sql) throw new Error('Banco de dados não configurado.');
+  try {
+    const rows = await sql`
+      SELECT mes_ref, pago_em, forma_pagamento
+      FROM pagamentos_mensalidade
+      WHERE cliente_id = ${clienteId}
+      ORDER BY mes_ref DESC
+      LIMIT 60
+    `;
+    return (rows as Record<string, unknown>[]).map((r) => ({
+      mesRef: Number(r.mes_ref),
+      pagoEm: r.pago_em instanceof Date ? (r.pago_em as Date).toISOString() : String(r.pago_em ?? ''),
+      formaPagamento: r.forma_pagamento === 'pix' || r.forma_pagamento === 'cartao' ? (r.forma_pagamento as 'pix' | 'cartao') : null,
+    }));
+  } catch {
+    const rows = await sql`
+      SELECT mes_ref, pago_em
+      FROM pagamentos_mensalidade
+      WHERE cliente_id = ${clienteId}
+      ORDER BY mes_ref DESC
+      LIMIT 60
+    `;
+    return (rows as Record<string, unknown>[]).map((r) => ({
+      mesRef: Number(r.mes_ref),
+      pagoEm: r.pago_em instanceof Date ? (r.pago_em as Date).toISOString() : String(r.pago_em ?? ''),
+      formaPagamento: null as 'pix' | 'cartao' | null,
+    }));
+  }
 }
 
 export async function getClientesTodos(): Promise<ClienteComPagamento[]> {
@@ -232,8 +345,12 @@ export interface CreateClienteInput {
   precoServico?: number;
   /** Preço da manutenção em reais (quando manutencao=true) */
   precoManutencao?: number;
-  /** Total mensal (calculado: precoServico + precoManutencao se manutencao). Usado em receita. */
+  /** Total mensal (calculado: apenas precoManutencao quando manutencao; valor que o cliente paga todo mês). Usado em receita. */
   mensalidade?: number;
+  /** Forma de pagamento do projeto: 'cartao' | 'pix' | '50_50' */
+  formaPagamentoProjeto?: string;
+  /** Número de parcelas quando forma de pagamento é cartão */
+  parcelasCartao?: number;
 }
 
 function trimSlice(str: string | undefined, max: number): string | null {
@@ -242,10 +359,10 @@ function trimSlice(str: string | undefined, max: number): string | null {
 }
 
 function computeMensalidade(input: CreateClienteInput): number {
-  const precoServico = input.precoServico ?? 0;
-  const precoManutencao = (input.manutencao ? (input.precoManutencao ?? 0) : 0);
-  const computed = precoServico + precoManutencao;
-  return input.mensalidade != null && input.mensalidade > 0 ? input.mensalidade : computed;
+  if (input.mensalidade != null && input.mensalidade > 0) return input.mensalidade;
+  // Mensalidade = apenas o valor da manutenção (não inclui o valor do projeto)
+  const precoManutencao = input.manutencao ? (input.precoManutencao ?? 0) : 0;
+  return precoManutencao;
 }
 
 export async function createCliente(input: CreateClienteInput): Promise<Cliente> {
@@ -265,7 +382,7 @@ export async function createCliente(input: CreateClienteInput): Promise<Cliente>
       endereco_logradouro, endereco_numero, endereco_complemento,
       endereco_bairro, endereco_cidade, endereco_uf, endereco_cep,
       telefone_empresa, site, ramo, observacoes,
-      servico_tipo, manutencao, preco_servico, preco_manutencao, mensalidade
+      servico_tipo, manutencao, preco_servico, preco_manutencao, mensalidade, forma_pagamento_projeto
     )
     VALUES (
       ${trimSlice(input.nome, 150) ?? ''},
@@ -289,14 +406,15 @@ export async function createCliente(input: CreateClienteInput): Promise<Cliente>
       ${trimSlice(input.site, 200)},
       ${trimSlice(input.ramo, 100)},
       ${trimSlice(input.observacoes, 500)},
-      ${servicoTipo}, ${manutencao}, ${precoServicoCentavos}, ${precoManutencaoCentavos}, ${mensalidadeCentavos}
+      ${servicoTipo}, ${manutencao}, ${precoServicoCentavos}, ${precoManutencaoCentavos}, ${mensalidadeCentavos},
+      ${trimSlice(input.formaPagamentoProjeto, 20)}
     )
     RETURNING id, nome, email, cpf, telefone, celular, cargo,
       razao_social, nome_fantasia, cnpj, ie,
       endereco_logradouro, endereco_numero, endereco_complemento,
       endereco_bairro, endereco_cidade, endereco_uf, endereco_cep,
       telefone_empresa, site, ramo, observacoes,
-      servico_tipo, manutencao, preco_servico, preco_manutencao, mensalidade, status, criado_em
+      servico_tipo, manutencao, preco_servico, preco_manutencao, mensalidade, forma_pagamento_projeto, status, criado_em
   `;
 
   const row = rows[0] as Record<string, unknown>;
@@ -340,16 +458,186 @@ export async function updateCliente(id: string, input: CreateClienteInput): Prom
       manutencao = ${manutencao},
       preco_servico = ${precoServicoCentavos},
       preco_manutencao = ${precoManutencaoCentavos},
-      mensalidade = ${mensalidadeCentavos}
+      mensalidade = ${mensalidadeCentavos},
+      forma_pagamento_projeto = ${trimSlice(input.formaPagamentoProjeto, 20)},
+      parcelas_cartao = ${input.parcelasCartao != null && input.parcelasCartao >= 1 ? input.parcelasCartao : null}
     WHERE id = ${id}
     RETURNING id, nome, email, cpf, telefone, celular, cargo,
       razao_social, nome_fantasia, cnpj, ie,
       endereco_logradouro, endereco_numero, endereco_complemento,
       endereco_bairro, endereco_cidade, endereco_uf, endereco_cep,
       telefone_empresa, site, ramo, observacoes,
-      servico_tipo, manutencao, preco_servico, preco_manutencao, mensalidade, status, criado_em
+      servico_tipo, manutencao, preco_servico, preco_manutencao, mensalidade, forma_pagamento_projeto, parcelas_cartao, status, criado_em
   `;
 
   const row = rows[0] as Record<string, unknown> | undefined;
   return row ? rowToCliente(row) : null;
+}
+
+/** Dados editáveis pelo cliente no painel (Meus dados). */
+export interface PainelDadosInput {
+  nome?: string;
+  cpf?: string;
+  celular?: string;
+  razaoSocial?: string;
+  cnpj?: string;
+  site?: string;
+  enderecoLogradouro?: string;
+  enderecoNumero?: string;
+  enderecoComplemento?: string;
+  enderecoBairro?: string;
+  enderecoCidade?: string;
+  enderecoUf?: string;
+  enderecoCep?: string;
+}
+
+/** Atualiza apenas os campos editáveis pelo painel do cliente (não altera serviço, preços, etc.). */
+export async function updateClientePainelDados(clienteId: string, input: PainelDadosInput): Promise<void> {
+  if (!sql) throw new Error('Banco de dados não configurado.');
+  const nome = trimSlice(input.nome, 150) ?? '';
+  const razaoSocial = trimSlice(input.razaoSocial, 200) ?? '';
+  const uf = input.enderecoUf ? (trimSlice(input.enderecoUf, 2)?.toUpperCase() ?? null) : null;
+  await sql`
+    UPDATE clientes SET
+      nome = ${nome},
+      cpf = ${trimSlice(input.cpf, 14)},
+      celular = ${trimSlice(input.celular, 20)},
+      razao_social = ${razaoSocial},
+      cnpj = ${trimSlice(input.cnpj, 18)},
+      site = ${trimSlice(input.site, 200)},
+      endereco_logradouro = ${trimSlice(input.enderecoLogradouro, 150)},
+      endereco_numero = ${trimSlice(input.enderecoNumero, 20)},
+      endereco_complemento = ${trimSlice(input.enderecoComplemento, 80)},
+      endereco_bairro = ${trimSlice(input.enderecoBairro, 80)},
+      endereco_cidade = ${trimSlice(input.enderecoCidade, 80)},
+      endereco_uf = ${uf},
+      endereco_cep = ${trimSlice(input.enderecoCep, 10)}
+    WHERE id = ${clienteId}
+  `;
+}
+
+// --- Autenticação do painel (login por cliente) ---
+
+/** Retorna id, email e hash para login. Não expõe hash no tipo Cliente. */
+export async function getClienteLoginByEmail(email: string): Promise<{ id: string; email: string; codigoAcessoHash: string | null } | null> {
+  if (!sql) return null;
+  const normalized = String(email || '').trim().toLowerCase();
+  if (!normalized) return null;
+  try {
+    const rows = await sql`
+      SELECT id, email, codigo_acesso_hash
+      FROM clientes
+      WHERE LOWER(TRIM(email)) = ${normalized}
+      LIMIT 1
+    `;
+    const row = (Array.isArray(rows) ? rows[0] : rows?.[0]) as { id: string; email: string; codigo_acesso_hash: string | null } | undefined;
+    if (!row) return null;
+    return {
+      id: String(row.id),
+      email: String(row.email),
+      codigoAcessoHash: row.codigo_acesso_hash != null && row.codigo_acesso_hash !== '' ? String(row.codigo_acesso_hash) : null,
+    };
+  } catch {
+    return null;
+  }
+}
+
+export async function verifyClienteSenha(email: string, senha: string): Promise<Cliente | null> {
+  const login = await getClienteLoginByEmail(email);
+  if (!login?.codigoAcessoHash || !verifyCodigoAcesso(senha, login.codigoAcessoHash)) return null;
+  return getClienteById(login.id);
+}
+
+/** Cria conta do painel (cliente com email e senha). razao_social vazio. */
+export async function createClienteConta(nomeCompleto: string, email: string, senhaHash: string): Promise<Cliente | null> {
+  if (!sql) return null;
+  const nome = String(nomeCompleto || '').trim().slice(0, 150);
+  const emailNorm = String(email || '').trim().toLowerCase();
+  if (!emailNorm || !nome) return null;
+  const existing = await getClienteByEmail(emailNorm);
+  if (existing) return null;
+  try {
+    const rows = await sql`
+      INSERT INTO clientes (nome, email, razao_social, codigo_acesso_hash, mensalidade, status)
+      VALUES (${nome}, ${emailNorm}, '', ${senhaHash}, 0, 0)
+      RETURNING *
+    `;
+    const row = (Array.isArray(rows) ? rows[0] : rows?.[0]) as Record<string, unknown> | undefined;
+    return row ? rowToCliente(row) : null;
+  } catch {
+    return null;
+  }
+}
+
+function hashCodigoReset(codigo: string): string {
+  return createHash('sha256').update(codigo).digest('hex');
+}
+
+export async function createResetCodigoCliente(clienteId: string): Promise<string> {
+  if (!sql) throw new Error('Banco não configurado');
+  const codigo = String(Math.floor(100000 + Math.random() * 900000));
+  const codigoHash = hashCodigoReset(codigo);
+  const expiraEm = new Date(Date.now() + 60 * 60 * 1000);
+  await sql`DELETE FROM cliente_reset_tokens WHERE cliente_id = ${clienteId}`;
+  await sql`
+    INSERT INTO cliente_reset_tokens (cliente_id, token, expira_em)
+    VALUES (${clienteId}, ${codigoHash}, ${expiraEm})
+  `;
+  return codigo;
+}
+
+export async function validarCodigoResetCliente(email: string, codigo: string): Promise<string | null> {
+  if (!sql || !codigo || codigo.length !== 6) return null;
+  const codigoHash = hashCodigoReset(codigo);
+  const emailNorm = email.trim().toLowerCase();
+  const rows = await sql`
+    SELECT r.cliente_id
+    FROM cliente_reset_tokens r
+    JOIN clientes c ON c.id = r.cliente_id AND LOWER(TRIM(c.email)) = ${emailNorm}
+    WHERE r.token = ${codigoHash}
+      AND r.usado = false
+      AND r.expira_em > NOW()
+    LIMIT 1
+  `;
+  const row = (Array.isArray(rows) ? rows[0] : rows?.[0]) as { cliente_id: string } | undefined;
+  return row ? row.cliente_id : null;
+}
+
+export async function consumirCodigoEAtualizarSenhaCliente(
+  email: string,
+  codigo: string,
+  novaSenhaHash: string
+): Promise<boolean> {
+  if (!sql || !codigo || codigo.length !== 6) return false;
+  const codigoHash = hashCodigoReset(codigo);
+  const emailNorm = email.trim().toLowerCase();
+  const rows = await sql`
+    UPDATE cliente_reset_tokens r
+    SET usado = true
+    FROM clientes c
+    WHERE r.cliente_id = c.id
+      AND LOWER(TRIM(c.email)) = ${emailNorm}
+      AND r.token = ${codigoHash}
+      AND r.usado = false
+      AND r.expira_em > NOW()
+    RETURNING r.cliente_id
+  `;
+  const clienteId = (Array.isArray(rows) ? rows[0] : rows?.[0]) as { cliente_id?: string } | undefined;
+  if (!clienteId?.cliente_id) return false;
+  await sql`
+    UPDATE clientes
+    SET codigo_acesso_hash = ${novaSenhaHash}
+    WHERE id = ${clienteId.cliente_id}
+  `;
+  return true;
+}
+
+/** Remove a conta do cliente (exclusão definitiva). */
+export async function deleteCliente(clienteId: string): Promise<boolean> {
+  if (!sql) return false;
+  const rows = await sql`
+    DELETE FROM clientes WHERE id = ${clienteId}
+    RETURNING id
+  `;
+  return (Array.isArray(rows) ? rows : rows ?? []).length > 0;
 }

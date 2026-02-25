@@ -7,20 +7,12 @@ import { useSnackbar } from '../../../../contexts/SnackbarContext';
 
 const { colors, spacing, fontSizes } = theme;
 
-const titleStyle: React.CSSProperties = {
-  fontSize: 'clamp(1.5rem, 4vw, 2rem)',
-  fontWeight: 600,
-  color: colors.text.light,
-  margin: 0,
-  marginBottom: spacing[2],
-};
-
-const subtitleStyle: React.CSSProperties = {
+const pageTitleStyle: React.CSSProperties = {
   fontSize: fontSizes.lg,
+  fontWeight: 400,
   color: colors.text.light,
-  opacity: 0.7,
   margin: 0,
-  marginBottom: spacing[6],
+  marginBottom: spacing[4],
 };
 
 const formGridStyle: React.CSSProperties = {
@@ -134,11 +126,7 @@ const MetasPage: React.FC = () => {
         <meta name="robots" content="noindex, nofollow" />
       </Head>
       <AdminLayout>
-        <h1 style={titleStyle}>Configurar metas</h1>
-        <p style={subtitleStyle}>
-          Defina as metas exibidas no dashboard.
-        </p>
-
+        <h1 style={pageTitleStyle}>Configurar metas</h1>
         <form className="metas-form" onSubmit={handleSubmit}>
           <div style={formGridStyle}>
             <div style={fieldStyle}>

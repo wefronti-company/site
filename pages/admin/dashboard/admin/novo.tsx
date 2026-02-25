@@ -7,20 +7,12 @@ import { useSnackbar } from '../../../../contexts/SnackbarContext';
 
 const { colors, spacing, fontSizes } = theme;
 
-const titleStyle: React.CSSProperties = {
-  fontSize: 'clamp(1.5rem, 4vw, 2rem)',
-  fontWeight: 600,
-  color: colors.text.light,
-  margin: 0,
-  marginBottom: spacing[2],
-};
-
-const subtitleStyle: React.CSSProperties = {
+const pageTitleStyle: React.CSSProperties = {
   fontSize: fontSizes.lg,
+  fontWeight: 400,
   color: colors.text.light,
-  opacity: 0.7,
   margin: 0,
-  marginBottom: spacing[6],
+  marginBottom: spacing[4],
 };
 
 const formStyle: React.CSSProperties = {
@@ -108,11 +100,7 @@ const NovoAdminPage: React.FC = () => {
         <meta name="robots" content="noindex, nofollow" />
       </Head>
       <AdminLayout>
-        <h1 style={titleStyle}>Adicionar admin</h1>
-        <p style={subtitleStyle}>
-          Crie um novo administrador para acessar o painel. Apenas super admins podem realizar esta ação.
-        </p>
-
+        <h1 style={pageTitleStyle}>Adicionar admin</h1>
         <form style={formStyle} onSubmit={handleSubmit}>
           <div style={fieldStyle}>
             <label style={labelStyle}>Nome</label>

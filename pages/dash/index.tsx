@@ -12,32 +12,23 @@ import { toDashUrl } from '../../lib/dash-url';
 
 const { spacing, fontSizes, radii } = theme;
 
-type FormMode = 'login' | 'register';
-
 const sanitize = (v: string, max: number) =>
   String(v)
     .slice(0, max)
     .replace(/[<>'"]/g, '');
 
+type Mode = 'login' | 'criar';
+
 const DashLoginPage: React.FC = () => {
   const router = useRouter();
   const { showSuccess, showError } = useSnackbar();
-  const [mode, setMode] = useState<FormMode>('login');
+  const [mode, setMode] = useState<Mode>('login');
   const [loading, setLoading] = useState(false);
-
-  // Login
+  const [nomeCompleto, setNomeCompleto] = useState('');
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
+  const [confirmarSenha, setConfirmarSenha] = useState('');
   const [showSenha, setShowSenha] = useState(false);
-
-  // Register
-  const [regNome, setRegNome] = useState('');
-  const [regEmail, setRegEmail] = useState('');
-  const [regSenha, setRegSenha] = useState('');
-  const [regSenhaConfirmar, setRegSenhaConfirmar] = useState('');
-  const [showRegSenha, setShowRegSenha] = useState(false);
-  const [showRegSenhaConfirm, setShowRegSenhaConfirm] = useState(false);
-  const [aceitoTermos, setAceitoTermos] = useState(false);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -48,7 +39,7 @@ const DashLoginPage: React.FC = () => {
     }
     setLoading(true);
     try {
-      const res = await fetch('/api/usuario/login', {
+      const res = await fetch('/api/cliente/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: sanitize(eTrim, 254), senha }),
@@ -60,7 +51,7 @@ const DashLoginPage: React.FC = () => {
         return;
       }
       showSuccess('Login realizado com sucesso.');
-      if (typeof window !== 'undefined' && window.location.hostname === 'dash.wefronti.com') {
+      if (typeof window !== 'undefined' && window.location.hostname === 'painel.wefronti.com') {
         window.location.href = toDashUrl('/dashboard');
       } else {
         router.push('/dash/dashboard');
@@ -72,37 +63,34 @@ const DashLoginPage: React.FC = () => {
     }
   };
 
-  const handleRegister = async (e: React.FormEvent) => {
+  const handleRegistro = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!regNome.trim()) {
+    const eTrim = email.trim().toLowerCase();
+    if (!nomeCompleto.trim()) {
       showError('Preencha o nome.');
       return;
     }
-    if (!regEmail.trim()) {
-      showError('Preencha o e-mail.');
+    if (!eTrim || !senha) {
+      showError('Preencha e-mail e senha.');
       return;
     }
-    if (regSenha.length < 6) {
-      showError('A senha deve ter pelo menos 6 caracteres.');
-      return;
-    }
-    if (regSenha !== regSenhaConfirmar) {
+    if (senha !== confirmarSenha) {
       showError('As senhas não conferem.');
       return;
     }
-    if (!aceitoTermos) {
-      showError('Aceite os Termos de Uso e a Política de Privacidade para criar sua conta.');
+    if (senha.length < 6) {
+      showError('A senha deve ter pelo menos 6 caracteres.');
       return;
     }
     setLoading(true);
     try {
-      const res = await fetch('/api/usuario/registro', {
+      const res = await fetch('/api/cliente/registro', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          nomeCompleto: regNome.trim(),
-          email: regEmail.trim().toLowerCase(),
-          senha: regSenha,
+          nomeCompleto: sanitize(nomeCompleto.trim(), 200),
+          email: sanitize(eTrim, 254),
+          senha,
         }),
         credentials: 'same-origin',
       });
@@ -113,11 +101,10 @@ const DashLoginPage: React.FC = () => {
       }
       showSuccess('Conta criada com sucesso! Faça login.');
       setMode('login');
-      setEmail(regEmail.trim().toLowerCase());
-      setRegNome('');
-      setRegEmail('');
-      setRegSenha('');
-      setRegSenhaConfirmar('');
+      setNomeCompleto('');
+      setEmail('');
+      setSenha('');
+      setConfirmarSenha('');
     } catch {
       showError('Erro ao conectar. Tente novamente.');
     } finally {
@@ -245,13 +232,6 @@ const DashLoginPage: React.FC = () => {
     gap: spacing[4],
   };
 
-  const toggleStyle: React.CSSProperties = {
-    marginTop: spacing[4],
-    textAlign: 'center',
-    fontSize: fontSizes.sm,
-    color: colors.text.light,
-  };
-
   const linkStyle: React.CSSProperties = {
     color: colors.blue.primary,
     cursor: 'pointer',
@@ -284,10 +264,10 @@ const DashLoginPage: React.FC = () => {
         <div style={leftPanelStyle} className="dash-login-left">
           <div style={leftPanelContentStyle}>
             <h2 style={leftTitleStyle}>
-              Indique clientes e ganhe recompensas
+              Área do cliente
             </h2>
             <p style={leftSubtitleStyle}>
-              Acesse sua área exclusiva do programa de indicação e comece a indicar hoje.
+              Acesse sua conta para acompanhar seu contrato, serviços e pagamentos.
             </p>
           </div>
         </div>
@@ -304,196 +284,144 @@ const DashLoginPage: React.FC = () => {
                 priority
               />
             </div>
+            <h1 style={{ fontSize: fontSizes.xl, fontWeight: 400, color: colors.text.light, marginBottom: spacing[4] }}>
+              {mode === 'login' ? 'Acesse sua conta' : 'Criar conta'}
+            </h1>
             {mode === 'login' ? (
-              <>
-                <h1 style={{ fontSize: fontSizes.xl, fontWeight: 400, color: colors.text.light, marginBottom: spacing[4] }}>
-                  Acesse sua conta
-                </h1>
-                <form onSubmit={handleLogin} style={formStyle}>
-                  <div>
-                    <label style={labelStyle} htmlFor="dash-email">E-mail</label>
+              <form onSubmit={handleLogin} style={formStyle}>
+                <div>
+                  <label style={labelStyle} htmlFor="dash-email">E-mail</label>
+                  <input
+                    id="dash-email"
+                    type="email"
+                    autoComplete="email"
+                    style={inputStyle}
+                    value={email}
+                    onChange={(e) => setEmail(sanitize(e.target.value, 254))}
+                    placeholder="seu@email.com"
+                    maxLength={254}
+                    disabled={loading}
+                  />
+                </div>
+                <div>
+                  <label style={labelStyle} htmlFor="dash-senha">Senha</label>
+                  <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
                     <input
-                      id="dash-email"
-                      type="email"
-                      autoComplete="email"
-                      style={inputStyle}
-                      value={email}
-                      onChange={(e) => setEmail(sanitize(e.target.value, 254))}
-                      placeholder="seu@email.com"
-                      maxLength={254}
+                      id="dash-senha"
+                      type={showSenha ? 'text' : 'password'}
+                      autoComplete="current-password"
+                      style={inputWithIconStyle}
+                      value={senha}
+                      onChange={(e) => setSenha(e.target.value)}
+                      placeholder="••••••••"
                       disabled={loading}
                     />
-                  </div>
-                  <div>
-                    <label style={labelStyle} htmlFor="dash-senha">Senha</label>
-                    <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
-                      <input
-                        id="dash-senha"
-                        type={showSenha ? 'text' : 'password'}
-                        autoComplete="current-password"
-                        style={inputWithIconStyle}
-                        value={senha}
-                        onChange={(e) => setSenha(e.target.value)}
-                        placeholder="••••••••"
-                        disabled={loading}
-                      />
-                      <button
-                        type="button"
-                        className="dash-pw-toggle"
-                        aria-label={showSenha ? 'Ocultar senha' : 'Mostrar senha'}
-                        style={passwordToggleBtnStyle}
-                        onClick={() => setShowSenha((v) => !v)}
-                      >
-                        {showSenha ? <EyeOff size={20} /> : <Eye size={20} />}
-                      </button>
-                    </div>
-                  </div>
-                  <p style={{ margin: 0, marginTop: spacing[2], marginBottom: 0 }}>
-                    <Link
-                      href="/esqueci-senha"
-                      style={{ ...linkStyle, fontSize: fontSizes.sm, fontWeight: 400 }}
+                    <button
+                      type="button"
+                      className="dash-pw-toggle"
+                      aria-label={showSenha ? 'Ocultar senha' : 'Mostrar senha'}
+                      style={passwordToggleBtnStyle}
+                      onClick={() => setShowSenha((v) => !v)}
                     >
-                      Esqueceu senha?
-                    </Link>
-                  </p>
-                  <ButtonPainel type="submit" disabled={loading}>
-                    {loading ? 'Entrando...' : 'Entrar'}
-                  </ButtonPainel>
-                </form>
-                <p style={toggleStyle}>
+                      {showSenha ? <EyeOff size={20} /> : <Eye size={20} />}
+                    </button>
+                  </div>
+                </div>
+                <p style={{ margin: 0, marginTop: spacing[2], marginBottom: 0 }}>
+                  <Link
+                    href="/esqueci-senha"
+                    style={{ ...linkStyle, fontSize: fontSizes.sm, fontWeight: 400 }}
+                  >
+                    Esqueceu senha?
+                  </Link>
+                </p>
+                <ButtonPainel type="submit" disabled={loading}>
+                  {loading ? 'Entrando...' : 'Entrar'}
+                </ButtonPainel>
+                <p style={{ margin: 0, textAlign: 'center', fontSize: fontSizes.sm, color: colors.text.light }}>
                   Não tem conta?{' '}
-                  <a
-                    style={linkStyle}
-                    role="button"
-                    tabIndex={0}
-                    onClick={() => setMode('register')}
-                    onKeyDown={(e) => e.key === 'Enter' && setMode('register')}
-                  >
+                  <button type="button" style={{ ...linkStyle, background: 'none', border: 'none', padding: 0 }} onClick={() => setMode('criar')}>
                     Criar conta
-                  </a>
+                  </button>
                 </p>
-              </>
+              </form>
             ) : (
-              <>
-                <h1 style={{ fontSize: fontSizes.xl, fontWeight: 400, color: colors.text.light, marginBottom: spacing[4] }}>
-                  Criar conta
-                </h1>
-                <form onSubmit={handleRegister} style={formStyle}>
-                  <div>
-                    <label style={labelStyle} htmlFor="reg-nome">Nome</label>
+              <form onSubmit={handleRegistro} style={formStyle}>
+                <div>
+                  <label style={labelStyle} htmlFor="dash-nome">Nome completo</label>
+                  <input
+                    id="dash-nome"
+                    type="text"
+                    autoComplete="name"
+                    style={inputStyle}
+                    value={nomeCompleto}
+                    onChange={(e) => setNomeCompleto(sanitize(e.target.value, 200))}
+                    placeholder="Seu nome"
+                    maxLength={200}
+                    disabled={loading}
+                  />
+                </div>
+                <div>
+                  <label style={labelStyle} htmlFor="dash-reg-email">E-mail</label>
+                  <input
+                    id="dash-reg-email"
+                    type="email"
+                    autoComplete="email"
+                    style={inputStyle}
+                    value={email}
+                    onChange={(e) => setEmail(sanitize(e.target.value, 254))}
+                    placeholder="seu@email.com"
+                    maxLength={254}
+                    disabled={loading}
+                  />
+                </div>
+                <div>
+                  <label style={labelStyle} htmlFor="dash-reg-senha">Senha</label>
+                  <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
                     <input
-                      id="reg-nome"
-                      type="text"
-                      autoComplete="name"
-                      style={inputStyle}
-                      value={regNome}
-                      onChange={(e) => setRegNome(sanitize(e.target.value, 200))}
-                      placeholder="Seu nome completo"
-                      maxLength={200}
+                      id="dash-reg-senha"
+                      type={showSenha ? 'text' : 'password'}
+                      autoComplete="new-password"
+                      style={inputWithIconStyle}
+                      value={senha}
+                      onChange={(e) => setSenha(e.target.value)}
+                      placeholder="Mínimo 6 caracteres"
                       disabled={loading}
                     />
+                    <button
+                      type="button"
+                      className="dash-pw-toggle"
+                      aria-label={showSenha ? 'Ocultar senha' : 'Mostrar senha'}
+                      style={passwordToggleBtnStyle}
+                      onClick={() => setShowSenha((v) => !v)}
+                    >
+                      {showSenha ? <EyeOff size={20} /> : <Eye size={20} />}
+                    </button>
                   </div>
-                  <div>
-                    <label style={labelStyle} htmlFor="reg-email">E-mail</label>
-                    <input
-                      id="reg-email"
-                      type="email"
-                      autoComplete="email"
-                      style={inputStyle}
-                      value={regEmail}
-                      onChange={(e) => setRegEmail(sanitize(e.target.value, 254))}
-                      placeholder="seu@email.com"
-                      maxLength={254}
-                      disabled={loading}
-                    />
-                  </div>
-                  <div>
-                    <label style={labelStyle} htmlFor="reg-senha">Senha</label>
-                    <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
-                      <input
-                        id="reg-senha"
-                        type={showRegSenha ? 'text' : 'password'}
-                        autoComplete="new-password"
-                        style={inputWithIconStyle}
-                        value={regSenha}
-                        onChange={(e) => setRegSenha(e.target.value)}
-                        placeholder="Mínimo 6 caracteres"
-                        minLength={6}
-                        disabled={loading}
-                      />
-                      <button
-                        type="button"
-                        className="dash-pw-toggle"
-                        aria-label={showRegSenha ? 'Ocultar senha' : 'Mostrar senha'}
-                        style={passwordToggleBtnStyle}
-                        onClick={() => setShowRegSenha((v) => !v)}
-                      >
-                        {showRegSenha ? <EyeOff size={20} /> : <Eye size={20} />}
-                      </button>
-                    </div>
-                  </div>
-                  <div>
-                    <label style={labelStyle} htmlFor="reg-senha-confirm">Confirmar senha</label>
-                    <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
-                      <input
-                        id="reg-senha-confirm"
-                        type={showRegSenhaConfirm ? 'text' : 'password'}
-                        autoComplete="new-password"
-                        style={inputWithIconStyle}
-                        value={regSenhaConfirmar}
-                        onChange={(e) => setRegSenhaConfirmar(e.target.value)}
-                        placeholder="Repita a senha"
-                        disabled={loading}
-                      />
-                      <button
-                        type="button"
-                        className="dash-pw-toggle"
-                        aria-label={showRegSenhaConfirm ? 'Ocultar senha' : 'Mostrar senha'}
-                        style={passwordToggleBtnStyle}
-                        onClick={() => setShowRegSenhaConfirm((v) => !v)}
-                      >
-                        {showRegSenhaConfirm ? <EyeOff size={20} /> : <Eye size={20} />}
-                      </button>
-                    </div>
-                  </div>
-                  <label style={{ display: 'flex', alignItems: 'flex-start', gap: spacing[2], marginBottom: spacing[2], cursor: 'pointer', fontSize: fontSizes.sm, color: colors.text.light, opacity: 0.95 }}>
-                    <input
-                      type="checkbox"
-                      checked={aceitoTermos}
-                      onChange={(e) => setAceitoTermos(e.target.checked)}
-                      style={{ marginTop: 4, flexShrink: 0 }}
-                      disabled={loading}
-                      aria-describedby="termos-label"
-                    />
-                    <span id="termos-label">
-                      Li e aceito os{' '}
-                      <Link href="/termos-de-uso" target="_blank" rel="noopener noreferrer" style={linkStyle}>
-                        Termos de Uso
-                      </Link>
-                      {' '}e a{' '}
-                      <Link href="/politica-privacidade" target="_blank" rel="noopener noreferrer" style={linkStyle}>
-                        Política de Privacidade
-                      </Link>
-                      .
-                    </span>
-                  </label>
-                  <ButtonPainel type="submit" disabled={loading}>
-                    {loading ? 'Criando conta...' : 'Criar conta'}
-                  </ButtonPainel>
-                </form>
-                <p style={toggleStyle}>
+                </div>
+                <div>
+                  <label style={labelStyle} htmlFor="dash-reg-confirmar">Confirmar senha</label>
+                  <input
+                    id="dash-reg-confirmar"
+                    type={showSenha ? 'text' : 'password'}
+                    autoComplete="new-password"
+                    style={inputStyle}
+                    value={confirmarSenha}
+                    onChange={(e) => setConfirmarSenha(e.target.value)}
+                    placeholder="Repita a senha"
+                    disabled={loading}
+                  />
+                </div>
+                <ButtonPainel type="submit" disabled={loading}>
+                  {loading ? 'Criando conta...' : 'Criar conta'}
+                </ButtonPainel>
+                <p style={{ margin: 0, textAlign: 'center', fontSize: fontSizes.sm, color: colors.text.light }}>
                   Já tem conta?{' '}
-                  <a
-                    style={linkStyle}
-                    role="button"
-                    tabIndex={0}
-                    onClick={() => setMode('login')}
-                    onKeyDown={(e) => e.key === 'Enter' && setMode('login')}
-                  >
+                  <button type="button" style={{ ...linkStyle, background: 'none', border: 'none', padding: 0 }} onClick={() => setMode('login')}>
                     Entrar
-                  </a>
+                  </button>
                 </p>
-              </>
+              </form>
             )}
             <Link href="/" style={voltarAoSiteStyle} aria-label="Voltar ao site">
               <ArrowLeft size={18} strokeWidth={2} aria-hidden />

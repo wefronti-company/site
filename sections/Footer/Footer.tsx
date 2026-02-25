@@ -128,9 +128,6 @@ const Footer: React.FC = () => {
                 <Link href="/termos-de-uso" style={privacyLinkStyle}>
                   Termos de Uso
                 </Link>
-                <Link href="/indique-e-ganhe-regras" style={privacyLinkStyle}>
-                  Indique e Ganhe
-                </Link>
               </div>
             </div>
           </div>

@@ -7,20 +7,12 @@ import { useSnackbar } from '../../../../contexts/SnackbarContext';
 
 const { colors, spacing, fontSizes } = theme;
 
-const titleStyle: React.CSSProperties = {
-  fontSize: 'clamp(1.5rem, 4vw, 2rem)',
-  fontWeight: 600,
-  color: colors.text.light,
-  margin: 0,
-  marginBottom: spacing[2],
-};
-
-const subtitleStyle: React.CSSProperties = {
+const pageTitleStyle: React.CSSProperties = {
   fontSize: fontSizes.lg,
+  fontWeight: 400,
   color: colors.text.light,
-  opacity: 0.7,
   margin: 0,
-  marginBottom: spacing[6],
+  marginBottom: spacing[4],
 };
 
 const formStyle: React.CSSProperties = {
@@ -149,9 +141,7 @@ const PerfilAdminPage: React.FC = () => {
         <meta name="robots" content="noindex, nofollow" />
       </Head>
       <AdminLayout>
-        <h1 style={titleStyle}>Perfil</h1>
-        <p style={subtitleStyle}>Seus dados de administrador.</p>
-
+        <h1 style={pageTitleStyle}>Perfil</h1>
         <form style={formStyle} onSubmit={handleSubmit}>
           <div>
             <h2 style={sectionTitleStyle}>Dados pessoais</h2>

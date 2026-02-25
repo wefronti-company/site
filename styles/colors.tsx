@@ -34,9 +34,10 @@ export const colors = {
 
 
 admin:{
-   background:'#0A0C12',
+   background:'#090909',
+   sidebar: '#141414',
    active: '#3598FF',
-   inactive: '#111520',
+   inactive: '#171717',
 },
 
 } as const;

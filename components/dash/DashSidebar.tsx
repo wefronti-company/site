@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { LayoutDashboard, User, FileText, LogOut, Banknote } from 'lucide-react';
+import { LayoutDashboard, User, Wallet, LogOut } from 'lucide-react';
 import { theme } from '../../styles/theme';
 import { useSnackbar } from '../../contexts/SnackbarContext';
 import { DASH_HEADER_HEIGHT, DASH_SIDEBAR_WIDTH } from './constants';
@@ -14,9 +14,8 @@ export const dashSidebarWidth = DASH_SIDEBAR_WIDTH;
 // No subdomínio dash, o middleware redireciona /dash/dashboard -> /dashboard (URL limpa)
 const navItems = [
   { label: 'Dashboard', href: '/dash/dashboard', icon: <LayoutDashboard size={18} strokeWidth={1.5} /> },
+  { label: 'Financeiro', href: '/dash/dashboard/financeiro', icon: <Wallet size={18} strokeWidth={1.5} /> },
   { label: 'Meus dados', href: '/dash/dashboard/perfil', icon: <User size={18} strokeWidth={1.5} /> },
-  { label: 'Minhas comissões', href: '/dash/dashboard/comissoes', icon: <Banknote size={18} strokeWidth={1.5} /> },
-  { label: 'Regras', href: '/dash/dashboard/regras', icon: <FileText size={18} strokeWidth={1.5} /> },
 ];
 
 const logoWrapStyle: React.CSSProperties = {
@@ -78,7 +77,7 @@ export const DashSidebar: React.FC<DashSidebarProps> = ({ currentPath, onClose }
 
   const handleLogout = async () => {
     onClose?.();
-    await fetch('/api/usuario/logout', { method: 'POST', credentials: 'include' });
+    await fetch('/api/cliente/logout', { method: 'POST', credentials: 'include' });
     showSuccess('Você saiu da sua conta.');
     router.push('/dash');
   };

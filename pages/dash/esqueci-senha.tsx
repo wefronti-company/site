@@ -32,7 +32,7 @@ export default function EsqueciSenhaPage() {
     }
     setLoading(true);
     try {
-      const res = await fetch('/api/usuario/esqueci-senha', {
+      const res = await fetch('/api/cliente/esqueci-senha', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: eTrim }),
@@ -61,7 +61,7 @@ export default function EsqueciSenhaPage() {
     }
     setLoading(true);
     try {
-      const res = await fetch('/api/usuario/validar-codigo', {
+      const res = await fetch('/api/cliente/validar-codigo', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: email.trim().toLowerCase(), codigo: codigoNum }),
@@ -94,7 +94,7 @@ export default function EsqueciSenhaPage() {
     const codigoNum = codigo.replace(/\D/g, '').slice(0, 6);
     setLoading(true);
     try {
-      const res = await fetch('/api/usuario/redefinir-senha', {
+      const res = await fetch('/api/cliente/redefinir-senha', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -285,7 +285,7 @@ export default function EsqueciSenhaPage() {
               Recupere seu acesso
             </h2>
             <p style={leftSubtitleStyle}>
-              Em poucos passos você volta a acessar sua área e continuar indicando clientes.
+              Em poucos passos você volta a acessar sua área do cliente.
             </p>
           </div>
         </div>

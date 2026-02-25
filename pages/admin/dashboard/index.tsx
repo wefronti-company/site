@@ -13,6 +13,14 @@ interface DashboardDados {
   aReceber: number;
 }
 
+const pageTitleStyle: React.CSSProperties = {
+  fontSize: fontSizes.lg,
+  fontWeight: 400,
+  color: colors.text.light,
+  margin: 0,
+  marginBottom: spacing[4],
+};
+
 const cardWrapStyle: React.CSSProperties = {
   display: 'grid',
   gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
@@ -85,13 +93,6 @@ const cardMetaValueStyle: React.CSSProperties = {
   margin: 0,
 };
 
-const titleStyle: React.CSSProperties = {
-  fontSize: 'clamp(1.25rem, 3vw, 1.75rem)',
-  fontWeight: 600,
-  color: colors.text.light,
-  margin: 0,
-};
-
 function formatBRL(val: number): string {
   return new Intl.NumberFormat('pt-BR', {
     style: 'currency',
@@ -129,7 +130,7 @@ const AdminDashboardPage: React.FC = () => {
         <meta name="robots" content="noindex, nofollow" />
       </Head>
       <AdminLayout>
-        <h1 style={titleStyle}>Visão geral</h1>
+        <h1 style={pageTitleStyle}>Visão geral</h1>
         <div style={cardWrapStyle}>
           <div style={cardStyle}>
             <p style={cardTitleStyle}>
@@ -176,9 +177,9 @@ const AdminDashboardPage: React.FC = () => {
             </p>
             <div style={cardBodyStyle}>
               <div style={cardRightStyle}>
-                <p style={cardTotalLabelStyle}>Mensalidades em aberto</p>
+                <p style={cardTotalLabelStyle}>Manutenções em aberto</p>
                 <p style={cardTotalValueStyle}>{formatBRL(aReceber)}</p>
-                <p style={cardMetaLabelStyle}>Baseado nas mensalidades dos clientes que ainda não pagaram este mês</p>
+                <p style={cardMetaLabelStyle}>Baseado nas manutenções dos clientes que ainda não pagaram este mês</p>
               </div>
             </div>
           </div>

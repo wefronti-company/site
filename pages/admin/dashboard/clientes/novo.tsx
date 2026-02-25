@@ -5,14 +5,14 @@ import { theme } from '../../../../styles/theme';
 import { useSnackbar } from '../../../../contexts/SnackbarContext';
 import { ClienteForm, clienteToFormValues, type ClienteFormValues } from '../../../../components/admin/ClienteForm';
 
-const { colors, spacing } = theme;
+const { colors, spacing, fontSizes } = theme;
 
-const titleStyle: React.CSSProperties = {
-  fontSize: 'clamp(1.5rem, 4vw, 2rem)',
-  fontWeight: 600,
+const pageTitleStyle: React.CSSProperties = {
+  fontSize: fontSizes.lg,
+  fontWeight: 400,
   color: colors.text.light,
   margin: 0,
-  marginBottom: spacing[6],
+  marginBottom: spacing[4],
 };
 
 const emptyValues = clienteToFormValues(null);
@@ -81,8 +81,7 @@ const ClienteNovoPage: React.FC = () => {
         <meta name="robots" content="noindex, nofollow" />
       </Head>
       <AdminLayout>
-        <h1 style={titleStyle}>Cadastrar novo cliente</h1>
-
+        <h1 style={pageTitleStyle}>Cadastrar cliente</h1>
         <ClienteForm
           values={values}
           onChange={setValues}

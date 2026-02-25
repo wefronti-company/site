@@ -50,30 +50,6 @@ export default function MyApp({ Component, pageProps }: AppProps) {
    };
  }, [router.pathname]);
 
- // Registrar acesso via link de indicação (?ref=). Se o dono do link estiver banido → 404.
- React.useEffect(() => {
-   const ref = router.query.ref;
-   if (typeof ref !== 'string' || !ref.trim()) return;
-   const key = `ref_${ref.trim()}`;
-   try {
-     if (sessionStorage.getItem(key)) return;
-     fetch('/api/referencia/registrar-acesso', {
-       method: 'POST',
-       headers: { 'Content-Type': 'application/json' },
-       body: JSON.stringify({ ref: ref.trim() }),
-     })
-       .then((res) => {
-         if (res.status === 404) {
-           sessionStorage.setItem(key, '1');
-           router.replace('/404');
-           return;
-         }
-         if (res.ok) sessionStorage.setItem(key, '1');
-       })
-       .catch(() => {});
-   } catch { /* ignore */ }
- }, [router.query.ref]);
-
  React.useEffect(() => {
    try {
      if (typeof document !== 'undefined' && document.documentElement) {

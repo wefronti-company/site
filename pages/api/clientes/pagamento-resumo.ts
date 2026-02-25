@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { getClientesAtivos, getClientesInadimplentes } from '../../../lib/clientDb';
-import { getPagamentoResumoPorMes, getMesRef } from '../../../lib/metasDb';
+import { getPagamentoResumoPorMes, getMesRef, getPagamentosPorDia } from '../../../lib/metasDb';
 
 function parseMesRef(queryMes: unknown): number {
   if (typeof queryMes === 'string') {
@@ -16,15 +16,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
   const mesRef = parseMesRef(req.query.mes);
   try {
-    const [resumo, ativos, inadimplentes] = await Promise.all([
+    const [resumo, ativos, inadimplentes, pagamentosPorDia] = await Promise.all([
       getPagamentoResumoPorMes(mesRef),
       getClientesAtivos(mesRef),
       getClientesInadimplentes(mesRef),
+      getPagamentosPorDia(mesRef),
     ]);
     return res.status(200).json({
       ...resumo,
       ativos,
       inadimplentes,
+      pagamentosPorDia,
     });
   } catch (e) {
     console.error('[pagamento-resumo]', e);

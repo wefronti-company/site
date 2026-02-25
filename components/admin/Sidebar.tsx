@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { Users, CreditCard, AlertCircle, UserMinus, LayoutDashboard, FileText, FileX, PlusCircle, LogOut, UserPlus, List, Target, User, ShieldPlus, Gift, Banknote } from 'lucide-react';
+import { Users, CreditCard, AlertCircle, UserMinus, LayoutDashboard, FileText, FileX, PlusCircle, LogOut, List, Target, User, ShieldPlus, FileSignature, Wrench, Wallet } from 'lucide-react';
 import { theme } from '../../styles/theme';
 import { useSnackbar } from '../../contexts/SnackbarContext';
 import { clearAdminCache } from '../../lib/adminCache';
@@ -15,27 +15,33 @@ import { ADMIN_HEADER_HEIGHT, SIDEBAR_WIDTH } from './constants';
 export const sidebarWidth = SIDEBAR_WIDTH;
 
 const CLIENTE_ITEMS = [
-  { label: 'Cadastrar novo', href: '/admin/dashboard/clientes/novo', icon: <UserPlus size={18} strokeWidth={1.5} /> },
-  { label: 'Todos os clientes', href: '/admin/dashboard/clientes/todos', icon: <List size={18} strokeWidth={1.5} /> },
-  { label: 'Ativos', href: '/admin/dashboard/clientes/ativos', icon: <Users size={18} strokeWidth={1.5} /> },
-  { label: 'Pagamentos', href: '/admin/dashboard/clientes/pagamento', icon: <CreditCard size={18} strokeWidth={1.5} /> },
-  { label: 'Inadimplentes', href: '/admin/dashboard/clientes/inadiplentes', icon: <AlertCircle size={18} strokeWidth={1.5} /> },
-  { label: 'Desligados', href: '/admin/dashboard/clientes/desligados', icon: <UserMinus size={18} strokeWidth={1.5} /> },
+  { label: 'Todos os clientes', href: '/admin/dashboard/clientes/todos', icon: <List size={16} strokeWidth={1.5} /> },
+  { label: 'Ativos', href: '/admin/dashboard/clientes/ativos', icon: <Users size={16} strokeWidth={1.5} /> },
+  { label: 'Inadimplentes', href: '/admin/dashboard/clientes/inadiplentes', icon: <AlertCircle size={16} strokeWidth={1.5} /> },
+  { label: 'Inativos', href: '/admin/dashboard/clientes/desligados', icon: <UserMinus size={16} strokeWidth={1.5} /> },
+];
+
+const FINANCEIRO_ITEMS = [
+  { label: 'Pagamentos', href: '/admin/dashboard/financeiro/pagamentos', icon: <Wallet size={16} strokeWidth={1.5} /> },
 ];
 
 const PROPOSTA_ITEMS = [
-  { label: 'Nova proposta', href: '/admin/dashboard/proposta/nova', icon: <PlusCircle size={18} strokeWidth={1.5} /> },
-  { label: 'Proposta ativa', href: '/admin/dashboard/proposta/ativa', icon: <FileText size={18} strokeWidth={1.5} /> },
-  { label: 'Proposta expiradas', href: '/admin/dashboard/proposta/expiradas', icon: <FileX size={18} strokeWidth={1.5} /> },
+  { label: 'Nova proposta', href: '/admin/dashboard/proposta/nova', icon: <PlusCircle size={16} strokeWidth={1.5} /> },
+  { label: 'Proposta ativa', href: '/admin/dashboard/proposta/ativa', icon: <FileText size={16} strokeWidth={1.5} /> },
+  { label: 'Proposta expiradas', href: '/admin/dashboard/proposta/expiradas', icon: <FileX size={16} strokeWidth={1.5} /> },
+];
+
+const CONTRATO_ITEMS = [
+  { label: 'Adicionar novo', href: '/admin/dashboard/contrato', icon: <FileSignature size={16} strokeWidth={1.5} /> },
+  { label: 'Todos os contratos', href: '/admin/dashboard/contrato/todos', icon: <List size={16} strokeWidth={1.5} /> },
+];
+
+const SERVICOS_ITEMS = [
+  { label: 'Serviços', href: '/admin/dashboard/servicos', icon: <Wrench size={16} strokeWidth={1.5} /> },
 ];
 
 const METAS_ITEMS = [
-  { label: 'Configurar metas', href: '/admin/dashboard/metas', icon: <Target size={18} strokeWidth={1.5} /> },
-];
-
-const INDICACAO_ITEMS = [
-  { label: 'Participantes', href: '/admin/dashboard/indicacao/participantes', icon: <Gift size={18} strokeWidth={1.5} /> },
-  { label: 'Comissão', href: '/admin/dashboard/indicacao/comissao', icon: <Banknote size={18} strokeWidth={1.5} /> },
+  { label: 'Configurar metas', href: '/admin/dashboard/metas', icon: <Target size={16} strokeWidth={1.5} /> },
 ];
 
 const sidebarStyle: React.CSSProperties = {
@@ -45,7 +51,7 @@ const sidebarStyle: React.CSSProperties = {
   bottom: 0,
   width: sidebarWidth,
   height: '100vh',
-  backgroundColor: colors.admin.background,
+  backgroundColor: colors.admin.sidebar,
   borderRight: `1px solid ${colors.neutral.borderDark}`,
   display: 'flex',
   flexDirection: 'column',
@@ -98,24 +104,24 @@ const logoutWrapStyle: React.CSSProperties = {
 };
 
 const sectionLabelStyle: React.CSSProperties = {
-  fontSize: '0.65rem',
+  fontSize: '0.6rem',
   fontWeight: 300,
   color: colors.text.light,
   opacity: 0.6,
   textTransform: 'uppercase' as const,
   letterSpacing: '0.05em',
   marginTop: spacing[5],
-  marginBottom: spacing[3],
+  marginBottom: spacing[2],
   paddingLeft: spacing[3],
 };
 
 const navLinkStyle = (isActive: boolean): React.CSSProperties => ({
   display: 'flex',
   alignItems: 'center',
-  gap: spacing[3],
-  padding: `${spacing[4]}px ${spacing[5]}px ${spacing[4]}px ${spacing[4]}px`,
+  gap: spacing[2],
+  padding: `${spacing[2]}px ${spacing[3]}px ${spacing[2]}px ${spacing[3]}px`,
   color: colors.text.light,
-  fontSize: fontSizes.base,
+  fontSize: fontSizes.sm,
   opacity: isActive ? 1 : 0.9,
   textDecoration: 'none',
   borderRadius: radii.md,
@@ -173,13 +179,28 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPath }) => {
           style={{ ...navLinkStyle(isDashboardActive(currentPath)), marginBottom: spacing[2] }}
           className="admin-nav-item"
         >
-          <LayoutDashboard size={18} strokeWidth={1.5} aria-hidden style={{ flexShrink: 0 }} />
+          <LayoutDashboard size={16} strokeWidth={1.5} aria-hidden style={{ flexShrink: 0 }} />
           Dashboard
         </Link>
 
         <div style={sectionLabelStyle}>Clientes</div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: spacing[3] }}>
           {CLIENTE_ITEMS.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              style={navLinkStyle(currentPath === item.href)}
+              className="admin-nav-item"
+            >
+              {item.icon}
+              {item.label}
+            </Link>
+          ))}
+        </div>
+
+        <div style={{ ...sectionLabelStyle, marginTop: spacing[8] }}>Financeiro</div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: spacing[3] }}>
+          {FINANCEIRO_ITEMS.map((item) => (
             <Link
               key={item.href}
               href={item.href}
@@ -207,9 +228,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPath }) => {
           ))}
         </div>
 
-        <div style={{ ...sectionLabelStyle, marginTop: spacing[8] }}>Metas</div>
+        <div style={{ ...sectionLabelStyle, marginTop: spacing[8] }}>Contrato</div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: spacing[3] }}>
-          {METAS_ITEMS.map((item) => (
+          {CONTRATO_ITEMS.map((item) => (
             <Link
               key={item.href}
               href={item.href}
@@ -222,9 +243,24 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPath }) => {
           ))}
         </div>
 
-        <div style={{ ...sectionLabelStyle, marginTop: spacing[8] }}>Indique e Ganhe</div>
+        <div style={{ ...sectionLabelStyle, marginTop: spacing[8] }}>Serviços</div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: spacing[3] }}>
-          {INDICACAO_ITEMS.map((item) => (
+          {SERVICOS_ITEMS.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              style={navLinkStyle(currentPath === item.href)}
+              className="admin-nav-item"
+            >
+              {item.icon}
+              {item.label}
+            </Link>
+          ))}
+        </div>
+
+        <div style={{ ...sectionLabelStyle, marginTop: spacing[8] }}>Metas</div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: spacing[3] }}>
+          {METAS_ITEMS.map((item) => (
             <Link
               key={item.href}
               href={item.href}
@@ -244,7 +280,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPath }) => {
             style={navLinkStyle(currentPath === '/admin/dashboard/admin/perfil')}
             className="admin-nav-item"
           >
-            <User size={18} strokeWidth={1.5} />
+            <User size={16} strokeWidth={1.5} />
             Perfil
           </Link>
           {superAdmin && (
@@ -253,7 +289,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPath }) => {
               style={navLinkStyle(currentPath === '/admin/dashboard/admin/novo')}
               className="admin-nav-item"
             >
-              <ShieldPlus size={18} strokeWidth={1.5} />
+              <ShieldPlus size={16} strokeWidth={1.5} />
               Adicionar admin
             </Link>
           )}
@@ -266,22 +302,22 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPath }) => {
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: spacing[3],
-              padding: `${spacing[4]}px ${spacing[5]}px ${spacing[4]}px ${spacing[4]}px`,
+              gap: spacing[2],
+              padding: `${spacing[2]}px ${spacing[3]}px ${spacing[2]}px ${spacing[3]}px`,
               width: '100%',
               border: `1px solid rgba(248, 113, 113, 0.5)`,
               borderRadius: radii.md,
               cursor: 'pointer',
               textAlign: 'left',
               font: 'inherit',
-              fontSize: fontSizes.base,
+              fontSize: fontSizes.sm,
               fontWeight: 500,
               color: LOGOUT_RED,
               backgroundColor: 'rgba(248, 113, 113, 0.1)',
             }}
             className="admin-nav-item"
           >
-            <LogOut size={18} strokeWidth={1.5} style={{ flexShrink: 0, color: LOGOUT_RED }} />
+            <LogOut size={16} strokeWidth={1.5} style={{ flexShrink: 0, color: LOGOUT_RED }} />
             Sair
           </button>
         </div>

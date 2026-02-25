@@ -32,7 +32,7 @@ const ButtonPainel: React.FC<ButtonPainelProps> = ({
       gap: 8,
       border: `1px solid ${colors.blue.primary}`,
       background: colors.blue.primary,
-      borderRadius: radii.full,
+      borderRadius: radii.md,
       padding: '12px 24px',
       color: colors.text.light,
       fontSize: 16,

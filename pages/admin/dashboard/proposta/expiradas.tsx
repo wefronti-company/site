@@ -9,20 +9,12 @@ import { useSnackbar } from '../../../../contexts/SnackbarContext';
 
 const { colors, spacing, fontSizes } = theme;
 
-const titleStyle: React.CSSProperties = {
-  fontSize: 'clamp(1.5rem, 4vw, 2.5rem)',
-  fontWeight: 600,
-  color: colors.text.light,
-  margin: 0,
-  marginBottom: spacing[2],
-};
-
-const subtitleStyle: React.CSSProperties = {
+const pageTitleStyle: React.CSSProperties = {
   fontSize: fontSizes.lg,
+  fontWeight: 400,
   color: colors.text.light,
-  opacity: 0.7,
   margin: 0,
-  marginBottom: spacing[6],
+  marginBottom: spacing[4],
 };
 
 const listStyle: React.CSSProperties = {
@@ -160,11 +152,7 @@ const PropostaExpiradasPage: React.FC = () => {
         <meta name="robots" content="noindex, nofollow" />
       </Head>
       <AdminLayout>
-        <h1 style={titleStyle}>Propostas expiradas</h1>
-        <p style={subtitleStyle}>
-          Propostas com validade expirada há mais de 24 horas.
-        </p>
-
+        <h1 style={pageTitleStyle}>Propostas expiradas</h1>
         {loading ? (
           <div style={listStyle}>
             <div style={{ ...cardStyle, minHeight: 76, opacity: 0.55 }} />

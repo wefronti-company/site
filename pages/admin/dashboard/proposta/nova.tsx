@@ -9,12 +9,12 @@ import { useSnackbar } from '../../../../contexts/SnackbarContext';
 
 const { colors, spacing, fontSizes } = theme;
 
-const titleStyle: React.CSSProperties = {
-  fontSize: 'clamp(1.5rem, 4vw, 2rem)',
-  fontWeight: 600,
+const pageTitleStyle: React.CSSProperties = {
+  fontSize: fontSizes.lg,
+  fontWeight: 400,
   color: colors.text.light,
   margin: 0,
-  marginBottom: spacing[6],
+  marginBottom: spacing[4],
 };
 
 const formStyle: React.CSSProperties = {
@@ -176,8 +176,7 @@ const PropostaNovaPage: React.FC = () => {
         <meta name="robots" content="noindex, nofollow" />
       </Head>
       <AdminLayout>
-        <h1 style={titleStyle}>Nova proposta</h1>
-
+        <h1 style={pageTitleStyle}>Nova proposta</h1>
         <div className="proposta-nova-grid">
           <div style={formStyle}>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'stretch' }}>

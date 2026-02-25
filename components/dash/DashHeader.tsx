@@ -84,7 +84,7 @@ export const DashHeader: React.FC<DashHeaderProps> = ({ title, onMenuClick }) =>
   const fetchNotificacoes = useCallback((opts?: { silent?: boolean }) => {
     const silent = opts?.silent ?? false;
     if (!silent) setLoading(true);
-    fetch('/api/usuario/notificacoes', { credentials: 'include' })
+    fetch('/api/cliente/notificacoes', { credentials: 'include' })
       .then((r) => r.json())
       .then((data) => {
         const list: NotificacaoItem[] = Array.isArray(data?.notificacoes) ? data.notificacoes : [];
@@ -165,7 +165,7 @@ export const DashHeader: React.FC<DashHeaderProps> = ({ title, onMenuClick }) =>
   }, [open]);
 
   const markAsRead = (id: string) => {
-    fetch('/api/usuario/notificacoes', {
+    fetch('/api/cliente/notificacoes', {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
@@ -181,7 +181,7 @@ export const DashHeader: React.FC<DashHeaderProps> = ({ title, onMenuClick }) =>
   };
 
   const markAllAsRead = () => {
-    fetch('/api/usuario/notificacoes', {
+    fetch('/api/cliente/notificacoes', {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',

@@ -61,6 +61,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         manutencao: body.manutencao === true || body.manutencao === 'sim',
         precoServico: typeof body.precoServico === 'number' ? body.precoServico : (typeof body.precoServico === 'string' ? parseFloat(String(body.precoServico).replace(',', '.')) || undefined : undefined),
         precoManutencao: typeof body.precoManutencao === 'number' ? body.precoManutencao : (typeof body.precoManutencao === 'string' ? parseFloat(String(body.precoManutencao).replace(',', '.')) || undefined : undefined),
+        formaPagamentoProjeto: typeof body.formaPagamentoProjeto === 'string' && /^(cartao|pix|50_50)$/.test(body.formaPagamentoProjeto) ? body.formaPagamentoProjeto : undefined,
+        parcelasCartao: (() => {
+          const n = typeof body.parcelasCartao === 'number' ? body.parcelasCartao : (typeof body.parcelasCartao === 'string' ? parseInt(String(body.parcelasCartao), 10) : NaN);
+          return Number.isInteger(n) && n >= 1 && n <= 12 ? n : undefined;
+        })(),
       });
 
       if (!cliente) return res.status(404).json({ error: 'Cliente não encontrado.' });

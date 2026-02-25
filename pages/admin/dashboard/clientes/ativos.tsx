@@ -1,26 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
+import Link from 'next/link';
 import AdminLayout from '../../../../components/admin/AdminLayout';
 import { theme } from '../../../../styles/theme';
 import type { ClienteComPagamento } from '../../../../lib/clientDb';
-import { CheckCircle } from 'lucide-react';
+import { CheckCircle2, X, AlertTriangle } from 'lucide-react';
 
 const { colors, spacing, fontSizes } = theme;
 
-const titleStyle: React.CSSProperties = {
-  fontSize: 'clamp(1.5rem, 4vw, 2.5rem)',
-  fontWeight: 600,
-  color: colors.text.light,
-  margin: 0,
-  marginBottom: spacing[2],
-};
-
-const subtitleStyle: React.CSSProperties = {
+const pageTitleStyle: React.CSSProperties = {
   fontSize: fontSizes.lg,
+  fontWeight: 400,
   color: colors.text.light,
-  opacity: 0.7,
   margin: 0,
-  marginBottom: spacing[6],
+  marginBottom: spacing[4],
 };
 
 const listStyle: React.CSSProperties = {
@@ -33,18 +26,28 @@ const cardStyle: React.CSSProperties = {
   backgroundColor: colors.admin.inactive,
   border: `1px solid ${colors.neutral.borderDark}`,
   borderRadius: 12,
-  padding: spacing[4],
+  padding: spacing[5],
   display: 'flex',
   flexWrap: 'wrap',
   alignItems: 'center',
   justifyContent: 'space-between',
-  gap: spacing[4],
+  gap: spacing[5],
 };
 
-const cardInfoStyle: React.CSSProperties = {
+const cardLeftStyle: React.CSSProperties = {
+  display: 'flex',
+  alignItems: 'center',
+  gap: spacing[8],
+  flex: 1,
+  minWidth: 0,
+};
+
+const cardColStyle: React.CSSProperties = {
   display: 'flex',
   flexDirection: 'column',
-  gap: spacing[1],
+  gap: spacing[2],
+  minWidth: 0,
+  paddingRight: spacing[4],
 };
 
 const cardLabelStyle: React.CSSProperties = {
@@ -59,45 +62,144 @@ const cardMetaStyle: React.CSSProperties = {
   opacity: 0.7,
 };
 
-const badgePagoStyle: React.CSSProperties = {
+const cardUfStyle: React.CSSProperties = {
+  fontSize: fontSizes.sm,
+  color: colors.text.light,
+  opacity: 0.8,
+  minWidth: 32,
+};
+
+const badgeEmDiaStyle: React.CSSProperties = {
   display: 'inline-flex',
   alignItems: 'center',
   gap: spacing[2],
   padding: `${spacing[2]}px ${spacing[3]}px`,
-  backgroundColor: 'rgba(34, 197, 94, 0.15)',
-  color: '#4ade80',
-  borderRadius: 8,
   fontSize: fontSizes.sm,
   fontWeight: 500,
+  color: '#34D399',
+  backgroundColor: '#1D3323',
+  border: '1px solid rgba(52, 211, 153, 0.4)',
+  borderRadius: 6,
+};
+
+const badgeVenceHojeStyle: React.CSSProperties = {
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: spacing[2],
+  padding: `${spacing[2]}px ${spacing[3]}px`,
+  fontSize: fontSizes.sm,
+  fontWeight: 500,
+  color: '#eab308',
+  backgroundColor: '#422006',
+  border: '1px solid rgba(234, 179, 8, 0.5)',
+  borderRadius: 6,
+};
+
+const badgeEmAtrasoStyle: React.CSSProperties = {
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: spacing[2],
+  padding: `${spacing[2]}px ${spacing[3]}px`,
+  backgroundColor: 'rgba(239, 68, 68, 0.15)',
+  color: '#f87171',
+  borderRadius: 6,
+  fontSize: fontSizes.sm,
+  fontWeight: 500,
+};
+
+const btnDetalhesStyle: React.CSSProperties = {
+  padding: `${spacing[2]}px ${spacing[3]}px`,
+  fontSize: fontSizes.sm,
+  fontWeight: 500,
+  color: colors.blue.primary,
+  background: 'transparent',
+  border: `1px solid ${colors.blue.primary}`,
+  borderRadius: 6,
+  cursor: 'pointer',
+  textDecoration: 'none',
+  display: 'inline-flex',
 };
 
 function formatBRL(val: number): string {
   return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(val);
 }
 
-function empresaLabel(c: ClienteComPagamento): string {
-  return c.nomeFantasia || c.razaoSocial || '—';
+function getDiaVencimento(criadoEm: string): number {
+  const d = new Date(criadoEm);
+  return isNaN(d.getTime()) ? 1 : d.getDate();
+}
+
+/** Data de vencimento do mês atual (DD/MM/AAAA). */
+function getVencimentoFormatado(criadoEm: string): string {
+  const hoje = new Date();
+  const ano = hoje.getFullYear();
+  const mes = hoje.getMonth() + 1;
+  const diaVenc = getDiaVencimento(criadoEm);
+  const ultimoDia = new Date(ano, mes, 0).getDate();
+  const dia = Math.min(diaVenc, ultimoDia);
+  const dd = String(dia).padStart(2, '0');
+  const mm = String(mes).padStart(2, '0');
+  return `${dd}/${mm}/${ano}`;
+}
+
+/** Data de vencimento do mês atual (objeto Date à meia-noite). */
+function getDataVencimentoMesAtual(criadoEm: string): Date {
+  const hoje = new Date();
+  const ano = hoje.getFullYear();
+  const mes = hoje.getMonth() + 1;
+  const diaVenc = getDiaVencimento(criadoEm);
+  const ultimoDia = new Date(ano, mes, 0).getDate();
+  const dia = Math.min(diaVenc, ultimoDia);
+  const venc = new Date(ano, mes - 1, dia);
+  venc.setHours(0, 0, 0, 0);
+  return venc;
+}
+
+/** True se hoje já passou da data de vencimento do mês atual. */
+function isVencido(criadoEm: string): boolean {
+  const hoje = new Date();
+  hoje.setHours(0, 0, 0, 0);
+  const venc = getDataVencimentoMesAtual(criadoEm);
+  return hoje.getTime() > venc.getTime();
+}
+
+/** True se a data de vencimento do mês atual é hoje. */
+function venceHoje(criadoEm: string): boolean {
+  const hoje = new Date();
+  hoje.setHours(0, 0, 0, 0);
+  const venc = getDataVencimentoMesAtual(criadoEm);
+  return hoje.getTime() === venc.getTime();
+}
+
+/** Estado do badge para cliente ativo: em_dia | vence_hoje | em_atraso (só para quem tem mensalidade e não pagou). */
+function getEstadoBadge(c: ClienteComPagamento): 'em_dia' | 'vence_hoje' | 'em_atraso' {
+  if (c.mensalidadePaga) return 'em_dia';
+  if (c.mensalidade <= 0) return 'em_dia';
+  if (venceHoje(c.criadoEm)) return 'vence_hoje';
+  if (isVencido(c.criadoEm)) return 'em_atraso';
+  return 'em_dia';
 }
 
 function getIniciais(c: ClienteComPagamento): string {
-  const label = empresaLabel(c);
-  if (!label || label === '—') return '?';
-  const palavras = label.trim().split(/\s+/);
+  const n = (c.nome || '').trim();
+  if (!n) return (c.email || '?').charAt(0).toUpperCase();
+  const palavras = n.split(/\s+/).filter(Boolean);
   if (palavras.length === 1) return palavras[0].charAt(0).toUpperCase();
-  return (palavras[0].charAt(0) + palavras[1].charAt(0)).toUpperCase();
+  return (palavras[0].charAt(0) + palavras[palavras.length - 1].charAt(0)).toUpperCase();
 }
 
 const avatarStyle: React.CSSProperties = {
   width: 44,
   height: 44,
   borderRadius: '50%',
-  backgroundColor: colors.neutral.borderDark,
+  backgroundColor: 'rgba(53, 152, 255, 0.2)',
+  border: `1px solid ${colors.blue.primary}`,
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   fontSize: fontSizes.base,
   fontWeight: 600,
-  color: colors.text.light,
+  color: colors.blue.primary,
   flexShrink: 0,
 };
 
@@ -136,11 +238,7 @@ const ClientesAtivosPage: React.FC = () => {
         <meta name="robots" content="noindex, nofollow" />
       </Head>
       <AdminLayout>
-        <h1 style={titleStyle}>Clientes ativos</h1>
-        <p style={subtitleStyle}>
-          Clientes recorrentes com mensalidade paga neste mês.
-        </p>
-
+        <h1 style={pageTitleStyle}>Clientes ativos</h1>
         {loading ? (
           <div style={listStyle}>
             <div style={{ ...cardStyle, minHeight: 68, opacity: 0.55 }} />
@@ -151,21 +249,59 @@ const ClientesAtivosPage: React.FC = () => {
           <p style={cardMetaStyle}>Nenhum cliente ativo no momento.</p>
         ) : (
           <div style={listStyle}>
-            {clientes.map((c) => (
-              <div key={c.id} style={cardStyle}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: spacing[4], flex: 1, minWidth: 0 }}>
-                  <div style={avatarStyle}>{getIniciais(c)}</div>
-                  <div style={cardInfoStyle}>
-                    <span style={cardLabelStyle}>{empresaLabel(c)}</span>
-                    <span style={cardMetaStyle}>{c.nome} · {c.email}</span>
+            {clientes.map((c) => {
+              const estado = getEstadoBadge(c);
+              return (
+                <div key={c.id} style={cardStyle}>
+                  <div style={cardLeftStyle}>
+                    <div style={avatarStyle}>{getIniciais(c)}</div>
+                    <div style={cardColStyle}>
+                      <span style={cardLabelStyle}>Nome do cliente</span>
+                      <span style={cardMetaStyle}>{c.nome}</span>
+                    </div>
+                    <div style={cardColStyle}>
+                      <span style={cardLabelStyle}>E-mail</span>
+                      <span style={cardMetaStyle}>{c.email}</span>
+                    </div>
+                    <div style={cardColStyle}>
+                      <span style={cardLabelStyle}>UF</span>
+                      <span style={cardUfStyle}>{c.enderecoUf || '—'}</span>
+                    </div>
+                    <div style={cardColStyle}>
+                      <span style={cardLabelStyle}>Manutenção</span>
+                      <span style={cardMetaStyle}>{formatBRL(c.mensalidade)}</span>
+                    </div>
+                    <div style={cardColStyle}>
+                      <span style={cardLabelStyle}>Vencimento</span>
+                      <span style={cardMetaStyle}>{getVencimentoFormatado(c.criadoEm)}</span>
+                    </div>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: spacing[4] }}>
+                    {estado === 'em_dia' && (
+                      <span style={badgeEmDiaStyle}>
+                        <CheckCircle2 size={16} /> Em dia
+                      </span>
+                    )}
+                    {estado === 'vence_hoje' && (
+                      <span style={badgeVenceHojeStyle}>
+                        <AlertTriangle size={16} /> Vence hoje
+                      </span>
+                    )}
+                    {estado === 'em_atraso' && (
+                      <span style={badgeEmAtrasoStyle}>
+                        <X size={16} /> Em atraso
+                      </span>
+                    )}
+                    <Link
+                      href={`/admin/dashboard/clientes/${c.id}/detalhes`}
+                      style={btnDetalhesStyle}
+                    >
+                      Ver detalhes
+                    </Link>
                   </div>
                 </div>
-                <span style={cardLabelStyle}>{formatBRL(c.mensalidade)}</span>
-                <span style={badgePagoStyle}>
-                  <CheckCircle size={16} /> Pago no mês
-                </span>
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
       </AdminLayout>

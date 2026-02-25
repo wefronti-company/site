@@ -3,8 +3,7 @@ import { CheckCircle, CheckCircle2, CheckCircleIcon } from 'lucide-react';
 import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 import ButtonCta from '../../components/ui/ButtonCta';
-import { buildReferralWhatsAppMessage, buildWhatsAppUrl, DEFAULT_WHATSAPP_NUMBER } from '../../lib/whatsapp';
-import { useRouter } from 'next/router';
+import { buildWhatsAppUrl, DEFAULT_WHATSAPP_NUMBER } from '../../lib/whatsapp';
 
 const { colors, spacing, fontSizes, radii, containerMaxWidth } = theme;
 
@@ -210,45 +209,12 @@ const SITE_FEATURES = [
 ];
 
 const Pricing: React.FC = () => {
-  const router = useRouter();
   const isMd = useMediaQuery(theme.breakpoints.md);
   const headerPaddingX = isMd ? spacing[12] : spacing[4];
-  const [refData, setRefData] = React.useState<{ nome: string; whatsappNumero: string; whatsappMensagem: string } | null>(null);
-
-  React.useEffect(() => {
-    const ref = typeof router.query.ref === 'string' ? router.query.ref.trim().toLowerCase() : '';
-    if (!ref) {
-      setRefData(null);
-      return;
-    }
-    let cancelled = false;
-    fetch(`/api/referencia/whatsapp?ref=${encodeURIComponent(ref)}`)
-      .then((r) => (r.ok ? r.json() : null))
-      .then((data) => {
-        if (cancelled) return;
-        if (data && typeof data === 'object') {
-          setRefData({
-            nome: String(data.nome || ''),
-            whatsappNumero: String(data.whatsappNumero || ''),
-            whatsappMensagem: String(data.whatsappMensagem || ''),
-          });
-        } else {
-          setRefData(null);
-        }
-      })
-      .catch(() => {
-        if (!cancelled) setRefData(null);
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, [router.query.ref]);
 
   const openWhatsApp = (contextMessage: string) => {
     if (typeof window === 'undefined') return;
-    const finalMessage = buildReferralWhatsAppMessage(refData || undefined, contextMessage);
-    const number = refData?.whatsappNumero || DEFAULT_WHATSAPP_NUMBER;
-    const url = buildWhatsAppUrl(number, finalMessage);
+    const url = buildWhatsAppUrl(DEFAULT_WHATSAPP_NUMBER, contextMessage);
     window.open(url, '_blank', 'noopener,noreferrer');
   };
 

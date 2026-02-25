@@ -19,12 +19,15 @@ const mainWrapStyle: React.CSSProperties = {
   minWidth: 0,
   display: 'flex',
   flexDirection: 'column',
-  paddingTop: ADMIN_HEADER_HEIGHT,
+  paddingTop: spacing[4] + ADMIN_HEADER_HEIGHT + spacing[4],
 };
 
 const contentStyle: React.CSSProperties = {
   flex: 1,
-  padding: spacing[8],
+  paddingLeft: spacing[4],
+  paddingRight: spacing[4],
+  paddingTop: spacing[4],
+  paddingBottom: spacing[8],
 };
 
 /** Path completo para highlight da sidebar */

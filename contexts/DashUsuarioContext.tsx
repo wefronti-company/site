@@ -5,7 +5,6 @@ export interface UsuarioDash {
   id: string;
   nomeCompleto: string;
   email: string;
-  codigoReferencia: string;
   celular?: string;
   dataNascimento?: string;
   cpf?: string;
@@ -16,13 +15,6 @@ export interface UsuarioDash {
   enderecoCidade?: string;
   enderecoUf?: string;
   enderecoCep?: string;
-  chavePix?: string;
-  banco?: string;
-  nomeTitular?: string;
-  whatsappNumero?: string;
-  whatsappMensagem?: string;
-  ativo?: boolean;
-  totalIndicacoes?: number;
 }
 
 interface DashUsuarioContextValue {
@@ -70,7 +62,7 @@ export function DashUsuarioProvider({ children }: { children: React.ReactNode })
   const fetchUser = useCallback((opts?: { silent?: boolean }) => {
     const silent = opts?.silent ?? false;
     if (!silent) setLoading(true);
-    fetch('/api/usuario/me', { credentials: 'include' })
+    fetch('/api/cliente/me', { credentials: 'include' })
       .then((r) => (r.ok ? r.json() : null))
       .then((data) => {
         setUsuario(data);
