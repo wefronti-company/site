@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import Head from 'next/head';
 import AdminLayout from '../../../../../components/admin/AdminLayout';
 import { theme } from '../../../../../styles/theme';
 import type { ClienteComPagamento } from '../../../../../lib/clientDb';
 import { useSnackbar } from '../../../../../contexts/SnackbarContext';
-import { ChevronLeft, ChevronRight, Calendar, FileDown, AlertCircle, Wallet, CheckCircle2, Clock, Banknote } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Filter, FileDown, AlertCircle, Wallet, CheckCircle2, Clock, Banknote } from 'lucide-react';
 
 const { colors, spacing, fontSizes } = theme;
 
@@ -210,25 +210,62 @@ export default function FinanceiroPagamentosPage() {
     showSuccess('Planilha exportada.');
   };
 
-  const avancarMes = () => {
-    const ano = Math.floor(mesRef / 100);
-    const mes = mesRef % 100;
-    if (mes === 12) setMesRef((ano + 1) * 100 + 1);
-    else setMesRef(mesRef + 1);
-  };
-
-  const voltarMes = () => {
-    const ano = Math.floor(mesRef / 100);
-    const mes = mesRef % 100;
-    if (mes === 1) setMesRef((ano - 1) * 100 + 12);
-    else setMesRef(mesRef - 1);
-  };
-
   const hoje = new Date();
   const diaAtual = hoje.getDate();
   const mesAtual = hoje.getMonth() + 1;
   const anoAtual = hoje.getFullYear();
   const anoSelecionado = dados?.ano ?? anoAtual;
+
+  const filtroRef = useRef<HTMLDivElement>(null);
+  const [calendarioAberto, setCalendarioAberto] = useState(false);
+  const [mesCalendario, setMesCalendario] = useState(() => {
+    const m = mesRef % 100;
+    const a = Math.floor(mesRef / 100);
+    return new Date(a, m - 1, 1);
+  });
+
+  useEffect(() => {
+    if (calendarioAberto) {
+      const ano = Math.floor(mesRef / 100);
+      const mes = mesRef % 100;
+      setMesCalendario(new Date(ano, mes - 1, 1));
+    }
+  }, [calendarioAberto, mesRef]);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (filtroRef.current && !filtroRef.current.contains(e.target as Node)) {
+        setCalendarioAberto(false);
+      }
+    };
+    if (calendarioAberto) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
+    }
+  }, [calendarioAberto]);
+
+  const diasSemana = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+  const anoCal = mesCalendario.getFullYear();
+  const mesCal = mesCalendario.getMonth();
+  const primeiroDia = new Date(anoCal, mesCal, 1).getDay();
+  const ultimoDia = new Date(anoCal, mesCal + 1, 0).getDate();
+  const celulas: (number | null)[] = [];
+  for (let i = 0; i < primeiroDia; i++) celulas.push(null);
+  for (let d = 1; d <= ultimoDia; d++) celulas.push(d);
+
+  const handleSelecionarDia = (dia: number) => {
+    const novoMesRef = anoCal * 100 + (mesCal + 1);
+    setMesRef(novoMesRef);
+    setCalendarioAberto(false);
+  };
+
+  const navMesCal = (delta: number) => {
+    setMesCalendario((d) => new Date(d.getFullYear(), d.getMonth() + delta, 1));
+  };
+
+  const nomeMesCal = mesCalendario.toLocaleString('pt-BR', { month: 'long' });
+  const ehHoje = (dia: number) =>
+    diaAtual === dia && mesAtual === mesCal + 1 && anoAtual === anoCal;
 
   return (
     <>
@@ -237,7 +274,94 @@ export default function FinanceiroPagamentosPage() {
         <meta name="robots" content="noindex, nofollow" />
       </Head>
       <AdminLayout>
-        <div style={{ display: 'flex', alignItems: 'center', gap: spacing[4], flexWrap: 'wrap', marginBottom: spacing[4] }}><h1 style={{ ...pageTitleStyle, marginBottom: 0 }}>Pagamentos</h1><button type="button" onClick={() => {}} style={{ display: 'inline-flex', alignItems: 'center', gap: spacing[2], padding: `${spacing[2]}px ${spacing[3]}px`, borderRadius: 12, border: `1px solid ${colors.neutral.borderDark}`, background: colors.admin.inactive, color: colors.text.light, fontSize: fontSizes.sm, cursor: 'pointer' }}>Filtro · {dados?.nomeMes ?? '-'} {anoSelecionado}</button></div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: spacing[4], flexWrap: 'wrap', marginBottom: spacing[4] }}>
+          <h1 style={{ ...pageTitleStyle, marginBottom: 0 }}>Pagamentos</h1>
+          <div ref={filtroRef} style={{ position: 'relative' }}>
+            <button
+              type="button"
+              onClick={() => setCalendarioAberto((v) => !v)}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: spacing[2],
+                padding: `${spacing[2]}px ${spacing[3]}px`,
+                borderRadius: 12,
+                border: `1px solid ${colors.neutral.borderDark}`,
+                background: colors.admin.inactive,
+                color: colors.text.light,
+                fontSize: fontSizes.sm,
+                cursor: 'pointer',
+              }}
+            >
+              <Filter size={18} aria-hidden />
+              Filtro · {dados?.nomeMes ?? '-'} {anoSelecionado}
+            </button>
+            {calendarioAberto && (
+              <div
+                style={{
+                  position: 'absolute',
+                  top: '100%',
+                  left: 0,
+                  marginTop: spacing[2],
+                  padding: spacing[4],
+                  backgroundColor: colors.admin.inactive,
+                  border: `1px solid ${colors.neutral.borderDark}`,
+                  borderRadius: 12,
+                  boxShadow: '0 8px 24px rgba(0,0,0,0.4)',
+                  zIndex: 50,
+                  minWidth: 280,
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: spacing[4] }}>
+                  <button type="button" onClick={() => navMesCal(-1)} style={{ background: 'none', border: 'none', color: colors.text.light, cursor: 'pointer', padding: spacing[2], opacity: 0.8 }} aria-label="Mês anterior">
+                    <ChevronLeft size={20} />
+                  </button>
+                  <span style={{ fontSize: fontSizes.base, fontWeight: 600, color: colors.text.light, textTransform: 'capitalize' }}>
+                    {nomeMesCal} {anoCal}
+                  </span>
+                  <button type="button" onClick={() => navMesCal(1)} style={{ background: 'none', border: 'none', color: colors.text.light, cursor: 'pointer', padding: spacing[2], opacity: 0.8 }} aria-label="Próximo mês">
+                    <ChevronRight size={20} />
+                  </button>
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 4, marginBottom: spacing[3] }}>
+                  {diasSemana.map((d) => (
+                    <div key={d} style={{ fontSize: fontSizes.xs, color: colors.text.light, opacity: 0.7, textAlign: 'center', padding: spacing[1] }}>{d}</div>
+                  ))}
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: 4 }}>
+                  {celulas.map((dia, i) =>
+                    dia === null ? (
+                      <div key={`e-${i}`} />
+                    ) : (
+                      <button
+                        key={dia}
+                        type="button"
+                        onClick={() => handleSelecionarDia(dia)}
+                        style={{
+                          width: 32,
+                          height: 32,
+                          padding: 0,
+                          border: 'none',
+                          borderRadius: 8,
+                          fontSize: fontSizes.sm,
+                          fontWeight: ehHoje(dia) ? 700 : 500,
+                          color: ehHoje(dia) ? '#fff' : colors.text.light,
+                          background: ehHoje(dia) ? colors.blue.primary : 'transparent',
+                          cursor: 'pointer',
+                        }}
+                      >
+                        {dia}
+                      </button>
+                    )
+                  )}
+                </div>
+                <p style={{ margin: spacing[3], marginBottom: 0, fontSize: fontSizes.xs, color: colors.text.light, opacity: 0.7, textAlign: 'center' }}>
+                  Clique em um dia para filtrar o mês
+                </p>
+              </div>
+            )}
+          </div>
+        </div>
 
         {/* Cards de resumo */}
         {loading ? (
@@ -290,31 +414,6 @@ export default function FinanceiroPagamentosPage() {
         ) : null}
 
         <div style={gridStyle}>
-          {/* Calendário */}
-          <div style={cardBaseStyle}>
-            <h2 style={cardTitleStyle}>
-              <Calendar size={20} strokeWidth={2} />
-              Calendário
-            </h2>
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: spacing[4] }}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%', maxWidth: 200 }}>
-                <button type="button" onClick={voltarMes} style={{ background: 'none', border: 'none', color: colors.text.light, cursor: 'pointer', padding: spacing[2], opacity: 0.8 }} aria-label="Mês anterior">
-                  <ChevronLeft size={24} />
-                </button>
-                <span style={{ fontSize: fontSizes.lg, fontWeight: 600, color: colors.text.light, textTransform: 'capitalize' }}>
-                  {dados?.nomeMes ?? '-'} {anoSelecionado}
-                </span>
-                <button type="button" onClick={avancarMes} style={{ background: 'none', border: 'none', color: colors.text.light, cursor: 'pointer', padding: spacing[2], opacity: 0.8 }} aria-label="Próximo mês">
-                  <ChevronRight size={24} />
-                </button>
-              </div>
-              <div style={{ fontSize: fontSizes['3xl'], fontWeight: 700, color: colors.text.light, fontVariantNumeric: 'tabular-nums' }}>
-                {String(diaAtual).padStart(2, '0')}/{String(mesAtual).padStart(2, '0')}/{anoAtual}
-              </div>
-              <p style={{ margin: 0, fontSize: fontSizes.sm, color: colors.text.light, opacity: 0.7 }}>Data de hoje</p>
-            </div>
-          </div>
-
           {/* Registrar pagamento / Faltam pagar */}
           <div style={cardBaseStyle}>
             <h2 style={cardTitleStyle}>Registrar pagamento</h2>
