@@ -148,30 +148,31 @@ export async function middleware(request: NextRequest) {
    }
  }
 
- // 0. Regras do subdomínio dash (dash.wefronti.com) - painel de usuário (mesmo padrão do admin)
+ // 1. Regras do subdomínio dash (dash.wefronti.com) - painel usuário (espelho do admin)
  const isDashDomain = host === DASH_HOST;
  const isDashPath = url.pathname.startsWith('/dash');
  if (isDashDomain || (host?.startsWith('localhost') && isDashPath)) {
-   // Em dash.wefronti.com: redirecionar /dash/dashboard -> /dashboard (URL limpa, como admin)
-   if (host === DASH_HOST && (url.pathname === '/dash/dashboard' || url.pathname.startsWith('/dash/dashboard/'))) {
+   // Em dash.wefronti.com: se acessar /dash/*, redirecionar para /* (ex: /dash/dashboard -> /dashboard)
+   if (host === DASH_HOST && (url.pathname.startsWith('/dash/') || url.pathname === '/dash')) {
      const redirectUrl = url.clone();
      redirectUrl.pathname = url.pathname.replace(/^\/dash/, '') || '/';
      return NextResponse.redirect(redirectUrl);
    }
-   const isDashDashboard =
-     url.pathname === '/dash/dashboard' || url.pathname.startsWith('/dash/dashboard/') ||
-     (isDashDomain && (url.pathname === '/dashboard' || url.pathname.startsWith('/dashboard/')));
+   // Proteger dashboard: /dashboard ou /dash/dashboard (dev local)
+   const isDashDashboard = url.pathname === '/dashboard' || url.pathname.startsWith('/dashboard/') ||
+     url.pathname === '/dash/dashboard' || url.pathname.startsWith('/dash/dashboard/');
    if (isDashDashboard) {
      const uToken = getUsuarioTokenFromCookie(request.headers.get('cookie'));
      if (!uToken || !(await verifyUsuarioTokenInEdge(uToken))) {
        const loginUrl = url.clone();
-       loginUrl.pathname = '/dash';
+       loginUrl.pathname = host === DASH_HOST ? '/' : '/dash';
        return NextResponse.redirect(loginUrl);
      }
    }
-   if (isDashDomain) {
-     const skipDashRewrite = url.pathname.startsWith('/api') || url.pathname.startsWith('/_next') || url.pathname.startsWith('/images') || url.pathname.startsWith('/favicon');
-     if (!skipDashRewrite && !url.pathname.startsWith('/dash')) {
+   // Rewrite apenas em dash.wefronti.com: / -> /dash, /dashboard -> /dash/dashboard
+   if (host === DASH_HOST) {
+     const skipDashRewrite = url.pathname.startsWith('/api') || url.pathname.startsWith('/_next') || url.pathname.startsWith('/images') || url.pathname.startsWith('/favicon') || url.pathname.startsWith('/proposta');
+     if (!skipDashRewrite) {
        const rewriteUrl = url.clone();
        rewriteUrl.pathname = url.pathname === '/' ? '/dash' : `/dash${url.pathname}`;
        return NextResponse.rewrite(rewriteUrl);
@@ -179,7 +180,7 @@ export async function middleware(request: NextRequest) {
    }
  }
 
- // 1. Regras do subdomínio admin (admin.wefronti.com) ou localhost (dev)
+ // 2. Regras do subdomínio admin (admin.wefronti.com) ou localhost (dev)
  const isAdminDomain = host === ADMIN_HOST || host?.startsWith('localhost');
  if (isAdminDomain && !isDashDomain) {
    // Em admin.wefronti.com: se acessar /admin/*, redirecionar para /* (ex: /admin/dashboard -> /dashboard)
