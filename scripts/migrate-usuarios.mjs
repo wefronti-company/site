@@ -80,7 +80,9 @@ async function run() {
   console.log('  ✓ coluna chave_pix (se não existir)');
   await sql`ALTER TABLE usuarios ADD COLUMN IF NOT EXISTS banco VARCHAR(100)`;
   await sql`ALTER TABLE usuarios ADD COLUMN IF NOT EXISTS nome_titular VARCHAR(200)`;
-  console.log('  ✓ colunas banco e nome_titular (se não existirem)');
+  await sql`ALTER TABLE usuarios ADD COLUMN IF NOT EXISTS whatsapp_numero VARCHAR(20)`;
+  await sql`ALTER TABLE usuarios ADD COLUMN IF NOT EXISTS whatsapp_mensagem VARCHAR(400)`;
+  console.log('  ✓ colunas banco, nome_titular, whatsapp_numero e whatsapp_mensagem (se não existirem)');
 
   await sql`
     CREATE TABLE IF NOT EXISTS indicacao_comissoes (

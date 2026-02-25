@@ -10,6 +10,14 @@ function getTokenFromCookie(req: NextApiRequest): string | null {
   return match ? decodeURIComponent(match[1]) : null;
 }
 
+function normalizeWhatsappForStorage(value: string | undefined): string | undefined {
+  if (typeof value !== 'string') return undefined;
+  const digits = value.replace(/\D/g, '');
+  if (!digits) return undefined;
+  const local = digits.startsWith('55') && digits.length >= 12 ? digits.slice(2) : digits;
+  return `55${local}`;
+}
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'PUT') {
     return res.status(405).json({ error: 'Method not allowed' });
@@ -43,6 +51,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     chavePix: str(body.chavePix),
     banco: str(body.banco),
     nomeTitular: str(body.nomeTitular),
+    whatsappNumero: normalizeWhatsappForStorage(str(body.whatsappNumero)),
+    whatsappMensagem: str(body.whatsappMensagem),
   });
 
   return res.status(200).json({ ok: true });

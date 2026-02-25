@@ -1,13 +1,21 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { verifyUsuarioSessionToken } from '../../../lib/auth-usuario';
 import { COOKIE_NAME } from '../../../lib/auth-usuario';
-import { getUsuarioById, getTotalIndicacoes } from '../../../lib/usuarioDb';
+import { getUsuarioById } from '../../../lib/usuarioDb';
+import { getTotalIndicacoesByComissao } from '../../../lib/comissaoDb';
 
 function getTokenFromCookie(req: NextApiRequest): string | null {
   const cookie = req.headers.cookie;
   if (!cookie) return null;
   const match = cookie.match(new RegExp(`(?:^|; )${COOKIE_NAME}=([^;]*)`));
   return match ? decodeURIComponent(match[1]) : null;
+}
+
+function toLocalWhatsappNumber(value: string | undefined): string {
+  const digits = String(value || '').replace(/\D/g, '');
+  if (!digits) return '';
+  if (digits.length >= 12 && digits.startsWith('55')) return digits.slice(2);
+  return digits;
 }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -30,7 +38,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(401).json({ error: 'Usuário não encontrado.' });
   }
 
-  const totalIndicacoes = await getTotalIndicacoes(usuario.id);
+  const totalIndicacoes = await getTotalIndicacoesByComissao(usuario.id);
 
   return res.status(200).json({
     id: usuario.id,
@@ -50,6 +58,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     chavePix: usuario.chavePix ?? '',
     banco: usuario.banco ?? '',
     nomeTitular: usuario.nomeTitular ?? '',
+    whatsappNumero: toLocalWhatsappNumber(usuario.whatsappNumero),
+    whatsappMensagem: usuario.whatsappMensagem ?? '',
     ativo: usuario.ativo !== false,
     totalIndicacoes,
   });

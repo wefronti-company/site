@@ -2,10 +2,10 @@ import React from 'react';
 import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 import { ArrowRight } from 'lucide-react';
+import WhatsAppLink from '../../components/WhatsAppLink';
 
 const { colors, spacing, fontSizes, radii, containerMaxWidth } = theme;
 
-const WHATSAPP_LINK = 'https://wa.me/message/3V45SAJMLIJJJ1';
 const WHATSAPP_MESSAGE = 'Olá, tenho algumas dúvidas e gostaria de conversar.';
 
 /** Largura alinhada aos cards de preço para não ficar tão largo */
@@ -67,8 +67,6 @@ const buttonStyle: React.CSSProperties = {
 const Cta: React.FC = () => {
   const isMd = useMediaQuery(theme.breakpoints.md);
   const headerPaddingX = isMd ? spacing[12] : spacing[4];
-  const whatsappUrl = `${WHATSAPP_LINK}${WHATSAPP_LINK.includes('?') ? '&' : '?'}text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
-
   const sectionStyle: React.CSSProperties = {
     width: '100%',
     marginTop: spacing[24],
@@ -101,8 +99,8 @@ const Cta: React.FC = () => {
         Fale com a gente pelo WhatsApp, vamos conversar sobre o seu negócio e como podemos ajudar.
 
         </p>
-        <a
-          href={whatsappUrl}
+        <WhatsAppLink
+          defaultMessage={WHATSAPP_MESSAGE}
           target="_blank"
           rel="noopener noreferrer"
           style={buttonStyle}
@@ -122,7 +120,7 @@ const Cta: React.FC = () => {
           >
             <ArrowRight size={16} color={colors.blue.primary} strokeWidth={2.5} aria-hidden />
           </span>
-        </a>
+        </WhatsAppLink>
       </div>
     </section>
   );

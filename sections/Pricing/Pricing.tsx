@@ -3,10 +3,11 @@ import { CheckCircle, CheckCircle2, CheckCircleIcon } from 'lucide-react';
 import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 import ButtonCta from '../../components/ui/ButtonCta';
+import { buildReferralWhatsAppMessage, buildWhatsAppUrl, DEFAULT_WHATSAPP_NUMBER } from '../../lib/whatsapp';
+import { useRouter } from 'next/router';
 
 const { colors, spacing, fontSizes, radii, containerMaxWidth } = theme;
 
-const WHATSAPP_LINK = 'https://wa.me/message/3V45SAJMLIJJJ1';
 const LANDING_PAGE_MESSAGE = 'Olá! Quero uma landing page focada em conversão.';
 const SITE_COMPLETO_MESSAGE = 'Oi! Quero um site que gere clientes e apareça no Google.';
 
@@ -209,8 +210,47 @@ const SITE_FEATURES = [
 ];
 
 const Pricing: React.FC = () => {
+  const router = useRouter();
   const isMd = useMediaQuery(theme.breakpoints.md);
   const headerPaddingX = isMd ? spacing[12] : spacing[4];
+  const [refData, setRefData] = React.useState<{ nome: string; whatsappNumero: string; whatsappMensagem: string } | null>(null);
+
+  React.useEffect(() => {
+    const ref = typeof router.query.ref === 'string' ? router.query.ref.trim().toLowerCase() : '';
+    if (!ref) {
+      setRefData(null);
+      return;
+    }
+    let cancelled = false;
+    fetch(`/api/referencia/whatsapp?ref=${encodeURIComponent(ref)}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data) => {
+        if (cancelled) return;
+        if (data && typeof data === 'object') {
+          setRefData({
+            nome: String(data.nome || ''),
+            whatsappNumero: String(data.whatsappNumero || ''),
+            whatsappMensagem: String(data.whatsappMensagem || ''),
+          });
+        } else {
+          setRefData(null);
+        }
+      })
+      .catch(() => {
+        if (!cancelled) setRefData(null);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [router.query.ref]);
+
+  const openWhatsApp = (contextMessage: string) => {
+    if (typeof window === 'undefined') return;
+    const finalMessage = buildReferralWhatsAppMessage(refData || undefined, contextMessage);
+    const number = refData?.whatsappNumero || DEFAULT_WHATSAPP_NUMBER;
+    const url = buildWhatsAppUrl(number, finalMessage);
+    window.open(url, '_blank', 'noopener,noreferrer');
+  };
 
   const sectionStyle: React.CSSProperties = {
     ...sectionStyleBase,
@@ -287,10 +327,7 @@ const Pricing: React.FC = () => {
               <ButtonCta
                 label="Quero uma landing page"
                 onClick={() => {
-                  if (typeof window !== 'undefined') {
-                    const url = `${WHATSAPP_LINK}${WHATSAPP_LINK.includes('?') ? '&' : '?'}text=${encodeURIComponent(LANDING_PAGE_MESSAGE)}`;
-                    window.open(url, '_blank', 'noopener,noreferrer');
-                  }
+                  openWhatsApp(LANDING_PAGE_MESSAGE);
                 }}
               />
             </div>
@@ -324,10 +361,7 @@ const Pricing: React.FC = () => {
               <ButtonCta
                 label="Quero um site"
                 onClick={() => {
-                  if (typeof window !== 'undefined') {
-                    const url = `${WHATSAPP_LINK}${WHATSAPP_LINK.includes('?') ? '&' : '?'}text=${encodeURIComponent(SITE_COMPLETO_MESSAGE)}`;
-                    window.open(url, '_blank', 'noopener,noreferrer');
-                  }
+                  openWhatsApp(SITE_COMPLETO_MESSAGE);
                 }}
               />
             </div>

@@ -123,6 +123,15 @@ export async function middleware(request: NextRequest) {
  const url = request.nextUrl;
  const host = request.headers.get('host')?.split(':')[0] || '';
 
+ // Em produção, o painel do usuário deve ser acessado somente via dash.wefronti.com
+ if (MAIN_HOSTS.includes(host) && url.pathname.startsWith('/dash')) {
+   const redirectUrl = new URL(`https://${DASH_HOST}`);
+   const cleanPath = url.pathname.replace(/^\/dash/, '') || '/';
+   redirectUrl.pathname = cleanPath;
+   redirectUrl.search = url.search;
+   return NextResponse.redirect(redirectUrl);
+ }
+
  // 0.5 Proteger APIs administrativas legadas/sem guard local
  const pathname = url.pathname;
  const isPublicProposalPageApi = /^\/api\/proposta\/[^/]+$/.test(pathname) && request.method === 'GET';

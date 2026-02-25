@@ -59,7 +59,7 @@ const DashLoginPage: React.FC = () => {
         return;
       }
       showSuccess('Login realizado com sucesso.');
-      router.push('/dash/dashboard');
+      router.push('/dashboard');
     } catch {
       showError('Erro ao conectar. Tente novamente.');
     } finally {
@@ -345,7 +345,7 @@ const DashLoginPage: React.FC = () => {
                   </div>
                   <p style={{ margin: 0, marginTop: spacing[2], marginBottom: 0 }}>
                     <Link
-                      href="/dash/esqueci-senha"
+                      href="/esqueci-senha"
                       style={{ ...linkStyle, fontSize: fontSizes.sm, fontWeight: 400 }}
                     >
                       Esqueceu senha?

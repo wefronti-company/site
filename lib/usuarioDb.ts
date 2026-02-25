@@ -23,6 +23,8 @@ export interface Usuario {
   chavePix?: string;
   banco?: string;
   nomeTitular?: string;
+  whatsappNumero?: string;
+  whatsappMensagem?: string;
   /** false quando o participante está banido (link de indicação indisponível; dashboard continua acessível). */
   ativo?: boolean;
 }
@@ -54,6 +56,8 @@ function rowToUsuario(row: Record<string, unknown>): Usuario {
     chavePix: d(row.chave_pix),
     banco: d(row.banco),
     nomeTitular: d(row.nome_titular),
+    whatsappNumero: d(row.whatsapp_numero),
+    whatsappMensagem: d(row.whatsapp_mensagem),
     ativo: row.ativo === undefined ? true : !!row.ativo,
   };
 }
@@ -97,7 +101,7 @@ export async function getUsuarioByEmail(email: string): Promise<Usuario | null> 
     const rows = await sql`
       SELECT id, nome_completo, email, codigo_referencia, celular, data_nascimento, cpf,
              endereco_logradouro, endereco_numero, endereco_complemento, endereco_bairro,
-             endereco_cidade, endereco_uf, endereco_cep, chave_pix, banco, nome_titular
+             endereco_cidade, endereco_uf, endereco_cep, chave_pix, banco, nome_titular, whatsapp_numero, whatsapp_mensagem
       FROM usuarios
       WHERE email = ${email.toLowerCase().trim()}
       LIMIT 1
@@ -129,7 +133,7 @@ export async function getUsuarioById(id: string): Promise<Usuario | null> {
     const rows = await sql`
       SELECT id, nome_completo, email, codigo_referencia, celular, data_nascimento, cpf,
              endereco_logradouro, endereco_numero, endereco_complemento, endereco_bairro,
-             endereco_cidade, endereco_uf, endereco_cep, chave_pix, banco, nome_titular, ativo
+             endereco_cidade, endereco_uf, endereco_cep, chave_pix, banco, nome_titular, whatsapp_numero, whatsapp_mensagem, ativo
       FROM usuarios
       WHERE id = ${id}
       LIMIT 1
@@ -162,7 +166,7 @@ export async function getUsuarioByCodigoReferencia(codigoReferencia: string): Pr
     const rows = await sql`
       SELECT id, nome_completo, email, codigo_referencia, celular, data_nascimento, cpf,
              endereco_logradouro, endereco_numero, endereco_complemento, endereco_bairro,
-             endereco_cidade, endereco_uf, endereco_cep, chave_pix, banco, nome_titular
+             endereco_cidade, endereco_uf, endereco_cep, chave_pix, banco, nome_titular, whatsapp_numero, whatsapp_mensagem
       FROM usuarios
       WHERE LOWER(codigo_referencia) = ${ref} AND ativo = true
       LIMIT 1
@@ -199,18 +203,34 @@ export async function getUsuarioByCodigoReferenciaIncludeInativo(codigoReferenci
   if (!sql) return null;
   const ref = String(codigoReferencia || '').trim().toLowerCase();
   if (!ref) return null;
-  const rows = await sql`
-    SELECT id, nome_completo, email, codigo_referencia, celular, data_nascimento, cpf,
-           endereco_logradouro, endereco_numero, endereco_complemento, endereco_bairro,
-           endereco_cidade, endereco_uf, endereco_cep, chave_pix, ativo
-    FROM usuarios
-    WHERE LOWER(codigo_referencia) = ${ref}
-    LIMIT 1
-  `;
-  const row = rows[0] as (Record<string, unknown> & { ativo?: boolean }) | undefined;
-  if (!row) return null;
-  const usuario = rowToUsuario(row);
-  return { ...usuario, ativo: row.ativo !== false };
+  try {
+    const rows = await sql`
+      SELECT id, nome_completo, email, codigo_referencia, celular, data_nascimento, cpf,
+             endereco_logradouro, endereco_numero, endereco_complemento, endereco_bairro,
+             endereco_cidade, endereco_uf, endereco_cep, chave_pix, whatsapp_numero, whatsapp_mensagem, ativo
+      FROM usuarios
+      WHERE LOWER(codigo_referencia) = ${ref}
+      LIMIT 1
+    `;
+    const row = rows[0] as (Record<string, unknown> & { ativo?: boolean }) | undefined;
+    if (!row) return null;
+    const usuario = rowToUsuario(row);
+    return { ...usuario, ativo: row.ativo !== false };
+  } catch (e: unknown) {
+    if ((e as { code?: string })?.code !== '42703') throw e;
+    const rows = await sql`
+      SELECT id, nome_completo, email, codigo_referencia, celular, data_nascimento, cpf,
+             endereco_logradouro, endereco_numero, endereco_complemento, endereco_bairro,
+             endereco_cidade, endereco_uf, endereco_cep, chave_pix, ativo
+      FROM usuarios
+      WHERE LOWER(codigo_referencia) = ${ref}
+      LIMIT 1
+    `;
+    const row = rows[0] as (Record<string, unknown> & { ativo?: boolean }) | undefined;
+    if (!row) return null;
+    const usuario = rowToUsuario(row);
+    return { ...usuario, ativo: row.ativo !== false };
+  }
 }
 
 /**
@@ -363,7 +383,7 @@ export async function getUsuarioByIdForAdmin(id: string): Promise<Usuario | null
     const rows = await sql`
       SELECT id, nome_completo, email, codigo_referencia, celular, data_nascimento, cpf,
              endereco_logradouro, endereco_numero, endereco_complemento, endereco_bairro,
-             endereco_cidade, endereco_uf, endereco_cep, chave_pix, banco, nome_titular, ativo
+             endereco_cidade, endereco_uf, endereco_cep, chave_pix, banco, nome_titular, whatsapp_numero, whatsapp_mensagem, ativo
       FROM usuarios
       WHERE id = ${id}
       LIMIT 1
@@ -413,6 +433,8 @@ export interface UpdateUsuarioPerfilInput {
   chavePix?: string;
   banco?: string;
   nomeTitular?: string;
+  whatsappNumero?: string;
+  whatsappMensagem?: string;
 }
 
 export async function updateUsuarioPerfil(
@@ -473,6 +495,20 @@ export async function updateUsuarioPerfil(
   if (input.nomeTitular !== undefined) {
     try {
       await sql`UPDATE usuarios SET nome_titular = ${set(input.nomeTitular, 200)} WHERE id = ${usuarioId}`;
+    } catch (e: unknown) {
+      if ((e as { code?: string })?.code !== '42703') throw e;
+    }
+  }
+  if (input.whatsappNumero !== undefined) {
+    try {
+      await sql`UPDATE usuarios SET whatsapp_numero = ${set(input.whatsappNumero, 20)} WHERE id = ${usuarioId}`;
+    } catch (e: unknown) {
+      if ((e as { code?: string })?.code !== '42703') throw e;
+    }
+  }
+  if (input.whatsappMensagem !== undefined) {
+    try {
+      await sql`UPDATE usuarios SET whatsapp_mensagem = ${set(input.whatsappMensagem, 400)} WHERE id = ${usuarioId}`;
     } catch (e: unknown) {
       if ((e as { code?: string })?.code !== '42703') throw e;
     }
@@ -539,6 +575,20 @@ export async function updateUsuarioPerfilByAdmin(
   if (input.nomeTitular !== undefined) {
     try {
       await sql`UPDATE usuarios SET nome_titular = ${set(input.nomeTitular, 200)} WHERE id = ${usuarioId}`;
+    } catch (e: unknown) {
+      if ((e as { code?: string })?.code !== '42703') throw e;
+    }
+  }
+  if (input.whatsappNumero !== undefined) {
+    try {
+      await sql`UPDATE usuarios SET whatsapp_numero = ${set(input.whatsappNumero, 20)} WHERE id = ${usuarioId}`;
+    } catch (e: unknown) {
+      if ((e as { code?: string })?.code !== '42703') throw e;
+    }
+  }
+  if (input.whatsappMensagem !== undefined) {
+    try {
+      await sql`UPDATE usuarios SET whatsapp_mensagem = ${set(input.whatsappMensagem, 400)} WHERE id = ${usuarioId}`;
     } catch (e: unknown) {
       if ((e as { code?: string })?.code !== '42703') throw e;
     }

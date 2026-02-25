@@ -8,7 +8,7 @@ import { useRouter } from 'next/router';
 export default function RedefinirSenhaRedirect() {
   const router = useRouter();
   useEffect(() => {
-    router.replace('/dash/esqueci-senha');
+    router.replace('/esqueci-senha');
   }, [router]);
   return null;
 }

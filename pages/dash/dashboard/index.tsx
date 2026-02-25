@@ -184,7 +184,7 @@ export default function DashDashboardPage() {
             </p>
             <p style={cardValueStyle}>{usuario.totalIndicacoes ?? 0}</p>
             <p style={{ margin: 0, fontSize: fontSizes.xs, color: colors.neutral.gray }}>
-              Pessoas que acessaram seu link
+              Indicações convertidas em comissão
             </p>
           </div>
 

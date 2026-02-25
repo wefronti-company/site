@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { colors } from '../../styles/colors';
 import { ArrowRight } from 'lucide-react';
 import { radii } from '@/styles/theme';
+import { toDashUrl } from '../../lib/dash-url';
 
 interface ButtonUserProps {
   label?: string;
@@ -13,7 +14,7 @@ interface ButtonUserProps {
 
 const ButtonUser: React.FC<ButtonUserProps> = ({
   label = 'Entrar',
-  href = '/dash',
+  href = toDashUrl('/'),
   className,
   fullWidth = false,
 }) => {

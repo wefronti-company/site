@@ -7,6 +7,7 @@ import { useScrollToSection } from '../../hooks/useScrollToSection';
 import { useSplash } from '../../contexts/SplashContext';
 import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
+import { toDashUrl } from '../../lib/dash-url';
 
 const { colors, spacing, fontSizes, radii, containerMaxWidth } = theme;
 const SCROLL_TOP_THRESHOLD = 1;
@@ -346,7 +347,7 @@ const Header: React.FC = () => {
           ))}
           <div style={{ paddingTop: spacing[2] }} onClick={() => setMobileMenuOpen(false)}>
             <ButtonUser
-              href="/dash"
+              href={toDashUrl('/')}
               className="header-user-btn"
               fullWidth
             />

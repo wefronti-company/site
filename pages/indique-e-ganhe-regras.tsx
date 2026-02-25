@@ -7,6 +7,7 @@ import ButtonCta from '../components/ui/ButtonCta';
 import { RegrasIndiqueEGanheContent } from '../components/RegrasIndiqueEGanheContent';
 import { theme } from '../styles/theme';
 import { useMediaQuery } from '../hooks/useMediaQuery';
+import { toDashUrl } from '../lib/dash-url';
 
 const { colors, spacing, fontSizes, containerMaxWidth } = theme;
 
@@ -60,7 +61,7 @@ const IndiqueEGanheRegras: React.FC = () => {
         <article style={getContainerStyle(paddingX)}>
           <RegrasIndiqueEGanheContent />
           <div style={ctaWrapStyle}>
-            <ButtonCta label="Criar conta grátis" onClick={() => router.push('/dash')} />
+            <ButtonCta label="Criar conta grátis" onClick={() => router.push(toDashUrl('/'))} />
           </div>
           <Link href="/" style={backLinkStyle} aria-label="Voltar ao início">
             <ArrowLeft size={18} strokeWidth={2} aria-hidden />

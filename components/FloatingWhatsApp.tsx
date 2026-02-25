@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { colors } from '../styles/colors';
+import WhatsAppLink from './WhatsAppLink';
 
-const WHATSAPP_LINK = 'https://wa.me/message/3V45SAJMLIJJJ1';
 const WHATSAPP_MESSAGE = 'Olá, tenho algumas dúvidas e gostaria de conversar.';
 const BADGE_DELAY_MS = 4000;
 
@@ -68,13 +68,11 @@ const FloatingWhatsApp: React.FC = () => {
     };
   }, []);
 
-  const url = `${WHATSAPP_LINK}${WHATSAPP_LINK.includes('?') ? '&' : '?'}text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
-
   if (!isVisible) return null;
 
   return (
-    <a
-      href={url}
+    <WhatsAppLink
+      defaultMessage={WHATSAPP_MESSAGE}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Abrir conversa no WhatsApp"
@@ -139,7 +137,7 @@ const FloatingWhatsApp: React.FC = () => {
           1
         </span>
       )}
-    </a>
+    </WhatsAppLink>
   );
 };
 

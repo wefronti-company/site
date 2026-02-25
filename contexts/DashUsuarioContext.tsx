@@ -19,6 +19,8 @@ export interface UsuarioDash {
   chavePix?: string;
   banco?: string;
   nomeTitular?: string;
+  whatsappNumero?: string;
+  whatsappMensagem?: string;
   ativo?: boolean;
   totalIndicacoes?: number;
 }

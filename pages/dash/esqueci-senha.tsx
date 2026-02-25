@@ -110,7 +110,7 @@ export default function EsqueciSenhaPage() {
         return;
       }
       showSuccess('Senha alterada! Faça login.');
-      window.location.href = '/dash';
+      window.location.href = '/';
     } catch {
       showError('Erro ao conectar. Tente novamente.');
     } finally {
@@ -163,7 +163,7 @@ export default function EsqueciSenhaPage() {
     display: 'flex',
     minHeight: '100vh',
     width: '100%',
-    backgroundImage: "url('/images/brand/background.webp')",
+    backgroundImage: "url('/images/brand/background-login.png')",
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat',
@@ -444,7 +444,7 @@ export default function EsqueciSenhaPage() {
 
             <p style={{ marginTop: spacing[6], textAlign: 'center', fontSize: fontSizes.sm, color: colors.text.light }}>
               <Link
-                href="/dash"
+                href="/"
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',

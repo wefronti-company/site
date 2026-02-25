@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { theme } from '../../styles/theme';
 import type { Proposal } from '../../lib/proposalData';
 import { PROPOSAL_VALID_HOURS } from '../../lib/proposalData';
+import { buildWhatsAppUrl, DEFAULT_WHATSAPP_NUMBER } from '../../lib/whatsapp';
 
 const { colors, spacing, fontSizes } = theme;
 
@@ -51,6 +52,11 @@ export const PropostaTemplate: React.FC<PropostaTemplateProps> = ({
     const t = setInterval(compute, 60000); // atualiza a cada minuto
     return () => clearInterval(t);
   }, [proposal.enviadoEm]);
+
+  const proposalWhatsAppUrl = buildWhatsAppUrl(
+    DEFAULT_WHATSAPP_NUMBER,
+    'Olá! Recebi a proposta comercial e gostaria de conversar.'
+  );
 
   return (
     <div style={wrapStyle}>
@@ -124,7 +130,7 @@ export const PropostaTemplate: React.FC<PropostaTemplateProps> = ({
             Esta proposta tem validade de 24 horas. Para aceitar ou esclarecer dúvidas, entre em contato.
           </p>
           <a
-            href="https://wa.me/message/3V45SAJMLIJJJ1?text=Olá! Recebi a proposta comercial e gostaria de conversar."
+            href={proposalWhatsAppUrl}
             target="_blank"
             rel="noopener noreferrer"
             style={ctaStyle}

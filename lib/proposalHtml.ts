@@ -5,6 +5,7 @@
 
 import type { Proposal } from './proposalData';
 import { isProposalExpired, PROPOSAL_VALID_HOURS } from './proposalData';
+import { buildWhatsAppUrl, DEFAULT_WHATSAPP_NUMBER } from './whatsapp';
 
 function formatBRL(val: number): string {
   return new Intl.NumberFormat('pt-BR', {
@@ -35,6 +36,10 @@ function formatRemaining(proposal: Proposal): string {
 export function generateProposalHtml(proposal: Proposal): string {
   const total = proposal.itens.reduce((s, i) => s + i.valor, 0);
   const remaining = formatRemaining(proposal);
+  const proposalWhatsAppUrl = buildWhatsAppUrl(
+    DEFAULT_WHATSAPP_NUMBER,
+    'Olá! Recebi a proposta comercial e gostaria de conversar.'
+  );
 
   const itensRows = proposal.itens
     .map(
@@ -118,7 +123,7 @@ export function generateProposalHtml(proposal: Proposal): string {
         ${proposal.observacoes ? `<section class="section"><p style="margin:0;font-size:14px;color:#1a1a1a;opacity:.8">${escapeHtml(proposal.observacoes)}</p></section>` : ''}
         <footer class="footer">
           <p>Esta proposta tem validade de 24 horas. Para aceitar ou esclarecer dúvidas, entre em contato.</p>
-          <a href="https://wa.me/message/3V45SAJMLIJJJ1?text=Olá! Recebi a proposta comercial e gostaria de conversar." target="_blank" rel="noopener noreferrer" class="cta">Falar no WhatsApp</a>
+          <a href="${proposalWhatsAppUrl}" target="_blank" rel="noopener noreferrer" class="cta">Falar no WhatsApp</a>
         </footer>
       </article>
     </div>

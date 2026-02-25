@@ -45,6 +45,19 @@ export async function listComissoesByUsuario(usuarioId: string): Promise<Comissa
   return (rows as Record<string, unknown>[]).map(rowToComissao);
 }
 
+/** Total de indicações convertidas (1 comissão = 1 indicação convertida). */
+export async function getTotalIndicacoesByComissao(usuarioId: string): Promise<number> {
+  if (!sql) return 0;
+  const rows = await sql`
+    SELECT COUNT(*)::text AS total
+    FROM indicacao_comissoes
+    WHERE usuario_id = ${usuarioId}
+  `;
+  const row = Array.isArray(rows) ? (rows[0] as { total?: string } | undefined) : undefined;
+  const total = row?.total ? parseInt(row.total, 10) : 0;
+  return Number.isFinite(total) ? total : 0;
+}
+
 /** Lista todas as comissões (admin). */
 export async function listComissoesForAdmin(): Promise<(Comissao & { nomeParticipante: string; emailParticipante: string })[]> {
   if (!sql) return [];
