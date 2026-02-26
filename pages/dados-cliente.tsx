@@ -167,7 +167,7 @@ export default function DadosClientePage() {
         showError(data.error || 'Erro ao enviar.');
         return;
       }
-      showSuccess('Dados enviados com sucesso. Em breve entraremos em contato.');
+      showSuccess('Dados enviados com sucesso.');
       setNome('');
       setEmail('');
       setCpf('');
@@ -183,7 +183,7 @@ export default function DadosClientePage() {
       setEnderecoCidade('');
       setEnderecoUf('');
     } catch {
-      showError('Erro ao conectar. Tente novamente.');
+      showError('Erro ao enviar. Tente novamente.');
     } finally {
       setLoading(false);
     }
@@ -200,7 +200,7 @@ export default function DadosClientePage() {
 
         <form onSubmit={handleSubmit}>
           <section style={sectionStyle}>
-            <h2 style={sectionTitleStyle}>Dados do contato</h2>
+            <h2 style={sectionTitleStyle}>Dados do cliente</h2>
             <div style={formGridStyle}>
               <div style={fieldStyle}>
                 <label style={labelStyle}>Nome e sobrenome *</label>

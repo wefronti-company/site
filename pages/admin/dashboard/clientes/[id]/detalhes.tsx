@@ -70,7 +70,6 @@ interface ClienteDados {
   cpf?: string;
   celular?: string;
   razaoSocial?: string;
-  nomeFantasia?: string;
   cnpj?: string;
   site?: string;
   enderecoLogradouro?: string;
@@ -194,7 +193,7 @@ export default function ClienteDetalhesPage() {
           <div style={{ ...formGridStyle, gridTemplateColumns: 'repeat(3, 1fr)' }}>
             <div style={fieldStyle}>
               <span style={labelStyle}>Nome da empresa</span>
-              <div style={valueStyle}>{cliente.razaoSocial || cliente.nomeFantasia || '—'}</div>
+              <div style={valueStyle}>{cliente.razaoSocial || '—'}</div>
             </div>
             <div style={fieldStyle}>
               <span style={labelStyle}>CNPJ</span>

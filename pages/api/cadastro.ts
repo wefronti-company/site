@@ -35,7 +35,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       cpf: typeof body.cpf === 'string' ? body.cpf.replace(/\D/g, '').slice(0, 11) || undefined : undefined,
       celular: typeof body.celular === 'string' ? body.celular.replace(/\D/g, '').slice(0, 11) || undefined : undefined,
       razaoSocial,
-      nomeFantasia: typeof body.nomeFantasia === 'string' ? body.nomeFantasia.trim() || undefined : undefined,
       cnpj: typeof body.cnpj === 'string' ? body.cnpj.replace(/\D/g, '').slice(0, 14) || undefined : undefined,
       site: typeof body.site === 'string' ? body.site.trim() || undefined : undefined,
       enderecoLogradouro: typeof body.enderecoLogradouro === 'string' ? body.enderecoLogradouro.trim() || undefined : undefined,
@@ -45,7 +44,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       enderecoCidade: typeof body.enderecoCidade === 'string' ? body.enderecoCidade.trim() || undefined : undefined,
       enderecoUf: typeof body.enderecoUf === 'string' ? body.enderecoUf.trim().slice(0, 2).toUpperCase() || undefined : undefined,
       enderecoCep: typeof body.enderecoCep === 'string' ? body.enderecoCep.replace(/\D/g, '').slice(0, 8) || undefined : undefined,
-      manutencao: false,
       mensalidade: 0,
     });
 

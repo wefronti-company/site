@@ -10,7 +10,6 @@ interface ClienteBusca {
   id: string;
   nome: string;
   email: string;
-  nomeFantasia?: string;
   razaoSocial: string;
 }
 
@@ -268,7 +267,7 @@ export const AppBar: React.FC = () => {
                   {getInitial(c.nome || c.email)}
                 </div>
                 <div style={resultContentStyle}>
-                  <span style={resultLabelStyle}>{c.nomeFantasia || c.razaoSocial}</span>
+                  <span style={resultLabelStyle}>{c.razaoSocial}</span>
                   <span style={resultMetaStyle}>{c.nome} · {c.email}</span>
                 </div>
               </Link>

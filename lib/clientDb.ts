@@ -13,13 +13,10 @@ export interface Cliente {
   nome: string;
   email: string;
   cpf?: string;
-  telefone?: string;
   celular?: string;
-  cargo?: string;
   razaoSocial: string;
-  nomeFantasia?: string;
   cnpj?: string;
-  ie?: string;
+  site?: string;
   enderecoLogradouro?: string;
   enderecoNumero?: string;
   enderecoComplemento?: string;
@@ -27,26 +24,10 @@ export interface Cliente {
   enderecoCidade?: string;
   enderecoUf?: string;
   enderecoCep?: string;
-  telefoneEmpresa?: string;
-  site?: string;
-  ramo?: string;
-  observacoes?: string;
-  /** Serviço contratado: Site ou Landing Page */
-  servicoTipo?: string;
-  /** Cliente tem plano de manutenção */
-  manutencao?: boolean;
-  /** Preço do serviço em reais */
-  precoServico?: number;
-  /** Preço da manutenção em reais (quando manutencao=true) */
-  precoManutencao?: number;
-  /** Total mensal (apenas valor da manutenção; o que o cliente paga todo mês). Usado em receita e clientes ativos. */
+  /** Total mensal em reais (valor da manutenção; o que o cliente paga todo mês). */
   mensalidade: number;
   /** Dia do mês para vencimento (1-31). Se não definido, usa o dia de criadoEm. */
   diaVencimento?: number;
-  /** Forma de pagamento do projeto: 'cartao' | 'pix' | '50_50' (50% entrada, 50% entrega). */
-  formaPagamentoProjeto?: string;
-  /** Número de parcelas quando forma de pagamento é cartão. */
-  parcelasCartao?: number;
   status: ClienteStatus;
   criadoEm: string;
 }
@@ -109,13 +90,10 @@ function rowToCliente(row: Record<string, unknown>): Cliente {
     nome: String(row.nome ?? ''),
     email: String(row.email ?? ''),
     cpf: row.cpf ? String(row.cpf) : undefined,
-    telefone: row.telefone ? String(row.telefone) : undefined,
     celular: row.celular ? String(row.celular) : undefined,
-    cargo: row.cargo ? String(row.cargo) : undefined,
     razaoSocial: String(row.razao_social ?? ''),
-    nomeFantasia: row.nome_fantasia ? String(row.nome_fantasia) : undefined,
     cnpj: row.cnpj ? String(row.cnpj) : undefined,
-    ie: row.ie ? String(row.ie) : undefined,
+    site: row.site ? String(row.site) : undefined,
     enderecoLogradouro: row.endereco_logradouro ? String(row.endereco_logradouro) : undefined,
     enderecoNumero: row.endereco_numero ? String(row.endereco_numero) : undefined,
     enderecoComplemento: row.endereco_complemento ? String(row.endereco_complemento) : undefined,
@@ -123,18 +101,8 @@ function rowToCliente(row: Record<string, unknown>): Cliente {
     enderecoCidade: row.endereco_cidade ? String(row.endereco_cidade) : undefined,
     enderecoUf: row.endereco_uf ? String(row.endereco_uf) : undefined,
     enderecoCep: row.endereco_cep ? String(row.endereco_cep) : undefined,
-    telefoneEmpresa: row.telefone_empresa ? String(row.telefone_empresa) : undefined,
-    site: row.site ? String(row.site) : undefined,
-    ramo: row.ramo ? String(row.ramo) : undefined,
-    observacoes: row.observacoes ? String(row.observacoes) : undefined,
-    servicoTipo: row.servico_tipo ? String(row.servico_tipo) : undefined,
-    manutencao: Boolean(row.manutencao),
-    precoServico: (Number(row.preco_servico) || 0) / 100,
-    precoManutencao: (Number(row.preco_manutencao) || 0) / 100,
     mensalidade: (Number(row.mensalidade) || 0) / 100,
     diaVencimento: row.dia_vencimento != null ? Math.min(31, Math.max(1, Number(row.dia_vencimento))) : undefined,
-    formaPagamentoProjeto: row.forma_pagamento_projeto ? String(row.forma_pagamento_projeto) : undefined,
-    parcelasCartao: row.parcelas_cartao != null ? Number(row.parcelas_cartao) : undefined,
     status: (row.status as ClienteStatus) ?? 0,
     criadoEm,
   };
@@ -195,7 +163,7 @@ export async function getClientesManutencao(): Promise<ClienteComPagamento[]> {
     LEFT JOIN pagamentos_mensalidade p ON p.cliente_id = c.id AND p.mes_ref = ${mesRef}
     WHERE c.status != 2 AND c.mensalidade > 0
       AND c.dia_vencimento IS NOT NULL AND c.dia_vencimento >= 1 AND c.dia_vencimento <= 31
-    ORDER BY c.nome_fantasia, c.razao_social
+    ORDER BY c.razao_social
   `;
   return (rows as (Record<string, unknown> & { pago: boolean })[]).map((r) => {
     const { pago, ...rest } = r;
@@ -225,7 +193,7 @@ export async function getClientesQuePagaramEmData(dataStr: string): Promise<Clie
     FROM clientes c
     INNER JOIN pagamentos_mensalidade p ON p.cliente_id = c.id
     WHERE c.status != 2 AND (p.pago_em AT TIME ZONE 'America/Sao_Paulo')::date = ${dataStr}::date
-    ORDER BY c.nome_fantasia, c.razao_social
+    ORDER BY c.razao_social
   `;
   return (rows as (Record<string, unknown> & { pago: boolean })[]).map((r) => {
     const { pago, ...rest } = r;
@@ -239,7 +207,7 @@ export async function getClientesDesligados(): Promise<ClienteComPagamento[]> {
     SELECT c.*, FALSE AS pago
     FROM clientes c
     WHERE c.status = 2
-    ORDER BY c.nome_fantasia, c.razao_social
+    ORDER BY c.razao_social
   `;
   return (rows as Record<string, unknown>[]).map((r) => rowToClienteComPagamento(r, false, 'desligado'));
 }
@@ -256,22 +224,20 @@ export async function buscarClientes(termo: string): Promise<Cliente[]> {
         SELECT * FROM clientes
         WHERE
           nome ILIKE ${pattern}
-          OR nome_fantasia ILIKE ${pattern}
           OR razao_social ILIKE ${pattern}
           OR email ILIKE ${pattern}
           OR (cpf IS NOT NULL AND regexp_replace(cpf, '[^0-9]', '', 'g') LIKE ${digitsPattern})
           OR (cnpj IS NOT NULL AND regexp_replace(cnpj, '[^0-9]', '', 'g') LIKE ${digitsPattern})
-        ORDER BY nome_fantasia NULLS LAST, razao_social
+        ORDER BY razao_social
         LIMIT 10
       `
     : await sql`
         SELECT * FROM clientes
         WHERE
           nome ILIKE ${pattern}
-          OR nome_fantasia ILIKE ${pattern}
           OR razao_social ILIKE ${pattern}
           OR email ILIKE ${pattern}
-        ORDER BY nome_fantasia NULLS LAST, razao_social
+        ORDER BY razao_social
         LIMIT 10
       `;
   return (rows as Record<string, unknown>[]).map((r) => rowToCliente(r));
@@ -340,7 +306,7 @@ export async function getClientesTodos(): Promise<ClienteComPagamento[]> {
   if (!sql) throw new Error('Banco de dados não configurado.');
   const rows = await sql`
     SELECT * FROM clientes
-    ORDER BY status, nome_fantasia, razao_social
+    ORDER BY status, razao_social
   `;
   return (rows as Record<string, unknown>[]).map((r) => {
     const c = rowToCliente(r);
@@ -370,13 +336,10 @@ export interface CreateClienteInput {
   nome: string;
   email: string;
   cpf?: string;
-  telefone?: string;
   celular?: string;
-  cargo?: string;
   razaoSocial: string;
-  nomeFantasia?: string;
   cnpj?: string;
-  ie?: string;
+  site?: string;
   enderecoLogradouro?: string;
   enderecoNumero?: string;
   enderecoComplemento?: string;
@@ -384,26 +347,10 @@ export interface CreateClienteInput {
   enderecoCidade?: string;
   enderecoUf?: string;
   enderecoCep?: string;
-  telefoneEmpresa?: string;
-  site?: string;
-  ramo?: string;
-  observacoes?: string;
-  /** Tipo de serviço: 'Site' ou 'Landing Page' */
-  servicoTipo?: string;
-  /** Cliente tem manutenção */
-  manutencao?: boolean;
-  /** Preço do serviço em reais */
-  precoServico?: number;
-  /** Preço da manutenção em reais (quando manutencao=true) */
-  precoManutencao?: number;
-  /** Total mensal (calculado: apenas precoManutencao quando manutencao; valor que o cliente paga todo mês). Usado em receita. */
+  /** Total mensal em reais (valor da manutenção). */
   mensalidade?: number;
   /** Dia do mês para vencimento (1-31). Opcional. */
   diaVencimento?: number;
-  /** Forma de pagamento do projeto: 'cartao' | 'pix' | '50_50' */
-  formaPagamentoProjeto?: string;
-  /** Número de parcelas quando forma de pagamento é cartão */
-  parcelasCartao?: number;
 }
 
 function trimSlice(str: string | undefined, max: number): string | null {
@@ -412,42 +359,30 @@ function trimSlice(str: string | undefined, max: number): string | null {
 }
 
 function computeMensalidade(input: CreateClienteInput): number {
-  if (input.mensalidade != null) return input.mensalidade;
-  // Mensalidade = apenas o valor da manutenção (não inclui o valor do projeto)
-  const precoManutencao = input.manutencao ? (input.precoManutencao ?? 0) : 0;
-  return precoManutencao;
+  return input.mensalidade ?? 0;
 }
 
 export async function createCliente(input: CreateClienteInput): Promise<Cliente> {
   if (!sql) throw new Error('Banco de dados não configurado.');
 
-  const mensalidadeReais = computeMensalidade(input);
-  const mensalidadeCentavos = Math.round(mensalidadeReais * 100);
-  const precoServicoCentavos = Math.round((input.precoServico ?? 0) * 100);
-  const precoManutencaoCentavos = Math.round((input.precoManutencao ?? 0) * 100);
-  const servicoTipo = trimSlice(input.servicoTipo, 50) ?? null;
-  const manutencao = Boolean(input.manutencao);
+  const mensalidadeCentavos = Math.round((computeMensalidade(input) || 0) * 100);
 
   const rows = await sql`
     INSERT INTO clientes (
-      nome, email, cpf, telefone, celular, cargo,
-      razao_social, nome_fantasia, cnpj, ie,
+      nome, email, cpf, celular,
+      razao_social, cnpj, site,
       endereco_logradouro, endereco_numero, endereco_complemento,
       endereco_bairro, endereco_cidade, endereco_uf, endereco_cep,
-      telefone_empresa, site, ramo, observacoes,
-      servico_tipo, manutencao, preco_servico, preco_manutencao, mensalidade, forma_pagamento_projeto
+      mensalidade, dia_vencimento
     )
     VALUES (
       ${trimSlice(input.nome, 150) ?? ''},
       ${trimSlice(input.email, 254) ?? ''},
       ${trimSlice(input.cpf, 14)},
-      ${trimSlice(input.telefone, 20)},
       ${trimSlice(input.celular, 20)},
-      ${trimSlice(input.cargo, 80)},
       ${trimSlice(input.razaoSocial, 200) ?? ''},
-      ${trimSlice(input.nomeFantasia, 150)},
       ${trimSlice(input.cnpj, 18)},
-      ${trimSlice(input.ie, 25)},
+      ${trimSlice(input.site, 200)},
       ${trimSlice(input.enderecoLogradouro, 150)},
       ${trimSlice(input.enderecoNumero, 20)},
       ${trimSlice(input.enderecoComplemento, 80)},
@@ -455,19 +390,10 @@ export async function createCliente(input: CreateClienteInput): Promise<Cliente>
       ${trimSlice(input.enderecoCidade, 80)},
       ${input.enderecoUf ? (trimSlice(input.enderecoUf, 2)?.toUpperCase() ?? null) : null},
       ${trimSlice(input.enderecoCep, 10)},
-      ${trimSlice(input.telefoneEmpresa, 20)},
-      ${trimSlice(input.site, 200)},
-      ${trimSlice(input.ramo, 100)},
-      ${trimSlice(input.observacoes, 500)},
-      ${servicoTipo}, ${manutencao}, ${precoServicoCentavos}, ${precoManutencaoCentavos}, ${mensalidadeCentavos},
-      ${trimSlice(input.formaPagamentoProjeto, 20)}
+      ${mensalidadeCentavos},
+      ${input.diaVencimento != null && input.diaVencimento >= 1 && input.diaVencimento <= 31 ? input.diaVencimento : null}
     )
-    RETURNING id, nome, email, cpf, telefone, celular, cargo,
-      razao_social, nome_fantasia, cnpj, ie,
-      endereco_logradouro, endereco_numero, endereco_complemento,
-      endereco_bairro, endereco_cidade, endereco_uf, endereco_cep,
-      telefone_empresa, site, ramo, observacoes,
-      servico_tipo, manutencao, preco_servico, preco_manutencao, mensalidade, forma_pagamento_projeto, status, criado_em
+    RETURNING *
   `;
 
   const row = rows[0] as Record<string, unknown>;
@@ -477,25 +403,17 @@ export async function createCliente(input: CreateClienteInput): Promise<Cliente>
 export async function updateCliente(id: string, input: CreateClienteInput): Promise<Cliente | null> {
   if (!sql) throw new Error('Banco de dados não configurado.');
 
-  const mensalidadeReais = computeMensalidade(input);
-  const mensalidadeCentavos = Math.round(mensalidadeReais * 100);
-  const precoServicoCentavos = Math.round((input.precoServico ?? 0) * 100);
-  const precoManutencaoCentavos = Math.round((input.precoManutencao ?? 0) * 100);
-  const servicoTipo = trimSlice(input.servicoTipo, 50) ?? null;
-  const manutencao = Boolean(input.manutencao);
+  const mensalidadeCentavos = Math.round((computeMensalidade(input) ?? 0) * 100);
 
   const rows = await sql`
     UPDATE clientes SET
       nome = ${trimSlice(input.nome, 150) ?? ''},
       email = ${trimSlice(input.email, 254) ?? ''},
       cpf = ${trimSlice(input.cpf, 14)},
-      telefone = ${trimSlice(input.telefone, 20)},
       celular = ${trimSlice(input.celular, 20)},
-      cargo = ${trimSlice(input.cargo, 80)},
       razao_social = ${trimSlice(input.razaoSocial, 200) ?? ''},
-      nome_fantasia = ${trimSlice(input.nomeFantasia, 150)},
       cnpj = ${trimSlice(input.cnpj, 18)},
-      ie = ${trimSlice(input.ie, 25)},
+      site = ${trimSlice(input.site, 200)},
       endereco_logradouro = ${trimSlice(input.enderecoLogradouro, 150)},
       endereco_numero = ${trimSlice(input.enderecoNumero, 20)},
       endereco_complemento = ${trimSlice(input.enderecoComplemento, 80)},
@@ -503,25 +421,10 @@ export async function updateCliente(id: string, input: CreateClienteInput): Prom
       endereco_cidade = ${trimSlice(input.enderecoCidade, 80)},
       endereco_uf = ${input.enderecoUf ? (trimSlice(input.enderecoUf, 2)?.toUpperCase() ?? null) : null},
       endereco_cep = ${trimSlice(input.enderecoCep, 10)},
-      telefone_empresa = ${trimSlice(input.telefoneEmpresa, 20)},
-      site = ${trimSlice(input.site, 200)},
-      ramo = ${trimSlice(input.ramo, 100)},
-      observacoes = ${trimSlice(input.observacoes, 500)},
-      servico_tipo = ${servicoTipo},
-      manutencao = ${manutencao},
-      preco_servico = ${precoServicoCentavos},
-      preco_manutencao = ${precoManutencaoCentavos},
       mensalidade = ${mensalidadeCentavos},
-      dia_vencimento = ${input.diaVencimento != null && input.diaVencimento >= 1 && input.diaVencimento <= 31 ? input.diaVencimento : null},
-      forma_pagamento_projeto = ${trimSlice(input.formaPagamentoProjeto, 20)},
-      parcelas_cartao = ${input.parcelasCartao != null && input.parcelasCartao >= 1 ? input.parcelasCartao : null}
+      dia_vencimento = ${input.diaVencimento != null && input.diaVencimento >= 1 && input.diaVencimento <= 31 ? input.diaVencimento : null}
     WHERE id = ${id}
-    RETURNING id, nome, email, cpf, telefone, celular, cargo,
-      razao_social, nome_fantasia, cnpj, ie,
-      endereco_logradouro, endereco_numero, endereco_complemento,
-      endereco_bairro, endereco_cidade, endereco_uf, endereco_cep,
-      telefone_empresa, site, ramo, observacoes,
-      servico_tipo, manutencao, preco_servico, preco_manutencao, mensalidade, dia_vencimento, forma_pagamento_projeto, parcelas_cartao, status, criado_em
+    RETURNING *
   `;
 
   const row = rows[0] as Record<string, unknown> | undefined;
