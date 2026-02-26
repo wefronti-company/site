@@ -16,8 +16,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const slug = typeof req.query.slug === 'string' ? req.query.slug : '';
-  const proposal = await getProposalBySlug(slug);
+  const rawSlug = typeof req.query.slug === 'string' ? req.query.slug.trim().slice(0, 120) : '';
+  if (!rawSlug || !/^[a-zA-Z0-9_-]+$/.test(rawSlug)) {
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    return res.status(404).send(generateNotFoundHtml());
+  }
+  const proposal = await getProposalBySlug(rawSlug);
 
   if (!proposal) {
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
