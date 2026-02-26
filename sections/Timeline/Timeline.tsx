@@ -187,8 +187,8 @@ const Timeline: React.FC<TimelineProps> = ({ conteudo }) => {
   const passos = Array.isArray(conteudo?.passos) ? (conteudo.passos as { titulo?: string; descricao?: string }[]) : null;
   const steps = passos && passos.length > 0
     ? passos.map((p, i) => ({
-        title: (p.titulo != null ? String(p.titulo) : '') || TIMELINE_STEPS[i]?.title ?? '',
-        description: (p.descricao != null ? String(p.descricao) : '') || TIMELINE_STEPS[i]?.description ?? '',
+        title: ((p.titulo != null ? String(p.titulo) : '') || (TIMELINE_STEPS[i]?.title ?? '')),
+        description: ((p.descricao != null ? String(p.descricao) : '') || (TIMELINE_STEPS[i]?.description ?? '')),
         Icon: TIMELINE_STEPS[i]?.Icon ?? (() => null),
       }))
     : TIMELINE_STEPS;
@@ -292,7 +292,6 @@ const Timeline: React.FC<TimelineProps> = ({ conteudo }) => {
                 const Icon = step.Icon;
                 const isFirst = index === 0;
                 const isLast = index === steps.length - 1;
-                const Icon = step.Icon;
                 return (
                   <li key={index} style={mobileStepRowStyle}>
                     <div ref={isFirst ? firstDotRef : isLast ? lastDotRef : undefined} style={mobileDotWrapStyle}>
