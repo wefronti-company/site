@@ -21,7 +21,7 @@ interface PagamentoResumo {
   clientesPendentes: number;
   totalClientes: number;
   ativos: ClienteComPagamento[];
-  inadimplentes: ClienteComPagamento[];
+  inadimplentes?: ClienteComPagamento[];
 }
 
 function getMesRefFromDate(d: Date): number {
@@ -181,7 +181,7 @@ export default function FinanceiroPagamentosPage() {
       linhas.push(`${empresaLabel(c)};${c.email};${formatBRL(c.mensalidade)};${status}`);
     };
     dados.ativos.forEach((c) => add(c, 'Pago'));
-    dados.inadimplentes.forEach((c) => add(c, 'Pendente'));
+    (dados.inadimplentes ?? []).forEach((c) => add(c, 'Pendente'));
     const csv = linhas.join('\n');
     const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8' });
     const url = URL.createObjectURL(blob);
@@ -410,32 +410,6 @@ export default function FinanceiroPagamentosPage() {
         ) : null}
 
         <div style={gridStyle}>
-          {/* Cobrança */}
-          <div style={cardBaseStyle}>
-            <h2 style={cardTitleStyle}>
-              <AlertCircle size={20} strokeWidth={2} />
-              Cobrança
-            </h2>
-            {loading ? (
-              <div style={{ height: 140, borderRadius: 12, backgroundColor: colors.admin.inactive, opacity: 0.45 }} />
-            ) : dados ? (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: spacing[4] }}>
-                <p style={{ margin: 0, fontSize: fontSizes.xl, fontWeight: 700, color: colors.text.light }}>
-                  {dados.clientesPendentes} cliente(s) com pendências
-                </p>
-                <Link
-                  href="/admin/dashboard/clientes/inadiplentes"
-                  style={{ ...btnStyle, alignSelf: 'flex-start', textDecoration: 'none' }}
-                >
-                  Fazer cobrança
-                </Link>
-              </div>
-            ) : (
-              <p style={{ color: colors.text.light, opacity: 0.7 }}>Sem dados.</p>
-            )}
-          </div>
-
-          {/* Relatórios */}
           <div style={cardBaseStyle}>
             <h2 style={cardTitleStyle}>
               <FileDown size={20} strokeWidth={2} />

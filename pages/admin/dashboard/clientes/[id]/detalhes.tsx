@@ -110,21 +110,6 @@ function formatCepDisplay(v: string | undefined): string {
   return formatCep(v);
 }
 
-function formatBRL(val: number | undefined): string {
-  if (val == null || Number.isNaN(val)) return '—';
-  return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(val);
-}
-
-function formaPagamentoLabel(v: string | undefined): string {
-  if (!v) return '—';
-  const map: Record<string, string> = {
-    cartao: 'Cartão',
-    pix: 'PIX',
-    '50_50': '50% entrada / 50% entrega',
-  };
-  return map[v] ?? v;
-}
-
 export default function ClienteDetalhesPage() {
   const router = useRouter();
   const { id } = router.query;
@@ -255,38 +240,6 @@ export default function ClienteDetalhesPage() {
               <span style={labelStyle}>UF</span>
               <div style={valueStyle}>{cliente.enderecoUf || '—'}</div>
             </div>
-          </div>
-        </section>
-
-        <section style={sectionStyle}>
-          <h3 style={sectionTitleStyle}>Dados do contrato</h3>
-          <div style={{ ...formGridStyle, gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))' }}>
-            <div style={fieldStyle}>
-              <span style={labelStyle}>Tipo de serviço</span>
-              <div style={valueStyle}>{cliente.servicoTipo || '—'}</div>
-            </div>
-            <div style={fieldStyle}>
-              <span style={labelStyle}>Preço do serviço</span>
-              <div style={valueStyle}>{formatBRL(cliente.precoServico)}</div>
-            </div>
-            <div style={fieldStyle}>
-              <span style={labelStyle}>Manutenção</span>
-              <div style={valueStyle}>{cliente.manutencao ? 'Sim' : 'Não'}</div>
-            </div>
-            <div style={fieldStyle}>
-              <span style={labelStyle}>Preço manutenção</span>
-              <div style={valueStyle}>{cliente.manutencao ? formatBRL(cliente.precoManutencao) : '—'}</div>
-            </div>
-            <div style={fieldStyle}>
-              <span style={labelStyle}>Forma de pagamento (projeto)</span>
-              <div style={valueStyle}>{formaPagamentoLabel(cliente.formaPagamentoProjeto)}</div>
-            </div>
-            {cliente.formaPagamentoProjeto === 'cartao' && cliente.parcelasCartao != null && (
-              <div style={fieldStyle}>
-                <span style={labelStyle}>Parcelas (cartão)</span>
-                <div style={valueStyle}>{cliente.parcelasCartao}x</div>
-              </div>
-            )}
           </div>
         </section>
 

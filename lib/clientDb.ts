@@ -160,19 +160,6 @@ export async function getClientesAtivos(mesRefParam?: number): Promise<ClienteCo
   });
 }
 
-export async function getClientesInadimplentes(mesRefParam?: number): Promise<ClienteComPagamento[]> {
-  if (!sql) throw new Error('Banco de dados não configurado.');
-  const mesRef = mesRefParam ?? getMesRef();
-  const rows = await sql`
-    SELECT c.*, FALSE AS pago
-    FROM clientes c
-    LEFT JOIN pagamentos_mensalidade p ON p.cliente_id = c.id AND p.mes_ref = ${mesRef}
-    WHERE c.status != 2 AND c.mensalidade > 0 AND p.id IS NULL
-    ORDER BY c.nome_fantasia, c.razao_social
-  `;
-  return (rows as Record<string, unknown>[]).map((r) => rowToClienteComPagamento(r, false, 'inadimplente'));
-}
-
 /** Clientes que registraram pagamento em uma data específica (YYYY-MM-DD). */
 export async function getClientesQuePagaramEmData(dataStr: string): Promise<ClienteComPagamento[]> {
   if (!sql) throw new Error('Banco de dados não configurado.');

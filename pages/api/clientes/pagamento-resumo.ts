@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { getClientesAtivos, getClientesInadimplentes, getClientesQuePagaramEmData } from '../../../lib/clientDb';
+import { getClientesAtivos, getClientesQuePagaramEmData } from '../../../lib/clientDb';
 import { getPagamentoResumoPorMes, getPagamentoResumoPorData, getMesRef, getPagamentosPorDia } from '../../../lib/metasDb';
 
 function parseMesRef(queryMes: unknown): number {
@@ -38,16 +38,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         pagamentosPorDia: {},
       });
     }
-    const [resumo, ativos, inadimplentes, pagamentosPorDia] = await Promise.all([
+    const [resumo, ativos, pagamentosPorDia] = await Promise.all([
       getPagamentoResumoPorMes(mesRef),
       getClientesAtivos(mesRef),
-      getClientesInadimplentes(mesRef),
       getPagamentosPorDia(mesRef),
     ]);
     return res.status(200).json({
       ...resumo,
       ativos,
-      inadimplentes,
+      inadimplentes: [],
       pagamentosPorDia,
     });
   } catch (e) {
