@@ -127,6 +127,47 @@ export async function getPagamentoResumoPorMes(mesRef: number): Promise<Pagament
   };
 }
 
+/** Resumo de pagamentos em uma data específica (YYYY-MM-DD). */
+export async function getPagamentoResumoPorData(dataStr: string): Promise<PagamentoResumoMes> {
+  if (!sql) throw new Error('Banco de dados não configurado.');
+  const dataDate = new Date(dataStr + 'T12:00:00Z');
+  if (isNaN(dataDate.getTime())) throw new Error('Data inválida');
+  const ano = dataDate.getUTCFullYear();
+  const mes = dataDate.getUTCMonth() + 1;
+  const mesRef = ano * 100 + mes;
+  const nomeMes = new Date(ano, mes - 1, 1).toLocaleString('pt-BR', { month: 'long' });
+
+  const receitaRows = await sql`
+    SELECT COALESCE(SUM(c.mensalidade), 0) AS total
+    FROM clientes c
+    INNER JOIN pagamentos_mensalidade p ON p.cliente_id = c.id
+    WHERE c.status != 2 AND (p.pago_em AT TIME ZONE 'America/Sao_Paulo')::date = ${dataStr}::date
+  `;
+  const receitaCentavos = Number((receitaRows[0] as { total: number })?.total ?? 0);
+  const receitaRecebida = receitaCentavos / 100;
+
+  const countRows = await sql`
+    SELECT COUNT(*)::int AS pagos
+    FROM pagamentos_mensalidade p
+    INNER JOIN clientes c ON c.id = p.cliente_id
+    WHERE c.status != 2 AND (p.pago_em AT TIME ZONE 'America/Sao_Paulo')::date = ${dataStr}::date
+  `;
+  const clientesPagos = Number((countRows[0] as { pagos: number })?.pagos ?? 0);
+
+  return {
+    mesRef,
+    ano,
+    mes,
+    nomeMes: nomeMes.charAt(0).toUpperCase() + nomeMes.slice(1),
+    receitaRecebida,
+    aReceber: 0,
+    totalEsperado: receitaRecebida,
+    clientesPagos,
+    clientesPendentes: 0,
+    totalClientes: clientesPagos,
+  };
+}
+
 /** Quantidade de pagamentos registrados por dia do mês (para o mes_ref). Chave = dia 1..31, valor = quantidade. */
 export async function getPagamentosPorDia(mesRef: number): Promise<Record<number, number>> {
   if (!sql) throw new Error('Banco de dados não configurado.');

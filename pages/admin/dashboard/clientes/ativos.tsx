@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
-import Link from 'next/link';
 import AdminLayout from '../../../../components/admin/AdminLayout';
+import Pagination, { paginate } from '../../../../components/admin/Pagination';
 import { theme } from '../../../../styles/theme';
 import type { ClienteComPagamento } from '../../../../lib/clientDb';
 import { CheckCircle2, X, AlertTriangle } from 'lucide-react';
@@ -35,9 +35,10 @@ const cardStyle: React.CSSProperties = {
 };
 
 const cardLeftStyle: React.CSSProperties = {
-  display: 'flex',
+  display: 'grid',
+  gridTemplateColumns: '44px minmax(100px, 1fr) minmax(150px, 1.5fr) minmax(48px, 0.5fr) minmax(90px, 1fr) minmax(90px, 1fr)',
   alignItems: 'center',
-  gap: spacing[8],
+  columnGap: spacing[8],
   flex: 1,
   minWidth: 0,
 };
@@ -47,7 +48,7 @@ const cardColStyle: React.CSSProperties = {
   flexDirection: 'column',
   gap: spacing[2],
   minWidth: 0,
-  paddingRight: spacing[4],
+  overflow: 'hidden',
 };
 
 const cardLabelStyle: React.CSSProperties = {
@@ -60,6 +61,9 @@ const cardMetaStyle: React.CSSProperties = {
   fontSize: fontSizes.sm,
   color: colors.text.light,
   opacity: 0.7,
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap' as const,
 };
 
 const cardUfStyle: React.CSSProperties = {
@@ -105,19 +109,6 @@ const badgeEmAtrasoStyle: React.CSSProperties = {
   borderRadius: 6,
   fontSize: fontSizes.sm,
   fontWeight: 500,
-};
-
-const btnDetalhesStyle: React.CSSProperties = {
-  padding: `${spacing[2]}px ${spacing[3]}px`,
-  fontSize: fontSizes.sm,
-  fontWeight: 500,
-  color: colors.blue.primary,
-  background: 'transparent',
-  border: `1px solid ${colors.blue.primary}`,
-  borderRadius: 6,
-  cursor: 'pointer',
-  textDecoration: 'none',
-  display: 'inline-flex',
 };
 
 function formatBRL(val: number): string {
@@ -208,6 +199,7 @@ let cacheClientesAtivos: ClienteComPagamento[] | null = null;
 const ClientesAtivosPage: React.FC = () => {
   const [clientes, setClientes] = useState<ClienteComPagamento[]>(() => cacheClientesAtivos ?? []);
   const [loading, setLoading] = useState(() => !cacheClientesAtivos);
+  const [page, setPage] = useState(1);
 
   const load = (opts?: { silent?: boolean }) => {
     const silent = opts?.silent ?? false;
@@ -231,6 +223,11 @@ const ClientesAtivosPage: React.FC = () => {
     load({ silent: !!cacheClientesAtivos });
   }, []);
 
+  const totalPages = Math.max(1, Math.ceil(clientes.length / 10));
+  useEffect(() => {
+    if (page > totalPages) setPage(1);
+  }, [page, totalPages]);
+
   return (
     <>
       <Head>
@@ -248,8 +245,9 @@ const ClientesAtivosPage: React.FC = () => {
         ) : clientes.length === 0 ? (
           <p style={cardMetaStyle}>Nenhum cliente ativo no momento.</p>
         ) : (
+          <>
           <div style={listStyle}>
-            {clientes.map((c) => {
+            {paginate(clientes, page).map((c) => {
               const estado = getEstadoBadge(c);
               return (
                 <div key={c.id} style={cardStyle}>
@@ -261,7 +259,7 @@ const ClientesAtivosPage: React.FC = () => {
                     </div>
                     <div style={cardColStyle}>
                       <span style={cardLabelStyle}>E-mail</span>
-                      <span style={cardMetaStyle}>{c.email}</span>
+                      <span style={cardMetaStyle} title={c.email}>{c.email}</span>
                     </div>
                     <div style={cardColStyle}>
                       <span style={cardLabelStyle}>UF</span>
@@ -276,7 +274,7 @@ const ClientesAtivosPage: React.FC = () => {
                       <span style={cardMetaStyle}>{getVencimentoFormatado(c.criadoEm)}</span>
                     </div>
                   </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: spacing[4] }}>
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
                     {estado === 'em_dia' && (
                       <span style={badgeEmDiaStyle}>
                         <CheckCircle2 size={16} /> Em dia
@@ -292,17 +290,13 @@ const ClientesAtivosPage: React.FC = () => {
                         <X size={16} /> Em atraso
                       </span>
                     )}
-                    <Link
-                      href={`/admin/dashboard/clientes/${c.id}/detalhes`}
-                      style={btnDetalhesStyle}
-                    >
-                      Ver detalhes
-                    </Link>
                   </div>
                 </div>
               );
             })}
           </div>
+          <Pagination currentPage={page} totalItems={clientes.length} onPageChange={setPage} />
+          </>
         )}
       </AdminLayout>
     </>

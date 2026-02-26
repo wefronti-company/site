@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
 import AdminLayout from '../../../../components/admin/AdminLayout';
+import Pagination, { paginate } from '../../../../components/admin/Pagination';
 import { theme } from '../../../../styles/theme';
 import type { ClienteComPagamento } from '../../../../lib/clientDb';
 import { useSnackbar } from '../../../../contexts/SnackbarContext';
@@ -35,9 +36,10 @@ const cardStyle: React.CSSProperties = {
 };
 
 const cardLeftStyle: React.CSSProperties = {
-  display: 'flex',
+  display: 'grid',
+  gridTemplateColumns: '44px minmax(100px, 1fr) minmax(150px, 1.5fr) minmax(48px, 0.5fr) minmax(90px, 1fr) minmax(90px, 1fr)',
   alignItems: 'center',
-  gap: spacing[8],
+  columnGap: spacing[8],
   flex: 1,
   minWidth: 0,
 };
@@ -47,7 +49,7 @@ const cardColStyle: React.CSSProperties = {
   flexDirection: 'column',
   gap: spacing[2],
   minWidth: 0,
-  paddingRight: spacing[4],
+  overflow: 'hidden',
 };
 
 const cardLabelStyle: React.CSSProperties = {
@@ -60,6 +62,9 @@ const cardMetaStyle: React.CSSProperties = {
   fontSize: fontSizes.sm,
   color: colors.text.light,
   opacity: 0.7,
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap' as const,
 };
 
 const cardUfStyle: React.CSSProperties = {
@@ -144,6 +149,7 @@ const ClientesDesligadosPage: React.FC = () => {
   const [clientes, setClientes] = useState<ClienteComPagamento[]>(() => cacheClientesDesligados ?? []);
   const [loading, setLoading] = useState(() => !cacheClientesDesligados);
   const [atualizando, setAtualizando] = useState<string | null>(null);
+  const [page, setPage] = useState(1);
 
   const load = (opts?: { silent?: boolean }) => {
     const silent = opts?.silent ?? false;
@@ -166,6 +172,11 @@ const ClientesDesligadosPage: React.FC = () => {
   useEffect(() => {
     load({ silent: !!cacheClientesDesligados });
   }, []);
+
+  const totalPages = Math.max(1, Math.ceil(clientes.length / 10));
+  useEffect(() => {
+    if (page > totalPages) setPage(1);
+  }, [page, totalPages]);
 
   const handleReativar = async (id: string) => {
     setAtualizando(id);
@@ -205,8 +216,9 @@ const ClientesDesligadosPage: React.FC = () => {
         ) : clientes.length === 0 ? (
           <p style={cardMetaStyle}>Nenhum cliente inativo.</p>
         ) : (
+          <>
           <div style={listStyle}>
-            {clientes.map((c) => (
+            {paginate(clientes, page).map((c) => (
               <div key={c.id} style={cardStyle}>
                 <div style={cardLeftStyle}>
                   <div style={avatarStyle}>{getIniciais(c)}</div>
@@ -216,7 +228,7 @@ const ClientesDesligadosPage: React.FC = () => {
                   </div>
                   <div style={cardColStyle}>
                     <span style={cardLabelStyle}>E-mail</span>
-                    <span style={cardMetaStyle}>{c.email}</span>
+                    <span style={cardMetaStyle} title={c.email}>{c.email}</span>
                   </div>
                   <div style={cardColStyle}>
                     <span style={cardLabelStyle}>UF</span>
@@ -247,6 +259,8 @@ const ClientesDesligadosPage: React.FC = () => {
               </div>
             ))}
           </div>
+          <Pagination currentPage={page} totalItems={clientes.length} onPageChange={setPage} />
+          </>
         )}
       </AdminLayout>
     </>

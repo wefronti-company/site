@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { getTokenFromCookie, verifyTokenInEdge } from './lib/auth-middleware';
-import { getClienteTokenFromCookie, verifyClienteTokenInEdge } from './lib/auth-middleware-cliente';
 
 // Lista de IPs bloqueados (adicionar IPs suspeitos aqui)
 const BLOCKED_IPS = new Set<string>([
@@ -112,8 +111,6 @@ function isValidOrigin(request: NextRequest): boolean {
 
 // Host do subdomínio admin (acesso permitido)
 const ADMIN_HOST = 'admin.wefronti.com';
-// Host do painel de usuário (indique e ganhe)
-const DASH_HOST = 'painel.wefronti.com';
 // Hosts do site público (acesso a /admin bloqueado)
 const MAIN_HOSTS = ['wefronti.com', 'www.wefronti.com'];
 
@@ -122,15 +119,6 @@ export async function middleware(request: NextRequest) {
  const userAgent = request.headers.get('user-agent');
  const url = request.nextUrl;
  const host = request.headers.get('host')?.split(':')[0] || '';
-
- // Em produção, o painel do usuário deve ser acessado somente via painel.wefronti.com
- if (MAIN_HOSTS.includes(host) && url.pathname.startsWith('/dash')) {
-   const redirectUrl = new URL(`https://${DASH_HOST}`);
-   const cleanPath = url.pathname.replace(/^\/dash/, '') || '/';
-   redirectUrl.pathname = cleanPath;
-   redirectUrl.search = url.search;
-   return NextResponse.redirect(redirectUrl);
- }
 
  // 0.5 Proteger APIs administrativas legadas/sem guard local
  const pathname = url.pathname;
@@ -148,41 +136,9 @@ export async function middleware(request: NextRequest) {
    }
  }
 
- // 1. Regras do subdomínio painel (painel.wefronti.com) - painel usuário (espelho do admin)
- const isDashDomain = host === DASH_HOST;
- const isDashPath = url.pathname.startsWith('/dash');
- if (isDashDomain || (host?.startsWith('localhost') && isDashPath)) {
-   // Em painel.wefronti.com: se acessar /dash/*, redirecionar para /* (ex: /dash/dashboard -> /dashboard)
-   if (host === DASH_HOST && (url.pathname.startsWith('/dash/') || url.pathname === '/dash')) {
-     const redirectUrl = url.clone();
-     redirectUrl.pathname = url.pathname.replace(/^\/dash/, '') || '/';
-     return NextResponse.redirect(redirectUrl);
-   }
-   // Proteger dashboard: /dashboard ou /dash/dashboard (dev local)
-   const isDashDashboard = url.pathname === '/dashboard' || url.pathname.startsWith('/dashboard/') ||
-     url.pathname === '/dash/dashboard' || url.pathname.startsWith('/dash/dashboard/');
-   if (isDashDashboard) {
-     const uToken = getClienteTokenFromCookie(request.headers.get('cookie'));
-     if (!uToken || !(await verifyClienteTokenInEdge(uToken))) {
-       const loginUrl = url.clone();
-       loginUrl.pathname = host === DASH_HOST ? '/' : '/dash';
-       return NextResponse.redirect(loginUrl);
-     }
-   }
-   // Rewrite apenas em painel.wefronti.com: / -> /dash, /dashboard -> /dash/dashboard
-   if (host === DASH_HOST) {
-     const skipDashRewrite = url.pathname.startsWith('/api') || url.pathname.startsWith('/_next') || url.pathname.startsWith('/images') || url.pathname.startsWith('/favicon') || url.pathname.startsWith('/proposta');
-     if (!skipDashRewrite) {
-       const rewriteUrl = url.clone();
-       rewriteUrl.pathname = url.pathname === '/' ? '/dash' : `/dash${url.pathname}`;
-       return NextResponse.rewrite(rewriteUrl);
-     }
-   }
- }
-
- // 2. Regras do subdomínio admin (admin.wefronti.com) ou localhost (dev)
+ // 1. Regras do subdomínio admin (admin.wefronti.com) ou localhost (dev)
  const isAdminDomain = host === ADMIN_HOST || host?.startsWith('localhost');
- if (isAdminDomain && !isDashDomain) {
+ if (isAdminDomain) {
    // Em admin.wefronti.com: se acessar /admin/*, redirecionar para /* (ex: /admin/dashboard -> /dashboard)
    if (host === ADMIN_HOST && (url.pathname.startsWith('/admin/') || url.pathname === '/admin')) {
      const redirectUrl = url.clone();

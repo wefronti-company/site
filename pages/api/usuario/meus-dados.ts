@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { verifyUsuarioSessionToken, COOKIE_NAME } from '../../../lib/auth-usuario';
 import { getUsuarioById } from '../../../lib/usuarioDb';
-import { getClienteByEmail, updateClientePainelDados } from '../../../lib/clientDb';
+import { getClienteByEmail, updateClienteDadosParciais } from '../../../lib/clientDb';
 import { updateUsuarioPerfil } from '../../../lib/usuarioDb';
 
 function getTokenFromCookie(req: NextApiRequest): string | null {
@@ -83,7 +83,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const cepDigits = enderecoCep ? enderecoCep.replace(/\D/g, '') : undefined;
 
   if (cliente) {
-    await updateClientePainelDados(cliente.id, {
+    await updateClienteDadosParciais(cliente.id, {
       nome: nome ?? undefined,
       cpf: cpfDigits || undefined,
       celular: celularDigits || undefined,

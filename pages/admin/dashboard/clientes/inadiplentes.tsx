@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
 import AdminLayout from '../../../../components/admin/AdminLayout';
+import Pagination, { paginate } from '../../../../components/admin/Pagination';
 import { theme } from '../../../../styles/theme';
 import type { ClienteComPagamento } from '../../../../lib/clientDb';
 import { buildWhatsAppUrl } from '../../../../lib/whatsapp';
@@ -35,9 +36,10 @@ const cardStyle: React.CSSProperties = {
 };
 
 const cardLeftStyle: React.CSSProperties = {
-  display: 'flex',
+  display: 'grid',
+  gridTemplateColumns: '44px minmax(100px, 1fr) minmax(150px, 1.5fr) minmax(48px, 0.5fr) minmax(90px, 1fr) minmax(90px, 1fr)',
   alignItems: 'center',
-  gap: spacing[8],
+  columnGap: spacing[8],
   flex: 1,
   minWidth: 0,
 };
@@ -47,7 +49,7 @@ const cardColStyle: React.CSSProperties = {
   flexDirection: 'column',
   gap: spacing[2],
   minWidth: 0,
-  paddingRight: spacing[4],
+  overflow: 'hidden',
 };
 
 const cardLabelStyle: React.CSSProperties = {
@@ -257,6 +259,7 @@ const ClientesInadiplentesPage: React.FC = () => {
   const [clientes, setClientes] = useState<ClienteComPagamento[]>(() => cacheClientesInadimplentes ?? []);
   const [loading, setLoading] = useState(() => !cacheClientesInadimplentes);
   const [modalCliente, setModalCliente] = useState<ClienteComPagamento | null>(null);
+  const [page, setPage] = useState(1);
 
   const load = (opts?: { silent?: boolean }) => {
     const silent = opts?.silent ?? false;
@@ -280,6 +283,11 @@ const ClientesInadiplentesPage: React.FC = () => {
     load({ silent: !!cacheClientesInadimplentes });
   }, []);
 
+  const totalPages = Math.max(1, Math.ceil(clientes.length / 10));
+  useEffect(() => {
+    if (page > totalPages) setPage(1);
+  }, [page, totalPages]);
+
   const temCelular = (c: ClienteComPagamento) => (c.celular || '').trim().replace(/\D/g, '').length >= 10;
 
   return (
@@ -299,8 +307,9 @@ const ClientesInadiplentesPage: React.FC = () => {
         ) : clientes.length === 0 ? (
           <p style={cardMetaStyle}>Nenhum cliente inadimplente.</p>
         ) : (
+          <>
           <div style={listStyle}>
-            {clientes.map((c) => (
+            {paginate(clientes, page).map((c) => (
               <div key={c.id} style={cardStyle}>
                 <div style={cardLeftStyle}>
                   <div style={avatarStyle}>{getIniciais(c)}</div>
@@ -310,7 +319,7 @@ const ClientesInadiplentesPage: React.FC = () => {
                   </div>
                   <div style={cardColStyle}>
                     <span style={cardLabelStyle}>E-mail</span>
-                    <span style={cardMetaStyle}>{c.email}</span>
+                    <span style={cardMetaStyle} title={c.email}>{c.email}</span>
                   </div>
                   <div style={cardColStyle}>
                     <span style={cardLabelStyle}>UF</span>
@@ -338,6 +347,8 @@ const ClientesInadiplentesPage: React.FC = () => {
               </div>
             ))}
           </div>
+          <Pagination currentPage={page} totalItems={clientes.length} onPageChange={setPage} />
+          </>
         )}
 
         {modalCliente && (

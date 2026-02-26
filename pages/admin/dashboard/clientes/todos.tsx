@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import AdminLayout from '../../../../components/admin/AdminLayout';
+import Pagination, { paginate } from '../../../../components/admin/Pagination';
 import { theme } from '../../../../styles/theme';
 import type { ClienteComPagamento } from '../../../../lib/clientDb';
-import { useSnackbar } from '../../../../contexts/SnackbarContext';
 
 const { colors, spacing, fontSizes } = theme;
 
@@ -35,9 +35,10 @@ const cardStyle: React.CSSProperties = {
 };
 
 const cardLeftStyle: React.CSSProperties = {
-  display: 'flex',
+  display: 'grid',
+  gridTemplateColumns: '44px minmax(100px, 1fr) minmax(150px, 1.5fr) minmax(48px, 0.5fr)',
   alignItems: 'center',
-  gap: spacing[8],
+  columnGap: spacing[8],
   flex: 1,
   minWidth: 0,
 };
@@ -47,7 +48,7 @@ const cardColStyle: React.CSSProperties = {
   flexDirection: 'column',
   gap: spacing[2],
   minWidth: 0,
-  paddingRight: spacing[4],
+  overflow: 'hidden',
 };
 
 const avatarStyle: React.CSSProperties = {
@@ -83,6 +84,9 @@ const cardMetaStyle: React.CSSProperties = {
   fontSize: fontSizes.sm,
   color: colors.text.light,
   opacity: 0.7,
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap' as const,
 };
 
 const cardUfStyle: React.CSSProperties = {
@@ -105,44 +109,12 @@ const btnDetalhesStyle: React.CSSProperties = {
   display: 'inline-flex',
 };
 
-const toggleWrapStyle: React.CSSProperties = {
-  display: 'flex',
-  alignItems: 'center',
-  gap: spacing[2],
-  fontSize: fontSizes.sm,
-  color: colors.text.light,
-};
-
-const toggleTrackStyle = (active: boolean): React.CSSProperties => ({
-  width: 44,
-  height: 24,
-  borderRadius: 12,
-  backgroundColor: active ? colors.blue.primary : 'rgba(255,255,255,0.2)',
-  cursor: 'pointer',
-  position: 'relative' as const,
-  flexShrink: 0,
-  border: 'none',
-  padding: 0,
-});
-
-const toggleThumbStyle = (active: boolean): React.CSSProperties => ({
-  position: 'absolute' as const,
-  top: 2,
-  left: active ? 22 : 2,
-  width: 20,
-  height: 20,
-  borderRadius: '50%',
-  backgroundColor: '#fff',
-  transition: 'left 0.2s ease',
-});
-
 let cacheClientesTodos: ClienteComPagamento[] | null = null;
 
 const ClientesTodosPage: React.FC = () => {
-  const { showSuccess, showError } = useSnackbar();
   const [clientes, setClientes] = useState<ClienteComPagamento[]>(() => cacheClientesTodos ?? []);
   const [loading, setLoading] = useState(() => !cacheClientesTodos);
-  const [toggling, setToggling] = useState<string | null>(null);
+  const [page, setPage] = useState(1);
 
   const load = (opts?: { silent?: boolean }) => {
     const silent = opts?.silent ?? false;
@@ -166,31 +138,10 @@ const ClientesTodosPage: React.FC = () => {
     load({ silent: !!cacheClientesTodos });
   }, []);
 
-  const handleToggle = async (id: string, currentStatus: number) => {
-    const novoStatus = currentStatus === 2 ? 0 : 2;
-    setToggling(id);
-    try {
-      const res = await fetch(`/api/clientes/${id}/status`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ status: novoStatus }),
-      });
-      if (!res.ok) {
-        showError('Erro ao atualizar status.');
-        return;
-      }
-      setClientes((prev) => {
-        const next = prev.map((c) => (c.id === id ? { ...c, status: novoStatus } : c));
-        cacheClientesTodos = next;
-        return next;
-      });
-      showSuccess(novoStatus === 0 ? 'Cliente ativo' : 'Cliente inativo');
-    } catch {
-      showError('Erro ao conectar.');
-    } finally {
-      setToggling(null);
-    }
-  };
+  const totalPages = Math.max(1, Math.ceil(clientes.length / 10));
+  useEffect(() => {
+    if (page > totalPages) setPage(1);
+  }, [page, totalPages]);
 
   return (
     <>
@@ -209,52 +160,42 @@ const ClientesTodosPage: React.FC = () => {
         ) : clientes.length === 0 ? (
           <p style={cardMetaStyle}>Nenhum cliente cadastrado.</p>
         ) : (
+          <>
           <div style={listStyle}>
-            {clientes.map((c) => {
-              const isAtivo = c.status !== 2;
-              return (
-                <div key={c.id} style={cardStyle}>
-                  <div style={cardLeftStyle}>
-                    <div style={avatarStyle}>{getIniciais(c)}</div>
-                    <div style={cardColStyle}>
-                      <span style={cardLabelStyle}>Nome do cliente</span>
-                      <span style={cardMetaStyle}>{c.nome}</span>
-                    </div>
+            {paginate(clientes, page).map((c) => (
+              <div key={c.id} style={cardStyle}>
+                <div style={cardLeftStyle}>
+                  <div style={avatarStyle}>{getIniciais(c)}</div>
+                  <div style={cardColStyle}>
+                    <span style={cardLabelStyle}>Nome do cliente</span>
+                    <span style={cardMetaStyle}>{c.nome}</span>
+                  </div>
                     <div style={cardColStyle}>
                       <span style={cardLabelStyle}>E-mail</span>
-                      <span style={cardMetaStyle}>{c.email}</span>
+                      <span style={cardMetaStyle} title={c.email}>{c.email}</span>
                     </div>
                     <div style={cardColStyle}>
                       <span style={cardLabelStyle}>UF</span>
                       <span style={cardUfStyle}>{c.enderecoUf || '—'}</span>
                     </div>
-                  </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: spacing[4] }}>
-                    <div style={toggleWrapStyle}>
-                      <button
-                        type="button"
-                        role="switch"
-                        aria-checked={isAtivo}
-                        aria-label={isAtivo ? 'Ativo (manutenção)' : 'Desativado (sem manutenção)'}
-                        disabled={!!toggling}
-                        onClick={() => handleToggle(c.id, c.status)}
-                        style={toggleTrackStyle(isAtivo)}
-                      >
-                        <span style={toggleThumbStyle(isAtivo)} />
-                      </button>
-                      <span style={cardMetaStyle}>Ativo</span>
-                    </div>
-                    <Link
-                      href={`/admin/dashboard/clientes/${c.id}/detalhes`}
-                      style={btnDetalhesStyle}
-                    >
-                      Ver detalhes
-                    </Link>
-                  </div>
                 </div>
-              );
-            })}
+                <div style={{ display: 'flex', alignItems: 'center', gap: spacing[4] }}>
+                  <Link
+                    href={`/admin/dashboard/clientes/${c.id}/detalhes`}
+                    style={btnDetalhesStyle}
+                  >
+                    Ver detalhes
+                  </Link>
+                </div>
+              </div>
+            ))}
           </div>
+          <Pagination
+            currentPage={page}
+            totalItems={clientes.length}
+            onPageChange={setPage}
+          />
+          </>
         )}
       </AdminLayout>
     </>

@@ -2,9 +2,7 @@
  * Persistência de clientes no PostgreSQL (Neon).
  */
 
-import { createHash } from 'crypto';
 import { sql } from './db';
-import { verifyCodigoAcesso, hashCodigoAcesso } from './auth';
 
 export type ClienteStatus = 0 | 1 | 2; // 0=ativo, 1=inativo, 2=desligado
 
@@ -144,6 +142,7 @@ function rowToClienteComPagamento(row: Record<string, unknown>, mensalidadePaga:
   return { ...c, mensalidadePaga, etiqueta };
 }
 
+/** Clientes com contrato e manutenção mensal ativa (pagam por mês). */
 export async function getClientesAtivos(mesRefParam?: number): Promise<ClienteComPagamento[]> {
   if (!sql) throw new Error('Banco de dados não configurado.');
   const mesRef = mesRefParam ?? getMesRef();
@@ -152,7 +151,7 @@ export async function getClientesAtivos(mesRefParam?: number): Promise<ClienteCo
     SELECT c.*, (p.id IS NOT NULL) AS pago
     FROM clientes c
     LEFT JOIN pagamentos_mensalidade p ON p.cliente_id = c.id AND p.mes_ref = ${mesRef}
-    WHERE c.status != 2
+    WHERE c.status != 2 AND c.manutencao = true AND c.mensalidade > 0
     ORDER BY c.nome_fantasia, c.razao_social
   `;
   return (rows as (Record<string, unknown> & { pago: boolean })[]).map((r) => {
@@ -172,6 +171,22 @@ export async function getClientesInadimplentes(mesRefParam?: number): Promise<Cl
     ORDER BY c.nome_fantasia, c.razao_social
   `;
   return (rows as Record<string, unknown>[]).map((r) => rowToClienteComPagamento(r, false, 'inadimplente'));
+}
+
+/** Clientes que registraram pagamento em uma data específica (YYYY-MM-DD). */
+export async function getClientesQuePagaramEmData(dataStr: string): Promise<ClienteComPagamento[]> {
+  if (!sql) throw new Error('Banco de dados não configurado.');
+  const rows = await sql`
+    SELECT c.*, TRUE AS pago
+    FROM clientes c
+    INNER JOIN pagamentos_mensalidade p ON p.cliente_id = c.id
+    WHERE c.status != 2 AND (p.pago_em AT TIME ZONE 'America/Sao_Paulo')::date = ${dataStr}::date
+    ORDER BY c.nome_fantasia, c.razao_social
+  `;
+  return (rows as (Record<string, unknown> & { pago: boolean })[]).map((r) => {
+    const { pago, ...rest } = r;
+    return rowToClienteComPagamento(rest, !!pago, 'ativo');
+  });
 }
 
 export async function getClientesDesligados(): Promise<ClienteComPagamento[]> {
@@ -474,8 +489,8 @@ export async function updateCliente(id: string, input: CreateClienteInput): Prom
   return row ? rowToCliente(row) : null;
 }
 
-/** Dados editáveis pelo cliente no painel (Meus dados). */
-export interface PainelDadosInput {
+/** Atualiza dados parciais do cliente (nome, contato, endereço). Usado por api/usuario/meus-dados. */
+export interface ClienteDadosParciaisInput {
   nome?: string;
   cpf?: string;
   celular?: string;
@@ -491,8 +506,7 @@ export interface PainelDadosInput {
   enderecoCep?: string;
 }
 
-/** Atualiza apenas os campos editáveis pelo painel do cliente (não altera serviço, preços, etc.). */
-export async function updateClientePainelDados(clienteId: string, input: PainelDadosInput): Promise<void> {
+export async function updateClienteDadosParciais(clienteId: string, input: ClienteDadosParciaisInput): Promise<void> {
   if (!sql) throw new Error('Banco de dados não configurado.');
   const nome = trimSlice(input.nome, 150) ?? '';
   const razaoSocial = trimSlice(input.razaoSocial, 200) ?? '';
@@ -514,122 +528,6 @@ export async function updateClientePainelDados(clienteId: string, input: PainelD
       endereco_cep = ${trimSlice(input.enderecoCep, 10)}
     WHERE id = ${clienteId}
   `;
-}
-
-// --- Autenticação do painel (login por cliente) ---
-
-/** Retorna id, email e hash para login. Não expõe hash no tipo Cliente. */
-export async function getClienteLoginByEmail(email: string): Promise<{ id: string; email: string; codigoAcessoHash: string | null } | null> {
-  if (!sql) return null;
-  const normalized = String(email || '').trim().toLowerCase();
-  if (!normalized) return null;
-  try {
-    const rows = await sql`
-      SELECT id, email, codigo_acesso_hash
-      FROM clientes
-      WHERE LOWER(TRIM(email)) = ${normalized}
-      LIMIT 1
-    `;
-    const row = (Array.isArray(rows) ? rows[0] : rows?.[0]) as { id: string; email: string; codigo_acesso_hash: string | null } | undefined;
-    if (!row) return null;
-    return {
-      id: String(row.id),
-      email: String(row.email),
-      codigoAcessoHash: row.codigo_acesso_hash != null && row.codigo_acesso_hash !== '' ? String(row.codigo_acesso_hash) : null,
-    };
-  } catch {
-    return null;
-  }
-}
-
-export async function verifyClienteSenha(email: string, senha: string): Promise<Cliente | null> {
-  const login = await getClienteLoginByEmail(email);
-  if (!login?.codigoAcessoHash || !verifyCodigoAcesso(senha, login.codigoAcessoHash)) return null;
-  return getClienteById(login.id);
-}
-
-/** Cria conta do painel (cliente com email e senha). razao_social vazio. */
-export async function createClienteConta(nomeCompleto: string, email: string, senhaHash: string): Promise<Cliente | null> {
-  if (!sql) return null;
-  const nome = String(nomeCompleto || '').trim().slice(0, 150);
-  const emailNorm = String(email || '').trim().toLowerCase();
-  if (!emailNorm || !nome) return null;
-  const existing = await getClienteByEmail(emailNorm);
-  if (existing) return null;
-  try {
-    const rows = await sql`
-      INSERT INTO clientes (nome, email, razao_social, codigo_acesso_hash, mensalidade, status)
-      VALUES (${nome}, ${emailNorm}, '', ${senhaHash}, 0, 0)
-      RETURNING *
-    `;
-    const row = (Array.isArray(rows) ? rows[0] : rows?.[0]) as Record<string, unknown> | undefined;
-    return row ? rowToCliente(row) : null;
-  } catch {
-    return null;
-  }
-}
-
-function hashCodigoReset(codigo: string): string {
-  return createHash('sha256').update(codigo).digest('hex');
-}
-
-export async function createResetCodigoCliente(clienteId: string): Promise<string> {
-  if (!sql) throw new Error('Banco não configurado');
-  const codigo = String(Math.floor(100000 + Math.random() * 900000));
-  const codigoHash = hashCodigoReset(codigo);
-  const expiraEm = new Date(Date.now() + 60 * 60 * 1000);
-  await sql`DELETE FROM cliente_reset_tokens WHERE cliente_id = ${clienteId}`;
-  await sql`
-    INSERT INTO cliente_reset_tokens (cliente_id, token, expira_em)
-    VALUES (${clienteId}, ${codigoHash}, ${expiraEm})
-  `;
-  return codigo;
-}
-
-export async function validarCodigoResetCliente(email: string, codigo: string): Promise<string | null> {
-  if (!sql || !codigo || codigo.length !== 6) return null;
-  const codigoHash = hashCodigoReset(codigo);
-  const emailNorm = email.trim().toLowerCase();
-  const rows = await sql`
-    SELECT r.cliente_id
-    FROM cliente_reset_tokens r
-    JOIN clientes c ON c.id = r.cliente_id AND LOWER(TRIM(c.email)) = ${emailNorm}
-    WHERE r.token = ${codigoHash}
-      AND r.usado = false
-      AND r.expira_em > NOW()
-    LIMIT 1
-  `;
-  const row = (Array.isArray(rows) ? rows[0] : rows?.[0]) as { cliente_id: string } | undefined;
-  return row ? row.cliente_id : null;
-}
-
-export async function consumirCodigoEAtualizarSenhaCliente(
-  email: string,
-  codigo: string,
-  novaSenhaHash: string
-): Promise<boolean> {
-  if (!sql || !codigo || codigo.length !== 6) return false;
-  const codigoHash = hashCodigoReset(codigo);
-  const emailNorm = email.trim().toLowerCase();
-  const rows = await sql`
-    UPDATE cliente_reset_tokens r
-    SET usado = true
-    FROM clientes c
-    WHERE r.cliente_id = c.id
-      AND LOWER(TRIM(c.email)) = ${emailNorm}
-      AND r.token = ${codigoHash}
-      AND r.usado = false
-      AND r.expira_em > NOW()
-    RETURNING r.cliente_id
-  `;
-  const clienteId = (Array.isArray(rows) ? rows[0] : rows?.[0]) as { cliente_id?: string } | undefined;
-  if (!clienteId?.cliente_id) return false;
-  await sql`
-    UPDATE clientes
-    SET codigo_acesso_hash = ${novaSenhaHash}
-    WHERE id = ${clienteId.cliente_id}
-  `;
-  return true;
 }
 
 /** Remove a conta do cliente (exclusão definitiva). */

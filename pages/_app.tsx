@@ -10,7 +10,6 @@ import SmoothScroll from '../components/SmoothScroll';
 import Header from '../components/ui/Header';
 import { SplashProvider } from '../contexts/SplashContext';
 import { SnackbarProvider } from '../contexts/SnackbarContext';
-import { DashUsuarioProvider } from '../contexts/DashUsuarioContext';
 
 const CookieConsent = dynamic(() => import('../components/CookieConsent'), { ssr: false });
 import Footer from '../sections/Footer';
@@ -38,12 +37,10 @@ export default function MyApp({ Component, pageProps }: AppProps) {
 
  // Inserir comentário logo antes do <html> no DOM (executado no cliente)
  // Admin: usa admin.background (#0A0C12) em html/body/#__next
- // Dash (painel usuário): mesma estética
  React.useEffect(() => {
    const isAdmin = router.pathname.startsWith('/admin');
-   const isDash = router.pathname.startsWith('/dash');
-   document.documentElement.classList.toggle('admin-route', isAdmin || isDash);
-   document.body.classList.toggle('admin-route', isAdmin || isDash);
+   document.documentElement.classList.toggle('admin-route', isAdmin);
+   document.body.classList.toggle('admin-route', isAdmin);
    return () => {
      document.documentElement.classList.remove('admin-route');
      document.body.classList.remove('admin-route');
@@ -75,16 +72,10 @@ export default function MyApp({ Component, pageProps }: AppProps) {
  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
  </Head>
  <GlobalStyles />
- {!router.pathname.startsWith('/admin') && !router.pathname.startsWith('/proposta') && !router.pathname.startsWith('/dash') && <Header />}
- {router.pathname.startsWith('/dash') ? (
-   <DashUsuarioProvider>
-     <Component {...pageProps} />
-   </DashUsuarioProvider>
- ) : (
-   <Component {...pageProps} />
- )}
- {router.pathname !== '/' && !router.pathname.startsWith('/admin') && !router.pathname.startsWith('/proposta') && !router.pathname.startsWith('/dash') && <Footer />}
- {!router.pathname.startsWith('/admin') && !router.pathname.startsWith('/proposta') && !router.pathname.startsWith('/dash') && <FloatingWhatsApp />}
+{!router.pathname.startsWith('/admin') && !router.pathname.startsWith('/proposta') && <Header />}
+      <Component {...pageProps} />
+      {router.pathname !== '/' && !router.pathname.startsWith('/admin') && !router.pathname.startsWith('/proposta') && <Footer />}
+      {!router.pathname.startsWith('/admin') && !router.pathname.startsWith('/proposta') && <FloatingWhatsApp />}
  <CookieConsent />
  </>
  </SmoothScroll>
