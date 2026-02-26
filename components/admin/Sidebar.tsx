@@ -17,7 +17,7 @@ export const sidebarWidth = SIDEBAR_WIDTH;
 const CLIENTE_ITEMS = [
   { label: 'Todos os clientes', href: '/admin/dashboard/clientes/todos', icon: <List size={16} strokeWidth={1.5} /> },
   { label: 'Manutenção', href: '/admin/dashboard/clientes/manutencao', icon: <Users size={16} strokeWidth={1.5} /> },
-  { label: 'Fatura', href: '/admin/dashboard/clientes/fatura', icon: <UserMinus size={16} strokeWidth={1.5} /> },
+  { label: 'Pagamentos', href: '/admin/dashboard/clientes/fatura', icon: <CreditCard size={16} strokeWidth={1.5} /> },
 ];
 
 const PROPOSTA_ITEMS = [

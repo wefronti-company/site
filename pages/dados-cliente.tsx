@@ -209,7 +209,7 @@ export default function DadosClientePage() {
                   style={inputStyle}
                   value={nome}
                   onChange={(e) => setNome(e.target.value)}
-                  placeholder="Nome do contato"
+                  placeholder="Nome e sobrenome"
                   required
                   maxLength={150}
                   disabled={loading}
@@ -222,7 +222,7 @@ export default function DadosClientePage() {
                   style={inputStyle}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="email@empresa.com"
+                  placeholder="email@example.com"
                   required
                   maxLength={254}
                   disabled={loading}
@@ -248,7 +248,7 @@ export default function DadosClientePage() {
                   style={inputStyle}
                   value={celular}
                   onChange={(e) => setCelular(formatCelular(e.target.value))}
-                  placeholder="(11) 99999-8888"
+                  placeholder="(00) 00000-0000"
                   maxLength={16}
                   required
                   disabled={loading}

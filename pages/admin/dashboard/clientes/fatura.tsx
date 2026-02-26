@@ -170,11 +170,11 @@ const ClientesFaturaPage: React.FC = () => {
   return (
     <>
       <Head>
-        <title>Fatura | Wefronti</title>
+        <title>Pagamentos | Wefronti</title>
         <meta name="robots" content="noindex, nofollow" />
       </Head>
       <AdminLayout>
-        <h1 style={pageTitleStyle}>Fatura</h1>
+        <h1 style={pageTitleStyle}>Pagamentos</h1>
         {loading ? (
           <div style={listStyle}>
             <div style={{ ...cardStyle, minHeight: 68, opacity: 0.55 }} />
