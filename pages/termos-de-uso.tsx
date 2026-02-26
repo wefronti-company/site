@@ -83,7 +83,7 @@ const TermosDeUso: React.FC = () => {
     <>
       <SEO
         title="Termos de Uso"
-        description="Termos de Uso do site e do programa de indicação da Wefronti."
+        description="Termos de Uso do site da Wefronti."
         canonical="/termos-de-uso"
         noindex
       />
@@ -92,48 +92,36 @@ const TermosDeUso: React.FC = () => {
         <article style={getContainerStyle(paddingX)}>
           <h1 style={titleStyle}>Termos de Uso</h1>
           <p style={textStyle}>
-            Ao acessar o site da Wefronti e/ou criar uma conta na área do programa de indicação, você concorda com estes Termos de Uso. Leia-os com atenção.
+            Ao acessar o site da Wefronti e utilizar nossos serviços (incluindo o envio do formulário de dados), você concorda com estes Termos de Uso. Leia-os com atenção.
           </p>
 
           <h2 style={sectionTitleStyle}>1. Aceite</h2>
           <p style={textStyle}>
-            O uso do site wefronti.com e dos serviços vinculados (incluindo cadastro, área logada e programa de indicação) implica a aceitação integral destes Termos. Se você não concordar, não utilize o site nem se cadastre.
+            O uso do site wefronti.com e dos serviços vinculados (incluindo o envio do formulário disponível no site) implica a aceitação integral destes Termos. Se você não concordar, não utilize o site nem envie o formulário.
           </p>
 
-          <h2 style={sectionTitleStyle}>2. Uso do site e da área logada</h2>
+          <h2 style={sectionTitleStyle}>2. Formulário e finalidade dos dados</h2>
           <p style={textStyle}>
-            Você se compromete a utilizar o site e a área restrita de forma lícita, sem fraudes, abusos ou condutas que prejudiquem a Wefronti ou terceiros. É vedado o uso para fins ilícitos, spam, disseminação de malware ou violação de direitos de terceiros. Você é responsável pela confidencialidade da sua senha e por todas as atividades realizadas em sua conta.
+            O formulário disponível no site coleta dados pessoais e da empresa (nome, e-mail, CPF, celular, razão social, CNPJ, endereço completo, entre outros) para agilizar o processo de contratação e as questões burocráticas da relação comercial: elaboração e gestão de contratos de prestação de serviços, emissão de notas fiscais, cobrança e demais obrigações legais e fiscais. O cliente não possui painel ou área para login; o envio serve apenas para repasse das informações à Wefronti. O tratamento desses dados está em conformidade com a LGPD e com nossa{' '}
+            <Link href="/politica-privacidade" style={linkStyle}>Política de Privacidade</Link>. Ao enviar o formulário, você declara que as informações fornecidas são verdadeiras e autoriza seu uso para as finalidades descritas.
           </p>
 
-          <h2 style={sectionTitleStyle}>3. Programa de indicação (“Indique e Ganhe”)</h2>
+          <h2 style={sectionTitleStyle}>3. Uso do site</h2>
           <p style={textStyle}>
-            O programa permite que usuários cadastrados compartilhem um link de indicação. Quando um indicado fechar contrato com a Wefronti utilizando esse link, o indicador poderá receber a recompensa conforme as regras vigentes do programa (por exemplo, percentual sobre o valor). A Wefronti reserva-se o direito de:
-          </p>
-          <ul style={listStyle}>
-            <li>Alterar as regras, percentuais e condições do programa, com divulgação prévia quando aplicável.</li>
-            <li>Recusar ou cancelar indicações em caso de fraude, múltiplas contas, uso indevido do link ou desrespeito a estes Termos.</li>
-            <li>Exigir o preenchimento de dados cadastrais (incluindo dados bancários/PIX) para pagamento das comissões.</li>
-          </ul>
-          <p style={textStyle}>
-            O pagamento das comissões está sujeito à confirmação do contrato com o indicado e às políticas internas da Wefronti. O indicador não estabelece vínculo empregatício com a Wefronti em razão do programa.
+            Você se compromete a utilizar o site de forma lícita, sem fraudes, abusos ou condutas que prejudiquem a Wefronti ou terceiros. É vedado o uso para fins ilícitos, spam, disseminação de malware ou violação de direitos de terceiros.
           </p>
 
-          <h2 style={sectionTitleStyle}>4. Conta e senha</h2>
-          <p style={textStyle}>
-            O cadastro é pessoal e intransferível. Você deve informar dados verdadeiros e atualizados. A Wefronti pode encerrar ou suspender contas em caso de violação destes Termos, fraude ou por decisão administrativa, sem prejuízo de outras medidas legais.
-          </p>
-
-          <h2 style={sectionTitleStyle}>5. Propriedade intelectual</h2>
+          <h2 style={sectionTitleStyle}>4. Propriedade intelectual</h2>
           <p style={textStyle}>
             O conteúdo do site (textos, imagens, logotipos, layout) é de propriedade da Wefronti ou de licenciadores. É vedada a cópia, reprodução ou uso comercial sem autorização prévia.
           </p>
 
-          <h2 style={sectionTitleStyle}>6. Lei aplicável e foro</h2>
+          <h2 style={sectionTitleStyle}>5. Lei aplicável e foro</h2>
           <p style={textStyle}>
             Estes Termos são regidos pelas leis da República Federativa do Brasil. Para dirimir conflitos relativos a estes Termos ou ao uso do site, fica eleito o foro da comarca em que a Wefronti tenha sua sede.
           </p>
 
-          <h2 style={sectionTitleStyle}>7. Contato</h2>
+          <h2 style={sectionTitleStyle}>6. Contato</h2>
           <p style={textStyle}>
             Dúvidas sobre estes Termos:{' '}
             <a href="mailto:termos@wefronti.com" style={linkStyle}>termos@wefronti.com</a>. Para questões sobre privacidade e dados pessoais, consulte nossa{' '}

@@ -15,6 +15,17 @@ if (!databaseUrl) {
 const sql = neon(databaseUrl);
 
 async function run() {
+  console.log('Verificando tabela clientes...');
+  const tables = await sql`
+    SELECT 1 FROM information_schema.tables
+    WHERE table_schema = 'public' AND table_name = 'clientes'
+  `;
+  if (!tables.length) {
+    console.error('ERRO: A tabela clientes não existe. Execute primeiro: node -r dotenv/config scripts/init-admin-db.mjs');
+    process.exit(1);
+  }
+  console.log('  ✓ tabela clientes existe');
+
   console.log('Adicionando coluna dia_vencimento em clientes...');
   await sql`ALTER TABLE clientes ADD COLUMN IF NOT EXISTS dia_vencimento SMALLINT`;
   console.log('  ✓ dia_vencimento (1-31)');

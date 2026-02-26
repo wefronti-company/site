@@ -72,10 +72,10 @@ export default function MyApp({ Component, pageProps }: AppProps) {
  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
  </Head>
  <GlobalStyles />
-{!router.pathname.startsWith('/admin') && !router.pathname.startsWith('/proposta') && <Header />}
+{!router.pathname.startsWith('/admin') && !router.pathname.startsWith('/proposta') && router.pathname !== '/dados-cliente' && <Header />}
       <Component {...pageProps} />
-      {router.pathname !== '/' && !router.pathname.startsWith('/admin') && !router.pathname.startsWith('/proposta') && <Footer />}
-      {!router.pathname.startsWith('/admin') && !router.pathname.startsWith('/proposta') && <FloatingWhatsApp />}
+      {router.pathname !== '/' && !router.pathname.startsWith('/admin') && !router.pathname.startsWith('/proposta') && router.pathname !== '/dados-cliente' && <Footer />}
+      {!router.pathname.startsWith('/admin') && !router.pathname.startsWith('/proposta') && router.pathname !== '/dados-cliente' && <FloatingWhatsApp />}
  <CookieConsent />
  </>
  </SmoothScroll>

@@ -107,16 +107,12 @@ function getDiaVencimento(criadoEm: string): number {
   return isNaN(d.getTime()) ? 1 : d.getDate();
 }
 
-function getVencimentoFormatado(criadoEm: string): string {
+function getVencimentoFormatado(criadoEm: string, diaVencimento?: number): string {
+  const diaVenc = (diaVencimento != null && diaVencimento >= 1 && diaVencimento <= 31) ? diaVencimento : getDiaVencimento(criadoEm);
   const hoje = new Date();
-  const ano = hoje.getFullYear();
-  const mes = hoje.getMonth() + 1;
-  const diaVenc = getDiaVencimento(criadoEm);
-  const ultimoDia = new Date(ano, mes, 0).getDate();
+  const ultimoDia = new Date(hoje.getFullYear(), hoje.getMonth() + 1, 0).getDate();
   const dia = Math.min(diaVenc, ultimoDia);
-  const dd = String(dia).padStart(2, '0');
-  const mm = String(mes).padStart(2, '0');
-  return `${dd}/${mm}/${ano}`;
+  return `Dia ${dia}`;
 }
 
 function getIniciais(c: ClienteComPagamento): string {
@@ -240,7 +236,7 @@ const ClientesDesligadosPage: React.FC = () => {
                   </div>
                   <div style={cardColStyle}>
                     <span style={cardLabelStyle}>Vencimento</span>
-                    <span style={cardMetaStyle}>{getVencimentoFormatado(c.criadoEm)}</span>
+                    <span style={cardMetaStyle}>{getVencimentoFormatado(c.criadoEm, c.diaVencimento)}</span>
                   </div>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: spacing[4] }}>

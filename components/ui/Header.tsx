@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Logo from './Logo';
-import ButtonUser from './ButtonUser';
+import ButtonCta from './ButtonCta';
 import { Plus, ArrowRight } from 'lucide-react';
 import { useScrollToSection } from '../../hooks/useScrollToSection';
 import { useSplash } from '../../contexts/SplashContext';
@@ -20,7 +20,6 @@ const NAV_LINKS = [
   { id: 'processo', label: 'Processos', href: '/#processo' },
   { id: 'portfolio', label: 'Portfolio', href: '/#portfolio' },
   { id: 'sobre', label: 'Sobre', href: '/#sobre' },
-  { id: 'precos', label: 'Preços', href: '/#precos' },
   { id: 'faq', label: 'FAQ', href: '/#faq' },
 ] as const;
 
@@ -240,7 +239,7 @@ const Header: React.FC = () => {
 
           <div style={rightCellStyle}>
             {isMd ? (
-              <ButtonUser className="header-user-btn" />
+              <ButtonCta className="header-user-btn">Quero um site que vende</ButtonCta>
             ) : (
               <button
                 type="button"
@@ -344,12 +343,16 @@ const Header: React.FC = () => {
               <ArrowRight size={18} color={colors.text.light} style={{ flexShrink: 0 }} aria-hidden />
             </Link>
           ))}
-          <div style={{ paddingTop: spacing[2] }} onClick={() => setMobileMenuOpen(false)}>
-            <ButtonUser
-              href="/#precos"
+          <div style={{ paddingTop: spacing[2], width: '100%' }} onClick={() => setMobileMenuOpen(false)}>
+            <ButtonCta
               className="header-user-btn"
-              fullWidth
-            />
+              onClick={() => {
+                setMobileMenuOpen(false);
+                scrollToSection('precos');
+              }}
+            >
+              Quero um site que vende
+            </ButtonCta>
           </div>
         </div>
         </>

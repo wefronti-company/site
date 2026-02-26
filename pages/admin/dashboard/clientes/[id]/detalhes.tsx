@@ -171,7 +171,7 @@ export default function ClienteDetalhesPage() {
           <h3 style={sectionTitleStyle}>Dados do contato</h3>
           <div style={formGridStyle}>
             <div style={fieldStyle}>
-              <span style={labelStyle}>Nome completo</span>
+              <span style={labelStyle}>Nome e sobrenome</span>
               <div style={valueStyle}>{cliente.nome || '—'}</div>
             </div>
             <div style={fieldStyle}>

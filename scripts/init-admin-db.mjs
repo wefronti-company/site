@@ -92,6 +92,7 @@ async function run() {
       ramo VARCHAR(100),
       observacoes VARCHAR(500),
       mensalidade INTEGER NOT NULL DEFAULT 0,
+      dia_vencimento SMALLINT,
       status SMALLINT NOT NULL DEFAULT 0,
       criado_em TIMESTAMPTZ NOT NULL DEFAULT NOW()
     )

@@ -1,8 +1,11 @@
 import React, { useState, useCallback } from 'react';
 import Head from 'next/head';
+import Link from 'next/link';
 import { theme } from '../styles/theme';
 import { useSnackbar } from '../contexts/SnackbarContext';
 import { formatCpf, formatCelular, formatCep, formatCnpj } from '../lib/formatMask';
+import ButtonPainel from '../components/ui/ButtonPainel';
+import { Shield } from 'lucide-react';
 
 const { colors, spacing, fontSizes } = theme;
 
@@ -12,14 +15,6 @@ const pageTitleStyle: React.CSSProperties = {
   fontSize: fontSizes['2xl'],
   fontWeight: 600,
   color: colors.text.light,
-  margin: 0,
-  marginBottom: spacing[2],
-};
-
-const pageSubtitleStyle: React.CSSProperties = {
-  fontSize: fontSizes.base,
-  color: colors.text.light,
-  opacity: 0.8,
   margin: 0,
   marginBottom: spacing[8],
 };
@@ -60,18 +55,37 @@ const inputStyle: React.CSSProperties = {
   borderRadius: 8,
   outline: 'none',
 };
-const btnStyle: React.CSSProperties = {
-  padding: `${spacing[3]}px ${spacing[8]}`,
-  fontSize: fontSizes.base,
-  fontWeight: 600,
-  color: colors.text.light,
-  backgroundColor: colors.blue.primary,
-  border: 'none',
-  borderRadius: 8,
-  cursor: 'pointer',
+
+const abaixoBtnWrapStyle: React.CSSProperties = {
+  marginTop: spacing[8],
+  display: 'flex',
+  flexDirection: 'column',
+  gap: spacing[4],
 };
 
-export default function CadastroPage() {
+const infoSeguroStyle: React.CSSProperties = {
+  display: 'flex',
+  alignItems: 'center',
+  gap: spacing[2],
+  fontSize: fontSizes.sm,
+  color: colors.text.light,
+  opacity: 0.85,
+};
+
+const acordoStyle: React.CSSProperties = {
+  fontSize: fontSizes.sm,
+  color: colors.text.light,
+  opacity: 0.9,
+  lineHeight: 1.5,
+  margin: 0,
+};
+
+const linkStyle: React.CSSProperties = {
+  color: colors.blue.primary,
+  textDecoration: 'none',
+};
+
+export default function DadosClientePage() {
   const { showSuccess, showError } = useSnackbar();
   const [loading, setLoading] = useState(false);
 
@@ -108,8 +122,22 @@ export default function CadastroPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!nome.trim() || !email.trim() || !razaoSocial.trim()) {
-      showError('Preencha nome, e-mail e razão social.');
+    const faltam = [];
+    if (!nome.trim()) faltam.push('Nome');
+    if (!email.trim()) faltam.push('E-mail');
+    if (!cpf.trim()) faltam.push('CPF');
+    if (!celular.trim()) faltam.push('Celular');
+    if (!razaoSocial.trim()) faltam.push('Nome da empresa');
+    if (!cnpj.trim()) faltam.push('CNPJ');
+    if (!enderecoCep.trim()) faltam.push('CEP');
+    if (!enderecoLogradouro.trim()) faltam.push('Logradouro');
+    if (!enderecoNumero.trim()) faltam.push('Número');
+    if (!enderecoComplemento.trim()) faltam.push('Complemento');
+    if (!enderecoBairro.trim()) faltam.push('Bairro');
+    if (!enderecoCidade.trim()) faltam.push('Cidade');
+    if (!enderecoUf.trim()) faltam.push('UF');
+    if (faltam.length) {
+      showError(`Preencha: ${faltam.join(', ')}.`);
       return;
     }
     setLoading(true);
@@ -136,10 +164,10 @@ export default function CadastroPage() {
       });
       const data = await res.json();
       if (!res.ok) {
-        showError(data.error || 'Erro ao cadastrar.');
+        showError(data.error || 'Erro ao enviar.');
         return;
       }
-      showSuccess('Cadastro realizado com sucesso. Em breve entraremos em contato.');
+      showSuccess('Dados enviados com sucesso. Em breve entraremos em contato.');
       setNome('');
       setEmail('');
       setCpf('');
@@ -164,21 +192,18 @@ export default function CadastroPage() {
   return (
     <>
       <Head>
-        <title>Cadastro | Wefronti</title>
+        <title>Dados do cliente | Wefronti</title>
         <meta name="robots" content="noindex, nofollow" />
       </Head>
       <div style={wrapStyle}>
-        <h1 style={pageTitleStyle}>Cadastro</h1>
-        <p style={pageSubtitleStyle}>
-          Preencha seus dados para que possamos entrar em contato.
-        </p>
+        <h1 style={pageTitleStyle}>Preencha e envie seus dados</h1>
 
         <form onSubmit={handleSubmit}>
           <section style={sectionStyle}>
             <h2 style={sectionTitleStyle}>Dados do contato</h2>
             <div style={formGridStyle}>
               <div style={fieldStyle}>
-                <label style={labelStyle}>Nome completo *</label>
+                <label style={labelStyle}>Nome e sobrenome *</label>
                 <input
                   type="text"
                   style={inputStyle}
@@ -204,7 +229,7 @@ export default function CadastroPage() {
                 />
               </div>
               <div style={fieldStyle}>
-                <label style={labelStyle}>CPF</label>
+                <label style={labelStyle}>CPF *</label>
                 <input
                   type="text"
                   style={inputStyle}
@@ -212,11 +237,12 @@ export default function CadastroPage() {
                   onChange={(e) => setCpf(formatCpf(e.target.value))}
                   placeholder="000.000.000-00"
                   maxLength={14}
+                  required
                   disabled={loading}
                 />
               </div>
               <div style={fieldStyle}>
-                <label style={labelStyle}>Celular</label>
+                <label style={labelStyle}>Celular *</label>
                 <input
                   type="tel"
                   style={inputStyle}
@@ -224,6 +250,7 @@ export default function CadastroPage() {
                   onChange={(e) => setCelular(formatCelular(e.target.value))}
                   placeholder="(11) 99999-8888"
                   maxLength={16}
+                  required
                   disabled={loading}
                 />
               </div>
@@ -247,7 +274,7 @@ export default function CadastroPage() {
                 />
               </div>
               <div style={fieldStyle}>
-                <label style={labelStyle}>CNPJ</label>
+                <label style={labelStyle}>CNPJ *</label>
                 <input
                   type="text"
                   style={inputStyle}
@@ -255,6 +282,7 @@ export default function CadastroPage() {
                   onChange={(e) => setCnpj(formatCnpj(e.target.value))}
                   placeholder="00.000.000/0000-00"
                   maxLength={18}
+                  required
                   disabled={loading}
                 />
               </div>
@@ -277,7 +305,7 @@ export default function CadastroPage() {
             <h2 style={sectionTitleStyle}>Endereço</h2>
             <div style={formGridStyle}>
               <div style={fieldStyle}>
-                <label style={labelStyle}>CEP</label>
+                <label style={labelStyle}>CEP *</label>
                 <input
                   type="text"
                   style={inputStyle}
@@ -286,11 +314,12 @@ export default function CadastroPage() {
                   onBlur={buscarCep}
                   placeholder="00000-000"
                   maxLength={9}
+                  required
                   disabled={loading}
                 />
               </div>
               <div style={fieldStyle}>
-                <label style={labelStyle}>Logradouro</label>
+                <label style={labelStyle}>Logradouro *</label>
                 <input
                   type="text"
                   style={inputStyle}
@@ -298,11 +327,12 @@ export default function CadastroPage() {
                   onChange={(e) => setEnderecoLogradouro(e.target.value)}
                   placeholder="Rua, Avenida, etc."
                   maxLength={150}
+                  required
                   disabled={loading}
                 />
               </div>
               <div style={fieldStyle}>
-                <label style={labelStyle}>Número</label>
+                <label style={labelStyle}>Número *</label>
                 <input
                   type="text"
                   style={inputStyle}
@@ -310,11 +340,12 @@ export default function CadastroPage() {
                   onChange={(e) => setEnderecoNumero(e.target.value)}
                   placeholder="Nº"
                   maxLength={20}
+                  required
                   disabled={loading}
                 />
               </div>
               <div style={fieldStyle}>
-                <label style={labelStyle}>Complemento</label>
+                <label style={labelStyle}>Complemento *</label>
                 <input
                   type="text"
                   style={inputStyle}
@@ -322,11 +353,12 @@ export default function CadastroPage() {
                   onChange={(e) => setEnderecoComplemento(e.target.value)}
                   placeholder="Sala, Bloco"
                   maxLength={80}
+                  required
                   disabled={loading}
                 />
               </div>
               <div style={fieldStyle}>
-                <label style={labelStyle}>Bairro</label>
+                <label style={labelStyle}>Bairro *</label>
                 <input
                   type="text"
                   style={inputStyle}
@@ -334,11 +366,12 @@ export default function CadastroPage() {
                   onChange={(e) => setEnderecoBairro(e.target.value)}
                   placeholder="Bairro"
                   maxLength={80}
+                  required
                   disabled={loading}
                 />
               </div>
               <div style={fieldStyle}>
-                <label style={labelStyle}>Cidade</label>
+                <label style={labelStyle}>Cidade *</label>
                 <input
                   type="text"
                   style={inputStyle}
@@ -346,15 +379,17 @@ export default function CadastroPage() {
                   onChange={(e) => setEnderecoCidade(e.target.value)}
                   placeholder="Cidade"
                   maxLength={80}
+                  required
                   disabled={loading}
                 />
               </div>
               <div style={fieldStyle}>
-                <label style={labelStyle}>UF</label>
+                <label style={labelStyle}>UF *</label>
                 <select
                   style={inputStyle}
                   value={enderecoUf}
                   onChange={(e) => setEnderecoUf(e.target.value)}
+                  required
                   disabled={loading}
                 >
                   <option value="">Selecione</option>
@@ -366,9 +401,22 @@ export default function CadastroPage() {
             </div>
           </section>
 
-          <button type="submit" style={btnStyle} disabled={loading}>
-            {loading ? 'Enviando...' : 'Enviar cadastro'}
-          </button>
+          <ButtonPainel type="submit" disabled={loading}>
+            {loading ? 'Enviando...' : 'Enviar'}
+          </ButtonPainel>
+
+          <div style={abaixoBtnWrapStyle}>
+            <p style={infoSeguroStyle}>
+              <Shield size={18} strokeWidth={2} aria-hidden />
+              Seus dados estão seguros e são tratados em conformidade com a LGPD.
+            </p>
+            <p style={acordoStyle}>
+              Ao enviar, concordo com os{' '}
+              <Link href="/termos-de-uso" style={linkStyle}>Termos de Uso</Link>
+              {' '}e com a{' '}
+              <Link href="/politica-privacidade" style={linkStyle}>Política de Privacidade</Link>.
+            </p>
+          </div>
         </form>
       </div>
     </>

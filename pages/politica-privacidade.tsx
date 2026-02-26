@@ -113,15 +113,12 @@ const PoliticaPrivacidade: React.FC = () => {
             <strong>Visitantes do site:</strong> não coletamos dados pessoais por meio de formulários de contato no site institucional; o contato é feito diretamente via WhatsApp. Dados técnicos (endereço IP, navegador) podem ser registrados pelo Analytics quando você aceita cookies de análise.
           </p>
           <p style={textStyle}>
-            <strong>Usuários cadastrados (programa “área do cliente”):</strong> ao criar conta e usar a área logada, coletamos e armazenamos: nome completo, e-mail, senha (criptografada) e, quando você preenche seu perfil, celular, data de nascimento, CPF e endereço (logradouro, número, complemento, bairro, cidade, UF, CEP).
-          </p>
-          <p style={textStyle}>
-            Esses dados são utilizados para: gestão da sua conta, acesso ao hub do cliente (consulta de contrato e pagamentos) e contato. O tratamento está em conformidade com a LGPD e com nossa base legal (execução de contrato/relacionamento e consentimento quando cabível).
+            <strong>Formulário de dados (página de cadastro):</strong> coletamos e armazenamos os dados informados no envio — nome completo, e-mail, CPF, celular, razão social/nome da empresa, CNPJ, site (opcional), endereço completo (CEP, logradouro, número, complemento, bairro, cidade, UF). Esses dados são utilizados exclusivamente para <strong>questões burocráticas e operacionais</strong> da relação comercial: elaboração e gestão de contratos de prestação de serviços, emissão de notas fiscais, cobrança, cumprimento de obrigações fiscais e legais e contato relacionado aos serviços. O tratamento está em conformidade com a LGPD, com base na execução de contrato/relacionamento contratual e no seu consentimento ao enviar o formulário.
           </p>
 
           <h2 style={sectionTitleStyle}>3. Compartilhamento e retenção</h2>
           <p style={textStyle}>
-            Não vendemos seus dados. Podemos compartilhar informações com prestadores de serviço que nos auxiliam na operação do site e do programa (por exemplo, hospedagem, e-mail, banco de dados), sob obrigação de confidencialidade. Mantemos os dados pelo tempo necessário para cumprir as finalidades descritas e obrigações legais.
+            Não vendemos seus dados. Podemos compartilhar informações com prestadores de serviço que nos auxiliam na operação do site e dos serviços (por exemplo, hospedagem, e-mail, banco de dados), sob obrigação de confidencialidade. Mantemos os dados pelo tempo necessário para cumprir as finalidades descritas e obrigações legais.
           </p>
 
           <h2 style={sectionTitleStyle}>4. Seus direitos (LGPD)</h2>

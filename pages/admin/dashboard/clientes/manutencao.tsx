@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
-import Link from 'next/link';
 import AdminLayout from '../../../../components/admin/AdminLayout';
 import Pagination, { paginate } from '../../../../components/admin/Pagination';
 import { theme } from '../../../../styles/theme';
@@ -99,7 +98,9 @@ function getDiaVencimento(criadoEm: string): number {
 }
 
 function getVencimentoDia(criadoEm: string, diaVencimento?: number): number {
-  const diaVenc = (diaVencimento != null && diaVencimento >= 1 && diaVencimento <= 31) ? diaVencimento : getDiaVencimento(criadoEm);
+  const diaVenc = (diaVencimento != null && diaVencimento >= 1 && diaVencimento <= 31)
+    ? diaVencimento
+    : getDiaVencimento(criadoEm);
   const hoje = new Date();
   const ultimoDia = new Date(hoje.getFullYear(), hoje.getMonth() + 1, 0).getDate();
   return Math.min(diaVenc, ultimoDia);
@@ -110,38 +111,51 @@ function getVencimentoFormatado(criadoEm: string, diaVencimento?: number): strin
   return `Dia ${dia}`;
 }
 
-const btnDetalhesStyle: React.CSSProperties = {
+const badgeEmDiaStyle: React.CSSProperties = {
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: spacing[2],
   padding: `${spacing[2]}px ${spacing[3]}px`,
   fontSize: fontSizes.sm,
   fontWeight: 500,
-  color: colors.blue.primary,
-  background: 'transparent',
-  border: `1px solid ${colors.blue.primary}`,
+  color: '#34D399',
+  backgroundColor: '#1D3323',
+  border: '1px solid rgba(52, 211, 153, 0.4)',
   borderRadius: 6,
-  cursor: 'pointer',
-  textDecoration: 'none',
-  display: 'inline-flex',
 };
 
-let cacheClientesTodos: ClienteComPagamento[] | null = null;
+const badgeEmAtrasoStyle: React.CSSProperties = {
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: spacing[2],
+  padding: `${spacing[2]}px ${spacing[3]}px`,
+  fontSize: fontSizes.sm,
+  fontWeight: 500,
+  backgroundColor: 'rgba(239, 68, 68, 0.15)',
+  color: '#f87171',
+  border: '1px solid rgba(239, 68, 68, 0.4)',
+  borderRadius: 6,
+};
 
-const ClientesTodosPage: React.FC = () => {
-  const [clientes, setClientes] = useState<ClienteComPagamento[]>(() => cacheClientesTodos ?? []);
-  const [loading, setLoading] = useState(() => !cacheClientesTodos);
+let cacheClientesManutencao: ClienteComPagamento[] | null = null;
+
+const ClientesManutencaoPage: React.FC = () => {
+  const [clientes, setClientes] = useState<ClienteComPagamento[]>(() => cacheClientesManutencao ?? []);
+  const [loading, setLoading] = useState(() => !cacheClientesManutencao);
   const [page, setPage] = useState(1);
 
   const load = (opts?: { silent?: boolean }) => {
     const silent = opts?.silent ?? false;
     if (!silent) setLoading(true);
-    fetch('/api/clientes/todos')
+    fetch('/api/clientes/manutencao')
       .then((r) => r.json())
       .then((data) => {
         const list = Array.isArray(data) ? data : [];
-        cacheClientesTodos = list;
+        cacheClientesManutencao = list;
         setClientes(list);
       })
       .catch(() => {
-        if (!cacheClientesTodos) setClientes([]);
+        if (!cacheClientesManutencao) setClientes([]);
       })
       .finally(() => {
         if (!silent) setLoading(false);
@@ -149,7 +163,7 @@ const ClientesTodosPage: React.FC = () => {
   };
 
   useEffect(() => {
-    load({ silent: !!cacheClientesTodos });
+    load({ silent: !!cacheClientesManutencao });
   }, []);
 
   const totalPages = Math.max(1, Math.ceil(clientes.length / 10));
@@ -160,11 +174,11 @@ const ClientesTodosPage: React.FC = () => {
   return (
     <>
       <Head>
-        <title>Todos os clientes | Wefronti</title>
+        <title>Manutenção | Wefronti</title>
         <meta name="robots" content="noindex, nofollow" />
       </Head>
       <AdminLayout>
-        <h1 style={pageTitleStyle}>Todos os clientes</h1>
+        <h1 style={pageTitleStyle}>Manutenção</h1>
         {loading ? (
           <div style={listStyle}>
             <div style={{ ...cardStyle, minHeight: 68, opacity: 0.55 }} />
@@ -172,47 +186,46 @@ const ClientesTodosPage: React.FC = () => {
             <div style={{ ...cardStyle, minHeight: 68, opacity: 0.35 }} />
           </div>
         ) : clientes.length === 0 ? (
-          <p style={cardMetaStyle}>Nenhum cliente cadastrado.</p>
+          <p style={cardMetaStyle}>Nenhum cliente com manutenção ativa.</p>
         ) : (
           <>
-          <div style={listStyle}>
-            {paginate(clientes, page).map((c) => (
-              <div key={c.id} style={cardStyle}>
-                <div style={cardLeftStyle}>
-                  <div style={avatarStyle}>{getIniciais(c)}</div>
-                  <div style={cardColStyle}>
-                    <span style={cardLabelStyle}>Nome do cliente</span>
-                    <span style={cardMetaStyle}>{c.nome}</span>
-                  </div>
+            <div style={listStyle}>
+              {paginate(clientes, page).map((c) => (
+                <div key={c.id} style={cardStyle}>
+                  <div style={cardLeftStyle}>
+                    <div style={avatarStyle}>{getIniciais(c)}</div>
+                    <div style={cardColStyle}>
+                      <span style={cardLabelStyle}>Nome do cliente</span>
+                      <span style={cardMetaStyle}>{c.nome}</span>
+                    </div>
                     <div style={cardColStyle}>
                       <span style={cardLabelStyle}>E-mail</span>
                       <span style={cardMetaStyle} title={c.email}>{c.email}</span>
                     </div>
                     <div style={cardColStyle}>
                       <span style={cardLabelStyle}>Manutenção</span>
-                      <span style={cardMetaStyle}>{c.mensalidade > 0 ? formatBRL(c.mensalidade) : 'Não aplicado'}</span>
+                      <span style={cardMetaStyle}>{formatBRL(c.mensalidade)}</span>
                     </div>
                     <div style={cardColStyle}>
                       <span style={cardLabelStyle}>Vencimento</span>
-                      <span style={cardMetaStyle}>{c.mensalidade > 0 ? getVencimentoFormatado(c.criadoEm, c.diaVencimento) : 'Não aplicado'}</span>
+                      <span style={cardMetaStyle}>{getVencimentoFormatado(c.criadoEm, c.diaVencimento)}</span>
                     </div>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: spacing[4] }}>
+                    {c.etiqueta === 'inadimplente' ? (
+                      <span style={badgeEmAtrasoStyle}>Em atraso</span>
+                    ) : (
+                      <span style={badgeEmDiaStyle}>Em dia</span>
+                    )}
+                  </div>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: spacing[4] }}>
-                  <Link
-                    href={`/admin/dashboard/clientes/${c.id}/editar`}
-                    style={btnDetalhesStyle}
-                  >
-                    Detalhes
-                  </Link>
-                </div>
-              </div>
-            ))}
-          </div>
-          <Pagination
-            currentPage={page}
-            totalItems={clientes.length}
-            onPageChange={setPage}
-          />
+              ))}
+            </div>
+            <Pagination
+              currentPage={page}
+              totalItems={clientes.length}
+              onPageChange={setPage}
+            />
           </>
         )}
       </AdminLayout>
@@ -220,4 +233,4 @@ const ClientesTodosPage: React.FC = () => {
   );
 };
 
-export default ClientesTodosPage;
+export default ClientesManutencaoPage;

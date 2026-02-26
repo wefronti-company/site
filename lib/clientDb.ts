@@ -145,22 +145,76 @@ function rowToClienteComPagamento(row: Record<string, unknown>, mensalidadePaga:
   return { ...c, mensalidadePaga, etiqueta };
 }
 
-/** Clientes com contrato e manutenção mensal ativa (pagam por mês). */
-export async function getClientesAtivos(mesRefParam?: number): Promise<ClienteComPagamento[]> {
+const TIMEZONE_SP = 'America/Sao_Paulo';
+
+/** Ano, mês e dia atuais no fuso de São Paulo. */
+function getHojeSaoPaulo(): { ano: number; mes: number; dia: number } {
+  const f = new Intl.DateTimeFormat('en-CA', {
+    timeZone: TIMEZONE_SP,
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  });
+  const [ano, mes, dia] = f.format(new Date()).split('-').map(Number);
+  return { ano, mes, dia };
+}
+
+/** Data de vencimento do mês atual (usando dia_vencimento ou dia de criado_em). Usa fuso São Paulo. */
+function getDataVencimentoMesAtual(criadoEm: string, diaVencimento?: number): Date {
+  const { ano, mes } = getHojeSaoPaulo();
+  const diaPadrao = (() => {
+    const d = new Date(criadoEm);
+    return isNaN(d.getTime()) ? 1 : d.getDate();
+  })();
+  const diaVenc = (diaVencimento != null && diaVencimento >= 1 && diaVencimento <= 31)
+    ? diaVencimento
+    : diaPadrao;
+  const ultimoDia = new Date(ano, mes, 0).getDate();
+  const dia = Math.min(diaVenc, ultimoDia);
+  const venc = new Date(ano, mes - 1, dia);
+  venc.setHours(0, 0, 0, 0);
+  return venc;
+}
+
+/** True se a data de vencimento do mês atual já passou. Usa fuso São Paulo para "hoje". */
+function isVencido(criadoEm: string, diaVencimento?: number): boolean {
+  const { ano, mes, dia } = getHojeSaoPaulo();
+  const hoje = new Date(ano, mes - 1, dia);
+  hoje.setHours(0, 0, 0, 0);
+  const venc = getDataVencimentoMesAtual(criadoEm, diaVencimento);
+  return hoje.getTime() > venc.getTime();
+}
+
+/** Clientes com preço e dia de vencimento definidos (manutenção ativa), com status de pagamento do mês. */
+export async function getClientesManutencao(): Promise<ClienteComPagamento[]> {
   if (!sql) throw new Error('Banco de dados não configurado.');
-  const mesRef = mesRefParam ?? getMesRef();
-  await moveOverdueToInativos(mesRef);
+  const mesRef = getMesRef();
   const rows = await sql`
     SELECT c.*, (p.id IS NOT NULL) AS pago
     FROM clientes c
     LEFT JOIN pagamentos_mensalidade p ON p.cliente_id = c.id AND p.mes_ref = ${mesRef}
-    WHERE c.status != 2 AND c.manutencao = true AND c.mensalidade > 0
+    WHERE c.status != 2 AND c.mensalidade > 0
+      AND c.dia_vencimento IS NOT NULL AND c.dia_vencimento >= 1 AND c.dia_vencimento <= 31
     ORDER BY c.nome_fantasia, c.razao_social
   `;
   return (rows as (Record<string, unknown> & { pago: boolean })[]).map((r) => {
     const { pago, ...rest } = r;
-    return rowToClienteComPagamento(rest, !!pago, 'ativo');
+    const c = rowToCliente(rest);
+    const pagoBool = !!r.pago;
+    const emDia = pagoBool || !isVencido(c.criadoEm, c.diaVencimento);
+    return rowToClienteComPagamento(rest, pagoBool, emDia ? 'ativo' : 'inadimplente');
   });
+}
+
+/** Clientes com manutenção em atraso (não pagaram e vencimento já passou). */
+export async function getClientesFatura(): Promise<ClienteComPagamento[]> {
+  const todos = await getClientesManutencao();
+  return todos.filter((c) => !c.mensalidadePaga && isVencido(c.criadoEm, c.diaVencimento));
+}
+
+/** Clientes com contrato e manutenção mensal ativa (pagam por mês). Usado por pagamento-resumo. */
+export async function getClientesAtivos(mesRefParam?: number): Promise<ClienteComPagamento[]> {
+  return getClientesManutencao();
 }
 
 /** Clientes que registraram pagamento em uma data específica (YYYY-MM-DD). */
@@ -284,22 +338,14 @@ export async function getPagamentosByClienteId(clienteId: string): Promise<Pagam
 
 export async function getClientesTodos(): Promise<ClienteComPagamento[]> {
   if (!sql) throw new Error('Banco de dados não configurado.');
-  const mesRef = getMesRef();
   const rows = await sql`
-    SELECT c.*, (p.id IS NOT NULL) AS pago
-    FROM clientes c
-    LEFT JOIN pagamentos_mensalidade p ON p.cliente_id = c.id AND p.mes_ref = ${mesRef}
-    ORDER BY c.status, c.nome_fantasia, c.razao_social
+    SELECT * FROM clientes
+    ORDER BY status, nome_fantasia, razao_social
   `;
-  return (rows as (Record<string, unknown> & { pago: boolean })[]).map((r) => {
-    const { pago, ...rest } = r;
-    const c = rowToCliente(rest);
-    const pagoBool = !!r.pago;
-    let etiqueta: ClienteEtiqueta;
-    if (c.status === 2) etiqueta = 'desligado';
-    else if (c.mensalidade > 0 && !pagoBool) etiqueta = 'inadimplente';
-    else etiqueta = 'ativo';
-    return rowToClienteComPagamento(rest, pagoBool, etiqueta);
+  return (rows as Record<string, unknown>[]).map((r) => {
+    const c = rowToCliente(r);
+    const etiqueta: ClienteEtiqueta = c.status === 2 ? 'desligado' : 'ativo';
+    return rowToClienteComPagamento(r, false, etiqueta);
   });
 }
 

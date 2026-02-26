@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
-import Link from 'next/link';
 import AdminLayout from '../../../../components/admin/AdminLayout';
 import Pagination, { paginate } from '../../../../components/admin/Pagination';
 import { theme } from '../../../../styles/theme';
 import type { ClienteComPagamento } from '../../../../lib/clientDb';
+import { useSnackbar } from '../../../../contexts/SnackbarContext';
 
 const { colors, spacing, fontSizes } = theme;
 
@@ -36,7 +36,7 @@ const cardStyle: React.CSSProperties = {
 
 const cardLeftStyle: React.CSSProperties = {
   display: 'grid',
-  gridTemplateColumns: '44px minmax(100px, 1fr) minmax(150px, 1.5fr) minmax(90px, 1fr) minmax(100px, 1fr)',
+  gridTemplateColumns: '44px minmax(100px, 1fr) minmax(150px, 1.5fr)',
   alignItems: 'center',
   columnGap: spacing[8],
   flex: 1,
@@ -89,59 +89,51 @@ const cardMetaStyle: React.CSSProperties = {
   whiteSpace: 'nowrap' as const,
 };
 
-function formatBRL(val: number): string {
-  return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(val);
-}
-
-function getDiaVencimento(criadoEm: string): number {
-  const d = new Date(criadoEm);
-  return isNaN(d.getTime()) ? 1 : d.getDate();
-}
-
-function getVencimentoDia(criadoEm: string, diaVencimento?: number): number {
-  const diaVenc = (diaVencimento != null && diaVencimento >= 1 && diaVencimento <= 31) ? diaVencimento : getDiaVencimento(criadoEm);
-  const hoje = new Date();
-  const ultimoDia = new Date(hoje.getFullYear(), hoje.getMonth() + 1, 0).getDate();
-  return Math.min(diaVenc, ultimoDia);
-}
-
-function getVencimentoFormatado(criadoEm: string, diaVencimento?: number): string {
-  const dia = getVencimentoDia(criadoEm, diaVencimento);
-  return `Dia ${dia}`;
-}
-
-const btnDetalhesStyle: React.CSSProperties = {
+const badgeEmAtrasoStyle: React.CSSProperties = {
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: spacing[2],
   padding: `${spacing[2]}px ${spacing[3]}px`,
   fontSize: fontSizes.sm,
   fontWeight: 500,
-  color: colors.blue.primary,
-  background: 'transparent',
-  border: `1px solid ${colors.blue.primary}`,
+  backgroundColor: 'rgba(239, 68, 68, 0.15)',
+  color: '#f87171',
+  border: '1px solid rgba(239, 68, 68, 0.4)',
   borderRadius: 6,
-  cursor: 'pointer',
-  textDecoration: 'none',
-  display: 'inline-flex',
 };
 
-let cacheClientesTodos: ClienteComPagamento[] | null = null;
+const btnMarcarPagoStyle: React.CSSProperties = {
+  padding: `${spacing[2]}px ${spacing[4]}px`,
+  fontSize: fontSizes.sm,
+  fontWeight: 500,
+  color: '#fff',
+  backgroundColor: colors.blue.primary,
+  border: 'none',
+  borderRadius: 6,
+  cursor: 'pointer',
+};
 
-const ClientesTodosPage: React.FC = () => {
-  const [clientes, setClientes] = useState<ClienteComPagamento[]>(() => cacheClientesTodos ?? []);
-  const [loading, setLoading] = useState(() => !cacheClientesTodos);
+let cacheClientesFatura: ClienteComPagamento[] | null = null;
+
+const ClientesFaturaPage: React.FC = () => {
+  const { showSuccess, showError } = useSnackbar();
+  const [clientes, setClientes] = useState<ClienteComPagamento[]>(() => cacheClientesFatura ?? []);
+  const [loading, setLoading] = useState(() => !cacheClientesFatura);
   const [page, setPage] = useState(1);
+  const [marcando, setMarcando] = useState<string | null>(null);
 
   const load = (opts?: { silent?: boolean }) => {
     const silent = opts?.silent ?? false;
     if (!silent) setLoading(true);
-    fetch('/api/clientes/todos')
+    fetch('/api/clientes/fatura')
       .then((r) => r.json())
       .then((data) => {
         const list = Array.isArray(data) ? data : [];
-        cacheClientesTodos = list;
+        cacheClientesFatura = list;
         setClientes(list);
       })
       .catch(() => {
-        if (!cacheClientesTodos) setClientes([]);
+        if (!cacheClientesFatura) setClientes([]);
       })
       .finally(() => {
         if (!silent) setLoading(false);
@@ -149,8 +141,26 @@ const ClientesTodosPage: React.FC = () => {
   };
 
   useEffect(() => {
-    load({ silent: !!cacheClientesTodos });
+    load({ silent: !!cacheClientesFatura });
   }, []);
+
+  const handleMarcarPago = async (clienteId: string) => {
+    setMarcando(clienteId);
+    try {
+      const res = await fetch(`/api/clientes/${clienteId}/pagar`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({}),
+      });
+      if (!res.ok) throw new Error('Erro ao marcar como pago');
+      showSuccess('Pagamento registrado. Cliente removido da fatura.');
+      load();
+    } catch {
+      showError('Erro ao registrar pagamento. Tente novamente.');
+    } finally {
+      setMarcando(null);
+    }
+  };
 
   const totalPages = Math.max(1, Math.ceil(clientes.length / 10));
   useEffect(() => {
@@ -160,11 +170,11 @@ const ClientesTodosPage: React.FC = () => {
   return (
     <>
       <Head>
-        <title>Todos os clientes | Wefronti</title>
+        <title>Fatura | Wefronti</title>
         <meta name="robots" content="noindex, nofollow" />
       </Head>
       <AdminLayout>
-        <h1 style={pageTitleStyle}>Todos os clientes</h1>
+        <h1 style={pageTitleStyle}>Fatura</h1>
         {loading ? (
           <div style={listStyle}>
             <div style={{ ...cardStyle, minHeight: 68, opacity: 0.55 }} />
@@ -172,47 +182,45 @@ const ClientesTodosPage: React.FC = () => {
             <div style={{ ...cardStyle, minHeight: 68, opacity: 0.35 }} />
           </div>
         ) : clientes.length === 0 ? (
-          <p style={cardMetaStyle}>Nenhum cliente cadastrado.</p>
+          <p style={cardMetaStyle}>Nenhum cliente com mensalidade em atraso.</p>
         ) : (
           <>
-          <div style={listStyle}>
-            {paginate(clientes, page).map((c) => (
-              <div key={c.id} style={cardStyle}>
-                <div style={cardLeftStyle}>
-                  <div style={avatarStyle}>{getIniciais(c)}</div>
-                  <div style={cardColStyle}>
-                    <span style={cardLabelStyle}>Nome do cliente</span>
-                    <span style={cardMetaStyle}>{c.nome}</span>
-                  </div>
+            <div style={listStyle}>
+              {paginate(clientes, page).map((c) => (
+                <div key={c.id} style={cardStyle}>
+                  <div style={cardLeftStyle}>
+                    <div style={avatarStyle}>{getIniciais(c)}</div>
+                    <div style={cardColStyle}>
+                      <span style={cardLabelStyle}>Nome do cliente</span>
+                      <span style={cardMetaStyle}>{c.nome}</span>
+                    </div>
                     <div style={cardColStyle}>
                       <span style={cardLabelStyle}>E-mail</span>
                       <span style={cardMetaStyle} title={c.email}>{c.email}</span>
                     </div>
-                    <div style={cardColStyle}>
-                      <span style={cardLabelStyle}>Manutenção</span>
-                      <span style={cardMetaStyle}>{c.mensalidade > 0 ? formatBRL(c.mensalidade) : 'Não aplicado'}</span>
-                    </div>
-                    <div style={cardColStyle}>
-                      <span style={cardLabelStyle}>Vencimento</span>
-                      <span style={cardMetaStyle}>{c.mensalidade > 0 ? getVencimentoFormatado(c.criadoEm, c.diaVencimento) : 'Não aplicado'}</span>
-                    </div>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: spacing[4] }}>
+                    <span style={badgeEmAtrasoStyle}>Mensalidade em atraso</span>
+                    <button
+                      type="button"
+                      onClick={() => handleMarcarPago(c.id)}
+                      disabled={marcando === c.id}
+                      style={{
+                        ...btnMarcarPagoStyle,
+                        opacity: marcando === c.id ? 0.6 : 1,
+                      }}
+                    >
+                      {marcando === c.id ? 'Salvando...' : 'Marcar como pago'}
+                    </button>
+                  </div>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: spacing[4] }}>
-                  <Link
-                    href={`/admin/dashboard/clientes/${c.id}/editar`}
-                    style={btnDetalhesStyle}
-                  >
-                    Detalhes
-                  </Link>
-                </div>
-              </div>
-            ))}
-          </div>
-          <Pagination
-            currentPage={page}
-            totalItems={clientes.length}
-            onPageChange={setPage}
-          />
+              ))}
+            </div>
+            <Pagination
+              currentPage={page}
+              totalItems={clientes.length}
+              onPageChange={setPage}
+            />
           </>
         )}
       </AdminLayout>
@@ -220,4 +228,4 @@ const ClientesTodosPage: React.FC = () => {
   );
 };
 
-export default ClientesTodosPage;
+export default ClientesFaturaPage;

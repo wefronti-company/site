@@ -455,6 +455,7 @@ export default function EditarClientePage() {
                   onClick={() => {
                     setMensalidade('');
                     setDiaVencimento('');
+                    showSuccess('Mensalidade e vencimento resetados. Clique em Atualizar para salvar.');
                   }}
                   disabled={loading}
                   style={{
