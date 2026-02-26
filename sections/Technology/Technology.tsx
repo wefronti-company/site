@@ -167,9 +167,19 @@ const cardDescStyle: React.CSSProperties = {
   margin: 0,
 };
 
-const Technology: React.FC = () => {
+interface TechnologyProps {
+  conteudo?: Record<string, unknown>;
+}
+
+const Technology: React.FC<TechnologyProps> = ({ conteudo }) => {
   const isMd = useMediaQuery(theme.breakpoints.md);
   const headerPaddingX = isMd ? spacing[12] : spacing[4];
+
+  const badge = (conteudo?.badge != null ? String(conteudo.badge) : '') || 'Tecnologia';
+  const titulo = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'Excelência em\ntecnologia e criação de sites';
+  const intro = (conteudo?.intro != null ? String(conteudo.intro) : '') || 'Usamos as melhores tecnologias do mercado para elevar o nível do seu projeto. O resultado é um site extremamente rápido, bonito e, principalmente, preparado para converter visitantes em clientes e fazer sua empresa faturar mais.';
+  const botao = (conteudo?.botao != null ? String(conteudo.botao) : '') || 'Quero um site que vende';
+  const tituloLines = titulo.split('\n');
   const sectionStyle: React.CSSProperties = {
     ...sectionStyleBase,
     paddingLeft: headerPaddingX,
@@ -210,7 +220,7 @@ const Technology: React.FC = () => {
                 background: colors.blue.primary,
               }}
             />
-            Tecnologia
+            {badge}
           </span>
           <div style={{
             display: 'flex',
@@ -221,12 +231,12 @@ const Technology: React.FC = () => {
             maxWidth: isMd ? 880 : undefined,
           }}>
             <h2 id="tech-heading" style={{ ...titleStyle, textAlign: isMd ? 'center' : 'left' }}>
-              Excelência em<br />tecnologia e criação de sites
+              {tituloLines.map((line, i, arr) => (
+                <React.Fragment key={i}>{line}{i < arr.length - 1 ? <br /> : null}</React.Fragment>
+              ))}
             </h2>
             <p style={{ ...introStyle, textAlign: isMd ? 'center' : 'left' }}>
-              Usamos as melhores tecnologias do mercado para elevar o nível do seu projeto.
-              O resultado é um site extremamente rápido, bonito e, principalmente, preparado
-              para converter visitantes em clientes e fazer sua empresa faturar mais.
+              {intro}
             </p>
           </div>
         </div>
@@ -252,7 +262,7 @@ const Technology: React.FC = () => {
         </div>
 
         <div style={{ display: 'flex', justifyContent: isMd ? 'center' : 'flex-start', marginTop: spacing[12] }}>
-          <ButtonCta label="Quero um site que vende" />
+          <ButtonCta label={botao} />
         </div>
       </div>
     </section>

@@ -208,9 +208,25 @@ const SITE_FEATURES = [
   'Suporte pós-entrega estendido',
 ];
 
-const Pricing: React.FC = () => {
+interface PricingProps {
+  conteudo?: Record<string, unknown>;
+}
+
+const Pricing: React.FC<PricingProps> = ({ conteudo }) => {
   const isMd = useMediaQuery(theme.breakpoints.md);
   const headerPaddingX = isMd ? spacing[12] : spacing[4];
+
+  const badge = (conteudo?.badge != null ? String(conteudo.badge) : '') || 'Preços';
+  const titulo = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'Escolha como vamos transformar seu site em uma máquina de vendas';
+  const subtitulo = (conteudo?.subtitulo != null ? String(conteudo.subtitulo) : '') || 'Escolha o que faz mais sentido para o seu momento e deixe o resto com a gente.';
+  const landingTitulo = (conteudo?.landingTitulo != null ? String(conteudo.landingTitulo) : '') || 'Landing Page';
+  const landingDescricao = (conteudo?.landingDescricao != null ? String(conteudo.landingDescricao) : '') || 'A solução ideal para empresas que precisam de uma página de alta conversão para campanhas, lançamentos ou captação de leads. Rápida, objetiva e focada em um único resultado.';
+  const landingPreco = (conteudo?.landingPreco != null ? String(conteudo.landingPreco) : '') || '1.397,00';
+  const landingBotao = (conteudo?.landingBotao != null ? String(conteudo.landingBotao) : '') || 'Quero uma landing page';
+  const siteTitulo = (conteudo?.siteTitulo != null ? String(conteudo.siteTitulo) : '') || 'Site completo';
+  const siteDescricao = (conteudo?.siteDescricao != null ? String(conteudo.siteDescricao) : '') || 'Para empresas que querem construir uma presença digital sólida, aparecer no Google e ter um site que gera clientes de forma contínua não só em campanhas.';
+  const sitePreco = (conteudo?.sitePreco != null ? String(conteudo.sitePreco) : '') || '3.497,00';
+  const siteBotao = (conteudo?.siteBotao != null ? String(conteudo.siteBotao) : '') || 'Quero um site';
 
   const openWhatsApp = (contextMessage: string) => {
     if (typeof window === 'undefined') return;
@@ -251,14 +267,14 @@ const Pricing: React.FC = () => {
                 background: colors.blue.primary,
               }}
             />
-            Preços
+            {badge}
           </span>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: isMd ? 'center' : 'flex-start', gap: spacing[4], width: '100%', maxWidth: 880 }}>
             <h2 id="pricing-heading" style={{ ...titleStyle, textAlign: isMd ? 'center' : 'left' }}>
-            Escolha como vamos transformar seu site em uma máquina de vendas
+              {titulo}
             </h2>
             <p style={{ ...subtitleStyle, textAlign: isMd ? 'center' : 'left' }}>
-            Escolha o que faz mais sentido para o seu momento e deixe o resto com a gente.
+              {subtitulo}
             </p>
           </div>
         </div>
@@ -266,15 +282,15 @@ const Pricing: React.FC = () => {
         <div style={gridWrapStyle}>
           <div style={grid}>
           <div style={cardStyleResponsive}>
-            <h3 style={cardTitleStyle}>Landing Page</h3>
+            <h3 style={cardTitleStyle}>{landingTitulo}</h3>
             <p style={{ fontSize: fontSizes.sm, color: colors.text.light, opacity: 0.88, margin: 0 }}>
-            A solução ideal para empresas que precisam de uma página de alta conversão para campanhas, lançamentos ou captação de leads. Rápida, objetiva e focada em um único resultado.
+              {landingDescricao}
             </p>
             <div style={priceBlockStyle}>
               <p style={priceFromLabelStyle}>A partir de:</p>
               <div style={priceRowStyle}>
                 <span style={priceSymbolStyle}>R$</span>
-                <span style={priceValueStyle}>1.397,00</span>
+                <span style={priceValueStyle}>{landingPreco}</span>
               </div>
               <p style={priceSecondaryStyle}>Parcelado em até 10x </p>
               <p style={pricePixStyle}>À vista no PIX: 10% de desconto</p>
@@ -291,7 +307,7 @@ const Pricing: React.FC = () => {
             </ul>
             <div style={{ marginTop: 'auto' }}>
               <ButtonCta
-                label="Quero uma landing page"
+                label={landingBotao}
                 onClick={() => {
                   openWhatsApp(LANDING_PAGE_MESSAGE);
                 }}
@@ -300,15 +316,15 @@ const Pricing: React.FC = () => {
           </div>
 
           <div style={{ ...cardStyleResponsive, ...cardEmphasisStyle }}>
-            <h3 style={cardTitleStyle}>Site completo</h3>
+            <h3 style={cardTitleStyle}>{siteTitulo}</h3>
             <p style={{ fontSize: fontSizes.sm, color: colors.text.light, opacity: 0.88, margin: 0 }}>
-            Para empresas que querem construir uma presença digital sólida, aparecer no Google e ter um site que gera clientes de forma contínua não só em campanhas.
+              {siteDescricao}
             </p>
             <div style={priceBlockStyle}>
               <p style={priceFromLabelStyle}>A partir de:</p>
               <div style={priceRowStyle}>
                 <span style={priceSymbolStyle}>R$</span>
-                <span style={priceValueStyle}>3.497,00</span>
+                <span style={priceValueStyle}>{sitePreco}</span>
               </div>
               <p style={priceSecondaryStyle}>Parcelado em até 10x</p>
               <p style={pricePixStyle}>À vista no PIX: 10% de desconto</p>
@@ -325,7 +341,7 @@ const Pricing: React.FC = () => {
             </ul>
             <div style={{ marginTop: 'auto' }}>
               <ButtonCta
-                label="Quero um site"
+                label={siteBotao}
                 onClick={() => {
                   openWhatsApp(SITE_COMPLETO_MESSAGE);
                 }}

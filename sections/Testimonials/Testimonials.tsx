@@ -207,8 +207,16 @@ const cardLocationStyle: React.CSSProperties = {
   margin: 0,
 };
 
-const Testimonials: React.FC = () => {
+interface TestimonialsProps {
+  conteudo?: Record<string, unknown>;
+}
+
+const Testimonials: React.FC<TestimonialsProps> = ({ conteudo }) => {
   const isMd = useMediaQuery(theme.breakpoints.md);
+
+  const badge = (conteudo?.badge != null ? String(conteudo.badge) : '') || 'Depoimentos';
+  const titulo = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'Resultados reais de quem apostou em um site que vende';
+  const subtitulo = (conteudo?.subtitulo != null ? String(conteudo.subtitulo) : '') || 'Veja o que aconteceu quando elas decidiram levar o digital a sério.';
   const headerPaddingX = isMd ? spacing[12] : spacing[4];
   const sectionStyle: React.CSSProperties = {
     ...sectionStyleBase,
@@ -270,14 +278,14 @@ const Testimonials: React.FC = () => {
                 background: colors.blue.primary,
               }}
             />
-            Depoimentos
+            {badge}
           </span>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: isMd ? 'center' : 'flex-start', gap: spacing[4], width: '100%', maxWidth: 880 }}>
             <h2 id="testimonials-heading" style={{ ...titleStyle, textAlign: isMd ? 'center' : 'left' }}>
-              Resultados reais de quem apostou em um site que vende
+              {titulo}
             </h2>
             <p style={{ ...subtitleStyle, textAlign: isMd ? 'center' : 'left', whiteSpace: isMd ? 'nowrap' : 'normal' }}>
-              Veja o que aconteceu quando elas decidiram levar o digital a sério.
+              {subtitulo}
             </p>
           </div>
         </div>

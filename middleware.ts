@@ -126,7 +126,8 @@ export async function middleware(request: NextRequest) {
  const isProtectedAdminApi =
    pathname.startsWith('/api/clientes') ||
    pathname === '/api/dashboard' ||
-   (pathname.startsWith('/api/proposta') && !isPublicProposalPageApi);
+   (pathname.startsWith('/api/proposta') && !isPublicProposalPageApi) ||
+   (pathname.startsWith('/api/site') && request.method !== 'GET');
 
  if (isProtectedAdminApi) {
    const token = getTokenFromCookie(request.headers.get('cookie'));

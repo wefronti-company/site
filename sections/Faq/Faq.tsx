@@ -112,9 +112,19 @@ const accordionListStyle: React.CSSProperties = {
   padding: 0,
 };
 
-const Faq: React.FC = () => {
+interface FaqProps {
+  conteudo?: Record<string, unknown>;
+}
+
+const Faq: React.FC<FaqProps> = ({ conteudo }) => {
   const isMd = useMediaQuery(theme.breakpoints.md);
   const [openIndex, setOpenIndex] = useState<number | null>(0);
+
+  const badge = (conteudo?.badge != null ? String(conteudo.badge) : '') || 'FAQ';
+  const titulo = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'Perguntas\nfrequentes';
+  const tituloLines = titulo.split('\n');
+  const itens = (Array.isArray(conteudo?.itens) ? (conteudo.itens as { pergunta?: string; resposta?: string }[]) : null)
+    ?? FAQ_ITEMS.map((q) => ({ pergunta: q.question, resposta: q.answer }));
 
   const headerPaddingX = isMd ? spacing[12] : spacing[4];
   const sectionStyle: React.CSSProperties = {
@@ -149,10 +159,12 @@ const Faq: React.FC = () => {
         <div style={leftColumnStyleResponsive}>
           <span style={badgeStyle} aria-hidden>
             <span className="badge-dot-pulse" style={{ width: 6, height: 6, borderRadius: '50%', background: colors.blue.primary }} />
-            FAQ
+            {badge}
           </span>
           <h2 id="faq-heading" style={titleStyle}>
-            Perguntas<br/>frequentes
+            {tituloLines.map((line, i, arr) => (
+              <React.Fragment key={i}>{line}{i < arr.length - 1 ? <br /> : null}</React.Fragment>
+            ))}
           </h2>
           <p style={descriptionStyle}>
             Tem dúvidas? Confira as respostas mais comuns abaixo ou entre em contato pelo WhatsApp.
@@ -161,8 +173,10 @@ const Faq: React.FC = () => {
 
         <div style={rightColumnStyleResponsive}>
           <ul style={accordionListStyle} role="list">
-          {FAQ_ITEMS.map((item, index) => {
+          {itens.map((item, index) => {
             const isOpen = openIndex === index;
+            const question = (item as { pergunta?: string; question?: string }).pergunta ?? (item as { question?: string }).question ?? '';
+            const answer = (item as { resposta?: string; answer?: string }).resposta ?? (item as { answer?: string }).answer ?? '';
             return (
               <li key={index}>
                 <div
@@ -204,7 +218,7 @@ const Faq: React.FC = () => {
                         flex: 1,
                       }}
                     >
-                      {item.question}
+                      {question}
                     </span>
                     <span
                       style={{
@@ -246,7 +260,7 @@ const Faq: React.FC = () => {
                             textAlign: 'left',
                           }}
                         >
-                          {item.answer}
+                          {answer}
                         </p>
                       </div>
                     </div>

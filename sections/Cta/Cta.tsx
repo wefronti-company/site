@@ -6,7 +6,7 @@ import WhatsAppLink from '../../components/WhatsAppLink';
 
 const { colors, spacing, fontSizes, radii, containerMaxWidth } = theme;
 
-const WHATSAPP_MESSAGE = 'Olá, tenho algumas dúvidas e gostaria de conversar.';
+const DEFAULT_WHATSAPP_MESSAGE = 'Olá, tenho algumas dúvidas e gostaria de conversar.';
 
 /** Largura alinhada aos cards de preço para não ficar tão largo */
 const CTA_MAX_WIDTH = 920;
@@ -64,9 +64,18 @@ const buttonStyle: React.CSSProperties = {
   transition: 'opacity 0.2s ease',
 };
 
-const Cta: React.FC = () => {
+interface CtaProps {
+  conteudo?: Record<string, unknown>;
+}
+
+const Cta: React.FC<CtaProps> = ({ conteudo }) => {
   const isMd = useMediaQuery(theme.breakpoints.md);
   const headerPaddingX = isMd ? spacing[12] : spacing[4];
+
+  const titulo = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'Vamos transformar o seu site em uma máquina de vendas?';
+  const subtitulo = (conteudo?.subtitulo != null ? String(conteudo.subtitulo) : '') || 'Fale com a gente pelo WhatsApp, vamos conversar sobre o seu negócio e como podemos ajudar.';
+  const botao = (conteudo?.botao != null ? String(conteudo.botao) : '') || 'Falar no WhatsApp';
+  const mensagemWhatsApp = (conteudo?.mensagemWhatsApp != null ? String(conteudo.mensagemWhatsApp) : '') || DEFAULT_WHATSAPP_MESSAGE;
   const sectionStyle: React.CSSProperties = {
     width: '100%',
     marginTop: spacing[24],
@@ -92,21 +101,19 @@ const Cta: React.FC = () => {
     <section id="cta" style={sectionStyle} aria-labelledby="cta-heading">
       <div style={wrapperStyle}>
         <h2 id="cta-heading" style={headingStyle}>
-        Vamos transformar o seu site em uma máquina de vendas?
-
+          {titulo}
         </h2>
         <p style={subheadingStyle}>
-        Fale com a gente pelo WhatsApp, vamos conversar sobre o seu negócio e como podemos ajudar.
-
+          {subtitulo}
         </p>
         <WhatsAppLink
-          defaultMessage={WHATSAPP_MESSAGE}
+          defaultMessage={mensagemWhatsApp}
           target="_blank"
           rel="noopener noreferrer"
           style={buttonStyle}
           aria-label="Abrir conversa no WhatsApp para tirar dúvidas"
         >
-          Falar no WhatsApp
+          {botao}
           <span
             style={{
               display: 'inline-flex',

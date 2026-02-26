@@ -168,13 +168,30 @@ const stepDescStyle: React.CSSProperties = {
   maxWidth: stepContentMaxWidth,
 };
 
-const Timeline: React.FC = () => {
+interface TimelineProps {
+  conteudo?: Record<string, unknown>;
+}
+
+const Timeline: React.FC<TimelineProps> = ({ conteudo }) => {
   const isMd = useMediaQuery(theme.breakpoints.md);
   const headerPaddingX = isMd ? spacing[12] : spacing[4];
   const mobileWrapRef = useRef<HTMLDivElement>(null);
   const firstDotRef = useRef<HTMLDivElement>(null);
   const lastDotRef = useRef<HTMLDivElement>(null);
   const [mobileLineBounds, setMobileLineBounds] = useState({ top: 0, height: 0 });
+
+  const badge = (conteudo?.badge != null ? String(conteudo.badge) : '') || 'Processo';
+  const titulo = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'Um processo sem surpresas, do início ao resultado';
+  const subtitulo = (conteudo?.subtitulo != null ? String(conteudo.subtitulo) : '') || 'Cada fase do nosso processo foi pensada para eliminar retrabalho, garantir qualidade e entregar um site que trabalha por você todos os dias.';
+  const botao = (conteudo?.botao != null ? String(conteudo.botao) : '') || 'Quero um site que vende';
+  const passos = Array.isArray(conteudo?.passos) ? (conteudo.passos as { titulo?: string; descricao?: string }[]) : null;
+  const steps = passos && passos.length > 0
+    ? passos.map((p, i) => ({
+        title: (p.titulo != null ? String(p.titulo) : '') || TIMELINE_STEPS[i]?.title ?? '',
+        description: (p.descricao != null ? String(p.descricao) : '') || TIMELINE_STEPS[i]?.description ?? '',
+        Icon: TIMELINE_STEPS[i]?.Icon ?? (() => null),
+      }))
+    : TIMELINE_STEPS;
 
   useLayoutEffect(() => {
     if (isMd) return;
@@ -257,24 +274,25 @@ const Timeline: React.FC = () => {
                   background: colors.blue.primary,
                 }}
               />
-              Processo
+              {badge}
             </span>
             <div style={{ maxWidth: 820, display: 'flex', flexDirection: 'column', gap: spacing[4] }}>
               <h2 id="timeline-heading" style={{ ...titleStyle, textAlign: 'left' }}>
-                Um processo sem surpresas, do início ao resultado
+                {titulo}
               </h2>
               <p style={{ ...subtitleStyle, textAlign: 'left' }}>
-                Cada fase do nosso processo foi pensada para eliminar retrabalho, garantir qualidade e entregar um site que trabalha por você todos os dias.
+                {subtitulo}
               </p>
             </div>
           </div>
           <div ref={mobileWrapRef} style={mobileWrapStyle}>
             <div style={mobileLineStyle} aria-hidden="true" />
             <ul style={{ listStyle: 'none', margin: 0, padding: 0 }} role="list">
-              {TIMELINE_STEPS.map((step, index) => {
+              {steps.map((step, index) => {
                 const Icon = step.Icon;
                 const isFirst = index === 0;
-                const isLast = index === TIMELINE_STEPS.length - 1;
+                const isLast = index === steps.length - 1;
+                const Icon = step.Icon;
                 return (
                   <li key={index} style={mobileStepRowStyle}>
                     <div ref={isFirst ? firstDotRef : isLast ? lastDotRef : undefined} style={mobileDotWrapStyle}>
@@ -293,7 +311,7 @@ const Timeline: React.FC = () => {
             </ul>
           </div>
           <div style={{ display: 'flex', justifyContent: 'flex-start', marginTop: isMd ? spacing[12] : spacing[6] }}>
-            <ButtonCta label="Quero um site que vende" />
+            <ButtonCta label={botao} />
           </div>
         </div>
       </section>
@@ -314,14 +332,14 @@ const Timeline: React.FC = () => {
                 background: colors.blue.primary,
               }}
             />
-            Processo
+            {badge}
           </span>
           <div style={{ maxWidth: 820, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: spacing[4] }}>
             <h2 id="timeline-heading" style={titleStyle}>
-              Um processo sem surpresas, do início ao resultado
+              {titulo}
             </h2>
             <p style={subtitleStyle}>
-              Cada fase do nosso processo foi pensada para eliminar retrabalho, garantir qualidade e entregar um site que trabalha por você todos os dias.
+              {subtitulo}
             </p>
           </div>
         </div>
@@ -329,7 +347,7 @@ const Timeline: React.FC = () => {
         <div style={timelineWrapStyle}>
           <div style={lineStyle} aria-hidden="true" />
           <ul style={stepsGridStyle} role="list">
-            {TIMELINE_STEPS.map((step, index) => {
+            {steps.map((step, index) => {
               const Icon = step.Icon;
               return (
                 <li key={index} style={stepColumnStyle}>
@@ -347,7 +365,7 @@ const Timeline: React.FC = () => {
           </ul>
         </div>
         <div style={{ display: 'flex', justifyContent: 'center', marginTop: isMd ? spacing[12] : spacing[6] }}>
-          <ButtonCta label="Quero um site que vende" />
+          <ButtonCta label={botao} />
         </div>
       </div>
     </section>

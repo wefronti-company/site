@@ -133,10 +133,18 @@ const cardDescStyle: React.CSSProperties = {
   margin: 0,
 };
 
-const Portfolio: React.FC = () => {
+interface PortfolioProps {
+  conteudo?: Record<string, unknown>;
+}
+
+const Portfolio: React.FC<PortfolioProps> = ({ conteudo }) => {
   const isMd = useMediaQuery(theme.breakpoints.md);
   const headerPaddingX = isMd ? spacing[12] : spacing[4];
   const [cursor, setCursor] = useState({ x: 0, y: 0, hoveredIndex: -1 });
+
+  const badge = (conteudo?.badge != null ? String(conteudo.badge) : '') || 'Portfólio';
+  const titulo = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'Veja o que entregamos para nossos clientes';
+  const subtitulo = (conteudo?.subtitulo != null ? String(conteudo.subtitulo) : '') || 'Conheça alguns dos projetos que desenvolvemos e imagine o que podemos fazer pelo seu negócio.';
 
   const handleCardMouseEnter = useCallback((e: React.MouseEvent, index: number) => {
     setCursor({ x: e.clientX, y: e.clientY, hoveredIndex: index });
@@ -174,14 +182,14 @@ const Portfolio: React.FC = () => {
                 background: colors.blue.primary,
               }}
             />
-            Portfólio
+            {badge}
           </span>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: isMd ? 'center' : 'flex-start', gap: spacing[4], width: '100%', maxWidth: 880 }}>
             <h2 id="portfolio-heading" style={{ ...titleStyle, textAlign: isMd ? 'center' : 'left' }}>
-              Veja o que entregamos para nossos clientes
+              {titulo}
             </h2>
             <p style={{ ...subtitleStyle, textAlign: isMd ? 'center' : 'left', maxWidth: 560 }}>
-              Conheça alguns dos projetos que desenvolvemos e imagine o que podemos fazer pelo seu negócio.
+              {subtitulo}
             </p>
           </div>
         </div>

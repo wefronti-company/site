@@ -92,7 +92,16 @@ async function run() {
   await sql`CREATE INDEX IF NOT EXISTS idx_pagamentos_mes_ref ON pagamentos_mensalidade(mes_ref)`;
   console.log('  ✓ índices de clientes e pagamentos');
 
-  console.log('\nTabelas criadas: admins, clientes, pagamentos_mensalidade, propostas.');
+  await sql`
+    CREATE TABLE IF NOT EXISTS site_conteudo (
+      secao VARCHAR(80) PRIMARY KEY,
+      dados JSONB NOT NULL DEFAULT '{}',
+      atualizado_em TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    )
+  `;
+  console.log('  ✓ site_conteudo');
+
+  console.log('\nTabelas criadas: admins, clientes, pagamentos_mensalidade, propostas, site_conteudo.');
 }
 
 run().catch((err) => {

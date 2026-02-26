@@ -12,8 +12,15 @@ const SOCIAL_LINKS = [
   { href: 'https://linkedin.com/company/wefronti', label: 'LinkedIn', Icon: FaLinkedin },
 ] as const;
 
-const Footer: React.FC = () => {
+interface FooterProps {
+  conteudo?: Record<string, unknown>;
+}
+
+const Footer: React.FC<FooterProps> = ({ conteudo }) => {
   const isMd = useMediaQuery(theme.breakpoints.md);
+
+  const redesLabel = (conteudo?.redesLabel != null ? String(conteudo.redesLabel) : '') || 'Nossas redes';
+  const cnpjTexto = (conteudo?.cnpjTexto != null ? String(conteudo.cnpjTexto) : '') || 'CNPJ: 64.507.638/0001-04 | Wefronti Tecnologia Ltda';
 
   const footerStyle: React.CSSProperties = {
     width: '100%',
@@ -109,7 +116,7 @@ const Footer: React.FC = () => {
             <Logo />
             <div style={rightBlockStyle}>
               <div style={networksRowStyle}>
-                <span style={networksLabelStyle}>Nossas redes</span>
+                <span style={networksLabelStyle}>{redesLabel}</span>
                 {SOCIAL_LINKS.map(({ href, label, Icon }) => (
                   <a
                     key={label}
@@ -139,7 +146,7 @@ const Footer: React.FC = () => {
           <div style={innerBottomStyle}>
             <div style={bottomRowStyle}>
               <div style={{ ...smallTextStyle, textAlign: 'left' }}>
-                CNPJ: 64.507.638/0001-04 | Wefronti Tecnologia Ltda
+                {cnpjTexto}
               </div>
               <div style={{ ...smallTextStyle, textAlign: isMd ? 'right' : 'left' }}>
                 © {new Date().getFullYear()}. Todos os direitos reservados.

@@ -132,12 +132,22 @@ const chipStyleBase: React.CSSProperties = {
 };
 
 
-const Hero: React.FC = () => {
+interface HeroProps {
+  conteudo?: Record<string, unknown>;
+}
+
+const Hero: React.FC<HeroProps> = ({ conteudo }) => {
   const isMd = useMediaQuery(theme.breakpoints.md);
   const scrollToSection = useScrollToSection();
   const [hasEntered, setHasEntered] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   const sparkles = useSparkles();
+
+  const titulo = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'Transformamos seu site em uma máquina online de vendas';
+  const subtitulo = (conteudo?.subtitulo != null ? String(conteudo.subtitulo) : '') || 'Planejamento, tecnologia e otimização contínua para tornar seu site um verdadeiro canal de aquisição.';
+  const chipsLabels = Array.isArray(conteudo?.chips) ? (conteudo.chips as string[]).map((c) => String(c)) : HERO_CHIPS.map((c) => c.label);
+  const botaoPrincipal = (conteudo?.botaoPrincipal != null ? String(conteudo.botaoPrincipal) : '') || 'Quero um site que vende';
+  const botaoSecundario = (conteudo?.botaoSecundario != null ? String(conteudo.botaoSecundario) : '') || 'Ver Portfolio';
 
   const heroSectionStyle: React.CSSProperties = {
     ...heroSectionStyleBase,
@@ -209,7 +219,7 @@ const Hero: React.FC = () => {
           transition={{ duration: 0.7, ease: 'easeOut', delay: 0.15 }}
           style={heroTitleStyle}
         >
-          Transformamos seu site em uma máquina online de vendas
+          {titulo}
         </motion.h1>
 
         <motion.p
@@ -218,7 +228,7 @@ const Hero: React.FC = () => {
           transition={{ duration: 0.6, ease: 'easeOut', delay: 0.25 }}
           style={heroSubtitleStyle}
         >
-          Planejamento, tecnologia e otimização contínua para tornar seu site um verdadeiro canal de aquisição.
+          {subtitulo}
         </motion.p>
 
         <motion.div
@@ -227,10 +237,10 @@ const Hero: React.FC = () => {
           animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
           transition={{ duration: 0.5, ease: 'easeOut', delay: 0.4 }}
         >
-          {HERO_CHIPS.map(({ label, Icon }, i) => (
+          {HERO_CHIPS.map(({ Icon }, i) => (
             <span key={i} className="hero-chip-float" style={{ ...chipStyle, animationDelay: `${i * 0.25}s` }}>
               <span style={{ display: 'flex', flexShrink: 0 }}><Icon size={18} /></span>
-              {label}
+              {chipsLabels[i] ?? ''}
             </span>
           ))}
         </motion.div>
@@ -241,7 +251,7 @@ const Hero: React.FC = () => {
           animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
           transition={{ duration: 0.5, ease: 'easeOut', delay: 0.5 }}
         >
-          <ButtonCta>Quero um site que vende</ButtonCta>
+          <ButtonCta>{botaoPrincipal}</ButtonCta>
           <Link
             href="/#portfolio"
             aria-label="Ver portfolio"
@@ -269,9 +279,8 @@ const Hero: React.FC = () => {
               textDecoration: 'none',
               transition: 'opacity 0.2s, border-color 0.2s',
             }}
-           
           >
-            Ver Portfolio
+            {botaoSecundario}
           </Link>
         </motion.div>
       </div>

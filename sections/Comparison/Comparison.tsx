@@ -149,9 +149,23 @@ const iconPositiveStyle: React.CSSProperties = {
   color: colors.blue.primary,
 };
 
-const Comparison: React.FC = () => {
+interface ComparisonProps {
+  conteudo?: Record<string, unknown>;
+}
+
+const Comparison: React.FC<ComparisonProps> = ({ conteudo }) => {
   const isMd = useMediaQuery(theme.breakpoints.md);
   const headerPaddingX = isMd ? spacing[12] : spacing[4];
+
+  const badge = (conteudo?.badge != null ? String(conteudo.badge) : '') || 'Diferenciais';
+  const titulo = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'Você já passou por isso\ncom outra empresa?';
+  const subtitulo = (conteudo?.subtitulo != null ? String(conteudo.subtitulo) : '') || 'Veja o que acontece na prática com a maioria das empresas do mercado, e por que líderes escolhem a Wefronti:';
+  const outrasAgencias = (Array.isArray(conteudo?.outrasAgencias) ? (conteudo.outrasAgencias as string[]).map(String) : null) ?? OUTRAS_AGENCIAS;
+  const wefronti = (Array.isArray(conteudo?.wefronti) ? (conteudo.wefronti as string[]).map(String) : null) ?? WEFRONTI;
+  const tituloLines = titulo.split('\n');
+  const ctaFinal = (conteudo?.ctaFinal != null ? String(conteudo.ctaFinal) : '') || 'Você já sabe o que não quer. Agora é hora de ter um site que realmente trabalha pelo seu negócio.';
+  const botao = (conteudo?.botao != null ? String(conteudo.botao) : '') || 'Quero um site que vende';
+
   const sectionStyle: React.CSSProperties = {
     ...sectionStyleBase,
     paddingLeft: headerPaddingX,
@@ -184,13 +198,15 @@ const Comparison: React.FC = () => {
                 background: colors.blue.primary,
               }}
             />
-            Diferenciais
+            {badge}
           </span>
           <h2 id="comparison-heading" style={{ ...titleStyle, textAlign: isMd ? 'center' : 'left' }}>
-            Você já passou por isso<br />com outra empresa?
+            {tituloLines.map((line, i, arr) => (
+              <React.Fragment key={i}>{line}{i < arr.length - 1 ? <br /> : null}</React.Fragment>
+            ))}
           </h2>
           <p style={{ margin: 0, fontSize: '1.3rem', color: colors.text.light, opacity: 0.88, lineHeight: 1.5, textAlign: isMd ? 'center' : 'left', maxWidth: 640 }}>
-            Veja o que acontece na prática com a maioria das empresas do mercado, e por que líderes escolhem a Wefronti:
+            {subtitulo}
           </p>
         </div>
 
@@ -198,7 +214,7 @@ const Comparison: React.FC = () => {
           <div style={cardStyle}>
             <h3 style={cardTitleStyle}>99% de chance de você ter passado por isso:</h3>
             <ul style={listStyle} role="list">
-              {OUTRAS_AGENCIAS.map((text, i) => (
+              {outrasAgencias.map((text, i) => (
                 <li key={i} style={itemStyle}>
                   <span style={iconNegativeStyle} aria-hidden>
                     <X size={14} strokeWidth={2.5} />
@@ -212,7 +228,7 @@ const Comparison: React.FC = () => {
           <div style={cardHighlightStyle}>
             <h3 style={cardTitleStyle}>Como é trabalhar com a Wefronti</h3>
             <ul style={listStyle} role="list">
-              {WEFRONTI.map((text, i) => (
+              {wefronti.map((text, i) => (
                 <li key={i} style={itemStyle}>
                   <span style={iconPositiveStyle} aria-hidden>
                     <CheckCircle2 size={22} />
@@ -240,9 +256,9 @@ const Comparison: React.FC = () => {
             opacity: 0.92,
             maxWidth: 720,
           }}>
-            Você já sabe o que não quer. Agora é hora de ter um site que realmente trabalha pelo seu negócio.
+            {ctaFinal}
           </p>
-          <ButtonCta label="Quero um site que vende" />
+          <ButtonCta label={botao} />
         </div>
       </div>
     </section>

@@ -147,9 +147,17 @@ const ABOUT_ITEMS: string[] = [
   'Parceria e suporte pós-entrega — não somimos depois da entrega',
 ];
 
-const About: React.FC = () => {
+interface AboutProps {
+  conteudo?: Record<string, unknown>;
+}
+
+const About: React.FC<AboutProps> = ({ conteudo }) => {
   const isMd = useMediaQuery(theme.breakpoints.md);
   const headerPaddingX = isMd ? spacing[12] : spacing[4];
+
+  const badge = (conteudo?.badge != null ? String(conteudo.badge) : '') || 'Sobre';
+  const titulo = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'Nascemos para provar que site bom é site que vende';
+  const descricao = (conteudo?.descricao != null ? String(conteudo.descricao) : '') || 'A Wefronti surgiu da frustração de ver empresas sérias presas a sites lentos, feios e invisíveis no Google enquanto pagavam caro por isso. Decidimos fazer diferente: unir design de alto nível, tecnologia de ponta e estratégia de conversão em um único lugar. Transparência, prazos reais e suporte de verdade porque o seu sucesso é a única métrica que nos importa.';
 
   const sectionStyle: React.CSSProperties = {
     ...sectionStyleBase,
@@ -216,14 +224,13 @@ const About: React.FC = () => {
                 background: colors.blue.primary,
               }}
             />
-            Sobre
+            {badge}
           </span>
           <h2 id="about-heading" style={titleStyle}>
-          Nascemos para provar que site bom é site que vende
+            {titulo}
           </h2>
           <p style={descriptionStyle}>
-          A Wefronti surgiu da frustração de ver empresas sérias presas a sites lentos, feios e invisíveis no Google enquanto pagavam caro por isso. Decidimos fazer diferente: unir design de alto nível, tecnologia de ponta e estratégia de conversão em um único lugar. Transparência, prazos reais e suporte de verdade porque o seu sucesso é a única métrica que nos importa.
-
+            {descricao}
           </p>
 
         </div>
