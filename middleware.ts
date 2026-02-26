@@ -125,7 +125,6 @@ export async function middleware(request: NextRequest) {
  const isPublicProposalPageApi = /^\/api\/proposta\/[^/]+$/.test(pathname) && request.method === 'GET';
  const isProtectedAdminApi =
    pathname.startsWith('/api/clientes') ||
-   pathname.startsWith('/api/metas') ||
    pathname === '/api/dashboard' ||
    (pathname.startsWith('/api/proposta') && !isPublicProposalPageApi);
 

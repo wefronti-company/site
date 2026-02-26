@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { getClientesAtivos, getClientesQuePagaramEmData } from '../../../lib/clientDb';
-import { getPagamentoResumoPorMes, getPagamentoResumoPorData, getMesRef, getPagamentosPorDia } from '../../../lib/metasDb';
+import { getPagamentoResumoPorMes, getPagamentoResumoPorData, getMesRef, getPagamentosPorDia } from '../../../lib/dashboardDb';
 
 function parseMesRef(queryMes: unknown): number {
   if (typeof queryMes === 'string') {

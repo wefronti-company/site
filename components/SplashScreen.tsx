@@ -4,8 +4,8 @@ import { theme } from '../styles/theme';
 
 const { colors, spacing, fontSizes } = theme;
 
-const DURATION_MS = 5000; // 5 segundos
-const HOLD_AT_100_MS = 2000; // 2s em 100% antes do slide
+const DURATION_MS = 3000; // 5 segundos
+const HOLD_AT_100_MS = 1000; // 2s em 100% antes do slide
 const SLIDE_DURATION_MS = 500;
 
 const LOADING_TEXT = 'Você está a um site de distância do seu próximo cliente.';

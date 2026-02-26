@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Cria as tabelas admins e admin_sessoes no banco.
+ * Cria apenas as tabelas: admins, clientes, pagamentos_mensalidade, propostas.
  * Uso: npm run db:init  ou  node -r dotenv/config scripts/init-admin-db.mjs
  */
 import 'dotenv/config';
@@ -15,7 +15,7 @@ if (!databaseUrl) {
 const sql = neon(databaseUrl);
 
 async function run() {
-  console.log('Criando tabelas...');
+  console.log('Criando tabelas (admins, clientes, pagamentos_mensalidade, propostas)...');
 
   await sql`
     CREATE TABLE IF NOT EXISTS admins (
@@ -32,21 +32,6 @@ async function run() {
 
   await sql`CREATE INDEX IF NOT EXISTS idx_admins_email ON admins(email)`;
   console.log('  ✓ idx_admins_email');
-
-  await sql`
-    CREATE TABLE IF NOT EXISTS admin_sessoes (
-      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-      admin_id UUID NOT NULL REFERENCES admins(id) ON DELETE CASCADE,
-      token_hash VARCHAR(64) NOT NULL UNIQUE,
-      expira_em TIMESTAMPTZ NOT NULL,
-      criado_em TIMESTAMPTZ NOT NULL DEFAULT NOW()
-    )
-  `;
-  console.log('  ✓ admin_sessoes');
-
-  await sql`CREATE INDEX IF NOT EXISTS idx_admin_sessoes_token ON admin_sessoes(token_hash)`;
-  await sql`CREATE INDEX IF NOT EXISTS idx_admin_sessoes_expira ON admin_sessoes(expira_em)`;
-  console.log('  ✓ índices de admin_sessoes');
 
   await sql`
     CREATE TABLE IF NOT EXISTS propostas (
@@ -107,21 +92,7 @@ async function run() {
   await sql`CREATE INDEX IF NOT EXISTS idx_pagamentos_mes_ref ON pagamentos_mensalidade(mes_ref)`;
   console.log('  ✓ índices de clientes e pagamentos');
 
-  await sql`
-    CREATE TABLE IF NOT EXISTS metas (
-      id SMALLINT PRIMARY KEY DEFAULT 1,
-      meta_receita INTEGER NOT NULL DEFAULT 0,
-      meta_clientes INTEGER NOT NULL DEFAULT 0
-    )
-  `;
-  await sql`
-    INSERT INTO metas (id, meta_receita, meta_clientes)
-    VALUES (1, 0, 0)
-    ON CONFLICT (id) DO NOTHING
-  `;
-  console.log('  ✓ metas');
-
-  console.log('\nTabelas criadas com sucesso.');
+  console.log('\nTabelas criadas: admins, clientes, pagamentos_mensalidade, propostas.');
 }
 
 run().catch((err) => {
