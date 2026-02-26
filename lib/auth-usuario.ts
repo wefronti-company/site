@@ -1,5 +1,5 @@
 /**
- * Autenticação do painel de usuário (indique e ganhe).
+ * Autenticação do painel de usuário (cliente).
  * JWT em cookie separado do admin.
  */
 import { SignJWT, jwtVerify } from 'jose';

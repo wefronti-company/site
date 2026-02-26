@@ -10,6 +10,14 @@ import { useSnackbar } from '../../../../../contexts/SnackbarContext';
 
 const { colors, spacing, fontSizes } = theme;
 
+const pageTitleStyle: React.CSSProperties = {
+  fontSize: fontSizes.lg,
+  fontWeight: 400,
+  color: colors.text.light,
+  margin: 0,
+  marginBottom: spacing[4],
+};
+
 const formStyle: React.CSSProperties = {
   display: 'flex',
   flexDirection: 'column',

@@ -1,4 +1,4 @@
-# Segurança do sistema (Wefronti – Indique e Ganhe)
+# Segurança do sistema (Wefronti)
 
 Este documento descreve as medidas de segurança aplicadas no site e no painel (hospedagem Vercel).
 
@@ -20,7 +20,6 @@ Este documento descreve as medidas de segurança aplicadas no site e no painel (
   - Esqueci senha: 1 minuto entre solicitações de código por IP (evita spam de e-mail).
   - Validar código e redefinir senha: 2 s entre tentativas por IP (reduz brute force no código de 6 dígitos).
   - Admin login: intervalo mínimo entre tentativas por IP.
-  - Referência/registrar-acesso: limite por IP e deduplicação por IP (hash) em 24h.
 - **Origem:** POST/PUT/DELETE validam `Origin`/`Referer` no middleware quando aplicável.
 - **Sanitização:** Campos de texto (nome, endereço, chave PIX, etc.) são sanitizados no servidor (`lib/sanitize-server.ts`) antes de gravar (remoção de HTML/scripts e caracteres de controle) para reduzir risco de XSS quando os dados forem exibidos.
 
@@ -46,7 +45,7 @@ Este documento descreve as medidas de segurança aplicadas no site e no painel (
 
 ## Dados de clientes
 
-- Acesso aos dados de usuários (perfil, indicações) somente via APIs que exigem autenticação.
+- Acesso aos dados de usuários (perfil) somente via APIs que exigem autenticação.
 - Perfil atualizável apenas pelo próprio usuário (via token) ou pelo admin em rotas protegidas.
 - Política de Privacidade e Termos de Uso disponíveis; coleta e uso de dados descritos nas páginas legais.
 
