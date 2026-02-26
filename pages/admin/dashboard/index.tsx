@@ -1,11 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
 import AdminLayout from '../../../components/admin/AdminLayout';
-import { CircleProgressChart } from '../../../components/admin/CircleProgressChart';
 import { theme } from '../../../styles/theme';
-import { DollarSign, Users, Wallet } from 'lucide-react';
+import { Wallet, Clock, Users } from 'lucide-react';
 
 const { colors, spacing, fontSizes } = theme;
+
+/** Verde: dinheiro recebido */
+const COR_RECEITA = '#22c55e';
+/** Amarelo: a receber */
+const COR_A_RECEBER = '#eab308';
+/** Azul: clientes ativos */
+const COR_CLIENTES = colors.blue.primary;
 
 interface DashboardDados {
   receitaTotalMes: { valor: number; meta: number };
@@ -33,63 +39,32 @@ const cardStyle: React.CSSProperties = {
   border: `1px solid ${colors.neutral.borderDark}`,
   borderRadius: 16,
   padding: spacing[6],
-  minHeight: 260,
+  minHeight: 140,
   display: 'flex',
   flexDirection: 'column',
+  gap: spacing[4],
 };
 
 const cardTitleStyle: React.CSSProperties = {
   fontSize: fontSizes.sm,
   color: colors.text.light,
-  opacity: 0.7,
+  opacity: 0.8,
   margin: 0,
-  marginBottom: spacing[2],
   display: 'flex',
   alignItems: 'center',
   gap: spacing[2],
 };
 
-const cardBodyStyle: React.CSSProperties = {
-  flex: 1,
-  display: 'flex',
-  alignItems: 'center',
-  gap: spacing[6],
-};
-
-const cardRightStyle: React.CSSProperties = {
-  display: 'flex',
-  flexDirection: 'column',
-  gap: spacing[2],
-  flex: 1,
-};
-
-const cardTotalLabelStyle: React.CSSProperties = {
-  fontSize: fontSizes.xs,
-  color: colors.text.light,
-  opacity: 0.7,
-  margin: 0,
-};
-
-const cardTotalValueStyle: React.CSSProperties = {
-  fontSize: 'clamp(1.25rem, 3vw, 1.75rem)',
+const cardValueStyle: React.CSSProperties = {
+  fontSize: 'clamp(1.5rem, 4vw, 2rem)',
   fontWeight: 600,
-  color: colors.text.light,
   margin: 0,
 };
 
-const cardMetaLabelStyle: React.CSSProperties = {
+const cardHintStyle: React.CSSProperties = {
   fontSize: fontSizes.xs,
   color: colors.text.light,
   opacity: 0.6,
-  margin: 0,
-  marginTop: spacing[2],
-};
-
-const cardMetaValueStyle: React.CSSProperties = {
-  fontSize: fontSizes.base,
-  fontWeight: 500,
-  color: colors.text.light,
-  opacity: 0.9,
   margin: 0,
 };
 
@@ -134,54 +109,35 @@ const AdminDashboardPage: React.FC = () => {
         <div style={cardWrapStyle}>
           <div style={cardStyle}>
             <p style={cardTitleStyle}>
-              <DollarSign size={18} aria-hidden />
-              Receita total do mês
+              <Wallet size={20} aria-hidden style={{ color: COR_RECEITA }} />
+              Receita do mês
             </p>
-            <div style={cardBodyStyle}>
-              <CircleProgressChart
-                current={receitaTotalMes.valor}
-                goal={receitaTotalMes.meta}
-              />
-              <div style={cardRightStyle}>
-                <p style={cardTotalLabelStyle}>Total até o momento</p>
-                <p style={cardTotalValueStyle}>{formatBRL(receitaTotalMes.valor)}</p>
-                <p style={cardMetaLabelStyle}>Meta de receita</p>
-                <p style={cardMetaValueStyle}>{formatBRL(receitaTotalMes.meta)}</p>
-              </div>
-            </div>
+            <p style={{ ...cardValueStyle, color: COR_RECEITA }}>
+              {loading ? '—' : formatBRL(receitaTotalMes.valor)}
+            </p>
+            <p style={cardHintStyle}>Total recebido em mensalidades este mês</p>
           </div>
 
           <div style={cardStyle}>
             <p style={cardTitleStyle}>
-              <Users size={18} aria-hidden />
-              Clientes ativos
-            </p>
-            <div style={cardBodyStyle}>
-              <CircleProgressChart
-                current={clientesAtivos.total}
-                goal={clientesAtivos.meta}
-              />
-              <div style={cardRightStyle}>
-                <p style={cardTotalLabelStyle}>Total até o momento</p>
-                <p style={cardTotalValueStyle}>{clientesAtivos.total}</p>
-                <p style={cardMetaLabelStyle}>Meta de clientes</p>
-                <p style={cardMetaValueStyle}>{clientesAtivos.meta}</p>
-              </div>
-            </div>
-          </div>
-
-          <div style={cardStyle}>
-            <p style={cardTitleStyle}>
-              <Wallet size={18} aria-hidden />
+              <Clock size={20} aria-hidden style={{ color: COR_A_RECEBER }} />
               A receber
             </p>
-            <div style={cardBodyStyle}>
-              <div style={cardRightStyle}>
-                <p style={cardTotalLabelStyle}>Manutenções em aberto</p>
-                <p style={cardTotalValueStyle}>{formatBRL(aReceber)}</p>
-                <p style={cardMetaLabelStyle}>Baseado nas manutenções dos clientes que ainda não pagaram este mês</p>
-              </div>
-            </div>
+            <p style={{ ...cardValueStyle, color: COR_A_RECEBER }}>
+              {loading ? '—' : formatBRL(aReceber)}
+            </p>
+            <p style={cardHintStyle}>Previsão com base nas mensalidades ainda não pagas</p>
+          </div>
+
+          <div style={cardStyle}>
+            <p style={cardTitleStyle}>
+              <Users size={20} aria-hidden style={{ color: COR_CLIENTES }} />
+              Clientes ativos
+            </p>
+            <p style={{ ...cardValueStyle, color: COR_CLIENTES }}>
+              {loading ? '—' : clientesAtivos.total}
+            </p>
+            <p style={cardHintStyle}>Com manutenção mensal e pagamento em dia este mês</p>
           </div>
         </div>
       </AdminLayout>
