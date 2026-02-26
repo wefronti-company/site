@@ -36,7 +36,7 @@ const cardStyle: React.CSSProperties = {
 
 const cardLeftStyle: React.CSSProperties = {
   display: 'grid',
-  gridTemplateColumns: '44px minmax(100px, 1fr) minmax(150px, 1.5fr) minmax(48px, 0.5fr)',
+  gridTemplateColumns: '44px minmax(100px, 1fr) minmax(150px, 1.5fr) minmax(90px, 1fr) minmax(100px, 1fr)',
   alignItems: 'center',
   columnGap: spacing[8],
   flex: 1,
@@ -89,12 +89,26 @@ const cardMetaStyle: React.CSSProperties = {
   whiteSpace: 'nowrap' as const,
 };
 
-const cardUfStyle: React.CSSProperties = {
-  fontSize: fontSizes.sm,
-  color: colors.text.light,
-  opacity: 0.8,
-  minWidth: 32,
-};
+function formatBRL(val: number): string {
+  return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(val);
+}
+
+function getDiaVencimento(criadoEm: string): number {
+  const d = new Date(criadoEm);
+  return isNaN(d.getTime()) ? 1 : d.getDate();
+}
+
+function getVencimentoFormatado(criadoEm: string, diaVencimento?: number): string {
+  const hoje = new Date();
+  const ano = hoje.getFullYear();
+  const mes = hoje.getMonth() + 1;
+  const diaVenc = (diaVencimento != null && diaVencimento >= 1 && diaVencimento <= 31) ? diaVencimento : getDiaVencimento(criadoEm);
+  const ultimoDia = new Date(ano, mes, 0).getDate();
+  const dia = Math.min(diaVenc, ultimoDia);
+  const dd = String(dia).padStart(2, '0');
+  const mm = String(mes).padStart(2, '0');
+  return `${dd}/${mm}/${ano}`;
+}
 
 const btnDetalhesStyle: React.CSSProperties = {
   padding: `${spacing[2]}px ${spacing[3]}px`,
@@ -175,16 +189,20 @@ const ClientesTodosPage: React.FC = () => {
                       <span style={cardMetaStyle} title={c.email}>{c.email}</span>
                     </div>
                     <div style={cardColStyle}>
-                      <span style={cardLabelStyle}>UF</span>
-                      <span style={cardUfStyle}>{c.enderecoUf || '—'}</span>
+                      <span style={cardLabelStyle}>Manutenção</span>
+                      <span style={cardMetaStyle}>{c.mensalidade > 0 ? formatBRL(c.mensalidade) : 'Não aplicado'}</span>
+                    </div>
+                    <div style={cardColStyle}>
+                      <span style={cardLabelStyle}>Vencimento</span>
+                      <span style={cardMetaStyle}>{c.mensalidade > 0 ? getVencimentoFormatado(c.criadoEm, c.diaVencimento) : 'Não aplicado'}</span>
                     </div>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: spacing[4] }}>
                   <Link
-                    href={`/admin/dashboard/clientes/${c.id}/detalhes`}
+                    href={`/admin/dashboard/clientes/${c.id}/editar`}
                     style={btnDetalhesStyle}
                   >
-                    Ver detalhes
+                    Detalhes
                   </Link>
                 </div>
               </div>

@@ -355,9 +355,6 @@ export default function ClienteNovoPage() {
           </ButtonPainel>
         </form>
 
-        <Link href="/admin/dashboard/clientes/todos" style={linkVoltarStyle}>
-          <ArrowLeft size={18} /> Voltar aos clientes
-        </Link>
       </AdminLayout>
     </>
   );

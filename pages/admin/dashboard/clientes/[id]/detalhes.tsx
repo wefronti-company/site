@@ -154,9 +154,7 @@ export default function ClienteDetalhesPage() {
         </Head>
         <AdminLayout>
           <p style={{ color: colors.neutral.gray }}>{error || 'Cliente não encontrado.'}</p>
-          <Link href="/admin/dashboard/clientes/todos" style={{ ...linkVoltarStyle, marginTop: 0 }}>
-            <ArrowLeft size={18} /> Voltar aos clientes
-          </Link>
+         
         </AdminLayout>
       </>
     );
@@ -243,9 +241,7 @@ export default function ClienteDetalhesPage() {
           </div>
         </section>
 
-        <Link href="/admin/dashboard/clientes/todos" style={linkVoltarStyle}>
-          <ArrowLeft size={18} /> Voltar aos clientes
-        </Link>
+      
       </AdminLayout>
     </>
   );

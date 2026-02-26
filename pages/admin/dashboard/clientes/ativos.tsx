@@ -121,11 +121,11 @@ function getDiaVencimento(criadoEm: string): number {
 }
 
 /** Data de vencimento do mês atual (DD/MM/AAAA). */
-function getVencimentoFormatado(criadoEm: string): string {
+function getVencimentoFormatado(criadoEm: string, diaVencimento?: number): string {
   const hoje = new Date();
   const ano = hoje.getFullYear();
   const mes = hoje.getMonth() + 1;
-  const diaVenc = getDiaVencimento(criadoEm);
+  const diaVenc = (diaVencimento != null && diaVencimento >= 1 && diaVencimento <= 31) ? diaVencimento : getDiaVencimento(criadoEm);
   const ultimoDia = new Date(ano, mes, 0).getDate();
   const dia = Math.min(diaVenc, ultimoDia);
   const dd = String(dia).padStart(2, '0');
@@ -271,7 +271,7 @@ const ClientesAtivosPage: React.FC = () => {
                     </div>
                     <div style={cardColStyle}>
                       <span style={cardLabelStyle}>Vencimento</span>
-                      <span style={cardMetaStyle}>{getVencimentoFormatado(c.criadoEm)}</span>
+                      <span style={cardMetaStyle}>{getVencimentoFormatado(c.criadoEm, c.diaVencimento)}</span>
                     </div>
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center' }}>

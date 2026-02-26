@@ -41,6 +41,8 @@ export interface Cliente {
   precoManutencao?: number;
   /** Total mensal (apenas valor da manutenção; o que o cliente paga todo mês). Usado em receita e clientes ativos. */
   mensalidade: number;
+  /** Dia do mês para vencimento (1-31). Se não definido, usa o dia de criadoEm. */
+  diaVencimento?: number;
   /** Forma de pagamento do projeto: 'cartao' | 'pix' | '50_50' (50% entrada, 50% entrega). */
   formaPagamentoProjeto?: string;
   /** Número de parcelas quando forma de pagamento é cartão. */
@@ -130,6 +132,7 @@ function rowToCliente(row: Record<string, unknown>): Cliente {
     precoServico: (Number(row.preco_servico) || 0) / 100,
     precoManutencao: (Number(row.preco_manutencao) || 0) / 100,
     mensalidade: (Number(row.mensalidade) || 0) / 100,
+    diaVencimento: row.dia_vencimento != null ? Math.min(31, Math.max(1, Number(row.dia_vencimento))) : undefined,
     formaPagamentoProjeto: row.forma_pagamento_projeto ? String(row.forma_pagamento_projeto) : undefined,
     parcelasCartao: row.parcelas_cartao != null ? Number(row.parcelas_cartao) : undefined,
     status: (row.status as ClienteStatus) ?? 0,
@@ -349,6 +352,8 @@ export interface CreateClienteInput {
   precoManutencao?: number;
   /** Total mensal (calculado: apenas precoManutencao quando manutencao; valor que o cliente paga todo mês). Usado em receita. */
   mensalidade?: number;
+  /** Dia do mês para vencimento (1-31). Opcional. */
+  diaVencimento?: number;
   /** Forma de pagamento do projeto: 'cartao' | 'pix' | '50_50' */
   formaPagamentoProjeto?: string;
   /** Número de parcelas quando forma de pagamento é cartão */
@@ -361,7 +366,7 @@ function trimSlice(str: string | undefined, max: number): string | null {
 }
 
 function computeMensalidade(input: CreateClienteInput): number {
-  if (input.mensalidade != null && input.mensalidade > 0) return input.mensalidade;
+  if (input.mensalidade != null) return input.mensalidade;
   // Mensalidade = apenas o valor da manutenção (não inclui o valor do projeto)
   const precoManutencao = input.manutencao ? (input.precoManutencao ?? 0) : 0;
   return precoManutencao;
@@ -461,6 +466,7 @@ export async function updateCliente(id: string, input: CreateClienteInput): Prom
       preco_servico = ${precoServicoCentavos},
       preco_manutencao = ${precoManutencaoCentavos},
       mensalidade = ${mensalidadeCentavos},
+      dia_vencimento = ${input.diaVencimento != null && input.diaVencimento >= 1 && input.diaVencimento <= 31 ? input.diaVencimento : null},
       forma_pagamento_projeto = ${trimSlice(input.formaPagamentoProjeto, 20)},
       parcelas_cartao = ${input.parcelasCartao != null && input.parcelasCartao >= 1 ? input.parcelasCartao : null}
     WHERE id = ${id}
@@ -469,7 +475,7 @@ export async function updateCliente(id: string, input: CreateClienteInput): Prom
       endereco_logradouro, endereco_numero, endereco_complemento,
       endereco_bairro, endereco_cidade, endereco_uf, endereco_cep,
       telefone_empresa, site, ramo, observacoes,
-      servico_tipo, manutencao, preco_servico, preco_manutencao, mensalidade, forma_pagamento_projeto, parcelas_cartao, status, criado_em
+      servico_tipo, manutencao, preco_servico, preco_manutencao, mensalidade, dia_vencimento, forma_pagamento_projeto, parcelas_cartao, status, criado_em
   `;
 
   const row = rows[0] as Record<string, unknown> | undefined;

@@ -57,6 +57,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         site: typeof body.site === 'string' ? body.site.trim() || undefined : undefined,
         ramo: typeof body.ramo === 'string' ? body.ramo.trim() || undefined : undefined,
         observacoes: typeof body.observacoes === 'string' ? body.observacoes.trim() || undefined : undefined,
+        mensalidade: typeof body.mensalidade === 'number' ? body.mensalidade : (typeof body.mensalidade === 'string' ? parseFloat(String(body.mensalidade).replace(',', '.')) : undefined),
+        diaVencimento: (() => {
+          const n = typeof body.diaVencimento === 'number' ? body.diaVencimento : (typeof body.diaVencimento === 'string' ? parseInt(String(body.diaVencimento), 10) : NaN);
+          return Number.isInteger(n) && n >= 1 && n <= 31 ? n : undefined;
+        })(),
         servicoTipo: typeof body.servicoTipo === 'string' ? body.servicoTipo.trim() || undefined : undefined,
         manutencao: body.manutencao === true || body.manutencao === 'sim',
         precoServico: typeof body.precoServico === 'number' ? body.precoServico : (typeof body.precoServico === 'string' ? parseFloat(String(body.precoServico).replace(',', '.')) || undefined : undefined),
