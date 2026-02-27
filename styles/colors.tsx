@@ -20,13 +20,13 @@ export const colors = {
 
   icons: {
     primary: '#374151',   // Ícones em fundos claros
-    secondary: '#9CA3AF', // Ícones muted
+    secondary: '#5c9369AF', // Ícones muted
   },
 
   blue: {
-    primary: '#3598FF',   // Cor de destaque (botões, links)
-    secondary: '#2563EB',
-    tertiary: '#EFF6FF',  // Hover/fundo leve
+    primary: '#66BF82',   // Cor de destaque (botões, links)
+    secondary: '#66BF82',
+    tertiary: '#66BF82',  // Hover/fundo leve
   },
 
   neutral: {

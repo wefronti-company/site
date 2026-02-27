@@ -4,6 +4,7 @@ import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 import { Globe, Layout, Package, Palette, Plug, Wrench, ArrowRight } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
+import { FiFigma } from 'react-icons/fi';
 
 const { colors, spacing, fontSizes, radii } = theme;
 
@@ -34,7 +35,7 @@ const SOLUCOES: {
   {
     titulo: 'Design UI-UX',
     descricao: 'Interfaces intuitivas e experiências pensadas no usuário. Prototipação e design em Figma para produtos que encantam e convertem.',
-    Icon: Palette,
+    Icon: FiFigma as unknown as LucideIcon,
     slug: 'design-ui-ux',
   },
   {
@@ -90,6 +91,23 @@ const titleStyle: React.CSSProperties = {
   textAlign: 'left',
 };
 
+/** Palavra destacada no título: serif italic (mesmo estilo da Hero) */
+const highlightWordStyle: React.CSSProperties = {
+  color: '#5c9369AF',
+};
+
+function renderSolucoesTitle(text: string): React.ReactNode {
+  const regex = /(soluções?)/gi;
+  const parts = text.split(regex);
+  return parts.map((part, i) =>
+    /^soluções?$/i.test(part) ? (
+      <span key={`h-${i}-${part}`} style={highlightWordStyle}>{part}</span>
+    ) : (
+      <React.Fragment key={`h-${i}`}>{part}</React.Fragment>
+    )
+  );
+}
+
 const introStyle: React.CSSProperties = {
   fontSize: '1.2rem',
   lineHeight: 1.65,
@@ -115,7 +133,7 @@ const gridStyle: React.CSSProperties = {
 };
 
 const cardStyle: React.CSSProperties = {
-  borderRadius: radii.md,
+  borderRadius: 30,
   border: `1px solid ${colors.neutral.border}`,
   backgroundColor: colors.neutral.accordeon,
   padding: spacing[6],
@@ -136,14 +154,15 @@ const iconWrapStyle: React.CSSProperties = {
   justifyContent: 'center',
   width: 44,
   height: 44,
-  borderRadius: radii.md,
+  borderRadius: radii.full,
+  border: `1px solid ${colors.neutral.border}`,
   background: colors.neutral.borderLight,
   flexShrink: 0,
 };
 
 const cardTitleStyle: React.CSSProperties = {
   fontSize: fontSizes.xl,
-  fontWeight: 600,
+  fontWeight: 400,
   color: colors.text.primary,
   margin: 0,
 };
@@ -208,7 +227,7 @@ const Solucoes: React.FC<SolucoesProps> = ({ conteudo }) => {
           </span>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: spacing[4] }}>
             <h2 id="solucoes-heading" style={titleStyle}>
-              {titulo}
+              {renderSolucoesTitle(titulo)}
             </h2>
             <p style={introStyle}>{intro}</p>
           </div>

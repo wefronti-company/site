@@ -71,10 +71,8 @@ const Header: React.FC = () => {
 
   const headerPaddingX = isMd ? spacing[12] : spacing[6];
   const headerStyle: React.CSSProperties = {
-    position: 'fixed',
-    top: 0,
-    left: 0,
-    right: 0,
+    position: 'relative',
+    width: '100%',
     zIndex: 100,
     visibility: splash?.splashActive ? 'hidden' : 'visible',
     pointerEvents: splash?.splashActive ? 'none' : 'auto',
@@ -95,14 +93,8 @@ const Header: React.FC = () => {
     paddingRight: headerPaddingX,
     paddingTop: isMd ? spacing[4] : spacing[3],
     paddingBottom: isMd ? spacing[4] : spacing[3],
-    backgroundColor: 'rgba(255, 255, 255, 0.19)',
-    backdropFilter: 'saturate(140%) blur(14px)',
-    WebkitBackdropFilter: 'saturate(140%) blur(14px)',
+    background: 'transparent',
     borderBottom: `1px solid ${colors.neutral.border}`,
-    boxShadow: '0 2px 24px rgba(0, 0, 0, 0.04)',
-    transition: 'backdrop-filter 0.25s ease',
-    transform: 'translateZ(0)',
-    WebkitTransform: 'translateZ(0)',
   };
 
   const innerStyle: React.CSSProperties = {

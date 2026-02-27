@@ -39,10 +39,7 @@ const heroTitleStyle: React.CSSProperties = {
 /** Palavras destacadas no H1: serif italic, cinza claro */
 const HIGHLIGHT_WORDS = ['tecnologia', 'design', 'estratégia'];
 const highlightWordStyle: React.CSSProperties = {
-  fontFamily: '"Playfair Display", Georgia, serif',
-  fontStyle: 'italic',
-  fontWeight: 500,
-  color: '#9CA3AF',
+  color: '#5c9369AF',
 };
 
 function renderHeroTitle(text: string): React.ReactNode {

@@ -13,7 +13,7 @@ import { SnackbarProvider } from '../contexts/SnackbarContext';
 
 const CookieConsent = dynamic(() => import('../components/CookieConsent'), { ssr: false });
 import Footer from '../sections/Footer';
-import FloatingWhatsApp from '../components/FloatingWhatsApp';
+import BottomCtaOrWhatsApp from '../components/BottomCtaOrWhatsApp';
 export default function MyApp({ Component, pageProps }: AppProps) {
  const router = useRouter();
 
@@ -75,7 +75,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
 {!router.pathname.startsWith('/admin') && !router.pathname.startsWith('/proposta') && router.pathname !== '/dados-cliente' && <Header />}
       <Component {...pageProps} />
       {router.pathname !== '/' && !router.pathname.startsWith('/admin') && !router.pathname.startsWith('/proposta') && router.pathname !== '/dados-cliente' && <Footer />}
-      {!router.pathname.startsWith('/admin') && !router.pathname.startsWith('/proposta') && router.pathname !== '/dados-cliente' && <FloatingWhatsApp />}
+      {!router.pathname.startsWith('/admin') && !router.pathname.startsWith('/proposta') && router.pathname !== '/dados-cliente' && <BottomCtaOrWhatsApp />}
  <CookieConsent />
  </>
  </SmoothScroll>
