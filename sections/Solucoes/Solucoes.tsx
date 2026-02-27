@@ -139,7 +139,7 @@ const cardStyle: React.CSSProperties = {
   padding: spacing[6],
   display: 'flex',
   flexDirection: 'column',
-  gap: spacing[4],
+  gap: spacing[8],
 };
 
 const cardHeaderStyle: React.CSSProperties = {
