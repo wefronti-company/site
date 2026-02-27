@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { AnimatePresence } from 'framer-motion';
 import SolucoesCtaBar from './SolucoesCtaBar';
-import FloatingWhatsApp from './FloatingWhatsApp';
 
 /**
  * Na home:
@@ -80,14 +79,13 @@ const BottomCtaOrWhatsApp: React.FC = () => {
     };
   }, [isHome, router.pathname]);
 
-  if (!isHome) return <FloatingWhatsApp />;
+  if (!isHome) return null;
 
   return (
     <>
       <AnimatePresence>
         {showBar ? <SolucoesCtaBar key="solucoes-cta-bar" /> : null}
       </AnimatePresence>
-      {!showBar ? <FloatingWhatsApp /> : null}
     </>
   );
 };

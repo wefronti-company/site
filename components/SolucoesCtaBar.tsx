@@ -8,10 +8,9 @@ const { colors, spacing } = theme;
 const CTA_TEXT = 'Pronto para crescer no digital?';
 const CTA_BUTTON = 'Quero um site que vende';
 
-const EASE_SOFT = [0.32, 0.72, 0, 1] as const;
-const EASE_SLIDE_DOWN = [0.22, 1, 0.36, 1] as const;
-const DURATION_ENTER = 0.5;
-const DURATION_EXIT = 0.7;
+const EASE_SMOOTH = [0.22, 1, 0.36, 1] as const;
+const DURATION_ENTER = 0.85;
+const DURATION_EXIT = 0.85;
 
 const SolucoesCtaBar: React.FC = () => {
   const barStyle: React.CSSProperties = {
@@ -29,8 +28,8 @@ const SolucoesCtaBar: React.FC = () => {
     padding: `${spacing[8]}px ${spacing[6]}`,
     backgroundColor: 'rgba(245, 255, 240, 0.7)',
     backdropFilter: 'saturate(160%) blur(20px)',
-    WebkitBackdropFilter: 'saturate(160%) blur(20px)',
-    borderTop: `2px solid ${colors.neutral.border}`,
+    WebkitBackdropFilter: 'saturate(160%) blur(15px)',
+    borderTop: `1px solid ${colors.neutral.border}`,
     boxShadow: '0 -4px 24px rgba(0, 0, 0, 0.06)',
   };
 
@@ -41,8 +40,8 @@ const SolucoesCtaBar: React.FC = () => {
       aria-live="polite"
       data-solucoes-cta-bar
       initial={{ y: '100%', opacity: 0 }}
-      animate={{ y: 0, opacity: 1, transition: { duration: DURATION_ENTER, ease: EASE_SOFT } }}
-      exit={{ y: '100%', opacity: 0, transition: { duration: DURATION_EXIT, ease: EASE_SLIDE_DOWN } }}
+      animate={{ y: 0, opacity: 1, transition: { duration: DURATION_ENTER, ease: EASE_SMOOTH } }}
+      exit={{ y: '100%', opacity: 0, transition: { duration: DURATION_EXIT, ease: EASE_SMOOTH } }}
     >
       <span
         style={{

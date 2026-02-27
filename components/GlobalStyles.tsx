@@ -143,10 +143,6 @@ section[id] {
   50% { transform: translate(-2px, 2px); }
   75% { transform: translate(2px, 3px); }
 }
-@keyframes header-letter-mix-in {
-  0% { opacity: 0; transform: translateY(4px) scale(0.92); }
-  100% { opacity: 1; transform: translateY(0) scale(1); }
-}
 @keyframes badge-dot-pulse {
   0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(53, 152, 255, 0.5); }
   50% { opacity: 0.9; box-shadow: 0 0 10px 3px rgba(53, 152, 255, 0.7); }
@@ -194,11 +190,6 @@ section[id] {
 .header-nav-link:focus { outline: none; }
 .header-cta-btn:focus { outline: none; }
 button:focus-visible, a:focus-visible, [role="button"]:focus-visible, summary:focus-visible { outline: 2px solid rgba(53, 152, 255, 0.8); outline-offset: 2px; }
-.header-nav-link-char { display: inline-block; }
-.header-nav-link-char.mix-in { animation: header-letter-mix-in 0.22s ease-out forwards; }
-@media (prefers-reduced-motion: reduce) {
-  .header-nav-link-char.mix-in { animation: none; }
-}
 .animate-slide-down { animation: slide-down 0.3s ease-out; }
 .animate-slide-up { animation: slide-up 0.4s ease-out; }
 .animate-fade-in { animation: fade-in 0.3s ease-out; }

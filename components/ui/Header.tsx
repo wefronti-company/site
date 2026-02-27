@@ -9,8 +9,8 @@ import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 
 const { colors, spacing, fontSizes, radii } = theme;
-const REVERSE_DELAY_MS = 220;
-const REVERSED_HOLD_MS = 520;
+const DECRYPT_INTERVAL_MS = 78;
+const DECRYPT_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 
 /** Links do menu — cada um leva à seção correspondente na página */
 const NAV_LINKS = [
@@ -26,37 +26,64 @@ const Header: React.FC = () => {
   const splash = useSplash();
   const isMd = useMediaQuery(theme.breakpoints.md);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [hoveredLinkId, setHoveredLinkId] = useState<string | null>(null);
-  const [reversedPhase, setReversedPhase] = useState(false);
-  const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+  const [decryptedLabels, setDecryptedLabels] = useState<Record<string, string>>(
+    () => NAV_LINKS.reduce<Record<string, string>>((acc, link) => {
+      acc[link.id] = link.label;
+      return acc;
+    }, {})
+  );
+  const decryptIntervalsRef = useRef<Record<string, ReturnType<typeof setInterval> | null>>({});
 
   useEffect(() => {
     if (isMd) setMobileMenuOpen(false);
   }, [isMd]);
 
-  const clearTimers = () => {
-    timersRef.current.forEach(clearTimeout);
-    timersRef.current = [];
+  const clearDecryptInterval = (id: string) => {
+    const current = decryptIntervalsRef.current[id];
+    if (current) {
+      clearInterval(current);
+      decryptIntervalsRef.current[id] = null;
+    }
   };
 
-  const handleLinkMouseEnter = (id: string) => {
-    clearTimers();
-    setHoveredLinkId(id);
-    setReversedPhase(false);
-    const t1 = setTimeout(() => {
-      setReversedPhase(true);
-      const t2 = setTimeout(() => {
-        setReversedPhase(false);
-      }, REVERSED_HOLD_MS);
-      timersRef.current.push(t2);
-    }, REVERSE_DELAY_MS);
-    timersRef.current.push(t1);
+  useEffect(() => {
+    return () => {
+      Object.values(decryptIntervalsRef.current).forEach((intervalId) => {
+        if (intervalId) clearInterval(intervalId);
+      });
+    };
+  }, []);
+
+  const buildDecryptedText = (label: string, revealCount: number) => {
+    const chars = label.split('');
+    return chars
+      .map((char, idx) => {
+        if (char === ' ') return ' ';
+        if (idx < revealCount) return label[idx];
+        return DECRYPT_CHARS[Math.floor(Math.random() * DECRYPT_CHARS.length)];
+      })
+      .join('');
   };
 
-  const handleLinkMouseLeave = () => {
-    clearTimers();
-    setHoveredLinkId(null);
-    setReversedPhase(false);
+  const handleLinkMouseEnter = (id: string, label: string) => {
+    clearDecryptInterval(id);
+    let reveal = 0;
+
+    setDecryptedLabels((prev) => ({ ...prev, [id]: buildDecryptedText(label, 0) }));
+    decryptIntervalsRef.current[id] = setInterval(() => {
+      reveal += 1;
+      if (reveal >= label.length) {
+        clearDecryptInterval(id);
+        setDecryptedLabels((prev) => ({ ...prev, [id]: label }));
+        return;
+      }
+      setDecryptedLabels((prev) => ({ ...prev, [id]: buildDecryptedText(label, reveal) }));
+    }, DECRYPT_INTERVAL_MS);
+  };
+
+  const handleLinkMouseLeave = (id: string, label: string) => {
+    clearDecryptInterval(id);
+    setDecryptedLabels((prev) => ({ ...prev, [id]: label }));
   };
 
   const scrollToSection = useScrollToSection();
@@ -174,8 +201,6 @@ const Header: React.FC = () => {
           <div style={rightCellStyle}>
             <ul style={linkListStyle}>
               {NAV_LINKS.map(({ id, label, href }) => {
-                const isHovered = hoveredLinkId === id;
-                const chars = isHovered && reversedPhase ? label.split('').reverse() : label.split('');
                 return (
                   <li key={id}>
                     <Link
@@ -183,18 +208,10 @@ const Header: React.FC = () => {
                       className="header-nav-link"
                       style={linkStyle}
                       onClick={(e) => handleNavClick(e, href)}
-                      onMouseEnter={() => handleLinkMouseEnter(id)}
-                      onMouseLeave={handleLinkMouseLeave}
+                      onMouseEnter={() => handleLinkMouseEnter(id, label)}
+                      onMouseLeave={() => handleLinkMouseLeave(id, label)}
                     >
-                      {chars.map((char, i) => (
-                        <span
-                          key={`${id}-${reversedPhase ? 'r' : 'n'}-${i}-${char}`}
-                          className={isHovered ? 'header-nav-link-char mix-in' : 'header-nav-link-char'}
-                          style={isHovered ? { animationDelay: `${i * 0.028}s` } : undefined}
-                        >
-                          {char}
-                        </span>
-                      ))}
+                      {decryptedLabels[id] ?? label}
                     </Link>
                   </li>
                 );
