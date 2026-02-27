@@ -2,7 +2,7 @@ import React from 'react';
 import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 
-const { colors, spacing, fontSizes, radii, containerMaxWidth } = theme;
+const { colors, spacing, fontSizes, radii } = theme;
 
 const TESTIMONIALS: { description: string; name: string; state: string; country: string }[] = [
   {
@@ -80,8 +80,6 @@ const sectionStyleBase: React.CSSProperties = {
 
 const innerStyleBase: React.CSSProperties = {
   width: '100%',
-  maxWidth: containerMaxWidth.wide,
-  margin: '0 auto',
   display: 'flex',
   flexDirection: 'column',
   gap: spacing[12],
@@ -109,7 +107,7 @@ const titleStyle: React.CSSProperties = {
   letterSpacing: '-0.02em',
   color: colors.text.primary,
   margin: 0,
-  textAlign: 'center',
+  textAlign: 'left',
 };
 
 const subtitleStyle: React.CSSProperties = {
@@ -118,16 +116,16 @@ const subtitleStyle: React.CSSProperties = {
   color: colors.text.primary,
   opacity: 0.88,
   margin: 0,
-  textAlign: 'center',
+  textAlign: 'left',
 };
 
 const headerStyle: React.CSSProperties = {
   display: 'flex',
   flexDirection: 'column',
-  alignItems: 'center',
+  alignItems: 'flex-start',
   gap: spacing[6],
-  paddingLeft: spacing[12],
-  paddingRight: spacing[12],
+  paddingLeft: 0,
+  paddingRight: 0,
 };
 
 /** Largura total da viewport para sensação de infinito */
@@ -193,6 +191,15 @@ const cardDescriptionStyle: React.CSSProperties = {
   opacity: 0.92,
 };
 
+const starsRowStyle: React.CSSProperties = {
+  display: 'flex',
+  alignItems: 'center',
+  gap: 4,
+  color: '#F59E0B',
+  fontSize: 18,
+  lineHeight: 1,
+};
+
 const cardNameStyle: React.CSSProperties = {
   fontSize: fontSizes.lg,
   fontWeight: 600,
@@ -217,16 +224,23 @@ const Testimonials: React.FC<TestimonialsProps> = ({ conteudo }) => {
   const badge = (conteudo?.badge != null ? String(conteudo.badge) : '') || 'Depoimentos';
   const titulo = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'Resultados reais de quem apostou em um site que vende';
   const subtitulo = (conteudo?.subtitulo != null ? String(conteudo.subtitulo) : '') || 'Veja o que aconteceu quando elas decidiram levar o digital a sério.';
-  const headerPaddingX = isMd ? spacing[12] : spacing[4];
+  const sectionPaddingX = isMd ? spacing[10] : spacing[4];
   const sectionStyle: React.CSSProperties = {
     ...sectionStyleBase,
-    paddingLeft: headerPaddingX,
-    paddingRight: headerPaddingX,
+    paddingLeft: sectionPaddingX,
+    paddingRight: sectionPaddingX,
   };
 
   type TestimonialItem = { description: string; name: string; state: string; country: string };
   const renderCard = (item: TestimonialItem, index: number, suffix: string) => (
     <div key={`${suffix}-${item.name}-${index}`} style={cardStyle}>
+      <div style={starsRowStyle} aria-label="5 estrelas">
+        <span aria-hidden>★</span>
+        <span aria-hidden>★</span>
+        <span aria-hidden>★</span>
+        <span aria-hidden>★</span>
+        <span aria-hidden>★</span>
+      </div>
       <p style={cardDescriptionStyle}>{item.description}</p>
       <p style={cardNameStyle}>{item.name}</p>
       <p style={cardLocationStyle}>{item.state}, {item.country}</p>
@@ -255,8 +269,14 @@ const Testimonials: React.FC<TestimonialsProps> = ({ conteudo }) => {
   0% { transform: translate3d(-${SCROLL_OFFSET_PX}px, 0, 0); }
   100% { transform: translate3d(0, 0, 0); }
 }
+@keyframes testimonials-badge-dot-pulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 ${colors.icons.secondary}; }
+  50% { opacity: 0.9; box-shadow: 0 0 10px 3px ${colors.icons.secondary}; }
+}
+.testimonials-badge-dot-pulse { animation: testimonials-badge-dot-pulse 2s ease-in-out infinite; }
 @media (prefers-reduced-motion: reduce) {
   .testimonials-track-px, .testimonials-track-reverse-px { animation: none !important; }
+  .testimonials-badge-dot-pulse { animation: none !important; }
 }
           `.trim(),
         }}
@@ -264,27 +284,25 @@ const Testimonials: React.FC<TestimonialsProps> = ({ conteudo }) => {
       <div style={innerStyleBase}>
         <div style={{
           ...headerStyle,
-          paddingLeft: isMd ? headerPaddingX : 0,
-          paddingRight: isMd ? headerPaddingX : 0,
-          alignItems: isMd ? 'center' : 'flex-start',
+          alignItems: 'flex-start',
         }}>
           <span style={badgeStyle} aria-hidden>
             <span
-              className="badge-dot-pulse"
+              className="testimonials-badge-dot-pulse"
               style={{
                 width: 6,
                 height: 6,
                 borderRadius: '50%',
-                background: colors.blue.primary,
+                background: colors.icons.secondary,
               }}
             />
             {badge}
           </span>
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: isMd ? 'center' : 'flex-start', gap: spacing[4], width: '100%', maxWidth: 880 }}>
-            <h2 id="testimonials-heading" style={{ ...titleStyle, textAlign: isMd ? 'center' : 'left' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: spacing[4], width: '100%' }}>
+            <h2 id="testimonials-heading" style={titleStyle}>
               {titulo}
             </h2>
-            <p style={{ ...subtitleStyle, textAlign: isMd ? 'center' : 'left', whiteSpace: isMd ? 'nowrap' : 'normal' }}>
+            <p style={{ ...subtitleStyle, whiteSpace: isMd ? 'nowrap' : 'normal' }}>
               {subtitulo}
             </p>
           </div>

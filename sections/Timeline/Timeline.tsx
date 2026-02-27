@@ -9,11 +9,11 @@ const { colors, spacing, fontSizes, containerMaxWidth } = theme;
 type StepIcon = React.ComponentType<{ size?: number; className?: string }>;
 
 const TIMELINE_STEPS: { title: string; description: string; Icon: StepIcon }[] = [
-  { title: 'Onboarding', description: 'Mergulhamos no seu negócio, entendemos seus objetivos e alinhamos tudo antes de escrever uma linha de código. Aqui nasce a estratégia.', Icon: MessageCircle },
-  { title: 'Planejamento', description: 'Desenhamos a arquitetura do site com foco em conversão cada página, cada seção e cada CTA pensados para transformar visitante em cliente.', Icon: ClipboardList },
-  { title: 'Desenvolvimento', description: 'Construímos o site com as melhores tecnologias do mercado, garantindo velocidade máxima, SEO estruturado e uma experiência que impressiona.', Icon: Code2 },
-  { title: 'Lançamento', description: 'Colocamos tudo no ar com atenção a cada detalhe testado, otimizado e pronto para começar a gerar resultado desde o primeiro acesso', Icon: Rocket },
-  { title: 'Suporte', description: 'Não sumimos depois da entrega. Acompanhamos, melhoramos e otimizamos continuamente para o seu site vender cada vez mais.', Icon: Headphones },
+  { title: 'Onboarding', description: 'Começamos com imersão no seu cenário para entender metas, público e oportunidades. Assim, definimos a direção certa da solução desde o primeiro passo.', Icon: MessageCircle },
+  { title: 'Planejamento', description: 'Estruturamos a solução com foco em resultado: páginas, fluxos, conteúdo e CTAs organizados para transformar tráfego em oportunidade real de negócio.', Icon: ClipboardList },
+  { title: 'Desenvolvimento', description: 'Implementamos com tecnologia robusta, performance alta e SEO técnico, garantindo uma base sólida para escalar sua presença digital com segurança.', Icon: Code2 },
+  { title: 'Lançamento', description: 'Publicamos com validação completa, ajustes finais e monitoramento inicial para que sua solução entre no ar pronta para performar desde o dia um.', Icon: Rocket },
+  { title: 'Suporte', description: 'Após o lançamento, seguimos evoluindo com otimizações contínuas, melhorias orientadas por dados e suporte próximo para manter crescimento consistente.', Icon: Headphones },
 ];
 
 const sectionStyleBase: React.CSSProperties = {
@@ -77,6 +77,7 @@ const headerStyle: React.CSSProperties = {
 const DOT_SIZE = 14;
 const DOT_ROW_HEIGHT = 14;
 const LINE_TOP = DOT_ROW_HEIGHT / 2;
+const TIMELINE_DOT_SOLID = '#5C9369';
 
 const timelineWrapStyle: React.CSSProperties = {
   position: 'relative' as const,
@@ -128,8 +129,8 @@ const dotStyle: React.CSSProperties = {
   width: DOT_SIZE,
   height: DOT_SIZE,
   borderRadius: '50%',
-  backgroundColor: colors.blue.primary,
-  boxShadow: `0 0 12px ${colors.blue.primary}`,
+  backgroundColor: TIMELINE_DOT_SOLID,
+ 
 };
 
 const stepContentMaxWidth = 320;
@@ -260,27 +261,24 @@ const Timeline: React.FC<TimelineProps> = ({ conteudo }) => {
         <div style={innerStyleBase}>
           <div style={{
             ...headerStyle,
-            paddingLeft: isMd ? headerPaddingX : 0,
-            paddingRight: isMd ? headerPaddingX : 0,
-            alignItems: 'flex-start',
+            alignItems: 'center',
           }}>
             <span style={badgeStyle} aria-hidden>
               <span
-                className="badge-dot-pulse"
                 style={{
                   width: 6,
                   height: 6,
                   borderRadius: '50%',
-                  background: colors.blue.primary,
+                  background: TIMELINE_DOT_SOLID,
                 }}
               />
               {badge}
             </span>
-            <div style={{ maxWidth: 820, display: 'flex', flexDirection: 'column', gap: spacing[4] }}>
-              <h2 id="timeline-heading" style={{ ...titleStyle, textAlign: 'left' }}>
+            <div style={{ maxWidth: 820, display: 'flex', flexDirection: 'column', gap: spacing[4], alignItems: 'center' }}>
+              <h2 id="timeline-heading" style={{ ...titleStyle, textAlign: 'center' }}>
                 {titulo}
               </h2>
-              <p style={{ ...subtitleStyle, textAlign: 'left' }}>
+              <p style={{ ...subtitleStyle, textAlign: 'center' }}>
                 {subtitulo}
               </p>
             </div>
@@ -295,7 +293,7 @@ const Timeline: React.FC<TimelineProps> = ({ conteudo }) => {
                 return (
                   <li key={index} style={mobileStepRowStyle}>
                     <div ref={isFirst ? firstDotRef : isLast ? lastDotRef : undefined} style={mobileDotWrapStyle}>
-                      <span className="timeline-dot-pulse" style={dotStyle} aria-hidden />
+                      <span style={dotStyle} aria-hidden />
                     </div>
                     <div style={mobileStepContentStyle}>
                       <div style={mobileTitleRowStyle}>
@@ -320,15 +318,14 @@ const Timeline: React.FC<TimelineProps> = ({ conteudo }) => {
   return (
     <section id="processo" style={sectionStyle} aria-labelledby="timeline-heading">
       <div style={innerStyleBase}>
-        <div style={{ ...headerStyle, paddingLeft: isMd ? headerPaddingX : 0, paddingRight: isMd ? headerPaddingX : 0 }}>
+        <div style={headerStyle}>
           <span style={badgeStyle} aria-hidden>
             <span
-              className="badge-dot-pulse"
               style={{
                 width: 6,
                 height: 6,
                 borderRadius: '50%',
-                background: colors.blue.primary,
+                background: TIMELINE_DOT_SOLID,
               }}
             />
             {badge}
@@ -351,7 +348,7 @@ const Timeline: React.FC<TimelineProps> = ({ conteudo }) => {
               return (
                 <li key={index} style={stepColumnStyle}>
                   <div style={dotRowWrapperStyle}>
-                    <span className="timeline-dot-pulse" style={dotStyle} aria-hidden />
+                    <span style={dotStyle} aria-hidden />
                   </div>
                   <div style={stepTitleRowStyle}>
                     <span style={stepIconStyle} aria-hidden><Icon size={18} /></span>
