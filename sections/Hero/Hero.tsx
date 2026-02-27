@@ -5,7 +5,7 @@ import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 import ButtonCta from '../../components/ui/ButtonCta';
 
-const { colors, spacing, fontSizes } = theme;
+const { colors, spacing, fontSizes, radii } = theme;
 
 const heroSectionStyleBase: React.CSSProperties = {
   position: 'relative',
@@ -142,7 +142,7 @@ const HeroBadge: React.FC<HeroBadgeProps> = ({ badge, idx, hasEntered, smoothX, 
       <motion.div
         style={{
           border: `1px solid ${colors.neutral.border}`,
-          borderRadius: 20,
+          borderRadius: radii.full,
           padding: `${spacing[5]}px ${spacing[5]}px`,
           background: 'rgba(255, 255, 255, 0.5)',
           backdropFilter: 'saturate(150%) blur(14px)',
@@ -164,7 +164,7 @@ const HeroBadge: React.FC<HeroBadgeProps> = ({ badge, idx, hasEntered, smoothX, 
           style={{
             width: 44,
             height: 44,
-            borderRadius: 14,
+            borderRadius: radii.full,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
