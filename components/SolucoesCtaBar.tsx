@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import ButtonCta from './ui/ButtonCta';
 import { theme } from '../styles/theme';
 
@@ -6,6 +7,10 @@ const { colors, spacing } = theme;
 
 const CTA_TEXT = 'Pronto para crescer no digital?';
 const CTA_BUTTON = 'Quero um site que vende';
+
+const EASE_SOFT = [0.32, 0.72, 0, 1] as const;
+const DURATION_ENTER = 0.5;
+const DURATION_EXIT = 0.4;
 
 const SolucoesCtaBar: React.FC = () => {
   const barStyle: React.CSSProperties = {
@@ -21,15 +26,23 @@ const SolucoesCtaBar: React.FC = () => {
     gap: spacing[6],
     minHeight: 96,
     padding: `${spacing[8]}px ${spacing[6]}`,
-    backgroundColor: 'rgba(245, 255, 240, 0.4)',
-    backdropFilter: 'saturate(160%) blur(10px)',
+    backgroundColor: 'rgba(245, 255, 240, 0.7)',
+    backdropFilter: 'saturate(160%) blur(20px)',
     WebkitBackdropFilter: 'saturate(160%) blur(20px)',
-    borderTop: `1px solid ${colors.neutral.border}`,
+    borderTop: `2px solid ${colors.neutral.border}`,
     boxShadow: '0 -4px 24px rgba(0, 0, 0, 0.06)',
   };
 
   return (
-    <div style={barStyle} role="banner" aria-live="polite" data-solucoes-cta-bar>
+    <motion.div
+      style={barStyle}
+      role="banner"
+      aria-live="polite"
+      data-solucoes-cta-bar
+      initial={{ y: '100%', opacity: 0 }}
+      animate={{ y: 0, opacity: 1, transition: { duration: DURATION_ENTER, ease: EASE_SOFT } }}
+      exit={{ y: '100%', opacity: 0, transition: { duration: DURATION_EXIT, ease: EASE_SOFT } }}
+    >
       <span
         style={{
           fontSize: 'clamp(1rem, 2.5vw, 1.25rem)',
@@ -40,7 +53,7 @@ const SolucoesCtaBar: React.FC = () => {
         {CTA_TEXT}
       </span>
       <ButtonCta>{CTA_BUTTON}</ButtonCta>
-    </div>
+    </motion.div>
   );
 };
 
