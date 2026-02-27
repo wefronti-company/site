@@ -8,8 +8,7 @@ import { useSplash } from '../../contexts/SplashContext';
 import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 
-const { colors, spacing, fontSizes, radii, containerMaxWidth } = theme;
-const SCROLL_TOP_THRESHOLD = 1;
+const { colors, spacing, fontSizes, radii } = theme;
 const REVERSE_DELAY_MS = 220;
 const REVERSED_HOLD_MS = 520;
 
@@ -26,7 +25,6 @@ const NAV_LINKS = [
 const Header: React.FC = () => {
   const splash = useSplash();
   const isMd = useMediaQuery(theme.breakpoints.md);
-  const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [hoveredLinkId, setHoveredLinkId] = useState<string | null>(null);
   const [reversedPhase, setReversedPhase] = useState(false);
@@ -61,31 +59,6 @@ const Header: React.FC = () => {
     setReversedPhase(false);
   };
 
-  useEffect(() => {
-    if (!isMd) return;
-    if (typeof window === 'undefined' || typeof document === 'undefined') return;
-
-    const getScrollY = () =>
-      window.scrollY ?? window.pageYOffset ?? document.documentElement.scrollTop ?? document.body.scrollTop ?? 0;
-
-    const updateScrolled = () => {
-      const y = getScrollY();
-      setScrolled(y > SCROLL_TOP_THRESHOLD);
-    };
-
-    updateScrolled();
-    requestAnimationFrame(updateScrolled);
-
-    const onScroll = () => requestAnimationFrame(updateScrolled);
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll, { passive: true });
-
-    return () => {
-      window.removeEventListener('scroll', onScroll);
-      window.removeEventListener('resize', onScroll);
-    };
-  }, [isMd]);
-
   const scrollToSection = useScrollToSection();
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
@@ -96,7 +69,6 @@ const Header: React.FC = () => {
     scrollToSection(id);
   };
 
-  const showGlass = !isMd || scrolled;
   const headerPaddingX = isMd ? spacing[12] : spacing[6];
   const headerStyle: React.CSSProperties = {
     position: 'fixed',
@@ -107,34 +79,28 @@ const Header: React.FC = () => {
     visibility: splash?.splashActive ? 'hidden' : 'visible',
     pointerEvents: splash?.splashActive ? 'none' : 'auto',
     isolation: 'isolate',
-    paddingTop: isMd ? spacing[4] : spacing[3],
-    paddingLeft: headerPaddingX,
-    paddingRight: headerPaddingX,
-    paddingBottom: isMd ? spacing[4] : spacing[3],
-    transition: 'padding 0.25s ease',
+    paddingTop: 0,
+    paddingBottom: 0,
   };
 
   const headerWrapperStyle: React.CSSProperties = {
     width: '100%',
-    maxWidth: containerMaxWidth.wide - headerPaddingX * 2,
-    margin: '0 auto',
     position: 'relative',
     zIndex: 100,
   };
 
   const innerBarStyle: React.CSSProperties = {
     width: '100%',
-    paddingLeft: isMd ? spacing[6] : spacing[4],
-    paddingRight: isMd ? spacing[6] : spacing[4],
-    paddingTop: spacing[3],
-    paddingBottom: spacing[3],
-    borderRadius: radii.full,
-    backgroundColor: showGlass ? 'rgba(255, 255, 255, 0.55)' : 'transparent',
-    backdropFilter: showGlass ? 'saturate(140%) blur(14px)' : 'none',
-    WebkitBackdropFilter: showGlass ? 'saturate(140%) blur(14px)' : 'none',
-    border: showGlass ? '1px solid rgba(212, 232, 208, 0.6)' : '1px solid transparent',
-    boxShadow: showGlass ? '0 2px 24px rgba(0, 0, 0, 0.04)' : 'none',
-    transition: 'background-color 0.25s ease, backdrop-filter 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease',
+    paddingLeft: headerPaddingX,
+    paddingRight: headerPaddingX,
+    paddingTop: isMd ? spacing[4] : spacing[3],
+    paddingBottom: isMd ? spacing[4] : spacing[3],
+    backgroundColor: 'rgba(255, 255, 255, 0.19)',
+    backdropFilter: 'saturate(140%) blur(14px)',
+    WebkitBackdropFilter: 'saturate(140%) blur(14px)',
+    borderBottom: `1px solid ${colors.neutral.border}`,
+    boxShadow: '0 2px 24px rgba(0, 0, 0, 0.04)',
+    transition: 'backdrop-filter 0.25s ease',
     transform: 'translateZ(0)',
     WebkitTransform: 'translateZ(0)',
   };
@@ -147,8 +113,14 @@ const Header: React.FC = () => {
   };
 
   const leftCellStyle: React.CSSProperties = { flex: '1 1 0', minWidth: 0, display: 'flex', justifyContent: 'flex-start' };
-  const centerCellStyle: React.CSSProperties = { flex: '0 0 auto', display: 'flex', justifyContent: 'center' };
-  const rightCellStyle: React.CSSProperties = { flex: '1 1 0', minWidth: 0, display: 'flex', justifyContent: 'flex-end' };
+  const rightCellStyle: React.CSSProperties = {
+    flex: '1 1 0',
+    minWidth: 0,
+    display: 'flex',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    gap: spacing[8],
+  };
 
   const navStyle: React.CSSProperties = {
     display: 'flex',
@@ -167,7 +139,7 @@ const Header: React.FC = () => {
 
   const linkStyle: React.CSSProperties = {
     fontSize: fontSizes.sm,
-    fontWeight: 400,
+    fontWeight: 500,
     letterSpacing: '0.02em',
     color: colors.text.primary,
     textDecoration: 'none',
@@ -207,7 +179,7 @@ const Header: React.FC = () => {
             <Logo href="/" ariaLabel="Ir para a página inicial" />
           </div>
 
-          <div style={centerCellStyle}>
+          <div style={rightCellStyle}>
             <ul style={linkListStyle}>
               {NAV_LINKS.map(({ id, label, href }) => {
                 const isHovered = hoveredLinkId === id;
@@ -236,11 +208,8 @@ const Header: React.FC = () => {
                 );
               })}
             </ul>
-          </div>
-
-          <div style={rightCellStyle}>
             {isMd ? (
-              <ButtonCta className="header-user-btn">Quero um site que vende</ButtonCta>
+              <ButtonCta className="header-user-btn">Contato</ButtonCta>
             ) : (
               <button
                 type="button"

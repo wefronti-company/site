@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import type { GetServerSideProps } from 'next';
 import SEO from '../components/SEO';
 import Hero from '../sections/Hero';
-import Technology from '../sections/Technology';
+import ValoresCarousel from '../sections/ValoresCarousel';
+import Solucoes from '../sections/Solucoes';
 import Testimonials from '../sections/Testimonials';
 import Timeline from '../sections/Timeline';
 import Portfolio from '../sections/Portfolio';
@@ -71,7 +72,8 @@ const Home: React.FC<HomeProps> = ({ siteConteudo }) => {
     <>
       <SEO />
       <Hero conteudo={siteConteudo.hero as Record<string, unknown> | undefined} />
-      <Technology conteudo={siteConteudo.technology as Record<string, unknown> | undefined} />
+      <ValoresCarousel />
+      <Solucoes conteudo={siteConteudo.technology as Record<string, unknown> | undefined} />
       <Testimonials conteudo={siteConteudo.testimonials as Record<string, unknown> | undefined} />
       <Timeline conteudo={siteConteudo.timeline as Record<string, unknown> | undefined} />
       <Portfolio conteudo={siteConteudo.portfolio as Record<string, unknown> | undefined} />

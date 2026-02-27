@@ -38,18 +38,18 @@ const FloatingWhatsApp: React.FC = () => {
       };
     };
 
-    let techSection = document.getElementById('tecnologia');
-    if (techSection) {
-      observerCleanupRef.current = attachObserver(techSection);
+    let solucoesSection = document.getElementById('solucoes');
+    if (solucoesSection) {
+      observerCleanupRef.current = attachObserver(solucoesSection);
     } else if (!isHome) {
       setIsVisible(true);
       badgeTimerRef.current = setTimeout(() => setShowBadge(true), BADGE_DELAY_MS);
     } else {
       const interval = setInterval(() => {
-        techSection = document.getElementById('tecnologia');
-        if (techSection) {
+        solucoesSection = document.getElementById('solucoes');
+        if (solucoesSection) {
           clearInterval(interval);
-          observerCleanupRef.current = attachObserver(techSection);
+          observerCleanupRef.current = attachObserver(solucoesSection);
         }
       }, 150);
       const timeout = setTimeout(() => clearInterval(interval), 5000);

@@ -1,20 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import Link from 'next/link';
-import { Shield, Palette, TrendingUp, Search } from 'lucide-react';
 import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
-import { useScrollToSection } from '../../hooks/useScrollToSection';
 import ButtonCta from '../../components/ui/ButtonCta';
 
-const { colors, spacing, fontSizes, radii, containerMaxWidth } = theme;
-
-const HERO_CHIPS: { label: string; Icon: React.ComponentType<{ size?: number }> }[] = [
-  { label: 'Site rápido e seguro', Icon: Shield },
-  { label: 'Design de alto nível', Icon: Palette },
-  { label: 'Focado em conversão', Icon: TrendingUp },
-  { label: 'Otimizado para Google', Icon: Search },
-];
+const { colors, spacing, fontSizes } = theme;
 
 const heroSectionStyleBase: React.CSSProperties = {
   position: 'relative',
@@ -22,19 +12,19 @@ const heroSectionStyleBase: React.CSSProperties = {
   background: 'transparent',
   zIndex: 25,
   display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'center',
+  flexDirection: 'row',
+  alignItems: 'center',
   overflow: 'hidden',
 };
 
 const heroContentStyleBase: React.CSSProperties = {
   position: 'relative',
   zIndex: 2,
-  width: '100%',
-  maxWidth: containerMaxWidth.wide,
   display: 'flex',
   flexDirection: 'column',
   gap: spacing[8],
+  alignItems: 'flex-start',
+  textAlign: 'left',
 };
 
 const heroTitleStyle: React.CSSProperties = {
@@ -46,6 +36,29 @@ const heroTitleStyle: React.CSSProperties = {
   margin: 0,
 };
 
+/** Palavras destacadas no H1: serif italic, cinza claro */
+const HIGHLIGHT_WORDS = ['tecnologia', 'design', 'estratégia'];
+const highlightWordStyle: React.CSSProperties = {
+  fontFamily: '"Playfair Display", Georgia, serif',
+  fontStyle: 'italic',
+  fontWeight: 500,
+  color: '#9CA3AF',
+};
+
+function renderHeroTitle(text: string): React.ReactNode {
+  const regex = new RegExp(`(${HIGHLIGHT_WORDS.join('|')})`, 'gi');
+  const parts = text.split(regex);
+  return parts.map((part, i) =>
+    HIGHLIGHT_WORDS.some((w) => part.toLowerCase() === w) ? (
+      <span key={`h-${i}-${part}`} style={highlightWordStyle}>
+        {part}
+      </span>
+    ) : (
+      <React.Fragment key={`h-${i}`}>{part}</React.Fragment>
+    )
+  );
+}
+
 const heroSubtitleStyle: React.CSSProperties = {
   fontSize: '1.3rem',
   fontWeight: 200,
@@ -56,66 +69,28 @@ const heroSubtitleStyle: React.CSSProperties = {
 };
 
 
-const chipStyleBase: React.CSSProperties = {
-  display: 'inline-flex',
-  alignItems: 'center',
-  gap: spacing[2],
-  padding: `${spacing[2]}px ${spacing[4]}px`,
-  fontWeight: 200,
-  color: colors.text.primary,
-  backgroundColor: 'transparent',
-  border: `1px solid ${colors.neutral.border}`,
-  borderRadius: radii.full,
-  whiteSpace: 'nowrap',
-};
-
-
 interface HeroProps {
   conteudo?: Record<string, unknown>;
 }
 
 const Hero: React.FC<HeroProps> = ({ conteudo }) => {
   const isMd = useMediaQuery(theme.breakpoints.md);
-  const scrollToSection = useScrollToSection();
   const [hasEntered, setHasEntered] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
 
-  const titulo = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'Soluções em tecnologia, estratégia e design para negócios que querem crescer';
+  const tituloRaw = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'Soluções em tecnologia, estratégia e design para negócios que querem crescer';
   const subtitulo = (conteudo?.subtitulo != null ? String(conteudo.subtitulo) : '') || 'Planejamento, tecnologia e otimização contínua para tornar seu site um verdadeiro canal de aquisição.';
-  const chipsLabels = Array.isArray(conteudo?.chips) ? (conteudo.chips as string[]).map((c) => String(c)) : HERO_CHIPS.map((c) => c.label);
   const botaoPrincipal = (conteudo?.botaoPrincipal != null ? String(conteudo.botaoPrincipal) : '') || 'Quero um site que vende';
-  const botaoSecundario = (conteudo?.botaoSecundario != null ? String(conteudo.botaoSecundario) : '') || 'Ver Portfolio';
 
   const heroSectionStyle: React.CSSProperties = {
     ...heroSectionStyleBase,
-
     padding: isMd ? spacing[10] : spacing[4],
     paddingBottom: isMd ? spacing[10] : spacing[6],
     borderBottomLeftRadius: isMd ? 48 : 28,
     borderBottomRightRadius: isMd ? 48 : 28,
-    alignItems: isMd ? 'center' : 'flex-start',
   };
   const heroContentStyle: React.CSSProperties = {
     ...heroContentStyleBase,
-    alignItems: isMd ? 'center' : 'flex-start',
-    textAlign: isMd ? 'center' : 'left',
-  };
-  const chipsGridStyle: React.CSSProperties = isMd
-    ? {
-        display: 'flex',
-        flexWrap: 'nowrap',
-        justifyContent: 'center',
-        gap: spacing[6],
-      }
-    : {
-        display: 'grid',
-        gridTemplateColumns: '1fr 1fr',
-        gap: spacing[3],
-        justifyItems: 'start',
-      };
-  const chipStyle: React.CSSProperties = {
-    ...chipStyleBase,
-    fontSize: isMd ? fontSizes.sm : fontSizes.xs,
   };
 
   useEffect(() => {
@@ -138,8 +113,20 @@ const Hero: React.FC<HeroProps> = ({ conteudo }) => {
     };
   }, [hasEntered]);
 
+  const heroLeftStyle: React.CSSProperties = {
+    flex: isMd ? '0 0 65%' : '1 1 100%',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+  };
+  const heroRightStyle: React.CSSProperties = {
+    flex: isMd ? '0 0 35%' : '0 0 0',
+    display: isMd ? 'block' : 'none',
+  };
+
   return (
     <section ref={sectionRef} id="hero" style={heroSectionStyle}>
+      <div style={heroLeftStyle}>
       <div style={heroContentStyle}>
         <motion.h1
           initial={{ opacity: 0, y: 24 }}
@@ -147,7 +134,7 @@ const Hero: React.FC<HeroProps> = ({ conteudo }) => {
           transition={{ duration: 0.7, ease: 'easeOut', delay: 0.15 }}
           style={heroTitleStyle}
         >
-          {titulo}
+          {renderHeroTitle(tituloRaw)}
         </motion.h1>
 
         <motion.p
@@ -160,56 +147,16 @@ const Hero: React.FC<HeroProps> = ({ conteudo }) => {
         </motion.p>
 
         <motion.div
-          style={chipsGridStyle}
-          initial={{ opacity: 0, y: 12 }}
-          animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
-          transition={{ duration: 0.5, ease: 'easeOut', delay: 0.4 }}
-        >
-          {HERO_CHIPS.map(({ Icon }, i) => (
-            <span key={i} className="hero-chip-float" style={{ ...chipStyle, animationDelay: `${i * 0.25}s` }}>
-              <span style={{ display: 'flex', flexShrink: 0 }}><Icon size={18} /></span>
-              {chipsLabels[i] ?? ''}
-            </span>
-          ))}
-        </motion.div>
-
-        <motion.div
           style={{ display: 'flex', flexWrap: 'wrap', gap: spacing[4], alignItems: 'center' }}
           initial={{ opacity: 0, y: 16 }}
           animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
           transition={{ duration: 0.5, ease: 'easeOut', delay: 0.5 }}
         >
           <ButtonCta>{botaoPrincipal}</ButtonCta>
-          <Link
-            href="/#portfolio"
-            aria-label="Ver portfolio"
-            onClick={(e) => {
-              if (typeof window !== 'undefined' && window.location.pathname === '/') {
-                e.preventDefault();
-                scrollToSection('portfolio');
-              }
-            }}
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: 8,
-              padding: '12px 24px',
-              minHeight: 52,
-              borderRadius: 9999,
-              fontWeight: 500,
-              fontSize: 16,
-              color: colors.text.primary,
-              border: `1px solid ${colors.neutral.border}`,
-              background: 'transparent',
-              textDecoration: 'none',
-              transition: 'opacity 0.2s, border-color 0.2s, background 0.2s',
-            }}
-          >
-            {botaoSecundario}
-          </Link>
         </motion.div>
       </div>
+      </div>
+      <div style={heroRightStyle} aria-hidden />
     </section>
   );
 };

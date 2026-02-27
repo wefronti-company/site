@@ -96,10 +96,10 @@ export const DEFAULT_HERO: HeroConteudo = {
 };
 
 export const DEFAULT_TECHNOLOGY: TechnologyConteudo = {
-  badge: 'Tecnologia',
-  titulo: 'Excelência em\ntecnologia e criação de sites',
+  badge: 'Soluções',
+  titulo: 'Nossas soluções',
   intro:
-    'Usamos as melhores tecnologias do mercado para elevar o nível do seu projeto. O resultado é um site extremamente rápido, bonito e, principalmente, preparado para converter visitantes em clientes e fazer sua empresa faturar mais.',
+    'Desenvolvimento web, softwares, design, integração e suporte. Tudo o que sua empresa precisa para crescer no digital.',
   botao: 'Quero um site que vende',
 };
 

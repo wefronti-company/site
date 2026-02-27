@@ -42,9 +42,14 @@ body:not(.admin-route)::before {
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  opacity: 0.035;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 1;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'%3E%3Canimate attributeName='baseFrequency' values='0.82;0.9;0.82' dur='4s' repeatCount='indefinite'/%3E%3C/feTurbulence%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background-repeat: repeat;
+  animation: noise-chuvisco 3s ease-in-out infinite;
+}
+@keyframes noise-chuvisco {
+  0%, 100% { opacity: 0.18; }
+  50% { opacity: 0.24; }
 }
 button, input, select, textarea {
   font-family: inherit;
@@ -208,6 +213,7 @@ button:focus-visible, a:focus-visible, [role="button"]:focus-visible, summary:fo
   pointer-events: none;
 }
 @media (prefers-reduced-motion: reduce) {
+  body:not(.admin-route)::before { animation: none !important; }
   .cta-gradient-animated { animation: none !important; }
   .animate-float { animation: none !important; }
   .hero-chip-float { animation: none !important; }
