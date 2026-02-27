@@ -15,106 +15,81 @@ import FloatingWhatsApp from './FloatingWhatsApp';
  */
 const BottomCtaOrWhatsApp: React.FC = () => {
   const router = useRouter();
-  const [hasReachedSolucoes, setHasReachedSolucoes] = useState(false);
-  const [hasReachedCta, setHasReachedCta] = useState(false);
-  const [inHero, setInHero] = useState(true);
-  const [inSolucoes, setInSolucoes] = useState(false);
-  const [inCta, setInCta] = useState(false);
+  const [showBar, setShowBar] = useState(false);
   const isHome = router.pathname === '/';
 
   useEffect(() => {
     if (typeof window === 'undefined' || typeof document === 'undefined') return;
     if (!isHome) return;
 
-    let cleanup: (() => void) | null = null;
+    let rafId = 0;
 
-    const setupObservers = (
-      heroEl: HTMLElement | null,
-      solEl: HTMLElement | null,
-      ctaEl: HTMLElement | null
-    ) => {
-      const opts = { threshold: 0, rootMargin: '0px 0px -10% 0px' };
-      const heroObs = heroEl ? new IntersectionObserver(
-        (entries) => { for (const e of entries) setInHero(e.isIntersecting); },
-        opts
-      ) : null;
-      const solObs = solEl ? new IntersectionObserver(
-        (entries) => {
-          for (const e of entries) {
-            const v = e.isIntersecting;
-            setInSolucoes(v);
-            if (v) setHasReachedSolucoes(true);
-          }
-        },
-        opts
-      ) : null;
-      const ctaObs = ctaEl ? new IntersectionObserver(
-        (entries) => {
-          for (const e of entries) {
-            const v = e.isIntersecting;
-            setInCta(v);
-            if (v) setHasReachedCta(true);
-          }
-        },
-        opts
-      ) : null;
+    const updateVisibility = () => {
+      const solucoesSection = document.getElementById('solucoes');
+      const ctaSection = document.getElementById('cta');
+      if (!solucoesSection || !ctaSection) return;
 
-      if (heroEl) heroObs?.observe(heroEl);
-      if (solEl) solObs?.observe(solEl);
-      if (ctaEl) ctaObs?.observe(ctaEl);
-      return () => {
-        heroObs?.disconnect();
-        solObs?.disconnect();
-        ctaObs?.disconnect();
-      };
+      const y = window.scrollY;
+      const solucoesTop = solucoesSection.offsetTop;
+      const ctaTop = ctaSection.offsetTop;
+
+      // Barra visível somente entre Soluções e CTA (inclusive Soluções, exclusivo CTA).
+      const withinRange = y >= solucoesTop - 8 && y < ctaTop - 8;
+      setShowBar(withinRange);
     };
 
-    const heroSection = document.getElementById('hero');
-    const solucoesSection = document.getElementById('solucoes');
-    const ctaSection = document.getElementById('cta');
+    const onScrollOrResize = () => {
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(updateVisibility);
+    };
 
-    if (heroSection || solucoesSection || ctaSection) {
-      // Hero pode não existir em SSR, mas solucoes/cta sim na home
-      const hero = document.getElementById('hero');
-      cleanup = setupObservers(hero, solucoesSection, ctaSection);
-      return () => cleanup?.();
+    // Tenta anexar imediatamente e também em retry (hydration/sections tardias).
+    const tryStart = () => {
+      const solucoesSection = document.getElementById('solucoes');
+      const ctaSection = document.getElementById('cta');
+      return Boolean(solucoesSection && ctaSection);
+    };
+
+    if (tryStart()) {
+      updateVisibility();
+    } else {
+      const interval = setInterval(() => {
+        if (tryStart()) {
+          clearInterval(interval);
+          updateVisibility();
+        }
+      }, 120);
+      const timeout = setTimeout(() => clearInterval(interval), 5000);
+      window.addEventListener('scroll', onScrollOrResize, { passive: true });
+      window.addEventListener('resize', onScrollOrResize);
+      return () => {
+        clearInterval(interval);
+        clearTimeout(timeout);
+        window.removeEventListener('scroll', onScrollOrResize);
+        window.removeEventListener('resize', onScrollOrResize);
+        if (rafId) cancelAnimationFrame(rafId);
+      };
     }
 
-    const interval = setInterval(() => {
-      const hero = document.getElementById('hero');
-      const sol = document.getElementById('solucoes');
-      const cta = document.getElementById('cta');
-      if (hero || sol || cta) {
-        clearInterval(interval);
-        cleanup = setupObservers(hero ?? null, sol ?? null, cta ?? null);
-      }
-    }, 100);
-    const timeout = setTimeout(() => clearInterval(interval), 5000);
+    window.addEventListener('scroll', onScrollOrResize, { passive: true });
+    window.addEventListener('resize', onScrollOrResize);
     return () => {
-      clearInterval(interval);
-      clearTimeout(timeout);
-      cleanup?.();
+      window.removeEventListener('scroll', onScrollOrResize);
+      window.removeEventListener('resize', onScrollOrResize);
+      if (rafId) cancelAnimationFrame(rafId);
     };
   }, [isHome, router.pathname]);
 
   if (!isHome) return <FloatingWhatsApp />;
-  if (inCta) return null;
 
-  // Barra: de Soluções até CTA (scroll down) ou de CTA até Soluções (scroll up)
-  // Nunca em Hero. Em Soluções ao subir (hasReachedCta): recolhe
-  const showBar =
-    !inHero &&
-    ((inSolucoes && !hasReachedCta) || (hasReachedSolucoes && !inSolucoes));
-
-  if (showBar) {
-    return (
-      <AnimatePresence mode="wait">
-        <SolucoesCtaBar key="solucoes-cta-bar" />
+  return (
+    <>
+      <AnimatePresence>
+        {showBar ? <SolucoesCtaBar key="solucoes-cta-bar" /> : null}
       </AnimatePresence>
-    );
-  }
-
-  return <FloatingWhatsApp />;
+      {!showBar ? <FloatingWhatsApp /> : null}
+    </>
+  );
 };
 
 export default BottomCtaOrWhatsApp;

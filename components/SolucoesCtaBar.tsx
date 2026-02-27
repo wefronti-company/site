@@ -9,8 +9,9 @@ const CTA_TEXT = 'Pronto para crescer no digital?';
 const CTA_BUTTON = 'Quero um site que vende';
 
 const EASE_SOFT = [0.32, 0.72, 0, 1] as const;
+const EASE_SLIDE_DOWN = [0.22, 1, 0.36, 1] as const;
 const DURATION_ENTER = 0.5;
-const DURATION_EXIT = 0.4;
+const DURATION_EXIT = 0.7;
 
 const SolucoesCtaBar: React.FC = () => {
   const barStyle: React.CSSProperties = {
@@ -41,7 +42,7 @@ const SolucoesCtaBar: React.FC = () => {
       data-solucoes-cta-bar
       initial={{ y: '100%', opacity: 0 }}
       animate={{ y: 0, opacity: 1, transition: { duration: DURATION_ENTER, ease: EASE_SOFT } }}
-      exit={{ y: '100%', opacity: 0, transition: { duration: DURATION_EXIT, ease: EASE_SOFT } }}
+      exit={{ y: '100%', opacity: 0, transition: { duration: DURATION_EXIT, ease: EASE_SLIDE_DOWN } }}
     >
       <span
         style={{
