@@ -1,4 +1,5 @@
 import React from 'react';
+import { colors } from '../styles/theme';
 
 /**
  * Estilos globais injetados via React (sem arquivo CSS externo para o design).
@@ -10,8 +11,8 @@ const GlobalStyles: React.FC = () => (
       __html: `
 :root {
   --scrollbar-track: transparent;
-  --scrollbar-thumb: rgba(255,255,255,0.03);
-  --scrollbar-thumb-hover: rgba(255,255,255,0.08);
+  --scrollbar-thumb: rgba(0,0,0,0.12);
+  --scrollbar-thumb-hover: rgba(0,0,0,0.2);
   --scrollbar-width: 3px;
 }
 
@@ -28,11 +29,22 @@ html, body {
   height: 100%;
   overflow-x: hidden;
   max-width: 100vw;
-  background-color: #040404;
-  color: #ffffff;
-  font-family: "Funnel Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: ${colors.background.gradient};
+  background-attachment: fixed;
+  color: #111827;
+  font-family: "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+body:not(.admin-route)::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
 }
 button, input, select, textarea {
   font-family: inherit;
@@ -40,7 +52,7 @@ button, input, select, textarea {
 #__next {
   min-height: 100%;
   overflow-x: hidden;
-  background-color: #040404;
+  background: transparent;
   padding-bottom: 80px;
 }
 
@@ -150,6 +162,21 @@ section[id] {
   0% { transform: translate3d(0, 0, 0); }
   100% { transform: translate3d(50%, 0, 0); }
 }
+@keyframes cta-gradient-flow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.cta-gradient-animated {
+  background: linear-gradient(90deg, #059669, #10B981, #22C55E, #84CC16, #A3E635, #22C55E, #10B981, #059669) !important;
+  background-size: 300% 100% !important;
+  animation: cta-gradient-flow 6s ease-in-out infinite;
+  border: none !important;
+  color: #fff !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .cta-gradient-animated { animation: none; background-position: 50% 50% !important; }
+}
 .shake { animation: shake 0.4s ease-in-out; }
 .testimonials-track { animation: testimonials-scroll 80s linear infinite; backface-visibility: hidden; }
 .testimonials-track-reverse { animation: testimonials-scroll-reverse 80s linear infinite; backface-visibility: hidden; }
@@ -176,11 +203,12 @@ button:focus-visible, a:focus-visible, [role="button"]:focus-visible, summary:fo
 .hero-sparkle {
   position: absolute;
   border-radius: 50%;
-  background: rgba(255,255,255,0.9);
-  box-shadow: 0 0 6px rgba(255,255,255,0.8);
+  background: rgba(53, 152, 255, 0.35);
+  box-shadow: 0 0 6px rgba(53, 152, 255, 0.4);
   pointer-events: none;
 }
 @media (prefers-reduced-motion: reduce) {
+  .cta-gradient-animated { animation: none !important; }
   .animate-float { animation: none !important; }
   .hero-chip-float { animation: none !important; }
   .hero-sparkle { animation: none !important; }

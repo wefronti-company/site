@@ -17,10 +17,7 @@ const NotFound: React.FC = () => {
     alignItems: 'center',
     justifyContent: 'center',
     padding: spacing[8],
-    backgroundColor: colors.background.dark,
-    backgroundImage: "url('/images/brand/background.webp')",
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
+    background: colors.background.gradient,
     borderBottomLeftRadius: isMd ? 48 : 28,
     borderBottomRightRadius: isMd ? 48 : 28,
   };
@@ -37,7 +34,7 @@ const contentStyle: React.CSSProperties = {
 const codeStyle: React.CSSProperties = {
   fontSize: fontSizes['5xl'],
   fontWeight: 300,
-  color: colors.text.light,
+  color: colors.text.primary,
   opacity: 0.85,
   margin: 0,
   letterSpacing: '0.02em',
@@ -47,14 +44,14 @@ const titleStyle: React.CSSProperties = {
   fontSize: fontSizes['4xl'],
   fontWeight: 400,
   lineHeight: 1.2,
-  color: colors.text.light,
+  color: colors.text.primary,
   margin: 0,
 };
 
 const textStyle: React.CSSProperties = {
   fontSize: fontSizes.lg,
   lineHeight: 1.5,
-  color: colors.text.light,
+  color: colors.text.primary,
   opacity: 0.9,
   margin: 0,
 };

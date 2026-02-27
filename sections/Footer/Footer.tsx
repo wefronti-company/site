@@ -24,7 +24,7 @@ const Footer: React.FC<FooterProps> = ({ conteudo }) => {
 
   const footerStyle: React.CSSProperties = {
     width: '100%',
-    backgroundColor: colors.background.dark,
+    backgroundColor: 'transparent',
  
   };
 
@@ -70,7 +70,7 @@ const Footer: React.FC<FooterProps> = ({ conteudo }) => {
   const networksLabelStyle: React.CSSProperties = {
     fontSize: fontSizes.sm,
     fontWeight: 500,
-    color: colors.text.light,
+    color: colors.text.primary,
     margin: 0,
   };
 
@@ -81,9 +81,9 @@ const Footer: React.FC<FooterProps> = ({ conteudo }) => {
     width: 40,
     height: 40,
     borderRadius: '50%',
-    border: `1px solid ${colors.neutral.borderDark}`,
+    border: `1px solid ${colors.neutral.border}`,
     background: 'transparent',
-    color: colors.text.light,
+    color: colors.text.primary,
     textDecoration: 'none',
     transition: 'border-color 0.2s, color 0.2s',
   };
@@ -91,7 +91,7 @@ const Footer: React.FC<FooterProps> = ({ conteudo }) => {
   const privacyLinkStyle: React.CSSProperties = {
     fontSize: fontSizes.sm,
     textDecoration: 'none',
-    color: colors.text.light,
+    color: colors.text.primary,
     opacity: 0.9,
   };
 
@@ -104,13 +104,13 @@ const Footer: React.FC<FooterProps> = ({ conteudo }) => {
 
   const smallTextStyle: React.CSSProperties = {
     fontSize: fontSizes.sm,
-    color: colors.text.dark,
+    color: colors.text.secondary,
     opacity: 0.6,
   };
 
   return (
     <footer style={footerStyle}>
-      <div style={{ backgroundColor: colors.background.dark }}>
+      <div style={{ backgroundColor: 'transparent' }}>
         <div style={innerStyle}>
           <div style={mainRowStyle}>
             <Logo />
@@ -140,7 +140,7 @@ const Footer: React.FC<FooterProps> = ({ conteudo }) => {
           </div>
         </div>
 
-        <div style={{ width: '100%', borderTop: `1px solid ${colors.neutral.borderDark}` }} />
+        <div style={{ width: '100%', borderTop: `1px solid ${colors.neutral.border}` }} />
 
         <div style={innerStyle}>
           <div style={innerBottomStyle}>

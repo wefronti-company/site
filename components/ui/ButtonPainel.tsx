@@ -34,7 +34,7 @@ const ButtonPainel: React.FC<ButtonPainelProps> = ({
       background: colors.blue.primary,
       borderRadius: radii.md,
       padding: '12px 24px',
-      color: colors.text.light,
+      color: colors.text.onPrimary,
       fontSize: 16,
       fontWeight: 500,
       cursor: disabled ? 'not-allowed' : 'pointer',
@@ -48,7 +48,7 @@ const ButtonPainel: React.FC<ButtonPainelProps> = ({
       e.currentTarget.style.opacity = disabled ? '0.5' : '1';
     }}
   >
-    <span style={{ color: colors.text.light }}>
+    <span style={{ color: colors.text.onPrimary }}>
       {children || label}
     </span>
   </button>

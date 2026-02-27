@@ -42,7 +42,7 @@ const sectionStyleBase: React.CSSProperties = {
   width: '100%',
   paddingTop: spacing[16],
   paddingBottom: spacing[16],
-  backgroundColor: colors.background.dark,
+  backgroundColor: 'transparent',
 };
 
 const innerStyleBase: React.CSSProperties = {
@@ -67,11 +67,11 @@ const badgeStyle: React.CSSProperties = {
   alignSelf: 'flex-start',
   padding: `${spacing[2]}px ${spacing[4]}px`,
   borderRadius: radii.full,
-  border: `1px solid ${colors.neutral.borderDark}`,
-  backgroundColor: 'rgba(255,255,255,0.04)',
+  border: `1px solid ${colors.neutral.border}`,
+  backgroundColor: colors.neutral.accordeon,
   fontSize: fontSizes.xs,
   fontWeight: 500,
-  color: colors.text.light,
+  color: colors.text.primary,
   textTransform: 'uppercase' as const,
   letterSpacing: '0.06em',
 };
@@ -81,7 +81,7 @@ const titleStyle: React.CSSProperties = {
   fontWeight: 400,
   lineHeight: 1.2,
   letterSpacing: '-0.02em',
-  color: colors.text.light,
+  color: colors.text.primary,
   margin: 0,
 };
 
@@ -92,7 +92,7 @@ const titleFadedStyle: React.CSSProperties = {
 const descriptionStyle: React.CSSProperties = {
   fontSize: '1.3rem',
   lineHeight: 1.6,
-  color: colors.text.light,
+  color: colors.text.primary,
   opacity: 0.85,
   margin: 0,
   maxWidth: 420,
@@ -194,7 +194,7 @@ const Faq: React.FC<FaqProps> = ({ conteudo }) => {
                   }}
                   style={{
                     background: colors.neutral.accordeon,
-                    border: `1px solid ${colors.neutral.borderDark}`,
+                    border: `1px solid ${colors.neutral.border}`,
                     borderRadius: 30,
                     padding: `${spacing[5]}px ${spacing[6]}px`,
                     cursor: 'pointer',
@@ -213,7 +213,7 @@ const Faq: React.FC<FaqProps> = ({ conteudo }) => {
                       style={{
                         fontSize: fontSizes.lg,
                         fontWeight: 500,
-                        color: colors.text.light,
+                        color: colors.text.primary,
                         textAlign: 'left',
                         flex: 1,
                       }}
@@ -233,7 +233,7 @@ const Faq: React.FC<FaqProps> = ({ conteudo }) => {
                       }}
                       aria-hidden
                     >
-                      <Plus size={22} strokeWidth={2.5} color={colors.text.light} />
+                      <Plus size={22} strokeWidth={2.5} color={colors.text.primary} />
                     </span>
                   </div>
                   <div
@@ -254,7 +254,7 @@ const Faq: React.FC<FaqProps> = ({ conteudo }) => {
                           style={{
                             fontSize: fontSizes.sm,
                             lineHeight: 1.6,
-                            color: colors.text.light,
+                            color: colors.text.primary,
                             opacity: 0.85,
                             margin: 0,
                             textAlign: 'left',

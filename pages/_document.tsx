@@ -32,13 +32,13 @@ export default function Document() {
   <link rel="shortcut icon" href="/images/brand/favicon-site.png?v=3" />
   <link rel="apple-touch-icon" href="/images/brand/favicon-site.png?v=3" sizes="180x180" />
  
- {/* Google Fonts - Funnel Sans */}
+ {/* Google Fonts - Geist */}
  <link rel="preconnect" href="https://fonts.googleapis.com" />
  <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
- <link href="https://fonts.googleapis.com/css2?family=Funnel+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+ <link href="https://fonts.googleapis.com/css2?family=Funnel+Sans:ital,wght@0,300..800;1,300..800&family=Geist:wght@100..900&display=swap" rel="stylesheet" />
  
  </Head>
- <body style={{ backgroundColor: '#040404' }}>
+ <body>
  <Main />
 
  {/* Client-side JS chunk retry: se um script de /_next/static/chunks falhar (503, rede, deploy), tenta novamente */}

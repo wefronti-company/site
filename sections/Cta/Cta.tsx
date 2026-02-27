@@ -17,14 +17,12 @@ const wrapperStyleBase: React.CSSProperties = {
   margin: '0 auto',
   borderRadius: 30,
   overflow: 'hidden',
-  backgroundImage: "url('/images/brand/background.webp')",
-  backgroundSize: 'cover',
-  backgroundPosition: 'center',
+  background: colors.background.gradient,
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
   textAlign: 'center',
-  border: `1px solid ${colors.neutral.borderDark}`,
+  border: `1px solid ${colors.neutral.border}`,
 };
 
 const headingStyle: React.CSSProperties = {
@@ -32,7 +30,7 @@ const headingStyle: React.CSSProperties = {
   fontWeight: 400,
   lineHeight: 1.2,
   letterSpacing: '-0.02em',
-  color: colors.text.light,
+  color: colors.text.primary,
   margin: 0,
 };
 
@@ -40,7 +38,7 @@ const subheadingStyle: React.CSSProperties = {
   fontSize: fontSizes.lg,
   fontWeight: 400,
   lineHeight: 1.5,
-  color: colors.text.light,
+  color: colors.text.primary,
   opacity: 0.92,
   margin: 0,
   maxWidth: 520,
@@ -56,7 +54,7 @@ const buttonStyle: React.CSSProperties = {
   fontWeight: 500,
   borderRadius: radii.full,
   backgroundColor: colors.blue.primary,
-  color: colors.text.light,
+  color: colors.text.onPrimary,
   border: `1px solid ${colors.blue.primary}`,
   textDecoration: 'none',
   cursor: 'pointer',
@@ -87,7 +85,7 @@ const Cta: React.FC<CtaProps> = ({ conteudo }) => {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: colors.background.dark,
+    backgroundColor: 'transparent',
   };
 
   /** Em telas menores, menos padding na div de CTA */

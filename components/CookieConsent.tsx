@@ -80,7 +80,7 @@ const CookieConsent: React.FC = () => {
     backgroundColor: 'rgba(4, 4, 4, 0.75)',
     backdropFilter: 'saturate(180%) blur(12px)',
     WebkitBackdropFilter: 'saturate(180%) blur(12px)',
-    border: `1px solid ${colors.neutral.borderDark}`,
+    border: `1px solid ${colors.neutral.border}`,
     borderRadius: 30,
     boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
     animation: 'slide-up 0.4s ease-out',
@@ -102,10 +102,10 @@ const CookieConsent: React.FC = () => {
     padding: `${spacing[2]}px ${spacing[4]}px`,
     fontSize: fontSizes.sm,
     fontWeight: 500,
-    border: `1px solid ${colors.neutral.borderDark}`,
+    border: `1px solid ${colors.neutral.border}`,
     borderRadius: 30,
-    backgroundColor: colors.background.dark,
-    color: colors.text.light,
+    backgroundColor: colors.background.general,
+    color: colors.text.primary,
     cursor: 'pointer',
     transition: 'opacity 0.2s',
   };
@@ -121,12 +121,12 @@ const CookieConsent: React.FC = () => {
         <div ref={bannerInnerRef} style={boxStyle}>
           <div style={innerStyle}>
             <div style={{ display: 'flex', alignItems: 'center', gap: spacing[2], marginBottom: spacing[2] }}>
-              <Cookie size={20} style={{ color: colors.icons.light }} />
-              <h3 style={{ fontSize: fontSizes.lg, fontWeight: 500, color: colors.text.light, margin: 0 }}>
+              <Cookie size={20} style={{ color: colors.icons.primary }} />
+              <h3 style={{ fontSize: fontSizes.lg, fontWeight: 500, color: colors.text.primary, margin: 0 }}>
                 Este site utiliza cookies
               </h3>
             </div>
-            <p style={{ fontSize: fontSizes.sm, lineHeight: 1.6, color: colors.text.light, opacity: 0.8, margin: 0 }}>
+            <p style={{ fontSize: fontSizes.sm, lineHeight: 1.6, color: colors.text.primary, opacity: 0.8, margin: 0 }}>
               Usamos cookies essenciais para o funcionamento do site e, com seu consentimento, cookies de análise e marketing para melhorar sua experiência.{' '}
             <a href="/politica-privacidade" target="_blank" rel="noopener noreferrer" style={{ color: colors.blue.primary, textDecoration: 'underline' }}>
               Saiba mais
@@ -169,28 +169,28 @@ const CookieConsent: React.FC = () => {
               maxHeight: '90vh',
               overflowY: 'auto',
               padding: spacing[6],
-              backgroundColor: colors.background.dark,
-              border: `1px solid ${colors.neutral.borderDark}`,
+              backgroundColor: colors.background.general,
+              border: `1px solid ${colors.neutral.border}`,
               borderRadius: 30,
               animation: 'scale-in 0.3s ease-out',
             }}
           >
             <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: spacing[6] }}>
               <div>
-                <h2 style={{ fontSize: 24, fontWeight: 500, color: colors.text.light, margin: 0, marginBottom: spacing[2] }}>
+                <h2 style={{ fontSize: 24, fontWeight: 500, color: colors.text.primary, margin: 0, marginBottom: spacing[2] }}>
                   Configurações de Cookies
                 </h2>
-                <p style={{ fontSize: fontSizes.sm, color: colors.text.light, opacity: 0.8, margin: 0 }}>
+                <p style={{ fontSize: fontSizes.sm, color: colors.text.primary, opacity: 0.8, margin: 0 }}>
                   Gerencie suas preferências de cookies. Você pode alterar essas configurações a qualquer momento.
                 </p>
               </div>
               <button
                 onClick={() => setShowSettings(false)}
-                style={{ padding: spacing[2], border: 0, borderRadius: 30, background: colors.background.dark, cursor: 'pointer' }}
+                style={{ padding: spacing[2], border: 0, borderRadius: 30, background: colors.background.general, cursor: 'pointer' }}
                 onMouseEnter={(e) => { e.currentTarget.style.opacity = '0.8'; }}
                 onMouseLeave={(e) => { e.currentTarget.style.opacity = '1'; }}
               >
-                <X size={20} style={{ color: colors.text.light }} />
+                <X size={20} style={{ color: colors.text.primary }} />
               </button>
             </div>
 
@@ -205,20 +205,20 @@ const CookieConsent: React.FC = () => {
                   style={{
                     padding: spacing[4],
                     marginBottom: spacing[6],
-                    border: `1px solid ${colors.neutral.borderDark}`,
+                    border: `1px solid ${colors.neutral.border}`,
                     borderRadius: 20,
-                    backgroundColor: colors.background.dark,
+                    backgroundColor: colors.background.general,
                   }}
                 >
                   <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: spacing[2] }}>
                     <div style={{ flex: 1 }}>
-                      <h3 style={{ fontSize: fontSizes.lg, fontWeight: 400, color: colors.text.light, margin: 0, marginBottom: 4 }}>
+                      <h3 style={{ fontSize: fontSizes.lg, fontWeight: 400, color: colors.text.primary, margin: 0, marginBottom: 4 }}>
                         {title}
                       </h3>
-                      <p style={{ fontSize: fontSizes.sm, color: colors.text.dark, opacity: 0.8, margin: 0 }}>{desc}</p>
+                      <p style={{ fontSize: fontSizes.sm, color: colors.text.secondary, opacity: 0.8, margin: 0 }}>{desc}</p>
                     </div>
                     {always ? (
-                      <span style={{ padding: `${4}px ${spacing[3]}px`, fontSize: 12, fontWeight: 400, background: colors.blue.primary, color: colors.text.light, borderRadius: 30 }}>
+                      <span style={{ padding: `${4}px ${spacing[3]}px`, fontSize: 12, fontWeight: 400, background: colors.blue.primary, color: colors.text.onPrimary, borderRadius: 30 }}>
                         Sempre ativo
                       </span>
                     ) : (
@@ -231,7 +231,7 @@ const CookieConsent: React.FC = () => {
                           border: 0,
                           borderRadius: radii.full,
                           cursor: 'pointer',
-                          background: preferences[key] ? colors.blue.primary : colors.neutral.borderDark,
+                          background: preferences[key] ? colors.blue.primary : colors.neutral.border,
                         }}
                       >
                         <div
@@ -262,8 +262,8 @@ const CookieConsent: React.FC = () => {
               </button>
             </div>
 
-            <p style={{ textAlign: 'center', fontSize: 12, marginTop: spacing[4], color: colors.text.light, opacity: 0.6 }}>
-              <a href="/politica-privacidade" target="_blank" rel="noopener noreferrer" style={{ color: colors.text.light, textDecoration: 'underline' }}>
+            <p style={{ textAlign: 'center', fontSize: 12, marginTop: spacing[4], color: colors.text.primary, opacity: 0.6 }}>
+              <a href="/politica-privacidade" target="_blank" rel="noopener noreferrer" style={{ color: colors.text.primary, textDecoration: 'underline' }}>
                 Mais informações, leia nossa política de privacidade.
               </a>
             </p>

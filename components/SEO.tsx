@@ -43,7 +43,7 @@ const SEO: React.FC<SEOProps> = ({
  url: siteUrl,
  logo: {
  '@type': 'ImageObject',
- url: `${siteUrl}/images/brand/isologo-black.png`,
+ url: `${siteUrl}/images/brand/isologo-wefronti.webp`,
  width: 512,
  height: 512
  },

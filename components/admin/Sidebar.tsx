@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { Users, CreditCard, LayoutDashboard, FileText, FileX, PlusCircle, LogOut, List, User, ShieldPlus, LayoutGrid } from 'lucide-react';
+import { Users, CreditCard, LayoutDashboard, FileText, FileX, PlusCircle, LogOut, List, User, ShieldPlus } from 'lucide-react';
 import { theme } from '../../styles/theme';
 import { useSnackbar } from '../../contexts/SnackbarContext';
 import { clearAdminCache } from '../../lib/adminCache';
@@ -24,10 +24,6 @@ const PROPOSTA_ITEMS = [
   { label: 'Nova proposta', href: '/admin/dashboard/proposta/nova', icon: <PlusCircle size={16} strokeWidth={1.5} /> },
   { label: 'Proposta ativa', href: '/admin/dashboard/proposta/ativa', icon: <FileText size={16} strokeWidth={1.5} /> },
   { label: 'Proposta expiradas', href: '/admin/dashboard/proposta/expiradas', icon: <FileX size={16} strokeWidth={1.5} /> },
-];
-
-const SITE_ITEMS = [
-  { label: 'Gerencia seções', href: '/admin/dashboard/site/secoes', icon: <LayoutGrid size={16} strokeWidth={1.5} /> },
 ];
 
 const sidebarStyle: React.CSSProperties = {
@@ -149,7 +145,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPath }) => {
       <div style={logoWrapStyle}>
         <Link href="/admin/dashboard" style={logoLinkStyle} aria-label="Dashboard">
           <Image
-            src="/images/brand/isologo-white.webp"
+            src="/images/brand/isologo-wefronti.webp"
             alt="Wefronti"
             width={120}
             height={32}
@@ -187,21 +183,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPath }) => {
         <div style={{ ...sectionLabelStyle, marginTop: spacing[8] }}>Proposta comercial</div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: spacing[3] }}>
           {PROPOSTA_ITEMS.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              style={navLinkStyle(currentPath === item.href)}
-              className="admin-nav-item"
-            >
-              {item.icon}
-              {item.label}
-            </Link>
-          ))}
-        </div>
-
-        <div style={{ ...sectionLabelStyle, marginTop: spacing[8] }}>Site</div>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: spacing[3] }}>
-          {SITE_ITEMS.map((item) => (
             <Link
               key={item.href}
               href={item.href}

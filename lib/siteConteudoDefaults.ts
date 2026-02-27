@@ -82,7 +82,7 @@ export type ComparisonConteudo = {
 };
 
 export const DEFAULT_HERO: HeroConteudo = {
-  titulo: 'Transformamos seu site em uma máquina online de vendas',
+  titulo: 'Soluções em tecnologia, estratégia e design para negócios que querem crescer',
   subtitulo:
     'Planejamento, tecnologia e otimização contínua para tornar seu site um verdadeiro canal de aquisição.',
   chips: [

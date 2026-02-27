@@ -1,5 +1,4 @@
-import React from 'react';
-import { colors } from '../../styles/colors';
+import React, { useState } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { radii } from '@/styles/theme';
 import { useScrollToSection } from '../../hooks/useScrollToSection';
@@ -25,6 +24,7 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
   iconOnly = false
 }) => {
   const scrollToSection = useScrollToSection();
+  const [isHovered, setIsHovered] = useState(false);
 
   const handleClick = () => {
     if (onClick) {
@@ -37,7 +37,7 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
   return (
     <button
       type={type}
-      className={className}
+      className={`cta-gradient-animated ${className ?? ''}`.trim()}
       onClick={handleClick}
       disabled={disabled}
       aria-label={label || (typeof children === 'string' ? children : 'CTA')}
@@ -46,27 +46,38 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
         alignItems: 'center',
         justifyContent: 'center',
         gap: 8,
-        border: `1px solid ${colors.blue.primary}`,
-        background: colors.blue.primary,
         borderRadius: radii.full,
         padding: iconOnly ? 0 : '12px 24px',
-        color: colors.text.light,
+        color: '#fff',
         fontSize: 16,
         fontWeight: 500,
         cursor: disabled ? 'not-allowed' : 'pointer',
         opacity: disabled ? 0.5 : 1,
-        transition: 'opacity 0.2s',
+        transition: 'opacity 0.2s, transform 0.2s, box-shadow 0.2s',
+        boxShadow: '0 2px 12px rgba(5, 150, 105, 0.35)',
       }}
-      onMouseEnter={(e) => { if (!disabled) e.currentTarget.style.opacity = '0.9'; }}
-      onMouseLeave={(e) => { e.currentTarget.style.opacity = disabled ? '0.5' : '1'; }}
+      onMouseEnter={(e) => {
+        setIsHovered(true);
+        if (!disabled) {
+          e.currentTarget.style.opacity = '0.95';
+          e.currentTarget.style.transform = 'translateY(-1px)';
+          e.currentTarget.style.boxShadow = '0 4px 20px rgba(5, 150, 105, 0.45)';
+        }
+      }}
+      onMouseLeave={(e) => {
+        setIsHovered(false);
+        e.currentTarget.style.opacity = disabled ? '0.5' : '1';
+        e.currentTarget.style.transform = 'translateY(0)';
+        e.currentTarget.style.boxShadow = '0 2px 12px rgba(5, 150, 105, 0.35)';
+      }}
     >
       {iconOnly ? (
-        <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', color: colors.text.light }}>
+        <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>
           {children}
         </span>
       ) : (
         <>
-          <span style={{ color: colors.text.light }}>
+          <span style={{ color: '#fff' }}>
             {children || label || 'Quero um site que vende'}
           </span>
           <span
@@ -80,7 +91,16 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
               backgroundColor: 'rgba(255,255,255,0.95)',
             }}
           >
-            <ArrowRight size={16} color={colors.blue.primary} strokeWidth={2.5} />
+            <span
+              style={{
+                display: 'inline-flex',
+                transition: 'transform 0.25s ease',
+                transform: isHovered ? 'rotate(-30deg)' : 'rotate(0deg)',
+              }}
+              aria-hidden
+            >
+              <ArrowRight size={16} color="#059669" strokeWidth={2.5} />
+            </span>
           </span>
         </>
       )}

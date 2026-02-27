@@ -11,7 +11,7 @@ const { colors, spacing, fontSizes, radii, containerMaxWidth } = theme;
 
 const pageStyle: React.CSSProperties = {
   minHeight: '100vh',
-  backgroundColor: colors.background.dark,
+  backgroundColor: 'transparent',
   paddingTop: 120,
   paddingBottom: spacing[16],
 };
@@ -30,7 +30,7 @@ const backLinkStyle: React.CSSProperties = {
   gap: spacing[2],
   marginBottom: spacing[8],
   fontSize: fontSizes.sm,
-  color: colors.text.light,
+  color: colors.text.primary,
   opacity: 0.88,
   textDecoration: 'none',
 };
@@ -40,14 +40,14 @@ const titleStyle: React.CSSProperties = {
   fontWeight: 400,
   lineHeight: 1.2,
   letterSpacing: '-0.02em',
-  color: colors.text.light,
+  color: colors.text.primary,
   margin: 0,
   marginBottom: spacing[2],
 };
 
 const clientStyle: React.CSSProperties = {
   fontSize: fontSizes.lg,
-  color: colors.text.light,
+  color: colors.text.primary,
   opacity: 0.7,
   margin: 0,
   marginBottom: spacing[12],
@@ -59,7 +59,7 @@ const coverWrapStyle: React.CSSProperties = {
   aspectRatio: '16 / 9',
   borderRadius: 24,
   overflow: 'hidden',
-  border: `1px solid ${colors.neutral.borderDark}`,
+  border: `1px solid ${colors.neutral.border}`,
   marginBottom: spacing[12],
 };
 
@@ -70,7 +70,7 @@ const coverImageStyle: React.CSSProperties = {
 const sectionTitleStyle: React.CSSProperties = {
   fontSize: fontSizes['2xl'],
   fontWeight: 600,
-  color: colors.text.light,
+  color: colors.text.primary,
   margin: 0,
   marginBottom: spacing[6],
 };
@@ -78,7 +78,7 @@ const sectionTitleStyle: React.CSSProperties = {
 const paragraphStyle: React.CSSProperties = {
   fontSize: '1.2rem',
   lineHeight: 1.7,
-  color: colors.text.light,
+  color: colors.text.primary,
   opacity: 0.9,
   margin: 0,
   marginBottom: spacing[8],
@@ -99,7 +99,7 @@ const listItemStyle: React.CSSProperties = {
   gap: spacing[3],
   fontSize: '1.1rem',
   lineHeight: 1.6,
-  color: colors.text.light,
+  color: colors.text.primary,
   opacity: 0.9,
 };
 
@@ -115,7 +115,7 @@ const ctaWrapStyle: React.CSSProperties = {
   gap: spacing[6],
   marginTop: spacing[12],
   paddingTop: spacing[12],
-  borderTop: `1px solid ${colors.neutral.borderDark}`,
+  borderTop: `1px solid ${colors.neutral.border}`,
 };
 
 const btnPrimaryStyle: React.CSSProperties = {
@@ -127,7 +127,7 @@ const btnPrimaryStyle: React.CSSProperties = {
   fontWeight: 500,
   borderRadius: radii.full,
   backgroundColor: colors.blue.primary,
-  color: colors.text.light,
+  color: colors.text.primary,
   border: `1px solid ${colors.blue.primary}`,
   textDecoration: 'none',
   cursor: 'pointer',
@@ -136,7 +136,7 @@ const btnPrimaryStyle: React.CSSProperties = {
 const btnSecondaryStyle: React.CSSProperties = {
   ...btnPrimaryStyle,
   backgroundColor: 'transparent',
-  borderColor: colors.neutral.borderDark,
+  borderColor: colors.neutral.border,
 };
 
 const sectionBlockStyle: React.CSSProperties = {

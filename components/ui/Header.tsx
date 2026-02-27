@@ -129,11 +129,12 @@ const Header: React.FC = () => {
     paddingTop: spacing[3],
     paddingBottom: spacing[3],
     borderRadius: radii.full,
-    backgroundColor: showGlass ? 'rgba(4, 4, 4, 0.75)' : 'transparent',
-    backdropFilter: showGlass ? 'saturate(180%) blur(12px)' : 'none',
-    WebkitBackdropFilter: showGlass ? 'saturate(180%) blur(12px)' : 'none',
-    border: showGlass ? `1px solid ${colors.neutral.borderDark}` : '1px solid transparent',
-    transition: 'background-color 0.25s ease, backdrop-filter 0.25s ease, border-color 0.25s ease',
+    backgroundColor: showGlass ? 'rgba(255, 255, 255, 0.55)' : 'transparent',
+    backdropFilter: showGlass ? 'saturate(140%) blur(14px)' : 'none',
+    WebkitBackdropFilter: showGlass ? 'saturate(140%) blur(14px)' : 'none',
+    border: showGlass ? '1px solid rgba(212, 232, 208, 0.6)' : '1px solid transparent',
+    boxShadow: showGlass ? '0 2px 24px rgba(0, 0, 0, 0.04)' : 'none',
+    transition: 'background-color 0.25s ease, backdrop-filter 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease',
     transform: 'translateZ(0)',
     WebkitTransform: 'translateZ(0)',
   };
@@ -168,7 +169,7 @@ const Header: React.FC = () => {
     fontSize: fontSizes.sm,
     fontWeight: 400,
     letterSpacing: '0.02em',
-    color: colors.text.light,
+    color: colors.text.primary,
     textDecoration: 'none',
     whiteSpace: 'nowrap',
     background: 'none',
@@ -189,7 +190,7 @@ const Header: React.FC = () => {
     fontWeight: 500,
     borderRadius: radii.full,
     backgroundColor: colors.blue.primary,
-    color: colors.text.light,
+    color: colors.text.primary,
     border: 'none',
     cursor: 'pointer',
     textDecoration: 'none',
@@ -203,7 +204,7 @@ const Header: React.FC = () => {
         <div style={innerBarStyle}>
         <nav aria-label="Navegação principal" style={innerStyle}>
           <div style={leftCellStyle}>
-            <Logo href="/" ariaLabel="Ir para a página inicial" isDark={false} />
+            <Logo href="/" ariaLabel="Ir para a página inicial" />
           </div>
 
           <div style={centerCellStyle}>
@@ -260,7 +261,7 @@ const Header: React.FC = () => {
                 <Plus
                   size={22}
                   strokeWidth={2}
-                  color={colors.text.light}
+                  color={colors.text.primary}
                   style={{
                     transition: 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
                     transform: mobileMenuOpen ? 'rotate(45deg)' : 'rotate(0deg)',
@@ -303,10 +304,10 @@ const Header: React.FC = () => {
             width: 'min(320px, 85vw)',
             overflowY: 'auto',
             zIndex: 99,
-            backgroundColor: 'rgba(4, 4, 4, 0.75)',
-            backdropFilter: 'saturate(180%) blur(12px)',
-            WebkitBackdropFilter: 'saturate(180%) blur(12px)',
-            border: `1px solid ${colors.neutral.borderDark}`,
+            backgroundColor: 'rgba(255, 255, 255, 0.6)',
+            backdropFilter: 'saturate(140%) blur(14px)',
+            WebkitBackdropFilter: 'saturate(140%) blur(14px)',
+            border: '1px solid rgba(212, 232, 208, 0.6)',
             borderTopLeftRadius: 24,
             borderBottomLeftRadius: 24,
             paddingTop: spacing[8],
@@ -340,7 +341,7 @@ const Header: React.FC = () => {
               onClick={(e) => handleNavClick(e, href)}
             >
               <span>{label}</span>
-              <ArrowRight size={18} color={colors.text.light} style={{ flexShrink: 0 }} aria-hidden />
+              <ArrowRight size={18} color={colors.text.primary} style={{ flexShrink: 0 }} aria-hidden />
             </Link>
           ))}
           <div style={{ paddingTop: spacing[2], width: '100%' }} onClick={() => setMobileMenuOpen(false)}>

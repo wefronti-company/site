@@ -10,7 +10,7 @@ const sectionStyleBase: React.CSSProperties = {
   width: '100%',
   paddingTop: spacing[16],
   paddingBottom: spacing[16],
-  backgroundColor: colors.background.dark,
+  backgroundColor: 'transparent',
 };
 
 const innerStyleBase: React.CSSProperties = {
@@ -28,11 +28,11 @@ const badgeStyle: React.CSSProperties = {
   alignSelf: 'flex-start',
   padding: `${spacing[2]}px ${spacing[4]}px`,
   borderRadius: radii.full,
-  border: `1px solid ${colors.neutral.borderDark}`,
-  backgroundColor: 'rgba(255,255,255,0.04)',
+  border: `1px solid ${colors.neutral.border}`,
+  backgroundColor: colors.neutral.accordeon,
   fontSize: fontSizes.xs,
   fontWeight: 500,
-  color: colors.text.light,
+  color: colors.text.primary,
   textTransform: 'uppercase' as const,
   letterSpacing: '0.06em',
 };
@@ -42,14 +42,14 @@ const titleStyle: React.CSSProperties = {
   fontWeight: 400,
   lineHeight: 1.2,
   letterSpacing: '-0.02em',
-  color: colors.text.light,
+  color: colors.text.primary,
   margin: 0,
 };
 
 const descriptionStyle: React.CSSProperties = {
   fontSize: '1.3rem',
   lineHeight: 1.6,
-  color: colors.text.light,
+  color: colors.text.primary,
   opacity: 0.88,
   margin: 0,
 };
@@ -70,7 +70,7 @@ const listItemStyle: React.CSSProperties = {
   gap: spacing[3],
   fontSize: fontSizes.base,
   lineHeight: 1.5,
-  color: colors.text.light,
+  color: colors.text.primary,
   opacity: 0.92,
 };
 
@@ -92,7 +92,7 @@ const imageWrapStyle: React.CSSProperties = {
   maxHeight: 520,
   borderRadius: 24,
   overflow: 'hidden',
-  border: `1px solid ${colors.neutral.borderDark}`,
+  border: `1px solid ${colors.neutral.border}`,
   boxShadow: `0 24px 48px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.04), 0 0 80px rgba(53, 152, 255, 0.08)`,
   position: 'relative' as const,
 };
@@ -120,7 +120,7 @@ const directorOverlayStyle: React.CSSProperties = {
 const directorTitleStyle: React.CSSProperties = {
   fontSize: '1.4rem',
   fontWeight: 400,
-  color: colors.text.light,
+  color: colors.text.primary,
   margin: 0,
 };
 
@@ -130,7 +130,7 @@ const directorSubtitleStyle: React.CSSProperties = {
   gap: spacing[3],
   margin: 0,
   fontSize: '1.05rem',
-  color: colors.text.light,
+  color: colors.text.primary,
   opacity: 0.92,
 };
 

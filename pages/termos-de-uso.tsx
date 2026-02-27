@@ -11,7 +11,7 @@ const pageStyle: React.CSSProperties = {
   minHeight: '100vh',
   paddingTop: 140,
   paddingBottom: spacing[16],
-  backgroundColor: colors.background.dark,
+  backgroundColor: 'transparent',
 };
 
 const getContainerStyle = (paddingX: number): React.CSSProperties => ({
@@ -29,7 +29,7 @@ const backLinkStyle: React.CSSProperties = {
   paddingTop: spacing[16],
   marginBottom: spacing[8],
   fontSize: fontSizes.sm,
-  color: colors.text.light,
+  color: colors.text.primary,
   opacity: 0.88,
   textDecoration: 'none',
 };
@@ -38,7 +38,7 @@ const titleStyle: React.CSSProperties = {
   fontSize: fontSizes['4xl'],
   fontWeight: 400,
   lineHeight: 1.2,
-  color: colors.text.light,
+  color: colors.text.primary,
   margin: 0,
   marginBottom: spacing[6],
 };
@@ -46,7 +46,7 @@ const titleStyle: React.CSSProperties = {
 const sectionTitleStyle: React.CSSProperties = {
   fontSize: fontSizes.xl,
   fontWeight: 500,
-  color: colors.text.light,
+  color: colors.text.primary,
   margin: 0,
   marginTop: spacing[8],
   marginBottom: spacing[3],
@@ -55,7 +55,7 @@ const sectionTitleStyle: React.CSSProperties = {
 const textStyle: React.CSSProperties = {
   fontSize: fontSizes.base,
   lineHeight: 1.7,
-  color: colors.text.light,
+  color: colors.text.primary,
   opacity: 0.9,
   margin: 0,
   marginBottom: spacing[4],
@@ -65,7 +65,7 @@ const listStyle: React.CSSProperties = {
   margin: 0,
   marginBottom: spacing[4],
   paddingLeft: spacing[6],
-  color: colors.text.light,
+  color: colors.text.primary,
   opacity: 0.9,
   lineHeight: 1.7,
 };

@@ -63,7 +63,7 @@ export const PropostaTemplate: React.FC<PropostaTemplateProps> = ({
       <header style={heroStyle}>
         <div style={heroContentStyle}>
           <Image
-            src="/images/brand/isologo-white.webp"
+            src="/images/brand/isologo-wefronti.webp"
             alt="Wefronti"
             width={160}
             height={42}
@@ -205,7 +205,7 @@ const firstSectionStyle: React.CSSProperties = {
 const titleStyle: React.CSSProperties = {
   fontSize: fontSizes.sm,
   fontWeight: 600,
-  color: colors.text.dark,
+  color: colors.text.primary,
   margin: 0,
   marginBottom: spacing[2],
   textTransform: 'uppercase' as const,
@@ -216,13 +216,13 @@ const titleStyle: React.CSSProperties = {
 const clienteStyle: React.CSSProperties = {
   fontSize: fontSizes.xl,
   fontWeight: 600,
-  color: colors.text.dark,
+  color: colors.text.primary,
   margin: 0,
 };
 
 const empresaStyle: React.CSSProperties = {
   fontSize: fontSizes.base,
-  color: colors.text.dark,
+  color: colors.text.primary,
   opacity: 0.8,
   margin: 0,
   marginTop: spacing[1],
@@ -239,7 +239,7 @@ const metaRowStyle: React.CSSProperties = {
 
 const codigoStyle: React.CSSProperties = {
   fontSize: fontSizes.sm,
-  color: colors.text.dark,
+  color: colors.text.primary,
   margin: 0,
 };
 
@@ -251,7 +251,7 @@ const remainingStyle: React.CSSProperties = {
 
 const dateStyle: React.CSSProperties = {
   fontSize: fontSizes.sm,
-  color: colors.text.dark,
+  color: colors.text.primary,
   opacity: 0.6,
   margin: 0,
   marginTop: spacing[3],
@@ -272,7 +272,7 @@ const thStyle: React.CSSProperties = {
   padding: `${spacing[2]} ${spacing[3]}`,
   fontSize: fontSizes.xs,
   fontWeight: 600,
-  color: colors.text.dark,
+  color: colors.text.primary,
   opacity: 0.7,
   borderBottom: `1px solid ${colors.neutral.borderLight}`,
 };
@@ -285,7 +285,7 @@ const thValueStyle: React.CSSProperties = {
 const tdStyle: React.CSSProperties = {
   padding: `${spacing[3]}`,
   fontSize: fontSizes.base,
-  color: colors.text.dark,
+  color: colors.text.primary,
   borderBottom: `1px solid ${colors.neutral.borderLight}`,
 };
 
@@ -305,7 +305,7 @@ const totalRowStyle: React.CSSProperties = {
 const totalLabelStyle: React.CSSProperties = {
   fontSize: fontSizes.lg,
   fontWeight: 600,
-  color: colors.text.dark,
+  color: colors.text.primary,
 };
 
 const totalValueStyle: React.CSSProperties = {
@@ -316,7 +316,7 @@ const totalValueStyle: React.CSSProperties = {
 
 const obsStyle: React.CSSProperties = {
   fontSize: fontSizes.sm,
-  color: colors.text.dark,
+  color: colors.text.primary,
   opacity: 0.8,
   margin: 0,
 };
@@ -329,7 +329,7 @@ const footerStyle: React.CSSProperties = {
 
 const footerTextStyle: React.CSSProperties = {
   fontSize: fontSizes.sm,
-  color: colors.text.dark,
+  color: colors.text.primary,
   opacity: 0.8,
   margin: 0,
   marginBottom: spacing[4],

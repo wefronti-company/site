@@ -1,2 +1,5 @@
 /* Estilos globais foram movidos para React: components/GlobalStyles.tsx
    Este arquivo é mantido vazio para não quebrar imports antigos. */
+.root {
+   background-color: #0A0C12;
+}

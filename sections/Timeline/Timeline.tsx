@@ -20,7 +20,7 @@ const sectionStyleBase: React.CSSProperties = {
   width: '100%',
   paddingTop: spacing[16],
   paddingBottom: spacing[16],
-  backgroundColor: colors.background.dark,
+  backgroundColor: 'transparent',
 };
 
 const innerStyleBase: React.CSSProperties = {
@@ -38,11 +38,11 @@ const badgeStyle: React.CSSProperties = {
   gap: spacing[2],
   padding: `${spacing[2]}px ${spacing[4]}px`,
   borderRadius: radii.full,
-  border: `1px solid ${colors.neutral.borderDark}`,
-  backgroundColor: 'rgba(255,255,255,0.04)',
+  border: `1px solid ${colors.neutral.border}`,
+  backgroundColor: colors.neutral.accordeon,
   fontSize: fontSizes.xs,
   fontWeight: 500,
-  color: colors.text.light,
+  color: colors.text.primary,
   textTransform: 'uppercase' as const,
   letterSpacing: '0.06em',
 };
@@ -52,7 +52,7 @@ const titleStyle: React.CSSProperties = {
   fontWeight: 400,
   lineHeight: 1.2,
   letterSpacing: '-0.02em',
-  color: colors.text.light,
+  color: colors.text.primary,
   margin: 0,
   textAlign: 'center',
 };
@@ -60,7 +60,7 @@ const titleStyle: React.CSSProperties = {
 const subtitleStyle: React.CSSProperties = {
   fontSize: '1.25rem',
   lineHeight: 1.55,
-  color: colors.text.light,
+  color: colors.text.primary,
   opacity: 0.88,
   margin: 0,
   textAlign: 'center',
@@ -92,7 +92,7 @@ const lineStyle: React.CSSProperties = {
   right: 0,
   top: LINE_TOP,
   height: 0,
-  borderTop: '2px dashed rgba(255,255,255,0.25)',
+  borderTop: '2px dashed rgba(0,0,0,0.15)',
   pointerEvents: 'none',
 };
 
@@ -146,7 +146,7 @@ const stepTitleRowStyle: React.CSSProperties = {
 const stepTitleStyle: React.CSSProperties = {
   fontSize: fontSizes.lg,
   fontWeight: 600,
-  color: colors.text.light,
+  color: colors.text.primary,
   margin: 0,
   lineHeight: 1.3,
 };
@@ -162,7 +162,7 @@ const stepIconStyle: React.CSSProperties = {
 const stepDescStyle: React.CSSProperties = {
   fontSize: fontSizes.sm,
   lineHeight: 1.55,
-  color: colors.text.light,
+  color: colors.text.primary,
   opacity: 0.88,
   margin: 0,
   maxWidth: stepContentMaxWidth,
@@ -221,7 +221,7 @@ const Timeline: React.FC<TimelineProps> = ({ conteudo }) => {
       top: mobileLineBounds.top,
       height: mobileLineBounds.height,
       width: 0,
-      borderLeft: '2px dashed rgba(255,255,255,0.25)',
+      borderLeft: '2px dashed rgba(0,0,0,0.15)',
       pointerEvents: 'none',
       zIndex: 0,
     };

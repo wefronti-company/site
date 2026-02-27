@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Head from 'next/head';
 import type { GetServerSideProps } from 'next';
 import SEO from '../components/SEO';
 import Hero from '../sections/Hero';
@@ -16,6 +15,7 @@ import Footer from '../sections/Footer';
 import SplashScreen from '../components/SplashScreen';
 import { useSplash } from '../contexts/SplashContext';
 import { getAllConteudo } from '../lib/siteConteudoDb';
+import { colors } from '../styles/theme';
 
 const SPLASH_STORAGE_KEY = 'wefronti_splash_seen_v2';
 
@@ -62,7 +62,7 @@ const Home: React.FC<HomeProps> = ({ siteConteudo }) => {
     return (
       <>
         <SEO />
-        <div style={{ minHeight: '100vh', background: '#040404' }} aria-hidden="true" />
+        <div style={{ minHeight: '100vh', background: colors.background.gradient }} aria-hidden="true" />
       </>
     );
   }
@@ -70,9 +70,6 @@ const Home: React.FC<HomeProps> = ({ siteConteudo }) => {
   return (
     <>
       <SEO />
-      <Head>
-        <link rel="preload" href="/images/brand/background.webp" as="image" />
-      </Head>
       <Hero conteudo={siteConteudo.hero as Record<string, unknown> | undefined} />
       <Technology conteudo={siteConteudo.technology as Record<string, unknown> | undefined} />
       <Testimonials conteudo={siteConteudo.testimonials as Record<string, unknown> | undefined} />

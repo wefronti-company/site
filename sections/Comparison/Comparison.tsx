@@ -26,7 +26,7 @@ const sectionStyleBase: React.CSSProperties = {
   width: '100%',
   paddingTop: spacing[16],
   paddingBottom: spacing[16],
-  backgroundColor: colors.background.dark,
+  backgroundColor: 'transparent',
 };
 
 const innerStyleBase: React.CSSProperties = {
@@ -43,11 +43,11 @@ const badgeStyle: React.CSSProperties = {
   gap: spacing[2],
   padding: `${spacing[2]}px ${spacing[4]}px`,
   borderRadius: radii.full,
-  border: `1px solid ${colors.neutral.borderDark}`,
-  backgroundColor: 'rgba(255,255,255,0.04)',
+  border: `1px solid ${colors.neutral.border}`,
+  backgroundColor: colors.neutral.accordeon,
   fontSize: fontSizes.xs,
   fontWeight: 500,
-  color: colors.text.light,
+  color: colors.text.primary,
   textTransform: 'uppercase' as const,
   letterSpacing: '0.06em',
 };
@@ -57,7 +57,7 @@ const titleStyle: React.CSSProperties = {
   fontWeight: 400,
   lineHeight: 1.2,
   letterSpacing: '-0.02em',
-  color: colors.text.light,
+  color: colors.text.primary,
   margin: 0,
   textAlign: 'center',
 };
@@ -83,7 +83,7 @@ const gridStyle: React.CSSProperties = {
 const cardStyle: React.CSSProperties = {
   padding: spacing[8],
   borderRadius: 30,
-  border: `1px solid ${colors.neutral.borderDark}`,
+  border: `1px solid ${colors.neutral.border}`,
   background: colors.neutral.accordeon,
   display: 'flex',
   flexDirection: 'column',
@@ -94,17 +94,14 @@ const cardHighlightStyle: React.CSSProperties = {
   ...cardStyle,
   borderColor: 'rgba(53, 152, 255, 0.25)',
   boxShadow: '0 0 32px rgba(53, 152, 255, 0.08)',
-  backgroundImage: "url('/images/brand/background.webp')",
-  backgroundSize: 'cover',
-  backgroundPosition: 'center',
-  backgroundRepeat: 'no-repeat',
+  background: colors.background.gradient,
 };
 
 const cardTitleStyle: React.CSSProperties = {
   fontSize: fontSizes['2xl'],
   fontWeight: 500,
   paddingBottom: spacing[4],
-  color: colors.text.light,
+  color: colors.text.primary,
   margin: 0,
   opacity: 0.9,
 };
@@ -124,7 +121,7 @@ const itemStyle: React.CSSProperties = {
   gap: spacing[3],
   fontSize: fontSizes.base,
   lineHeight: 1.5,
-  color: colors.text.light,
+  color: colors.text.primary,
 };
 
 const iconWrapStyle: React.CSSProperties = {
@@ -205,7 +202,7 @@ const Comparison: React.FC<ComparisonProps> = ({ conteudo }) => {
               <React.Fragment key={i}>{line}{i < arr.length - 1 ? <br /> : null}</React.Fragment>
             ))}
           </h2>
-          <p style={{ margin: 0, fontSize: '1.3rem', color: colors.text.light, opacity: 0.88, lineHeight: 1.5, textAlign: isMd ? 'center' : 'left', maxWidth: 640 }}>
+          <p style={{ margin: 0, fontSize: '1.3rem', color: colors.text.primary, opacity: 0.88, lineHeight: 1.5, textAlign: isMd ? 'center' : 'left', maxWidth: 640 }}>
             {subtitulo}
           </p>
         </div>
@@ -252,7 +249,7 @@ const Comparison: React.FC<ComparisonProps> = ({ conteudo }) => {
             margin: 0,
             fontSize: '1.3rem',
             lineHeight: 1.6,
-            color: colors.text.light,
+            color: colors.text.primary,
             opacity: 0.92,
             maxWidth: 720,
           }}>

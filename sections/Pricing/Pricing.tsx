@@ -14,7 +14,7 @@ const sectionStyleBase: React.CSSProperties = {
   width: '100%',
   paddingTop: spacing[16],
   paddingBottom: spacing[16],
-  backgroundColor: colors.background.dark,
+  backgroundColor: 'transparent',
 };
 
 const innerStyleBase: React.CSSProperties = {
@@ -32,11 +32,11 @@ const badgeStyle: React.CSSProperties = {
   gap: spacing[2],
   padding: `${spacing[2]}px ${spacing[4]}px`,
   borderRadius: radii.full,
-  border: `1px solid ${colors.neutral.borderDark}`,
-  backgroundColor: 'rgba(255,255,255,0.04)',
+  border: `1px solid ${colors.neutral.border}`,
+  backgroundColor: colors.neutral.accordeon,
   fontSize: fontSizes.xs,
   fontWeight: 500,
-  color: colors.text.light,
+  color: colors.text.primary,
   textTransform: 'uppercase' as const,
   letterSpacing: '0.06em',
 };
@@ -46,7 +46,7 @@ const titleStyle: React.CSSProperties = {
   fontWeight: 400,
   lineHeight: 1.2,
   letterSpacing: '-0.02em',
-  color: colors.text.light,
+  color: colors.text.primary,
   margin: 0,
   textAlign: 'center',
 };
@@ -54,7 +54,7 @@ const titleStyle: React.CSSProperties = {
 const subtitleStyle: React.CSSProperties = {
   fontSize: '1.25rem',
   lineHeight: 1.55,
-  color: colors.text.light,
+  color: colors.text.primary,
   opacity: 0.88,
   margin: 0,
   textAlign: 'center',
@@ -84,7 +84,7 @@ const gridStyle: React.CSSProperties = {
 
 const cardBaseStyle: React.CSSProperties = {
   borderRadius: 30,
-  border: `1px solid ${colors.neutral.borderDark}`,
+  border: `1px solid ${colors.neutral.border}`,
   padding: spacing[16],
   display: 'flex',
   flexDirection: 'column',
@@ -100,7 +100,7 @@ const cardEmphasisStyle: React.CSSProperties = {
 const cardTitleStyle: React.CSSProperties = {
   fontSize: fontSizes['2xl'],
   fontWeight: 600,
-  color: colors.text.light,
+  color: colors.text.primary,
   margin: 0,
 };
 
@@ -112,7 +112,7 @@ const priceBlockStyle: React.CSSProperties = {
 
 const priceFromLabelStyle: React.CSSProperties = {
   fontSize: fontSizes.sm,
-  color: colors.text.light,
+  color: colors.text.primary,
   opacity: 0.9,
   margin: 0,
   marginBottom: spacing[1],
@@ -128,20 +128,20 @@ const priceRowStyle: React.CSSProperties = {
 const priceSymbolStyle: React.CSSProperties = {
   fontSize: fontSizes.lg,
   fontWeight: 600,
-  color: colors.text.light,
+  color: colors.text.primary,
 };
 
 const priceValueStyle: React.CSSProperties = {
   fontSize: 'clamp(2rem, 4.5vw, 2.75rem)',
   fontWeight: 700,
-  color: colors.text.light,
+  color: colors.text.primary,
   margin: 0,
   lineHeight: 1.2,
 };
 
 const priceSecondaryStyle: React.CSSProperties = {
   fontSize: fontSizes.sm,
-  color: colors.text.light,
+  color: colors.text.primary,
   opacity: 0.85,
   margin: 0,
   marginTop: spacing[2],
@@ -149,7 +149,7 @@ const priceSecondaryStyle: React.CSSProperties = {
 
 const pricePixStyle: React.CSSProperties = {
   fontSize: fontSizes.xs,
-  color: colors.text.light,
+  color: colors.text.primary,
   opacity: 0.75,
   margin: 0,
   marginTop: spacing[1],
@@ -170,7 +170,7 @@ const featureItemStyle = (dimmed?: boolean): React.CSSProperties => ({
   alignItems: 'center',
   gap: spacing[3],
   fontSize: fontSizes.sm,
-  color: colors.text.light,
+  color: colors.text.primary,
   opacity: dimmed ? 0.45 : 1,
   fontStyle: dimmed ? ('italic' as const) : 'normal',
   transition: 'transform 0.2s ease',
@@ -183,7 +183,7 @@ const checkIconStyle: React.CSSProperties = {
 
 const checkIconDimmedStyle: React.CSSProperties = {
   flexShrink: 0,
-  color: colors.neutral.borderDark,
+  color: colors.neutral.gray,
 };
 
 const LANDING_FEATURES = [
@@ -283,7 +283,7 @@ const Pricing: React.FC<PricingProps> = ({ conteudo }) => {
           <div style={grid}>
           <div style={cardStyleResponsive}>
             <h3 style={cardTitleStyle}>{landingTitulo}</h3>
-            <p style={{ fontSize: fontSizes.sm, color: colors.text.light, opacity: 0.88, margin: 0 }}>
+            <p style={{ fontSize: fontSizes.sm, color: colors.text.primary, opacity: 0.88, margin: 0 }}>
               {landingDescricao}
             </p>
             <div style={priceBlockStyle}>
@@ -317,7 +317,7 @@ const Pricing: React.FC<PricingProps> = ({ conteudo }) => {
 
           <div style={{ ...cardStyleResponsive, ...cardEmphasisStyle }}>
             <h3 style={cardTitleStyle}>{siteTitulo}</h3>
-            <p style={{ fontSize: fontSizes.sm, color: colors.text.light, opacity: 0.88, margin: 0 }}>
+            <p style={{ fontSize: fontSizes.sm, color: colors.text.primary, opacity: 0.88, margin: 0 }}>
               {siteDescricao}
             </p>
             <div style={priceBlockStyle}>

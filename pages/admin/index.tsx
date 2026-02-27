@@ -120,7 +120,7 @@ const AdminLoginPage: React.FC = () => {
         <div style={cardStyle} className="admin-login-card">
           <div style={logoWrapStyle}>
             <Image
-              src="/images/brand/isologo-white.webp"
+              src="/images/brand/isologo-wefronti.webp"
               alt="Wefronti"
               width={140}
               height={38}

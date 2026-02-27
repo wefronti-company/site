@@ -68,7 +68,7 @@ const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete }) => {
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: colors.background.dark,
+    background: colors.background.gradient,
     transition: phase === 'sliding' ? `transform ${SLIDE_DURATION_MS}ms ease-out` : 'none',
     transform: phase === 'sliding' ? 'translateY(-100%)' : 'translateY(0)',
   };
@@ -99,13 +99,13 @@ const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete }) => {
 
   const percentStyle: React.CSSProperties = {
     fontSize: fontSizes.sm,
-    color: colors.text.light,
+    color: colors.text.primary,
     opacity: 0.8,
   };
 
   const taglineStyle: React.CSSProperties = {
     fontSize: fontSizes.sm,
-    color: colors.text.light,
+    color: colors.text.primary,
     opacity: 0.85,
     margin: 0,
     textAlign: 'center',
@@ -115,7 +115,7 @@ const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete }) => {
     <div style={wrapStyle} aria-hidden="true">
       <div style={contentStyle}>
         <Image
-          src="/images/brand/isologo-white.webp"
+          src="/images/brand/isologo-wefronti.webp"
           alt="Wefronti"
           width={160}
           height={43}

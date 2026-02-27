@@ -92,7 +92,7 @@ export function generateProposalHtml(proposal: Proposal): string {
   <div class="wrap">
     <header class="hero">
       <div class="hero-inner">
-        <img src="/images/brand/isologo-white.webp" alt="Wefronti" width="160" height="42" style="object-fit:contain">
+        <img src="/images/brand/isologo-wefronti.webp" alt="Wefronti" width="160" height="42" style="object-fit:contain">
         <h1>Proposta comercial de desenvolvimento de site</h1>
         <p>Sua presença digital com qualidade e profissionalismo</p>
       </div>

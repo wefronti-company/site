@@ -14,7 +14,7 @@ const UFS = ['AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MT', '
 const pageTitleStyle: React.CSSProperties = {
   fontSize: fontSizes['2xl'],
   fontWeight: 600,
-  color: colors.text.light,
+  color: colors.text.primary,
   margin: 0,
   marginBottom: spacing[8],
 };
@@ -31,7 +31,7 @@ const sectionStyle: React.CSSProperties = { marginBottom: spacing[8] };
 const sectionTitleStyle: React.CSSProperties = {
   fontSize: fontSizes.lg,
   fontWeight: 600,
-  color: colors.text.light,
+  color: colors.text.primary,
   margin: 0,
   marginBottom: spacing[4],
 };
@@ -41,7 +41,7 @@ const formGridStyle: React.CSSProperties = {
   gap: spacing[4],
 };
 const fieldStyle: React.CSSProperties = { display: 'flex', flexDirection: 'column', gap: spacing[1] };
-const labelStyle: React.CSSProperties = { fontSize: fontSizes.sm, fontWeight: 500, color: colors.text.light };
+const labelStyle: React.CSSProperties = { fontSize: fontSizes.sm, fontWeight: 500, color: colors.text.primary };
 const inputStyle: React.CSSProperties = {
   display: 'block',
   width: '100%',
@@ -49,9 +49,9 @@ const inputStyle: React.CSSProperties = {
   padding: `${spacing[3]}px ${spacing[4]}px`,
   fontSize: fontSizes.base,
   minHeight: 48,
-  color: colors.text.light,
+  color: colors.text.primary,
   backgroundColor: 'rgba(255,255,255,0.06)',
-  border: `1px solid ${colors.neutral.borderDark}`,
+  border: `1px solid ${colors.neutral.border}`,
   borderRadius: 8,
   outline: 'none',
 };
@@ -68,13 +68,13 @@ const infoSeguroStyle: React.CSSProperties = {
   alignItems: 'center',
   gap: spacing[2],
   fontSize: fontSizes.sm,
-  color: colors.text.light,
+  color: colors.text.primary,
   opacity: 0.85,
 };
 
 const acordoStyle: React.CSSProperties = {
   fontSize: fontSizes.sm,
-  color: colors.text.light,
+  color: colors.text.primary,
   opacity: 0.9,
   lineHeight: 1.5,
   margin: 0,
