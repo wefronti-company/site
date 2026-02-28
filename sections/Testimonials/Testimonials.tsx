@@ -189,6 +189,7 @@ const cardDescriptionStyle: React.CSSProperties = {
   color: colors.text.primary,
   margin: 0,
   opacity: 0.92,
+  flex: 1,
 };
 
 const starsRowStyle: React.CSSProperties = {
@@ -214,12 +215,51 @@ const cardLocationStyle: React.CSSProperties = {
   margin: 0,
 };
 
+const cardFooterStyle: React.CSSProperties = {
+  marginTop: 'auto',
+  display: 'flex',
+  alignItems: 'center',
+  gap: spacing[3],
+};
+
+const authorMetaStyle: React.CSSProperties = {
+  display: 'grid',
+  gap: 2,
+  minWidth: 0,
+};
+
+const avatarWrapStyle: React.CSSProperties = {
+  width: 46,
+  height: 46,
+  borderRadius: '50%',
+  border: `1px solid ${colors.neutral.border}`,
+  overflow: 'hidden',
+  flexShrink: 0,
+  background: colors.neutral.borderLight,
+};
+
+const avatarImageStyle: React.CSSProperties = {
+  width: '100%',
+  height: '100%',
+  objectFit: 'cover',
+  display: 'block',
+};
+
 interface TestimonialsProps {
   conteudo?: Record<string, unknown>;
 }
 
 const Testimonials: React.FC<TestimonialsProps> = ({ conteudo }) => {
   const isMd = useMediaQuery(theme.breakpoints.md);
+  const getTestimonialPhotoSrc = (name: string) => {
+    const slug = name
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+    return `/images/testimonials/${slug}.webp`;
+  };
 
   const badge = (conteudo?.badge != null ? String(conteudo.badge) : '') || 'Depoimentos';
   const titulo = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'Resultados reais de quem apostou em um site que vende';
@@ -241,9 +281,22 @@ const Testimonials: React.FC<TestimonialsProps> = ({ conteudo }) => {
         <span aria-hidden>★</span>
         <span aria-hidden>★</span>
       </div>
-      <p style={cardDescriptionStyle}>{item.description}</p>
-      <p style={cardNameStyle}>{item.name}</p>
-      <p style={cardLocationStyle}>{item.state}, {item.country}</p>
+      <p style={cardDescriptionStyle}>{`"${item.description}"`}</p>
+      <div style={cardFooterStyle}>
+        <div style={avatarWrapStyle} aria-hidden>
+          <img
+            src={getTestimonialPhotoSrc(item.name)}
+            alt={`Foto de ${item.name}`}
+            style={avatarImageStyle}
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+        <div style={authorMetaStyle}>
+          <p style={cardNameStyle}>{item.name}</p>
+          <p style={cardLocationStyle}>{item.state}, {item.country}</p>
+        </div>
+      </div>
     </div>
   );
 

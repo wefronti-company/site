@@ -70,6 +70,11 @@ const trackStyle: React.CSSProperties = {
   backfaceVisibility: 'hidden' as const,
 };
 
+const secondaryTrackStyle: React.CSSProperties = {
+  ...trackStyle,
+  marginTop: spacing[4],
+};
+
 const itemStyle: React.CSSProperties = {
   display: 'flex',
   alignItems: 'center',
@@ -101,8 +106,13 @@ const ValoresCarousel: React.FC = () => {
   0% { transform: translate3d(0, 0, 0); }
   100% { transform: translate3d(-50%, 0, 0); }
 }
+@keyframes valores-carousel-scroll-reverse {
+  0% { transform: translate3d(-50%, 0, 0); }
+  100% { transform: translate3d(0, 0, 0); }
+}
 @media (prefers-reduced-motion: reduce) {
-  .valores-carousel-track { animation: none !important; }
+  .valores-carousel-track,
+  .valores-carousel-track-reverse { animation: none !important; }
 }
           `.trim(),
         }}
@@ -117,6 +127,21 @@ const ValoresCarousel: React.FC = () => {
       >
         {items.map((item, i) => (
           <div key={`${item.label}-${i}`} style={itemStyle}>
+            <item.Icon size={20} strokeWidth={2} style={iconStyle} aria-hidden />
+            <span>{item.label}</span>
+          </div>
+        ))}
+      </div>
+      <div
+        className="valores-carousel-track-reverse"
+        style={{
+          ...secondaryTrackStyle,
+          animation: 'valores-carousel-scroll-reverse 60s linear infinite',
+        }}
+        aria-hidden="true"
+      >
+        {items.map((item, i) => (
+          <div key={`reverse-${item.label}-${i}`} style={itemStyle}>
             <item.Icon size={20} strokeWidth={2} style={iconStyle} aria-hidden />
             <span>{item.label}</span>
           </div>

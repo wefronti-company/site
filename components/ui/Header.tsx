@@ -10,7 +10,7 @@ import { useMediaQuery } from '../../hooks/useMediaQuery';
 
 const { colors, spacing, fontSizes, radii } = theme;
 const DECRYPT_INTERVAL_MS = 78;
-const DECRYPT_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+const DECRYPT_CHARS = 'abcdefghijklmnopqrstuvwxyz';
 
 /** Links do menu — cada um leva à seção correspondente na página */
 const NAV_LINKS = [
@@ -26,6 +26,7 @@ const Header: React.FC = () => {
   const splash = useSplash();
   const isMd = useMediaQuery(theme.breakpoints.md);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [hoveredLinkId, setHoveredLinkId] = useState<string | null>(null);
   const [decryptedLabels, setDecryptedLabels] = useState<Record<string, string>>(
     () => NAV_LINKS.reduce<Record<string, string>>((acc, link) => {
       acc[link.id] = link.label;
@@ -157,6 +158,9 @@ const Header: React.FC = () => {
   };
 
   const linkStyle: React.CSSProperties = {
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: spacing[2],
     fontSize: fontSizes.sm,
     fontWeight: 500,
     letterSpacing: '0.02em',
@@ -170,6 +174,20 @@ const Header: React.FC = () => {
     textShadow: 'none',
     boxShadow: 'none',
     outline: 'none',
+  };
+
+  const linkDotStyle: React.CSSProperties = {
+    display: 'inline-block',
+    width: 10,
+    height: 10,
+    minWidth: 10,
+    minHeight: 10,
+    aspectRatio: '1 / 1',
+    borderRadius: '50%',
+    border: `1px solid ${colors.text.primary}`,
+    backgroundColor: 'transparent',
+    transition: 'background-color 0.2s ease',
+    flexShrink: 0,
   };
 
   const btnStyle: React.CSSProperties = {
@@ -208,10 +226,23 @@ const Header: React.FC = () => {
                       className="header-nav-link"
                       style={linkStyle}
                       onClick={(e) => handleNavClick(e, href)}
-                      onMouseEnter={() => handleLinkMouseEnter(id, label)}
-                      onMouseLeave={() => handleLinkMouseLeave(id, label)}
+                      onMouseEnter={() => {
+                        setHoveredLinkId(id);
+                        handleLinkMouseEnter(id, label);
+                      }}
+                      onMouseLeave={() => {
+                        setHoveredLinkId((prev) => (prev === id ? null : prev));
+                        handleLinkMouseLeave(id, label);
+                      }}
                     >
-                      {decryptedLabels[id] ?? label}
+                      <span
+                        aria-hidden
+                        style={{
+                          ...linkDotStyle,
+                          backgroundColor: hoveredLinkId === id ? colors.text.primary : 'transparent',
+                        }}
+                      />
+                      <span>{decryptedLabels[id] ?? label}</span>
                     </Link>
                   </li>
                 );
