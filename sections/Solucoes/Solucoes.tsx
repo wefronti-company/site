@@ -11,6 +11,7 @@ const { colors, spacing, fontSizes, radii } = theme;
 const LIVE_ACCENT = '#7ad49dAF';
 const LIVE_ACCENT_SOLID = '#5C9369';
 const LIVE_TEXT_MUTED = '#6BB58A';
+const LIVE_SURFACE = '#F8FFFB';
 
 const SOLUCOES: {
   titulo: string;
@@ -151,7 +152,8 @@ const liveBrowserStyle: React.CSSProperties = {
   aspectRatio: '16 / 9',
   borderRadius: 16,
   border: `1px solid ${colors.neutral.border}`,
-  background: colors.text.primary,
+  background: LIVE_SURFACE,
+  backgroundClip: 'padding-box',
   overflow: 'hidden',
   display: 'grid',
   gridTemplateRows: '24px minmax(0, 1fr)',
@@ -163,7 +165,7 @@ const liveBrowserTopStyle: React.CSSProperties = {
   gap: 6,
   padding: '0 10px',
   borderBottom: `1px solid ${colors.neutral.border}`,
-  background: '#f8faf7',
+  background: LIVE_SURFACE,
 };
 
 const liveDotStyle: React.CSSProperties = {
@@ -179,6 +181,7 @@ const liveBodyStyle: React.CSSProperties = {
   display: 'grid',
   gridTemplateRows: 'auto 1fr',
   gap: spacing[3],
+  background: colors.text.primary,
 };
 
 const liveHeroBlockStyle: React.CSSProperties = {
