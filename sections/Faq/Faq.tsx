@@ -158,7 +158,7 @@ const Faq: React.FC<FaqProps> = ({ conteudo }) => {
       <div style={gridStyle}>
         <div style={leftColumnStyleResponsive}>
           <span style={badgeStyle} aria-hidden>
-            <span className="badge-dot-pulse" style={{ width: 6, height: 6, borderRadius: '50%', background: colors.blue.primary }} />
+            <span style={{ width: 6, height: 6, borderRadius: '50%', background: colors.blue.primary }} />
             {badge}
           </span>
           <h2 id="faq-heading" style={titleStyle}>

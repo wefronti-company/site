@@ -1,14 +1,95 @@
-import React from 'react';
-import { CheckCircle, CheckCircle2, CheckCircleIcon } from 'lucide-react';
+import React, { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
+import { CheckCircle2, Globe, Layout, Package, Plug } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 import ButtonCta from '../../components/ui/ButtonCta';
-import { buildWhatsAppUrl, DEFAULT_WHATSAPP_NUMBER } from '../../lib/whatsapp';
 
-const { colors, spacing, fontSizes, radii, containerMaxWidth } = theme;
+const { colors, spacing, fontSizes, radii } = theme;
 
-const LANDING_PAGE_MESSAGE = 'Olá! Quero uma landing page focada em conversão.';
-const SITE_COMPLETO_MESSAGE = 'Oi! Quero um site que gere clientes e apareça no Google.';
+const PRICING_OPTIONS = [
+  {
+    key: 'desenvolvimento-web',
+    title: 'Desenvolvimento Web',
+    Icon: Globe,
+    description:
+      'Para empresas que precisam de presença digital com foco em resultado: sites estratégicos e lojas virtuais preparadas para converter.',
+    price: '4.490,00',
+    priceSecondary: 'Até 10x sem juros',
+
+    cta: 'Quero projeto web',
+    features: [
+      'Site institucional',
+      'Loja virtual responsiva',
+      'SEO avançado',
+      'Integração com gateways de pagamento',
+      'Suporte pós-entrega',
+    ],
+  },
+  {
+    key: 'integracoes',
+    title: 'Integrações & APIs',
+    Icon: Plug,
+    description:
+      'Ideal para conectar ferramentas e automatizar operações: Gateways de pagamento, CRM, ERP, webhooks e fluxos internos.',
+    price: 'Consultar',
+    cta: 'Quero integração',
+    features: [
+      'Integração com Stripe/gateways',
+      'Integração com CRM/ERP',
+      'Webhooks e automações',
+      'Sincronização de dados',
+      'Validação e tratamento de falhas',
+      'Documentação técnica básica',
+    ],
+  },
+  {
+    key: 'micro-saas',
+    title: 'Micro-SaaS',
+    Icon: Package,
+    description:
+      'Para validar e lançar produto digital escalável com cobrança recorrente, painel de cliente e base técnica para crescimento e pronto para escalar.',
+    price: 'Consultar',
+    cta: 'Quero Micro-SaaS',
+    features: [
+      'Arquitetura para produto SaaS',
+      'Autenticação e gestão de usuários',
+      'Planos e assinatura recorrente',
+      'Área do cliente e painel admin',
+      'Eventos e métricas iniciais',
+      'Base pronta para evoluções',
+    ],
+  },
+  {
+    key: 'sistemas',
+    title: 'Sistemas',
+    Icon: Layout,
+    description:
+      'Para empresas que precisam de sistema sob medida: rastreio de encomendas, sistema interno, painel operacional e gestão personalizada.',
+    price: 'Consultar',
+    cta: 'Quero um sistema',
+    features: [
+      'Levantamento de requisitos',
+      'Arquitetura e modelagem de dados',
+      'Painel web responsivo',
+      'Permissões por perfil de acesso',
+      'Relatórios e visão operacional',
+      'Suporte técnico inicial',
+    ],
+  },
+] as const satisfies ReadonlyArray<{
+  key: string;
+  title: string;
+  Icon: LucideIcon;
+  description: string;
+  price: string;
+  cta: string;
+  features: readonly string[];
+  priceSecondary?: string;
+  pricePix?: string;
+}>;
+type PricingOption = (typeof PRICING_OPTIONS)[number];
 
 const sectionStyleBase: React.CSSProperties = {
   width: '100%',
@@ -19,8 +100,6 @@ const sectionStyleBase: React.CSSProperties = {
 
 const innerStyleBase: React.CSSProperties = {
   width: '100%',
-  maxWidth: containerMaxWidth.wide,
-  margin: '0 auto',
   display: 'flex',
   flexDirection: 'column',
   gap: spacing[12],
@@ -67,19 +146,29 @@ const headerStyle: React.CSSProperties = {
   gap: spacing[6],
 };
 
-/** Largura dos cards de preço menor que a seção para não ficarem tão largos */
-const PRICING_GRID_MAX_WIDTH = 920;
-
 const gridWrapStyle: React.CSSProperties = {
-  maxWidth: PRICING_GRID_MAX_WIDTH,
-  margin: '0 auto',
+  width: '100%',
 };
 
 const gridStyle: React.CSSProperties = {
   display: 'grid',
-  gridTemplateColumns: '1fr 1fr',
-  gap: spacing[8],
+  gridTemplateColumns: 'repeat(4, minmax(0, 1fr))',
+  gap: spacing[6],
   alignItems: 'stretch',
+};
+
+const mobileCarouselWrapStyle: React.CSSProperties = {
+  width: '100%',
+  overflowX: 'auto',
+  WebkitOverflowScrolling: 'touch',
+  paddingBottom: spacing[2],
+};
+
+const mobileCarouselTrackStyle: React.CSSProperties = {
+  display: 'flex',
+  gap: spacing[4],
+  scrollSnapType: 'x mandatory',
+  paddingRight: spacing[1],
 };
 
 const cardBaseStyle: React.CSSProperties = {
@@ -92,16 +181,23 @@ const cardBaseStyle: React.CSSProperties = {
   background: colors.neutral.accordeon,
 };
 
-const cardEmphasisStyle: React.CSSProperties = {
-  borderColor: colors.blue.primary,
-  boxShadow: `0 0 24px ${colors.blue.primary}30`,
-};
-
 const cardTitleStyle: React.CSSProperties = {
   fontSize: fontSizes['2xl'],
-  fontWeight: 600,
+  fontWeight: 500,
   color: colors.text.primary,
   margin: 0,
+};
+
+const cardIconWrapStyle: React.CSSProperties = {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: 44,
+  height: 44,
+  borderRadius: radii.full,
+  border: `1px solid ${colors.neutral.border}`,
+  background: colors.neutral.borderLight,
+  flexShrink: 0,
 };
 
 const priceBlockStyle: React.CSSProperties = {
@@ -127,13 +223,13 @@ const priceRowStyle: React.CSSProperties = {
 
 const priceSymbolStyle: React.CSSProperties = {
   fontSize: fontSizes.lg,
-  fontWeight: 600,
+  fontWeight: 500,
   color: colors.text.primary,
 };
 
 const priceValueStyle: React.CSSProperties = {
   fontSize: 'clamp(2rem, 4.5vw, 2.75rem)',
-  fontWeight: 700,
+  fontWeight: 500,
   color: colors.text.primary,
   margin: 0,
   lineHeight: 1.2,
@@ -165,48 +261,19 @@ const featureListStyle: React.CSSProperties = {
   flex: 1,
 };
 
-const featureItemStyle = (dimmed?: boolean): React.CSSProperties => ({
+const featureItemStyle: React.CSSProperties = {
   display: 'flex',
   alignItems: 'center',
   gap: spacing[3],
   fontSize: fontSizes.sm,
   color: colors.text.primary,
-  opacity: dimmed ? 0.45 : 1,
-  fontStyle: dimmed ? ('italic' as const) : 'normal',
   transition: 'transform 0.2s ease',
-});
+};
 
 const checkIconStyle: React.CSSProperties = {
   flexShrink: 0,
   color: colors.blue.primary,
 };
-
-const checkIconDimmedStyle: React.CSSProperties = {
-  flexShrink: 0,
-  color: colors.neutral.gray,
-};
-
-const LANDING_FEATURES = [
-  { text: '1 página única', dimmed: false },
-  { text: 'Design moderno e responsivo', dimmed: false },
-  { text: 'Copy focada em conversão', dimmed: false },
-  { text: 'Otimizada para rodar anúncios', dimmed: false },
-  { text: 'Formulário integrado', dimmed: false },
-  { text: 'SEO básico', dimmed: false },
-  { text: 'Performance (carregamento rápido)', dimmed: false },
-  { text: 'Entrega ágil', dimmed: false },
-];
-
-const SITE_FEATURES = [
-  'Múltiplas páginas estratégicas',
-  'Focado em conversão e engajamento',
-  'Acessível em todo os dispositivos',
-  'SEO avançado',
-  'Google Analytics + Google Tag Manager',
-  'Integração com WhatsApp',
-  'Relatório mensal de performance',
-  'Suporte pós-entrega estendido',
-];
 
 interface PricingProps {
   conteudo?: Record<string, unknown>;
@@ -214,24 +281,147 @@ interface PricingProps {
 
 const Pricing: React.FC<PricingProps> = ({ conteudo }) => {
   const isMd = useMediaQuery(theme.breakpoints.md);
-  const headerPaddingX = isMd ? spacing[12] : spacing[4];
+  const headerPaddingX = isMd ? spacing[10] : spacing[4];
+  const [isClient, setIsClient] = useState(false);
+  const lockedScrollYRef = useRef(0);
 
   const badge = (conteudo?.badge != null ? String(conteudo.badge) : '') || 'Preços';
-  const titulo = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'Escolha como vamos transformar seu site em uma máquina de vendas';
-  const subtitulo = (conteudo?.subtitulo != null ? String(conteudo.subtitulo) : '') || 'Escolha o que faz mais sentido para o seu momento e deixe o resto com a gente.';
-  const landingTitulo = (conteudo?.landingTitulo != null ? String(conteudo.landingTitulo) : '') || 'Landing Page';
-  const landingDescricao = (conteudo?.landingDescricao != null ? String(conteudo.landingDescricao) : '') || 'A solução ideal para empresas que precisam de uma página de alta conversão para campanhas, lançamentos ou captação de leads. Rápida, objetiva e focada em um único resultado.';
-  const landingPreco = (conteudo?.landingPreco != null ? String(conteudo.landingPreco) : '') || '1.397,00';
-  const landingBotao = (conteudo?.landingBotao != null ? String(conteudo.landingBotao) : '') || 'Quero uma landing page';
-  const siteTitulo = (conteudo?.siteTitulo != null ? String(conteudo.siteTitulo) : '') || 'Site completo';
-  const siteDescricao = (conteudo?.siteDescricao != null ? String(conteudo.siteDescricao) : '') || 'Para empresas que querem construir uma presença digital sólida, aparecer no Google e ter um site que gera clientes de forma contínua não só em campanhas.';
-  const sitePreco = (conteudo?.sitePreco != null ? String(conteudo.sitePreco) : '') || '3.497,00';
-  const siteBotao = (conteudo?.siteBotao != null ? String(conteudo.siteBotao) : '') || 'Quero um site';
+  const titulo = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'Escolha a solução certa para a sua necessidade';
+  const subtitulo = (conteudo?.subtitulo != null ? String(conteudo.subtitulo) : '') || 'Do projeto pontual ao produto completo: você escolhe a demanda, e nós estruturamos a entrega com escopo claro e valor justo.';
 
-  const openWhatsApp = (contextMessage: string) => {
-    if (typeof window === 'undefined') return;
-    const url = buildWhatsAppUrl(DEFAULT_WHATSAPP_NUMBER, contextMessage);
-    window.open(url, '_blank', 'noopener,noreferrer');
+  const [modalOption, setModalOption] = useState<PricingOption | null>(null);
+  const [leadForm, setLeadForm] = useState({
+    nome: '',
+    sobrenome: '',
+    email: '',
+    whatsapp: '',
+    investimento: '',
+    tipoProjeto: '',
+    contexto: '',
+  });
+  const [formFeedback, setFormFeedback] = useState<{ type: 'error' | 'success'; message: string } | null>(null);
+  const [leadSubmitted, setLeadSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const isModalOpen = modalOption !== null;
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  useEffect(() => {
+    if (typeof document === 'undefined' || typeof window === 'undefined') return;
+    if (!isModalOpen) return;
+
+    const body = document.body;
+    const html = document.documentElement;
+    lockedScrollYRef.current = window.scrollY;
+
+    // Lock completo do scroll (inclui barra lateral).
+    html.style.overflow = 'hidden';
+    body.style.overflow = 'hidden';
+    body.style.position = 'fixed';
+    body.style.top = `-${lockedScrollYRef.current}px`;
+    body.style.left = '0';
+    body.style.right = '0';
+    body.style.width = '100%';
+
+    body.classList.toggle('pricing-modal-open', isModalOpen);
+    window.dispatchEvent(new CustomEvent('pricing-modal-visibility-change', { detail: isModalOpen }));
+
+    return () => {
+      html.style.overflow = '';
+      body.style.overflow = '';
+      body.style.position = '';
+      body.style.top = '';
+      body.style.left = '';
+      body.style.right = '';
+      body.style.width = '';
+      window.scrollTo(0, lockedScrollYRef.current);
+      body.classList.remove('pricing-modal-open');
+      window.dispatchEvent(new CustomEvent('pricing-modal-visibility-change', { detail: false }));
+    };
+  }, [isModalOpen]);
+
+  const openConsultModal = (option: PricingOption) => {
+    setModalOption(option);
+    setLeadForm({
+      nome: '',
+      sobrenome: '',
+      email: '',
+      whatsapp: '',
+      investimento: '',
+      tipoProjeto: '',
+      contexto: '',
+    });
+    setFormFeedback(null);
+    setLeadSubmitted(false);
+  };
+
+  const closeConsultModal = () => {
+    setModalOption(null);
+    setFormFeedback(null);
+    setLeadSubmitted(false);
+  };
+
+  const updateLeadField = (field: keyof typeof leadForm, value: string) => {
+    setLeadForm((prev) => ({ ...prev, [field]: value }));
+    if (formFeedback) setFormFeedback(null);
+  };
+
+  const handleLeadSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    void (async () => {
+      if (!modalOption) return;
+      const nome = leadForm.nome.trim();
+      const sobrenome = leadForm.sobrenome.trim();
+      const email = leadForm.email.trim();
+      const whatsapp = leadForm.whatsapp.trim();
+      const investimento = leadForm.investimento.trim();
+      const tipoProjeto = leadForm.tipoProjeto.trim();
+      const contexto = leadForm.contexto.trim();
+      const requiresProjectType = modalOption.key === 'desenvolvimento-web';
+      const requiresInvestment = modalOption.key !== 'desenvolvimento-web';
+
+      if (!nome || !sobrenome || !email || !whatsapp || (requiresInvestment && !investimento) || (requiresProjectType && !tipoProjeto) || !contexto) {
+        setFormFeedback({ type: 'error', message: 'Preencha todos os campos obrigatórios.' });
+        return;
+      }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        setFormFeedback({ type: 'error', message: 'Digite um e-mail válido.' });
+        return;
+      }
+
+      try {
+        setIsSubmitting(true);
+        setFormFeedback(null);
+        const res = await fetch('/api/requests', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            tipo: modalOption.title,
+            nome,
+            sobrenome,
+            email,
+            whatsapp,
+            investimento: requiresInvestment ? investimento : null,
+            tipoProjeto: requiresProjectType ? tipoProjeto : null,
+            contexto,
+            origem: 'pricing-modal',
+          }),
+        });
+        if (!res.ok) {
+          const data = (await res.json().catch(() => ({}))) as { error?: string };
+          setFormFeedback({ type: 'error', message: data.error || 'Erro ao enviar solicitação. Tente novamente.' });
+          return;
+        }
+        setLeadSubmitted(true);
+      } catch {
+        setFormFeedback({ type: 'error', message: 'Falha de conexão. Tente novamente.' });
+      } finally {
+        setIsSubmitting(false);
+      }
+    })();
   };
 
   const sectionStyle: React.CSSProperties = {
@@ -247,7 +437,14 @@ const Pricing: React.FC<PricingProps> = ({ conteudo }) => {
   /** Em telas menores, menos padding nos cards para não ficar tão alto */
   const cardStyleResponsive: React.CSSProperties = {
     ...cardBaseStyle,
-    padding: isMd ? spacing[16] : spacing[6],
+    padding: isMd ? spacing[8] : spacing[6],
+  };
+
+  const cardStyleMobileCarousel: React.CSSProperties = {
+    ...cardStyleResponsive,
+    width: 'min(86vw, 360px)',
+    flexShrink: 0,
+    scrollSnapAlign: 'start',
   };
 
   return (
@@ -259,7 +456,6 @@ const Pricing: React.FC<PricingProps> = ({ conteudo }) => {
         }}>
           <span style={badgeStyle} aria-hidden>
             <span
-              className="badge-dot-pulse"
               style={{
                 width: 6,
                 height: 6,
@@ -280,77 +476,308 @@ const Pricing: React.FC<PricingProps> = ({ conteudo }) => {
         </div>
 
         <div style={gridWrapStyle}>
-          <div style={grid}>
-          <div style={cardStyleResponsive}>
-            <h3 style={cardTitleStyle}>{landingTitulo}</h3>
-            <p style={{ fontSize: fontSizes.sm, color: colors.text.primary, opacity: 0.88, margin: 0 }}>
-              {landingDescricao}
-            </p>
-            <div style={priceBlockStyle}>
-              <p style={priceFromLabelStyle}>A partir de:</p>
-              <div style={priceRowStyle}>
-                <span style={priceSymbolStyle}>R$</span>
-                <span style={priceValueStyle}>{landingPreco}</span>
-              </div>
-              <p style={priceSecondaryStyle}>Parcelado em até 10x </p>
-              <p style={pricePixStyle}>À vista no PIX: 10% de desconto</p>
-            </div>
-            <ul style={featureListStyle}>
-              {LANDING_FEATURES.map((item, i) => (
-                <li key={i} className="pricing-feature-item" style={featureItemStyle(item.dimmed)}>
-                  <span style={item.dimmed ? checkIconDimmedStyle : checkIconStyle} aria-hidden>
-                    <CheckCircle2 size={20} strokeWidth={2} />
-                  </span>
-                  {item.text}
-                </li>
+          {isMd ? (
+            <div style={grid}>
+              {PRICING_OPTIONS.map((option) => (
+                <div key={option.key} style={cardStyleResponsive}>
+                  <div style={cardIconWrapStyle}>
+                    <option.Icon size={24} color="#059669" strokeWidth={1.8} />
+                  </div>
+                  <h3 style={cardTitleStyle}>{option.title}</h3>
+                  <p style={{ fontSize: fontSizes.sm, color: colors.text.primary, opacity: 0.88, margin: 0 }}>
+                    {option.description}
+                  </p>
+                  <div style={priceBlockStyle}>
+                    <p style={priceFromLabelStyle}>A partir de:</p>
+                    <div style={priceRowStyle}>
+                      {option.price === 'Consultar' ? null : <span style={priceSymbolStyle}>R$</span>}
+                      <span style={priceValueStyle}>{option.price}</span>
+                    </div>
+                   
+                  </div>
+                  <ul style={featureListStyle}>
+                    {option.features.map((text, i) => (
+                      <li key={i} className="pricing-feature-item" style={featureItemStyle}>
+                        <span style={checkIconStyle} aria-hidden>
+                          <CheckCircle2 size={20} strokeWidth={2} />
+                        </span>
+                        {text}
+                      </li>
+                    ))}
+                  </ul>
+                  <div style={{ marginTop: 'auto' }}>
+                    <ButtonCta
+                      label={option.cta}
+                      onClick={() => openConsultModal(option)}
+                    />
+                  </div>
+                </div>
               ))}
-            </ul>
-            <div style={{ marginTop: 'auto' }}>
-              <ButtonCta
-                label={landingBotao}
-                onClick={() => {
-                  openWhatsApp(LANDING_PAGE_MESSAGE);
-                }}
-              />
             </div>
-          </div>
-
-          <div style={{ ...cardStyleResponsive, ...cardEmphasisStyle }}>
-            <h3 style={cardTitleStyle}>{siteTitulo}</h3>
-            <p style={{ fontSize: fontSizes.sm, color: colors.text.primary, opacity: 0.88, margin: 0 }}>
-              {siteDescricao}
-            </p>
-            <div style={priceBlockStyle}>
-              <p style={priceFromLabelStyle}>A partir de:</p>
-              <div style={priceRowStyle}>
-                <span style={priceSymbolStyle}>R$</span>
-                <span style={priceValueStyle}>{sitePreco}</span>
+          ) : (
+            <div style={mobileCarouselWrapStyle}>
+              <div style={mobileCarouselTrackStyle}>
+                {PRICING_OPTIONS.map((option) => (
+                  <div key={option.key} style={cardStyleMobileCarousel}>
+                    <div style={cardIconWrapStyle}>
+                      <option.Icon size={24} color="#059669" strokeWidth={1.8} />
+                    </div>
+                    <h3 style={cardTitleStyle}>{option.title}</h3>
+                    <p style={{ fontSize: fontSizes.sm, color: colors.text.primary, opacity: 0.88, margin: 0 }}>
+                      {option.description}
+                    </p>
+                    <div style={priceBlockStyle}>
+                      <p style={priceFromLabelStyle}>A partir de:</p>
+                      <div style={priceRowStyle}>
+                        {option.price === 'Consultar' ? null : <span style={priceSymbolStyle}>R$</span>}
+                        <span style={priceValueStyle}>{option.price}</span>
+                      </div>                    
+                  
+                    </div>
+                    <ul style={featureListStyle}>
+                      {option.features.map((text, i) => (
+                        <li key={i} className="pricing-feature-item" style={featureItemStyle}>
+                          <span style={checkIconStyle} aria-hidden>
+                            <CheckCircle2 size={20} strokeWidth={2} />
+                          </span>
+                          {text}
+                        </li>
+                      ))}
+                    </ul>
+                    <div style={{ marginTop: 'auto' }}>
+                      <ButtonCta
+                        label={option.cta}
+                        onClick={() => openConsultModal(option)}
+                      />
+                    </div>
+                  </div>
+                ))}
               </div>
-              <p style={priceSecondaryStyle}>Parcelado em até 10x</p>
-              <p style={pricePixStyle}>À vista no PIX: 10% de desconto</p>
             </div>
-            <ul style={featureListStyle}>
-              {SITE_FEATURES.map((text, i) => (
-                <li key={i} className="pricing-feature-item" style={featureItemStyle(false)}>
-                  <span style={checkIconStyle} aria-hidden>
-                    <CheckCircle2 size={20} strokeWidth={2} />
-                  </span>
-                  {text}
-                </li>
-              ))}
-            </ul>
-            <div style={{ marginTop: 'auto' }}>
-              <ButtonCta
-                label={siteBotao}
-                onClick={() => {
-                  openWhatsApp(SITE_COMPLETO_MESSAGE);
-                }}
-              />
-            </div>
-          </div>
-          </div>
+          )}
         </div>
       </div>
+      {isClient && isModalOpen && modalOption ? createPortal(
+        <div
+          role="presentation"
+          onClick={closeConsultModal}
+          style={{
+            position: 'fixed',
+            inset: 0,
+            background: 'rgba(8, 12, 10, 0.5)',
+            backdropFilter: 'saturate(145%) blur(8px)',
+            WebkitBackdropFilter: 'saturate(145%) blur(8px)',
+            zIndex: 2147483000,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: spacing[4],
+          }}
+        >
+          <div
+            role="dialog"
+            aria-modal
+            aria-labelledby={!leadSubmitted ? 'pricing-modal-title' : undefined}
+            aria-label={leadSubmitted ? 'Solicitação enviada com sucesso' : undefined}
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              width: 'min(720px, 100%)',
+              maxHeight: '88vh',
+              overflowY: 'auto',
+              borderRadius: 24,
+              border: `1px solid ${colors.neutral.border}`,
+              background: '#F5FFF0',
+              boxShadow: '0 16px 48px rgba(0, 0, 0, 0.2)',
+              padding: spacing[8],
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: spacing[4], marginBottom: spacing[6] }}>
+              {!leadSubmitted ? (
+                <h3 id="pricing-modal-title" style={{ margin: 0, fontSize: fontSizes['2xl'], color: colors.text.primary, fontWeight: 400 }}>
+                  {`Orçamento para ${modalOption.title}`}
+                </h3>
+              ) : (
+                <span />
+              )}
+              <button
+                type="button"
+                onClick={closeConsultModal}
+                aria-label="Fechar modal"
+                style={{
+                  border: `1px solid ${colors.neutral.border}`,
+                  background: colors.neutral.accordeon,
+                  color: colors.text.primary,
+                  borderRadius: 12,
+                  width: 36,
+                  height: 36,
+                  cursor: 'pointer',
+                  fontSize: 20,
+                  lineHeight: 1,
+                }}
+              >
+                ×
+              </button>
+            </div>
+
+            {!leadSubmitted ? (
+            <form noValidate onSubmit={handleLeadSubmit} style={{ display: 'grid', gap: spacing[4] }}>
+              <div style={{ display: 'grid', gridTemplateColumns: isMd ? '1fr 1fr' : '1fr', gap: spacing[4] }}>
+                <label style={{ display: 'grid', gap: spacing[2] }}>
+                  <span style={{ fontSize: fontSizes.sm, color: colors.text.primary }}>Nome</span>
+                  <input
+                    className="pricing-modal-input"
+                    value={leadForm.nome}
+                    onChange={(e) => updateLeadField('nome', e.target.value)}
+                    style={{ borderRadius: 12, border: `1px solid ${colors.neutral.border}`, padding: '12px 14px', fontSize: fontSizes.base }}
+                  />
+                </label>
+                <label style={{ display: 'grid', gap: spacing[2] }}>
+                  <span style={{ fontSize: fontSizes.sm, color: colors.text.primary }}>Sobrenome</span>
+                  <input
+                    className="pricing-modal-input"
+                    value={leadForm.sobrenome}
+                    onChange={(e) => updateLeadField('sobrenome', e.target.value)}
+                    style={{ borderRadius: 12, border: `1px solid ${colors.neutral.border}`, padding: '12px 14px', fontSize: fontSizes.base }}
+                  />
+                </label>
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: isMd ? '1fr 1fr' : '1fr', gap: spacing[4] }}>
+                <label style={{ display: 'grid', gap: spacing[2] }}>
+                  <span style={{ fontSize: fontSizes.sm, color: colors.text.primary }}>E-mail</span>
+                  <input
+                    className="pricing-modal-input"
+                    type="email"
+                    value={leadForm.email}
+                    onChange={(e) => updateLeadField('email', e.target.value)}
+                    style={{ borderRadius: 12, border: `1px solid ${colors.neutral.border}`, padding: '12px 14px', fontSize: fontSizes.base }}
+                  />
+                </label>
+                <label style={{ display: 'grid', gap: spacing[2] }}>
+                  <span style={{ fontSize: fontSizes.sm, color: colors.text.primary }}>WhatsApp</span>
+                  <input
+                    className="pricing-modal-input"
+                    value={leadForm.whatsapp}
+                    onChange={(e) => updateLeadField('whatsapp', e.target.value)}
+                    style={{ borderRadius: 12, border: `1px solid ${colors.neutral.border}`, padding: '12px 14px', fontSize: fontSizes.base }}
+                  />
+                </label>
+              </div>
+
+              {modalOption.key === 'desenvolvimento-web' ? (
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: spacing[4] }}>
+                  <label style={{ display: 'grid', gap: spacing[2] }}>
+                    <span style={{ fontSize: fontSizes.sm, color: colors.text.primary }}>Tipo de projeto</span>
+                    <select
+                      className="pricing-modal-select"
+                      value={leadForm.tipoProjeto}
+                      onChange={(e) => updateLeadField('tipoProjeto', e.target.value)}
+                      style={{ borderRadius: 12, border: `1px solid ${colors.neutral.border}`, padding: '12px 14px', fontSize: fontSizes.base, background: '#fff' }}
+                    >
+                      <option value="" disabled>Selecione o tipo</option>
+                      <option value="Site">Site</option>
+                      <option value="Loja">Loja</option>
+                    </select>
+                  </label>
+                </div>
+              ) : (
+                <label style={{ display: 'grid', gap: spacing[2] }}>
+                  <span style={{ fontSize: fontSizes.sm, color: colors.text.primary }}>Valor para investimento</span>
+                  <select
+                    className="pricing-modal-select"
+                    value={leadForm.investimento}
+                    onChange={(e) => updateLeadField('investimento', e.target.value)}
+                    style={{ borderRadius: 12, border: `1px solid ${colors.neutral.border}`, padding: '12px 14px', fontSize: fontSizes.base, background: '#fff' }}
+                  >
+                    <option value="" disabled>Selecione uma faixa</option>
+                    <option value="R$ 10k a R$ 20k">R$ 10k a R$ 20k</option>
+                    <option value="R$ 20k a R$ 40k">R$ 20k a R$ 40k</option>
+                    <option value="R$ 40k a R$ 50k">R$ 40k a R$ 50k</option>
+                  </select>
+                </label>
+              )}
+
+              <label style={{ display: 'grid', gap: spacing[2] }}>
+                <span style={{ fontSize: fontSizes.sm, color: colors.text.primary }}>Conte um pouco do que você precisa (problemas, cenário atual, objetivos)</span>
+                <textarea
+                  className="pricing-modal-textarea"
+                  value={leadForm.contexto}
+                  onChange={(e) => updateLeadField('contexto', e.target.value)}
+                  rows={5}
+                  style={{ borderRadius: 12, border: `1px solid ${colors.neutral.border}`, padding: '12px 14px', fontSize: fontSizes.base, resize: 'vertical', minHeight: 120 }}
+                />
+              </label>
+
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: spacing[4],
+                  marginTop: spacing[2],
+                }}
+              >
+                <ButtonCta type="submit" disabled={isSubmitting}>
+                  {isSubmitting ? 'Enviando...' : 'Enviar orçamento'}
+                </ButtonCta>
+                <div
+                  aria-live="polite"
+                  style={{
+                    flex: 1,
+                    minHeight: 24,
+                    display: 'flex',
+                    justifyContent: 'flex-end',
+                    alignItems: 'center',
+                    fontSize: fontSizes.sm,
+                    color: formFeedback?.type === 'error' ? '#DC2626' : '#059669',
+                    opacity: formFeedback ? 1 : 0,
+                    transition: 'opacity 0.2s ease',
+                    textAlign: 'right',
+                  }}
+                >
+                  {formFeedback?.message ?? ' '}
+                </div>
+              </div>
+            </form>
+            ) : (
+              <div
+                style={{
+                  display: 'grid',
+                  gap: spacing[5],
+                  alignItems: 'center',
+                  justifyItems: 'center',
+                  textAlign: 'center',
+                  paddingTop: spacing[6],
+                  paddingBottom: spacing[4],
+                }}
+              >
+                <div
+                  style={{
+                    width: 56,
+                    height: 56,
+                    borderRadius: '50%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    background: 'rgba(5, 150, 105, 0.14)',
+                    border: '1px solid rgba(5, 150, 105, 0.25)',
+                  }}
+                  aria-hidden
+                >
+                  <CheckCircle2 size={28} color="#059669" />
+                </div>
+                <h4 style={{ margin: 0, fontSize: fontSizes['2xl'], color: colors.text.primary }}>
+                  Solicitação enviada com sucesso!
+                </h4>
+                <p style={{ margin: 0, maxWidth: 560, fontSize: fontSizes.base, color: colors.text.primary, opacity: 0.9, lineHeight: 1.6 }}>
+                  Recebemos seus dados para <strong>{modalOption.title}</strong>. Nossa equipe vai analisar seu cenário e retornar com os próximos passos do orçamento.
+                </p>
+              </div>
+            )}
+          </div>
+        </div>,
+        document.body
+      ) : null}
     </section>
   );
 };

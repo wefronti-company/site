@@ -143,14 +143,6 @@ section[id] {
   50% { transform: translate(-2px, 2px); }
   75% { transform: translate(2px, 3px); }
 }
-@keyframes badge-dot-pulse {
-  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(53, 152, 255, 0.5); }
-  50% { opacity: 0.9; box-shadow: 0 0 10px 3px rgba(53, 152, 255, 0.7); }
-}
-@keyframes timeline-dot-pulse {
-  0%, 100% { box-shadow: 0 0 8px 0 rgba(53, 152, 255, 0.6); }
-  50% { box-shadow: 0 0 18px 4px rgba(53, 152, 255, 0.9); }
-}
 @keyframes floating-whatsapp-glow {
   0%, 100% { box-shadow: 0 0 12px 2px rgba(53, 152, 255, 0.5); }
   50% { box-shadow: 0 0 24px 8px rgba(53, 152, 255, 0.8); }
@@ -181,8 +173,6 @@ section[id] {
 .shake { animation: shake 0.4s ease-in-out; }
 .testimonials-track { animation: testimonials-scroll 80s linear infinite; backface-visibility: hidden; }
 .testimonials-track-reverse { animation: testimonials-scroll-reverse 80s linear infinite; backface-visibility: hidden; }
-.badge-dot-pulse { animation: badge-dot-pulse 2s ease-in-out infinite; }
-.timeline-dot-pulse { animation: timeline-dot-pulse 2s ease-in-out infinite; }
 .floating-whatsapp-glow { animation: floating-whatsapp-glow 2s ease-in-out infinite; }
 .pricing-feature-item:hover { transform: translateX(6px); }
 .admin-nav-item:hover { opacity: 1; }
@@ -190,6 +180,32 @@ section[id] {
 .header-nav-link:focus { outline: none; }
 .header-cta-btn:focus { outline: none; }
 button:focus-visible, a:focus-visible, [role="button"]:focus-visible, summary:focus-visible { outline: 2px solid rgba(53, 152, 255, 0.8); outline-offset: 2px; }
+.pricing-modal-input,
+.pricing-modal-select,
+.pricing-modal-textarea {
+  background: #F5FFF0 !important;
+  color: #111827 !important;
+}
+.pricing-modal-input:focus,
+.pricing-modal-select:focus,
+.pricing-modal-textarea:focus,
+.pricing-modal-input:focus-visible,
+.pricing-modal-select:focus-visible,
+.pricing-modal-textarea:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+  border-color: #D4E8D0 !important;
+}
+.pricing-modal-input:-webkit-autofill,
+.pricing-modal-input:-webkit-autofill:hover,
+.pricing-modal-input:-webkit-autofill:focus,
+.pricing-modal-input:-webkit-autofill:active {
+  -webkit-text-fill-color: #111827 !important;
+  -webkit-box-shadow: 0 0 0 1000px #F5FFF0 inset !important;
+  box-shadow: 0 0 0 1000px #F5FFF0 inset !important;
+  caret-color: #111827 !important;
+  transition: background-color 9999s ease-out 0s;
+}
 .animate-slide-down { animation: slide-down 0.3s ease-out; }
 .animate-slide-up { animation: slide-up 0.4s ease-out; }
 .animate-fade-in { animation: fade-in 0.3s ease-out; }
@@ -209,8 +225,6 @@ button:focus-visible, a:focus-visible, [role="button"]:focus-visible, summary:fo
   .animate-float { animation: none !important; }
   .hero-chip-float { animation: none !important; }
   .hero-sparkle { animation: none !important; }
-  .badge-dot-pulse { animation: none !important; }
-  .timeline-dot-pulse { animation: none !important; }
   .floating-whatsapp-glow { animation: none !important; }
   .testimonials-track { animation: none !important; }
   .testimonials-track-reverse { animation: none !important; }

@@ -32,13 +32,13 @@ const heroTitleStyle: React.CSSProperties = {
   fontWeight: 400,
   lineHeight: 1.06,
   letterSpacing: '-0.02em',
-  fontSize: 'clamp(3rem, 6.5vw, 5rem)',
+  fontSize: 'clamp(3rem, 5vw, 4.5rem)',
   color: colors.text.primary,
   margin: 0,
 };
 
 /** Palavras destacadas no H1: serif italic, cinza claro */
-const HIGHLIGHT_WORDS = ['tecnologia', 'design', 'estratégia'];
+const HIGHLIGHT_WORDS = ['digitais de elite', '100% de código', 'estratégia'];
 const highlightWordStyle: React.CSSProperties = {
   color: '#5c9369AF',
 };
@@ -58,8 +58,8 @@ function renderHeroTitle(text: string): React.ReactNode {
 }
 
 const heroSubtitleStyle: React.CSSProperties = {
-  fontSize: '1.3rem',
-  fontWeight: 200,
+  fontSize: '1.4rem',
+  fontWeight: 400,
   lineHeight: 1.45,
   color: colors.text.primary,
   opacity: 0.92,
@@ -207,8 +207,8 @@ const Hero: React.FC<HeroProps> = ({ conteudo }) => {
   const smoothX = useSpring(mouseX, { stiffness: 85, damping: 22, mass: 0.9 });
   const smoothY = useSpring(mouseY, { stiffness: 85, damping: 22, mass: 0.9 });
 
-  const tituloRaw = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'Soluções em tecnologia, estratégia e design para negócios que querem crescer';
-  const subtitulo = (conteudo?.subtitulo != null ? String(conteudo.subtitulo) : '') || 'Planejamento, tecnologia e otimização contínua para tornar seu site um verdadeiro canal de aquisição.';
+  const tituloRaw = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'Produtos digitais de elite. Do site institucional ao sistema complexo, tudo com 100% de código e zero limitações.';
+  const subtitulo = (conteudo?.subtitulo != null ? String(conteudo.subtitulo) : '') || 'Unimos estratégia de negócio, design de alta conversão e engenharia de software pura para criar ativos que não precisam ser refeitos. Chega de templates lentos: entregamos performance real e controle total sobre o seu projeto.';
   const botaoPrincipal = (conteudo?.botaoPrincipal != null ? String(conteudo.botaoPrincipal) : '') || 'Quero um site que vende';
 
   const heroSectionStyle: React.CSSProperties = {

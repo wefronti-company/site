@@ -269,14 +269,8 @@ const Testimonials: React.FC<TestimonialsProps> = ({ conteudo }) => {
   0% { transform: translate3d(-${SCROLL_OFFSET_PX}px, 0, 0); }
   100% { transform: translate3d(0, 0, 0); }
 }
-@keyframes testimonials-badge-dot-pulse {
-  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 ${colors.icons.secondary}; }
-  50% { opacity: 0.9; box-shadow: 0 0 10px 3px ${colors.icons.secondary}; }
-}
-.testimonials-badge-dot-pulse { animation: testimonials-badge-dot-pulse 2s ease-in-out infinite; }
 @media (prefers-reduced-motion: reduce) {
   .testimonials-track-px, .testimonials-track-reverse-px { animation: none !important; }
-  .testimonials-badge-dot-pulse { animation: none !important; }
 }
           `.trim(),
         }}
@@ -288,7 +282,6 @@ const Testimonials: React.FC<TestimonialsProps> = ({ conteudo }) => {
         }}>
           <span style={badgeStyle} aria-hidden>
             <span
-              className="testimonials-badge-dot-pulse"
               style={{
                 width: 6,
                 height: 6,

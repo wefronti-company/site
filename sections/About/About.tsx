@@ -216,7 +216,6 @@ const About: React.FC<AboutProps> = ({ conteudo }) => {
         <div style={textColumnStyle}>
           <span style={badgeStyle} aria-hidden>
             <span
-              className="badge-dot-pulse"
               style={{
                 width: 6,
                 height: 6,

@@ -15,6 +15,7 @@ import SolucoesCtaBar from './SolucoesCtaBar';
 const BottomCtaOrWhatsApp: React.FC = () => {
   const router = useRouter();
   const [showBar, setShowBar] = useState(false);
+  const [pricingModalOpen, setPricingModalOpen] = useState(false);
   const isHome = router.pathname === '/';
 
   useEffect(() => {
@@ -79,12 +80,24 @@ const BottomCtaOrWhatsApp: React.FC = () => {
     };
   }, [isHome, router.pathname]);
 
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const handler = (event: Event) => {
+      const customEvent = event as CustomEvent<boolean>;
+      setPricingModalOpen(Boolean(customEvent.detail));
+    };
+    window.addEventListener('pricing-modal-visibility-change', handler as EventListener);
+    return () => {
+      window.removeEventListener('pricing-modal-visibility-change', handler as EventListener);
+    };
+  }, []);
+
   if (!isHome) return null;
 
   return (
     <>
       <AnimatePresence>
-        {showBar ? <SolucoesCtaBar key="solucoes-cta-bar" /> : null}
+        {showBar && !pricingModalOpen ? <SolucoesCtaBar key="solucoes-cta-bar" /> : null}
       </AnimatePresence>
     </>
   );

@@ -20,7 +20,7 @@ export const colors = {
 
   icons: {
     primary: '#374151',   // Ícones em fundos claros
-    secondary: '#5c9369AF', // Ícones muted
+    secondary: '#7ad49dAF', // Ícones muted
   },
 
   blue: {

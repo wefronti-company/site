@@ -187,7 +187,6 @@ const Comparison: React.FC<ComparisonProps> = ({ conteudo }) => {
         }}>
           <span style={badgeStyle} aria-hidden>
             <span
-              className="badge-dot-pulse"
               style={{
                 width: 6,
                 height: 6,

@@ -215,7 +215,6 @@ const Solucoes: React.FC<SolucoesProps> = ({ conteudo }) => {
         <div style={headerStyle}>
           <span style={badgeStyle} aria-hidden>
             <span
-              className="badge-dot-pulse"
               style={{
                 width: 6,
                 height: 6,

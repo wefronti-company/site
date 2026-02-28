@@ -8,7 +8,6 @@ const DURATION_MS = 3000; // 5 segundos
 const HOLD_AT_100_MS = 1000; // 2s em 100% antes do slide
 const SLIDE_DURATION_MS = 500;
 
-const LOADING_TEXT = 'Você está a um site de distância do seu próximo cliente.';
 
 interface SplashScreenProps {
   onComplete: () => void;
@@ -84,7 +83,7 @@ const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete }) => {
   const barWrapStyle: React.CSSProperties = {
     width: 'min(280px, 80vw)',
     height: 4,
-    backgroundColor: 'rgba(255,255,255,0.12)',
+    backgroundColor: 'rgba(154, 208, 169, 0.22)',
     borderRadius: 2,
     overflow: 'hidden',
   };
@@ -122,7 +121,7 @@ const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete }) => {
           priority
           style={{ objectFit: 'contain', maxWidth: '100%' }}
         />
-        <p style={taglineStyle}>{LOADING_TEXT}</p>
+      
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: spacing[2] }}>
           <div style={barWrapStyle}>
             <div style={barFillStyle} />

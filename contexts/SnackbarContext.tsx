@@ -100,17 +100,20 @@ function SnackbarStack({
       <div
         style={{
           position: 'fixed',
-          top: 24,
-          right: 24,
-          zIndex: 9999,
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          zIndex: 2147483647,
           display: 'flex',
           flexDirection: 'column',
           gap: 12,
+          width: '100%',
           maxWidth: 'calc(100vw - 32px)',
           pointerEvents: 'none',
+          alignItems: 'center',
         }}
       >
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 12, pointerEvents: 'auto' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 12, pointerEvents: 'auto', alignItems: 'center' }}>
           {items.map((item) => (
             <SnackbarItem
               key={item.id}
@@ -158,7 +161,7 @@ function SnackbarItem({
         padding: '14px 18px',
         width: 'fit-content',
         maxWidth: 'min(560px, calc(100vw - 48px))',
-        alignSelf: 'flex-end',
+        alignSelf: 'center',
         backgroundColor: 'rgba(10, 12, 24, 0.5)',
         backdropFilter: 'saturate(150%) blur(14px)',
         WebkitBackdropFilter: 'saturate(150%) blur(14px)',
