@@ -298,7 +298,7 @@ const SolutionAnimation: React.FC<{ type: SolutionContent['animation'] }> = ({ t
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', alignItems: 'center', gap: spacing[2] }}>
             <div style={skeleton('52%')} />
-            <span style={pillStyle}>Wireframe → UI</span>
+            <span style={pillStyle}>Design UI/UX</span>
           </div>
         </div>
       </motion.div>
@@ -368,7 +368,7 @@ const SolutionAnimation: React.FC<{ type: SolutionContent['animation'] }> = ({ t
           <motion.span style={{ position: 'absolute', left: 66, top: 28, width: 8, height: 8, borderRadius: '50%', background: LIVE_TEXT_MUTED, boxShadow: `0 0 0 3px ${LIVE_ACCENT}` }} animate={{ x: [0, 26, 40], y: [0, -2, -5], opacity: [0, 1, 0] }} transition={{ duration: 2.6, repeat: Infinity }} />
           <motion.span style={{ position: 'absolute', left: 106, top: 36, width: 8, height: 8, borderRadius: '50%', background: LIVE_TEXT_MUTED, boxShadow: `0 0 0 3px ${LIVE_ACCENT}` }} animate={{ x: [0, 22, 30], y: [0, -3, -6], opacity: [0, 1, 0] }} transition={{ duration: 2.6, repeat: Infinity, delay: 0.45 }} />
           <motion.span style={{ position: 'absolute', left: 106, top: 54, width: 8, height: 8, borderRadius: '50%', background: LIVE_TEXT_MUTED, boxShadow: `0 0 0 3px ${LIVE_ACCENT}` }} animate={{ x: [0, 22, 30], y: [0, 3, 6], opacity: [0, 1, 0] }} transition={{ duration: 2.6, repeat: Infinity, delay: 0.9 }} />
-          <span style={{ ...pillStyle, position: 'absolute', left: 75, top: 70 }}>sync</span>
+          <span style={{ ...pillStyle, position: 'absolute', left: 75, top: 70 }}>Conectado</span>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', alignItems: 'center', gap: spacing[2] }}>
           <div style={skeleton('56%')} />

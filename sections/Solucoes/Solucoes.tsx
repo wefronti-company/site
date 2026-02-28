@@ -166,7 +166,7 @@ const liveBrowserTopStyle: React.CSSProperties = {
   alignItems: 'center',
   gap: 6,
   padding: '0 10px',
-  borderBottom: `1px solid ${colors.neutral.border}`,
+  borderBottom: '1px solid rgba(212, 232, 208, 0.24)',
   background: colors.text.primary,
 };
 
@@ -179,10 +179,10 @@ const liveDotStyle: React.CSSProperties = {
 
 const liveBodyStyle: React.CSSProperties = {
   position: 'relative',
-  padding: spacing[3],
+  padding: spacing[2],
   display: 'grid',
-  gridTemplateRows: 'auto 1fr',
-  gap: spacing[3],
+  gridTemplateRows: 'auto minmax(0, 1fr) auto',
+  gap: spacing[2],
   background: colors.text.primary,
 };
 
@@ -372,7 +372,7 @@ const liveApiPillStyle: React.CSSProperties = {
 
 const liveApiFlowAreaStyle: React.CSSProperties = {
   position: 'relative',
-  height: 94,
+  height: 86,
   borderRadius: 10,
   border: `1px solid ${LIVE_ACCENT}`,
   background: colors.text.primary,
@@ -418,7 +418,7 @@ const liveApiConnectorStyle = (left: string, top: string, width: string, rotateD
   transformOrigin: 'left center',
 });
 
-const liveApiPacketStyle = (left: string, top: string): React.CSSProperties => ({
+const liveApiPacketStyle = (left: string, top: string, rotateDeg: number): React.CSSProperties => ({
   position: 'absolute',
   left,
   top,
@@ -427,6 +427,8 @@ const liveApiPacketStyle = (left: string, top: string): React.CSSProperties => (
   borderRadius: '50%',
   background: LIVE_TEXT_MUTED,
   boxShadow: `0 0 0 3px ${LIVE_ACCENT}`,
+  transform: `rotate(${rotateDeg}deg)`,
+  transformOrigin: 'left center',
 });
 
 const liveApiStatusRowStyle: React.CSSProperties = {
@@ -434,6 +436,7 @@ const liveApiStatusRowStyle: React.CSSProperties = {
   gridTemplateColumns: '1fr auto',
   alignItems: 'center',
   gap: spacing[2],
+  minHeight: 22,
 };
 
 const liveSupportGridStyle: React.CSSProperties = {
@@ -528,7 +531,7 @@ const liveSaasSparkStyle: React.CSSProperties = {
 
 const liveFigmaBoardStyle: React.CSSProperties = {
   position: 'relative',
-  height: 98,
+  height: 88,
   borderRadius: 10,
   border: `1px solid ${LIVE_ACCENT}`,
   background: colors.text.primary,
@@ -764,7 +767,7 @@ const Solucoes: React.FC<SolucoesProps> = ({ conteudo }) => {
                   <div style={liveSkeletonLineStyle('48%')} />
                   <motion.span
                     style={liveSaasValueStyle}
-                    animate={{ opacity: [0.75, 1, 0.75], y: [0, -1, 0] }}
+                    animate={{ opacity: [0.75, 1, 0.75] }}
                     transition={{ duration: 2.1, repeat: Infinity, ease: 'easeInOut' }}
                   >
                     R$ 12.4k
@@ -783,7 +786,7 @@ const Solucoes: React.FC<SolucoesProps> = ({ conteudo }) => {
               </div>
               <motion.div
                 style={livePedidoBadgeStyle}
-                animate={{ opacity: [0, 1, 1, 0], y: [6, 0, 0, -4], scale: [0.96, 1, 1, 0.98] }}
+                animate={{ opacity: [0, 1, 1, 0] }}
                 transition={{ duration: 2.8, repeat: Infinity, ease: 'easeInOut' }}
               >
                 +3 assinaturas
@@ -829,7 +832,7 @@ const Solucoes: React.FC<SolucoesProps> = ({ conteudo }) => {
                   animate={{ x: [0, 22, 46, 22, 0], y: [0, -8, -14, -8, 0] }}
                   transition={{ duration: 2.8, repeat: Infinity, ease: 'easeInOut' }}
                 >
-                  card
+                  mover
                 </motion.span>
                 <motion.span
                   style={liveFigmaCursorStyle}
@@ -847,7 +850,7 @@ const Solucoes: React.FC<SolucoesProps> = ({ conteudo }) => {
                   animate={{ opacity: [0.75, 1, 0.75] }}
                   transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
                 >
-                  Wireframe → UI
+                  Design UI/UX
                 </motion.span>
               </div>
             </div>            
@@ -913,7 +916,7 @@ const Solucoes: React.FC<SolucoesProps> = ({ conteudo }) => {
               </div>
               <motion.div
                 style={livePedidoBadgeStyle}
-                animate={{ opacity: [0, 1, 1, 0], y: [6, 0, 0, -4], scale: [0.96, 1, 1, 0.98] }}
+                animate={{ opacity: [0, 1, 1, 0] }}
                 transition={{ duration: 2.7, repeat: Infinity, ease: 'easeInOut' }}
               >
                 +7 alertas resolvidos
@@ -975,18 +978,18 @@ const Solucoes: React.FC<SolucoesProps> = ({ conteudo }) => {
                   transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut', delay: 0.45 }}
                 />
                 <motion.span
-                  style={liveApiPacketStyle('66px', '28px')}
-                  animate={{ x: [0, 26, 40], y: [0, -2, -5], opacity: [0, 1, 0] }}
+                  style={liveApiPacketStyle('66px', '28px', -8)}
+                  animate={{ x: [0, 26, 40], opacity: [0, 1, 0] }}
                   transition={{ duration: 2.6, repeat: Infinity, ease: 'easeInOut' }}
                 />
                 <motion.span
-                  style={liveApiPacketStyle('106px', '36px')}
-                  animate={{ x: [0, 22, 30], y: [0, -3, -6], opacity: [0, 1, 0] }}
+                  style={liveApiPacketStyle('106px', '31px', -12)}
+                  animate={{ x: [0, 22, 30], opacity: [0, 1, 0] }}
                   transition={{ duration: 2.6, repeat: Infinity, ease: 'easeInOut', delay: 0.45 }}
                 />
                 <motion.span
-                  style={liveApiPacketStyle('106px', '54px')}
-                  animate={{ x: [0, 22, 30], y: [0, 3, 6], opacity: [0, 1, 0] }}
+                  style={liveApiPacketStyle('106px', '54px', 14)}
+                  animate={{ x: [0, 22, 30], opacity: [0, 1, 0] }}
                   transition={{ duration: 2.6, repeat: Infinity, ease: 'easeInOut', delay: 0.9 }}
                 />
                 <motion.span
@@ -994,7 +997,7 @@ const Solucoes: React.FC<SolucoesProps> = ({ conteudo }) => {
                   animate={{ opacity: [0.75, 1, 0.75] }}
                   transition={{ duration: 2.8, repeat: Infinity, ease: 'easeInOut' }}
                 >
-                  sync
+                  Conectado
                 </motion.span>
               </div>
               <div style={liveApiStatusRowStyle}>
@@ -1043,7 +1046,7 @@ const Solucoes: React.FC<SolucoesProps> = ({ conteudo }) => {
               <div style={liveSkeletonLineStyle('78%')} />
               <motion.span
                 style={liveWebPriceStyle}
-                animate={{ opacity: [0.65, 1, 0.65], y: [0, -1, 0] }}
+                animate={{ opacity: [0.65, 1, 0.65] }}
                 transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
               >
                 R$ 149
@@ -1054,7 +1057,7 @@ const Solucoes: React.FC<SolucoesProps> = ({ conteudo }) => {
               <div style={liveSkeletonLineStyle('64%')} />
               <motion.span
                 style={liveWebPriceStyle}
-                animate={{ opacity: [0.65, 1, 0.65], y: [0, -1, 0] }}
+                animate={{ opacity: [0.65, 1, 0.65] }}
                 transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut', delay: 0.2 }}
               >
                 R$ 239
@@ -1063,7 +1066,7 @@ const Solucoes: React.FC<SolucoesProps> = ({ conteudo }) => {
           </div>
           <motion.div
             style={liveWebPedidoBadgeStyle}
-            animate={{ opacity: [0, 1, 1, 0], y: [6, 0, 0, -4], scale: [0.96, 1, 1, 0.98] }}
+            animate={{ opacity: [0, 1, 1, 0] }}
             transition={{ duration: 2.6, repeat: Infinity, ease: 'easeInOut' }}
           >
             +1 pedido
