@@ -11,7 +11,7 @@ const { colors, spacing, fontSizes } = theme;
 
 const pageStyle: React.CSSProperties = {
   minHeight: '100vh',
-  backgroundColor: colors.admin.background,
+  background: 'transparent',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
@@ -22,9 +22,11 @@ const pageStyle: React.CSSProperties = {
 const cardStyle: React.CSSProperties = {
   width: '100%',
   maxWidth: 400,
-  backgroundColor: colors.admin.inactive,
-  border: `1px solid ${colors.neutral.borderDark}`,
-  borderRadius: 12,
+  background: 'rgba(255, 255, 255, 0.55)',
+  backdropFilter: 'saturate(150%) blur(14px)',
+  WebkitBackdropFilter: 'saturate(150%) blur(14px)',
+  border: `1px solid ${colors.neutral.border}`,
+  borderRadius: 18,
   padding: spacing[8],
 };
 
@@ -44,7 +46,7 @@ const labelStyle: React.CSSProperties = {
   display: 'block',
   fontSize: fontSizes.sm,
   fontWeight: 500,
-  color: colors.text.light,
+  color: colors.text.primary,
   marginBottom: spacing[1],
 };
 
@@ -55,9 +57,9 @@ const inputStyle: React.CSSProperties = {
   padding: `${spacing[3]}px ${spacing[5]}px`,
   fontSize: fontSizes.base,
   minHeight: 44,
-  color: colors.text.light,
-  backgroundColor: colors.admin.background,
-  border: `1px solid ${colors.neutral.borderDark}`,
+  color: colors.text.primary,
+  backgroundColor: '#F5FFF0',
+  border: `1px solid ${colors.neutral.border}`,
   borderRadius: 6,
   outline: 'none',
 };
@@ -175,9 +177,9 @@ const AdminLoginPage: React.FC = () => {
           .admin-login-card input:-webkit-autofill:hover,
           .admin-login-card input:-webkit-autofill:focus,
           .admin-login-card input:-webkit-autofill:active {
-            -webkit-text-fill-color: #ffffff;
-            -webkit-box-shadow: 0 0 0px 1000px #0A0C12 inset;
-            caret-color: #ffffff;
+            -webkit-text-fill-color: #111827;
+            -webkit-box-shadow: 0 0 0px 1000px #F5FFF0 inset;
+            caret-color: #111827;
             transition: background-color 5000s ease-in-out 0s;
           }
         `}</style>

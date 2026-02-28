@@ -36,11 +36,10 @@ export default function MyApp({ Component, pageProps }: AppProps) {
  }, [router.events]);
 
  // Inserir comentário logo antes do <html> no DOM (executado no cliente)
- // Admin: usa admin.background (#0A0C12) em html/body/#__next
+ // Mantemos fundo global do site também no admin.
  React.useEffect(() => {
-   const isAdmin = router.pathname.startsWith('/admin');
-   document.documentElement.classList.toggle('admin-route', isAdmin);
-   document.body.classList.toggle('admin-route', isAdmin);
+   document.documentElement.classList.remove('admin-route');
+   document.body.classList.remove('admin-route');
    return () => {
      document.documentElement.classList.remove('admin-route');
      document.body.classList.remove('admin-route');

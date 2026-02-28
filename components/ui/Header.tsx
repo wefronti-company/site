@@ -100,37 +100,42 @@ const Header: React.FC = () => {
     position: 'sticky',
     top: 0,
     width: '100%',
-    zIndex: 1200,
+    zIndex: 9999,
     visibility: splash?.splashActive ? 'hidden' : 'visible',
     pointerEvents: splash?.splashActive ? 'none' : 'auto',
     isolation: 'isolate',
-    paddingTop: 0,
+    paddingTop: isMd ? spacing[6] : spacing[2],
     paddingBottom: 0,
   };
 
   const headerWrapperStyle: React.CSSProperties = {
     width: '100%',
-    position: 'relative',
-    zIndex: 100,
-  };
-
-  const innerBarStyle: React.CSSProperties = {
-    width: '100%',
-    paddingTop: isMd ? spacing[4] : spacing[3],
-    paddingBottom: isMd ? spacing[4] : spacing[3],
-    background: 'rgba(255, 255, 255, 0.5)',
-  backdropFilter: 'saturate(150%) blur(14px)',
-  WebkitBackdropFilter: 'saturate(150%) blur(14px)',
-    borderBottom: `1px solid ${colors.neutral.border}`,
-  boxShadow: '0 8px 20px rgba(0, 0, 0, 0.04)',
-  };
-
-  const innerStyle: React.CSSProperties = {
-    width: '100%',
     maxWidth: containerMaxWidth.wide,
     margin: '0 auto',
     paddingLeft: headerPaddingX,
     paddingRight: headerPaddingX,
+    position: 'relative',
+    zIndex: 9999,
+  };
+
+  const innerBarStyle: React.CSSProperties = {
+    width: '100%',
+    position: 'relative',
+    zIndex: 1,
+    paddingTop: isMd ? spacing[4] : spacing[3],
+    paddingBottom: isMd ? spacing[4] : spacing[3],
+    background: 'rgba(255, 255, 255, 0.5)',
+    backdropFilter: 'saturate(150%) blur(14px)',
+    WebkitBackdropFilter: 'saturate(150%) blur(14px)',
+    border: `1px solid ${colors.neutral.border}`,
+    borderRadius: radii.full,
+    boxShadow: '0 8px 20px rgba(0, 0, 0, 0.04)',
+  };
+
+  const innerStyle: React.CSSProperties = {
+    width: '100%',
+    paddingLeft: isMd ? spacing[8] : spacing[4],
+    paddingRight: isMd ? spacing[8] : spacing[4],
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',

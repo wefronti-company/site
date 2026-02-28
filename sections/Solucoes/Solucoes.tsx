@@ -1,9 +1,8 @@
 import React from 'react';
-import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
-import { Globe, Layout, MousePointer2, Package, Plug, Wrench, ArrowRight } from 'lucide-react';
+import { Globe, Layout, MousePointer2, Package, Plug, Wrench } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { FiFigma } from 'react-icons/fi';
 
@@ -619,18 +618,6 @@ const cardDescStyle: React.CSSProperties = {
   flex: 1,
 };
 
-const saibaMaisStyle: React.CSSProperties = {
-  display: 'inline-flex',
-  alignItems: 'center',
-  gap: spacing[2],
-  fontSize: fontSizes.sm,
-  fontWeight: 500,
-  color: colors.blue.primary,
-  textDecoration: 'none',
-  transition: 'opacity 0.2s, gap 0.2s',
-  marginTop: 'auto',
-};
-
 interface SolucoesProps {
   conteudo?: Record<string, unknown>;
 }
@@ -1110,21 +1097,6 @@ const Solucoes: React.FC<SolucoesProps> = ({ conteudo }) => {
                 <h3 style={cardTitleStyle}>{item.titulo}</h3>
               </div>
               <p style={cardDescStyle}>{item.descricao}</p>
-              <Link
-                href={`/solucoes/${item.slug}`}
-                style={saibaMaisStyle}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.opacity = '0.85';
-                  e.currentTarget.style.gap = '12px';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.opacity = '1';
-                  e.currentTarget.style.gap = '8px';
-                }}
-              >
-                Saiba mais
-                <ArrowRight size={16} strokeWidth={2.5} />
-              </Link>
             </div>
           ))}
         </div>

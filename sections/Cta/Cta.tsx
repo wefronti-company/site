@@ -1,10 +1,10 @@
 import React from 'react';
 import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
-import { ArrowRight } from 'lucide-react';
-import WhatsAppLink from '../../components/WhatsAppLink';
+import ButtonCta from '../../components/ui/ButtonCta';
+import { buildWhatsAppUrl, DEFAULT_WHATSAPP_NUMBER } from '../../lib/whatsapp';
 
-const { colors, spacing, fontSizes, radii, containerMaxWidth } = theme;
+const { colors, spacing, fontSizes } = theme;
 
 const DEFAULT_WHATSAPP_MESSAGE = 'Olá, tenho algumas dúvidas e gostaria de conversar.';
 
@@ -44,24 +44,6 @@ const subheadingStyle: React.CSSProperties = {
   maxWidth: 520,
 };
 
-const buttonStyle: React.CSSProperties = {
-  display: 'inline-flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  gap: 8,
-  padding: '14px 28px',
-  fontSize: fontSizes.base,
-  fontWeight: 500,
-  borderRadius: radii.full,
-  backgroundColor: colors.blue.primary,
-  color: colors.text.onPrimary,
-  border: `1px solid ${colors.blue.primary}`,
-  textDecoration: 'none',
-  cursor: 'pointer',
-  marginTop: spacing[2],
-  transition: 'opacity 0.2s ease',
-};
-
 interface CtaProps {
   conteudo?: Record<string, unknown>;
 }
@@ -74,6 +56,7 @@ const Cta: React.FC<CtaProps> = ({ conteudo }) => {
   const subtitulo = (conteudo?.subtitulo != null ? String(conteudo.subtitulo) : '') || 'Fale com a gente pelo WhatsApp, vamos conversar sobre o seu negócio e como podemos ajudar.';
   const botao = (conteudo?.botao != null ? String(conteudo.botao) : '') || 'Falar no WhatsApp';
   const mensagemWhatsApp = (conteudo?.mensagemWhatsApp != null ? String(conteudo.mensagemWhatsApp) : '') || DEFAULT_WHATSAPP_MESSAGE;
+  const whatsappHref = buildWhatsAppUrl(DEFAULT_WHATSAPP_NUMBER, mensagemWhatsApp);
   const sectionStyle: React.CSSProperties = {
     width: '100%',
     marginTop: spacing[24],
@@ -104,28 +87,15 @@ const Cta: React.FC<CtaProps> = ({ conteudo }) => {
         <p style={subheadingStyle}>
           {subtitulo}
         </p>
-        <WhatsAppLink
-          defaultMessage={mensagemWhatsApp}
-          target="_blank"
-          rel="noopener noreferrer"
-          style={buttonStyle}
-          aria-label="Abrir conversa no WhatsApp para tirar dúvidas"
+        <ButtonCta
+          onClick={() => {
+            if (typeof window !== 'undefined') {
+              window.open(whatsappHref, '_blank', 'noopener,noreferrer');
+            }
+          }}
         >
           {botao}
-          <span
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              width: 28,
-              height: 28,
-              borderRadius: '50%',
-              backgroundColor: 'rgba(255,255,255,0.95)',
-            }}
-          >
-            <ArrowRight size={16} color={colors.blue.primary} strokeWidth={2.5} aria-hidden />
-          </span>
-        </WhatsAppLink>
+        </ButtonCta>
       </div>
     </section>
   );

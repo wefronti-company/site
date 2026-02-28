@@ -1,7 +1,7 @@
 import React from 'react';
 import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
-import { X, Check, CheckCircle, CheckCircle2 } from 'lucide-react';
+import { X, CheckCircle2 } from 'lucide-react';
 import ButtonCta from '../../components/ui/ButtonCta';
 
 const { colors, spacing, fontSizes, radii, containerMaxWidth } = theme;
@@ -92,8 +92,8 @@ const cardStyle: React.CSSProperties = {
 
 const cardHighlightStyle: React.CSSProperties = {
   ...cardStyle,
-  borderColor: 'rgba(53, 152, 255, 0.25)',
-  boxShadow: '0 0 32px rgba(53, 152, 255, 0.08)',
+  borderColor: 'rgba(102, 191, 130, 0.35)',
+  boxShadow: '0 0 32px rgba(102, 191, 130, 0.12)',
   background: colors.background.gradient,
 };
 
@@ -136,13 +136,13 @@ const iconWrapStyle: React.CSSProperties = {
 
 const iconNegativeStyle: React.CSSProperties = {
   ...iconWrapStyle,
-  background: 'rgba(255, 255, 255, 0.08)',
+  background: 'rgba(255, 120, 120, 0.08)',
   color: 'rgba(255, 120, 120, 0.95)',
 };
 
 const iconPositiveStyle: React.CSSProperties = {
   ...iconWrapStyle,
-  background: 'rgba(53, 152, 255, 0.2)',
+  background: 'rgba(102, 191, 130, 0.2)',
   color: colors.blue.primary,
 };
 
@@ -213,7 +213,7 @@ const Comparison: React.FC<ComparisonProps> = ({ conteudo }) => {
               {outrasAgencias.map((text, i) => (
                 <li key={i} style={itemStyle}>
                   <span style={iconNegativeStyle} aria-hidden>
-                    <X size={14} strokeWidth={2.5} />
+                    <X size={18} strokeWidth={2.5} />
                   </span>
                   <span>{text}</span>
                 </li>

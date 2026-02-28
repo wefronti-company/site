@@ -3,13 +3,10 @@ import { useRouter } from 'next/router';
 import SEO from '../components/SEO';
 import ButtonCta from '../components/ui/ButtonCta';
 import { theme } from '../styles/theme';
-import { useMediaQuery } from '../hooks/useMediaQuery';
-
 const { colors, spacing, fontSizes } = theme;
 
 const NotFound: React.FC = () => {
   const router = useRouter();
-  const isMd = useMediaQuery(theme.breakpoints.md);
 
   const pageStyle: React.CSSProperties = {
     minHeight: '100vh',
@@ -17,9 +14,7 @@ const NotFound: React.FC = () => {
     alignItems: 'center',
     justifyContent: 'center',
     padding: spacing[8],
-    background: colors.background.gradient,
-    borderBottomLeftRadius: isMd ? 48 : 28,
-    borderBottomRightRadius: isMd ? 48 : 28,
+    background: 'transparent',
   };
 
 const contentStyle: React.CSSProperties = {

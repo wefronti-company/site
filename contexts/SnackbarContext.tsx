@@ -100,20 +100,21 @@ function SnackbarStack({
       <div
         style={{
           position: 'fixed',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
+          top: 20,
+          right: 20,
+          left: 'auto',
+          transform: 'none',
           zIndex: 2147483647,
           display: 'flex',
           flexDirection: 'column',
           gap: 12,
-          width: '100%',
-          maxWidth: 'calc(100vw - 32px)',
+          width: 'auto',
+          maxWidth: 'calc(100vw - 40px)',
           pointerEvents: 'none',
-          alignItems: 'center',
+          alignItems: 'flex-end',
         }}
       >
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 12, pointerEvents: 'auto', alignItems: 'center' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 12, pointerEvents: 'auto', alignItems: 'flex-end' }}>
           {items.map((item) => (
             <SnackbarItem
               key={item.id}
@@ -141,8 +142,8 @@ function SnackbarItem({
   onExitEnd: () => void;
 }) {
   const isSuccess = item.variant === 'success';
-  const border = isSuccess ? 'rgba(53, 152, 255, 0.4)' : 'rgba(248, 113, 113, 0.4)';
-  const iconColor = isSuccess ? '#3598FF' : '#f87171';
+  const border = isSuccess ? 'rgba(102, 191, 130, 0.45)' : 'rgba(248, 113, 113, 0.4)';
+  const iconColor = isSuccess ? '#66BF82' : '#f87171';
 
   const handleAnimationEnd = (e: React.AnimationEvent<HTMLDivElement>) => {
     if (e.animationName === 'snackbar-slide-up') onExitEnd();
@@ -161,13 +162,13 @@ function SnackbarItem({
         padding: '14px 18px',
         width: 'fit-content',
         maxWidth: 'min(560px, calc(100vw - 48px))',
-        alignSelf: 'center',
-        backgroundColor: 'rgba(10, 12, 24, 0.5)',
+        alignSelf: 'flex-end',
+        backgroundColor: 'rgba(255, 255, 255, 0.72)',
         backdropFilter: 'saturate(150%) blur(14px)',
         WebkitBackdropFilter: 'saturate(150%) blur(14px)',
         border: `1px solid ${border}`,
         borderRadius: 9999,
-        boxShadow: '0 4px 24px rgba(0,0,0,0.25)',
+        boxShadow: '0 8px 28px rgba(0,0,0,0.12)',
         cursor: 'pointer',
         pointerEvents: 'auto',
       }}
@@ -180,7 +181,7 @@ function SnackbarItem({
         )}
       </div>
       <div style={{ flex: 1, minWidth: 0 }}>
-        <p style={{ margin: 0, fontSize: 14, color: '#fff', lineHeight: 1.25 }}>
+        <p style={{ margin: 0, fontSize: 14, color: '#111827', lineHeight: 1.25 }}>
           {item.message}
         </p>
       </div>

@@ -15,7 +15,7 @@ export const colors = {
     primary: '#111827',   // Texto principal em fundos claros (site público)
     secondary: '#6B7280', // Texto secundário/muted
     onPrimary: '#FFFFFF', // Texto em botões de destaque (azul)
-    light: '#FFFFFF',     // Texto em fundos escuros (admin, botões)
+    light: '#111827',     // Texto auxiliar no admin e painéis
   },
 
   icons: {
@@ -32,15 +32,15 @@ export const colors = {
   neutral: {
     gray: '#6B7280',
     border: '#D4E8D0',       // Bordas em tema claro (verde suave)
-    borderDark: '#363636',   // Bordas em tema escuro (admin)
+    borderDark: '#D4E8D0',   // Bordas no admin (agora tema claro)
     borderLight: '#EEF8EA',
     accordeon: '#F5FFF0',    // Cards, accordeons (tom verde pálido)
   },
 
   admin: {
-    background: '#0A0C12',
-    sidebar: '#141414',
-    active: '#3598FF',
-    inactive: '#171717',
+    background: 'transparent',
+    sidebar: 'rgba(255, 255, 255, 0.55)',
+    active: '#66BF82',
+    inactive: '#F5FFF0',
   },
 } as const;

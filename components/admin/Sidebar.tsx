@@ -34,6 +34,8 @@ const sidebarStyle: React.CSSProperties = {
   width: sidebarWidth,
   height: '100vh',
   backgroundColor: colors.admin.sidebar,
+  backdropFilter: 'saturate(150%) blur(14px)',
+  WebkitBackdropFilter: 'saturate(150%) blur(14px)',
   borderRight: `1px solid ${colors.neutral.borderDark}`,
   display: 'flex',
   flexDirection: 'column',

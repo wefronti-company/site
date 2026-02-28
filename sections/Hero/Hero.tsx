@@ -9,7 +9,7 @@ const { colors, spacing, fontSizes, radii } = theme;
 
 const heroSectionStyleBase: React.CSSProperties = {
   position: 'relative',
-  minHeight: '100vh',
+  minHeight: '90vh',
   background: 'transparent',
   zIndex: 25,
   display: 'flex',
