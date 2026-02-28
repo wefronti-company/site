@@ -175,7 +175,7 @@ const ProjectPage: React.FC<{ project: Project }> = ({ project }) => {
       />
       <div style={pageStyle}>
         <main style={getContainerStyle(paddingX)}>
-          <Link href="/#portfolio" style={backLinkStyle} aria-label="Voltar">
+          <Link href="/#solucoes" style={backLinkStyle} aria-label="Voltar">
             <ArrowLeft size={18} strokeWidth={2} aria-hidden />
             Voltar
           </Link>

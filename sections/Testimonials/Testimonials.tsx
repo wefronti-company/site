@@ -2,7 +2,7 @@ import React from 'react';
 import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 
-const { colors, spacing, fontSizes, radii } = theme;
+const { colors, spacing, fontSizes, radii, containerMaxWidth } = theme;
 
 const TESTIMONIALS: { description: string; name: string; state: string; country: string }[] = [
   {
@@ -80,6 +80,8 @@ const sectionStyleBase: React.CSSProperties = {
 
 const innerStyleBase: React.CSSProperties = {
   width: '100%',
+  maxWidth: containerMaxWidth.wide,
+  margin: '0 auto',
   display: 'flex',
   flexDirection: 'column',
   gap: spacing[12],
@@ -107,7 +109,7 @@ const titleStyle: React.CSSProperties = {
   letterSpacing: '-0.02em',
   color: colors.text.primary,
   margin: 0,
-  textAlign: 'left',
+  textAlign: 'center',
 };
 
 const subtitleStyle: React.CSSProperties = {
@@ -116,13 +118,13 @@ const subtitleStyle: React.CSSProperties = {
   color: colors.text.primary,
   opacity: 0.88,
   margin: 0,
-  textAlign: 'left',
+  textAlign: 'center',
 };
 
 const headerStyle: React.CSSProperties = {
   display: 'flex',
   flexDirection: 'column',
-  alignItems: 'flex-start',
+  alignItems: 'center',
   gap: spacing[6],
   paddingLeft: 0,
   paddingRight: 0,
@@ -264,7 +266,7 @@ const Testimonials: React.FC<TestimonialsProps> = ({ conteudo }) => {
   const badge = (conteudo?.badge != null ? String(conteudo.badge) : '') || 'Depoimentos';
   const titulo = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'Resultados reais de quem apostou em um site que vende';
   const subtitulo = (conteudo?.subtitulo != null ? String(conteudo.subtitulo) : '') || 'Veja o que aconteceu quando elas decidiram levar o digital a sério.';
-  const sectionPaddingX = isMd ? spacing[10] : spacing[4];
+  const sectionPaddingX = isMd ? spacing[12] : spacing[4];
   const sectionStyle: React.CSSProperties = {
     ...sectionStyleBase,
     paddingLeft: sectionPaddingX,
@@ -331,7 +333,7 @@ const Testimonials: React.FC<TestimonialsProps> = ({ conteudo }) => {
       <div style={innerStyleBase}>
         <div style={{
           ...headerStyle,
-          alignItems: 'flex-start',
+          alignItems: 'center',
         }}>
           <span style={badgeStyle} aria-hidden>
             <span
@@ -344,7 +346,7 @@ const Testimonials: React.FC<TestimonialsProps> = ({ conteudo }) => {
             />
             {badge}
           </span>
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: spacing[4], width: '100%' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: spacing[4], width: '100%' }}>
             <h2 id="testimonials-heading" style={titleStyle}>
               {titulo}
             </h2>

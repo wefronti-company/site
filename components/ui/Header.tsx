@@ -8,7 +8,7 @@ import { useSplash } from '../../contexts/SplashContext';
 import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 
-const { colors, spacing, fontSizes, radii } = theme;
+const { colors, spacing, fontSizes, radii, containerMaxWidth } = theme;
 const DECRYPT_INTERVAL_MS = 78;
 const DECRYPT_CHARS = 'abcdefghijklmnopqrstuvwxyz';
 
@@ -17,8 +17,6 @@ const NAV_LINKS = [
   { id: 'hero', label: 'Início', href: '/#hero' },
   { id: 'depoimentos', label: 'Clientes', href: '/#depoimentos' },
   { id: 'processo', label: 'Processos', href: '/#processo' },
-  { id: 'portfolio', label: 'Portfolio', href: '/#portfolio' },
-  { id: 'sobre', label: 'Sobre', href: '/#sobre' },
   { id: 'faq', label: 'FAQ', href: '/#faq' },
 ] as const;
 
@@ -97,11 +95,12 @@ const Header: React.FC = () => {
     scrollToSection(id);
   };
 
-  const headerPaddingX = isMd ? spacing[12] : spacing[6];
+  const headerPaddingX = isMd ? spacing[12] : spacing[4];
   const headerStyle: React.CSSProperties = {
-    position: 'relative',
+    position: 'sticky',
+    top: 0,
     width: '100%',
-    zIndex: 100,
+    zIndex: 1200,
     visibility: splash?.splashActive ? 'hidden' : 'visible',
     pointerEvents: splash?.splashActive ? 'none' : 'auto',
     isolation: 'isolate',
@@ -117,15 +116,21 @@ const Header: React.FC = () => {
 
   const innerBarStyle: React.CSSProperties = {
     width: '100%',
-    paddingLeft: headerPaddingX,
-    paddingRight: headerPaddingX,
     paddingTop: isMd ? spacing[4] : spacing[3],
     paddingBottom: isMd ? spacing[4] : spacing[3],
-    background: 'transparent',
+    background: 'rgba(255, 255, 255, 0.5)',
+  backdropFilter: 'saturate(150%) blur(14px)',
+  WebkitBackdropFilter: 'saturate(150%) blur(14px)',
     borderBottom: `1px solid ${colors.neutral.border}`,
+  boxShadow: '0 8px 20px rgba(0, 0, 0, 0.04)',
   };
 
   const innerStyle: React.CSSProperties = {
+    width: '100%',
+    maxWidth: containerMaxWidth.wide,
+    margin: '0 auto',
+    paddingLeft: headerPaddingX,
+    paddingRight: headerPaddingX,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',

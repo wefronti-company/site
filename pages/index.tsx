@@ -5,6 +5,7 @@ import ValoresCarousel from '../sections/ValoresCarousel';
 import Solucoes from '../sections/Solucoes';
 import Testimonials from '../sections/Testimonials';
 import Timeline from '../sections/Timeline';
+import Tecnologias from '../sections/Tecnologias';
 import Pricing from '../sections/Pricing';
 import Comparison from '../sections/Comparison';
 import Faq from '../sections/Faq';
@@ -58,6 +59,7 @@ const Home: React.FC = () => {
       <Solucoes />
       <Testimonials />
       <Timeline />
+      <Tecnologias />
       <Pricing />
       <Comparison />
       <Faq />

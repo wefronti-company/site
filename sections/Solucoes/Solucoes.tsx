@@ -7,7 +7,7 @@ import { Globe, Layout, MousePointer2, Package, Plug, Wrench, ArrowRight } from 
 import type { LucideIcon } from 'lucide-react';
 import { FiFigma } from 'react-icons/fi';
 
-const { colors, spacing, fontSizes, radii } = theme;
+const { colors, spacing, fontSizes, radii, containerMaxWidth } = theme;
 const LIVE_ACCENT = '#7ad49dAF';
 const LIVE_ACCENT_SOLID = '#5C9369';
 const LIVE_TEXT_MUTED = '#6BB58A';
@@ -66,6 +66,8 @@ const sectionStyleBase: React.CSSProperties = {
 
 const innerStyleBase: React.CSSProperties = {
   width: '100%',
+  maxWidth: containerMaxWidth.wide,
+  margin: '0 auto',
   display: 'flex',
   flexDirection: 'column',
   gap: spacing[12],
@@ -93,7 +95,7 @@ const titleStyle: React.CSSProperties = {
   letterSpacing: '-0.02em',
   color: colors.text.primary,
   margin: 0,
-  textAlign: 'left',
+  textAlign: 'center',
 };
 
 /** Palavra destacada no título: serif italic (mesmo estilo da Hero) */
@@ -119,14 +121,14 @@ const introStyle: React.CSSProperties = {
   color: colors.text.primary,
   opacity: 0.88,
   margin: 0,
-  textAlign: 'left',
-  maxWidth: 720,
+  textAlign: 'center',
+  maxWidth: 900,
 };
 
 const headerStyle: React.CSSProperties = {
   display: 'flex',
   flexDirection: 'column',
-  alignItems: 'flex-start',
+  alignItems: 'center',
   gap: spacing[6],
 };
 
@@ -152,7 +154,7 @@ const liveBrowserStyle: React.CSSProperties = {
   aspectRatio: '16 / 9',
   borderRadius: 16,
   border: `1px solid ${colors.neutral.border}`,
-  background: LIVE_SURFACE,
+  background: colors.text.primary,
   backgroundClip: 'padding-box',
   overflow: 'hidden',
   display: 'grid',
@@ -165,7 +167,7 @@ const liveBrowserTopStyle: React.CSSProperties = {
   gap: 6,
   padding: '0 10px',
   borderBottom: `1px solid ${colors.neutral.border}`,
-  background: LIVE_SURFACE,
+  background: colors.text.primary,
 };
 
 const liveDotStyle: React.CSSProperties = {
@@ -197,7 +199,7 @@ const liveSkeletonLineStyle = (width: string): React.CSSProperties => ({
   width,
   height: 6,
   borderRadius: 999,
-  background: 'rgba(15, 23, 42, 0.12)',
+  background: 'rgba(255, 255, 255, 0.2)',
 });
 
 const liveProductsRowStyle: React.CSSProperties = {
@@ -209,7 +211,7 @@ const liveProductsRowStyle: React.CSSProperties = {
 const liveProductCardStyle: React.CSSProperties = {
   borderRadius: 10,
   border: `1px solid ${colors.neutral.border}`,
-  background: colors.text.primary,
+  background: LIVE_SURFACE,
   padding: spacing[2],
   display: 'grid',
   gap: 6,
@@ -246,7 +248,7 @@ const livePedidoBadgeStyle: React.CSSProperties = {
   bottom: spacing[3],
   borderRadius: 999,
   border: `1px solid ${LIVE_ACCENT}`,
-  background: '#F8FFFB',
+  background: colors.text.primary,
   color: LIVE_TEXT_MUTED,
   fontSize: 10,
   fontWeight: 600,
@@ -255,7 +257,7 @@ const livePedidoBadgeStyle: React.CSSProperties = {
 
 const liveWebHeroBlockStyle: React.CSSProperties = {
   borderRadius: 10,
-  background: '#F8FFFB',
+  background: colors.text.primary,
   border: `1px solid ${LIVE_ACCENT}`,
   padding: '10px 12px',
   display: 'grid',
@@ -265,7 +267,7 @@ const liveWebHeroBlockStyle: React.CSSProperties = {
 const liveWebProductCardStyle: React.CSSProperties = {
   borderRadius: 10,
   border: `1px solid ${LIVE_ACCENT}`,
-  background: '#F8FFFB',
+  background: colors.text.primary,
   padding: spacing[2],
   display: 'grid',
   gap: 6,
@@ -295,7 +297,7 @@ const liveSystemKpisStyle: React.CSSProperties = {
 const liveSystemKpiCardStyle: React.CSSProperties = {
   borderRadius: 8,
   border: `1px solid ${LIVE_ACCENT}`,
-  background: '#F8FFFB',
+  background: colors.text.primary,
   padding: '6px 8px',
   display: 'grid',
   gap: 4,
@@ -312,7 +314,7 @@ const liveSystemChartStyle: React.CSSProperties = {
   height: 56,
   borderRadius: 10,
   border: `1px solid ${LIVE_ACCENT}`,
-  background: '#F8FFFB',
+  background: colors.text.primary,
   padding: '8px 10px',
   display: 'flex',
   alignItems: 'flex-end',
@@ -337,7 +339,7 @@ const liveSystemNodeStyle: React.CSSProperties = {
   height: 16,
   borderRadius: '50%',
   border: `1px solid ${LIVE_ACCENT}`,
-  background: '#F8FFFB',
+  background: colors.text.primary,
 };
 
 const liveSystemFlowLineStyle: React.CSSProperties = {
@@ -350,7 +352,7 @@ const liveSystemFlowLineStyle: React.CSSProperties = {
 const liveApiHeaderStyle: React.CSSProperties = {
   borderRadius: 8,
   border: `1px solid ${LIVE_ACCENT}`,
-  background: '#F8FFFB',
+  background: colors.text.primary,
   padding: '6px 8px',
   display: 'grid',
   gridTemplateColumns: '1fr auto',
@@ -373,7 +375,7 @@ const liveApiFlowAreaStyle: React.CSSProperties = {
   height: 94,
   borderRadius: 10,
   border: `1px solid ${LIVE_ACCENT}`,
-  background: '#F8FFFB',
+  background: colors.text.primary,
   overflow: 'hidden',
 };
 
@@ -384,7 +386,7 @@ const liveApiServiceCardStyle = (left: string, top: string, width: string): Reac
   width,
   borderRadius: 7,
   border: `1px solid ${LIVE_ACCENT}`,
-  background: '#F8FFFB',
+  background: colors.text.primary,
   padding: '4px 6px',
   display: 'grid',
   gap: 4,
@@ -398,7 +400,7 @@ const liveApiSystemCardStyle: React.CSSProperties = {
   width: 64,
   borderRadius: 8,
   border: `1px solid ${LIVE_ACCENT}`,
-  background: '#F1FFF6',
+  background: colors.text.primary,
   padding: '5px 7px',
   display: 'grid',
   gap: 4,
@@ -443,7 +445,7 @@ const liveSupportGridStyle: React.CSSProperties = {
 const liveSupportCardStyle: React.CSSProperties = {
   borderRadius: 8,
   border: `1px solid ${LIVE_ACCENT}`,
-  background: '#F8FFFB',
+  background: colors.text.primary,
   padding: '6px 8px',
   display: 'grid',
   gap: 4,
@@ -461,7 +463,7 @@ const liveSupportStatusListStyle: React.CSSProperties = {
   gap: 6,
   borderRadius: 10,
   border: `1px solid ${LIVE_ACCENT}`,
-  background: '#F8FFFB',
+  background: colors.text.primary,
   padding: '8px 10px',
 };
 
@@ -489,7 +491,7 @@ const liveSaasPlansRowStyle: React.CSSProperties = {
 const liveSaasPlanCardStyle: React.CSSProperties = {
   borderRadius: 8,
   border: `1px solid ${LIVE_ACCENT}`,
-  background: '#F8FFFB',
+  background: colors.text.primary,
   padding: '6px 8px',
   display: 'grid',
   gap: 4,
@@ -498,7 +500,7 @@ const liveSaasPlanCardStyle: React.CSSProperties = {
 const liveSaasMrrStyle: React.CSSProperties = {
   borderRadius: 10,
   border: `1px solid ${LIVE_ACCENT}`,
-  background: '#F8FFFB',
+  background: colors.text.primary,
   padding: '8px 10px',
   display: 'grid',
   gap: 6,
@@ -529,7 +531,7 @@ const liveFigmaBoardStyle: React.CSSProperties = {
   height: 98,
   borderRadius: 10,
   border: `1px solid ${LIVE_ACCENT}`,
-  background: '#F8FFFB',
+  background: colors.text.primary,
   overflow: 'hidden',
 };
 
@@ -541,7 +543,7 @@ const liveFigmaFrameStyle = (left: string, top: string, w: string, h: string): R
   height: h,
   borderRadius: 8,
   border: `1px solid ${LIVE_ACCENT}`,
-  background: '#F8FFFB',
+  background: colors.text.primary,
   padding: 6,
   display: 'grid',
   gap: 4,
@@ -555,7 +557,7 @@ const liveFigmaNodeStyle = (left: string, top: string): React.CSSProperties => (
   height: 10,
   borderRadius: '50%',
   border: `1px solid ${LIVE_ACCENT}`,
-  background: '#F8FFFB',
+  background: colors.text.primary,
 });
 
 const liveFigmaDraggableStyle: React.CSSProperties = {
@@ -565,7 +567,7 @@ const liveFigmaDraggableStyle: React.CSSProperties = {
   minWidth: 44,
   borderRadius: 6,
   border: `1px solid ${LIVE_ACCENT}`,
-  background: '#F1FFF6',
+  background: colors.text.primary,
   color: LIVE_TEXT_MUTED,
   fontSize: 9,
   fontWeight: 600,
@@ -632,7 +634,7 @@ interface SolucoesProps {
 
 const Solucoes: React.FC<SolucoesProps> = ({ conteudo }) => {
   const isMd = useMediaQuery(theme.breakpoints.md);
-  const sectionPaddingX = isMd ? spacing[10] : spacing[4];
+  const sectionPaddingX = isMd ? spacing[12] : spacing[4];
 
   const badge = (conteudo?.badge != null ? String(conteudo.badge) : '') || 'Soluções';
   const titulo = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'Nossas soluções';
@@ -1086,7 +1088,7 @@ const Solucoes: React.FC<SolucoesProps> = ({ conteudo }) => {
             />
             {badge}
           </span>
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: spacing[4] }}>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: spacing[4] }}>
             <h2 id="solucoes-heading" style={titleStyle}>
               {renderSolucoesTitle(titulo)}
             </h2>

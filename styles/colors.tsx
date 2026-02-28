@@ -1,5 +1,5 @@
 /** Gradiente verde baseado na paleta da imagem: off-white verde → amarelo-esverdeado → amarelo pastel */
-export const BACKGROUND_GRADIENT = 'linear-gradient(135deg, #F8FFF8 0%, #F2FFEB 25%, #EEFFE5 50%, #F0FFE8 75%, #FFFACD 100%)';
+export const BACKGROUND_GRADIENT = 'linear-gradient(135deg,rgb(210, 247, 198) 0%,rgba(249, 255, 246, 0.81) 25%,rgb(249, 255, 246, 0.81) 50%,rgb(249, 255, 246, 0.81) 75%,rgb(210, 247, 198) 100%)';
 
 export const colors = {
   background: {

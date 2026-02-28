@@ -47,6 +47,18 @@ body:not(.admin-route)::before {
   background-repeat: repeat;
   animation: noise-chuvisco 3s ease-in-out infinite;
 }
+body:not(.admin-route)::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background-image: url('/images/brand/asset-asterisk.svg'), url('/images/brand/asset-asterisk.svg');
+  background-repeat: no-repeat, no-repeat;
+  background-position: right bottom, left top;
+  background-size: clamp(140px, 20vw, 300px), clamp(84px, 11vw, 160px);
+  opacity: 0.55;
+}
 @keyframes noise-chuvisco {
   0%, 100% { opacity: 0.18; }
   50% { opacity: 0.24; }
@@ -59,6 +71,8 @@ button, input, select, textarea {
   overflow-x: hidden;
   background: transparent;
   padding-bottom: 80px;
+  position: relative;
+  z-index: 3;
 }
 
 /* Painel admin: fundo unificado (admin.background) */
@@ -221,6 +235,7 @@ button:focus-visible, a:focus-visible, [role="button"]:focus-visible, summary:fo
 }
 @media (prefers-reduced-motion: reduce) {
   body:not(.admin-route)::before { animation: none !important; }
+  body:not(.admin-route)::after { opacity: 0.55; }
   .cta-gradient-animated { animation: none !important; }
   .animate-float { animation: none !important; }
   .hero-chip-float { animation: none !important; }

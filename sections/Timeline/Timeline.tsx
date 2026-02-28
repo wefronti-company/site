@@ -76,7 +76,9 @@ const headerStyle: React.CSSProperties = {
 
 const DOT_SIZE = 14;
 const DOT_ROW_HEIGHT = 14;
-const LINE_TOP = DOT_ROW_HEIGHT / 2;
+const STEP_NUMBER_SIZE = 34;
+const STEP_NUMBER_DOT_GAP = spacing[3];
+const LINE_TOP = STEP_NUMBER_SIZE + STEP_NUMBER_DOT_GAP + DOT_ROW_HEIGHT / 2;
 const TIMELINE_DOT_SOLID = '#5C9369';
 
 const timelineWrapStyle: React.CSSProperties = {
@@ -131,6 +133,22 @@ const dotStyle: React.CSSProperties = {
   borderRadius: '50%',
   backgroundColor: TIMELINE_DOT_SOLID,
  
+};
+
+const stepNumberStyle: React.CSSProperties = {
+  width: STEP_NUMBER_SIZE,
+  height: STEP_NUMBER_SIZE,
+  borderRadius: '50%',
+  border: `1px solid ${TIMELINE_DOT_SOLID}`,
+  background: '#F8FFFB',
+  color: TIMELINE_DOT_SOLID,
+  fontSize: fontSizes.sm,
+  fontWeight: 700,
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  lineHeight: 1,
+  flexShrink: 0,
 };
 
 const stepContentMaxWidth = 320;
@@ -243,6 +261,14 @@ const Timeline: React.FC<TimelineProps> = ({ conteudo }) => {
       position: 'relative' as const,
       zIndex: 1,
     };
+    const mobileDotStackStyle: React.CSSProperties = {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      gap: spacing[2],
+      flexShrink: 0,
+      minWidth: STEP_NUMBER_SIZE,
+    };
     const mobileStepIconStyle: React.CSSProperties = {
       ...stepIconStyle,
       marginTop: 0,
@@ -292,8 +318,11 @@ const Timeline: React.FC<TimelineProps> = ({ conteudo }) => {
                 const isLast = index === steps.length - 1;
                 return (
                   <li key={index} style={mobileStepRowStyle}>
-                    <div ref={isFirst ? firstDotRef : isLast ? lastDotRef : undefined} style={mobileDotWrapStyle}>
-                      <span style={dotStyle} aria-hidden />
+                    <div style={mobileDotStackStyle}>
+                      <span style={stepNumberStyle} aria-hidden>{index + 1}</span>
+                      <div ref={isFirst ? firstDotRef : isLast ? lastDotRef : undefined} style={mobileDotWrapStyle}>
+                        <span style={dotStyle} aria-hidden />
+                      </div>
                     </div>
                     <div style={mobileStepContentStyle}>
                       <div style={mobileTitleRowStyle}>
@@ -347,6 +376,7 @@ const Timeline: React.FC<TimelineProps> = ({ conteudo }) => {
               const Icon = step.Icon;
               return (
                 <li key={index} style={stepColumnStyle}>
+                  <span style={stepNumberStyle} aria-hidden>{index + 1}</span>
                   <div style={dotRowWrapperStyle}>
                     <span style={dotStyle} aria-hidden />
                   </div>

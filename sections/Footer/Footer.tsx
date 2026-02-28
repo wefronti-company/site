@@ -18,14 +18,20 @@ interface FooterProps {
 
 const Footer: React.FC<FooterProps> = ({ conteudo }) => {
   const isMd = useMediaQuery(theme.breakpoints.md);
+  const pageBottomCompensation = 80;
 
   const redesLabel = (conteudo?.redesLabel != null ? String(conteudo.redesLabel) : '') || 'Nossas redes';
   const cnpjTexto = (conteudo?.cnpjTexto != null ? String(conteudo.cnpjTexto) : '') || 'CNPJ: 64.507.638/0001-04 | Wefronti Tecnologia Ltda';
 
   const footerStyle: React.CSSProperties = {
     width: '100%',
-    backgroundColor: 'transparent',
- 
+    background: 'rgba(255, 255, 255, 0.5)',
+    backdropFilter: 'saturate(150%) blur(14px)',
+    WebkitBackdropFilter: 'saturate(150%) blur(14px)',
+    borderTop: `1px solid ${colors.neutral.border}`,
+    boxShadow: '0 -8px 20px rgba(0, 0, 0, 0.04)',
+    marginBottom: -pageBottomCompensation,
+    paddingBottom: pageBottomCompensation,
   };
 
   const headerPaddingX = isMd ? spacing[12] : spacing[4];

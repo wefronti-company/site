@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, useMotionValue, useSpring, useTransform, type MotionValue } from 'framer-motion';
-import { Rocket, Heart } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Rocket, Heart, TrendingUp, DollarSign } from 'lucide-react';
 import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 import ButtonCta from '../../components/ui/ButtonCta';
@@ -13,8 +13,9 @@ const heroSectionStyleBase: React.CSSProperties = {
   background: 'transparent',
   zIndex: 25,
   display: 'flex',
-  flexDirection: 'row',
+  flexDirection: 'column',
   alignItems: 'center',
+  justifyContent: 'center',
   overflow: 'hidden',
 };
 
@@ -24,8 +25,10 @@ const heroContentStyleBase: React.CSSProperties = {
   display: 'flex',
   flexDirection: 'column',
   gap: spacing[8],
-  alignItems: 'flex-start',
-  textAlign: 'left',
+  alignItems: 'center',
+  textAlign: 'center',
+  width: '100%',
+  maxWidth: 1120,
 };
 
 const heroTitleStyle: React.CSSProperties = {
@@ -74,7 +77,7 @@ interface HeroProps {
 const HERO_BADGES: Array<{
   id: string;
   title: string;
-  iconType: 'rocket' | 'dollar' | 'heart';
+  iconType: 'rocket' | 'dollar' | 'heart' | 'trend';
   top: string;
   left: string;
   floatDuration: number;
@@ -85,31 +88,41 @@ const HERO_BADGES: Array<{
     id: 'tech',
     title: 'Tecnologia para escalar',
     iconType: 'rocket',
-    top: '8%',
+    top: '24%',
     left: '4%',
     floatDuration: 4.8,
     floatOffset: 10,
     parallaxFactor: 0.35,
   },
   {
-    id: 'strategy',
-    title: 'Estratégia para converter',
-    iconType: 'dollar',
-    top: '42%',
-    left: '26%',
-    floatDuration: 5.4,
-    floatOffset: 12,
-    parallaxFactor: 0.5,
+    id: 'roi',
+    title: 'ROI para crescer',
+    iconType: 'trend',
+    top: '54%',
+    left: '8%',
+    floatDuration: 5.1,
+    floatOffset: 11,
+    parallaxFactor: 0.45,
   },
   {
     id: 'design',
     title: 'Design para impressionar',
     iconType: 'heart',
-    top: '74%',
-    left: '10%',
+    top: '20%',
+    left: '89%',
     floatDuration: 4.9,
     floatOffset: 11,
     parallaxFactor: 0.42,
+  },
+  {
+    id: 'strategy',
+    title: 'Estratégia para converter',
+    iconType: 'dollar',
+    top: '58%',
+    left: '87%',
+    floatDuration: 5.4,
+    floatOffset: 12,
+    parallaxFactor: 0.5,
   },
 ];
 
@@ -117,23 +130,15 @@ interface HeroBadgeProps {
   badge: (typeof HERO_BADGES)[number];
   idx: number;
   hasEntered: boolean;
-  smoothX: MotionValue<number>;
-  smoothY: MotionValue<number>;
 }
 
-const HeroBadge: React.FC<HeroBadgeProps> = ({ badge, idx, hasEntered, smoothX, smoothY }) => {
-  const parallaxX = useTransform(smoothX, (v) => v * badge.parallaxFactor);
-  const parallaxY = useTransform(smoothY, (v) => v * badge.parallaxFactor);
-
+const HeroBadge: React.FC<HeroBadgeProps> = ({ badge, idx, hasEntered }) => {
   return (
     <motion.div
       style={{
         position: 'absolute',
         top: badge.top,
         left: badge.left,
-        width: 'min(320px, 92%)',
-        x: parallaxX,
-        y: parallaxY,
       }}
       initial={{ opacity: 0, scale: 0.98 }}
       animate={{ opacity: hasEntered ? 1 : 0, scale: hasEntered ? 1 : 0.98 }}
@@ -142,15 +147,16 @@ const HeroBadge: React.FC<HeroBadgeProps> = ({ badge, idx, hasEntered, smoothX, 
       <motion.div
         style={{
           border: `1px solid ${colors.neutral.border}`,
-          borderRadius: radii.full,
-          padding: `${spacing[5]}px ${spacing[5]}px`,
+          borderRadius: '50%',
+          width: 78,
+          height: 78,
           background: 'rgba(255, 255, 255, 0.5)',
           backdropFilter: 'saturate(150%) blur(14px)',
           WebkitBackdropFilter: 'saturate(150%) blur(14px)',
           boxShadow: '0 10px 28px rgba(0, 0, 0, 0.08)',
           display: 'flex',
           alignItems: 'center',
-          gap: spacing[3],
+          justifyContent: 'center',
         }}
         animate={{ y: [0, -badge.floatOffset, 0] }}
         transition={{
@@ -176,22 +182,13 @@ const HeroBadge: React.FC<HeroBadgeProps> = ({ badge, idx, hasEntered, smoothX, 
           {badge.iconType === 'rocket' ? (
             <Rocket size={22} color="#059669" strokeWidth={2} />
           ) : badge.iconType === 'dollar' ? (
-            <span style={{ fontSize: 24, lineHeight: 1, color: '#059669', fontWeight: 700 }}>$</span>
+            <DollarSign size={22} color="#059669" strokeWidth={2} />
+          ) : badge.iconType === 'trend' ? (
+            <TrendingUp size={22} color="#059669" strokeWidth={2} />
           ) : (
             <Heart size={22} color="#059669" strokeWidth={2} />
           )}
         </div>
-        <span
-          style={{
-            fontSize: '1.08rem',
-            lineHeight: 1.3,
-            color: colors.text.primary,
-            fontWeight: 500,
-            letterSpacing: '0.01em',
-          }}
-        >
-          {badge.title}
-        </span>
       </motion.div>
     </motion.div>
   );
@@ -201,11 +198,6 @@ const Hero: React.FC<HeroProps> = ({ conteudo }) => {
   const isMd = useMediaQuery(theme.breakpoints.md);
   const [hasEntered, setHasEntered] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
-  const rightRef = useRef<HTMLDivElement>(null);
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-  const smoothX = useSpring(mouseX, { stiffness: 85, damping: 22, mass: 0.9 });
-  const smoothY = useSpring(mouseY, { stiffness: 85, damping: 22, mass: 0.9 });
 
   const tituloRaw = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'Produtos digitais de elite. Do site institucional ao sistema complexo, tudo com 100% de código e zero limitações.';
   const subtitulo = (conteudo?.subtitulo != null ? String(conteudo.subtitulo) : '') || 'Unimos estratégia de negócio, design de alta conversão e engenharia de software pura para criar ativos que não precisam ser refeitos. Chega de templates lentos: entregamos performance real e controle total sobre o seu projeto.';
@@ -213,13 +205,14 @@ const Hero: React.FC<HeroProps> = ({ conteudo }) => {
 
   const heroSectionStyle: React.CSSProperties = {
     ...heroSectionStyleBase,
-    padding: isMd ? spacing[10] : spacing[4],
+    padding: isMd ? spacing[12] : spacing[4],
     paddingBottom: isMd ? spacing[10] : spacing[6],
     borderBottomLeftRadius: isMd ? 48 : 28,
     borderBottomRightRadius: isMd ? 48 : 28,
   };
   const heroContentStyle: React.CSSProperties = {
     ...heroContentStyleBase,
+    maxWidth: isMd ? 1040 : 720,
   };
 
   useEffect(() => {
@@ -242,45 +235,17 @@ const Hero: React.FC<HeroProps> = ({ conteudo }) => {
     };
   }, [hasEntered]);
 
-  const heroLeftStyle: React.CSSProperties = {
-    flex: isMd ? '0 0 65%' : '1 1 100%',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-  };
-  const heroRightStyle: React.CSSProperties = {
-    flex: isMd ? '0 0 35%' : '0 0 0',
-    display: isMd ? 'flex' : 'none',
-    position: 'relative',
-    minHeight: 420,
-    alignItems: 'center',
-    justifyContent: 'center',
-  };
-
-  const heroRightSceneStyle: React.CSSProperties = {
-    position: 'relative',
+  const badgesLayerStyle: React.CSSProperties = {
+    position: 'absolute',
+    inset: 0,
     width: '100%',
     height: '100%',
-    minHeight: 420,
-  };
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!rightRef.current) return;
-    const rect = rightRef.current.getBoundingClientRect();
-    const nx = (e.clientX - rect.left) / rect.width - 0.5;
-    const ny = (e.clientY - rect.top) / rect.height - 0.5;
-    mouseX.set(nx * 22);
-    mouseY.set(ny * 22);
-  };
-
-  const handleMouseLeave = () => {
-    mouseX.set(0);
-    mouseY.set(0);
+    pointerEvents: 'none',
+    zIndex: 1,
   };
 
   return (
     <section ref={sectionRef} id="hero" style={heroSectionStyle}>
-      <div style={heroLeftStyle}>
       <div style={heroContentStyle}>
         <motion.h1
           initial={{ opacity: 0, y: 24 }}
@@ -301,7 +266,7 @@ const Hero: React.FC<HeroProps> = ({ conteudo }) => {
         </motion.p>
 
         <motion.div
-          style={{ display: 'flex', flexWrap: 'wrap', gap: spacing[4], alignItems: 'center' }}
+          style={{ display: 'flex', flexWrap: 'wrap', gap: spacing[4], alignItems: 'center', justifyContent: 'center' }}
           initial={{ opacity: 0, y: 16 }}
           animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
           transition={{ duration: 0.5, ease: 'easeOut', delay: 0.5 }}
@@ -309,27 +274,18 @@ const Hero: React.FC<HeroProps> = ({ conteudo }) => {
           <ButtonCta>{botaoPrincipal}</ButtonCta>
         </motion.div>
       </div>
-      </div>
-      <div
-        ref={rightRef}
-        style={heroRightStyle}
-        aria-hidden
-        onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
-      >
-        <div style={heroRightSceneStyle}>
+      {isMd ? (
+        <div style={badgesLayerStyle} aria-hidden>
           {HERO_BADGES.map((badge, idx) => (
             <HeroBadge
               key={badge.id}
               badge={badge}
               idx={idx}
               hasEntered={hasEntered}
-              smoothX={smoothX}
-              smoothY={smoothY}
             />
           ))}
         </div>
-      </div>
+      ) : null}
     </section>
   );
 };
