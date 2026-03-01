@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
-import { Globe, Layout, MousePointer2, Package, Plug, Wrench } from 'lucide-react';
+import { Database, Globe, Layers, Layout, Monitor, MousePointer2, Package, Plug, ShieldCheck, Unlink, Webhook, Wrench } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { FiFigma } from 'react-icons/fi';
 
@@ -21,19 +21,19 @@ const SOLUCOES: {
   {
     titulo: 'Desenvolvimento Web',
     descricao: 'Criamos sites e landing pages que carregam em milissegundos. Focando em uma boa copy, responsividade e SEO avançado para transformar seus visitantes em clientes recorrentes.',
-    Icon: Globe,
+    Icon: Monitor,
     slug: 'desenvolvimento-web',
   },
   {
     titulo: 'Softwares e sistemas',
     descricao: 'Desenvolvemos sistemas personalizados, CRMs e aplicações web para automatizar fluxos complexos. Substitua processos manuais por tecnologia escalável que centraliza sua operação e elimina erros.',
-    Icon: Layout,
+    Icon: Database,
     slug: 'softwares-e-sistemas',
   },
   {
     titulo: 'Micro-saas',
     descricao: 'Transformamos sua ideia em um software como serviço (SaaS) pronto para o mercado. Focamos em arquitetura leve e escalável para você validar modelos de negócio, monetizar sua visão e crescer com baixo custo fixo.',
-    Icon: Package,
+    Icon: Layers,
     slug: 'micro-saas',
   },
   {
@@ -45,13 +45,13 @@ const SOLUCOES: {
   {
     titulo: 'Integração e APIs',
     descricao: 'Unificamos seu negócio conectando sistemas, automações e fluxos de dados via APIs e webhooks. Eliminamos gargalos operacionais para criar um ambiente digital inteligente, fluido e totalmente integrado.',
-    Icon: Plug,
+    Icon: Unlink,
     slug: 'integracao-e-apis',
   },
   {
     titulo: 'Manutenção e suporte',
     descricao: 'Garantimos que sua tecnologia nunca fique obsoleta. Com monitoramento em tempo real, atualizações de segurança e melhorias constantes, mantemos seu sistema performando em nível máximo 24/7.',
-    Icon: Wrench,
+    Icon: ShieldCheck,
     slug: 'manutencao-e-suporte',
   },
 ];

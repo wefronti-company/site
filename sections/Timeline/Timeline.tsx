@@ -1,19 +1,20 @@
 import React, { useRef, useState, useLayoutEffect } from 'react';
-import { MessageCircle, ClipboardList, Code2, Rocket, Headphones } from 'lucide-react';
+import { MessageCircle, ClipboardList, Code2, Rocket, Headphones, Search, Map, LifeBuoy, Code } from 'lucide-react';
 import { radii, theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 import ButtonCta from '../../components/ui/ButtonCta';
+import { BiPulse } from 'react-icons/bi';
 
 const { colors, spacing, fontSizes, containerMaxWidth } = theme;
 
 type StepIcon = React.ComponentType<{ size?: number; className?: string }>;
 
 const TIMELINE_STEPS: { title: string; description: string; Icon: StepIcon }[] = [
-  { title: 'Onboarding', description: 'Começamos com imersão no seu cenário para entender metas, público e oportunidades. Assim, definimos a direção certa da solução desde o primeiro passo.', Icon: MessageCircle },
-  { title: 'Planejamento', description: 'Estruturamos a solução com foco em resultado: páginas, fluxos, conteúdo e CTAs organizados para transformar tráfego em oportunidade real de negócio.', Icon: ClipboardList },
-  { title: 'Desenvolvimento', description: 'Implementamos com tecnologia robusta, performance alta e SEO técnico, garantindo uma base sólida para escalar sua presença digital com segurança.', Icon: Code2 },
-  { title: 'Lançamento', description: 'Publicamos com validação completa, ajustes finais e monitoramento inicial para que sua solução entre no ar pronta para performar desde o dia um.', Icon: Rocket },
-  { title: 'Suporte', description: 'Após o lançamento, seguimos evoluindo com otimizações contínuas, melhorias orientadas por dados e suporte próximo para manter crescimento consistente.', Icon: Headphones },
+  { title: 'Onboarding', description: 'Começamos com uma imersão profunda no seu modelo de negócio para alinhar metas, identificar gargalos e definir os requisitos críticos para o sucesso do produto.', Icon: Search },
+  { title: 'Planejamento', description: 'Estruturamos a arquitetura da solução focada em escalabilidade: mapeamos fluxos de usuários, regras de negócio e integrações necessárias para transformar sua visão em realidade.', Icon: Map },
+  { title: 'Desenvolvimento', description: 'Implementamos código limpo e infraestrutura robusta. Focamos em performance, segurança e uma arquitetura modular que permite que o software evolua sem precisar ser refeito.', Icon: Code },
+  { title: 'Lançamento', description: 'Realizamos testes rigorosos de QA e carga antes do deploy. Publicamos sua solução com monitoramento ativo para garantir que a transição seja suave e a performance seja máxima desde o minuto zero.', Icon: Rocket },
+  { title: 'Suporte', description: 'Tecnologia não é estática. Mantemos um suporte próximo para otimizações orientadas por dados, atualizações de segurança e novas funcionalidades que mantenham sua vantagem competitiva.', Icon: BiPulse },
 ];
 
 const sectionStyleBase: React.CSSProperties = {
@@ -200,8 +201,8 @@ const Timeline: React.FC<TimelineProps> = ({ conteudo }) => {
   const [mobileLineBounds, setMobileLineBounds] = useState({ top: 0, height: 0 });
 
   const badge = (conteudo?.badge != null ? String(conteudo.badge) : '') || 'Como funciona';
-  const titulo = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'Um processo sem surpresas, do início ao resultado';
-  const subtitulo = (conteudo?.subtitulo != null ? String(conteudo.subtitulo) : '') || 'Cada fase do nosso processo foi pensada para eliminar retrabalho, garantir qualidade e entregar um site que trabalha por você todos os dias.';
+  const titulo = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'Um processo transparente, da visão ao produto escalável.';
+  const subtitulo = (conteudo?.subtitulo != null ? String(conteudo.subtitulo) : '') || 'Eliminamos o retrabalho com uma metodologia validada para garantir que sua tecnologia suporte o crescimento do seu negócio em cada etapa.';
   const botao = (conteudo?.botao != null ? String(conteudo.botao) : '') || 'Iniciar um projeto';
   const passos = Array.isArray(conteudo?.passos) ? (conteudo.passos as { titulo?: string; descricao?: string }[]) : null;
   const steps = passos && passos.length > 0

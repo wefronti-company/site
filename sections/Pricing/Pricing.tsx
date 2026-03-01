@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { CheckCircle2, Globe, Layout, Package, Plug } from 'lucide-react';
+import { CheckCircle2, Database, Globe, Layers, Layout, Monitor, Package, Plug, Unlink } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
@@ -12,7 +12,7 @@ const PRICING_OPTIONS = [
   {
     key: 'desenvolvimento-web',
     title: 'Desenvolvimento Web',
-    Icon: Globe,
+    Icon: Monitor,
     description:
       'Para empresas que precisam de presença digital com foco em resultado: sites estratégicos e lojas virtuais preparadas para converter.',
     price: '4.490,00',
@@ -30,7 +30,7 @@ const PRICING_OPTIONS = [
   {
     key: 'integracoes',
     title: 'Integrações & APIs',
-    Icon: Plug,
+    Icon: Unlink,
     description:
       'Ideal para conectar ferramentas e automatizar operações: Gateways de pagamento, CRM, ERP, webhooks e fluxos internos.',
     price: 'Consultar',
@@ -47,7 +47,7 @@ const PRICING_OPTIONS = [
   {
     key: 'micro-saas',
     title: 'Micro-SaaS',
-    Icon: Package,
+    Icon: Layers,
     description:
       'Para validar e lançar produto digital escalável com cobrança recorrente, painel de cliente e base técnica para crescimento e pronto para escalar.',
     price: 'Consultar',
@@ -64,7 +64,7 @@ const PRICING_OPTIONS = [
   {
     key: 'sistemas',
     title: 'Sistemas',
-    Icon: Layout,
+    Icon: Database,
     description:
       'Para empresas que precisam de sistema sob medida: rastreio de encomendas, sistema interno, painel operacional e gestão personalizada.',
     price: 'Consultar',
@@ -327,6 +327,7 @@ const Pricing: React.FC<PricingProps> = ({ conteudo }) => {
     body.style.width = '100%';
 
     body.classList.toggle('pricing-modal-open', isModalOpen);
+    window.dispatchEvent(new CustomEvent('pricing-modal-visibility-change', { detail: isModalOpen }));
 
     return () => {
       html.style.overflow = '';
@@ -338,6 +339,7 @@ const Pricing: React.FC<PricingProps> = ({ conteudo }) => {
       body.style.width = '';
       window.scrollTo(0, lockedScrollYRef.current);
       body.classList.remove('pricing-modal-open');
+      window.dispatchEvent(new CustomEvent('pricing-modal-visibility-change', { detail: false }));
     };
   }, [isModalOpen]);
 
