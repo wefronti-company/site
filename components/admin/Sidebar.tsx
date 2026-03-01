@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { LayoutDashboard, FileText, FileX, PlusCircle, User, ShieldPlus, Inbox, CheckCircle } from 'lucide-react';
+import { LayoutDashboard, FileText, FileX, PlusCircle, User, ShieldPlus, Inbox, CheckCircle, MessageSquare } from 'lucide-react';
 import { theme } from '../../styles/theme';
 
 const { colors, spacing, fontSizes, radii } = theme;
@@ -19,6 +19,7 @@ const PROPOSTA_ITEMS = [
 const FORM_ITEMS = [
   { label: 'Novos orçamentos', href: '/admin/dashboard/form/novos', icon: <Inbox size={16} strokeWidth={1.5} /> },
   { label: 'Respondidos', href: '/admin/dashboard/form/respondidos', icon: <CheckCircle size={16} strokeWidth={1.5} /> },
+  { label: 'Contato', href: '/admin/dashboard/form/contato', icon: <MessageSquare size={16} strokeWidth={1.5} /> },
 ];
 
 const sidebarStyle: React.CSSProperties = {

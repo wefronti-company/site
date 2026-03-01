@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { radii } from '@/styles/theme';
 import { useScrollToSection } from '../../hooks/useScrollToSection';
@@ -12,6 +13,8 @@ interface ButtonCtaProps {
   className?: string;
   /** When true, renders an icon-only button (no default padding, no arrow) */
   iconOnly?: boolean;
+  /** When provided, renders as Link to this href instead of button */
+  href?: string;
 }
 
 const ButtonCta: React.FC<ButtonCtaProps> = ({ 
@@ -21,7 +24,8 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
   type = 'button',
   disabled = false,
   className,
-  iconOnly = false
+  iconOnly = false,
+  href,
 }) => {
   const scrollToSection = useScrollToSection();
   const [isHovered, setIsHovered] = useState(false);
@@ -29,11 +33,90 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
   const handleClick = () => {
     if (onClick) {
       onClick();
-    } else if (type === 'button') {
+    } else if (type === 'button' && !href) {
       scrollToSection('precos');
     }
   };
-  
+
+  const content = (
+    <>
+      {iconOnly ? (
+        <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>
+          {children}
+        </span>
+      ) : (
+        <>
+          <span style={{ color: '#fff' }}>
+            {children || label || 'Contato'}
+          </span>
+          <span
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: 28,
+              height: 28,
+              borderRadius: '50%',
+              backgroundColor: 'rgba(255,255,255,0.95)',
+            }}
+          >
+            <span
+              style={{
+                display: 'inline-flex',
+                transition: 'transform 0.25s ease',
+                transform: isHovered ? 'rotate(-30deg)' : 'rotate(0deg)',
+              }}
+              aria-hidden
+            >
+              <ArrowRight size={16} color="#059669" strokeWidth={2.5} />
+            </span>
+          </span>
+        </>
+      )}
+    </>
+  );
+
+  if (href) {
+    return (
+      <Link
+        href={href}
+        onClick={onClick}
+        className={`cta-gradient-animated ${className ?? ''}`.trim()}
+        aria-label={label || (typeof children === 'string' ? children : 'CTA')}
+        style={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: 8,
+          borderRadius: radii.full,
+          padding: iconOnly ? 0 : '12px 24px',
+          color: '#fff',
+          fontSize: 16,
+          fontWeight: 500,
+          cursor: disabled ? 'not-allowed' : 'pointer',
+          opacity: disabled ? 0.5 : 1,
+          transition: 'opacity 0.2s, transform 0.2s, box-shadow 0.2s',
+          boxShadow: '0 2px 12px rgba(5, 150, 105, 0.35)',
+          textDecoration: 'none',
+        }}
+        onMouseEnter={(e) => {
+          if (!disabled) {
+            e.currentTarget.style.opacity = '0.95';
+            e.currentTarget.style.transform = 'translateY(-1px)';
+            e.currentTarget.style.boxShadow = '0 4px 20px rgba(5, 150, 105, 0.45)';
+          }
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.opacity = disabled ? '0.5' : '1';
+          e.currentTarget.style.transform = 'translateY(0)';
+          e.currentTarget.style.boxShadow = '0 2px 12px rgba(5, 150, 105, 0.35)';
+        }}
+      >
+        {content}
+      </Link>
+    );
+  }
+
   return (
     <button
       type={type}
@@ -71,39 +154,7 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
         e.currentTarget.style.boxShadow = '0 2px 12px rgba(5, 150, 105, 0.35)';
       }}
     >
-      {iconOnly ? (
-        <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>
-          {children}
-        </span>
-      ) : (
-        <>
-          <span style={{ color: '#fff' }}>
-            {children || label || 'Contato'}
-          </span>
-          <span
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              width: 28,
-              height: 28,
-              borderRadius: '50%',
-              backgroundColor: 'rgba(255,255,255,0.95)',
-            }}
-          >
-            <span
-              style={{
-                display: 'inline-flex',
-                transition: 'transform 0.25s ease',
-                transform: isHovered ? 'rotate(-30deg)' : 'rotate(0deg)',
-              }}
-              aria-hidden
-            >
-              <ArrowRight size={16} color="#059669" strokeWidth={2.5} />
-            </span>
-          </span>
-        </>
-      )}
+      {content}
     </button>
   );
 };

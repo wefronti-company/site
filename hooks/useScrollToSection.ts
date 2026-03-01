@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { useLenis } from 'lenis/react';
 
-const HEADER_OFFSET = 120; // espaço para o header fixo (badge visível)
+const HEADER_OFFSET = 5; // espaço entre o topo/header e o badge da seção
 
 /**
  * Retorna uma função para rolar até uma seção.

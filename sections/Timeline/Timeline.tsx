@@ -199,7 +199,7 @@ const Timeline: React.FC<TimelineProps> = ({ conteudo }) => {
   const lastDotRef = useRef<HTMLDivElement>(null);
   const [mobileLineBounds, setMobileLineBounds] = useState({ top: 0, height: 0 });
 
-  const badge = (conteudo?.badge != null ? String(conteudo.badge) : '') || 'Processo';
+  const badge = (conteudo?.badge != null ? String(conteudo.badge) : '') || 'Como funciona';
   const titulo = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'Um processo sem surpresas, do início ao resultado';
   const subtitulo = (conteudo?.subtitulo != null ? String(conteudo.subtitulo) : '') || 'Cada fase do nosso processo foi pensada para eliminar retrabalho, garantir qualidade e entregar um site que trabalha por você todos os dias.';
   const botao = (conteudo?.botao != null ? String(conteudo.botao) : '') || 'Quero um site que vende';

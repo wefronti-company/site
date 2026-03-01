@@ -12,12 +12,14 @@ const { colors, spacing, fontSizes, radii, containerMaxWidth } = theme;
 const DECRYPT_INTERVAL_MS = 78;
 const DECRYPT_CHARS = 'abcdefghijklmnopqrstuvwxyz';
 
-/** Links do menu — cada um leva à seção correspondente na página */
+/** Links do menu — seção (scroll) ou página (navegação) */
 const NAV_LINKS = [
-  { id: 'hero', label: 'Início', href: '/#hero' },
-  { id: 'depoimentos', label: 'Clientes', href: '/#depoimentos' },
-  { id: 'processo', label: 'Processos', href: '/#processo' },
-  { id: 'faq', label: 'FAQ', href: '/#faq' },
+  { id: 'hero', label: 'Início', href: '/#hero', isSection: true },
+  { id: 'solucoes', label: 'Soluções', href: '/#solucoes', isSection: true },
+  { id: 'depoimentos', label: 'Clientes', href: '/#depoimentos', isSection: true },
+  { id: 'precos', label: 'Preços', href: '/#precos', isSection: true },
+  { id: 'sobre', label: 'Sobre', href: '/sobre', isSection: false },
+  { id: 'faq', label: 'FAQ', href: '/#faq', isSection: true },
 ] as const;
 
 const Header: React.FC = () => {
@@ -87,9 +89,10 @@ const Header: React.FC = () => {
 
   const scrollToSection = useScrollToSection();
 
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string, isSection: boolean) => {
     if (typeof window === 'undefined') return;
     setMobileMenuOpen(false);
+    if (!isSection) return; // links de página: deixa o Link navegar normalmente
     const id = href.replace(/^.*#/, '') || 'hero';
     e.preventDefault();
     scrollToSection(id);
@@ -228,14 +231,14 @@ const Header: React.FC = () => {
 
           <div style={rightCellStyle}>
             <ul style={linkListStyle}>
-              {NAV_LINKS.map(({ id, label, href }) => {
+              {NAV_LINKS.map(({ id, label, href, isSection }) => {
                 return (
                   <li key={id}>
                     <Link
                       href={href}
                       className="header-nav-link"
                       style={linkStyle}
-                      onClick={(e) => handleNavClick(e, href)}
+                      onClick={(e) => handleNavClick(e, href, isSection)}
                       onMouseEnter={() => {
                         setHoveredLinkId(id);
                         handleLinkMouseEnter(id, label);
@@ -259,7 +262,7 @@ const Header: React.FC = () => {
               })}
             </ul>
             {isMd ? (
-              <ButtonCta className="header-user-btn">Contato</ButtonCta>
+              <ButtonCta href="/contato" className="header-user-btn">Contato</ButtonCta>
             ) : (
               <button
                 type="button"
@@ -343,7 +346,7 @@ const Header: React.FC = () => {
             pointerEvents: mobileMenuOpen ? 'auto' : 'none',
           }}
         >
-          {NAV_LINKS.map(({ id, label, href }) => (
+          {NAV_LINKS.map(({ id, label, href, isSection }) => (
             <Link
               key={id}
               href={href}
@@ -357,7 +360,7 @@ const Header: React.FC = () => {
                 alignItems: 'center',
                 gap: spacing[2],
               }}
-              onClick={(e) => handleNavClick(e, href)}
+              onClick={(e) => handleNavClick(e, href, isSection)}
             >
               <span>{label}</span>
               <ArrowRight size={18} color={colors.text.primary} style={{ flexShrink: 0 }} aria-hidden />
@@ -365,13 +368,11 @@ const Header: React.FC = () => {
           ))}
           <div style={{ paddingTop: spacing[2], width: '100%' }} onClick={() => setMobileMenuOpen(false)}>
             <ButtonCta
+              href="/contato"
               className="header-user-btn"
-              onClick={() => {
-                setMobileMenuOpen(false);
-                scrollToSection('precos');
-              }}
+              onClick={() => setMobileMenuOpen(false)}
             >
-              Quero um site que vende
+              Contato
             </ButtonCta>
           </div>
         </div>

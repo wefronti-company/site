@@ -33,8 +33,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(400).json({ error: 'status deve ser "novo" ou "respondido"' });
   }
 
+  const tipo = typeof req.query.tipo === 'string' ? req.query.tipo : undefined;
+  const excludeTipo = typeof req.query.excludeTipo === 'string' ? req.query.excludeTipo : undefined;
+
   try {
-    const items = await getRequests(status);
+    const items = await getRequests(status, { tipo, excludeTipo });
     return res.status(200).json(items);
   } catch (e) {
     console.error('[admin/requests]', e);

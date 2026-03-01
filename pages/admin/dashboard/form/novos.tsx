@@ -100,7 +100,7 @@ const NovoOrcamentoModal: React.FC<{
 }> = ({ request, onClose, onMarcarRespondido, loading }) => {
   if (!request) return null;
 
-  const whatsappUrl = buildWhatsAppUrl(request.whatsapp, `Olá ${request.nome}, vim pelo painel da Wefronti para falar sobre seu orçamento.`);
+  const whatsappUrl = buildWhatsAppUrl(request.whatsapp, `Olá ${request.nome}, recebemos seu contato para orçamento orçamento. Podemos conversar sobre o seu projeto?`);
   const mailto = `mailto:${request.email}?subject=Orçamento Wefronti`;
 
   const fieldStyle: React.CSSProperties = {
@@ -281,7 +281,7 @@ const NovosOrcamentosPage: React.FC = () => {
   const load = (opts?: { silent?: boolean }) => {
     const silent = opts?.silent ?? false;
     if (!silent) setLoading(true);
-    fetch('/api/admin/requests?status=novo')
+    fetch('/api/admin/requests?status=novo&excludeTipo=Contato')
       .then((r) => r.json())
       .then((data) => {
         const list = Array.isArray(data) ? data : [];

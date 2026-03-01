@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
 import AdminLayout from '../../../../components/admin/AdminLayout';
 import Pagination, { paginate } from '../../../../components/admin/Pagination';
+import ButtonPainel from '../../../../components/ui/ButtonPainel';
+import { useSnackbar } from '../../../../contexts/SnackbarContext';
 import { theme } from '../../../../styles/theme';
 import type { RequestRow } from '../../../../lib/requestDb';
-import { buildWhatsAppUrl } from '../../../../lib/whatsapp';
-import { CheckCircle2, X } from 'lucide-react';
-import { SiWhatsapp } from 'react-icons/si';
+import { X } from 'lucide-react';
 import { HiOutlineMail } from 'react-icons/hi';
 
 const { colors, spacing, fontSizes } = theme;
@@ -59,17 +59,19 @@ const cardMetaStyle: React.CSSProperties = {
   textOverflow: 'ellipsis',
 };
 
-const badgeStyle: React.CSSProperties = {
+const btnDetalhesStyle: React.CSSProperties = {
+  padding: '12px 24px',
+  fontSize: 16,
+  fontWeight: 500,
+  color: colors.blue.primary,
+  background: 'transparent',
+  border: `1px solid ${colors.blue.primary}`,
+  borderRadius: 6,
+  cursor: 'pointer',
   display: 'inline-flex',
   alignItems: 'center',
+  justifyContent: 'center',
   gap: spacing[2],
-  padding: `${spacing[3]}px ${spacing[4]}px`,
-  borderRadius: 6,
-  backgroundColor: 'rgba(34, 197, 94, 0.15)',
-  border: `1px solid rgba(34, 197, 94, 0.5)`,
-  color: '#22c55e',
-  fontSize: fontSizes.xs,
-  fontWeight: 500,
 };
 
 function formatDateTime(iso: string): string {
@@ -88,36 +90,15 @@ function getNomeCompleto(r: RequestRow): string {
   return [r.nome, r.sobrenome].filter(Boolean).join(' ').trim() || r.email;
 }
 
-function isContactRequest(r: RequestRow): boolean {
-  return r.tipo === 'Contato';
-}
-
-const btnVerDetalhesStyle: React.CSSProperties = {
-  padding: '8px 16px',
-  fontSize: fontSizes.sm,
-  fontWeight: 500,
-  color: colors.blue.primary,
-  background: 'transparent',
-  border: `1px solid ${colors.blue.primary}`,
-  borderRadius: 6,
-  cursor: 'pointer',
-  display: 'inline-flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  gap: spacing[2],
-};
-
-const RespondidosDetalhesModal: React.FC<{
+const ContatoModal: React.FC<{
   request: RequestRow | null;
   onClose: () => void;
-}> = ({ request, onClose }) => {
+  onMarcarRespondido: () => void;
+  loading?: boolean;
+}> = ({ request, onClose, onMarcarRespondido, loading }) => {
   if (!request) return null;
 
-  const isContact = isContactRequest(request);
-  const whatsappUrl = request.whatsapp && request.whatsapp !== '—'
-    ? buildWhatsAppUrl(request.whatsapp, `Olá ${request.nome}, recebemos seu contato.`)
-    : null;
-  const mailto = `mailto:${request.email}?subject=${encodeURIComponent(isContact ? `Re: ${request.investimento || 'Contato'}` : 'Orçamento Wefronti')}`;
+  const mailto = `mailto:${request.email}?subject=Re: ${encodeURIComponent(request.investimento || 'Contato')}`;
 
   const fieldStyle: React.CSSProperties = {
     display: 'flex',
@@ -156,7 +137,7 @@ const RespondidosDetalhesModal: React.FC<{
         padding: spacing[4],
       }}
       aria-modal
-      aria-labelledby="modal-respondido-title"
+      aria-labelledby="modal-contato-title"
     >
       <div
         role="dialog"
@@ -173,8 +154,8 @@ const RespondidosDetalhesModal: React.FC<{
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: spacing[6] }}>
-          <h3 id="modal-respondido-title" style={{ margin: 0, fontSize: fontSizes.lg, fontWeight: 500, color: colors.text.light }}>
-            {isContact ? 'Detalhes do contato' : 'Detalhes do orçamento'}
+          <h3 id="modal-contato-title" style={{ margin: 0, fontSize: fontSizes.lg, fontWeight: 500, color: colors.text.light }}>
+            Detalhes do contato
           </h3>
           <button
             type="button"
@@ -193,7 +174,7 @@ const RespondidosDetalhesModal: React.FC<{
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: spacing[4], marginBottom: spacing[6] }}>
-          <div style={{ display: 'grid', gridTemplateColumns: isContact ? 'repeat(3, minmax(0, 1fr))' : 'repeat(4, minmax(0, 1fr))', gap: spacing[4] }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: spacing[4] }}>
             <div style={fieldStyle}>
               <span style={labelStyle}>Nome</span>
               <div style={valueStyle}>{getNomeCompleto(request)}</div>
@@ -202,71 +183,25 @@ const RespondidosDetalhesModal: React.FC<{
               <span style={labelStyle}>E-mail</span>
               <div style={valueStyle}>{request.email}</div>
             </div>
-            {!isContact && (
-              <div style={fieldStyle}>
-                <span style={labelStyle}>WhatsApp</span>
-                <div style={valueStyle}>{request.whatsapp}</div>
-              </div>
-            )}
             <div style={fieldStyle}>
-              <span style={labelStyle}>{isContact ? 'Assunto' : 'Tipo'}</span>
-              <div style={valueStyle}>{isContact ? (request.investimento || '—') : request.tipo}</div>
+              <span style={labelStyle}>Assunto</span>
+              <div style={valueStyle}>{request.investimento || '—'}</div>
             </div>
           </div>
-          {!isContact && request.investimento && (
-            <div style={fieldStyle}>
-              <span style={labelStyle}>Investimento</span>
-              <div style={valueStyle}>{request.investimento}</div>
-            </div>
-          )}
-          {!isContact && request.tipo_projeto && (
-            <div style={fieldStyle}>
-              <span style={labelStyle}>Tipo de projeto (web)</span>
-              <div style={valueStyle}>{request.tipo_projeto}</div>
-            </div>
-          )}
           <div style={fieldStyle}>
-            <span style={labelStyle}>{isContact ? 'Mensagem' : 'Contexto / Mensagem'}</span>
+            <span style={labelStyle}>Mensagem</span>
             <div style={valueStyle}>{request.contexto}</div>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: spacing[4] }}>
-            <div style={fieldStyle}>
-              <span style={labelStyle}>Enviado em</span>
-              <div style={valueStyle}>{formatDateTime(request.criado_em)}</div>
-            </div>
-            <div style={fieldStyle}>
-              <span style={labelStyle}>Respondido em</span>
-              <div style={valueStyle}>{request.respondido_em ? formatDateTime(request.respondido_em) : '—'}</div>
-            </div>
+          <div style={fieldStyle}>
+            <span style={labelStyle}>Enviado em</span>
+            <div style={valueStyle}>{formatDateTime(request.criado_em)}</div>
           </div>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: spacing[3] }}>
-          {whatsappUrl && (
-            <a
-              href={whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Contato por WhatsApp"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: 44,
-                height: 44,
-                borderRadius: 8,
-                color: '#25D366',
-                backgroundColor: 'rgba(37, 211, 102, 0.15)',
-                border: '1px solid rgba(37, 211, 102, 0.4)',
-                textDecoration: 'none',
-              }}
-            >
-              <SiWhatsapp size={24} />
-            </a>
-          )}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: spacing[3], flexWrap: 'wrap' }}>
           <a
             href={mailto}
-            aria-label="Contato por e-mail"
+            aria-label="Responder por e-mail"
             style={{
               display: 'inline-flex',
               alignItems: 'center',
@@ -282,29 +217,62 @@ const RespondidosDetalhesModal: React.FC<{
           >
             <HiOutlineMail size={24} />
           </a>
+          <ButtonPainel onClick={onMarcarRespondido} disabled={loading}>
+            {loading ? 'Marcando…' : 'Marcar como respondido'}
+          </ButtonPainel>
         </div>
       </div>
     </div>
   );
 };
 
-const RespondidosPage: React.FC = () => {
+const ContatoPage: React.FC = () => {
+  const { showSuccess, showError } = useSnackbar();
   const [requests, setRequests] = useState<RequestRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [modalRequest, setModalRequest] = useState<RequestRow | null>(null);
+  const [marcandoId, setMarcandoId] = useState<string | null>(null);
 
-  useEffect(() => {
-    setLoading(true);
-    fetch('/api/admin/requests?status=respondido')
+  const load = (opts?: { silent?: boolean }) => {
+    const silent = opts?.silent ?? false;
+    if (!silent) setLoading(true);
+    fetch('/api/admin/requests?status=novo&tipo=Contato')
       .then((r) => r.json())
       .then((data) => {
         const list = Array.isArray(data) ? data : [];
         setRequests(list);
       })
       .catch(() => setRequests([]))
-      .finally(() => setLoading(false));
+      .finally(() => {
+        if (!silent) setLoading(false);
+      });
+  };
+
+  useEffect(() => {
+    load();
   }, []);
+
+  const handleMarcarRespondido = async () => {
+    if (!modalRequest) return;
+    const id = modalRequest.id;
+    setMarcandoId(id);
+    try {
+      const res = await fetch(`/api/admin/requests/${id}`, { method: 'PATCH' });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        showError(data.error || 'Erro ao marcar como respondido.');
+        return;
+      }
+      setModalRequest(null);
+      showSuccess('Contato marcado como respondido.');
+      load({ silent: true });
+    } catch {
+      showError('Erro ao conectar. Tente novamente.');
+    } finally {
+      setMarcandoId(null);
+    }
+  };
 
   const totalPages = Math.max(1, Math.ceil(requests.length / 10));
   useEffect(() => {
@@ -314,11 +282,11 @@ const RespondidosPage: React.FC = () => {
   return (
     <>
       <Head>
-        <title>Orçamentos respondidos | Wefronti</title>
+        <title>Contato | Wefronti</title>
         <meta name="robots" content="noindex, nofollow" />
       </Head>
       <AdminLayout>
-        <h1 style={pageTitleStyle}>Orçamentos respondidos</h1>
+        <h1 style={pageTitleStyle}>Contato</h1>
         {loading ? (
           <div style={listStyle}>
             <div style={{ ...cardStyle, minHeight: 68, opacity: 0.55 }} />
@@ -326,7 +294,7 @@ const RespondidosPage: React.FC = () => {
             <div style={{ ...cardStyle, minHeight: 68, opacity: 0.35 }} />
           </div>
         ) : requests.length === 0 ? (
-          <p style={cardMetaStyle}>Nenhum orçamento respondido.</p>
+          <p style={cardMetaStyle}>Nenhum contato novo.</p>
         ) : (
           <>
             <div style={listStyle}>
@@ -335,23 +303,14 @@ const RespondidosPage: React.FC = () => {
                   <div style={cardLeftStyle}>
                     <span style={cardLabelStyle}>{getNomeCompleto(r)}</span>
                     <span style={cardMetaStyle}>{r.email}</span>
+                    <span style={cardMetaStyle}>Assunto: {r.investimento || '—'}</span>
                     <span style={{ ...cardMetaStyle, fontSize: fontSizes.xs, opacity: 0.6 }}>
-                      Respondido em {r.respondido_em ? formatDateTime(r.respondido_em) : '—'}
+                      {formatDateTime(r.criado_em)}
                     </span>
                   </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: spacing[3] }}>
-                    <span style={badgeStyle}>
-                      <CheckCircle2 size={14} strokeWidth={2} aria-hidden />
-                      Respondido
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => setModalRequest(r)}
-                      style={btnVerDetalhesStyle}
-                    >
-                      Ver detalhes
-                    </button>
-                  </div>
+                  <button type="button" onClick={() => setModalRequest(r)} style={btnDetalhesStyle}>
+                    Detalhes
+                  </button>
                 </div>
               ))}
             </div>
@@ -364,9 +323,11 @@ const RespondidosPage: React.FC = () => {
         )}
 
         {modalRequest && (
-          <RespondidosDetalhesModal
+          <ContatoModal
             request={modalRequest}
             onClose={() => setModalRequest(null)}
+            onMarcarRespondido={handleMarcarRespondido}
+            loading={marcandoId === modalRequest.id}
           />
         )}
       </AdminLayout>
@@ -374,4 +335,4 @@ const RespondidosPage: React.FC = () => {
   );
 };
 
-export default RespondidosPage;
+export default ContatoPage;

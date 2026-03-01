@@ -67,7 +67,9 @@ const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete }) => {
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    background: colors.background.gradient,
+    background: `linear-gradient(135deg, rgba(210, 247, 198, 0.45) 0%, rgba(249, 255, 246, 0.35) 50%, rgba(210, 247, 198, 0.45) 100%)`,
+    backdropFilter: 'blur(60px) saturate(180%)',
+    WebkitBackdropFilter: 'blur(20px) saturate(180%)',
     transition: phase === 'sliding' ? `transform ${SLIDE_DURATION_MS}ms ease-out` : 'none',
     transform: phase === 'sliding' ? 'translateY(-100%)' : 'translateY(0)',
   };
@@ -90,10 +92,11 @@ const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete }) => {
 
   const barFillStyle: React.CSSProperties = {
     height: '100%',
-    width: `${progress}%`,
+    width: '100%',
     backgroundColor: colors.blue.primary,
     borderRadius: 2,
-    transition: 'width 0.05s linear',
+    transform: `scaleX(${progress / 100})`,
+    transformOrigin: 'left',
   };
 
   const percentStyle: React.CSSProperties = {

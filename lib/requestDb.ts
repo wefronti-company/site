@@ -76,26 +76,57 @@ export async function createRequest(input: CreateRequestInput): Promise<void> {
   `;
 }
 
-export async function getRequests(status: 'novo' | 'respondido'): Promise<RequestRow[]> {
+export interface GetRequestsOptions {
+  tipo?: string;
+  excludeTipo?: string;
+}
+
+export async function getRequests(
+  status: 'novo' | 'respondido',
+  opts?: GetRequestsOptions
+): Promise<RequestRow[]> {
   if (!sql) return [];
 
   const statusVal = status === 'novo' ? 'novo' : 'respondido';
-  const rows =
-    status === 'novo'
-      ? await sql`
-          SELECT id, tipo, nome, sobrenome, email, whatsapp, investimento, tipo_projeto,
-                 contexto, origem, ip, user_agent, status, criado_em, respondido_em
-          FROM requests
-          WHERE status = ${statusVal}
-          ORDER BY criado_em DESC
-        `
-      : await sql`
-          SELECT id, tipo, nome, sobrenome, email, whatsapp, investimento, tipo_projeto,
-                 contexto, origem, ip, user_agent, status, criado_em, respondido_em
-          FROM requests
-          WHERE status = ${statusVal}
-          ORDER BY respondido_em DESC NULLS LAST
-        `;
+  const tipoFilter = opts?.tipo;
+  const excludeTipo = opts?.excludeTipo;
+
+  let rows: unknown[];
+  if (status === 'novo') {
+    if (tipoFilter) {
+      rows = await sql`
+        SELECT id, tipo, nome, sobrenome, email, whatsapp, investimento, tipo_projeto,
+               contexto, origem, ip, user_agent, status, criado_em, respondido_em
+        FROM requests
+        WHERE status = ${statusVal} AND tipo = ${tipoFilter}
+        ORDER BY criado_em DESC
+      `;
+    } else if (excludeTipo) {
+      rows = await sql`
+        SELECT id, tipo, nome, sobrenome, email, whatsapp, investimento, tipo_projeto,
+               contexto, origem, ip, user_agent, status, criado_em, respondido_em
+        FROM requests
+        WHERE status = ${statusVal} AND tipo != ${excludeTipo}
+        ORDER BY criado_em DESC
+      `;
+    } else {
+      rows = await sql`
+        SELECT id, tipo, nome, sobrenome, email, whatsapp, investimento, tipo_projeto,
+               contexto, origem, ip, user_agent, status, criado_em, respondido_em
+        FROM requests
+        WHERE status = ${statusVal}
+        ORDER BY criado_em DESC
+      `;
+    }
+  } else {
+    rows = await sql`
+      SELECT id, tipo, nome, sobrenome, email, whatsapp, investimento, tipo_projeto,
+             contexto, origem, ip, user_agent, status, criado_em, respondido_em
+      FROM requests
+      WHERE status = ${statusVal}
+      ORDER BY respondido_em DESC NULLS LAST
+    `;
+  }
   return (rows as unknown[]) as RequestRow[];
 }
 
