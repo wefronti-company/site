@@ -20,37 +20,37 @@ const SOLUCOES: {
 }[] = [
   {
     titulo: 'Desenvolvimento Web',
-    descricao: 'Sites institucionais, landing pages e e-commerce. Desenvolvemos experiências rápidas, responsivas e otimizadas para converter visitantes em clientes.',
+    descricao: 'Criamos sites e landing pages que carregam em milissegundos. Focando em uma boa copy, responsividade e SEO avançado para transformar seus visitantes em clientes recorrentes.',
     Icon: Globe,
     slug: 'desenvolvimento-web',
   },
   {
     titulo: 'Softwares e sistemas',
-    descricao: 'Sistemas sob medida, ERPs, CRMs e aplicações web para automatizar processos e escalar sua operação.',
+    descricao: 'Desenvolvemos sistemas personalizados, CRMs e aplicações web para automatizar fluxos complexos. Substitua processos manuais por tecnologia escalável que centraliza sua operação e elimina erros.',
     Icon: Layout,
     slug: 'softwares-e-sistemas',
   },
   {
     titulo: 'Micro-saas',
-    descricao: 'Produtos digitais e software como serviço. Criamos soluções escaláveis para validar e monetizar sua ideia no mercado.',
+    descricao: 'Transformamos sua ideia em um software como serviço (SaaS) pronto para o mercado. Focamos em arquitetura leve e escalável para você validar modelos de negócio, monetizar sua visão e crescer com baixo custo fixo.',
     Icon: Package,
     slug: 'micro-saas',
   },
   {
     titulo: 'Design UI-UX',
-    descricao: 'Interfaces intuitivas e experiências pensadas no usuário. Prototipação e design em Figma para produtos que encantam e convertem.',
+    descricao: 'Criamos interfaces intuitivas que guiam o usuário com naturalidade. Utilizamos prototipagem avançada para validar a experiência antes do código, garantindo produtos que encantam visualmente e maximizam seus resultados.',
     Icon: FiFigma as unknown as LucideIcon,
     slug: 'design-ui-ux',
   },
   {
     titulo: 'Integração e APIs',
-    descricao: 'Conectamos seus sistemas, automações e fluxos de dados. APIs, webhooks e integrações para um ecossistema unificado.',
+    descricao: 'Unificamos seu negócio conectando sistemas, automações e fluxos de dados via APIs e webhooks. Eliminamos gargalos operacionais para criar um ambiente digital inteligente, fluido e totalmente integrado.',
     Icon: Plug,
     slug: 'integracao-e-apis',
   },
   {
     titulo: 'Manutenção e suporte',
-    descricao: 'Suporte contínuo, evolução de projetos e monitoramento. Seu sistema seguro, atualizado e performando no dia a dia.',
+    descricao: 'Garantimos que sua tecnologia nunca fique obsoleta. Com monitoramento em tempo real, atualizações de segurança e melhorias constantes, mantemos seu sistema performando em nível máximo 24/7.',
     Icon: Wrench,
     slug: 'manutencao-e-suporte',
   },
@@ -627,8 +627,8 @@ const Solucoes: React.FC<SolucoesProps> = ({ conteudo }) => {
   const sectionPaddingX = isMd ? spacing[12] : spacing[4];
 
   const badge = (conteudo?.badge != null ? String(conteudo.badge) : '') || 'Soluções';
-  const titulo = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'Nossas soluções';
-  const intro = (conteudo?.intro != null ? String(conteudo.intro) : '') || 'Desenvolvimento web, softwares, design, integração e suporte. Tudo o que sua empresa precisa para crescer no digital.';
+  const titulo = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'Soluções completas para desafios complexos.';
+  const intro = (conteudo?.intro != null ? String(conteudo.intro) : '') || 'Do código à experiência do usuário, entregamos a infraestrutura tecnológica que sua empresa precisa para escalar com segurança e eficiência.';
 
   const sectionStyle: React.CSSProperties = {
     ...sectionStyleBase,

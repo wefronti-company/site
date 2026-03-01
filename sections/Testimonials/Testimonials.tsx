@@ -264,8 +264,8 @@ const Testimonials: React.FC<TestimonialsProps> = ({ conteudo }) => {
   };
 
   const badge = (conteudo?.badge != null ? String(conteudo.badge) : '') || 'Depoimentos';
-  const titulo = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'Resultados reais de quem apostou em um site que vende';
-  const subtitulo = (conteudo?.subtitulo != null ? String(conteudo.subtitulo) : '') || 'Veja o que aconteceu quando elas decidiram levar o digital a sério.';
+  const titulo = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'O impacto real das nossas soluções na operação de nossos clientes.';
+  const subtitulo = (conteudo?.subtitulo != null ? String(conteudo.subtitulo) : '') || 'Mais do que interfaces, entregamos ferramentas que otimizam processos, reduzem custos e geram novas fontes de receita.';
   const sectionPaddingX = isMd ? spacing[12] : spacing[4];
   const sectionStyle: React.CSSProperties = {
     ...sectionStyleBase,
