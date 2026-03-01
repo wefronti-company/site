@@ -157,10 +157,6 @@ section[id] {
   50% { transform: translate(-2px, 2px); }
   75% { transform: translate(2px, 3px); }
 }
-@keyframes floating-whatsapp-glow {
-  0%, 100% { box-shadow: 0 0 12px 2px rgba(53, 152, 255, 0.5); }
-  50% { box-shadow: 0 0 24px 8px rgba(53, 152, 255, 0.8); }
-}
 @keyframes testimonials-scroll {
   0% { transform: translate3d(0, 0, 0); }
   100% { transform: translate3d(-50%, 0, 0); }
@@ -187,7 +183,6 @@ section[id] {
 .shake { animation: shake 0.4s ease-in-out; }
 .testimonials-track { animation: testimonials-scroll 80s linear infinite; backface-visibility: hidden; }
 .testimonials-track-reverse { animation: testimonials-scroll-reverse 80s linear infinite; backface-visibility: hidden; }
-.floating-whatsapp-glow { animation: floating-whatsapp-glow 2s ease-in-out infinite; }
 .pricing-feature-item:hover { transform: translateX(6px); }
 .admin-nav-item:hover { opacity: 1; }
 .header-nav-link { text-shadow: none !important; box-shadow: none !important; }
@@ -240,7 +235,6 @@ button:focus-visible, a:focus-visible, [role="button"]:focus-visible, summary:fo
   .animate-float { animation: none !important; }
   .hero-chip-float { animation: none !important; }
   .hero-sparkle { animation: none !important; }
-  .floating-whatsapp-glow { animation: none !important; }
   .testimonials-track { animation: none !important; }
   .testimonials-track-reverse { animation: none !important; }
   .pricing-feature-item:hover { transform: none !important; }

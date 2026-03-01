@@ -3,13 +3,14 @@ import { motion } from 'framer-motion';
 import { Rocket, Heart, TrendingUp, DollarSign } from 'lucide-react';
 import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
+import { useScrollToSection } from '../../hooks/useScrollToSection';
 import ButtonCta from '../../components/ui/ButtonCta';
 
 const { colors, spacing, fontSizes, radii } = theme;
 
 const heroSectionStyleBase: React.CSSProperties = {
   position: 'relative',
-  minHeight: '90vh',
+  minHeight: '80vh',
   background: 'transparent',
   zIndex: 25,
   display: 'flex',
@@ -31,14 +32,14 @@ const heroContentStyleBase: React.CSSProperties = {
   maxWidth: 1120,
 };
 
-const heroTitleStyle: React.CSSProperties = {
+const heroTitleStyle = (isMd: boolean): React.CSSProperties => ({
   fontWeight: 400,
   lineHeight: 1.06,
   letterSpacing: '-0.02em',
-  fontSize: 'clamp(3rem, 5vw, 4.5rem)',
+  fontSize: isMd ? 'clamp(3rem, 5vw, 4.5rem)' : 'clamp(2.5rem, 5vw, 2.5rem)',
   color: colors.text.primary,
   margin: 0,
-};
+});
 
 /** Palavras destacadas no H1: serif italic, cinza claro */
 const HIGHLIGHT_WORDS = ['digitais de elite', '100% de código', 'estratégia'];
@@ -60,14 +61,14 @@ function renderHeroTitle(text: string): React.ReactNode {
   );
 }
 
-const heroSubtitleStyle: React.CSSProperties = {
-  fontSize: '1.4rem',
+const heroSubtitleStyle = (isMd: boolean): React.CSSProperties => ({
+  fontSize: isMd ? '1.4rem' : '1.05rem',
   fontWeight: 400,
   lineHeight: 1.45,
   color: colors.text.primary,
   opacity: 0.92,
   margin: 0,
-};
+});
 
 
 interface HeroProps {
@@ -196,12 +197,13 @@ const HeroBadge: React.FC<HeroBadgeProps> = ({ badge, idx, hasEntered }) => {
 
 const Hero: React.FC<HeroProps> = ({ conteudo }) => {
   const isMd = useMediaQuery(theme.breakpoints.md);
+  const scrollToSection = useScrollToSection();
   const [hasEntered, setHasEntered] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
 
-  const tituloRaw = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'Produtos digitais de elite. Do site institucional ao sistema complexo, tudo com 100% de código e zero limitações.';
-  const subtitulo = (conteudo?.subtitulo != null ? String(conteudo.subtitulo) : '') || 'Unimos estratégia de negócio, design de alta conversão e engenharia de software pura para criar ativos que não precisam ser refeitos. Chega de templates lentos: entregamos performance real e controle total sobre o seu projeto.';
-  const botaoPrincipal = (conteudo?.botaoPrincipal != null ? String(conteudo.botaoPrincipal) : '') || 'Quero um site que vende';
+  const tituloRaw = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'Projetamos e desenvolvemos produtos digitais que crescem com o seu negócio.';
+  const subtitulo = (conteudo?.subtitulo != null ? String(conteudo.subtitulo) : '') || 'Unimos estratégia, design e tecnologia para criar produtos que não precisam ser refeitos daqui 6 meses. Entregamos performance real e controle total sobre o seu projeto.';
+  const botaoPrincipal = (conteudo?.botaoPrincipal != null ? String(conteudo.botaoPrincipal) : '') || 'Iniciar um projeto';
 
   const heroSectionStyle: React.CSSProperties = {
     ...heroSectionStyleBase,
@@ -209,10 +211,19 @@ const Hero: React.FC<HeroProps> = ({ conteudo }) => {
     paddingBottom: isMd ? spacing[10] : spacing[6],
     borderBottomLeftRadius: isMd ? 48 : 28,
     borderBottomRightRadius: isMd ? 48 : 28,
+    ...(!isMd && {
+      alignItems: 'flex-start',
+      justifyContent: 'flex-start',
+      paddingTop: spacing[12],
+    }),
   };
   const heroContentStyle: React.CSSProperties = {
     ...heroContentStyleBase,
     maxWidth: isMd ? 1040 : 720,
+    ...(!isMd && {
+      alignItems: 'flex-start',
+      textAlign: 'left',
+    }),
   };
 
   useEffect(() => {
@@ -251,7 +262,7 @@ const Hero: React.FC<HeroProps> = ({ conteudo }) => {
           initial={{ opacity: 0, y: 24 }}
           animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
           transition={{ duration: 0.7, ease: 'easeOut', delay: 0.15 }}
-          style={heroTitleStyle}
+          style={heroTitleStyle(isMd)}
         >
           {renderHeroTitle(tituloRaw)}
         </motion.h1>
@@ -260,18 +271,57 @@ const Hero: React.FC<HeroProps> = ({ conteudo }) => {
           initial={{ opacity: 0, y: 20 }}
           animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.6, ease: 'easeOut', delay: 0.25 }}
-          style={heroSubtitleStyle}
+          style={heroSubtitleStyle(isMd)}
         >
           {subtitulo}
         </motion.p>
 
         <motion.div
-          style={{ display: 'flex', flexWrap: 'wrap', gap: spacing[4], alignItems: 'center', justifyContent: 'center' }}
+          style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: spacing[4],
+            alignItems: 'center',
+            justifyContent: isMd ? 'center' : 'flex-start',
+          }}
           initial={{ opacity: 0, y: 16 }}
           animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
           transition={{ duration: 0.5, ease: 'easeOut', delay: 0.5 }}
         >
           <ButtonCta>{botaoPrincipal}</ButtonCta>
+          <button
+            type="button"
+            onClick={() => scrollToSection('solucoes')}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderColor = colors.blue.primary;
+              e.currentTarget.style.transform = 'translateY(-2px)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = colors.neutral.border;
+              e.currentTarget.style.transform = 'translateY(0)';
+            }}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: 8,
+              padding: '12px 24px',
+              minHeight: 52,
+              fontSize: 16,
+              fontWeight: 500,
+              color: colors.text.primary,
+              backgroundColor: 'rgba(255, 255, 255, 0.5)',
+              backdropFilter: 'saturate(150%) blur(14px)',
+              WebkitBackdropFilter: 'saturate(150%) blur(14px)',
+              border: `1px solid ${colors.neutral.border}`,
+              borderRadius: radii.full,
+              cursor: 'pointer',
+              outline: 'none',
+              transition: 'border-color 0.2s, transform 0.2s',
+            }}
+          >
+            Nossas soluções
+          </button>
         </motion.div>
       </div>
       {isMd ? (

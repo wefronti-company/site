@@ -161,7 +161,7 @@ const Comparison: React.FC<ComparisonProps> = ({ conteudo }) => {
   const wefronti = (Array.isArray(conteudo?.wefronti) ? (conteudo.wefronti as string[]).map(String) : null) ?? WEFRONTI;
   const tituloLines = titulo.split('\n');
   const ctaFinal = (conteudo?.ctaFinal != null ? String(conteudo.ctaFinal) : '') || 'Você já sabe o que não quer. Agora é hora de ter um site que realmente trabalha pelo seu negócio.';
-  const botao = (conteudo?.botao != null ? String(conteudo.botao) : '') || 'Quero um site que vende';
+  const botao = (conteudo?.botao != null ? String(conteudo.botao) : '') || 'Iniciar um projeto';
 
   const sectionStyle: React.CSSProperties = {
     ...sectionStyleBase,

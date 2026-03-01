@@ -34,7 +34,7 @@ const PRICING_OPTIONS = [
     description:
       'Ideal para conectar ferramentas e automatizar operações: Gateways de pagamento, CRM, ERP, webhooks e fluxos internos.',
     price: 'Consultar',
-    cta: 'Quero integração',
+    cta: 'Quero integração/API',
     features: [
       'Integração com Stripe/gateways',
       'Integração com CRM/ERP',
@@ -327,7 +327,6 @@ const Pricing: React.FC<PricingProps> = ({ conteudo }) => {
     body.style.width = '100%';
 
     body.classList.toggle('pricing-modal-open', isModalOpen);
-    window.dispatchEvent(new CustomEvent('pricing-modal-visibility-change', { detail: isModalOpen }));
 
     return () => {
       html.style.overflow = '';
@@ -339,7 +338,6 @@ const Pricing: React.FC<PricingProps> = ({ conteudo }) => {
       body.style.width = '';
       window.scrollTo(0, lockedScrollYRef.current);
       body.classList.remove('pricing-modal-open');
-      window.dispatchEvent(new CustomEvent('pricing-modal-visibility-change', { detail: false }));
     };
   }, [isModalOpen]);
 

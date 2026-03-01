@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
+import { Rocket } from 'lucide-react';
 import { radii } from '@/styles/theme';
 import { useScrollToSection } from '../../hooks/useScrollToSection';
 
@@ -13,6 +13,8 @@ interface ButtonCtaProps {
   className?: string;
   /** When true, renders an icon-only button (no default padding, no arrow) */
   iconOnly?: boolean;
+  /** When true, hides the icon (e.g. for header button) */
+  hideIcon?: boolean;
   /** When provided, renders as Link to this href instead of button */
   href?: string;
 }
@@ -25,10 +27,10 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
   disabled = false,
   className,
   iconOnly = false,
+  hideIcon = false,
   href,
 }) => {
   const scrollToSection = useScrollToSection();
-  const [isHovered, setIsHovered] = useState(false);
 
   const handleClick = () => {
     if (onClick) {
@@ -49,28 +51,23 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
           <span style={{ color: '#fff' }}>
             {children || label || 'Contato'}
           </span>
-          <span
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              width: 28,
-              height: 28,
-              borderRadius: '50%',
-              backgroundColor: 'rgba(255,255,255,0.95)',
-            }}
-          >
+          {!hideIcon && (
             <span
               style={{
                 display: 'inline-flex',
-                transition: 'transform 0.25s ease',
-                transform: isHovered ? 'rotate(-30deg)' : 'rotate(0deg)',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: 28,
+                height: 28,
+                borderRadius: '50%',
+                backgroundColor: 'rgba(255,255,255,0.95)',
               }}
-              aria-hidden
             >
-              <ArrowRight size={16} color="#059669" strokeWidth={2.5} />
+              <span style={{ display: 'inline-flex' }} aria-hidden>
+                <Rocket size={16} color="#059669" strokeWidth={2.5} />
+              </span>
             </span>
-          </span>
+          )}
         </>
       )}
     </>
@@ -140,7 +137,6 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
         boxShadow: '0 2px 12px rgba(5, 150, 105, 0.35)',
       }}
       onMouseEnter={(e) => {
-        setIsHovered(true);
         if (!disabled) {
           e.currentTarget.style.opacity = '0.95';
           e.currentTarget.style.transform = 'translateY(-1px)';
@@ -148,7 +144,6 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
         }
       }}
       onMouseLeave={(e) => {
-        setIsHovered(false);
         e.currentTarget.style.opacity = disabled ? '0.5' : '1';
         e.currentTarget.style.transform = 'translateY(0)';
         e.currentTarget.style.boxShadow = '0 2px 12px rgba(5, 150, 105, 0.35)';

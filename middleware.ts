@@ -140,8 +140,7 @@ export async function middleware(request: NextRequest) {
  // 0.5 Proteger APIs administrativas legadas/sem guard local
  const pathname = url.pathname;
  const isProtectedAdminApi =
-   (pathname.startsWith('/api/admin/') && pathname !== '/api/admin/login') ||
-   (pathname.startsWith('/api/site') && request.method !== 'GET');
+   pathname.startsWith('/api/admin/') && pathname !== '/api/admin/login';
 
  if (isProtectedAdminApi) {
    const token = getTokenFromCookie(request.headers.get('cookie'));

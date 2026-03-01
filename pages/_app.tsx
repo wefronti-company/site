@@ -11,7 +11,7 @@ import { SplashProvider } from '../contexts/SplashContext';
 import { SnackbarProvider } from '../contexts/SnackbarContext';
 
 import Footer from '../sections/Footer';
-import BottomCtaOrWhatsApp from '../components/BottomCtaOrWhatsApp';
+
 export default function MyApp({ Component, pageProps }: AppProps) {
  const router = useRouter();
 
@@ -77,7 +77,6 @@ export default function MyApp({ Component, pageProps }: AppProps) {
 {!router.pathname.startsWith('/admin') && <Header />}
       <Component {...pageProps} />
       {router.pathname !== '/' && !router.pathname.startsWith('/admin') && <Footer />}
-      {!router.pathname.startsWith('/admin') && <BottomCtaOrWhatsApp />}
  </>
  </SmoothScroll>
  </SnackbarProvider>

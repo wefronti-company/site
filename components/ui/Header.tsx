@@ -262,7 +262,7 @@ const Header: React.FC = () => {
               })}
             </ul>
             {isMd ? (
-              <ButtonCta href="/contato" className="header-user-btn">Contato</ButtonCta>
+              <ButtonCta href="/contato" className="header-user-btn" hideIcon>Contato</ButtonCta>
             ) : (
               <button
                 type="button"
@@ -278,12 +278,14 @@ const Header: React.FC = () => {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
+                  backgroundColor: colors.blue.primary,
+                  color: '#fff',
                 }}
               >
                 <Plus
                   size={22}
                   strokeWidth={2}
-                  color={colors.text.primary}
+                  color="#fff"
                   style={{
                     transition: 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
                     transform: mobileMenuOpen ? 'rotate(45deg)' : 'rotate(0deg)',
@@ -308,8 +310,9 @@ const Header: React.FC = () => {
               position: 'fixed',
               inset: 0,
               zIndex: 98,
-              backgroundColor: 'rgba(0, 0, 0, 0.5)',
+              backgroundColor: 'transparent',
               transition: 'background-color 0.3s ease-out',
+              pointerEvents: 'auto',
             }}
           />
         )}
@@ -342,7 +345,7 @@ const Header: React.FC = () => {
             gap: spacing[6],
             transform: mobileMenuOpen ? 'translateX(0)' : 'translateX(100%)',
             transition: 'transform 0.3s ease-out',
-            boxShadow: '0 -8px 32px rgba(0,0,0,0.4)',
+          
             pointerEvents: mobileMenuOpen ? 'auto' : 'none',
           }}
         >
@@ -370,6 +373,7 @@ const Header: React.FC = () => {
             <ButtonCta
               href="/contato"
               className="header-user-btn"
+              hideIcon
               onClick={() => setMobileMenuOpen(false)}
             >
               Contato
