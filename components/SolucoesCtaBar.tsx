@@ -5,7 +5,7 @@ import { theme } from '../styles/theme';
 
 const { colors, spacing } = theme;
 
-const CTA_TEXT = 'Pronto para crescer no digital?';
+const CTA_TEXT = 'Vamos juntos desenvolver um novo produto?';
 const CTA_BUTTON = 'Iniciar um projeto';
 
 const EASE_SMOOTH = [0.22, 1, 0.36, 1] as const;

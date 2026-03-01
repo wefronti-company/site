@@ -1,40 +1,28 @@
-import React from 'react';
-import {
-  SiNodedotjs,
-  SiReact,
-  SiTypescript,
-  SiNextdotjs,
-  SiPostgresql,
-  SiDocker,
-  SiAmazonwebservices,
-  SiCloudflare,
-  SiVercel,
-} from 'react-icons/si';
-import type { IconType } from 'react-icons';
+import React, { useState } from 'react';
 import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 
 const { colors, spacing, fontSizes, radii, containerMaxWidth } = theme;
 
-interface TechItem {
+interface CompanyLogo {
   name: string;
-  Icon: IconType;
-  brandColor: string;
+  src: string;
+  logoLarge?: boolean;
+  /** Mercado Livre e Discord precisam de tamanho ainda maior */
+  logoXLarge?: boolean;
 }
 
-const OUTER_RING: TechItem[] = [
-  { name: 'Node.js', Icon: SiNodedotjs, brandColor: '#339933' },
-  { name: 'React', Icon: SiReact, brandColor: '#61DAFB' },
-  { name: 'TypeScript', Icon: SiTypescript, brandColor: '#3178C6' },
-  { name: 'Next.js', Icon: SiNextdotjs, brandColor: '#111827' },
-  { name: 'PostgreSQL', Icon: SiPostgresql, brandColor: '#4169E1' },
-];
-
-const INNER_RING: TechItem[] = [
-  { name: 'Docker', Icon: SiDocker, brandColor: '#2496ED' },
-  { name: 'AWS', Icon: SiAmazonwebservices, brandColor: '#FF9900' },
-  { name: 'Cloudflare', Icon: SiCloudflare, brandColor: '#F38020' },
-  { name: 'Vercel', Icon: SiVercel, brandColor: '#111827' },
+/** Empresas com logos em /images/tecnologias/ (.svg) */
+const ALL_COMPANIES: CompanyLogo[] = [
+  { name: 'Mercado Livre', src: '/images/tecnologias/mercado-livre.svg', logoXLarge: true },
+  { name: 'Stone', src: '/images/tecnologias/stone.svg' },
+  { name: 'PicPay', src: '/images/tecnologias/picpay.svg' },
+  { name: 'Netflix', src: '/images/tecnologias/netflix.svg' },
+  { name: 'Airbnb', src: '/images/tecnologias/airbnb.svg' },
+  { name: 'Uber', src: '/images/tecnologias/uber.svg' },
+  { name: 'Spotify', src: '/images/tecnologias/spotify.svg', logoLarge: true },
+  { name: 'PayPal', src: '/images/tecnologias/paypal.svg', logoLarge: true },
+  { name: 'Discord', src: '/images/tecnologias/discord.svg', logoXLarge: true },
 ];
 
 const sectionStyleBase: React.CSSProperties = {
@@ -59,105 +47,83 @@ const badgeStyle: React.CSSProperties = {
   letterSpacing: '0.06em',
 };
 
-const titleStyle: React.CSSProperties = {
-  margin: 0,
-  color: colors.text.primary,
-  fontSize: 'clamp(2rem, 5vw, 4rem)',
-  lineHeight: 1.15,
-  letterSpacing: '-0.02em',
-  fontWeight: 400,
-  textAlign: 'center',
-};
+const BADGE_WIDTH = 150;
+const BADGE_HEIGHT = 80;
+const LOGO_SIZE = 56;
+const LOGO_SIZE_LARGE = 66;
+const LOGO_SIZE_XLARGE = 76;
 
-const subtitleStyle: React.CSSProperties = {
-  margin: 0,
-  color: colors.text.primary,
-  opacity: 0.88,
-  fontSize: '1.15rem',
-  lineHeight: 1.7,
-  textAlign: 'center',
-  maxWidth: 860,
-};
-
-const orbitCardStyle = (size: number): React.CSSProperties => ({
-  width: `min(100%, ${size + spacing[10] * 2}px)`,
-  aspectRatio: '1 / 1',
-  margin: '0 auto',
-  borderRadius: '50%',
-  border: `1px solid ${colors.neutral.border}`,
-  background: 'rgba(255, 255, 255, 0.45)',
-  backdropFilter: 'saturate(140%) blur(12px)',
-  WebkitBackdropFilter: 'saturate(140%) blur(12px)',
-  padding: spacing[8],
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  overflow: 'hidden',
-});
-
-const innerOrbitWrapStyle = (size: number): React.CSSProperties => ({
-  width: size,
-  height: size,
-  position: 'relative',
-  borderRadius: '50%',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-});
-
-interface TechNodeProps {
-  item: TechItem;
-  angle: number;
-  radius: number;
-  size: number;
-  labelClassName: string;
-}
-
-const TechNode: React.FC<TechNodeProps> = ({ item, angle, radius, size, labelClassName }) => {
-  const theta = (angle * Math.PI) / 180;
-  const x = Math.cos(theta) * radius;
-  const y = Math.sin(theta) * radius;
-  const BrandIcon = item.Icon;
+const LogoBadge: React.FC<{ company: CompanyLogo }> = ({ company }) => {
+  const logoSize = company.logoXLarge
+    ? LOGO_SIZE_XLARGE
+    : company.logoLarge
+      ? LOGO_SIZE_LARGE
+      : LOGO_SIZE;
+  const [imgError, setImgError] = useState(false);
 
   return (
     <div
-      className="tech-orbit-item"
+      onMouseEnter={(e) => {
+        e.currentTarget.style.borderColor = colors.blue.primary;
+        e.currentTarget.style.transform = 'translateY(-2px)';
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.borderColor = colors.neutral.border;
+        e.currentTarget.style.transform = 'translateY(0)';
+      }}
       style={{
-        position: 'absolute',
-        left: '50%',
-        top: '50%',
-        transform: `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: BADGE_WIDTH,
+        height: BADGE_HEIGHT,
+        minWidth: BADGE_WIDTH,
+        minHeight: BADGE_HEIGHT,
+        flexShrink: 0,
+        overflow: 'hidden',
+        padding: '12px 24px',
+        backgroundColor: 'rgba(255, 255, 255, 0.5)',
+        backdropFilter: 'saturate(150%) blur(14px)',
+        WebkitBackdropFilter: 'saturate(150%) blur(14px)',
+        border: `1px solid ${colors.neutral.border}`,
+        borderRadius: radii.full,
+        cursor: 'default',
+        transition: 'border-color 0.2s, transform 0.2s',
       }}
     >
-      <span
-        className={labelClassName}
-        style={{
-          display: 'inline-flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          width: size,
-          height: size,
-          borderRadius: '50%',
-          border: `1px solid ${colors.neutral.border}`,
-          background: 'rgba(255, 255, 255, 0.52)',
-          backdropFilter: 'saturate(150%) blur(12px)',
-          WebkitBackdropFilter: 'saturate(150%) blur(12px)',
-          boxShadow: '0 10px 24px rgba(0,0,0,0.05)',
-          color: colors.text.primary,
-          lineHeight: 0,
-          fontSize: fontSizes.sm,
-          fontWeight: 600,
-        }}
-        aria-label={item.name}
-        title={item.name}
-      >
-        <BrandIcon
-          size={size <= 46 ? 22 : 25}
-          color={item.brandColor}
-          aria-hidden
-          style={{ display: 'block' }}
+      {imgError ? (
+        <span
+          style={{
+            fontSize: 12,
+            fontWeight: 600,
+            color: colors.text.primary,
+            opacity: 0.7,
+            textAlign: 'center',
+          }}
+        >
+          {company.name}
+        </span>
+      ) : (
+        <img
+          src={company.src}
+          alt={`${company.name} — mesma stack que empresas de referência`}
+          width={logoSize}
+          height={logoSize}
+          loading="lazy"
+          onError={() => setImgError(true)}
+          style={{
+            width: logoSize,
+            height: logoSize,
+            minWidth: logoSize,
+            minHeight: logoSize,
+            maxWidth: logoSize,
+            maxHeight: logoSize,
+            objectFit: 'contain',
+            filter: 'grayscale(0.15)',
+            opacity: 0.92,
+          }}
         />
-      </span>
+      )}
     </div>
   );
 };
@@ -165,12 +131,43 @@ const TechNode: React.FC<TechNodeProps> = ({ item, angle, radius, size, labelCla
 const Tecnologias: React.FC = () => {
   const isMd = useMediaQuery(theme.breakpoints.md);
   const headerPaddingX = isMd ? spacing[12] : spacing[4];
-  const orbitalSize = isMd ? 520 : 340;
-  const centerSize = isMd ? 120 : 88;
-  const outerRingInset = isMd ? 40 : 28;
-  const innerRingInset = isMd ? 112 : 82;
-  const outerRingRadius = orbitalSize / 2 - outerRingInset;
-  const innerRingRadius = orbitalSize / 2 - innerRingInset;
+
+  const titleStyle: React.CSSProperties = {
+    margin: 0,
+    color: colors.text.primary,
+    fontSize: 'clamp(2rem, 4vw, 3.5rem)',
+    lineHeight: 1.15,
+    letterSpacing: '-0.02em',
+    fontWeight: 400,
+    textAlign: isMd ? 'left' : 'center',
+  };
+
+  const subtitleStyle: React.CSSProperties = {
+    margin: 0,
+    color: colors.text.primary,
+    opacity: 0.88,
+    fontSize: '1.15rem',
+    lineHeight: 1.7,
+    textAlign: isMd ? 'left' : 'center',
+    maxWidth: isMd ? 480 : 860,
+  };
+
+  const glassStyle: React.CSSProperties = {
+    backgroundColor: 'rgba(255, 255, 255, 0.5)',
+    backdropFilter: 'saturate(150%) blur(16px)',
+    WebkitBackdropFilter: 'saturate(150%) blur(16px)',
+    border: `1px solid ${colors.neutral.border}`,
+    borderRadius: 30,
+    padding: spacing[10],
+    width: '100%',
+    maxWidth: 1200,
+    margin: '0 auto',
+    display: 'flex',
+    flexDirection: isMd ? 'row' : 'column',
+    alignItems: isMd ? 'center' : 'stretch',
+    gap: isMd ? spacing[12] : spacing[10],
+    boxShadow: '0 4px 24px rgba(0, 0, 0, 0.04)',
+  };
 
   return (
     <section
@@ -182,66 +179,13 @@ const Tecnologias: React.FC = () => {
         paddingRight: headerPaddingX,
       }}
     >
-      <style
-        dangerouslySetInnerHTML={{
-          __html: `
-            @keyframes tech-orbit-rotate {
-              from { transform: rotate(0deg); }
-              to { transform: rotate(360deg); }
-            }
-            @keyframes tech-orbit-counter {
-              from { transform: rotate(0deg); }
-              to { transform: rotate(-360deg); }
-            }
-            @keyframes tech-orbit-rotate-reverse {
-              from { transform: rotate(0deg); }
-              to { transform: rotate(-360deg); }
-            }
-            @keyframes tech-orbit-counter-reverse {
-              from { transform: rotate(0deg); }
-              to { transform: rotate(360deg); }
-            }
-            .tech-orbit-rotating {
-              animation: tech-orbit-rotate 38s linear infinite;
-              transform-origin: center center;
-            }
-            .tech-orbit-rotating-reverse {
-              animation: tech-orbit-rotate-reverse 28s linear infinite;
-              transform-origin: center center;
-            }
-            .tech-orbit-item-label {
-              animation: tech-orbit-counter 38s linear infinite;
-            }
-            .tech-orbit-item-label-reverse {
-              animation: tech-orbit-counter-reverse 28s linear infinite;
-            }
-            @media (prefers-reduced-motion: reduce) {
-              .tech-orbit-rotating,
-              .tech-orbit-rotating-reverse,
-              .tech-orbit-item-label,
-              .tech-orbit-item-label-reverse {
-                animation: none !important;
-              }
-            }
-          `.trim(),
-        }}
-      />
-
-      <div
-        style={{
-          width: '100%',
-          maxWidth: containerMaxWidth.wide,
-          margin: '0 auto',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: spacing[10],
-        }}
-      >
-        <header
+      <div style={glassStyle}>
+        <div
           style={{
+            flex: isMd ? '1 1 45%' : undefined,
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'center',
+            alignItems: isMd ? 'flex-start' : 'center',
             gap: spacing[6],
           }}
         >
@@ -257,94 +201,29 @@ const Tecnologias: React.FC = () => {
             Tecnologia
           </span>
           <h2 id="tecnologias-heading" style={titleStyle}>
-            Engenharia pronta para escalar
+            A mesma stack das grandes empresas
           </h2>
           <p style={subtitleStyle}>
-            Para as soluções da Wefronti, esta stack entrega performance, estabilidade e velocidade
-            de evolução: ideal para sites de conversão, sistemas internos, integrações e produtos
-            SaaS.
+            Node.js, React, TypeScript e Next.js — tecnologias que sustentam Netflix, Uber, Airbnb
+            e milhares de empresas de referência. A Wefronti entrega performance, estabilidade e
+            evolução contínua.
           </p>
-        </header>
+        </div>
 
-        <div style={orbitCardStyle(orbitalSize)}>
-          <div style={innerOrbitWrapStyle(orbitalSize)}>
-            <div className="tech-orbit-rotating" style={{ position: 'absolute', inset: 0 }}>
-              <div
-                aria-hidden
-                style={{
-                  position: 'absolute',
-                  inset: outerRingInset,
-                  borderRadius: '50%',
-                  border: `1.5px solid ${colors.neutral.border}`,
-                }}
-              />
-              {OUTER_RING.map((tech, index) => (
-                <TechNode
-                  key={tech.name}
-                  item={tech}
-                  angle={(360 / OUTER_RING.length) * index - 90}
-                  radius={outerRingRadius}
-                  size={isMd ? 58 : 52}
-                  labelClassName="tech-orbit-item-label"
-                />
-              ))}
-            </div>
-
-            <div className="tech-orbit-rotating-reverse" style={{ position: 'absolute', inset: 0 }}>
-              <div
-                aria-hidden
-                style={{
-                  position: 'absolute',
-                  inset: innerRingInset,
-                  borderRadius: '50%',
-                  border: `1.5px solid ${colors.neutral.border}`,
-                  opacity: 0.9,
-                }}
-              />
-              {INNER_RING.map((tech, index) => (
-                <TechNode
-                  key={tech.name}
-                  item={tech}
-                  angle={(360 / INNER_RING.length) * index - 90}
-                  radius={innerRingRadius}
-                  size={isMd ? 54 : 46}
-                  labelClassName="tech-orbit-item-label-reverse"
-                />
-              ))}
-            </div>
-
-            <div
-              style={{
-                width: centerSize,
-                height: centerSize,
-                borderRadius: '50%',
-                border: `1px solid ${colors.neutral.border}`,
-                background: 'rgba(255, 255, 255, 0.68)',
-                backdropFilter: 'blur(8px)',
-                WebkitBackdropFilter: 'blur(8px)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                boxShadow: '0 12px 24px rgba(0,0,0,0.06)',
-                position: 'relative',
-                zIndex: 2,
-              }}
-            >
-              <img
-                src="/images/brand/isotipo-wefronti.webp"
-                alt="Isotipo Wefronti"
-                width={isMd ? 52 : 40}
-                height={isMd ? 52 : 40}
-                loading="lazy"
-                decoding="async"
-                style={{
-                  width: isMd ? 52 : 40,
-                  height: isMd ? 52 : 40,
-                  objectFit: 'contain',
-                }}
-              />
-            </div>
-          </div>
+        <div
+          style={{
+            flex: isMd ? '1 1 55%' : undefined,
+            display: 'grid',
+            gridTemplateColumns: 'repeat(3, minmax(140px, 1fr))',
+            columnGap: spacing[4],
+            rowGap: spacing[6],
+            justifyItems: 'center',
+            alignItems: 'center',
+          }}
+        >
+          {ALL_COMPANIES.map((company) => (
+            <LogoBadge key={company.name} company={company} />
+          ))}
         </div>
       </div>
     </section>

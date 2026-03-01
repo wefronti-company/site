@@ -7,19 +7,17 @@ import ButtonCta from '../../components/ui/ButtonCta';
 const { colors, spacing, fontSizes, radii, containerMaxWidth } = theme;
 
 const OUTRAS_AGENCIAS: string[] = [
-  'Pagou pelo site, ficou esperando e sumiram com o seu dinheiro',
-  'Te prometeram um site incrível e entregaram algo que você teve vergonha de mostrar',
-  'O prazo era 30 dias e 4 meses depois o site ainda não estava no ar',
-  'Recebeu um site bonito que não gerou um único lead sequer',
-  'Abriu um chamado de suporte e nunca mais teve resposta',
+  'Projetos abandonados pela metade: Você paga o sinal, mas o fornecedor some ou para de responder após as primeiras dificuldades técnicas.',
+  'Tecnologia obsoleta e cheia de bugs: Entregam algo que parece bonito, mas que quebra ao receber os primeiros usuários ou é impossível de atualizar.',
+  'Prazos que nunca terminam: O que era para ser entregue em 2 meses vira uma espera de 1 ano, travando o crescimento da sua empresa.',
+  'Código sem dono e suporte inexistente: Você fica refém de uma ferramenta que ninguém sabe como dar manutenção e, quando precisa de ajuda, não tem resposta.',
 ];
 
 const WEFRONTI: string[] = [
-  'Processo 100% transparente: você acompanha cada etapa, do briefing à entrega',
-  'Site entregue no prazo combinado, sem desculpas, sem surpresas',
-  'Design estratégico pensado para converter visitantes em clientes',
-  'SEO estruturado para você aparecer no Google e atrair clientes',
-  'Entrega com suporte: o site no ar, testado e funcionando perfeitamente.',
+  'Engenharia de Software de ponta: Desenvolvemos com tecnologias modernas e escaláveis, garantindo que seu produto cresça sem precisar ser refeito.',
+  'Gestão Ágil e Transparente: Você acompanha o progresso em tempo real, com entregas semanais e comunicação direta com quem entende do projeto.',
+  'Design Estratégico (UX/UI): Não criamos apenas telas bonitas; projetamos experiências focadas em retenção, usabilidade e conversão.',
+  'Compromisso com o Deploy: Prazo para nós é sagrado. Seu produto vai ao ar testado, seguro e pronto para performar desde o primeiro dia.',
 ];
 
 const sectionStyleBase: React.CSSProperties = {
@@ -155,12 +153,12 @@ const Comparison: React.FC<ComparisonProps> = ({ conteudo }) => {
   const headerPaddingX = isMd ? spacing[12] : spacing[4];
 
   const badge = (conteudo?.badge != null ? String(conteudo.badge) : '') || 'Diferenciais';
-  const titulo = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'Você já passou por isso\ncom outra empresa?';
-  const subtitulo = (conteudo?.subtitulo != null ? String(conteudo.subtitulo) : '') || 'Veja o que acontece na prática com a maioria das empresas do mercado, e por que líderes escolhem a Wefronti:';
+  const titulo = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'Por que grandes empresas não arriscam seu futuro com amadores?';
+  const subtitulo = (conteudo?.subtitulo != null ? String(conteudo.subtitulo) : '') || 'Entenda a diferença entre contratar alguém que apenas "faz código" e um parceiro focado em engenharia, prazos e resultados reais.';
   const outrasAgencias = (Array.isArray(conteudo?.outrasAgencias) ? (conteudo.outrasAgencias as string[]).map(String) : null) ?? OUTRAS_AGENCIAS;
   const wefronti = (Array.isArray(conteudo?.wefronti) ? (conteudo.wefronti as string[]).map(String) : null) ?? WEFRONTI;
   const tituloLines = titulo.split('\n');
-  const ctaFinal = (conteudo?.ctaFinal != null ? String(conteudo.ctaFinal) : '') || 'Você já sabe o que não quer. Agora é hora de ter um site que realmente trabalha pelo seu negócio.';
+  const ctaFinal = (conteudo?.ctaFinal != null ? String(conteudo.ctaFinal) : '') || 'Você já sabe o que não quer para sua empresa. Agora é hora de investir em tecnologia que realmente escala o seu negócio.';
   const botao = (conteudo?.botao != null ? String(conteudo.botao) : '') || 'Iniciar um projeto';
 
   const sectionStyle: React.CSSProperties = {
@@ -208,7 +206,7 @@ const Comparison: React.FC<ComparisonProps> = ({ conteudo }) => {
 
         <div style={gridLayout}>
           <div style={cardStyle}>
-            <h3 style={cardTitleStyle}>99% de chance de você ter passado por isso:</h3>
+            <h3 style={cardTitleStyle}>O Mercado (O "Cenário Comum")</h3>
             <ul style={listStyle} role="list">
               {outrasAgencias.map((text, i) => (
                 <li key={i} style={itemStyle}>
@@ -222,7 +220,7 @@ const Comparison: React.FC<ComparisonProps> = ({ conteudo }) => {
           </div>
 
           <div style={cardHighlightStyle}>
-            <h3 style={cardTitleStyle}>Como é trabalhar com a Wefronti</h3>
+            <h3 style={cardTitleStyle}>O efeito Wefronti</h3>
             <ul style={listStyle} role="list">
               {wefronti.map((text, i) => (
                 <li key={i} style={itemStyle}>

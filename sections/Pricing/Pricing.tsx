@@ -14,17 +14,18 @@ const PRICING_OPTIONS = [
     title: 'Desenvolvimento Web',
     Icon: Monitor,
     description:
-      'Para empresas que precisam de presença digital com foco em resultado: sites estratégicos e lojas virtuais preparadas para converter.',
+      'Ideal para empresas que buscam um posicionamento digital de alto impacto e otimizado para vendas.',
     price: '4.490,00',
     priceSecondary: 'Até 10x sem juros',
 
     cta: 'Quero projeto web',
     features: [
       'Site institucional',
-      'Loja virtual responsiva',
+      'Landing page',
       'SEO avançado',
-      'Integração com gateways de pagamento',
+      'Área para blog',
       'Suporte pós-entrega',
+      'Design responsivo',
     ],
   },
   {
@@ -32,16 +33,16 @@ const PRICING_OPTIONS = [
     title: 'Integrações & APIs',
     Icon: Unlink,
     description:
-      'Ideal para conectar ferramentas e automatizar operações: Gateways de pagamento, CRM, ERP, webhooks e fluxos internos.',
+      'Conectamos seu ecossistema para eliminar o trabalho manual e garantir que seus dados fluam com segurança.',
     price: 'Consultar',
     cta: 'Quero integração/API',
     features: [
-      'Integração com Stripe/gateways',
+      'Gateways de pagamento',
       'Integração com CRM/ERP',
       'Webhooks e automações',
       'Sincronização de dados',
-      'Validação e tratamento de falhas',
-      'Documentação técnica básica',
+      'API de terceios',
+      'Documentação técnica',
     ],
   },
   {
@@ -49,16 +50,16 @@ const PRICING_OPTIONS = [
     title: 'Micro-SaaS',
     Icon: Layers,
     description:
-      'Para validar e lançar produto digital escalável com cobrança recorrente, painel de cliente e base técnica para crescimento e pronto para escalar.',
+      'A estrutura completa para validar, lançar e escalar seu produto digital com cobrança por assinatura.',
     price: 'Consultar',
     cta: 'Quero Micro-SaaS',
     features: [
-      'Arquitetura para produto SaaS',
-      'Autenticação e gestão de usuários',
-      'Planos e assinatura recorrente',
-      'Área do cliente e painel admin',
-      'Eventos e métricas iniciais',
-      'Base pronta para evoluções',
+      'Arquitetura para SaaS',
+      'Autenticação de usuários',
+      'Assinatura recorrente',
+      'Painel adminitrativo',
+      'Área do cliente',
+      'Infraestrutura escalácel',
     ],
   },
   {
@@ -66,16 +67,16 @@ const PRICING_OPTIONS = [
     title: 'Sistemas',
     Icon: Database,
     description:
-      'Para empresas que precisam de sistema sob medida: rastreio de encomendas, sistema interno, painel operacional e gestão personalizada.',
+      'Desenvolvemos a inteligência por trás da sua operação, com softwares focados em eficiência e controle total.',
     price: 'Consultar',
     cta: 'Quero um sistema',
     features: [
       'Levantamento de requisitos',
       'Arquitetura e modelagem de dados',
-      'Painel web responsivo',
-      'Permissões por perfil de acesso',
-      'Relatórios e visão operacional',
-      'Suporte técnico inicial',
+      'Painel de gestão (Dashboard)',
+      'Controle de Permissões',
+      'Relatórios operacionais',
+      'Suporte técnico dedicado',
     ],
   },
 ] as const satisfies ReadonlyArray<{
@@ -286,8 +287,8 @@ const Pricing: React.FC<PricingProps> = ({ conteudo }) => {
   const lockedScrollYRef = useRef(0);
 
   const badge = (conteudo?.badge != null ? String(conteudo.badge) : '') || 'Preços';
-  const titulo = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'Escolha a solução certa para a sua necessidade';
-  const subtitulo = (conteudo?.subtitulo != null ? String(conteudo.subtitulo) : '') || 'Do projeto pontual ao produto completo: você escolhe a demanda, e nós estruturamos a entrega com escopo claro e valor justo.';
+  const titulo = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'Investimento inteligente em tecnologia de ponta';
+  const subtitulo = (conteudo?.subtitulo != null ? String(conteudo.subtitulo) : '') || 'Escolha o modelo que melhor se adapta ao momento do seu negócio, de projetos pontuais a ecossistemas complexos.';
 
   const [modalOption, setModalOption] = useState<PricingOption | null>(null);
   const [leadForm, setLeadForm] = useState({
