@@ -319,7 +319,7 @@ export async function consumirCodigoEAtualizarSenha(
   return true;
 }
 
-/** Remove a conta do usuário (exclusão definitiva). Tokens de reset e dados em tabelas com FK CASCADE são removidos. Dados em outras bases (ex.: clientes) podem ser mantidos por obrigação legal/contratual. */
+/** Remove a conta do usuário (exclusão definitiva). Tokens de reset e dados em tabelas com FK CASCADE são removidos. */
 export async function deleteUsuario(usuarioId: string): Promise<boolean> {
   if (!sql) return false;
   const rows = await sql`

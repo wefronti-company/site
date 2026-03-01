@@ -4,6 +4,7 @@
  */
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { verifySessionToken, COOKIE_NAME, hashCodigoAcesso } from '../../../lib/auth';
+import { sanitizeTextForStorage } from '../../../lib/sanitize-server';
 import { sql } from '../../../lib/db';
 
 function getTokenFromCookie(req: NextApiRequest): string | null {
@@ -33,7 +34,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   const body = req.body as Record<string, unknown>;
-  const nome = typeof body.nome === 'string' ? body.nome.trim().slice(0, 150) : undefined;
+  const nome = typeof body.nome === 'string' ? sanitizeTextForStorage(body.nome).slice(0, 150) : undefined;
   const codigoAcesso = typeof body.codigoAcesso === 'string' ? body.codigoAcesso.trim().slice(0, 64) : undefined;
 
   if (!nome && !codigoAcesso) {

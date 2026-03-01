@@ -4,6 +4,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { checkRateLimit, getClientIp } from '../../lib/rate-limit';
 import { recordPageView } from '../../lib/siteViewsDb';
+import { sanitizeTextForStorage } from '../../lib/sanitize-server';
 import { createHash } from 'crypto';
 
 const RATE_LIMIT_MS = 5000; // 1 request per 5s per IP
@@ -23,7 +24,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   const body = req.body as Record<string, unknown>;
-  const path = typeof body.path === 'string' ? body.path.slice(0, 500) : '/';
+  const rawPath = typeof body.path === 'string' ? body.path : '/';
+  const path = sanitizeTextForStorage(rawPath).slice(0, 500) || '/';
 
   const ip = getClientIp(req);
   const ipHash = hashIp(ip);

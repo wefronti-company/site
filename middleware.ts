@@ -139,11 +139,8 @@ export async function middleware(request: NextRequest) {
 
  // 0.5 Proteger APIs administrativas legadas/sem guard local
  const pathname = url.pathname;
- const isPublicProposalPageApi = /^\/api\/proposta\/[^/]+$/.test(pathname) && request.method === 'GET';
  const isProtectedAdminApi =
-   pathname === '/api/dashboard' ||
    (pathname.startsWith('/api/admin/') && pathname !== '/api/admin/login') ||
-   (pathname.startsWith('/api/proposta') && !isPublicProposalPageApi) ||
    (pathname.startsWith('/api/site') && request.method !== 'GET');
 
  if (isProtectedAdminApi) {
@@ -175,7 +172,7 @@ export async function middleware(request: NextRequest) {
    }
    // Rewrite apenas em admin.wefronti.com: / → /admin, /dashboard → /admin/dashboard
    if (host === ADMIN_HOST) {
-     const skipRewrite = url.pathname.startsWith('/api') || url.pathname.startsWith('/_next') || url.pathname.startsWith('/images') || url.pathname.startsWith('/favicon') || url.pathname.startsWith('/proposta');
+     const skipRewrite = url.pathname.startsWith('/api') || url.pathname.startsWith('/_next') || url.pathname.startsWith('/images') || url.pathname.startsWith('/favicon');
      if (!skipRewrite) {
        const rewriteUrl = url.clone();
        rewriteUrl.pathname = url.pathname === '/' ? '/admin' : `/admin${url.pathname}`;
@@ -290,8 +287,7 @@ export const config = {
  /*
  * Match all request paths except:
  * - _next/static, _next/image, favicon.ico
- * - /proposta/* (páginas públicas de proposta – sem middleware para evitar interferência)
  */
- '/((?!_next/static|_next/image|favicon\\.ico|proposta).*)',
+ '/((?!_next/static|_next/image|favicon\\.ico).*)',
  ],
 };

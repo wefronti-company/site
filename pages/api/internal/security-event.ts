@@ -4,6 +4,7 @@
  */
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { insertSecurityEvent } from '../../../lib/securityEventsDb';
+import { sanitizeTextForStorage } from '../../../lib/sanitize-server';
 
 const SECRET = process.env.SECURITY_LOG_SECRET || 'dev-internal-secret';
 
@@ -18,11 +19,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   const body = req.body as Record<string, unknown>;
-  const tipo = typeof body.tipo === 'string' ? body.tipo.slice(0, 64) : '';
-  const ip = typeof body.ip === 'string' ? body.ip.slice(0, 64) : undefined;
-  const path = typeof body.path === 'string' ? body.path.slice(0, 512) : undefined;
-  const user_agent = typeof body.user_agent === 'string' ? body.user_agent : undefined;
-  const detalhes = typeof body.detalhes === 'string' ? body.detalhes.slice(0, 500) : undefined;
+  const tipo = typeof body.tipo === 'string' ? sanitizeTextForStorage(body.tipo).slice(0, 64) : '';
+  const ip = typeof body.ip === 'string' ? sanitizeTextForStorage(body.ip).slice(0, 64) : undefined;
+  const path = typeof body.path === 'string' ? sanitizeTextForStorage(body.path).slice(0, 512) : undefined;
+  const user_agent = typeof body.user_agent === 'string' ? sanitizeTextForStorage(body.user_agent).slice(0, 512) : undefined;
+  const detalhes = typeof body.detalhes === 'string' ? sanitizeTextForStorage(body.detalhes).slice(0, 500) : undefined;
 
   if (!tipo) {
     return res.status(400).json({ error: 'tipo é obrigatório' });

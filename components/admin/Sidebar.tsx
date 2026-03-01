@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { LayoutDashboard, FileText, FileX, PlusCircle, User, ShieldPlus, Inbox, CheckCircle, MessageSquare, X } from 'lucide-react';
+import { LayoutDashboard, User, ShieldPlus, Inbox, CheckCircle, MessageSquare, X } from 'lucide-react';
 import { theme } from '../../styles/theme';
 
 const { colors, spacing, fontSizes, radii } = theme;
@@ -9,12 +9,6 @@ const { colors, spacing, fontSizes, radii } = theme;
 import { ADMIN_HEADER_HEIGHT, SIDEBAR_WIDTH } from './constants';
 
 export const sidebarWidth = SIDEBAR_WIDTH;
-
-const PROPOSTA_ITEMS = [
-  { label: 'Nova proposta', href: '/admin/dashboard/proposta/nova', icon: <PlusCircle size={16} strokeWidth={1.5} /> },
-  { label: 'Proposta ativa', href: '/admin/dashboard/proposta/ativa', icon: <FileText size={16} strokeWidth={1.5} /> },
-  { label: 'Proposta expiradas', href: '/admin/dashboard/proposta/expiradas', icon: <FileX size={16} strokeWidth={1.5} /> },
-];
 
 const FORM_ITEMS = [
   { label: 'Novos orçamentos', href: '/admin/dashboard/form/novos', icon: <Inbox size={16} strokeWidth={1.5} /> },
@@ -198,22 +192,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPath, isMobile = false,
         <div style={sectionLabelStyle}>Formulário</div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: spacing[3] }}>
           {FORM_ITEMS.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              onClick={handleNavClick}
-              style={navLinkStyle(currentPath === item.href)}
-              className="admin-nav-item"
-            >
-              <span style={{ color: 'inherit' }}>{item.icon}</span>
-              {item.label}
-            </Link>
-          ))}
-        </div>
-
-        <div style={{ ...sectionLabelStyle, marginTop: spacing[8] }}>Proposta comercial</div>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: spacing[3] }}>
-          {PROPOSTA_ITEMS.map((item) => (
             <Link
               key={item.href}
               href={item.href}

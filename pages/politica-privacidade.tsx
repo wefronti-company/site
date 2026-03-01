@@ -83,37 +83,38 @@ const PoliticaPrivacidade: React.FC = () => {
     <>
       <SEO
         title="Política de Privacidade"
-        description="Política de Privacidade e uso de cookies da Wefronti."
+        description="Política de Privacidade da Wefronti – como tratamos os dados coletados nos formulários do site."
         canonical="/politica-privacidade"
         noindex
       />
 
       <main style={pageStyle}>
         <article style={getContainerStyle(paddingX)}>
-          
+
           <h1 style={titleStyle}>Política de Privacidade</h1>
           <p style={textStyle}>
             Esta política descreve como a Wefronti trata informações em conformidade com a LGPD (Lei nº 13.709/2018).
           </p>
 
-          <h2 style={sectionTitleStyle}>1. Cookies</h2>
+          <h2 style={sectionTitleStyle}>1. Por que coletamos dados dos formulários</h2>
           <p style={textStyle}>
-            Utilizamos cookies para:
+            Os formulários do site foram criados para facilitar o contato e o pedido de orçamento. Cada formulário coleta apenas os dados necessários para a finalidade indicada:
           </p>
           <ul style={listStyle}>
-            <li><strong>Essenciais:</strong> funcionamento básico do site.</li>
-            <li><strong>Análise (opcional):</strong> Google Analytics para entender como os visitantes usam o site. Só são ativados com seu consentimento.</li>
+            <li>
+              <strong>Formulário de contato:</strong> nome, sobrenome, e-mail, assunto e mensagem — para responder suas dúvidas e solicitações enviadas pela página de contato.
+            </li>
+            <li>
+              <strong>Formulário de orçamento (página de preços):</strong> nome, sobrenome, e-mail, WhatsApp, faixa de investimento, tipo de projeto e contexto — para elaborar propostas comerciais e entrar em contato para conversar sobre seu projeto.
+            </li>
           </ul>
           <p style={textStyle}>
-            Você pode alterar suas preferências de cookies a qualquer momento pelo banner na tela.
+            Ao enviar qualquer formulário, você declara que as informações fornecidas são verdadeiras e autoriza seu uso para as finalidades descritas. O tratamento está em conformidade com a LGPD, com base na execução de contrato/relacionamento contratual e no seu consentimento ao enviar o formulário.
           </p>
 
-          <h2 style={sectionTitleStyle}>2. Dados coletados</h2>
+          <h2 style={sectionTitleStyle}>2. Dados técnicos e navegação</h2>
           <p style={textStyle}>
-            <strong>Visitantes do site:</strong> não coletamos dados pessoais por meio de formulários de contato no site institucional; o contato é feito diretamente via WhatsApp. Dados técnicos (endereço IP, navegador) podem ser registrados pelo Analytics quando você aceita cookies de análise.
-          </p>
-          <p style={textStyle}>
-            <strong>Formulário de dados (página de cadastro):</strong> coletamos e armazenamos os dados informados no envio — nome completo, e-mail, CPF, celular, razão social/nome da empresa, CNPJ, site (opcional), endereço completo (CEP, logradouro, número, complemento, bairro, cidade, UF). Esses dados são utilizados exclusivamente para <strong>questões burocráticas e operacionais</strong> da relação comercial: elaboração e gestão de contratos de prestação de serviços, emissão de notas fiscais, cobrança, cumprimento de obrigações fiscais e legais e contato relacionado aos serviços. O tratamento está em conformidade com a LGPD, com base na execução de contrato/relacionamento contratual e no seu consentimento ao enviar o formulário.
+            Podemos registrar dados técnicos de navegação (por exemplo, endereço IP, páginas visitadas) para fins de segurança e melhoria do site. Não vendemos esses dados.
           </p>
 
           <h2 style={sectionTitleStyle}>3. Compartilhamento e retenção</h2>

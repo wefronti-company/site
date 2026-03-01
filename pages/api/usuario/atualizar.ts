@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { verifyUsuarioSessionToken } from '../../../lib/auth-usuario';
-import { COOKIE_NAME } from '../../../lib/auth-usuario';
+import { verifyUsuarioSessionToken, COOKIE_NAME } from '../../../lib/auth-usuario';
 import { updateUsuarioPerfil } from '../../../lib/usuarioDb';
+import { sanitizeTextForStorage, sanitizeAlphanumeric } from '../../../lib/sanitize-server';
 
 function getTokenFromCookie(req: NextApiRequest): string | null {
   const cookie = req.headers.cookie;
@@ -35,24 +35,30 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   const body = req.body || {};
   const str = (v: unknown) => (typeof v === 'string' ? v : undefined);
+  const safe = (v: string | undefined, max = 200) =>
+    v ? sanitizeTextForStorage(v).slice(0, max) : undefined;
+
+  const cel = str(body.celular);
+  const cep = str(body.enderecoCep);
+  const uf = str(body.enderecoUf);
 
   await updateUsuarioPerfil(payload.usuarioId, {
-    nomeCompleto: str(body.nomeCompleto),
-    celular: str(body.celular),
+    nomeCompleto: safe(str(body.nomeCompleto), 150),
+    celular: cel,
     dataNascimento: str(body.dataNascimento),
     cpf: str(body.cpf),
-    enderecoLogradouro: str(body.enderecoLogradouro),
-    enderecoNumero: str(body.enderecoNumero),
-    enderecoComplemento: str(body.enderecoComplemento),
-    enderecoBairro: str(body.enderecoBairro),
-    enderecoCidade: str(body.enderecoCidade),
-    enderecoUf: str(body.enderecoUf),
-    enderecoCep: str(body.enderecoCep),
-    chavePix: str(body.chavePix),
-    banco: str(body.banco),
-    nomeTitular: str(body.nomeTitular),
+    enderecoLogradouro: safe(str(body.enderecoLogradouro), 200),
+    enderecoNumero: safe(str(body.enderecoNumero), 20),
+    enderecoComplemento: safe(str(body.enderecoComplemento), 100),
+    enderecoBairro: safe(str(body.enderecoBairro), 100),
+    enderecoCidade: safe(str(body.enderecoCidade), 100),
+    enderecoUf: uf ? sanitizeAlphanumeric(uf, 2).toUpperCase() : undefined,
+    enderecoCep: cep,
+    chavePix: safe(str(body.chavePix), 100),
+    banco: safe(str(body.banco), 100),
+    nomeTitular: safe(str(body.nomeTitular), 150),
     whatsappNumero: normalizeWhatsappForStorage(str(body.whatsappNumero)),
-    whatsappMensagem: str(body.whatsappMensagem),
+    whatsappMensagem: safe(str(body.whatsappMensagem), 500),
   });
 
   return res.status(200).json({ ok: true });

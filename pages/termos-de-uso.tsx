@@ -92,18 +92,25 @@ const TermosDeUso: React.FC = () => {
         <article style={getContainerStyle(paddingX)}>
           <h1 style={titleStyle}>Termos de Uso</h1>
           <p style={textStyle}>
-            Ao acessar o site da Wefronti e utilizar nossos serviços (incluindo o envio do formulário de dados), você concorda com estes Termos de Uso. Leia-os com atenção.
+            Ao acessar o site da Wefronti e utilizar nossos serviços (incluindo o envio de formulários de contato e orçamento), você concorda com estes Termos de Uso. Leia-os com atenção.
           </p>
 
           <h2 style={sectionTitleStyle}>1. Aceite</h2>
           <p style={textStyle}>
-            O uso do site wefronti.com e dos serviços vinculados (incluindo o envio do formulário disponível no site) implica a aceitação integral destes Termos. Se você não concordar, não utilize o site nem envie o formulário.
+            O uso do site wefronti.com e dos serviços vinculados implica a aceitação integral destes Termos. Se você não concordar, não utilize o site nem envie formulários.
           </p>
 
-          <h2 style={sectionTitleStyle}>2. Formulário e finalidade dos dados</h2>
+          <h2 style={sectionTitleStyle}>2. Formulários e finalidade dos dados</h2>
           <p style={textStyle}>
-            O formulário disponível no site coleta dados pessoais e da empresa (nome, e-mail, CPF, celular, razão social, CNPJ, endereço completo, entre outros) para agilizar o processo de contratação e as questões burocráticas da relação comercial: elaboração e gestão de contratos de prestação de serviços, emissão de notas fiscais, cobrança e demais obrigações legais e fiscais. O cliente não possui painel ou área para login; o envio serve apenas para repasse das informações à Wefronti. O tratamento desses dados está em conformidade com a LGPD e com nossa{' '}
-            <Link href="/politica-privacidade" style={linkStyle}>Política de Privacidade</Link>. Ao enviar o formulário, você declara que as informações fornecidas são verdadeiras e autoriza seu uso para as finalidades descritas.
+            O site disponibiliza dois tipos de formulários:
+          </p>
+          <ul style={listStyle}>
+            <li><strong>Contato:</strong> para envio de dúvidas, solicitações e mensagens gerais.</li>
+            <li><strong>Orçamento (preços):</strong> para solicitar proposta comercial e informar seu projeto.</li>
+          </ul>
+          <p style={textStyle}>
+            Os dados são coletados exclusivamente para as finalidades descritas e tratados em conformidade com a LGPD e nossa{' '}
+            <Link href="/politica-privacidade" style={linkStyle}>Política de Privacidade</Link>. Ao enviar qualquer formulário, você declara que as informações fornecidas são verdadeiras e autoriza seu uso para essas finalidades.
           </p>
 
           <h2 style={sectionTitleStyle}>3. Uso do site</h2>

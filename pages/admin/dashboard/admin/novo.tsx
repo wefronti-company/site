@@ -106,6 +106,7 @@ const NovoAdminPage: React.FC = () => {
             <label style={labelStyle}>Nome</label>
             <input
               type="text"
+              className="pricing-modal-input"
               style={inputStyle}
               value={nome}
               onChange={(e) => setNome(e.target.value)}
@@ -117,6 +118,7 @@ const NovoAdminPage: React.FC = () => {
             <label style={labelStyle}>E-mail *</label>
             <input
               type="email"
+              className="pricing-modal-input"
               style={inputStyle}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -128,6 +130,7 @@ const NovoAdminPage: React.FC = () => {
             <label style={labelStyle}>Código de acesso (senha) *</label>
             <input
               type="password"
+              className="pricing-modal-input"
               style={inputStyle}
               value={codigoAcesso}
               onChange={(e) => setCodigoAcesso(e.target.value)}

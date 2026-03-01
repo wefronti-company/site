@@ -2,7 +2,7 @@
 
 ## 1. Banco de dados
 
-Execute o SQL em `scripts/init-admin-tables.sql` no Neon Console (ou use `npm run db:init`) para criar as tabelas: `admins`, `clientes`, `pagamentos_mensalidade`, `propostas`.
+Execute o SQL em `scripts/init-admin-tables.sql` no Neon Console (ou use `npm run db:init`) para criar as tabelas: `admins`, `site_conteudo`.
 
 ## 2. Variáveis de ambiente
 

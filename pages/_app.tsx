@@ -1,6 +1,5 @@
 import React from 'react';
 import Head from 'next/head';
-import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import type { AppProps } from 'next/app';
 import GlobalStyles from '../components/GlobalStyles';
@@ -11,15 +10,16 @@ import Header from '../components/ui/Header';
 import { SplashProvider } from '../contexts/SplashContext';
 import { SnackbarProvider } from '../contexts/SnackbarContext';
 
-const CookieConsent = dynamic(() => import('../components/CookieConsent'), { ssr: false });
 import Footer from '../sections/Footer';
 import BottomCtaOrWhatsApp from '../components/BottomCtaOrWhatsApp';
 export default function MyApp({ Component, pageProps }: AppProps) {
  const router = useRouter();
 
  React.useEffect(() => {
+   gtag.loadGoogleAnalytics();
+
    const trackView = (url: string) => {
-     if (!url.startsWith('/admin') && !url.startsWith('/proposta') && url !== '/dados-cliente') {
+     if (!url.startsWith('/admin')) {
        fetch('/api/track-view', {
          method: 'POST',
          headers: { 'Content-Type': 'application/json' },
@@ -29,13 +29,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
    };
 
    const handleRouteChange = (url: string) => {
-     const consent = localStorage.getItem('cookieConsent');
-     if (consent) {
-       try {
-         const prefs = JSON.parse(consent);
-         if (prefs.analytics) gtag.pageview(url);
-       } catch {}
-     }
+     gtag.pageview(url);
      trackView(url);
    };
 
@@ -80,11 +74,10 @@ export default function MyApp({ Component, pageProps }: AppProps) {
  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
  </Head>
  <GlobalStyles />
-{!router.pathname.startsWith('/admin') && !router.pathname.startsWith('/proposta') && router.pathname !== '/dados-cliente' && <Header />}
+{!router.pathname.startsWith('/admin') && <Header />}
       <Component {...pageProps} />
-      {router.pathname !== '/' && !router.pathname.startsWith('/admin') && !router.pathname.startsWith('/proposta') && router.pathname !== '/dados-cliente' && <Footer />}
-      {!router.pathname.startsWith('/admin') && !router.pathname.startsWith('/proposta') && router.pathname !== '/dados-cliente' && <BottomCtaOrWhatsApp />}
- <CookieConsent />
+      {router.pathname !== '/' && !router.pathname.startsWith('/admin') && <Footer />}
+      {!router.pathname.startsWith('/admin') && <BottomCtaOrWhatsApp />}
  </>
  </SmoothScroll>
  </SnackbarProvider>

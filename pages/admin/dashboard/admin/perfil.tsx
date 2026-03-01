@@ -150,6 +150,7 @@ const PerfilAdminPage: React.FC = () => {
                 <label style={labelStyle}>Nome</label>
                 <input
                   type="text"
+                  className="pricing-modal-input"
                   style={inputStyle}
                   value={nome}
                   onChange={(e) => setNome(e.target.value)}
@@ -161,6 +162,7 @@ const PerfilAdminPage: React.FC = () => {
                 <label style={labelStyle}>E-mail</label>
                 <input
                   type="email"
+                  className="pricing-modal-input"
                   style={{ ...inputStyle, opacity: 0.8, cursor: 'not-allowed' }}
                   value={email}
                   readOnly
@@ -181,6 +183,7 @@ const PerfilAdminPage: React.FC = () => {
                 <label style={labelStyle}>Nova senha</label>
                 <input
                   type="password"
+                  className="pricing-modal-input"
                   style={inputStyle}
                   value={novaSenha}
                   onChange={(e) => setNovaSenha(e.target.value)}
@@ -192,6 +195,7 @@ const PerfilAdminPage: React.FC = () => {
                 <label style={labelStyle}>Confirmar nova senha</label>
                 <input
                   type="password"
+                  className="pricing-modal-input"
                   style={inputStyle}
                   value={confirmarSenha}
                   onChange={(e) => setConfirmarSenha(e.target.value)}
