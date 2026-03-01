@@ -22,7 +22,7 @@ export const CountryList: React.FC<CountryListProps> = ({ countryCounts }) => {
   if (total === 0) {
     return (
       <p style={{ margin: 0, color: theme.colors.text.light, opacity: 0.8, fontSize: theme.fontSizes.sm }}>
-        Nenhuma visita por país nos últimos 30 dias.
+        Nenhuma visita nos últimos 30 dias.
       </p>
     );
   }

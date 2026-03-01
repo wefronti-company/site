@@ -271,7 +271,7 @@ const NovoOrcamentoModal: React.FC<{
 };
 
 const NovosOrcamentosPage: React.FC = () => {
-  const { showSuccess } = useSnackbar();
+  const { showSuccess, showError } = useSnackbar();
   const [requests, setRequests] = useState<RequestRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
@@ -303,12 +303,16 @@ const NovosOrcamentosPage: React.FC = () => {
     setMarcandoId(id);
     try {
       const res = await fetch(`/api/admin/requests/${id}`, { method: 'PATCH' });
-      if (!res.ok) throw new Error('Erro ao marcar');
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        showError(data.error || 'Erro ao marcar como respondido.');
+        return;
+      }
       setModalRequest(null);
       showSuccess('Orçamento marcado como respondido.');
       load({ silent: true });
     } catch {
-      // erro silencioso, usuário pode tentar de novo
+      showError('Erro ao conectar. Tente novamente.');
     } finally {
       setMarcandoId(null);
     }

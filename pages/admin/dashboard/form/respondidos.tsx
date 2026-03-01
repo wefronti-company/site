@@ -4,7 +4,7 @@ import AdminLayout from '../../../../components/admin/AdminLayout';
 import Pagination, { paginate } from '../../../../components/admin/Pagination';
 import { theme } from '../../../../styles/theme';
 import type { RequestRow } from '../../../../lib/requestDb';
-import { CheckCircle } from 'lucide-react';
+import { CheckCircle, CheckCircle2 } from 'lucide-react';
 
 const { colors, spacing, fontSizes } = theme;
 
@@ -60,7 +60,7 @@ const badgeStyle: React.CSSProperties = {
   display: 'inline-flex',
   alignItems: 'center',
   gap: spacing[2],
-  padding: `${spacing[1]}px ${spacing[3]}px`,
+  padding: `${spacing[3]}px ${spacing[4]}px`,
   borderRadius: 6,
   backgroundColor: 'rgba(34, 197, 94, 0.15)',
   border: `1px solid rgba(34, 197, 94, 0.5)`,
@@ -136,7 +136,7 @@ const RespondidosPage: React.FC = () => {
                     </span>
                   </div>
                   <span style={badgeStyle}>
-                    <CheckCircle size={14} strokeWidth={2} aria-hidden />
+                    <CheckCircle2 size={14} strokeWidth={2} aria-hidden />
                     Respondido
                   </span>
                 </div>

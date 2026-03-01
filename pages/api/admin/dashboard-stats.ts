@@ -3,8 +3,7 @@
  */
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { verifySessionToken, COOKIE_NAME } from '../../../lib/auth';
-import { getSecurityEventCount, getSecurityEvents } from '../../../lib/securityEventsDb';
-import { getPageViewsToday, getPageViewsThisWeek, getCountryCounts } from '../../../lib/siteViewsDb';
+import { getDashboardStats } from '../../../lib/adminDashboardStats';
 
 function getTokenFromCookie(req: NextApiRequest): string | null {
   const cookie = req.headers.cookie;
@@ -29,26 +28,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
-    const [pageViewsToday, pageViewsWeek, securityCount, securityEvents, countryCounts] =
-      await Promise.all([
-        getPageViewsToday(),
-        getPageViewsThisWeek(),
-        getSecurityEventCount(24),
-        getSecurityEvents(10, 24),
-        getCountryCounts(30),
-      ]);
-
-    return res.status(200).json({
-      pageViews: {
-        today: pageViewsToday,
-        thisWeek: pageViewsWeek,
-      },
-      security: {
-        countLast24h: securityCount,
-        recentEvents: securityEvents,
-      },
-      countryCounts,
-    });
+    const stats = await getDashboardStats();
+    return res.status(200).json(stats);
   } catch (e) {
     console.error('[admin/dashboard-stats]', e);
     return res.status(500).json({ error: 'Erro ao carregar estatísticas' });

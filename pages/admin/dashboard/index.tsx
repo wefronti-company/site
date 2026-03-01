@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Head from 'next/head';
+import type { GetServerSideProps } from 'next';
 import dynamic from 'next/dynamic';
 import AdminLayout from '../../../components/admin/AdminLayout';
 import { CountryList } from '../../../components/admin/CountryList';
 import { theme } from '../../../styles/theme';
 import { Eye, Shield } from 'lucide-react';
+import { verifySessionToken, COOKIE_NAME } from '../../../lib/auth';
+import { getDashboardStats, type DashboardStats } from '../../../lib/adminDashboardStats';
 
 const WorldMapClient = dynamic(
   () => import('../../../components/admin/WorldMap').then((m) => ({ default: m.WorldMap })),
@@ -113,24 +116,36 @@ function getTipoLabel(tipo: string): string {
   return labels[tipo] || tipo;
 }
 
-interface DashboardStats {
-  pageViews: { today: number; thisWeek: number };
-  security: { countLast24h: number; recentEvents: Array<{ id: string; tipo: string; ip: string | null; path: string | null; criado_em: string }> };
-  countryCounts?: Record<string, number>;
+function getTokenFromCookie(cookieHeader: string | undefined): string | null {
+  if (!cookieHeader) return null;
+  const match = cookieHeader.match(new RegExp(`(?:^|; )${COOKIE_NAME}=([^;]*)`));
+  return match ? decodeURIComponent(match[1]) : null;
 }
 
-const AdminDashboardPage: React.FC = () => {
-  const [stats, setStats] = useState<DashboardStats | null>(null);
-  const [loading, setLoading] = useState(true);
+export const getServerSideProps: GetServerSideProps<{ stats: DashboardStats }> = async (ctx) => {
+  const token = getTokenFromCookie(ctx.req.headers.cookie);
+  if (!token || !(await verifySessionToken(token))) {
+    return { redirect: { destination: '/admin', permanent: false } };
+  }
+  try {
+    const stats = await getDashboardStats();
+    return { props: { stats } };
+  } catch (e) {
+    console.error('[admin/dashboard] getServerSideProps', e);
+    const fallback: DashboardStats = {
+      pageViews: { today: 0, thisWeek: 0 },
+      security: { countLast24h: 0, recentEvents: [] },
+      countryCounts: {},
+    };
+    return { props: { stats: fallback } };
+  }
+};
 
-  useEffect(() => {
-    fetch('/api/admin/dashboard-stats', { credentials: 'same-origin' })
-      .then((r) => (r.ok ? r.json() : null))
-      .then((data) => setStats(data))
-      .catch(() => setStats(null))
-      .finally(() => setLoading(false));
-  }, []);
+interface PageProps {
+  stats: DashboardStats;
+}
 
+const AdminDashboardPage: React.FC<PageProps> = ({ stats }) => {
   return (
     <>
       <Head>
@@ -147,7 +162,7 @@ const AdminDashboardPage: React.FC = () => {
               Visitas hoje
             </p>
             <p style={{ ...cardValueStyle, color: colors.blue.primary }}>
-              {loading ? '—' : stats?.pageViews?.today ?? 0}
+              {stats.pageViews.today}
             </p>
             <p style={cardHintStyle}>Pageviews no site público</p>
           </div>
@@ -158,7 +173,7 @@ const AdminDashboardPage: React.FC = () => {
               Visitas (7 dias)
             </p>
             <p style={{ ...cardValueStyle, color: colors.blue.primary }}>
-              {loading ? '—' : stats?.pageViews?.thisWeek ?? 0}
+              {stats.pageViews.thisWeek}
             </p>
             <p style={cardHintStyle}>Últimos 7 dias</p>
           </div>
@@ -169,13 +184,13 @@ const AdminDashboardPage: React.FC = () => {
               Eventos de segurança
             </p>
             <p style={{ ...cardValueStyle, color: '#eab308' }}>
-              {loading ? '—' : stats?.security?.countLast24h ?? 0}
+              {stats.security.countLast24h}
             </p>
             <p style={cardHintStyle}>Últimas 24 horas</p>
           </div>
         </div>
 
-        {stats?.security?.recentEvents && stats.security.recentEvents.length > 0 && (
+        {stats.security.recentEvents.length > 0 && (
           <section style={{ marginTop: spacing[6] }}>
             <h2 style={{ ...pageTitleStyle, fontSize: fontSizes.base, marginBottom: spacing[3] }}>
               Eventos de segurança recentes
@@ -193,7 +208,7 @@ const AdminDashboardPage: React.FC = () => {
           </section>
         )}
 
-        {!loading && stats?.security?.countLast24h === 0 && (
+        {stats.security.countLast24h === 0 && (
           <div
             style={{
               display: 'flex',
@@ -234,7 +249,7 @@ const AdminDashboardPage: React.FC = () => {
             <h2 style={{ ...pageTitleStyle, fontSize: fontSizes.base, marginBottom: spacing[4] }}>
               Visitas por país
             </h2>
-            <WorldMapClient countryCounts={stats?.countryCounts ?? {}} />
+            <WorldMapClient countryCounts={stats.countryCounts ?? {}} />
           </div>
           <div
             style={{
@@ -246,7 +261,7 @@ const AdminDashboardPage: React.FC = () => {
               overflowY: 'auto',
             }}
           >
-            <CountryList countryCounts={stats?.countryCounts ?? {}} />
+            <CountryList countryCounts={stats.countryCounts ?? {}} />
           </div>
         </section>
       </AdminLayout>

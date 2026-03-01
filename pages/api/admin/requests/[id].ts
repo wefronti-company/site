@@ -4,8 +4,8 @@
  * PATCH - marca como respondido
  */
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { verifySessionToken, COOKIE_NAME } from '../../../../../lib/auth';
-import { getRequestById, markAsRespondido } from '../../../../../lib/requestDb';
+import { verifySessionToken, COOKIE_NAME } from '../../../../lib/auth';
+import { getRequestById, markAsRespondido } from '../../../../lib/requestDb';
 
 function getTokenFromCookie(req: NextApiRequest): string | null {
   const cookie = req.headers.cookie;

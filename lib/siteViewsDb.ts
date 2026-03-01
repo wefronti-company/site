@@ -70,6 +70,26 @@ export async function getPageViewsThisWeek(): Promise<number> {
 }
 
 /**
+ * Visitantes únicos navegando agora (últimos 5 min, por ip_hash).
+ */
+export async function getLiveVisitorCount(windowMinutes = 5): Promise<number> {
+  if (!sql) return 0;
+
+  try {
+    const since = new Date(Date.now() - windowMinutes * 60 * 1000).toISOString();
+
+    const rows = await sql`
+      SELECT COUNT(DISTINCT ip_hash)::int AS total
+      FROM site_views
+      WHERE criado_em >= ${since} AND ip_hash IS NOT NULL AND ip_hash != ''
+    `;
+    return (rows[0] as { total: number })?.total ?? 0;
+  } catch {
+    return 0;
+  }
+}
+
+/**
  * Contagem de pageviews por país (últimos 30 dias).
  */
 export async function getCountryCounts(sinceDays = 30): Promise<Record<string, number>> {
