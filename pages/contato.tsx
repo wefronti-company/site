@@ -273,7 +273,7 @@ const Contato: React.FC = () => {
                   </address>
                 </div>
                 <p style={{ fontSize: fontSizes.xs, color: colors.text.secondary, margin: 0, marginTop: spacing[1], opacity: 0.85 }}>
-                  O atendimento é somente online, não presencial.
+                  Atendimento somente online.
                 </p>
               </div>
             </div>

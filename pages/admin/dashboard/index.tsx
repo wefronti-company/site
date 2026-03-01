@@ -5,6 +5,7 @@ import dynamic from 'next/dynamic';
 import AdminLayout from '../../../components/admin/AdminLayout';
 import { CountryList } from '../../../components/admin/CountryList';
 import { theme } from '../../../styles/theme';
+import { useMediaQuery } from '../../../hooks/useMediaQuery';
 import { Eye, Shield } from 'lucide-react';
 import { verifySessionToken, COOKIE_NAME } from '../../../lib/auth';
 import { getDashboardStats, type DashboardStats } from '../../../lib/adminDashboardStats';
@@ -146,6 +147,8 @@ interface PageProps {
 }
 
 const AdminDashboardPage: React.FC<PageProps> = ({ stats }) => {
+  const isMd = useMediaQuery(theme.breakpoints.md);
+
   return (
     <>
       <Head>
@@ -232,32 +235,34 @@ const AdminDashboardPage: React.FC<PageProps> = ({ stats }) => {
           style={{
             marginTop: spacing[8],
             display: 'grid',
-            gridTemplateColumns: 'minmax(0, 1fr) minmax(280px, 320px)',
+            gridTemplateColumns: isMd ? 'minmax(0, 1fr) minmax(280px, 320px)' : '1fr',
             gap: spacing[8],
             alignItems: 'start',
           }}
         >
+          {isMd && (
+            <div
+              style={{
+                backgroundColor: colors.admin.inactive,
+                border: `1px solid ${colors.neutral.borderDark}`,
+                borderRadius: 16,
+                padding: spacing[6],
+                overflow: 'hidden',
+              }}
+            >
+              <h2 style={{ ...pageTitleStyle, fontSize: fontSizes.base, marginBottom: spacing[4] }}>
+                Visitas por país
+              </h2>
+              <WorldMapClient countryCounts={stats.countryCounts ?? {}} />
+            </div>
+          )}
           <div
             style={{
               backgroundColor: colors.admin.inactive,
               border: `1px solid ${colors.neutral.borderDark}`,
               borderRadius: 16,
               padding: spacing[6],
-              overflow: 'hidden',
-            }}
-          >
-            <h2 style={{ ...pageTitleStyle, fontSize: fontSizes.base, marginBottom: spacing[4] }}>
-              Visitas por país
-            </h2>
-            <WorldMapClient countryCounts={stats.countryCounts ?? {}} />
-          </div>
-          <div
-            style={{
-              backgroundColor: colors.admin.inactive,
-              border: `1px solid ${colors.neutral.borderDark}`,
-              borderRadius: 16,
-              padding: spacing[6],
-              maxHeight: 360,
+              maxHeight: isMd ? 360 : 400,
               overflowY: 'auto',
             }}
           >

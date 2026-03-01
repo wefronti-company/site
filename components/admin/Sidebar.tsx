@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { LayoutDashboard, FileText, FileX, PlusCircle, User, ShieldPlus, Inbox, CheckCircle, MessageSquare } from 'lucide-react';
+import { LayoutDashboard, FileText, FileX, PlusCircle, User, ShieldPlus, Inbox, CheckCircle, MessageSquare, X } from 'lucide-react';
 import { theme } from '../../styles/theme';
 
 const { colors, spacing, fontSizes, radii } = theme;
@@ -99,12 +99,15 @@ const navLinkStyle = (isActive: boolean): React.CSSProperties => ({
 
 interface SidebarProps {
   currentPath: string;
+  isMobile?: boolean;
+  open?: boolean;
+  onClose?: () => void;
 }
 
 const isDashboardActive = (path: string) =>
   path === '/admin/dashboard' || path === '/dashboard';
 
-export const Sidebar: React.FC<SidebarProps> = ({ currentPath }) => {
+export const Sidebar: React.FC<SidebarProps> = ({ currentPath, isMobile = false, open = false, onClose }) => {
   const [superAdmin, setSuperAdmin] = useState(false);
 
   useEffect(() => {
@@ -114,10 +117,41 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPath }) => {
       .catch(() => {});
   }, []);
 
+  const asideStyle: React.CSSProperties = {
+    ...sidebarStyle,
+    ...(isMobile ? {
+      width: sidebarWidth,
+      transform: open ? 'translateX(0)' : 'translateX(-100%)',
+      transition: 'transform 0.25s ease-out',
+      boxShadow: open ? '4px 0 24px rgba(0,0,0,0.12)' : 'none',
+    } : {}),
+  };
+
+  const handleNavClick = () => {
+    if (isMobile && onClose) onClose();
+  };
+
   return (
-    <aside style={sidebarStyle} role="navigation" aria-label="Menu principal">
-      <div style={logoWrapStyle}>
-        <Link href="/admin/dashboard" style={logoLinkStyle} aria-label="Dashboard">
+    <>
+      {isMobile && open && (
+        <div
+          role="presentation"
+          onClick={onClose}
+          style={{
+            position: 'fixed',
+            inset: 0,
+            backgroundColor: 'rgba(0,0,0,0.35)',
+            backdropFilter: 'saturate(140%) blur(8px)',
+            WebkitBackdropFilter: 'saturate(140%) blur(8px)',
+            zIndex: 39,
+            transition: 'opacity 0.25s ease-out',
+          }}
+          aria-hidden
+        />
+      )}
+    <aside style={asideStyle} role="navigation" aria-label="Menu principal">
+      <div style={{ ...logoWrapStyle, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <Link href="/admin/dashboard" onClick={handleNavClick} style={logoLinkStyle} aria-label="Dashboard">
           <Image
             src="/images/brand/isologo-wefronti.webp"
             alt="Wefronti"
@@ -126,12 +160,34 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPath }) => {
             style={{ objectFit: 'contain', maxWidth: '100%' }}
           />
         </Link>
+        {isMobile && onClose && (
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="Fechar menu"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: 36,
+              height: 36,
+              border: 'none',
+              background: 'transparent',
+              color: colors.text.light,
+              cursor: 'pointer',
+              borderRadius: radii.md,
+            }}
+          >
+            <X size={20} strokeWidth={1.5} />
+          </button>
+        )}
       </div>
 
       <div style={navWrapStyle}>
         <nav style={navScrollStyle} data-lenis-prevent>
         <Link
           href="/admin/dashboard"
+          onClick={handleNavClick}
           style={{ ...navLinkStyle(isDashboardActive(currentPath)), marginBottom: spacing[2] }}
           className="admin-nav-item"
         >
@@ -145,6 +201,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPath }) => {
             <Link
               key={item.href}
               href={item.href}
+              onClick={handleNavClick}
               style={navLinkStyle(currentPath === item.href)}
               className="admin-nav-item"
             >
@@ -160,6 +217,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPath }) => {
             <Link
               key={item.href}
               href={item.href}
+              onClick={handleNavClick}
               style={navLinkStyle(currentPath === item.href)}
               className="admin-nav-item"
             >
@@ -173,6 +231,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPath }) => {
         <div style={{ display: 'flex', flexDirection: 'column', gap: spacing[3] }}>
           <Link
             href="/admin/dashboard/admin/perfil"
+            onClick={handleNavClick}
             style={navLinkStyle(currentPath === '/admin/dashboard/admin/perfil')}
             className="admin-nav-item"
           >
@@ -182,6 +241,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPath }) => {
           {superAdmin && (
             <Link
               href="/admin/dashboard/admin/novo"
+              onClick={handleNavClick}
               style={navLinkStyle(currentPath === '/admin/dashboard/admin/novo')}
               className="admin-nav-item"
             >
@@ -193,6 +253,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPath }) => {
         </nav>
       </div>
     </aside>
+    </>
   );
 };
 

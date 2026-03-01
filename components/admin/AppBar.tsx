@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { useRouter } from 'next/router';
-import { Eye, Bell, LogOut } from 'lucide-react';
+import { Eye, Bell, LogOut, Menu } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { theme } from '../../styles/theme';
 import { getAdminCache, setAdminCache, clearAdminCache } from '../../lib/adminCache';
@@ -31,26 +31,6 @@ const logoutBtnStyle: React.CSSProperties = {
   backgroundColor: 'rgba(248, 113, 113, 0.1)',
 };
 
-const appBarStyle: React.CSSProperties = {
-  position: 'fixed',
-  top: spacing[4],
-  left: SIDEBAR_WIDTH + spacing[4],
-  right: spacing[4],
-  height: ADMIN_HEADER_HEIGHT,
-  minHeight: ADMIN_HEADER_HEIGHT,
-  boxSizing: 'border-box',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  paddingLeft: spacing[4],
-  paddingRight: spacing[4],
-  backgroundColor: colors.admin.sidebar,
-  backdropFilter: 'saturate(150%) blur(14px)',
-  WebkitBackdropFilter: 'saturate(150%) blur(14px)',
-  borderRadius: 8,
-  border: `1px solid ${colors.neutral.borderDark}`,
-  zIndex: 30,
-};
 
 const userWrapStyle: React.CSSProperties = {
   display: 'flex',
@@ -132,7 +112,12 @@ interface RequestNotification {
   criado_em: string;
 }
 
-export const AppBar: React.FC = () => {
+interface AppBarProps {
+  isMobile?: boolean;
+  onMenuClick?: () => void;
+}
+
+export const AppBar: React.FC<AppBarProps> = ({ isMobile = false, onMenuClick }) => {
   const router = useRouter();
   const { showSuccess } = useSnackbar();
   const [admin, setAdmin] = useState<{ nome: string | null; email: string } | null>(null);
@@ -241,6 +226,27 @@ export const AppBar: React.FC = () => {
     opacity: 0.9,
   };
 
+  const appBarStyle: React.CSSProperties = {
+    position: 'fixed',
+    top: spacing[4],
+    left: isMobile ? spacing[4] : SIDEBAR_WIDTH + spacing[4],
+    right: spacing[4],
+    height: ADMIN_HEADER_HEIGHT,
+    minHeight: ADMIN_HEADER_HEIGHT,
+    boxSizing: 'border-box',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingLeft: spacing[4],
+    paddingRight: spacing[4],
+    backgroundColor: colors.admin.sidebar,
+    backdropFilter: 'saturate(150%) blur(14px)',
+    WebkitBackdropFilter: 'saturate(150%) blur(14px)',
+    borderRadius: 8,
+    border: `1px solid ${colors.neutral.borderDark}`,
+    zIndex: 30,
+  };
+
   const iconBtnStyle: React.CSSProperties = {
     display: 'flex',
     alignItems: 'center',
@@ -259,6 +265,19 @@ export const AppBar: React.FC = () => {
   return (
     <header style={appBarStyle} role="banner">
       <div style={{ display: 'flex', alignItems: 'center', gap: spacing[3] }}>
+        {isMobile && onMenuClick && (
+          <button
+            type="button"
+            onClick={onMenuClick}
+            aria-label="Abrir menu"
+            style={{
+              ...iconBtnStyle,
+              marginRight: spacing[2],
+            }}
+          >
+            <Menu size={22} strokeWidth={1.5} aria-hidden />
+          </button>
+        )}
         <div style={liveBadgeStyle} title="Pessoas navegando no site agora">
           <Eye size={18} aria-hidden />
           <span>{liveCount !== null ? liveCount : '—'}</span>
@@ -307,7 +326,7 @@ export const AppBar: React.FC = () => {
                 initial={{ opacity: 0, y: -8 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -8 }}
-                style={{ ...dropdownStyle, right: 0, minWidth: 360 }}
+                style={{ ...dropdownStyle, right: 0, minWidth: isMobile ? 280 : 360, maxWidth: isMobile ? 'calc(100vw - 32px)' : undefined }}
               >
                 <p style={{ margin: 0, marginBottom: spacing[3], fontSize: fontSizes.sm, fontWeight: 600, color: colors.text.light }}>
                   Notificações
