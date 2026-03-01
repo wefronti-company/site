@@ -114,6 +114,23 @@ const ADMIN_HOST = 'admin.wefronti.com';
 // Hosts do site público (acesso a /admin bloqueado)
 const MAIN_HOSTS = ['wefronti.com', 'www.wefronti.com'];
 
+const SECURITY_LOG_SECRET = process.env.SECURITY_LOG_SECRET || 'dev-internal-secret';
+
+function logSecurityEvent(
+  origin: string,
+  payload: { tipo: string; ip?: string; path?: string; user_agent?: string; detalhes?: string }
+) {
+  const url = `${origin}/api/internal/security-event`;
+  fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Security-Log-Secret': SECURITY_LOG_SECRET,
+    },
+    body: JSON.stringify(payload),
+  }).catch(() => {});
+}
+
 export async function middleware(request: NextRequest) {
  const clientIp = getClientIp(request);
  const userAgent = request.headers.get('user-agent');
@@ -124,8 +141,8 @@ export async function middleware(request: NextRequest) {
  const pathname = url.pathname;
  const isPublicProposalPageApi = /^\/api\/proposta\/[^/]+$/.test(pathname) && request.method === 'GET';
  const isProtectedAdminApi =
-   pathname.startsWith('/api/clientes') ||
    pathname === '/api/dashboard' ||
+   (pathname.startsWith('/api/admin/') && pathname !== '/api/admin/login') ||
    (pathname.startsWith('/api/proposta') && !isPublicProposalPageApi) ||
    (pathname.startsWith('/api/site') && request.method !== 'GET');
 
@@ -174,35 +191,51 @@ export async function middleware(request: NextRequest) {
 
  // 1. Bloquear IPs maliciosos
  if (BLOCKED_IPS.has(clientIp)) {
- console.warn(`[SECURITY] IP bloqueado tentou acesso: ${clientIp}`);
- return new NextResponse('Forbidden', { status: 403 });
+   const origin = request.nextUrl.origin;
+   logSecurityEvent(origin, { tipo: 'ip_bloqueado', ip: clientIp, path: pathname, user_agent: userAgent ?? undefined });
+   console.warn(`[SECURITY] IP bloqueado tentou acesso: ${clientIp}`);
+   return new NextResponse('Forbidden', { status: 403 });
  }
  
- // 2. Bloquear bots suspeitos (exceto para rotas públicas)
- if (url.pathname.startsWith('/api/') && isSuspiciousBot(userAgent)) {
- console.warn(`[SECURITY] Bot suspeito bloqueado: ${userAgent} (IP: ${clientIp})`);
- return new NextResponse('Forbidden', { status: 403 });
+ // 2. Bloquear bots suspeitos (exceto para rotas públicas e internal)
+ const isInternalApi = pathname.startsWith('/api/internal/');
+ if (!isInternalApi && url.pathname.startsWith('/api/') && isSuspiciousBot(userAgent)) {
+   const origin = request.nextUrl.origin;
+   logSecurityEvent(origin, { tipo: 'bot_suspeito', ip: clientIp, path: pathname, user_agent: userAgent ?? undefined });
+   console.warn(`[SECURITY] Bot suspeito bloqueado: ${userAgent} (IP: ${clientIp})`);
+   return new NextResponse('Forbidden', { status: 403 });
  }
  
  // 3. Validar origem para requisições POST/PUT/DELETE (CSRF Protection)
  if (['POST', 'PUT', 'DELETE', 'PATCH'].includes(request.method)) {
  if (!isValidOrigin(request)) {
- console.warn(`[SECURITY] Origem inválida detectada: ${request.headers.get('origin')} (IP: ${clientIp})`);
- return new NextResponse('Forbidden - Invalid Origin', { status: 403 });
+   const origin = request.nextUrl.origin;
+   logSecurityEvent(origin, {
+     tipo: 'origem_invalida',
+     ip: clientIp,
+     path: pathname,
+     detalhes: `origin: ${request.headers.get('origin')}`,
+   });
+   console.warn(`[SECURITY] Origem inválida detectada: ${request.headers.get('origin')} (IP: ${clientIp})`);
+   return new NextResponse('Forbidden - Invalid Origin', { status: 403 });
  }
  }
  
  // 4. Prevenir Path Traversal Attack
  if (url.pathname.includes('..') || url.pathname.includes('//')) {
- console.warn(`[SECURITY] Path traversal attempt: ${url.pathname} (IP: ${clientIp})`);
- return new NextResponse('Bad Request', { status: 400 });
+   const origin = request.nextUrl.origin;
+   logSecurityEvent(origin, { tipo: 'path_traversal', ip: clientIp, path: pathname });
+   console.warn(`[SECURITY] Path traversal attempt: ${url.pathname} (IP: ${clientIp})`);
+   return new NextResponse('Bad Request', { status: 400 });
  }
  
  // 5. Bloquear acesso direto a arquivos sensíveis
  const sensitivePaths = ['.env', '.git', 'package.json', 'node_modules'];
- if (sensitivePaths.some(path => url.pathname.includes(path))) {
- console.warn(`[SECURITY] Tentativa de acesso a arquivo sensível: ${url.pathname} (IP: ${clientIp})`);
- return new NextResponse('Not Found', { status: 404 });
+ if (sensitivePaths.some(p => url.pathname.includes(p))) {
+   const origin = request.nextUrl.origin;
+   logSecurityEvent(origin, { tipo: 'arquivo_sensivel', ip: clientIp, path: pathname });
+   console.warn(`[SECURITY] Tentativa de acesso a arquivo sensível: ${url.pathname} (IP: ${clientIp})`);
+   return new NextResponse('Not Found', { status: 404 });
  }
 
  const response = NextResponse.next();

@@ -148,6 +148,7 @@ jobs:
     env:
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
       JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      SECURITY_LOG_SECRET: ${{ secrets.SECURITY_LOG_SECRET }}
       SMTP_HOST: ${{ secrets.SMTP_HOST }}
       SMTP_PORT: ${{ secrets.SMTP_PORT }}
       SMTP_USER: ${{ secrets.SMTP_USER }}
@@ -202,6 +203,11 @@ jobs:
         run: |
           printf '%s' "$JWT_SECRET" | vercel env add JWT_SECRET production --force --token="$VERCEL_TOKEN"
 
+      - name: 4.4.5b - Sync SECURITY_LOG_SECRET to Vercel (from GitHub)
+        if: env.SECURITY_LOG_SECRET != ''
+        run: |
+          printf '%s' "$SECURITY_LOG_SECRET" | vercel env add SECURITY_LOG_SECRET production --force --token="$VERCEL_TOKEN"
+
       - name: 4.4.6 - Sync SMTP env vars to Vercel (from GitHub)
         if: env.SMTP_HOST != '' && env.SMTP_USER != '' && env.SMTP_PASS != ''
         run: |
@@ -217,7 +223,7 @@ jobs:
       - name: 4.5 - Build project artifacts
         run: vercel build --prod --token="$VERCEL_TOKEN"
         
-      - name: 4.6 - Run Vercel production deploy (capture output)
+      - name: 4.6 - Run Vercel production deploy (staged, sem promover ao domínio)
         id: deploy-run
         continue-on-error: true
         run: |
@@ -225,9 +231,9 @@ jobs:
           echo "Verifying Vercel CLI version"
           vercel --version || true
 
-          echo "Starting Vercel production deploy (prebuilt)..."
+          echo "Starting Vercel production deploy (--skip-domain: site só atualiza após promote)..."
           outfile=vercel_deploy_output.txt
-          vercel deploy --prod --token="$VERCEL_TOKEN" > "$outfile" 2>&1
+          vercel deploy --prod --skip-domain --token="$VERCEL_TOKEN" > "$outfile" 2>&1
           echo $? > vercel_deploy_retcode.txt
 
       - name: 4.7 - Dump deploy output (debug)
@@ -279,7 +285,6 @@ jobs:
           
       - name: 4.9 - Smoke tests (critical assets)
         id: smoke-test
-        continue-on-error: true
         run: |
           set -euo pipefail
           DEPLOY_URL="${{ steps.deploy-analyze.outputs.url }}"
@@ -317,10 +322,22 @@ jobs:
           done
 
           if [ "$failed" = "true" ]; then
-            echo "One or more smoke tests failed. See logs above for details."
-            # Fail the step so logs are visible in action output, but allow job to continue
+            echo "One or more smoke tests failed. Site NÃO será promovido."
             exit 1
           fi
+
+      - name: 4.9b - Promote deployment to production (ativa o site)
+        id: promote
+        run: |
+          set -euo pipefail
+          DEPLOY_URL="${{ steps.deploy-analyze.outputs.url }}"
+          if [ -z "$DEPLOY_URL" ]; then
+            echo "Deploy URL não encontrada — não é possível promover"
+            exit 1
+          fi
+          echo "Promovendo $DEPLOY_URL para produção (wefronti.com)..."
+          vercel promote "$DEPLOY_URL" --token="$VERCEL_TOKEN" --yes
+          echo "Promoção concluída. Site atualizado."
 
       - name: 4.10 - Purge Cloudflare cache (if token configured)
         env:

@@ -18,22 +18,31 @@ export default function MyApp({ Component, pageProps }: AppProps) {
  const router = useRouter();
 
  React.useEffect(() => {
-   const handleRouteChange = (url: string) => {
-     // Rastrear mudanças de página apenas se analytics foi aceito
-     const consent = localStorage.getItem('cookieConsent');
-     if (consent) {
-       const prefs = JSON.parse(consent);
-       if (prefs.analytics) {
-         gtag.pageview(url);
-       }
+   const trackView = (url: string) => {
+     if (!url.startsWith('/admin') && !url.startsWith('/proposta') && url !== '/dados-cliente') {
+       fetch('/api/track-view', {
+         method: 'POST',
+         headers: { 'Content-Type': 'application/json' },
+         body: JSON.stringify({ path: url || '/' }),
+       }).catch(() => {});
      }
    };
-   
-   router.events.on('routeChangeComplete', handleRouteChange);
-   return () => {
-     router.events.off('routeChangeComplete', handleRouteChange);
+
+   const handleRouteChange = (url: string) => {
+     const consent = localStorage.getItem('cookieConsent');
+     if (consent) {
+       try {
+         const prefs = JSON.parse(consent);
+         if (prefs.analytics) gtag.pageview(url);
+       } catch {}
+     }
+     trackView(url);
    };
- }, [router.events]);
+
+   trackView(router.asPath);
+   router.events.on('routeChangeComplete', handleRouteChange);
+   return () => router.events.off('routeChangeComplete', handleRouteChange);
+ }, [router.events, router.asPath]);
 
  // Inserir comentário logo antes do <html> no DOM (executado no cliente)
  // Mantemos fundo global do site também no admin.

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { Users, CreditCard, LayoutDashboard, FileText, FileX, PlusCircle, LogOut, List, User, ShieldPlus } from 'lucide-react';
+import { LayoutDashboard, FileText, FileX, PlusCircle, LogOut, User, ShieldPlus, Inbox, CheckCircle } from 'lucide-react';
 import { theme } from '../../styles/theme';
 import { useSnackbar } from '../../contexts/SnackbarContext';
 import { clearAdminCache } from '../../lib/adminCache';
@@ -14,16 +14,15 @@ import { ADMIN_HEADER_HEIGHT, SIDEBAR_WIDTH } from './constants';
 
 export const sidebarWidth = SIDEBAR_WIDTH;
 
-const CLIENTE_ITEMS = [
-  { label: 'Todos os clientes', href: '/admin/dashboard/clientes/todos', icon: <List size={16} strokeWidth={1.5} /> },
-  { label: 'Manutenção', href: '/admin/dashboard/clientes/manutencao', icon: <Users size={16} strokeWidth={1.5} /> },
-  { label: 'Pagamentos', href: '/admin/dashboard/clientes/fatura', icon: <CreditCard size={16} strokeWidth={1.5} /> },
-];
-
 const PROPOSTA_ITEMS = [
   { label: 'Nova proposta', href: '/admin/dashboard/proposta/nova', icon: <PlusCircle size={16} strokeWidth={1.5} /> },
   { label: 'Proposta ativa', href: '/admin/dashboard/proposta/ativa', icon: <FileText size={16} strokeWidth={1.5} /> },
   { label: 'Proposta expiradas', href: '/admin/dashboard/proposta/expiradas', icon: <FileX size={16} strokeWidth={1.5} /> },
+];
+
+const FORM_ITEMS = [
+  { label: 'Novos orçamentos', href: '/admin/dashboard/form/novos', icon: <Inbox size={16} strokeWidth={1.5} /> },
+  { label: 'Respondidos', href: '/admin/dashboard/form/respondidos', icon: <CheckCircle size={16} strokeWidth={1.5} /> },
 ];
 
 const sidebarStyle: React.CSSProperties = {
@@ -167,9 +166,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ currentPath }) => {
           Dashboard
         </Link>
 
-        <div style={sectionLabelStyle}>Clientes</div>
+        <div style={sectionLabelStyle}>Formulário</div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: spacing[3] }}>
-          {CLIENTE_ITEMS.map((item) => (
+          {FORM_ITEMS.map((item) => (
             <Link
               key={item.href}
               href={item.href}

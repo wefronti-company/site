@@ -6,13 +6,13 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import isEmail from 'validator/lib/isEmail';
 import { sql } from '../../../lib/db';
 import {
-  hashCodigoAcesso,
   verifyCodigoAcesso,
   createSessionToken,
   createRefreshToken,
   COOKIE_NAME,
   COOKIE_REFRESH_NAME,
 } from '../../../lib/auth';
+import { insertSecurityEvent } from '../../../lib/securityEventsDb';
 
 const MAX_EMAIL_LENGTH = 254;
 const MAX_CODIGO_LENGTH = 64;
@@ -70,6 +70,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const admin = rows[0] as { id: string; email: string; codigo_acesso_hash: string } | undefined;
 
     if (!admin || !verifyCodigoAcesso(codigoAcesso, admin.codigo_acesso_hash)) {
+      insertSecurityEvent({
+        tipo: 'admin_login_falhou',
+        ip: clientKey,
+        path: '/api/admin/login',
+        detalhes: 'credenciais inválidas',
+      }).catch(() => {});
       return res.status(401).json({ error: 'E-mail ou código de acesso incorretos.' });
     }
 

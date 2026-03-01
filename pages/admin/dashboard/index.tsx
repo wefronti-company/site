@@ -1,23 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
+import dynamic from 'next/dynamic';
 import AdminLayout from '../../../components/admin/AdminLayout';
+import { CountryList } from '../../../components/admin/CountryList';
 import { theme } from '../../../styles/theme';
-import { Wallet, Clock, Users } from 'lucide-react';
+import { Eye, Shield } from 'lucide-react';
+
+const WorldMapClient = dynamic(
+  () => import('../../../components/admin/WorldMap').then((m) => ({ default: m.WorldMap })),
+  { ssr: false }
+);
 
 const { colors, spacing, fontSizes } = theme;
-
-/** Verde: dinheiro recebido */
-const COR_RECEITA = '#22c55e';
-/** Amarelo: a receber */
-const COR_A_RECEBER = '#eab308';
-/** Azul: clientes ativos */
-const COR_CLIENTES = colors.blue.primary;
-
-interface DashboardDados {
-  receitaTotalMes: { valor: number; meta: number };
-  clientesAtivos: { total: number; meta: number };
-  aReceber: number;
-}
 
 const pageTitleStyle: React.CSSProperties = {
   fontSize: fontSizes.lg,
@@ -29,9 +23,9 @@ const pageTitleStyle: React.CSSProperties = {
 
 const cardWrapStyle: React.CSSProperties = {
   display: 'grid',
-  gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+  gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
   gap: spacing[6],
-  marginTop: spacing[6],
+  marginBottom: spacing[8],
 };
 
 const cardStyle: React.CSSProperties = {
@@ -39,16 +33,16 @@ const cardStyle: React.CSSProperties = {
   border: `1px solid ${colors.neutral.borderDark}`,
   borderRadius: 16,
   padding: spacing[6],
-  minHeight: 140,
+  minHeight: 120,
   display: 'flex',
   flexDirection: 'column',
-  gap: spacing[4],
+  gap: spacing[3],
 };
 
 const cardTitleStyle: React.CSSProperties = {
   fontSize: fontSizes.sm,
   color: colors.text.light,
-  opacity: 0.8,
+  opacity: 0.9,
   margin: 0,
   display: 'flex',
   alignItems: 'center',
@@ -68,35 +62,74 @@ const cardHintStyle: React.CSSProperties = {
   margin: 0,
 };
 
-function formatBRL(val: number): string {
-  return new Intl.NumberFormat('pt-BR', {
-    style: 'currency',
-    currency: 'BRL',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(val);
-}
-
-const DEFAULT_DADOS: DashboardDados = {
-  receitaTotalMes: { valor: 0, meta: 0 },
-  clientesAtivos: { total: 0, meta: 0 },
-  aReceber: 0,
+const eventsListStyle: React.CSSProperties = {
+  listStyle: 'none',
+  margin: 0,
+  padding: 0,
+  display: 'flex',
+  flexDirection: 'column',
+  gap: spacing[2],
 };
 
+const eventItemStyle: React.CSSProperties = {
+  display: 'flex',
+  flexWrap: 'wrap',
+  gap: spacing[2],
+  padding: spacing[2],
+  backgroundColor: colors.admin.inactive,
+  border: `1px solid ${colors.neutral.borderDark}`,
+  borderRadius: 8,
+  fontSize: fontSizes.sm,
+  color: colors.text.light,
+};
+
+const tipoLabelStyle: React.CSSProperties = {
+  fontWeight: 600,
+  textTransform: 'uppercase' as const,
+  fontSize: fontSizes.xs,
+  opacity: 0.9,
+};
+
+function formatDateTime(iso: string): string {
+  const d = new Date(iso);
+  if (isNaN(d.getTime())) return '—';
+  return d.toLocaleString('pt-BR', {
+    day: '2-digit',
+    month: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+}
+
+function getTipoLabel(tipo: string): string {
+  const labels: Record<string, string> = {
+    ip_bloqueado: 'IP bloqueado',
+    bot_suspeito: 'Bot suspeito',
+    origem_invalida: 'Origem inválida',
+    path_traversal: 'Path traversal',
+    arquivo_sensivel: 'Arquivo sensível',
+    admin_login_falhou: 'Login admin falhou',
+  };
+  return labels[tipo] || tipo;
+}
+
+interface DashboardStats {
+  pageViews: { today: number; thisWeek: number };
+  security: { countLast24h: number; recentEvents: Array<{ id: string; tipo: string; ip: string | null; path: string | null; criado_em: string }> };
+  countryCounts?: Record<string, number>;
+}
+
 const AdminDashboardPage: React.FC = () => {
-  const [dados, setDados] = useState<DashboardDados>(DEFAULT_DADOS);
-  const [loading, setLoading] = useState(false);
+  const [stats, setStats] = useState<DashboardStats | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setLoading(true);
-    fetch('/api/dashboard')
-      .then((r) => r.json())
-      .then((data) => setDados(data))
-      .catch(() => setDados(DEFAULT_DADOS))
+    fetch('/api/admin/dashboard-stats', { credentials: 'same-origin' })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data) => setStats(data))
+      .catch(() => setStats(null))
       .finally(() => setLoading(false));
   }, []);
-
-  const { receitaTotalMes, clientesAtivos, aReceber } = dados;
 
   return (
     <>
@@ -106,40 +139,116 @@ const AdminDashboardPage: React.FC = () => {
       </Head>
       <AdminLayout>
         <h1 style={pageTitleStyle}>Visão geral</h1>
+
         <div style={cardWrapStyle}>
           <div style={cardStyle}>
             <p style={cardTitleStyle}>
-              <Wallet size={20} aria-hidden style={{ color: COR_RECEITA }} />
-              Receita do mês
+              <Eye size={20} aria-hidden style={{ color: colors.blue.primary }} />
+              Visitas hoje
             </p>
-            <p style={{ ...cardValueStyle, color: COR_RECEITA }}>
-              {loading ? '—' : formatBRL(receitaTotalMes.valor)}
+            <p style={{ ...cardValueStyle, color: colors.blue.primary }}>
+              {loading ? '—' : stats?.pageViews?.today ?? 0}
             </p>
-            <p style={cardHintStyle}>Total recebido em mensalidades este mês</p>
+            <p style={cardHintStyle}>Pageviews no site público</p>
           </div>
 
           <div style={cardStyle}>
             <p style={cardTitleStyle}>
-              <Clock size={20} aria-hidden style={{ color: COR_A_RECEBER }} />
-              A receber
+              <Eye size={20} aria-hidden style={{ color: colors.blue.primary }} />
+              Visitas (7 dias)
             </p>
-            <p style={{ ...cardValueStyle, color: COR_A_RECEBER }}>
-              {loading ? '—' : formatBRL(aReceber)}
+            <p style={{ ...cardValueStyle, color: colors.blue.primary }}>
+              {loading ? '—' : stats?.pageViews?.thisWeek ?? 0}
             </p>
-            <p style={cardHintStyle}>Previsão com base nas mensalidades ainda não pagas</p>
+            <p style={cardHintStyle}>Últimos 7 dias</p>
           </div>
 
           <div style={cardStyle}>
             <p style={cardTitleStyle}>
-              <Users size={20} aria-hidden style={{ color: COR_CLIENTES }} />
-              Clientes ativos
+              <Shield size={20} aria-hidden style={{ color: '#eab308' }} />
+              Eventos de segurança
             </p>
-            <p style={{ ...cardValueStyle, color: COR_CLIENTES }}>
-              {loading ? '—' : clientesAtivos.total}
+            <p style={{ ...cardValueStyle, color: '#eab308' }}>
+              {loading ? '—' : stats?.security?.countLast24h ?? 0}
             </p>
-            <p style={cardHintStyle}>Com manutenção mensal e pagamento em dia este mês</p>
+            <p style={cardHintStyle}>Últimas 24 horas</p>
           </div>
         </div>
+
+        {stats?.security?.recentEvents && stats.security.recentEvents.length > 0 && (
+          <section style={{ marginTop: spacing[6] }}>
+            <h2 style={{ ...pageTitleStyle, fontSize: fontSizes.base, marginBottom: spacing[3] }}>
+              Eventos de segurança recentes
+            </h2>
+            <ul style={eventsListStyle}>
+              {stats.security.recentEvents.map((ev) => (
+                <li key={ev.id} style={eventItemStyle}>
+                  <span style={tipoLabelStyle}>{getTipoLabel(ev.tipo)}</span>
+                  {ev.ip && <span>IP: {ev.ip}</span>}
+                  {ev.path && <span>Path: {ev.path}</span>}
+                  <span style={{ opacity: 0.7 }}>{formatDateTime(ev.criado_em)}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {!loading && stats?.security?.countLast24h === 0 && (
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: spacing[3],
+              padding: spacing[6],
+              backgroundColor: 'rgba(34, 197, 94, 0.1)',
+              border: '1px solid rgba(34, 197, 94, 0.3)',
+              borderRadius: 12,
+              marginTop: spacing[6],
+            }}
+          >
+            <Shield size={24} style={{ color: '#22c55e', flexShrink: 0 }} />
+            <p style={{ margin: 0, fontSize: fontSizes.sm, color: colors.text.light }}>
+              Nenhum evento de segurança nas últimas 24 horas. O site está protegido.
+            </p>
+          </div>
+        )}
+
+        <section
+          style={{
+            marginTop: spacing[8],
+            display: 'grid',
+            gridTemplateColumns: 'minmax(0, 1fr) minmax(280px, 320px)',
+            gap: spacing[8],
+            alignItems: 'start',
+          }}
+        >
+          <div
+            style={{
+              backgroundColor: colors.admin.inactive,
+              border: `1px solid ${colors.neutral.borderDark}`,
+              borderRadius: 16,
+              padding: spacing[6],
+              overflow: 'hidden',
+            }}
+          >
+            <h2 style={{ ...pageTitleStyle, fontSize: fontSizes.base, marginBottom: spacing[4] }}>
+              Visitas por país
+            </h2>
+            <WorldMapClient countryCounts={stats?.countryCounts ?? {}} />
+          </div>
+          <div
+            style={{
+              backgroundColor: colors.admin.inactive,
+              border: `1px solid ${colors.neutral.borderDark}`,
+              borderRadius: 16,
+              padding: spacing[6],
+              maxHeight: 360,
+              overflowY: 'auto',
+            }}
+          >
+            <CountryList countryCounts={stats?.countryCounts ?? {}} />
+          </div>
+        </section>
       </AdminLayout>
     </>
   );

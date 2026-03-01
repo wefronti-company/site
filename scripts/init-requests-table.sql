@@ -12,8 +12,11 @@ CREATE TABLE IF NOT EXISTS requests (
   ip TEXT,
   user_agent TEXT,
   status TEXT NOT NULL DEFAULT 'novo',
-  criado_em TIMESTAMPTZ NOT NULL DEFAULT NOW()
+  criado_em TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  respondido_em TIMESTAMPTZ
 );
 
 CREATE INDEX IF NOT EXISTS idx_requests_criado_em ON requests (criado_em DESC);
 CREATE INDEX IF NOT EXISTS idx_requests_status ON requests (status);
+
+ALTER TABLE requests ADD COLUMN IF NOT EXISTS respondido_em TIMESTAMPTZ;
