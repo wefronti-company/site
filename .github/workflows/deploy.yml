@@ -147,7 +147,6 @@ jobs:
       url: https://wefronti.com
     env:
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-      VERCEL_TEAM_SLUG: ${{ secrets.VERCEL_TEAM_SLUG }}
       JWT_SECRET: ${{ secrets.JWT_SECRET }}
       SECURITY_LOG_SECRET: ${{ secrets.SECURITY_LOG_SECRET }}
     
@@ -214,9 +213,9 @@ jobs:
           echo "Verifying Vercel CLI version"
           vercel --version || true
 
-          echo "Starting Vercel production deploy (--skip-domain: site só atualiza após promote)..."
+          echo "Starting Vercel production deploy (atribui direto ao domínio de produção)..."
           outfile=vercel_deploy_output.txt
-          vercel deploy --prod --skip-domain --token="$VERCEL_TOKEN" > "$outfile" 2>&1
+          vercel deploy --prod --token="$VERCEL_TOKEN" > "$outfile" 2>&1
           echo $? > vercel_deploy_retcode.txt
 
       - name: 4.7 - Dump deploy output (debug)
@@ -308,25 +307,6 @@ jobs:
             echo "One or more smoke tests failed. Site NÃO será promovido."
             exit 1
           fi
-
-      - name: 4.9b - Promote deployment to production (ativa o site)
-        id: promote
-        run: |
-          set -euo pipefail
-          DEPLOY_URL="${{ steps.deploy-analyze.outputs.url }}"
-          if [ -z "$DEPLOY_URL" ]; then
-            echo "Deploy URL não encontrada — não é possível promover"
-            exit 1
-          fi
-          echo "Promovendo $DEPLOY_URL para produção (wefronti.com)..."
-          if [ -n "${VERCEL_TEAM_SLUG:-}" ]; then
-            echo "Usando scope (Team): $VERCEL_TEAM_SLUG"
-            vercel promote "$DEPLOY_URL" --scope="$VERCEL_TEAM_SLUG" --token="$VERCEL_TOKEN" --yes
-          else
-            echo "Conta pessoal — promote sem --scope"
-            vercel promote "$DEPLOY_URL" --token="$VERCEL_TOKEN" --yes
-          fi
-          echo "Promoção concluída. Site atualizado."
 
       - name: 4.10 - Purge Cloudflare cache (if token configured)
         env:
