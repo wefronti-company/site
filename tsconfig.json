@@ -20,7 +20,8 @@
     "module": "esnext",
     "paths": {
       "@/*": ["./*"]
-    }
+    },
+    "typeRoots": ["./node_modules/@types"]
   },
   "include": [
     "types/**/*.d.ts",
