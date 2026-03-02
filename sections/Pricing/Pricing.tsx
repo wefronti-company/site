@@ -831,7 +831,7 @@ const Pricing: React.FC<PricingProps> = ({ conteudo }) => {
                 >
                   <CheckCircle2 size={28} color="#059669" />
                 </div>
-                <h4 style={{ margin: 0, fontSize: fontSizes['2xl'], color: colors.text.primary }}>
+                <h4 style={{ margin: 0, fontSize: fontSizes['2xl'], fontWeight: 400, color: colors.text.primary }}>
                   Solicitação enviada com sucesso!
                 </h4>
                 <p style={{ margin: 0, maxWidth: 560, fontSize: fontSizes.base, color: colors.text.primary, opacity: 0.9, lineHeight: 1.6 }}>
