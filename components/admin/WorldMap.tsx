@@ -30,7 +30,7 @@ const Geographies = dynamic(() => import('react-simple-maps').then((m) => m.Geog
 const Geography = dynamic(() => import('react-simple-maps').then((m) => m.Geography), { ssr: false });
 
 const GEO_URL =
-  'https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_0_countries.geojson';
+  'https://cdn.jsdelivr.net/gh/nvkelso/natural-earth-vector@master/geojson/ne_110m_admin_0_countries.geojson';
 
 const DEFAULT_FILL = theme.colors.neutral.borderLight;
 const MIN_FILL = 'rgba(102, 191, 130, 0.25)';

@@ -319,9 +319,13 @@ jobs:
             exit 1
           fi
           echo "Promovendo $DEPLOY_URL para produção (wefronti.com)..."
-          SCOPE="${VERCEL_TEAM_SLUG:-wefronti}"
-          echo "Usando scope: $SCOPE (evita 'Deployment belongs to a different team')"
-          vercel promote "$DEPLOY_URL" --scope="$SCOPE" --token="$VERCEL_TOKEN" --yes
+          if [ -n "${VERCEL_TEAM_SLUG:-}" ]; then
+            echo "Usando scope (Team): $VERCEL_TEAM_SLUG"
+            vercel promote "$DEPLOY_URL" --scope="$VERCEL_TEAM_SLUG" --token="$VERCEL_TOKEN" --yes
+          else
+            echo "Conta pessoal — promote sem --scope"
+            vercel promote "$DEPLOY_URL" --token="$VERCEL_TOKEN" --yes
+          fi
           echo "Promoção concluída. Site atualizado."
 
       - name: 4.10 - Purge Cloudflare cache (if token configured)

@@ -1,11 +1,16 @@
 import React from 'react';
+import { useSplash } from '../contexts/SplashContext';
 
 /**
  * Asteriscos decorativos no fundo (esquerda e direita).
  * Esquerda: gira horário. Direita: gira antihorário.
- * Oculto em rotas admin.
+ * Oculto em rotas admin e durante a splash.
  */
-const AsteriskDecor: React.FC = () => (
+const AsteriskDecor: React.FC = () => {
+  const splash = useSplash();
+  if (splash?.splashActive) return null;
+
+  return (
   <>
     <div
       className="asterisk-decor-left"
@@ -44,6 +49,7 @@ const AsteriskDecor: React.FC = () => (
       }}
     />
   </>
-);
+  );
+};
 
 export default AsteriskDecor;

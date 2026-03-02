@@ -240,22 +240,21 @@ const AdminDashboardPage: React.FC<PageProps> = ({ stats }) => {
             alignItems: 'start',
           }}
         >
-          {isMd && (
-            <div
-              style={{
-                backgroundColor: colors.admin.inactive,
-                border: `1px solid ${colors.neutral.borderDark}`,
-                borderRadius: 16,
-                padding: spacing[6],
-                overflow: 'hidden',
-              }}
-            >
-              <h2 style={{ ...pageTitleStyle, fontSize: fontSizes.base, marginBottom: spacing[4] }}>
-                Visitas por país
-              </h2>
-              <WorldMapClient countryCounts={stats.countryCounts ?? {}} />
-            </div>
-          )}
+          <div
+            style={{
+              backgroundColor: colors.admin.inactive,
+              border: `1px solid ${colors.neutral.borderDark}`,
+              borderRadius: 16,
+              padding: spacing[6],
+              overflow: 'hidden',
+              minHeight: 280,
+            }}
+          >
+            <h2 style={{ ...pageTitleStyle, fontSize: fontSizes.base, marginBottom: spacing[4] }}>
+              Visitas por país
+            </h2>
+            <WorldMapClient countryCounts={stats.countryCounts ?? {}} />
+          </div>
           <div
             style={{
               backgroundColor: colors.admin.inactive,
