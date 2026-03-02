@@ -1,6 +1,16 @@
 import React, { useState } from 'react';
+import { SiAmazonwebservices, SiGo, SiDocker, SiNodedotjs, SiTypescript, SiReact } from 'react-icons/si';
 import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
+
+const TECH_STACK: { key: string; label: string; Icon: React.ComponentType<{ size?: number; style?: React.CSSProperties }> }[] = [
+  { key: 'aws', label: 'AWS', Icon: SiAmazonwebservices },
+  { key: 'go', label: 'Go', Icon: SiGo },
+  { key: 'docker', label: 'Docker', Icon: SiDocker },
+  { key: 'nodejs', label: 'Node.js', Icon: SiNodedotjs },
+  { key: 'typescript', label: 'TypeScript', Icon: SiTypescript },
+  { key: 'react', label: 'React', Icon: SiReact },
+];
 
 const { colors, spacing, fontSizes, radii, containerMaxWidth } = theme;
 
@@ -53,12 +63,15 @@ const LOGO_SIZE = 56;
 const LOGO_SIZE_LARGE = 66;
 const LOGO_SIZE_XLARGE = 76;
 
-const LogoBadge: React.FC<{ company: CompanyLogo }> = ({ company }) => {
+const LogoBadge: React.FC<{ company: CompanyLogo; compact?: boolean }> = ({ company, compact }) => {
+  const badgeW = compact ? 120 : BADGE_WIDTH;
+  const badgeH = compact ? 64 : BADGE_HEIGHT;
   const logoSize = company.logoXLarge
     ? LOGO_SIZE_XLARGE
     : company.logoLarge
       ? LOGO_SIZE_LARGE
       : LOGO_SIZE;
+  const logoSizeFinal = compact ? Math.min(logoSize, 48) : logoSize;
   const [imgError, setImgError] = useState(false);
 
   return (
@@ -75,16 +88,14 @@ const LogoBadge: React.FC<{ company: CompanyLogo }> = ({ company }) => {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        width: BADGE_WIDTH,
-        height: BADGE_HEIGHT,
-        minWidth: BADGE_WIDTH,
-        minHeight: BADGE_HEIGHT,
+        width: badgeW,
+        height: badgeH,
+        minWidth: badgeW,
+        minHeight: badgeH,
         flexShrink: 0,
         overflow: 'hidden',
         padding: '12px 24px',
-        backgroundColor: 'rgba(255, 255, 255, 0.5)',
-        backdropFilter: 'saturate(150%) blur(14px)',
-        WebkitBackdropFilter: 'saturate(150%) blur(14px)',
+        backgroundColor: colors.text.primary,
         border: `1px solid ${colors.neutral.border}`,
         borderRadius: radii.full,
         cursor: 'default',
@@ -96,8 +107,8 @@ const LogoBadge: React.FC<{ company: CompanyLogo }> = ({ company }) => {
           style={{
             fontSize: 12,
             fontWeight: 600,
-            color: colors.text.primary,
-            opacity: 0.7,
+            color: '#fff',
+            opacity: 0.9,
             textAlign: 'center',
           }}
         >
@@ -107,20 +118,20 @@ const LogoBadge: React.FC<{ company: CompanyLogo }> = ({ company }) => {
         <img
           src={company.src}
           alt={`${company.name} — mesma stack que empresas de referência`}
-          width={logoSize}
-          height={logoSize}
+          width={logoSizeFinal}
+          height={logoSizeFinal}
           loading="lazy"
           onError={() => setImgError(true)}
           style={{
-            width: logoSize,
-            height: logoSize,
-            minWidth: logoSize,
-            minHeight: logoSize,
-            maxWidth: logoSize,
-            maxHeight: logoSize,
+            width: logoSizeFinal,
+            height: logoSizeFinal,
+            minWidth: logoSizeFinal,
+            minHeight: logoSizeFinal,
+            maxWidth: logoSizeFinal,
+            maxHeight: logoSizeFinal,
             objectFit: 'contain',
-            filter: 'grayscale(0.15)',
-            opacity: 0.92,
+            filter: 'brightness(0) invert(1)',
+            opacity: 0.9,
           }}
         />
       )}
@@ -139,7 +150,7 @@ const Tecnologias: React.FC = () => {
     lineHeight: 1.15,
     letterSpacing: '-0.02em',
     fontWeight: 400,
-    textAlign: isMd ? 'left' : 'center',
+    textAlign: isMd ? 'left' : 'left',
   };
 
   const subtitleStyle: React.CSSProperties = {
@@ -148,7 +159,7 @@ const Tecnologias: React.FC = () => {
     opacity: 0.88,
     fontSize: '1.15rem',
     lineHeight: 1.7,
-    textAlign: isMd ? 'left' : 'center',
+    textAlign: isMd ? 'left' : 'left',
     maxWidth: isMd ? 480 : 860,
   };
 
@@ -185,7 +196,7 @@ const Tecnologias: React.FC = () => {
             flex: isMd ? '1 1 45%' : undefined,
             display: 'flex',
             flexDirection: 'column',
-            alignItems: isMd ? 'flex-start' : 'center',
+            alignItems: isMd ? 'flex-start' : 'flex-start',
             gap: spacing[6],
           }}
         >
@@ -204,25 +215,49 @@ const Tecnologias: React.FC = () => {
             A mesma stack das grandes empresas
           </h2>
           <p style={subtitleStyle}>
-            Node.js, React, TypeScript e Next.js — tecnologias que sustentam Netflix, Uber, Airbnb
-            e milhares de empresas de referência. A Wefronti entrega performance, estabilidade e
-            evolução contínua.
+            AWS, Go, Docker, Node.js, TypeScript e React. Tecnologias que sustentam Netflix, Uber,
+            Airbnb e milhares de empresas de referência. A Wefronti entrega performance, estabilidade
+            e evolução contínua.
           </p>
+          <div
+            style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: spacing[2],
+              justifyContent: 'flex-start',
+            }}
+          >
+            {TECH_STACK.map(({ key, label, Icon }) => (
+              <span
+                key={key}
+                title={label}
+                style={{
+                  ...badgeStyle,
+                  padding: `${spacing[2]}px ${spacing[3]}px`,
+                  gap: spacing[2],
+                }}
+              >
+                <Icon size={18} style={{ flexShrink: 0 }} aria-hidden />
+                <span style={{ fontSize: fontSizes.xs }}>{label}</span>
+              </span>
+            ))}
+          </div>
         </div>
 
         <div
           style={{
             flex: isMd ? '1 1 55%' : undefined,
             display: 'grid',
-            gridTemplateColumns: 'repeat(3, minmax(140px, 1fr))',
+            gridTemplateColumns: isMd ? 'repeat(3, minmax(140px, 1fr))' : 'repeat(2, 1fr)',
             columnGap: spacing[4],
             rowGap: spacing[6],
-            justifyItems: 'center',
+            justifyItems: isMd ? 'center' : 'start',
             alignItems: 'center',
+            minWidth: 0,
           }}
         >
-          {ALL_COMPANIES.map((company) => (
-            <LogoBadge key={company.name} company={company} />
+          {(isMd ? ALL_COMPANIES : ALL_COMPANIES.filter((c) => c.name !== 'Discord')).map((company) => (
+            <LogoBadge key={company.name} company={company} compact={!isMd} />
           ))}
         </div>
       </div>

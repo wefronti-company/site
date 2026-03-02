@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import ButtonCta from './ui/ButtonCta';
 import { theme } from '../styles/theme';
+import { useMediaQuery } from '../hooks/useMediaQuery';
 
 const { colors, spacing } = theme;
 
@@ -13,6 +14,9 @@ const DURATION_ENTER = 0.85;
 const DURATION_EXIT = 0.85;
 
 const SolucoesCtaBar: React.FC = () => {
+  const isMd = useMediaQuery(theme.breakpoints.md);
+  const padY = isMd ? spacing[8] : spacing[10];
+  const padX = isMd ? spacing[6] : spacing[12];
   const barStyle: React.CSSProperties = {
     position: 'fixed',
     bottom: 0,
@@ -23,9 +27,9 @@ const SolucoesCtaBar: React.FC = () => {
     alignItems: 'center',
     justifyContent: 'center',
     flexWrap: 'wrap',
-    gap: spacing[6],
-    minHeight: 96,
-    padding: `${spacing[8]}px ${spacing[6]}`,
+    gap: spacing[2],
+    minHeight: isMd ? 96 : 150,
+    padding: `${padY}px ${padX}`,
     backgroundColor: 'rgba(245, 255, 240, 0.7)',
     backdropFilter: 'saturate(160%) blur(20px)',
     WebkitBackdropFilter: 'saturate(160%) blur(15px)',

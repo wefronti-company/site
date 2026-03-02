@@ -12,6 +12,7 @@ import { SnackbarProvider } from '../contexts/SnackbarContext';
 
 import Footer from '../sections/Footer';
 import BottomCtaOrWhatsApp from '../components/BottomCtaOrWhatsApp';
+import AsteriskDecor from '../components/AsteriskDecor';
 
 export default function MyApp({ Component, pageProps }: AppProps) {
  const router = useRouter();
@@ -75,6 +76,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
  </Head>
  <GlobalStyles />
+{!router.pathname.startsWith('/admin') && <AsteriskDecor />}
 {!router.pathname.startsWith('/admin') && <Header />}
       <Component {...pageProps} />
       {router.pathname !== '/' && !router.pathname.startsWith('/admin') && <Footer />}

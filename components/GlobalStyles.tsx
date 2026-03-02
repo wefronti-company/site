@@ -47,18 +47,6 @@ body:not(.admin-route)::before {
   background-repeat: repeat;
   animation: noise-chuvisco 3s ease-in-out infinite;
 }
-body:not(.admin-route)::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: 2;
-  pointer-events: none;
-  background-image: url('/images/brand/asset-asterisk.svg'), url('/images/brand/asset-asterisk.svg');
-  background-repeat: no-repeat, no-repeat;
-  background-position: right bottom, left top;
-  background-size: clamp(140px, 20vw, 300px), clamp(84px, 11vw, 160px);
-  opacity: 0.55;
-}
 @keyframes noise-chuvisco {
   0%, 100% { opacity: 0.18; }
   50% { opacity: 0.24; }
@@ -170,6 +158,14 @@ section[id] {
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
+@keyframes asterisk-rotate-cw {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@keyframes asterisk-rotate-ccw {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(-360deg); }
+}
 .cta-gradient-animated {
   background: linear-gradient(90deg, #059669, #10B981, #22C55E, #84CC16, #A3E635, #22C55E, #10B981, #059669) !important;
   background-size: 300% 100% !important;
@@ -228,13 +224,16 @@ button:focus-visible, a:focus-visible, [role="button"]:focus-visible, summary:fo
   box-shadow: 0 0 6px rgba(53, 152, 255, 0.4);
   pointer-events: none;
 }
+.asterisk-decor-left { animation: asterisk-rotate-cw 25s linear infinite; }
+.asterisk-decor-right { animation: asterisk-rotate-ccw 25s linear infinite; }
 @media (prefers-reduced-motion: reduce) {
   body:not(.admin-route)::before { animation: none !important; }
-  body:not(.admin-route)::after { opacity: 0.55; }
   .cta-gradient-animated { animation: none !important; }
   .animate-float { animation: none !important; }
   .hero-chip-float { animation: none !important; }
   .hero-sparkle { animation: none !important; }
+  .asterisk-decor-left { animation: none !important; }
+  .asterisk-decor-right { animation: none !important; }
   .testimonials-track { animation: none !important; }
   .testimonials-track-reverse { animation: none !important; }
   .pricing-feature-item:hover { transform: none !important; }

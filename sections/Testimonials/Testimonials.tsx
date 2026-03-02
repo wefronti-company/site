@@ -6,13 +6,13 @@ const { colors, spacing, fontSizes, radii, containerMaxWidth } = theme;
 
 const TESTIMONIALS: { description: string; name: string; state: string; country: string }[] = [
   {
-    description: 'A Wefronti entregou nosso site com agilidade e profissionalismo. O resultado superou as expectativas e as visitas ao site aumentaram bastante.',
+    description: 'A Wefronti entregou nosso site com agilidade e profissionalismo. O resultado superou as expectativas e as visitas aumentaram bastante.',
     name: 'Mariana Alves',
     state: 'São Paulo',
     country: 'Brasil',
   },
   {
-    description: 'Site rápido, moderno e que realmente converte. A equipe entendeu nossa necessidade e entregou além do combinado. Recomendo muito.',
+    description: 'Contratamos um sistema para centralizar nossa operação. A equipe entendeu o fluxo do negócio e entregou algo que eliminou retrabalho e planilhas.',
     name: 'Carlos H. Mendes',
     state: 'Minas Gerais',
     country: 'Brasil',
@@ -24,13 +24,13 @@ const TESTIMONIALS: { description: string; name: string; state: string; country:
     country: 'Brasil',
   },
   {
-    description: 'Não é só um site bonito é uma ferramenta de vendas. Nosso faturamento online melhorou e a credibilidade da marca aumentou.',
+    description: 'Fizemos o design das interfaces antes de desenvolver. Valeram cada centavo — a experiência do usuário melhorou e o retorno foi imediato.',
     name: 'Roberto Amâncio',
     state: 'Paraná',
     country: 'Brasil',
   },
   {
-    description: 'Trabalho de excelência do início ao fim. Comunicação constante, prazos cumpridos e um site que nos representa muito bem.',
+    description: 'Trabalho de excelência do início ao fim. Comunicação constante, prazos cumpridos e um produto que nos representa muito bem.',
     name: 'Fernanda Frigs',
     state: 'Santa Catarina',
     country: 'Brasil',
@@ -40,7 +40,7 @@ const TESTIMONIALS: { description: string; name: string; state: string; country:
 /** Segundo conjunto de depoimentos — carrossel inferior (esquerda → direita) */
 const TESTIMONIALS_2: { description: string; name: string; state: string; country: string }[] = [
   {
-    description: 'Profissionalismo e atenção aos detalhes em cada etapa. O site reflete exatamente o que nossa empresa precisava para crescer no digital.',
+    description: 'Unificamos nossos sistemas com APIs e automações. O que antes era manual e cheio de erro hoje roda sozinho e em tempo real.',
     name: 'Paulo Henrique Souza',
     state: 'Bahia',
     country: 'Brasil',
@@ -52,13 +52,13 @@ const TESTIMONIALS_2: { description: string; name: string; state: string; countr
     country: 'Brasil',
   },
   {
-    description: 'Rápido, transparente e muito competente. O suporte pós-entrega faz toda a diferença. Recomendo de olhos fechados.',
+    description: 'Rápido, transparente e muito competente. O suporte pós-entrega e as manutenções preventivas fazem toda a diferença. Recomendo.',
     name: 'Ricardo Ferreira',
     state: 'Goiás',
     country: 'Brasil',
   },
   {
-    description: 'Finalmente um site que não é só vitrine: traz retorno. A equipe entende de negócio e entrega soluções que funcionam.',
+    description: 'Validamos nossa ideia com um micro-saas feito pela Wefronti. Estrutura leve, custo baixo e já temos clientes pagando.',
     name: 'Camila Rocha',
     state: 'Espírito Santo',
     country: 'Brasil',
@@ -331,10 +331,12 @@ const Testimonials: React.FC<TestimonialsProps> = ({ conteudo }) => {
         }}
       />
       <div style={innerStyleBase}>
-        <div style={{
-          ...headerStyle,
-          alignItems: 'center',
-        }}>
+        <div
+          style={{
+            ...headerStyle,
+            alignItems: isMd ? 'center' : 'flex-start',
+          }}
+        >
           <span style={badgeStyle} aria-hidden>
             <span
               style={{
@@ -346,11 +348,28 @@ const Testimonials: React.FC<TestimonialsProps> = ({ conteudo }) => {
             />
             {badge}
           </span>
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: spacing[4], width: '100%' }}>
-            <h2 id="testimonials-heading" style={titleStyle}>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: isMd ? 'center' : 'flex-start',
+              gap: spacing[4],
+              width: '100%',
+            }}
+          >
+            <h2
+              id="testimonials-heading"
+              style={{ ...titleStyle, textAlign: isMd ? 'center' : 'left' }}
+            >
               {titulo}
             </h2>
-            <p style={{ ...subtitleStyle, whiteSpace: isMd ? 'nowrap' : 'normal' }}>
+            <p
+              style={{
+                ...subtitleStyle,
+                textAlign: isMd ? 'center' : 'left',
+                whiteSpace: isMd ? 'nowrap' : 'normal',
+              }}
+            >
               {subtitulo}
             </p>
           </div>

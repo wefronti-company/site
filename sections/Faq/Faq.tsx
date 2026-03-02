@@ -7,34 +7,34 @@ const { colors, spacing, fontSizes, radii, containerMaxWidth } = theme;
 
 const FAQ_ITEMS: { question: string; answer: string }[] = [
   {
-    question: 'Em quanto tempo meu site vai estar no ar?',
+    question: 'Quais formas de pagamento vocês aceitam?',
     answer:
-      'O prazo varia conforme o escopo. Uma landing page fica pronta em até 5 dias. Um site completo entre 14 e 21 dias. Trabalhamos com prazos reais sem enrolar e sem surpresas no meio do caminho.',
+      'Aceitamos PIX, transferência bancária e parcelamento em cartão de crédito. O pagamento pode ser dividido em etapas combinadas com as entregas, sem surpresas. Detalhamos tudo no orçamento antes de começar.',
   },
   {
-    question: 'O site vai aparecer no Google?',
+    question: 'Posso parcelar o investimento?',
     answer:
-      'Sim. Todo projeto sai com SEO estruturado, não é opcional é obrigatório. Trabalhamos a arquitetura, os títulos, as descrições e a performance para o Google entender e ranquear o seu site.',
+      'Sim. Trabalhamos com parcelamento em até 12x no cartão ou em parcelas combinadas com as entregas do projeto (ex.: 50% na aprovação e 50% na entrega). O formato é alinhado no fechamento.',
   },
   {
-    question: 'Preciso ter todo o conteúdo pronto para começar?',
+    question: 'Em quanto tempo o projeto fica pronto?',
     answer:
-      'Não necessariamente. No processo de onboarding mergulhamos no seu negócio e podemos te orientar sobre o conteúdo ideal. Quanto mais você nos passar, mais estratégico o resultado final.',
+      'Depende do escopo. Landing page: até 5 dias. Site institucional: entre 14 e 21 dias. Sistemas e aplicações: variam conforme complexidade. Sempre definimos prazos reais no início, sem enrolação.',
   },
   {
-    question: 'O site vai funcionar bem no celular?',
+    question: 'O produto fica no meu nome ou fico preso à Wefronti?',
     answer:
-      'Todo site que entregamos é 100% responsivo e otimizado para mobile porque hoje mais de 60% dos acessos vêm do celular, e um site que trava no smartphone perde venda na hora.',
+      'O produto é 100% seu. Entregamos acessos, credenciais, código-fonte e arquivos. Você não fica preso a nós nem a nenhuma mensalidade obrigatória após a entrega. Suporte contínuo é opcional.',
   },
   {
-    question: 'E se eu precisar de ajuda depois que o site for entregue?',
+    question: 'Preciso ter todo o conteúdo pronto antes de começar?',
     answer:
-      'Garantimos suporte no lançamento para que tudo vá ao ar funcionando perfeitamente. Para melhorias e otimizações contínuas, temos planos de manutenção mensal disponíveis.',
+      'Não necessariamente. No onboarding alinhamos o que você já tem e o que falta. Podemos orientar textos, imagens e fluxos. Quanto mais informação você passar, mais alinhado o resultado ficará.',
   },
   {
-    question: 'O site vai ser meu ou fico preso com vocês?',
+    question: 'E se eu precisar de ajustes ou suporte depois da entrega?',
     answer:
-      'O site é 100% seu. Entregamos todos os acessos, credenciais e arquivos ao final do projeto sem dependência, sem armadilha.',
+      'Garantimos suporte na fase de lançamento para tudo funcionar bem. Depois disso, oferecemos planos de manutenção mensal para correções, evoluções e acompanhamento. Não é obrigatório.',
   },
 ];
 

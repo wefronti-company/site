@@ -1066,7 +1066,12 @@ const Solucoes: React.FC<SolucoesProps> = ({ conteudo }) => {
   return (
     <section id="solucoes" style={sectionStyle} aria-labelledby="solucoes-heading">
       <div style={innerStyleBase}>
-        <div style={headerStyle}>
+        <div
+          style={{
+            ...headerStyle,
+            alignItems: isMd ? 'center' : 'flex-start',
+          }}
+        >
           <span style={badgeStyle} aria-hidden>
             <span
               style={{
@@ -1078,11 +1083,22 @@ const Solucoes: React.FC<SolucoesProps> = ({ conteudo }) => {
             />
             {badge}
           </span>
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: spacing[4] }}>
-            <h2 id="solucoes-heading" style={titleStyle}>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: isMd ? 'center' : 'flex-start',
+              gap: spacing[4],
+              width: '100%',
+            }}
+          >
+            <h2
+              id="solucoes-heading"
+              style={{ ...titleStyle, textAlign: isMd ? 'center' : 'left' }}
+            >
               {renderSolucoesTitle(titulo)}
             </h2>
-            <p style={introStyle}>{intro}</p>
+            <p style={{ ...introStyle, textAlign: isMd ? 'center' : 'left' }}>{intro}</p>
           </div>
         </div>
 

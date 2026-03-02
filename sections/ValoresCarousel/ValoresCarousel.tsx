@@ -60,6 +60,7 @@ const wrapStyle: React.CSSProperties = {
   overflow: 'hidden',
   paddingTop: spacing[8],
   paddingBottom: spacing[8],
+  zIndex: 10,
 };
 
 const trackStyle: React.CSSProperties = {

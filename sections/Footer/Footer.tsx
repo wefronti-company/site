@@ -25,6 +25,8 @@ const Footer: React.FC<FooterProps> = ({ conteudo }) => {
 
   const footerStyle: React.CSSProperties = {
     width: '100%',
+    position: 'relative' as const,
+    zIndex: 10,
     background: 'rgba(255, 255, 255, 0.5)',
     backdropFilter: 'saturate(150%) blur(14px)',
     WebkitBackdropFilter: 'saturate(150%) blur(14px)',

@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { CheckCircle2, Database, Globe, Layers, Layout, Monitor, Package, Plug, Unlink } from 'lucide-react';
+import { CheckCircle2, ChevronLeft, ChevronRight, Database, Globe, Layers, Layout, Monitor, Package, Plug, Unlink } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
@@ -160,16 +160,36 @@ const gridStyle: React.CSSProperties = {
 
 const mobileCarouselWrapStyle: React.CSSProperties = {
   width: '100%',
-  overflowX: 'auto',
-  WebkitOverflowScrolling: 'touch',
-  paddingBottom: spacing[2],
+  overflow: 'hidden',
+  position: 'relative' as const,
 };
 
-const mobileCarouselTrackStyle: React.CSSProperties = {
+const getMobileCarouselTrackStyle = (count: number): React.CSSProperties => ({
   display: 'flex',
-  gap: spacing[4],
-  scrollSnapType: 'x mandatory',
-  paddingRight: spacing[1],
+  width: `${count * 100}%`,
+  transition: 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+});
+
+const mobileCarouselArrowsStyle: React.CSSProperties = {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: spacing[6],
+  marginTop: spacing[6],
+};
+
+const mobileCarouselArrowBtnStyle: React.CSSProperties = {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  width: 48,
+  height: 48,
+  borderRadius: '50%',
+  border: `1px solid ${colors.neutral.border}`,
+  background: colors.neutral.accordeon,
+  color: colors.text.primary,
+  cursor: 'pointer',
+  flexShrink: 0,
 };
 
 const cardBaseStyle: React.CSSProperties = {
@@ -290,6 +310,8 @@ const Pricing: React.FC<PricingProps> = ({ conteudo }) => {
   const titulo = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'Investimento inteligente em tecnologia de ponta';
   const subtitulo = (conteudo?.subtitulo != null ? String(conteudo.subtitulo) : '') || 'Escolha o modelo que melhor se adapta ao momento do seu negócio, de projetos pontuais a ecossistemas complexos.';
 
+  const [activePricingIndex, setActivePricingIndex] = useState(0);
+  const [pricingCarouselPaused, setPricingCarouselPaused] = useState(false);
   const [modalOption, setModalOption] = useState<PricingOption | null>(null);
   const [leadForm, setLeadForm] = useState({
     nome: '',
@@ -309,6 +331,21 @@ const Pricing: React.FC<PricingProps> = ({ conteudo }) => {
   useEffect(() => {
     setIsClient(true);
   }, []);
+
+  const goToPrevCard = useCallback(() => {
+    setActivePricingIndex((i) => (i - 1 + PRICING_OPTIONS.length) % PRICING_OPTIONS.length);
+    setPricingCarouselPaused(false);
+  }, []);
+  const goToNextCard = useCallback(() => {
+    setActivePricingIndex((i) => (i + 1) % PRICING_OPTIONS.length);
+    setPricingCarouselPaused(false);
+  }, []);
+
+  useEffect(() => {
+    if (isMd || pricingCarouselPaused) return;
+    const id = setInterval(goToNextCard, 3000);
+    return () => clearInterval(id);
+  }, [isMd, pricingCarouselPaused, goToNextCard]);
 
   useEffect(() => {
     if (typeof document === 'undefined' || typeof window === 'undefined') return;
@@ -443,9 +480,8 @@ const Pricing: React.FC<PricingProps> = ({ conteudo }) => {
 
   const cardStyleMobileCarousel: React.CSSProperties = {
     ...cardStyleResponsive,
-    width: 'min(86vw, 360px)',
+    flex: `0 0 ${100 / PRICING_OPTIONS.length}%`,
     flexShrink: 0,
-    scrollSnapAlign: 'start',
   };
 
   return (
@@ -516,43 +552,71 @@ const Pricing: React.FC<PricingProps> = ({ conteudo }) => {
               ))}
             </div>
           ) : (
-            <div style={mobileCarouselWrapStyle}>
-              <div style={mobileCarouselTrackStyle}>
-                {PRICING_OPTIONS.map((option) => (
-                  <div key={option.key} style={cardStyleMobileCarousel}>
-                    <div style={cardIconWrapStyle}>
-                      <option.Icon size={24} color="#059669" strokeWidth={1.8} />
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'stretch' }}>
+              <div style={mobileCarouselWrapStyle}>
+                <div
+                  style={{
+                    ...getMobileCarouselTrackStyle(PRICING_OPTIONS.length),
+                    transform: `translateX(-${(activePricingIndex * 100) / PRICING_OPTIONS.length}%)`,
+                  }}
+                >
+                  {PRICING_OPTIONS.map((option) => (
+                    <div
+                      key={option.key}
+                      style={cardStyleMobileCarousel}
+                      onClick={() => setPricingCarouselPaused(true)}
+                    >
+                      <div style={cardIconWrapStyle}>
+                        <option.Icon size={24} color="#059669" strokeWidth={1.8} />
+                      </div>
+                      <h3 style={cardTitleStyle}>{option.title}</h3>
+                      <p style={{ fontSize: fontSizes.sm, color: colors.text.primary, opacity: 0.88, margin: 0 }}>
+                        {option.description}
+                      </p>
+                      <div style={priceBlockStyle}>
+                        <p style={priceFromLabelStyle}>A partir de:</p>
+                        <div style={priceRowStyle}>
+                          {option.price === 'Consultar' ? null : <span style={priceSymbolStyle}>R$</span>}
+                          <span style={priceValueStyle}>{option.price}</span>
+                        </div>
+                      </div>
+                      <ul style={featureListStyle}>
+                        {option.features.map((text, i) => (
+                          <li key={i} className="pricing-feature-item" style={featureItemStyle}>
+                            <span style={checkIconStyle} aria-hidden>
+                              <CheckCircle2 size={20} strokeWidth={2} />
+                            </span>
+                            {text}
+                          </li>
+                        ))}
+                      </ul>
+                      <div style={{ marginTop: 'auto' }}>
+                        <ButtonCta
+                          label={option.cta}
+                          onClick={() => openConsultModal(option)}
+                        />
+                      </div>
                     </div>
-                    <h3 style={cardTitleStyle}>{option.title}</h3>
-                    <p style={{ fontSize: fontSizes.sm, color: colors.text.primary, opacity: 0.88, margin: 0 }}>
-                      {option.description}
-                    </p>
-                    <div style={priceBlockStyle}>
-                      <p style={priceFromLabelStyle}>A partir de:</p>
-                      <div style={priceRowStyle}>
-                        {option.price === 'Consultar' ? null : <span style={priceSymbolStyle}>R$</span>}
-                        <span style={priceValueStyle}>{option.price}</span>
-                      </div>                    
-                  
-                    </div>
-                    <ul style={featureListStyle}>
-                      {option.features.map((text, i) => (
-                        <li key={i} className="pricing-feature-item" style={featureItemStyle}>
-                          <span style={checkIconStyle} aria-hidden>
-                            <CheckCircle2 size={20} strokeWidth={2} />
-                          </span>
-                          {text}
-                        </li>
-                      ))}
-                    </ul>
-                    <div style={{ marginTop: 'auto' }}>
-                      <ButtonCta
-                        label={option.cta}
-                        onClick={() => openConsultModal(option)}
-                      />
-                    </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
+              </div>
+              <div style={mobileCarouselArrowsStyle}>
+                <button
+                  type="button"
+                  onClick={goToPrevCard}
+                  aria-label="Card anterior"
+                  style={mobileCarouselArrowBtnStyle}
+                >
+                  <ChevronLeft size={24} strokeWidth={2} />
+                </button>
+                <button
+                  type="button"
+                  onClick={goToNextCard}
+                  aria-label="Próximo card"
+                  style={mobileCarouselArrowBtnStyle}
+                >
+                  <ChevronRight size={24} strokeWidth={2} />
+                </button>
               </div>
             </div>
           )}

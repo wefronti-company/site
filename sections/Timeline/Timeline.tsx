@@ -1,4 +1,4 @@
-import React, { useRef, useState, useLayoutEffect } from 'react';
+import React from 'react';
 import { MessageCircle, ClipboardList, Code2, Rocket, Headphones, Search, Map, LifeBuoy, Code } from 'lucide-react';
 import { radii, theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
@@ -65,7 +65,7 @@ const subtitleStyle: React.CSSProperties = {
   opacity: 0.88,
   margin: 0,
   textAlign: 'center',
-  maxWidth: 820,
+  maxWidth: 960,
 };
 
 const headerStyle: React.CSSProperties = {
@@ -75,11 +75,9 @@ const headerStyle: React.CSSProperties = {
   gap: spacing[6],
 };
 
-const DOT_SIZE = 14;
-const DOT_ROW_HEIGHT = 14;
+const MARKER_ROW_HEIGHT = 40;
 const STEP_NUMBER_SIZE = 34;
-const STEP_NUMBER_DOT_GAP = spacing[3];
-const LINE_TOP = STEP_NUMBER_SIZE + STEP_NUMBER_DOT_GAP + DOT_ROW_HEIGHT / 2;
+const LINE_TOP = MARKER_ROW_HEIGHT / 2;
 const TIMELINE_DOT_SOLID = '#5C9369';
 
 const timelineWrapStyle: React.CSSProperties = {
@@ -120,35 +118,23 @@ const stepColumnStyle: React.CSSProperties = {
   gap: spacing[3],
 };
 
-const dotRowWrapperStyle: React.CSSProperties = {
-  height: DOT_ROW_HEIGHT,
+const markerRowStyle: React.CSSProperties = {
+  height: MARKER_ROW_HEIGHT,
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   flexShrink: 0,
 };
 
-const dotStyle: React.CSSProperties = {
-  width: DOT_SIZE,
-  height: DOT_SIZE,
-  borderRadius: '50%',
-  backgroundColor: TIMELINE_DOT_SOLID,
- 
-};
-
-const stepNumberStyle: React.CSSProperties = {
+const iconCircleStyle: React.CSSProperties = {
   width: STEP_NUMBER_SIZE,
   height: STEP_NUMBER_SIZE,
   borderRadius: '50%',
-  border: `1px solid ${TIMELINE_DOT_SOLID}`,
-  background: '#F8FFFB',
-  color: TIMELINE_DOT_SOLID,
-  fontSize: fontSizes.sm,
-  fontWeight: 700,
+  background: colors.text.primary,
+  color: '#fff',
   display: 'inline-flex',
   alignItems: 'center',
   justifyContent: 'center',
-  lineHeight: 1,
   flexShrink: 0,
 };
 
@@ -158,8 +144,6 @@ const stepTitleRowStyle: React.CSSProperties = {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  gap: spacing[2],
-  flexWrap: 'wrap' as const,
   maxWidth: stepContentMaxWidth,
 };
 
@@ -169,14 +153,6 @@ const stepTitleStyle: React.CSSProperties = {
   color: colors.text.primary,
   margin: 0,
   lineHeight: 1.3,
-};
-
-const stepIconStyle: React.CSSProperties = {
-  flexShrink: 0,
-  color: colors.blue.primary,
-  display: 'inline-flex',
-  alignItems: 'center',
-  marginTop: 2,
 };
 
 const stepDescStyle: React.CSSProperties = {
@@ -195,10 +171,6 @@ interface TimelineProps {
 const Timeline: React.FC<TimelineProps> = ({ conteudo }) => {
   const isMd = useMediaQuery(theme.breakpoints.md);
   const headerPaddingX = isMd ? spacing[12] : spacing[4];
-  const mobileWrapRef = useRef<HTMLDivElement>(null);
-  const firstDotRef = useRef<HTMLDivElement>(null);
-  const lastDotRef = useRef<HTMLDivElement>(null);
-  const [mobileLineBounds, setMobileLineBounds] = useState({ top: 0, height: 0 });
 
   const badge = (conteudo?.badge != null ? String(conteudo.badge) : '') || 'Como funciona';
   const titulo = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'Um processo transparente, da visão ao produto escalável.';
@@ -213,20 +185,6 @@ const Timeline: React.FC<TimelineProps> = ({ conteudo }) => {
       }))
     : TIMELINE_STEPS;
 
-  useLayoutEffect(() => {
-    if (isMd) return;
-    const wrap = mobileWrapRef.current;
-    const first = firstDotRef.current;
-    if (!wrap || !first) return;
-    const last = lastDotRef.current ?? first;
-    const wrapRect = wrap.getBoundingClientRect();
-    const firstRect = first.getBoundingClientRect();
-    const lastRect = last.getBoundingClientRect();
-    const firstCenterY = firstRect.top - wrapRect.top + firstRect.height / 2;
-    const lastTopY = lastRect.top - wrapRect.top;
-    setMobileLineBounds({ top: firstCenterY, height: Math.max(0, lastTopY - firstCenterY) });
-  }, [isMd]);
-
   const sectionStyle: React.CSSProperties = {
     ...sectionStyleBase,
     paddingLeft: headerPaddingX,
@@ -234,62 +192,36 @@ const Timeline: React.FC<TimelineProps> = ({ conteudo }) => {
   };
 
   if (!isMd) {
-    const lineLeft = 7;
-    const mobileLineStyle: React.CSSProperties = {
-      position: 'absolute' as const,
-      left: lineLeft,
-      top: mobileLineBounds.top,
-      height: mobileLineBounds.height,
-      width: 0,
-      borderLeft: '2px dashed rgba(0,0,0,0.15)',
-      pointerEvents: 'none',
-      zIndex: 0,
-    };
     const mobileWrapStyle: React.CSSProperties = {
       position: 'relative' as const,
       paddingLeft: 0,
     };
     const mobileStepRowStyle: React.CSSProperties = {
       display: 'flex',
-      flexDirection: 'row',
-      alignItems: 'flex-start',
-      gap: spacing[3],
+      flexDirection: 'column',
+      gap: spacing[4],
       marginBottom: spacing[10],
     };
-    const mobileDotWrapStyle: React.CSSProperties = {
-      ...dotRowWrapperStyle,
-      marginTop: 2,
-      position: 'relative' as const,
-      zIndex: 1,
-    };
-    const mobileDotStackStyle: React.CSSProperties = {
+    const mobileGlassCardStyle: React.CSSProperties = {
       display: 'flex',
-      flexDirection: 'column',
       alignItems: 'center',
-      gap: spacing[2],
-      flexShrink: 0,
-      minWidth: STEP_NUMBER_SIZE,
-    };
-    const mobileStepIconStyle: React.CSSProperties = {
-      ...stepIconStyle,
-      marginTop: 0,
-    };
-    const mobileStepContentStyle: React.CSSProperties = {
-      flex: 1,
-      minWidth: 0,
-      textAlign: 'left',
-    };
-    const mobileTitleRowStyle: React.CSSProperties = {
-      ...stepTitleRowStyle,
-      justifyContent: 'flex-start',
+      gap: spacing[4],
+      padding: `${spacing[4]}px ${spacing[5]}px`,
+      borderRadius: 20,
+      border: `1px solid ${colors.neutral.border}`,
+      backgroundColor: 'rgba(255, 255, 255, 0.5)',
+      backdropFilter: 'saturate(150%) blur(14px)',
+      WebkitBackdropFilter: 'saturate(150%) blur(14px)',
     };
     return (
       <section id="processo" style={sectionStyle} aria-labelledby="timeline-heading">
         <div style={innerStyleBase}>
-          <div style={{
-            ...headerStyle,
-            alignItems: 'center',
-          }}>
+          <div
+            style={{
+              ...headerStyle,
+              alignItems: 'flex-start',
+            }}
+          >
             <span style={badgeStyle} aria-hidden>
               <span
                 style={{
@@ -301,37 +233,34 @@ const Timeline: React.FC<TimelineProps> = ({ conteudo }) => {
               />
               {badge}
             </span>
-            <div style={{ maxWidth: 820, display: 'flex', flexDirection: 'column', gap: spacing[4], alignItems: 'center' }}>
-              <h2 id="timeline-heading" style={{ ...titleStyle, textAlign: 'center' }}>
+            <div
+              style={{
+                maxWidth: 960,
+                display: 'flex',
+                flexDirection: 'column',
+                gap: spacing[4],
+                alignItems: 'flex-start',
+              }}
+            >
+              <h2 id="timeline-heading" style={{ ...titleStyle, textAlign: 'left' }}>
                 {titulo}
               </h2>
-              <p style={{ ...subtitleStyle, textAlign: 'center' }}>
+              <p style={{ ...subtitleStyle, textAlign: 'left' }}>
                 {subtitulo}
               </p>
             </div>
           </div>
-          <div ref={mobileWrapRef} style={mobileWrapStyle}>
-            <div style={mobileLineStyle} aria-hidden="true" />
+          <div style={mobileWrapStyle}>
             <ul style={{ listStyle: 'none', margin: 0, padding: 0 }} role="list">
               {steps.map((step, index) => {
                 const Icon = step.Icon;
-                const isFirst = index === 0;
-                const isLast = index === steps.length - 1;
                 return (
                   <li key={index} style={mobileStepRowStyle}>
-                    <div style={mobileDotStackStyle}>
-                      <span style={stepNumberStyle} aria-hidden>{index + 1}</span>
-                      <div ref={isFirst ? firstDotRef : isLast ? lastDotRef : undefined} style={mobileDotWrapStyle}>
-                        <span style={dotStyle} aria-hidden />
-                      </div>
+                    <div style={mobileGlassCardStyle}>
+                      <span style={iconCircleStyle} aria-hidden><Icon size={18} /></span>
+                      <h3 style={{ ...stepTitleStyle, margin: 0, flex: 1 }}>{step.title}</h3>
                     </div>
-                    <div style={mobileStepContentStyle}>
-                      <div style={mobileTitleRowStyle}>
-                        <span style={mobileStepIconStyle} aria-hidden><Icon size={18} /></span>
-                        <h3 style={stepTitleStyle}>{step.title}</h3>
-                      </div>
-                      <p style={{ ...stepDescStyle, maxWidth: 'none' }}>{step.description}</p>
-                    </div>
+                    <p style={{ ...stepDescStyle, maxWidth: 'none', margin: 0 }}>{step.description}</p>
                   </li>
                 );
               })}
@@ -348,7 +277,12 @@ const Timeline: React.FC<TimelineProps> = ({ conteudo }) => {
   return (
     <section id="processo" style={sectionStyle} aria-labelledby="timeline-heading">
       <div style={innerStyleBase}>
-        <div style={headerStyle}>
+        <div
+          style={{
+            ...headerStyle,
+            alignItems: isMd ? 'center' : 'flex-start',
+          }}
+        >
           <span style={badgeStyle} aria-hidden>
             <span
               style={{
@@ -360,11 +294,27 @@ const Timeline: React.FC<TimelineProps> = ({ conteudo }) => {
             />
             {badge}
           </span>
-          <div style={{ maxWidth: 820, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: spacing[4] }}>
-            <h2 id="timeline-heading" style={titleStyle}>
+          <div
+            style={{
+              maxWidth: 960,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: isMd ? 'center' : 'flex-start',
+              gap: spacing[4],
+            }}
+          >
+            <h2
+              id="timeline-heading"
+              style={{ ...titleStyle, textAlign: isMd ? 'center' : 'left' }}
+            >
               {titulo}
             </h2>
-            <p style={subtitleStyle}>
+            <p
+              style={{
+                ...subtitleStyle,
+                textAlign: isMd ? 'center' : 'left',
+              }}
+            >
               {subtitulo}
             </p>
           </div>
@@ -377,12 +327,10 @@ const Timeline: React.FC<TimelineProps> = ({ conteudo }) => {
               const Icon = step.Icon;
               return (
                 <li key={index} style={stepColumnStyle}>
-                  <span style={stepNumberStyle} aria-hidden>{index + 1}</span>
-                  <div style={dotRowWrapperStyle}>
-                    <span style={dotStyle} aria-hidden />
+                  <div style={markerRowStyle}>
+                    <span style={iconCircleStyle} aria-hidden><Icon size={18} /></span>
                   </div>
                   <div style={stepTitleRowStyle}>
-                    <span style={stepIconStyle} aria-hidden><Icon size={18} /></span>
                     <h3 style={stepTitleStyle}>{step.title}</h3>
                   </div>
                   <p style={stepDescStyle}>{step.description}</p>
