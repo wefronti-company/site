@@ -640,15 +640,18 @@ const Solucoes: React.FC<SolucoesProps> = ({ conteudo }) => {
     ? { ...gridStyle, gridTemplateColumns: 'repeat(3, 1fr)' }
     : { ...gridStyle, gridTemplateColumns: '1fr' };
 
+  /** Desativa animações em mobile para melhorar fluidez e performance */
+  const enableAnimations = isMd;
+
   const renderCardVisual = (slug: string, titulo: string) => {
     if (slug === 'softwares-e-sistemas') {
       return (
         <motion.div
           style={liveBrowserStyle}
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true, amount: 0.35 }}
-          transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+          initial={enableAnimations ? { opacity: 0 } : { opacity: 1 }}
+          whileInView={enableAnimations ? { opacity: 1 } : undefined}
+          viewport={enableAnimations ? { once: true, amount: 0.35 } : undefined}
+          transition={enableAnimations ? { duration: 0.45, ease: [0.22, 1, 0.36, 1] } : undefined}
           >
             <div style={liveBrowserTopStyle}>
               <span style={liveDotStyle} />
@@ -661,8 +664,8 @@ const Solucoes: React.FC<SolucoesProps> = ({ conteudo }) => {
                   <div style={liveSkeletonLineStyle('65%')} />
                   <motion.span
                     style={liveSystemKpiValueStyle}
-                    animate={{ opacity: [0.7, 1, 0.7] }}
-                    transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
+                    animate={enableAnimations ? { opacity: [0.7, 1, 0.7] } : undefined}
+                    transition={enableAnimations ? { duration: 2.2, repeat: Infinity, ease: 'easeInOut' } : undefined}
                   >
                     +28%
                   </motion.span>
@@ -671,8 +674,8 @@ const Solucoes: React.FC<SolucoesProps> = ({ conteudo }) => {
                   <div style={liveSkeletonLineStyle('58%')} />
                   <motion.span
                     style={liveSystemKpiValueStyle}
-                    animate={{ opacity: [0.7, 1, 0.7] }}
-                    transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut', delay: 0.2 }}
+                    animate={enableAnimations ? { opacity: [0.7, 1, 0.7] } : undefined}
+                    transition={enableAnimations ? { duration: 2.2, repeat: Infinity, ease: 'easeInOut', delay: 0.2 } : undefined}
                   >
                     132
                   </motion.span>
@@ -681,8 +684,8 @@ const Solucoes: React.FC<SolucoesProps> = ({ conteudo }) => {
                   <div style={liveSkeletonLineStyle('52%')} />
                   <motion.span
                     style={liveSystemKpiValueStyle}
-                    animate={{ opacity: [0.7, 1, 0.7] }}
-                    transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut', delay: 0.4 }}
+                    animate={enableAnimations ? { opacity: [0.7, 1, 0.7] } : undefined}
+                    transition={enableAnimations ? { duration: 2.2, repeat: Infinity, ease: 'easeInOut', delay: 0.4 } : undefined}
                   >
                     99.9%
                   </motion.span>
@@ -693,8 +696,8 @@ const Solucoes: React.FC<SolucoesProps> = ({ conteudo }) => {
                   <motion.div
                     key={`bar-${idx}`}
                     style={{ ...liveSystemBarStyle, height: bar }}
-                    animate={{ height: [bar - 6, bar + 4, bar - 2, bar] }}
-                    transition={{ duration: 2.6, repeat: Infinity, ease: 'easeInOut', delay: idx * 0.08 }}
+                    animate={enableAnimations ? { height: [bar - 6, bar + 4, bar - 2, bar] } : undefined}
+                    transition={enableAnimations ? { duration: 2.6, repeat: Infinity, ease: 'easeInOut', delay: idx * 0.08 } : undefined}
                   />
                 ))}
               </div>
@@ -702,8 +705,8 @@ const Solucoes: React.FC<SolucoesProps> = ({ conteudo }) => {
                 <span style={liveSystemNodeStyle} />
                 <motion.span
                   style={liveSystemFlowLineStyle}
-                  animate={{ scaleX: [0.35, 1, 0.35], opacity: [0.7, 1, 0.7] }}
-                  transition={{ duration: 2.1, repeat: Infinity, ease: 'easeInOut' }}
+                  animate={enableAnimations ? { scaleX: [0.35, 1, 0.35], opacity: [0.7, 1, 0.7] } : undefined}
+                  transition={enableAnimations ? { duration: 2.1, repeat: Infinity, ease: 'easeInOut' } : undefined}
                 />
                 <span style={liveSystemNodeStyle} />
               </div>
@@ -716,10 +719,10 @@ const Solucoes: React.FC<SolucoesProps> = ({ conteudo }) => {
       return (
         <motion.div
           style={liveBrowserStyle}
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true, amount: 0.35 }}
-          transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+          initial={enableAnimations ? { opacity: 0 } : { opacity: 1 }}
+          whileInView={enableAnimations ? { opacity: 1 } : undefined}
+          viewport={enableAnimations ? { once: true, amount: 0.35 } : undefined}
+          transition={enableAnimations ? { duration: 0.45, ease: [0.22, 1, 0.36, 1] } : undefined}
           >
             <div style={liveBrowserTopStyle}>
               <span style={liveDotStyle} />
@@ -732,8 +735,8 @@ const Solucoes: React.FC<SolucoesProps> = ({ conteudo }) => {
                   <div style={liveSkeletonLineStyle('64%')} />
                   <motion.span
                     style={liveApiPillStyle}
-                    animate={{ opacity: [0.75, 1, 0.75] }}
-                    transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
+                    animate={enableAnimations ? { opacity: [0.75, 1, 0.75] } : undefined}
+                    transition={enableAnimations ? { duration: 1.8, repeat: Infinity, ease: 'easeInOut' } : undefined}
                   >
                     Basic
                   </motion.span>
@@ -742,8 +745,8 @@ const Solucoes: React.FC<SolucoesProps> = ({ conteudo }) => {
                   <div style={liveSkeletonLineStyle('58%')} />
                   <motion.span
                     style={liveApiPillStyle}
-                    animate={{ opacity: [0.75, 1, 0.75] }}
-                    transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut', delay: 0.2 }}
+                    animate={enableAnimations ? { opacity: [0.75, 1, 0.75] } : undefined}
+                    transition={enableAnimations ? { duration: 1.8, repeat: Infinity, ease: 'easeInOut', delay: 0.2 } : undefined}
                   >
                     Pro
                   </motion.span>
@@ -754,8 +757,8 @@ const Solucoes: React.FC<SolucoesProps> = ({ conteudo }) => {
                   <div style={liveSkeletonLineStyle('48%')} />
                   <motion.span
                     style={liveSaasValueStyle}
-                    animate={{ opacity: [0.75, 1, 0.75] }}
-                    transition={{ duration: 2.1, repeat: Infinity, ease: 'easeInOut' }}
+                    animate={enableAnimations ? { opacity: [0.75, 1, 0.75] } : undefined}
+                    transition={enableAnimations ? { duration: 2.1, repeat: Infinity, ease: 'easeInOut' } : undefined}
                   >
                     R$ 12.4k
                   </motion.span>
@@ -765,16 +768,16 @@ const Solucoes: React.FC<SolucoesProps> = ({ conteudo }) => {
                     <motion.span
                       key={`spark-${idx}`}
                       style={{ ...liveSaasSparkStyle, height: h }}
-                      animate={{ height: [h - 3, h + 3, h] }}
-                      transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut', delay: idx * 0.09 }}
+                      animate={enableAnimations ? { height: [h - 3, h + 3, h] } : undefined}
+                      transition={enableAnimations ? { duration: 2.2, repeat: Infinity, ease: 'easeInOut', delay: idx * 0.09 } : undefined}
                     />
                   ))}
                 </div>
               </div>
               <motion.div
                 style={livePedidoBadgeStyle}
-                animate={{ opacity: [0, 1, 1, 0] }}
-                transition={{ duration: 2.8, repeat: Infinity, ease: 'easeInOut' }}
+                animate={enableAnimations ? { opacity: [0, 1, 1, 0] } : undefined}
+                transition={enableAnimations ? { duration: 2.8, repeat: Infinity, ease: 'easeInOut' } : undefined}
               >
                 +3 assinaturas
               </motion.div>
@@ -787,10 +790,10 @@ const Solucoes: React.FC<SolucoesProps> = ({ conteudo }) => {
       return (
         <motion.div
           style={liveBrowserStyle}
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true, amount: 0.35 }}
-          transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+          initial={enableAnimations ? { opacity: 0 } : { opacity: 1 }}
+          whileInView={enableAnimations ? { opacity: 1 } : undefined}
+          viewport={enableAnimations ? { once: true, amount: 0.35 } : undefined}
+          transition={enableAnimations ? { duration: 0.45, ease: [0.22, 1, 0.36, 1] } : undefined}
           >
             <div style={liveBrowserTopStyle}>
               <span style={liveDotStyle} />
@@ -816,15 +819,15 @@ const Solucoes: React.FC<SolucoesProps> = ({ conteudo }) => {
                 <span style={liveFigmaNodeStyle('124px', '42px')} />
                 <motion.span
                   style={liveFigmaDraggableStyle}
-                  animate={{ x: [0, 22, 46, 22, 0], y: [0, -8, -14, -8, 0] }}
-                  transition={{ duration: 2.8, repeat: Infinity, ease: 'easeInOut' }}
+                  animate={enableAnimations ? { x: [0, 22, 46, 22, 0], y: [0, -8, -14, -8, 0] } : undefined}
+                  transition={enableAnimations ? { duration: 2.8, repeat: Infinity, ease: 'easeInOut' } : undefined}
                 >
                   mover
                 </motion.span>
                 <motion.span
                   style={liveFigmaCursorStyle}
-                  animate={{ x: [0, 22, 46, 22, 0], y: [0, -8, -14, -8, 0], rotate: [0, -2, -4, -2, 0] }}
-                  transition={{ duration: 2.8, repeat: Infinity, ease: 'easeInOut' }}
+                  animate={enableAnimations ? { x: [0, 22, 46, 22, 0], y: [0, -8, -14, -8, 0], rotate: [0, -2, -4, -2, 0] } : undefined}
+                  transition={enableAnimations ? { duration: 2.8, repeat: Infinity, ease: 'easeInOut' } : undefined}
                   aria-hidden
                 >
                   <MousePointer2 size={14} strokeWidth={2.2} />
@@ -834,8 +837,8 @@ const Solucoes: React.FC<SolucoesProps> = ({ conteudo }) => {
                 <div style={liveSkeletonLineStyle('52%')} />
                 <motion.span
                   style={liveApiPillStyle}
-                  animate={{ opacity: [0.75, 1, 0.75] }}
-                  transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
+                  animate={enableAnimations ? { opacity: [0.75, 1, 0.75] } : undefined}
+                  transition={enableAnimations ? { duration: 1.8, repeat: Infinity, ease: 'easeInOut' } : undefined}
                 >
                   Design UI/UX
                 </motion.span>
@@ -849,10 +852,10 @@ const Solucoes: React.FC<SolucoesProps> = ({ conteudo }) => {
       return (
         <motion.div
           style={liveBrowserStyle}
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true, amount: 0.35 }}
-          transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+          initial={enableAnimations ? { opacity: 0 } : { opacity: 1 }}
+          whileInView={enableAnimations ? { opacity: 1 } : undefined}
+          viewport={enableAnimations ? { once: true, amount: 0.35 } : undefined}
+          transition={enableAnimations ? { duration: 0.45, ease: [0.22, 1, 0.36, 1] } : undefined}
           >
             <div style={liveBrowserTopStyle}>
               <span style={liveDotStyle} />
@@ -865,8 +868,8 @@ const Solucoes: React.FC<SolucoesProps> = ({ conteudo }) => {
                   <div style={liveSkeletonLineStyle('62%')} />
                   <motion.span
                     style={liveSupportValueStyle}
-                    animate={{ opacity: [0.8, 1, 0.8] }}
-                    transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+                    animate={enableAnimations ? { opacity: [0.8, 1, 0.8] } : undefined}
+                    transition={enableAnimations ? { duration: 2, repeat: Infinity, ease: 'easeInOut' } : undefined}
                   >
                     99.98%
                   </motion.span>
@@ -875,8 +878,8 @@ const Solucoes: React.FC<SolucoesProps> = ({ conteudo }) => {
                   <div style={liveSkeletonLineStyle('56%')} />
                   <motion.span
                     style={liveSupportValueStyle}
-                    animate={{ opacity: [0.8, 1, 0.8] }}
-                    transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut', delay: 0.2 }}
+                    animate={enableAnimations ? { opacity: [0.8, 1, 0.8] } : undefined}
+                    transition={enableAnimations ? { duration: 2, repeat: Infinity, ease: 'easeInOut', delay: 0.2 } : undefined}
                   >
                     0 críticos
                   </motion.span>
@@ -887,14 +890,14 @@ const Solucoes: React.FC<SolucoesProps> = ({ conteudo }) => {
                   <div key={service} style={liveSupportStatusRowStyle}>
                     <motion.span
                       style={liveSupportDotStyle}
-                      animate={{ scale: [1, 1.2, 1], opacity: [0.8, 1, 0.8] }}
-                      transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut', delay: idx * 0.2 }}
+                      animate={enableAnimations ? { scale: [1, 1.2, 1], opacity: [0.8, 1, 0.8] } : undefined}
+                      transition={enableAnimations ? { duration: 1.8, repeat: Infinity, ease: 'easeInOut', delay: idx * 0.2 } : undefined}
                     />
                     <span style={{ ...liveSkeletonLineStyle('72%'), width: '100%' }}>{/* placeholder */}</span>
                     <motion.span
                       style={liveApiPillStyle}
-                      animate={{ opacity: [0.75, 1, 0.75] }}
-                      transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut', delay: idx * 0.2 }}
+                      animate={enableAnimations ? { opacity: [0.75, 1, 0.75] } : undefined}
+                      transition={enableAnimations ? { duration: 1.8, repeat: Infinity, ease: 'easeInOut', delay: idx * 0.2 } : undefined}
                     >
                       OK
                     </motion.span>
@@ -903,8 +906,8 @@ const Solucoes: React.FC<SolucoesProps> = ({ conteudo }) => {
               </div>
               <motion.div
                 style={livePedidoBadgeStyle}
-                animate={{ opacity: [0, 1, 1, 0] }}
-                transition={{ duration: 2.7, repeat: Infinity, ease: 'easeInOut' }}
+                animate={enableAnimations ? { opacity: [0, 1, 1, 0] } : undefined}
+                transition={enableAnimations ? { duration: 2.7, repeat: Infinity, ease: 'easeInOut' } : undefined}
               >
                 +7 alertas resolvidos
               </motion.div>
@@ -917,10 +920,10 @@ const Solucoes: React.FC<SolucoesProps> = ({ conteudo }) => {
       return (
         <motion.div
           style={liveBrowserStyle}
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true, amount: 0.35 }}
-          transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+          initial={enableAnimations ? { opacity: 0 } : { opacity: 1 }}
+          whileInView={enableAnimations ? { opacity: 1 } : undefined}
+          viewport={enableAnimations ? { once: true, amount: 0.35 } : undefined}
+          transition={enableAnimations ? { duration: 0.45, ease: [0.22, 1, 0.36, 1] } : undefined}
           >
             <div style={liveBrowserTopStyle}>
               <span style={liveDotStyle} />
@@ -951,38 +954,38 @@ const Solucoes: React.FC<SolucoesProps> = ({ conteudo }) => {
                 </div>
                 <motion.span
                   style={liveApiConnectorStyle('60px', '31px', '45px', -8)}
-                  animate={{ scaleX: [0.35, 1, 0.35], opacity: [0.7, 1, 0.7] }}
-                  transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+                  animate={enableAnimations ? { scaleX: [0.35, 1, 0.35], opacity: [0.7, 1, 0.7] } : undefined}
+                  transition={enableAnimations ? { duration: 2, repeat: Infinity, ease: 'easeInOut' } : undefined}
                 />
                 <motion.span
                   style={liveApiConnectorStyle('108px', '34px', '32px', -12)}
-                  animate={{ scaleX: [0.35, 1, 0.35], opacity: [0.7, 1, 0.7] }}
-                  transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut', delay: 0.25 }}
+                  animate={enableAnimations ? { scaleX: [0.35, 1, 0.35], opacity: [0.7, 1, 0.7] } : undefined}
+                  transition={enableAnimations ? { duration: 2, repeat: Infinity, ease: 'easeInOut', delay: 0.25 } : undefined}
                 />
                 <motion.span
                   style={liveApiConnectorStyle('108px', '57px', '32px', 14)}
-                  animate={{ scaleX: [0.35, 1, 0.35], opacity: [0.7, 1, 0.7] }}
-                  transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut', delay: 0.45 }}
+                  animate={enableAnimations ? { scaleX: [0.35, 1, 0.35], opacity: [0.7, 1, 0.7] } : undefined}
+                  transition={enableAnimations ? { duration: 2, repeat: Infinity, ease: 'easeInOut', delay: 0.45 } : undefined}
                 />
                 <motion.span
                   style={liveApiPacketStyle('66px', '28px', -8)}
-                  animate={{ x: [0, 26, 40], opacity: [0, 1, 0] }}
-                  transition={{ duration: 2.6, repeat: Infinity, ease: 'easeInOut' }}
+                  animate={enableAnimations ? { x: [0, 26, 40], opacity: [0, 1, 0] } : undefined}
+                  transition={enableAnimations ? { duration: 2.6, repeat: Infinity, ease: 'easeInOut' } : undefined}
                 />
                 <motion.span
                   style={liveApiPacketStyle('106px', '31px', -12)}
-                  animate={{ x: [0, 22, 30], opacity: [0, 1, 0] }}
-                  transition={{ duration: 2.6, repeat: Infinity, ease: 'easeInOut', delay: 0.45 }}
+                  animate={enableAnimations ? { x: [0, 22, 30], opacity: [0, 1, 0] } : undefined}
+                  transition={enableAnimations ? { duration: 2.6, repeat: Infinity, ease: 'easeInOut', delay: 0.45 } : undefined}
                 />
                 <motion.span
                   style={liveApiPacketStyle('106px', '54px', 14)}
-                  animate={{ x: [0, 22, 30], opacity: [0, 1, 0] }}
-                  transition={{ duration: 2.6, repeat: Infinity, ease: 'easeInOut', delay: 0.9 }}
+                  animate={enableAnimations ? { x: [0, 22, 30], opacity: [0, 1, 0] } : undefined}
+                  transition={enableAnimations ? { duration: 2.6, repeat: Infinity, ease: 'easeInOut', delay: 0.9 } : undefined}
                 />
                 <motion.span
                   style={{ ...liveApiPillStyle, position: 'absolute', left: 75, top: 70 }}
-                  animate={{ opacity: [0.75, 1, 0.75] }}
-                  transition={{ duration: 2.8, repeat: Infinity, ease: 'easeInOut' }}
+                  animate={enableAnimations ? { opacity: [0.75, 1, 0.75] } : undefined}
+                  transition={enableAnimations ? { duration: 2.8, repeat: Infinity, ease: 'easeInOut' } : undefined}
                 >
                   Conectado
                 </motion.span>
@@ -991,8 +994,8 @@ const Solucoes: React.FC<SolucoesProps> = ({ conteudo }) => {
                 <div style={liveSkeletonLineStyle('56%')} />
                 <motion.span
                   style={liveApiPillStyle}
-                  animate={{ opacity: [0.7, 1, 0.7] }}
-                  transition={{ duration: 1.7, repeat: Infinity, ease: 'easeInOut' }}
+                  animate={enableAnimations ? { opacity: [0.7, 1, 0.7] } : undefined}
+                  transition={enableAnimations ? { duration: 1.7, repeat: Infinity, ease: 'easeInOut' } : undefined}
                 >
                   Online
                 </motion.span>
@@ -1005,10 +1008,10 @@ const Solucoes: React.FC<SolucoesProps> = ({ conteudo }) => {
     return (
       <motion.div
         style={liveBrowserStyle}
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true, amount: 0.35 }}
-        transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+        initial={enableAnimations ? { opacity: 0 } : { opacity: 1 }}
+        whileInView={enableAnimations ? { opacity: 1 } : undefined}
+        viewport={enableAnimations ? { once: true, amount: 0.35 } : undefined}
+        transition={enableAnimations ? { duration: 0.45, ease: [0.22, 1, 0.36, 1] } : undefined}
       >
         <div style={liveBrowserTopStyle}>
           <span style={liveDotStyle} />
@@ -1021,8 +1024,8 @@ const Solucoes: React.FC<SolucoesProps> = ({ conteudo }) => {
             <div style={liveSkeletonLineStyle('48%')} />
             <motion.div
               style={liveWebCtaStyle}
-              animate={{ scale: [1, 1.05, 1], opacity: [0.9, 1, 0.9] }}
-              transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
+              animate={enableAnimations ? { scale: [1, 1.05, 1], opacity: [0.9, 1, 0.9] } : undefined}
+              transition={enableAnimations ? { duration: 1.8, repeat: Infinity, ease: 'easeInOut' } : undefined}
             >
               Comprar
             </motion.div>
@@ -1033,8 +1036,8 @@ const Solucoes: React.FC<SolucoesProps> = ({ conteudo }) => {
               <div style={liveSkeletonLineStyle('78%')} />
               <motion.span
                 style={liveWebPriceStyle}
-                animate={{ opacity: [0.65, 1, 0.65] }}
-                transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
+                animate={enableAnimations ? { opacity: [0.65, 1, 0.65] } : undefined}
+                transition={enableAnimations ? { duration: 2.2, repeat: Infinity, ease: 'easeInOut' } : undefined}
               >
                 R$ 149
               </motion.span>
@@ -1044,8 +1047,8 @@ const Solucoes: React.FC<SolucoesProps> = ({ conteudo }) => {
               <div style={liveSkeletonLineStyle('64%')} />
               <motion.span
                 style={liveWebPriceStyle}
-                animate={{ opacity: [0.65, 1, 0.65] }}
-                transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut', delay: 0.2 }}
+                animate={enableAnimations ? { opacity: [0.65, 1, 0.65] } : undefined}
+                transition={enableAnimations ? { duration: 2.4, repeat: Infinity, ease: 'easeInOut', delay: 0.2 } : undefined}
               >
                 R$ 239
               </motion.span>
@@ -1053,8 +1056,8 @@ const Solucoes: React.FC<SolucoesProps> = ({ conteudo }) => {
           </div>
           <motion.div
             style={liveWebPedidoBadgeStyle}
-            animate={{ opacity: [0, 1, 1, 0] }}
-            transition={{ duration: 2.6, repeat: Infinity, ease: 'easeInOut' }}
+            animate={enableAnimations ? { opacity: [0, 1, 1, 0] } : undefined}
+            transition={enableAnimations ? { duration: 2.6, repeat: Infinity, ease: 'easeInOut' } : undefined}
           >
             +1 pedido
           </motion.div>
