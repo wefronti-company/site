@@ -307,6 +307,7 @@ const Hero: React.FC<HeroProps> = ({ conteudo }) => {
               gap: 8,
               padding: '12px 24px',
               minHeight: 52,
+              minWidth: 220,
               fontSize: 16,
               fontWeight: 500,
               color: colors.text.primary,

@@ -166,6 +166,16 @@ section[id] {
   from { transform: rotate(0deg); }
   to { transform: rotate(-360deg); }
 }
+.glass-transparent {
+  background-color: rgba(255, 255, 255, 0.25) !important;
+  -webkit-backdrop-filter: saturate(180%) blur(24px);
+  backdrop-filter: saturate(180%) blur(24px);
+}
+.glass-transparent-sm {
+  background-color: rgba(255, 255, 255, 0.25) !important;
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  backdrop-filter: saturate(180%) blur(20px);
+}
 .cta-gradient-animated {
   background: linear-gradient(90deg, #059669, #10B981, #22C55E, #84CC16, #A3E635, #22C55E, #10B981, #059669) !important;
   background-size: 300% 100% !important;

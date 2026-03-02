@@ -92,7 +92,9 @@ const contactBtnBase: React.CSSProperties = {
   padding: '16px 24px',
   borderRadius: radii.full,
   border: `1px solid ${colors.neutral.border}`,
-  backgroundColor: colors.neutral.accordeon,
+  backgroundColor: 'rgba(255, 255, 255, 0.25)',
+  backdropFilter: 'saturate(180%) blur(20px)',
+  WebkitBackdropFilter: 'saturate(180%) blur(20px)',
   color: colors.text.primary,
   fontSize: fontSizes.base,
   fontWeight: 500,
@@ -104,7 +106,9 @@ const contactBtnBase: React.CSSProperties = {
 const formCardStyle: React.CSSProperties = {
   borderRadius: 24,
   border: `1px solid ${colors.neutral.border}`,
-  background: '#F5FFF0',
+  backgroundColor: 'rgba(255, 255, 255, 0.25)',
+  backdropFilter: 'saturate(180%) blur(24px)',
+  WebkitBackdropFilter: 'saturate(180%) blur(24px)',
   boxShadow: '0 8px 32px rgba(0, 0, 0, 0.06)',
   padding: spacing[8],
 };
@@ -227,6 +231,7 @@ const Contato: React.FC = () => {
               <div style={contactButtonsStyle}>
                 <a
                   href={`mailto:${CONTACT_EMAIL}`}
+                  className="glass-transparent-sm"
                   style={contactBtnBase}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.borderColor = colors.blue.primary;
@@ -235,7 +240,7 @@ const Contato: React.FC = () => {
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.borderColor = colors.neutral.border;
-                    e.currentTarget.style.backgroundColor = colors.neutral.accordeon;
+                    e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.25)';
                     e.currentTarget.style.transform = 'translateY(0)';
                   }}
                 >
@@ -246,6 +251,7 @@ const Contato: React.FC = () => {
                   href={buildWhatsAppUrl(DEFAULT_WHATSAPP_NUMBER, WHATSAPP_MESSAGE)}
                   target="_blank"
                   rel="noopener noreferrer"
+                  className="glass-transparent-sm"
                   style={contactBtnBase}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.borderColor = colors.blue.primary;
@@ -254,7 +260,7 @@ const Contato: React.FC = () => {
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.borderColor = colors.neutral.border;
-                    e.currentTarget.style.backgroundColor = colors.neutral.accordeon;
+                    e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.25)';
                     e.currentTarget.style.transform = 'translateY(0)';
                   }}
                 >
@@ -278,7 +284,7 @@ const Contato: React.FC = () => {
               </div>
             </div>
 
-            <div style={formCardStyle}>
+            <div className="glass-transparent" style={formCardStyle}>
               <h2 style={{ margin: 0, marginBottom: spacing[6], fontSize: fontSizes.xl, fontWeight: 500, color: colors.text.primary }}>
                 Envie sua mensagem
               </h2>
@@ -350,7 +356,7 @@ const Contato: React.FC = () => {
                     marginTop: spacing[2],
                   }}
                 >
-                  <ButtonCta type="submit" disabled={isSubmitting}>
+                  <ButtonCta type="submit" disabled={isSubmitting} hideIcon>
                     {isSubmitting ? 'Enviando...' : 'Enviar mensagem'}
                   </ButtonCta>
                   <div
