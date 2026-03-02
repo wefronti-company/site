@@ -20,12 +20,12 @@ const SEO: React.FC<SEOProps> = ({
  noindex = false,
  keywords
 }) => {
- // Configuração SEO focada em sites que convertem e geram vendas
+ // Configuração SEO alinhada ao posicionamento (produtos digitais que crescem com o negócio)
  const seoConfig = {
    siteName: 'Wefronti',
-   defaultTitle: 'Wefronti | Criação de Sites que Convertem em Clientes',
-   defaultDescription: 'Transformamos seu site em canal de vendas. Planejamento, design e tecnologia focados em conversão para sua empresa vender mais online.',
-   defaultKeywords: 'criação de sites, site que converte, site profissional, site para empresas, site de vendas, desenvolvimento web, design de sites, otimização de conversão, SEO',
+   defaultTitle: 'Wefronti | Produtos digitais que crescem com o seu negócio',
+   defaultDescription: 'Unimos estratégia, design e tecnologia para criar produtos que não precisam ser refeitos daqui 6 meses. Performance real e controle total sobre o seu projeto.',
+   defaultKeywords: 'produtos digitais, desenvolvimento web, sistemas, micro-saas, design UI-UX, integrações, APIs, sites, software sob medida',
  };
 
   const pageTitle = title ? `${title} | ${seoConfig.siteName}` : seoConfig.defaultTitle;
@@ -151,7 +151,7 @@ const SEO: React.FC<SEOProps> = ({
  <meta property="og:image:type" content="image/png" />
  <meta property="og:image:width" content="1200" />
  <meta property="og:image:height" content="630" />
- <meta property="og:image:alt" content="Wefronti | Site que Converte e Gera Vendas" />
+ <meta property="og:image:alt" content="Wefronti | Produtos digitais que crescem com o seu negócio" />
  {/* Common fallback/link used by some platforms */}
  <link rel="image_src" href={`${siteUrl}${ogImage}`} />
  <meta name="twitter:image:src" content={`${siteUrl}${ogImage}`} />
@@ -165,7 +165,7 @@ const SEO: React.FC<SEOProps> = ({
  <meta name="twitter:title" content={pageTitle} />
  <meta name="twitter:description" content={pageDescription} />
  <meta name="twitter:image" content={`${siteUrl}${ogImage}`} />
- <meta name="twitter:image:alt" content="Wefronti | Site que Converte e Gera Vendas" />
+ <meta name="twitter:image:alt" content="Wefronti | Produtos digitais que crescem com o seu negócio" />
  
  {/* Mobile & PWA */}
  <meta name="mobile-web-app-capable" content="yes" />
