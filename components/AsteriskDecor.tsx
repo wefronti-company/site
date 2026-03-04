@@ -1,5 +1,4 @@
 import React from 'react';
-import { useSplash } from '../contexts/SplashContext';
 
 /** Foco de luz azul: gradiente radial suave */
 const blueGlowStyle = (position: 'left top' | 'right bottom'): React.CSSProperties => {
@@ -19,57 +18,14 @@ const blueGlowStyle = (position: 'left top' | 'right bottom'): React.CSSProperti
 };
 
 /**
- * Asteriscos decorativos no fundo (esquerda e direita).
- * Esquerda: gira horário. Direita: gira antihorário.
- * Focos de luz azul: canto superior esquerdo e inferior direito.
- * Oculto em rotas admin e durante a splash.
+ * Focos de luz azul nas laterais (superior esquerdo e inferior direito).
+ * Oculto em rotas admin.
  */
-const AsteriskDecor: React.FC = () => {
-  const splash = useSplash();
-  if (splash?.splashActive) return null;
-
-  return (
+const AsteriskDecor: React.FC = () => (
   <>
     <div aria-hidden style={blueGlowStyle('left top')} />
     <div aria-hidden style={blueGlowStyle('right bottom')} />
-    <div
-      className="asterisk-decor-left"
-      aria-hidden
-      style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        zIndex: 0,
-        width: 'clamp(84px, 11vw, 160px)',
-        height: 'clamp(84px, 11vw, 160px)',
-        backgroundImage: "url('/images/brand/asset-asterisk.svg')",
-        backgroundRepeat: 'no-repeat',
-        backgroundPosition: 'left top',
-        backgroundSize: 'contain',
-        opacity: 0.55,
-        pointerEvents: 'none',
-      }}
-    />
-    <div
-      className="asterisk-decor-right"
-      aria-hidden
-      style={{
-        position: 'fixed',
-        bottom: 0,
-        right: 0,
-        zIndex: 0,
-        width: 'clamp(140px, 20vw, 300px)',
-        height: 'clamp(140px, 20vw, 300px)',
-        backgroundImage: "url('/images/brand/asset-asterisk.svg')",
-        backgroundRepeat: 'no-repeat',
-        backgroundPosition: 'right bottom',
-        backgroundSize: 'contain',
-        opacity: 0.55,
-        pointerEvents: 'none',
-      }}
-    />
   </>
-  );
-};
+);
 
 export default AsteriskDecor;

@@ -4,7 +4,6 @@ import Logo from './Logo';
 import ButtonCta from './ButtonCta';
 import { Plus, ArrowRight } from 'lucide-react';
 import { useScrollToSection } from '../../hooks/useScrollToSection';
-import { useSplash } from '../../contexts/SplashContext';
 import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 
@@ -23,7 +22,6 @@ const NAV_LINKS = [
 ] as const;
 
 const Header: React.FC = () => {
-  const splash = useSplash();
   const isMd = useMediaQuery(theme.breakpoints.md);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [hoveredLinkId, setHoveredLinkId] = useState<string | null>(null);
@@ -104,8 +102,8 @@ const Header: React.FC = () => {
     top: 0,
     width: '100%',
     zIndex: 9999,
-    visibility: splash?.splashActive ? 'hidden' : 'visible',
-    pointerEvents: splash?.splashActive ? 'none' : 'auto',
+    visibility: 'visible',
+    pointerEvents: 'auto',
     isolation: 'isolate',
     paddingTop: isMd ? spacing[6] : spacing[2],
     paddingBottom: 0,

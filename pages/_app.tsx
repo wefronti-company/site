@@ -6,11 +6,9 @@ import GlobalStyles from '../components/GlobalStyles';
 import * as gtag from '../lib/gtag';
 import 'lenis/dist/lenis.css';
 import SmoothScroll from '../components/SmoothScroll';
-import { SplashProvider } from '../contexts/SplashContext';
 import { SnackbarProvider } from '../contexts/SnackbarContext';
 
 import Footer from '../sections/Footer';
-import BottomCtaOrWhatsApp from '../components/BottomCtaOrWhatsApp';
 import AsteriskDecor from '../components/AsteriskDecor';
 
 export default function MyApp({ Component, pageProps }: AppProps) {
@@ -67,7 +65,6 @@ export default function MyApp({ Component, pageProps }: AppProps) {
  }, []);
 
  return (
- <SplashProvider>
  <SnackbarProvider>
  <SmoothScroll>
  <>
@@ -78,10 +75,8 @@ export default function MyApp({ Component, pageProps }: AppProps) {
 {!router.pathname.startsWith('/admin') && <AsteriskDecor />}
       <Component {...pageProps} />
       {router.pathname !== '/' && !router.pathname.startsWith('/admin') && <Footer />}
-      {!router.pathname.startsWith('/admin') && <BottomCtaOrWhatsApp />}
  </>
  </SmoothScroll>
  </SnackbarProvider>
- </SplashProvider>
  );
 }

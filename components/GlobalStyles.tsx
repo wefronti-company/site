@@ -159,14 +159,6 @@ section[id] {
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
-@keyframes asterisk-rotate-cw {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-@keyframes asterisk-rotate-ccw {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(-360deg); }
-}
 .glass-transparent {
   background-color: rgba(24, 24, 27, 0.7) !important;
   -webkit-backdrop-filter: saturate(180%) blur(24px);
@@ -235,16 +227,12 @@ button:focus-visible, a:focus-visible, [role="button"]:focus-visible, summary:fo
   box-shadow: 0 0 6px rgba(53, 152, 255, 0.4);
   pointer-events: none;
 }
-.asterisk-decor-left { animation: asterisk-rotate-cw 25s linear infinite; }
-.asterisk-decor-right { animation: asterisk-rotate-ccw 25s linear infinite; }
 @media (prefers-reduced-motion: reduce) {
   body:not(.admin-route)::before { animation: none !important; }
   .cta-gradient-animated { animation: none !important; }
   .animate-float { animation: none !important; }
   .hero-chip-float { animation: none !important; }
   .hero-sparkle { animation: none !important; }
-  .asterisk-decor-left { animation: none !important; }
-  .asterisk-decor-right { animation: none !important; }
   .testimonials-track { animation: none !important; }
   .testimonials-track-reverse { animation: none !important; }
   .pricing-feature-item:hover { transform: none !important; }

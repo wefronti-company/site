@@ -172,7 +172,7 @@ const Timeline: React.FC<TimelineProps> = ({ conteudo }) => {
   const isMd = useMediaQuery(theme.breakpoints.md);
   const headerPaddingX = isMd ? spacing[12] : spacing[4];
 
-  const badge = (conteudo?.badge != null ? String(conteudo.badge) : '') || 'Como funciona';
+  const badge = (conteudo?.badge != null ? String(conteudo.badge) : '') || 'Metodocore';
   const titulo = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'Um processo transparente, da visão ao produto escalável.';
   const subtitulo = (conteudo?.subtitulo != null ? String(conteudo.subtitulo) : '') || 'Eliminamos o retrabalho com uma metodologia validada para garantir que sua tecnologia suporte o crescimento do seu negócio em cada etapa.';
   const botao = (conteudo?.botao != null ? String(conteudo.botao) : '') || 'Iniciar um projeto';
@@ -214,7 +214,7 @@ const Timeline: React.FC<TimelineProps> = ({ conteudo }) => {
       WebkitBackdropFilter: 'saturate(150%) blur(14px)',
     };
     return (
-      <section id="processo" style={sectionStyle} aria-labelledby="timeline-heading">
+      <section id="metodocore" style={sectionStyle} aria-labelledby="timeline-heading">
         <div style={innerStyleBase}>
           <div
             style={{
@@ -275,7 +275,7 @@ const Timeline: React.FC<TimelineProps> = ({ conteudo }) => {
   }
 
   return (
-    <section id="processo" style={sectionStyle} aria-labelledby="timeline-heading">
+    <section id="metodocore" style={sectionStyle} aria-labelledby="timeline-heading">
       <div style={innerStyleBase}>
         <div
           style={{
