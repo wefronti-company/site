@@ -7,10 +7,10 @@ import type { LucideIcon } from 'lucide-react';
 import { FiFigma } from 'react-icons/fi';
 
 const { colors, spacing, fontSizes, radii, containerMaxWidth } = theme;
-const LIVE_ACCENT = '#7ad49dAF';
-const LIVE_ACCENT_SOLID = '#5C9369';
-const LIVE_TEXT_MUTED = '#6BB58A';
-const LIVE_SURFACE = '#F8FFFB';
+const LIVE_ACCENT = 'rgba(37, 99, 235, 0.68)';
+const LIVE_ACCENT_SOLID = '#1d4ed8';
+const LIVE_TEXT_MUTED = '#2563eb';
+const LIVE_SURFACE = '#18181b';
 
 const SOLUCOES: {
   titulo: string;
@@ -97,9 +97,9 @@ const titleStyle: React.CSSProperties = {
   textAlign: 'center',
 };
 
-/** Palavra destacada no título: serif italic (mesmo estilo da Hero) */
+/** Palavra destacada no título (azul) */
 const highlightWordStyle: React.CSSProperties = {
-  color: '#5c9369AF',
+  color: colors.blue.primary,
 };
 
 function renderSolucoesTitle(text: string): React.ReactNode {
@@ -173,7 +173,7 @@ const liveDotStyle: React.CSSProperties = {
   width: 6,
   height: 6,
   borderRadius: '50%',
-  background: '#D1D5DB',
+  background: colors.neutral.gray,
 };
 
 const liveBodyStyle: React.CSSProperties = {
@@ -187,7 +187,7 @@ const liveBodyStyle: React.CSSProperties = {
 
 const liveHeroBlockStyle: React.CSSProperties = {
   borderRadius: 10,
-  background: `linear-gradient(120deg, ${LIVE_ACCENT} 0%, rgba(122,212,157,0.18) 100%)`,
+  background: `linear-gradient(120deg, ${LIVE_ACCENT} 0%, rgba(37, 99, 235, 0.18) 100%)`,
   border: `1px solid ${LIVE_ACCENT}`,
   padding: '10px 12px',
   display: 'grid',
@@ -198,7 +198,7 @@ const liveSkeletonLineStyle = (width: string): React.CSSProperties => ({
   width,
   height: 6,
   borderRadius: 999,
-  background: 'rgba(255, 255, 255, 0.2)',
+  background: 'rgba(24, 24, 27, 0.5)',
 });
 
 const liveProductsRowStyle: React.CSSProperties = {
@@ -1111,7 +1111,7 @@ const Solucoes: React.FC<SolucoesProps> = ({ conteudo }) => {
               {renderCardVisual(item.slug, item.titulo)}
               <div style={cardHeaderStyle}>
                 <div style={iconWrapStyle}>
-                  <item.Icon size={24} color="#059669" strokeWidth={1.8} />
+                  <item.Icon size={24} color={colors.blue.primary} strokeWidth={1.8} />
                 </div>
                 <h3 style={cardTitleStyle}>{item.titulo}</h3>
               </div>

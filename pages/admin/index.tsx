@@ -58,7 +58,7 @@ const inputStyle: React.CSSProperties = {
   fontSize: fontSizes.base,
   minHeight: 44,
   color: colors.text.primary,
-  backgroundColor: '#F5FFF0',
+  backgroundColor: colors.neutral.accordeon,
   border: `1px solid ${colors.neutral.border}`,
   borderRadius: 6,
   outline: 'none',
@@ -177,9 +177,9 @@ const AdminLoginPage: React.FC = () => {
           .admin-login-card input:-webkit-autofill:hover,
           .admin-login-card input:-webkit-autofill:focus,
           .admin-login-card input:-webkit-autofill:active {
-            -webkit-text-fill-color: #111827;
-            -webkit-box-shadow: 0 0 0px 1000px #F5FFF0 inset;
-            caret-color: #111827;
+            -webkit-text-fill-color: #0a0a0a;
+            -webkit-box-shadow: 0 0 0px 1000px #eff6ff inset;
+            caret-color: #0a0a0a;
             transition: background-color 5000s ease-in-out 0s;
           }
         `}</style>

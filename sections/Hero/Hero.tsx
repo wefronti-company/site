@@ -41,10 +41,10 @@ const heroTitleStyle = (isMd: boolean): React.CSSProperties => ({
   margin: 0,
 });
 
-/** Palavras destacadas no H1: serif italic, cinza claro */
+/** Palavras destacadas no H1: tom azul */
 const HIGHLIGHT_WORDS = ['digitais de elite', '100% de código', 'estratégia'];
 const highlightWordStyle: React.CSSProperties = {
-  color: '#5c9369AF',
+  color: '#60a5fa',
 };
 
 function renderHeroTitle(text: string): React.ReactNode {
@@ -151,7 +151,7 @@ const HeroBadge: React.FC<HeroBadgeProps> = ({ badge, idx, hasEntered }) => {
           borderRadius: '50%',
           width: 78,
           height: 78,
-          background: 'rgba(255, 255, 255, 0.5)',
+          background: 'rgba(24, 24, 27, 0.7)',
           backdropFilter: 'saturate(150%) blur(14px)',
           WebkitBackdropFilter: 'saturate(150%) blur(14px)',
           boxShadow: '0 10px 28px rgba(0, 0, 0, 0.08)',
@@ -175,19 +175,19 @@ const HeroBadge: React.FC<HeroBadgeProps> = ({ badge, idx, hasEntered }) => {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            background: 'rgba(102, 191, 130, 0.15)',
+            background: 'rgba(37, 99, 235, 0.15)',
             border: `1px solid ${colors.neutral.border}`,
             flexShrink: 0,
           }}
         >
           {badge.iconType === 'rocket' ? (
-            <Rocket size={22} color="#059669" strokeWidth={2} />
+            <Rocket size={22} color="#2563eb" strokeWidth={2} />
           ) : badge.iconType === 'dollar' ? (
-            <DollarSign size={22} color="#059669" strokeWidth={2} />
+            <DollarSign size={22} color="#2563eb" strokeWidth={2} />
           ) : badge.iconType === 'trend' ? (
-            <TrendingUp size={22} color="#059669" strokeWidth={2} />
+            <TrendingUp size={22} color="#2563eb" strokeWidth={2} />
           ) : (
-            <Heart size={22} color="#059669" strokeWidth={2} />
+            <Heart size={22} color="#2563eb" strokeWidth={2} />
           )}
         </div>
       </motion.div>
@@ -311,7 +311,7 @@ const Hero: React.FC<HeroProps> = ({ conteudo }) => {
               fontSize: 16,
               fontWeight: 500,
               color: colors.text.primary,
-              backgroundColor: 'rgba(255, 255, 255, 0.5)',
+              backgroundColor: 'rgba(24, 24, 27, 0.7)',
               backdropFilter: 'saturate(150%) blur(14px)',
               WebkitBackdropFilter: 'saturate(150%) blur(14px)',
               border: `1px solid ${colors.neutral.border}`,

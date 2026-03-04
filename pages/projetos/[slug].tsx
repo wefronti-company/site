@@ -12,7 +12,7 @@ const { colors, spacing, fontSizes, radii, containerMaxWidth } = theme;
 const pageStyle: React.CSSProperties = {
   minHeight: '100vh',
   backgroundColor: 'transparent',
-  paddingTop: 120,
+  paddingTop: 64,
   paddingBottom: spacing[16],
 };
 

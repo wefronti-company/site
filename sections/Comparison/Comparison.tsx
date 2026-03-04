@@ -90,8 +90,8 @@ const cardStyle: React.CSSProperties = {
 
 const cardHighlightStyle: React.CSSProperties = {
   ...cardStyle,
-  borderColor: 'rgba(102, 191, 130, 0.35)',
-  boxShadow: '0 0 32px rgba(102, 191, 130, 0.12)',
+  borderColor: 'rgba(59, 130, 246, 0.4)',
+  boxShadow: '0 0 32px rgba(59, 130, 246, 0.15)',
   background: colors.background.gradient,
 };
 
@@ -140,7 +140,7 @@ const iconNegativeStyle: React.CSSProperties = {
 
 const iconPositiveStyle: React.CSSProperties = {
   ...iconWrapStyle,
-  background: 'rgba(102, 191, 130, 0.2)',
+  background: 'rgba(59, 130, 246, 0.2)',
   color: colors.blue.primary,
 };
 

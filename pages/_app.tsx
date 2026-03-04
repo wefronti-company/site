@@ -6,7 +6,6 @@ import GlobalStyles from '../components/GlobalStyles';
 import * as gtag from '../lib/gtag';
 import 'lenis/dist/lenis.css';
 import SmoothScroll from '../components/SmoothScroll';
-import Header from '../components/ui/Header';
 import { SplashProvider } from '../contexts/SplashContext';
 import { SnackbarProvider } from '../contexts/SnackbarContext';
 
@@ -77,7 +76,6 @@ export default function MyApp({ Component, pageProps }: AppProps) {
  </Head>
  <GlobalStyles />
 {!router.pathname.startsWith('/admin') && <AsteriskDecor />}
-{!router.pathname.startsWith('/admin') && <Header />}
       <Component {...pageProps} />
       {router.pathname !== '/' && !router.pathname.startsWith('/admin') && <Footer />}
       {!router.pathname.startsWith('/admin') && <BottomCtaOrWhatsApp />}

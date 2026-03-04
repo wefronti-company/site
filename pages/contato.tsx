@@ -15,7 +15,7 @@ const WHATSAPP_MESSAGE = 'Olá, vim pelo site e gostaria de entrar em contato.';
 
 const pageStyle: React.CSSProperties = {
   minHeight: '100vh',
-  paddingTop: 120,
+  paddingTop: 64,
   paddingBottom: spacing[16],
   backgroundColor: 'transparent',
 };
@@ -92,7 +92,7 @@ const contactBtnBase: React.CSSProperties = {
   padding: '16px 24px',
   borderRadius: radii.full,
   border: `1px solid ${colors.neutral.border}`,
-  backgroundColor: 'rgba(255, 255, 255, 0.25)',
+  backgroundColor: 'rgba(24, 24, 27, 0.7)',
   backdropFilter: 'saturate(180%) blur(20px)',
   WebkitBackdropFilter: 'saturate(180%) blur(20px)',
   color: colors.text.primary,
@@ -106,7 +106,7 @@ const contactBtnBase: React.CSSProperties = {
 const formCardStyle: React.CSSProperties = {
   borderRadius: 24,
   border: `1px solid ${colors.neutral.border}`,
-  backgroundColor: 'rgba(255, 255, 255, 0.25)',
+  backgroundColor: 'rgba(24, 24, 27, 0.7)',
   backdropFilter: 'saturate(180%) blur(24px)',
   WebkitBackdropFilter: 'saturate(180%) blur(24px)',
   boxShadow: '0 8px 32px rgba(0, 0, 0, 0.06)',
@@ -240,7 +240,7 @@ const Contato: React.FC = () => {
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.borderColor = colors.neutral.border;
-                    e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.25)';
+                    e.currentTarget.style.backgroundColor = 'rgba(39, 39, 42, 0.8)';
                     e.currentTarget.style.transform = 'translateY(0)';
                   }}
                 >
@@ -260,7 +260,7 @@ const Contato: React.FC = () => {
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.borderColor = colors.neutral.border;
-                    e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.25)';
+                    e.currentTarget.style.backgroundColor = 'rgba(39, 39, 42, 0.8)';
                     e.currentTarget.style.transform = 'translateY(0)';
                   }}
                 >
@@ -368,7 +368,7 @@ const Contato: React.FC = () => {
                       justifyContent: 'flex-end',
                       alignItems: 'center',
                       fontSize: fontSizes.sm,
-                      color: feedback?.type === 'error' ? '#DC2626' : '#059669',
+                      color: feedback?.type === 'error' ? '#DC2626' : '#2563eb',
                       opacity: feedback ? 1 : 0,
                       transition: 'opacity 0.2s ease',
                       textAlign: 'right',

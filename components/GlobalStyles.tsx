@@ -11,8 +11,8 @@ const GlobalStyles: React.FC = () => (
       __html: `
 :root {
   --scrollbar-track: transparent;
-  --scrollbar-thumb: rgba(0,0,0,0.12);
-  --scrollbar-thumb-hover: rgba(0,0,0,0.2);
+  --scrollbar-thumb: rgba(255,255,255,0.15);
+  --scrollbar-thumb-hover: rgba(255,255,255,0.25);
   --scrollbar-width: 3px;
 }
 
@@ -31,7 +31,7 @@ html, body {
   max-width: 100vw;
   background: ${colors.background.gradient};
   background-attachment: fixed;
-  color: #111827;
+  color: ${colors.text.primary};
   font-family: "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -46,10 +46,11 @@ body:not(.admin-route)::before {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'%3E%3Canimate attributeName='baseFrequency' values='0.82;0.9;0.82' dur='4s' repeatCount='indefinite'/%3E%3C/feTurbulence%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background-repeat: repeat;
   animation: noise-chuvisco 3s ease-in-out infinite;
+  opacity: 0.04;
 }
 @keyframes noise-chuvisco {
-  0%, 100% { opacity: 0.18; }
-  50% { opacity: 0.24; }
+  0%, 100% { opacity: 0.03; }
+  50% { opacity: 0.06; }
 }
 button, input, select, textarea {
   font-family: inherit;
@@ -167,17 +168,17 @@ section[id] {
   to { transform: rotate(-360deg); }
 }
 .glass-transparent {
-  background-color: rgba(255, 255, 255, 0.25) !important;
+  background-color: rgba(24, 24, 27, 0.7) !important;
   -webkit-backdrop-filter: saturate(180%) blur(24px);
   backdrop-filter: saturate(180%) blur(24px);
 }
 .glass-transparent-sm {
-  background-color: rgba(255, 255, 255, 0.25) !important;
+  background-color: rgba(24, 24, 27, 0.6) !important;
   -webkit-backdrop-filter: saturate(180%) blur(20px);
   backdrop-filter: saturate(180%) blur(20px);
 }
 .cta-gradient-animated {
-  background: linear-gradient(90deg, #059669, #10B981, #22C55E, #84CC16, #A3E635, #22C55E, #10B981, #059669) !important;
+  background: linear-gradient(90deg, #1d4ed8, #2563eb, #3b82f6, #60a5fa, #93c5fd, #3b82f6, #2563eb, #1d4ed8) !important;
   background-size: 300% 100% !important;
   animation: cta-gradient-flow 6s ease-in-out infinite;
   border: none !important;
@@ -198,8 +199,8 @@ button:focus-visible, a:focus-visible, [role="button"]:focus-visible, summary:fo
 .pricing-modal-input,
 .pricing-modal-select,
 .pricing-modal-textarea {
-  background: #F5FFF0 !important;
-  color: #111827 !important;
+  background: #18181b !important;
+  color: #fafafa !important;
 }
 .pricing-modal-input:focus,
 .pricing-modal-select:focus,
@@ -209,16 +210,16 @@ button:focus-visible, a:focus-visible, [role="button"]:focus-visible, summary:fo
 .pricing-modal-textarea:focus-visible {
   outline: none !important;
   box-shadow: none !important;
-  border-color: #D4E8D0 !important;
+  border-color: #3b82f6 !important;
 }
 .pricing-modal-input:-webkit-autofill,
 .pricing-modal-input:-webkit-autofill:hover,
 .pricing-modal-input:-webkit-autofill:focus,
 .pricing-modal-input:-webkit-autofill:active {
-  -webkit-text-fill-color: #111827 !important;
-  -webkit-box-shadow: 0 0 0 1000px #F5FFF0 inset !important;
-  box-shadow: 0 0 0 1000px #F5FFF0 inset !important;
-  caret-color: #111827 !important;
+  -webkit-text-fill-color: #fafafa !important;
+  -webkit-box-shadow: 0 0 0 1000px #18181b inset !important;
+  box-shadow: 0 0 0 1000px #18181b inset !important;
+  caret-color: #fafafa !important;
   transition: background-color 9999s ease-out 0s;
 }
 .animate-slide-down { animation: slide-down 0.3s ease-out; }

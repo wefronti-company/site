@@ -142,8 +142,8 @@ function SnackbarItem({
   onExitEnd: () => void;
 }) {
   const isSuccess = item.variant === 'success';
-  const border = isSuccess ? 'rgba(102, 191, 130, 0.45)' : 'rgba(248, 113, 113, 0.4)';
-  const iconColor = isSuccess ? '#66BF82' : '#f87171';
+  const border = isSuccess ? 'rgba(37, 99, 235, 0.45)' : 'rgba(248, 113, 113, 0.4)';
+  const iconColor = isSuccess ? '#2563eb' : '#f87171';
 
   const handleAnimationEnd = (e: React.AnimationEvent<HTMLDivElement>) => {
     if (e.animationName === 'snackbar-slide-up') onExitEnd();
@@ -163,12 +163,12 @@ function SnackbarItem({
         width: 'fit-content',
         maxWidth: 'min(560px, calc(100vw - 48px))',
         alignSelf: 'flex-end',
-        backgroundColor: 'rgba(255, 255, 255, 0.72)',
+        backgroundColor: 'rgba(24, 24, 27, 0.92)',
         backdropFilter: 'saturate(150%) blur(14px)',
         WebkitBackdropFilter: 'saturate(150%) blur(14px)',
         border: `1px solid ${border}`,
         borderRadius: 9999,
-        boxShadow: '0 8px 28px rgba(0,0,0,0.12)',
+        boxShadow: '0 8px 28px rgba(0,0,0,0.4)',
         cursor: 'pointer',
         pointerEvents: 'auto',
       }}
@@ -181,7 +181,7 @@ function SnackbarItem({
         )}
       </div>
       <div style={{ flex: 1, minWidth: 0 }}>
-        <p style={{ margin: 0, fontSize: 14, color: '#111827', lineHeight: 1.25 }}>
+        <p style={{ margin: 0, fontSize: 14, color: '#fafafa', lineHeight: 1.25 }}>
           {item.message}
         </p>
       </div>

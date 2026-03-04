@@ -164,7 +164,7 @@ const Tecnologias: React.FC = () => {
   };
 
   const glassStyle: React.CSSProperties = {
-    backgroundColor: 'rgba(255, 255, 255, 0.5)',
+    backgroundColor: 'rgba(24, 24, 27, 0.6)',
     backdropFilter: 'saturate(150%) blur(16px)',
     WebkitBackdropFilter: 'saturate(150%) blur(16px)',
     border: `1px solid ${colors.neutral.border}`,

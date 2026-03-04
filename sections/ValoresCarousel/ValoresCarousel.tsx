@@ -84,7 +84,7 @@ const itemStyle: React.CSSProperties = {
   padding: `${spacing[3]}px ${spacing[6]}px`,
   borderRadius: radii.full,
   border: `1px solid ${colors.neutral.border}`,
-  background: 'rgba(255, 255, 255, 0.5)',
+  background: 'rgba(24, 24, 27, 0.6)',
   backdropFilter: 'saturate(150%) blur(14px)',
   WebkitBackdropFilter: 'saturate(150%) blur(14px)',
   boxShadow: '0 10px 28px rgba(0, 0, 0, 0.06)',
@@ -95,7 +95,7 @@ const itemStyle: React.CSSProperties = {
 
 const iconStyle: React.CSSProperties = {
   flexShrink: 0,
-  color: '#059669',
+  color: colors.blue.primary,
 };
 
 const ValoresCarousel: React.FC = () => {

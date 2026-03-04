@@ -27,11 +27,11 @@ const Footer: React.FC<FooterProps> = ({ conteudo }) => {
     width: '100%',
     position: 'relative' as const,
     zIndex: 10,
-    background: 'rgba(255, 255, 255, 0.5)',
+    background: 'rgba(24, 24, 27, 0.85)',
     backdropFilter: 'saturate(150%) blur(14px)',
     WebkitBackdropFilter: 'saturate(150%) blur(14px)',
     borderTop: `1px solid ${colors.neutral.border}`,
-    boxShadow: '0 -8px 20px rgba(0, 0, 0, 0.04)',
+    boxShadow: '0 -8px 20px rgba(0, 0, 0, 0.3)',
     marginBottom: -pageBottomCompensation,
     paddingBottom: pageBottomCompensation,
   };

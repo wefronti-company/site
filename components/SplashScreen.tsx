@@ -67,7 +67,7 @@ const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete }) => {
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    background: `linear-gradient(135deg, rgba(210, 247, 198, 0.45) 0%, rgba(249, 255, 246, 0.35) 50%, rgba(210, 247, 198, 0.45) 100%)`,
+    background: 'rgba(10, 10, 10, 0.97)',
     backdropFilter: 'blur(60px) saturate(180%)',
     WebkitBackdropFilter: 'blur(20px) saturate(180%)',
     transition: phase === 'sliding' ? `transform ${SLIDE_DURATION_MS}ms ease-out` : 'none',
@@ -85,7 +85,7 @@ const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete }) => {
   const barWrapStyle: React.CSSProperties = {
     width: 'min(280px, 80vw)',
     height: 4,
-    backgroundColor: 'rgba(154, 208, 169, 0.22)',
+    backgroundColor: 'rgba(37, 99, 235, 0.22)',
     borderRadius: 2,
     overflow: 'hidden',
   };

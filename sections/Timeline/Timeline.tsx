@@ -209,7 +209,7 @@ const Timeline: React.FC<TimelineProps> = ({ conteudo }) => {
       padding: `${spacing[4]}px ${spacing[5]}px`,
       borderRadius: 20,
       border: `1px solid ${colors.neutral.border}`,
-      backgroundColor: 'rgba(255, 255, 255, 0.5)',
+      backgroundColor: 'rgba(24, 24, 27, 0.6)',
       backdropFilter: 'saturate(150%) blur(14px)',
       WebkitBackdropFilter: 'saturate(150%) blur(14px)',
     };

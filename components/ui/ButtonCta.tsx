@@ -64,7 +64,7 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
               }}
             >
               <span style={{ display: 'inline-flex' }} aria-hidden>
-                <Rocket size={16} color="#059669" strokeWidth={2.5} />
+                <Rocket size={16} color="#2563eb" strokeWidth={2.5} />
               </span>
             </span>
           )}

@@ -518,7 +518,7 @@ const Pricing: React.FC<PricingProps> = ({ conteudo }) => {
               {PRICING_OPTIONS.map((option) => (
                 <div key={option.key} style={cardStyleResponsive}>
                   <div style={cardIconWrapStyle}>
-                    <option.Icon size={24} color="#059669" strokeWidth={1.8} />
+                    <option.Icon size={24} color="#2563eb" strokeWidth={1.8} />
                   </div>
                   <h3 style={cardTitleStyle}>{option.title}</h3>
                   <p style={{ fontSize: fontSizes.sm, color: colors.text.primary, opacity: 0.88, margin: 0 }}>
@@ -567,7 +567,7 @@ const Pricing: React.FC<PricingProps> = ({ conteudo }) => {
                       onClick={() => setPricingCarouselPaused(true)}
                     >
                       <div style={cardIconWrapStyle}>
-                        <option.Icon size={24} color="#059669" strokeWidth={1.8} />
+                        <option.Icon size={24} color="#2563eb" strokeWidth={1.8} />
                       </div>
                       <h3 style={cardTitleStyle}>{option.title}</h3>
                       <p style={{ fontSize: fontSizes.sm, color: colors.text.primary, opacity: 0.88, margin: 0 }}>
@@ -651,7 +651,7 @@ const Pricing: React.FC<PricingProps> = ({ conteudo }) => {
               overflowY: 'auto',
               borderRadius: 24,
               border: `1px solid ${colors.neutral.border}`,
-              background: '#F5FFF0',
+              background: colors.neutral.accordeon,
               boxShadow: '0 16px 48px rgba(0, 0, 0, 0.2)',
               padding: spacing[8],
             }}
@@ -737,7 +737,7 @@ const Pricing: React.FC<PricingProps> = ({ conteudo }) => {
                       className="pricing-modal-select"
                       value={leadForm.tipoProjeto}
                       onChange={(e) => updateLeadField('tipoProjeto', e.target.value)}
-                      style={{ borderRadius: 12, border: `1px solid ${colors.neutral.border}`, padding: '12px 14px', fontSize: fontSizes.base, background: '#fff' }}
+                      style={{ borderRadius: 12, border: `1px solid ${colors.neutral.border}`, padding: '12px 14px', fontSize: fontSizes.base, background: colors.neutral.accordeon, color: colors.text.primary }}
                     >
                       <option value="" disabled>Selecione o tipo</option>
                       <option value="Site">Site</option>
@@ -752,7 +752,7 @@ const Pricing: React.FC<PricingProps> = ({ conteudo }) => {
                     className="pricing-modal-select"
                     value={leadForm.investimento}
                     onChange={(e) => updateLeadField('investimento', e.target.value)}
-                    style={{ borderRadius: 12, border: `1px solid ${colors.neutral.border}`, padding: '12px 14px', fontSize: fontSizes.base, background: '#fff' }}
+                    style={{ borderRadius: 12, border: `1px solid ${colors.neutral.border}`, padding: '12px 14px', fontSize: fontSizes.base, background: colors.neutral.accordeon, color: colors.text.primary }}
                   >
                     <option value="" disabled>Selecione uma faixa</option>
                     <option value="R$ 10k a R$ 20k">R$ 10k a R$ 20k</option>
@@ -794,7 +794,7 @@ const Pricing: React.FC<PricingProps> = ({ conteudo }) => {
                     justifyContent: 'flex-end',
                     alignItems: 'center',
                     fontSize: fontSizes.sm,
-                    color: formFeedback?.type === 'error' ? '#DC2626' : '#059669',
+                    color: formFeedback?.type === 'error' ? '#DC2626' : '#2563eb',
                     opacity: formFeedback ? 1 : 0,
                     transition: 'opacity 0.2s ease',
                     textAlign: 'right',
@@ -829,7 +829,7 @@ const Pricing: React.FC<PricingProps> = ({ conteudo }) => {
                   }}
                   aria-hidden
                 >
-                  <CheckCircle2 size={28} color="#059669" />
+                  <CheckCircle2 size={28} color="#2563eb" />
                 </div>
                 <h4 style={{ margin: 0, fontSize: fontSizes['2xl'], fontWeight: 400, color: colors.text.primary }}>
                   Solicitação enviada com sucesso!
