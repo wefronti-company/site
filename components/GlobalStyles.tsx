@@ -143,8 +143,8 @@ section[id] {
   100% { transform: translate3d(50%, 0, 0); }
 }
 @keyframes cta-btn-shine {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(200%); }
+  0% { transform: skewX(28deg) translateX(-100%); }
+  100% { transform: skewX(28deg) translateX(200%); }
 }
 span[data-cta-gradient-wrap] {
   position: relative !important;
@@ -163,7 +163,7 @@ span[data-cta-gradient-wrap]::before {
   border-radius: inherit !important;
   background: linear-gradient(90deg, #b85c38, #d4693e, #b85c38, #e07c4a, #b85c38) !important;
 }
-/* Brilho: faixa de laranja mais claro que atravessa da esquerda para a direita */
+/* Brilho: faixa de laranja mais claro que atravessa em diagonal (esquerda → direita) */
 span[data-cta-gradient-wrap]::after {
   content: '' !important;
   position: absolute !important;

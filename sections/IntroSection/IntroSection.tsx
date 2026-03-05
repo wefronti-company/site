@@ -2,6 +2,7 @@ import React from 'react';
 import { X } from 'lucide-react';
 import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
+import ButtonCta from '../../components/ui/ButtonCta';
 
 const { colors, spacing, fontSizes, containerMaxWidth } = theme;
 
@@ -17,7 +18,7 @@ const sectionStyle: React.CSSProperties = {
   overflow: 'hidden',
 };
 
-/** Imagem de fundo: alinhada à direita e à mesma altura do bloco de texto (mesmo padding vertical da seção) */
+/** Imagem de fundo: alinhada à direita, dimensão ajustada para não dominar com o CTA em largura total */
 const bgImageStyle: React.CSSProperties = {
   position: 'absolute',
   top: SECTION_PADDING_V,
@@ -89,6 +90,12 @@ const headingStyle: React.CSSProperties = {
 const highlightStyle: React.CSSProperties = {
   color: colors.blue.primary,
   fontWeight: 600,
+};
+
+/** Destaque do título intro: brilho fixo (cor do botão), peso 400 */
+const headingHighlightStyle: React.CSSProperties = {
+  color: colors.blue.brillho,
+  fontWeight: 400,
 };
 
 /** Wrapper dos problemas: largura acompanha o texto */
@@ -164,6 +171,32 @@ const rightColumnStyle: React.CSSProperties = {
   minHeight: 320,
 };
 
+/** Banner CTA: largura total, efeito vidro, copy à esquerda e botão à direita */
+const ctaBannerStyle: React.CSSProperties = {
+  gridColumn: '1 / -1',
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  gap: spacing[6],
+  flexWrap: 'wrap',
+  padding: spacing[5],
+  borderRadius: 12,
+  border: '1px solid rgba(255, 255, 255, 0.08)',
+  backgroundColor: 'rgba(24, 24, 27, 0.5)',
+  backdropFilter: 'saturate(150%) blur(16px)',
+  WebkitBackdropFilter: 'saturate(150%) blur(16px)',
+  boxShadow: '0 2px 16px rgba(0, 0, 0, 0.2)',
+};
+
+const ctaBannerCopyStyle: React.CSSProperties = {
+  flex: '1 1 280px',
+  fontSize: fontSizes.base,
+  lineHeight: 1.5,
+  color: colors.text.primary,
+  margin: 0,
+};
+
 const PROBLEMS: { text: string; highlight: string; suffix: string }[] = [
   { text: 'Combustível jogado fora: Você investe pesado em anúncios, mas vê seus leads sumirem antes mesmo de completarem a órbita. ', highlight: 'Cliques não estão virando vendas.', suffix: '.' },
   { text: 'Fuselagem sem motor: Já contratou freelancers que entregaram um "site bonitinho", mas sem nenhuma inteligência de conversão. ', highlight: 'É uma nave bonita que não sai do chão.', suffix: '.' },
@@ -183,7 +216,7 @@ const IntroSection: React.FC<IntroSectionProps> = ({ conteudo }) => {
   const subheadingHighlight = (conteudo?.subheadingHighlight != null ? String(conteudo.subheadingHighlight) : '') || 'layout bonito.';
   const paragraph = (conteudo?.paragraph != null ? String(conteudo.paragraph) : '') || 'Na Wefronti, criamos páginas que justificam ';
   const paragraphHighlight = (conteudo?.paragraphHighlight != null ? String(conteudo.paragraphHighlight) : '') || 'cada centavo investido em tráfego';
-  const paragraphSuffix = (conteudo?.paragraphSuffix != null ? String(conteudo.paragraphSuffix) : '') || ' — com estratégia, método e foco em resultado real.';
+
 
   const problems = (Array.isArray(conteudo?.problems) ? (conteudo.problems as { text?: string; highlight?: string; suffix?: string }[]) : null) ?? PROBLEMS;
 
@@ -203,7 +236,7 @@ const IntroSection: React.FC<IntroSectionProps> = ({ conteudo }) => {
         <div style={leftColumnStyle}>
           <h2 id="intro-heading" style={headingStyle}>
             {heading}
-            <span style={highlightStyle}>{headingHighlight}</span>
+            <span style={headingHighlightStyle}>{headingHighlight}</span>
           </h2>
 
           <div style={problemsWrapStyle}>
@@ -250,20 +283,16 @@ const IntroSection: React.FC<IntroSectionProps> = ({ conteudo }) => {
               ))}
             </ul>
           </div>
-
-          <h3 style={subheadingStyle}>
-            {subheading}
-            <span style={highlightStyle}>{subheadingHighlight}</span>
-          </h3>
-
-          <p style={paragraphStyle}>
-            {paragraph}
-            <strong style={highlightStyle}>{paragraphHighlight}</strong>
-            {paragraphSuffix}
-          </p>
         </div>
 
         <div style={{ ...rightColumnStyle, display: isMd ? 'block' : 'none' }} aria-hidden />
+
+        <div style={ctaBannerStyle}>
+          <p style={ctaBannerCopyStyle}>
+            Na Wefronti projetamos o Método LUNAR. Criamos páginas de alta performance que justificam cada centavo do seu tráfego unindo engenharia de conversão e foco absoluto no seu faturamento.
+          </p>
+          <ButtonCta label="Pedir orçamento" />
+        </div>
       </div>
     </section>
   );

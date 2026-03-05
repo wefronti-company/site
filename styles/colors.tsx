@@ -28,6 +28,8 @@ export const colors = {
     primary: '#d4693e',
     secondary: '#b85c38',
     tertiary: '#e07c4a',
+    /** Brilho fixo: laranja visível (entre primary e o brilho do botão), sem animação */
+    brillho: '#e07c4a',
   },
 
   neutral: {
