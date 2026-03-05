@@ -29,7 +29,7 @@ html, body {
   height: 100%;
   overflow-x: hidden;
   max-width: 100vw;
-  background: ${colors.background.gradient};
+  background: ${colors.background.general};
   background-attachment: fixed;
   color: ${colors.text.primary};
   font-family: "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -62,18 +62,6 @@ button, input, select, textarea {
   padding-bottom: 80px;
   position: relative;
   z-index: 3;
-}
-
-/* Painel admin: fundo unificado (admin.background) */
-body.admin-route,
-body.admin-route #__next,
-html.admin-route,
-html.admin-route body {
-  background-color: #0A0C12 !important;
-}
-body.admin-route #__next {
-  padding-bottom: 0;
-  min-height: 100vh;
 }
 
 /* Scroll suave — respeita preferência de movimento reduzido */

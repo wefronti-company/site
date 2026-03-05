@@ -22,7 +22,6 @@ Allow: /
 # Bloqueios
 Disallow: /api/
 Disallow: /_next/
-Disallow: /admin/
 
 # Sitemap
 Sitemap: ${baseUrl}/sitemap.xml

@@ -12,7 +12,7 @@ const TESTIMONIALS: { description: string; name: string; state: string; country:
     country: 'Brasil',
   },
   {
-    description: 'Contratamos um sistema para centralizar nossa operação. A equipe entendeu o fluxo do negócio e entregou algo que eliminou retrabalho e planilhas.',
+    description: 'Precisávamos de um site rápido e profissional. Entregaram no prazo, bem feito, e já recebemos vários contatos pelo formulário.',
     name: 'Carlos H. Mendes',
     state: 'Minas Gerais',
     country: 'Brasil',
@@ -24,13 +24,13 @@ const TESTIMONIALS: { description: string; name: string; state: string; country:
     country: 'Brasil',
   },
   {
-    description: 'Fizemos o design das interfaces antes de desenvolver. Valeram cada centavo — a experiência do usuário melhorou e o retorno foi imediato.',
+    description: 'Nosso site ficou exatamente como queríamos: clean, rápido e fácil de atualizar. Recomendo.',
     name: 'Roberto Amâncio',
     state: 'Paraná',
     country: 'Brasil',
   },
   {
-    description: 'Trabalho de excelência do início ao fim. Comunicação constante, prazos cumpridos e um produto que nos representa muito bem.',
+    description: 'Trabalho de excelência do início ao fim. Comunicação constante, prazos cumpridos e um site que nos representa muito bem.',
     name: 'Fernanda Frigs',
     state: 'Santa Catarina',
     country: 'Brasil',
@@ -40,7 +40,7 @@ const TESTIMONIALS: { description: string; name: string; state: string; country:
 /** Segundo conjunto de depoimentos — carrossel inferior (esquerda → direita) */
 const TESTIMONIALS_2: { description: string; name: string; state: string; country: string }[] = [
   {
-    description: 'Unificamos nossos sistemas com APIs e automações. O que antes era manual e cheio de erro hoje roda sozinho e em tempo real.',
+    description: 'Landing page para uma campanha: entregaram em uma semana, linda e com ótima taxa de conversão.',
     name: 'Paulo Henrique Souza',
     state: 'Bahia',
     country: 'Brasil',
@@ -58,7 +58,7 @@ const TESTIMONIALS_2: { description: string; name: string; state: string; countr
     country: 'Brasil',
   },
   {
-    description: 'Validamos nossa ideia com um micro-saas feito pela Wefronti. Estrutura leve, custo baixo e já temos clientes pagando.',
+    description: 'Queríamos um site simples para a clínica. Ficou profissional, rápido de carregar e os pacientes elogiam.',
     name: 'Camila Rocha',
     state: 'Espírito Santo',
     country: 'Brasil',
@@ -264,8 +264,8 @@ const Testimonials: React.FC<TestimonialsProps> = ({ conteudo }) => {
   };
 
   const badge = (conteudo?.badge != null ? String(conteudo.badge) : '') || 'Depoimentos';
-  const titulo = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'O impacto real das nossas soluções na operação de nossos clientes.';
-  const subtitulo = (conteudo?.subtitulo != null ? String(conteudo.subtitulo) : '') || 'Mais do que interfaces, entregamos ferramentas que otimizam processos, reduzem custos e geram novas fontes de receita.';
+  const titulo = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'O que falam quem já tem site ou landing page pela Wefronti';
+  const subtitulo = (conteudo?.subtitulo != null ? String(conteudo.subtitulo) : '') || 'Depoimentos reais de quem escolheu entregas no prazo e um site que realmente fica no ar.';
   const sectionPaddingX = isMd ? spacing[12] : spacing[4];
   const sectionStyle: React.CSSProperties = {
     ...sectionStyleBase,

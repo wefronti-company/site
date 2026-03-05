@@ -1,8 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import isEmail from 'validator/lib/isEmail';
-import { checkRateLimit, getClientIp } from '../../lib/rate-limit';
+import { checkRateLimit } from '../../lib/rate-limit';
 import { sanitizeTextForStorage } from '../../lib/sanitize-server';
-import { createRequest } from '../../lib/requestDb';
 
 const RATE_LIMIT_MS = 20_000;
 
@@ -30,32 +29,27 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const tipoProjeto = getString(body.tipoProjeto, 40);
   const contexto = getString(body.contexto, 5000);
   const origem = getString(body.origem, 120);
-  const isWebRequest = tipo.toLowerCase() === 'desenvolvimento web';
+  const isSiteInstitucional = tipo.toLowerCase().includes('site');
+  const isLandingPage = tipo.toLowerCase().includes('landing');
+  const requiresProjectType = isSiteInstitucional;
+  const requiresInvestment = isLandingPage;
 
-  if (!tipo || !nome || !sobrenome || !email || !whatsapp || (!isWebRequest && !investimento) || (isWebRequest && !tipoProjeto) || !contexto) {
+  if (
+    !tipo ||
+    !nome ||
+    !sobrenome ||
+    !email ||
+    !whatsapp ||
+    (requiresInvestment && !investimento) ||
+    (requiresProjectType && !tipoProjeto) ||
+    !contexto
+  ) {
     return res.status(400).json({ error: 'Preencha todos os campos obrigatórios.' });
   }
   if (!isEmail(email)) {
     return res.status(400).json({ error: 'E-mail inválido.' });
   }
 
-  try {
-    await createRequest({
-      tipo,
-      nome,
-      sobrenome,
-      email,
-      whatsapp,
-      investimento: investimento || null,
-      tipoProjeto: isWebRequest ? tipoProjeto : null,
-      contexto,
-      origem,
-      ip: getClientIp(req),
-      userAgent: String(req.headers['user-agent'] || '').slice(0, 512),
-    });
-    return res.status(201).json({ ok: true });
-  } catch (e) {
-    console.error('[requests]', e);
-    return res.status(500).json({ error: 'Erro ao registrar solicitação. Tente novamente.' });
-  }
+  // Sem banco de dados: valida e retorna sucesso.
+  return res.status(201).json({ ok: true });
 }

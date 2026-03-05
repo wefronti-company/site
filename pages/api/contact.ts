@@ -1,8 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import isEmail from 'validator/lib/isEmail';
-import { checkRateLimit, getClientIp } from '../../lib/rate-limit';
+import { checkRateLimit } from '../../lib/rate-limit';
 import { sanitizeTextForStorage } from '../../lib/sanitize-server';
-import { createRequest } from '../../lib/requestDb';
 
 const RATE_LIMIT_MS = 20_000;
 
@@ -34,23 +33,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(400).json({ error: 'E-mail inválido.' });
   }
 
-  try {
-    await createRequest({
-      tipo: 'Contato',
-      nome,
-      sobrenome,
-      email,
-      whatsapp: '—',
-      investimento: assunto,
-      tipoProjeto: null,
-      contexto: mensagem,
-      origem: 'pagina-contato',
-      ip: getClientIp(req),
-      userAgent: String(req.headers['user-agent'] || '').slice(0, 512),
-    });
-    return res.status(201).json({ ok: true });
-  } catch (e) {
-    console.error('[contact]', e);
-    return res.status(500).json({ error: 'Erro ao enviar mensagem. Tente novamente.' });
-  }
+  // Sem banco de dados: valida e retorna sucesso.
+  return res.status(201).json({ ok: true });
 }

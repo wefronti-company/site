@@ -1,7 +1,7 @@
 import React from 'react';
 import SEO from '../components/SEO';
 import Hero from '../sections/Hero';
-import ValoresCarousel from '../sections/ValoresCarousel';
+import IntroSection from '../sections/IntroSection';
 import Testimonials from '../sections/Testimonials';
 import Timeline from '../sections/Timeline';
 import Tecnologias from '../sections/Tecnologias';
@@ -15,8 +15,8 @@ const Home: React.FC = () => (
   <>
     <SEO />
     <Hero />
+    <IntroSection />
     <Timeline />
-    <ValoresCarousel />
     <Testimonials />
     <Tecnologias />
     <Pricing />

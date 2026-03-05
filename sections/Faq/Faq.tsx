@@ -17,14 +17,14 @@ const FAQ_ITEMS: { question: string; answer: string }[] = [
       'Sim. Trabalhamos com parcelamento em até 12x no cartão ou em parcelas combinadas com as entregas do projeto (ex.: 50% na aprovação e 50% na entrega). O formato é alinhado no fechamento.',
   },
   {
-    question: 'Em quanto tempo o projeto fica pronto?',
+    question: 'Em quanto tempo o site ou a landing page fica pronto?',
     answer:
-      'Depende do escopo. Landing page: até 5 dias. Site institucional: entre 14 e 21 dias. Sistemas e aplicações: variam conforme complexidade. Sempre definimos prazos reais no início, sem enrolação.',
+      'Landing page: em geral até 5 dias úteis. Site institucional: entre 14 e 21 dias, conforme o tamanho. Definimos o prazo no orçamento, sem enrolação.',
   },
   {
-    question: 'O produto fica no meu nome ou fico preso à Wefronti?',
+    question: 'O site fica no meu nome ou fico preso à Wefronti?',
     answer:
-      'O produto é 100% seu. Entregamos acessos, credenciais, código-fonte e arquivos. Você não fica preso a nós nem a nenhuma mensalidade obrigatória após a entrega. Suporte contínuo é opcional.',
+      'O site é 100% seu. Entregamos no seu domínio, com acessos e orientação. Não há mensalidade obrigatória nossa após a entrega. Suporte contínuo é opcional.',
   },
   {
     question: 'Preciso ter todo o conteúdo pronto antes de começar?',
@@ -32,9 +32,9 @@ const FAQ_ITEMS: { question: string; answer: string }[] = [
       'Não necessariamente. No onboarding alinhamos o que você já tem e o que falta. Podemos orientar textos, imagens e fluxos. Quanto mais informação você passar, mais alinhado o resultado ficará.',
   },
   {
-    question: 'E se eu precisar de ajustes ou suporte depois da entrega?',
+    question: 'E se eu precisar de ajustes no site depois da entrega?',
     answer:
-      'Garantimos suporte na fase de lançamento para tudo funcionar bem. Depois disso, oferecemos planos de manutenção mensal para correções, evoluções e acompanhamento. Não é obrigatório.',
+      'Incluímos suporte pós-entrega para ajustes iniciais. Depois, oferecemos planos de manutenção mensal se quiser. Não é obrigatório.',
   },
 ];
 

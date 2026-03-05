@@ -16,7 +16,7 @@ import {
   Zap,
   Gauge,
   MessageSquare,
-  Layers,
+  Globe,
   Focus,
   FolderOpen,
   Package,
@@ -26,7 +26,6 @@ import {
   MousePointerClick,
   HeartHandshake,
   Cpu,
-  Code,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
@@ -47,7 +46,7 @@ const VALORES: { label: string; Icon: LucideIcon }[] = [
   { label: 'Organização', Icon: FolderOpen },
   { label: 'Processo claro e sem surpresas', Icon: ClipboardCheck },
   { label: 'Suporte pós-entrega', Icon: LifeBuoy },
-  { label: 'Tecnologia de ponta', Icon: Code },
+  { label: 'Sites rápidos e modernos', Icon: Globe },
 ];
 
 const wrapStyle: React.CSSProperties = {

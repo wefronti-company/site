@@ -212,12 +212,11 @@ const Tecnologias: React.FC = () => {
             Tecnologia
           </span>
           <h2 id="tecnologias-heading" style={titleStyle}>
-            A mesma stack das grandes empresas
+            Sites rápidos e estáveis
           </h2>
           <p style={subtitleStyle}>
-            AWS, Go, Docker, Node.js, TypeScript e React. Tecnologias que sustentam Netflix, Uber,
-            Airbnb e milhares de empresas de referência. A Wefronti entrega performance, estabilidade
-            e evolução contínua.
+            Usamos tecnologias modernas (React, Node.js, TypeScript) para que seu site carregue rápido,
+            funcione em qualquer dispositivo e seja fácil de evoluir no futuro.
           </p>
           <div
             style={{

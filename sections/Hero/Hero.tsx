@@ -4,19 +4,39 @@ import { motion } from 'framer-motion';
 import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 import ButtonCta from '../../components/ui/ButtonCta';
+import ValoresCarousel from '../ValoresCarousel';
 
 const { colors, spacing, fontSizes } = theme;
 
 const heroSectionStyleBase: React.CSSProperties = {
   position: 'relative',
-  minHeight: '80vh',
-  background: 'transparent',
+  minHeight: '100vh',
+  background: colors.background.general,
   zIndex: 25,
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
   overflow: 'hidden',
+};
+
+/** Camada da imagem de fundo */
+const heroBgImageStyle: React.CSSProperties = {
+  position: 'absolute',
+  inset: 0,
+  backgroundImage: 'url(/images/brand/background-hero.jpg)',
+  backgroundSize: 'cover',
+  backgroundPosition: 'center',
+  zIndex: 0,
+};
+
+/** Gradiente de baixo para cima: preto na base (funde com o fundo do site) → transparente no topo */
+const heroGradientOverlayStyle: React.CSSProperties = {
+  position: 'absolute',
+  inset: 0,
+  background: `linear-gradient(to top, ${colors.background.general} 0%, ${colors.background.general} 25%, rgba(10, 10, 10, 0.6) 55%, transparent 100%)`,
+  zIndex: 1,
+  pointerEvents: 'none',
 };
 
 const heroContentStyleBase: React.CSSProperties = {
@@ -40,20 +60,16 @@ const heroTitleStyle = (isMd: boolean): React.CSSProperties => ({
   margin: 0,
 });
 
-/** Palavras destacadas no H1: tom azul */
-const HIGHLIGHT_WORDS = ['digitais de elite', '100% de código', 'estratégia'];
-const highlightWordStyle: React.CSSProperties = {
-  color: '#60a5fa',
-};
+/** Uma palavra em destaque no H1 (azul) */
+const HIGHLIGHT_WORD = 'convertem';
+const highlightWordStyle: React.CSSProperties = { color: '#60a5fa' };
 
 function renderHeroTitle(text: string): React.ReactNode {
-  const regex = new RegExp(`(${HIGHLIGHT_WORDS.join('|')})`, 'gi');
+  const regex = new RegExp(`(${HIGHLIGHT_WORD})`, 'gi');
   const parts = text.split(regex);
   return parts.map((part, i) =>
-    HIGHLIGHT_WORDS.some((w) => part.toLowerCase() === w) ? (
-      <span key={`h-${i}-${part}`} style={highlightWordStyle}>
-        {part}
-      </span>
+    part.toLowerCase() === HIGHLIGHT_WORD ? (
+      <span key={`h-${i}`} style={highlightWordStyle}>{part}</span>
     ) : (
       <React.Fragment key={`h-${i}`}>{part}</React.Fragment>
     )
@@ -79,16 +95,14 @@ const Hero: React.FC<HeroProps> = ({ conteudo }) => {
   const [hasEntered, setHasEntered] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
 
-  const tituloRaw = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'Projetamos e desenvolvemos produtos digitais que crescem com o seu negócio.';
-  const subtitulo = (conteudo?.subtitulo != null ? String(conteudo.subtitulo) : '') || 'Unimos estratégia, design e tecnologia para criar produtos que não precisam ser refeitos daqui 6 meses. Entregamos performance real e controle total sobre o seu projeto.';
-  const botaoPrincipal = (conteudo?.botaoPrincipal != null ? String(conteudo.botaoPrincipal) : '') || 'Iniciar um projeto';
+  const tituloRaw = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'O sistema de propulsão para negócios que não aceitam ficar no chão.';
+  const subtitulo = (conteudo?.subtitulo != null ? String(conteudo.subtitulo) : '') || 'Através do Método LUNAR, transformamos sua presença digital em uma missão de conquista. Saia da inércia e coloque sua conversão em órbita com engenharia de alta performance.';
+  const botaoPrincipal = (conteudo?.botaoPrincipal != null ? String(conteudo.botaoPrincipal) : '') || 'Pedir orçamento';
 
   const heroSectionStyle: React.CSSProperties = {
     ...heroSectionStyleBase,
     padding: isMd ? spacing[12] : spacing[4],
     paddingBottom: isMd ? spacing[10] : spacing[6],
-    borderBottomLeftRadius: isMd ? 48 : 28,
-    borderBottomRightRadius: isMd ? 48 : 28,
     ...(!isMd && {
       alignItems: 'flex-start',
       justifyContent: 'flex-start',
@@ -126,6 +140,8 @@ const Hero: React.FC<HeroProps> = ({ conteudo }) => {
 
   return (
     <section ref={sectionRef} id="hero" style={heroSectionStyle}>
+      <div style={heroBgImageStyle} aria-hidden />
+      <div style={heroGradientOverlayStyle} aria-hidden />
       <div style={heroContentStyle}>
         <motion.div
           initial={{ opacity: 0, y: 16 }}
@@ -174,6 +190,9 @@ const Hero: React.FC<HeroProps> = ({ conteudo }) => {
         >
           <ButtonCta>{botaoPrincipal}</ButtonCta>
         </motion.div>
+        <div style={{ width: '100%', marginTop: spacing[8] }}>
+          <ValoresCarousel />
+        </div>
       </div>
     </section>
   );

@@ -16,37 +16,10 @@ export default function MyApp({ Component, pageProps }: AppProps) {
 
  React.useEffect(() => {
    gtag.loadGoogleAnalytics();
-
-   const trackView = (url: string) => {
-     if (!url.startsWith('/admin')) {
-       fetch('/api/track-view', {
-         method: 'POST',
-         headers: { 'Content-Type': 'application/json' },
-         body: JSON.stringify({ path: url || '/' }),
-       }).catch(() => {});
-     }
-   };
-
-   const handleRouteChange = (url: string) => {
-     gtag.pageview(url);
-     trackView(url);
-   };
-
-   trackView(router.asPath);
+   const handleRouteChange = (url: string) => gtag.pageview(url);
    router.events.on('routeChangeComplete', handleRouteChange);
    return () => router.events.off('routeChangeComplete', handleRouteChange);
- }, [router.events, router.asPath]);
-
- // Inserir comentário logo antes do <html> no DOM (executado no cliente)
- // Mantemos fundo global do site também no admin.
- React.useEffect(() => {
-   document.documentElement.classList.remove('admin-route');
-   document.body.classList.remove('admin-route');
-   return () => {
-     document.documentElement.classList.remove('admin-route');
-     document.body.classList.remove('admin-route');
-   };
- }, [router.pathname]);
+ }, [router.events]);
 
  React.useEffect(() => {
    try {
@@ -72,9 +45,9 @@ export default function MyApp({ Component, pageProps }: AppProps) {
  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
  </Head>
  <GlobalStyles />
-{!router.pathname.startsWith('/admin') && <AsteriskDecor />}
+<AsteriskDecor />
       <Component {...pageProps} />
-      {router.pathname !== '/' && !router.pathname.startsWith('/admin') && <Footer />}
+      {router.pathname !== '/' && <Footer />}
  </>
  </SmoothScroll>
  </SnackbarProvider>

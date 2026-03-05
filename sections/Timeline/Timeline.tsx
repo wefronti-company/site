@@ -1,51 +1,59 @@
 import React from 'react';
-import { MessageCircle, ClipboardList, Code2, Rocket, Headphones, Search, Map, LifeBuoy, Code } from 'lucide-react';
-import { radii, theme } from '../../styles/theme';
+import { MapPin, Layers, PenLine, Gauge, TrendingUp } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
+import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 import ButtonCta from '../../components/ui/ButtonCta';
-import { BiPulse } from 'react-icons/bi';
 
-const { colors, spacing, fontSizes, containerMaxWidth } = theme;
+const { colors, spacing, fontSizes, radii } = theme;
 
-type StepIcon = React.ComponentType<{ size?: number; className?: string }>;
 
-const TIMELINE_STEPS: { title: string; description: string; Icon: StepIcon }[] = [
-  { title: 'Onboarding', description: 'Começamos com uma imersão profunda no seu modelo de negócio para alinhar metas, identificar gargalos e definir os requisitos críticos para o sucesso do produto.', Icon: Search },
-  { title: 'Planejamento', description: 'Estruturamos a arquitetura da solução focada em escalabilidade: mapeamos fluxos de usuários, regras de negócio e integrações necessárias para transformar sua visão em realidade.', Icon: Map },
-  { title: 'Desenvolvimento', description: 'Implementamos código limpo e infraestrutura robusta. Focamos em performance, segurança e uma arquitetura modular que permite que o software evolua sem precisar ser refeito.', Icon: Code },
-  { title: 'Lançamento', description: 'Realizamos testes rigorosos de QA e carga antes do deploy. Publicamos sua solução com monitoramento ativo para garantir que a transição seja suave e a performance seja máxima desde o minuto zero.', Icon: Rocket },
-  { title: 'Suporte', description: 'Tecnologia não é estática. Mantemos um suporte próximo para otimizações orientadas por dados, atualizações de segurança e novas funcionalidades que mantenham sua vantagem competitiva.', Icon: BiPulse },
+/** Método LUNAR: 5 passos com título, subtítulo e descrição. */
+const LUNAR_STEPS: { letter: string; title: string; subtitle: string; description: string; Icon: LucideIcon }[] = [
+  { letter: 'L', title: 'Localização de Alvo', subtitle: 'Mapeamento', description: 'Antes da ignição, identificamos as coordenadas do seu cliente ideal. Onde eles estão? O que eles desejam? Escolhemos o "local de pouso" onde sua oferta terá menos resistência.', Icon: MapPin },
+  { letter: 'U', title: 'Unidade de Comando', subtitle: 'UX & Estrutura', description: 'Desenhamos a interface de controle. É a arquitetura da página que garante que o visitante saiba exatamente o que fazer, sem distrações, guiado pela nossa tecnologia.', Icon: Layers },
+  { letter: 'N', title: 'Núcleo de Persuasão', subtitle: 'Copywriting', description: 'Aqui instalamos o motor da nave. Criamos a narrativa e os gatilhos mentais que transformam um visitante curioso em um cliente decidido a fechar com você.', Icon: PenLine },
+  { letter: 'A', title: 'Ajuste de Pressão', subtitle: 'Performance & Design', description: 'Lapidamos a estética e a velocidade. Garantimos que a página seja visualmente imponente e carregue instantaneamente, suportando qualquer volume de tráfego.', Icon: Gauge },
+  { letter: 'R', title: 'Reentrada e Escala', subtitle: 'Otimização', description: 'Após o pouso (lançamento), monitoramos os sinais. Analisamos os dados de conversão para ajustar a rota e garantir que você escale seus resultados com segurança.', Icon: TrendingUp },
 ];
 
 const sectionStyleBase: React.CSSProperties = {
+  position: 'relative',
   width: '100%',
   paddingTop: spacing[16],
   paddingBottom: spacing[16],
-  backgroundColor: 'transparent',
+  backgroundColor: colors.background.general,
+  overflow: 'hidden',
+};
+
+/** Imagem de fundo da seção Método */
+const metodoBgImageStyle: React.CSSProperties = {
+  position: 'absolute',
+  inset: 0,
+  backgroundImage: 'url(/images/brand/background-metodo.jpg)',
+  backgroundSize: 'cover',
+  backgroundPosition: 'center',
+  zIndex: 0,
+};
+
+/** Gradiente: preto no topo e na base, meio da imagem 100% visível */
+const metodoGradientOverlayStyle: React.CSSProperties = {
+  position: 'absolute',
+  inset: 0,
+  background: `linear-gradient(to bottom, ${colors.background.general} 0%, ${colors.background.general} 18%, transparent 38%, transparent 62%, ${colors.background.general} 82%, ${colors.background.general} 100%)`,
+  zIndex: 1,
+  pointerEvents: 'none',
 };
 
 const innerStyleBase: React.CSSProperties = {
+  position: 'relative',
+  zIndex: 2,
   width: '100%',
-  maxWidth: containerMaxWidth.wide,
+  maxWidth: 1440,
   margin: '0 auto',
   display: 'flex',
   flexDirection: 'column',
   gap: spacing[12],
-};
-
-const badgeStyle: React.CSSProperties = {
-  display: 'inline-flex',
-  alignItems: 'center',
-  gap: spacing[2],
-  padding: `${spacing[2]}px ${spacing[4]}px`,
-  borderRadius: radii.full,
-  border: `1px solid ${colors.neutral.border}`,
-  backgroundColor: colors.neutral.accordeon,
-  fontSize: fontSizes.xs,
-  fontWeight: 500,
-  color: colors.text.primary,
-  textTransform: 'uppercase' as const,
-  letterSpacing: '0.06em',
 };
 
 const titleStyle: React.CSSProperties = {
@@ -75,34 +83,13 @@ const headerStyle: React.CSSProperties = {
   gap: spacing[6],
 };
 
-const MARKER_ROW_HEIGHT = 40;
-const STEP_NUMBER_SIZE = 34;
-const LINE_TOP = MARKER_ROW_HEIGHT / 2;
-const TIMELINE_DOT_SOLID = '#5C9369';
-
-const timelineWrapStyle: React.CSSProperties = {
-  position: 'relative' as const,
-  width: '100vw',
-  marginLeft: '50%',
-  transform: 'translateX(-50%)',
-  paddingTop: 0,
-};
-
-const lineStyle: React.CSSProperties = {
-  position: 'absolute' as const,
-  left: 0,
-  right: 0,
-  top: LINE_TOP,
-  height: 0,
-  borderTop: '2px dashed rgba(0,0,0,0.15)',
-  pointerEvents: 'none',
-};
-
 const stepsGridStyle: React.CSSProperties = {
   display: 'grid',
   gridTemplateColumns: 'repeat(5, 1fr)',
+  gridAutoRows: '1fr',
+  alignItems: 'stretch',
   gap: spacing[6],
-  maxWidth: 1280,
+  maxWidth: 1440,
   margin: '0 auto',
   listStyle: 'none',
   padding: 0,
@@ -110,27 +97,38 @@ const stepsGridStyle: React.CSSProperties = {
   zIndex: 1,
 };
 
-const stepColumnStyle: React.CSSProperties = {
+/** Card com efeito vidro (glass) para cada passo do LUNAR */
+const cardGlassStyle: React.CSSProperties = {
   display: 'flex',
   flexDirection: 'column',
-  alignItems: 'center',
-  textAlign: 'center',
+  alignItems: 'flex-start',
+  textAlign: 'left',
   gap: spacing[3],
+  padding: spacing[6],
+  borderRadius: radii.md + 8,
+  border: '1px solid rgba(255, 255, 255, 0.22)',
+  backgroundColor: 'rgba(24, 24, 27, 0.5)',
+  backdropFilter: 'saturate(150%) blur(20px)',
+  WebkitBackdropFilter: 'saturate(150%) blur(20px)',
+  boxShadow: '0 4px 24px rgba(0, 0, 0, 0.2)',
+  minHeight: 180,
+  flex: 1,
+  width: '100%',
+  boxSizing: 'border-box',
 };
 
-const markerRowStyle: React.CSSProperties = {
-  height: MARKER_ROW_HEIGHT,
+const cardTitleRowStyle: React.CSSProperties = {
   display: 'flex',
   alignItems: 'center',
-  justifyContent: 'center',
-  flexShrink: 0,
+  gap: spacing[3],
+  flexWrap: 'wrap',
 };
 
-const iconCircleStyle: React.CSSProperties = {
-  width: STEP_NUMBER_SIZE,
-  height: STEP_NUMBER_SIZE,
+const cardIconWrapStyle: React.CSSProperties = {
+  width: 40,
+  height: 40,
   borderRadius: '50%',
-  background: colors.text.primary,
+  background: colors.blue.primary,
   color: '#fff',
   display: 'inline-flex',
   alignItems: 'center',
@@ -138,30 +136,29 @@ const iconCircleStyle: React.CSSProperties = {
   flexShrink: 0,
 };
 
-const stepContentMaxWidth = 320;
-
-const stepTitleRowStyle: React.CSSProperties = {
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  maxWidth: stepContentMaxWidth,
-};
-
-const stepTitleStyle: React.CSSProperties = {
-  fontSize: fontSizes.lg,
+const cardTitleStyle: React.CSSProperties = {
+  fontSize: fontSizes.xl,
   fontWeight: 600,
   color: colors.text.primary,
   margin: 0,
   lineHeight: 1.3,
 };
 
-const stepDescStyle: React.CSSProperties = {
+const cardSubtitleStyle: React.CSSProperties = {
+  fontSize: fontSizes.sm,
+  fontWeight: 500,
+  color: colors.blue.primary,
+  margin: 0,
+  lineHeight: 1.3,
+  opacity: 0.95,
+};
+
+const cardDescStyle: React.CSSProperties = {
   fontSize: fontSizes.sm,
   lineHeight: 1.55,
   color: colors.text.primary,
-  opacity: 0.88,
+  opacity: 0.9,
   margin: 0,
-  maxWidth: stepContentMaxWidth,
 };
 
 interface TimelineProps {
@@ -172,18 +169,20 @@ const Timeline: React.FC<TimelineProps> = ({ conteudo }) => {
   const isMd = useMediaQuery(theme.breakpoints.md);
   const headerPaddingX = isMd ? spacing[12] : spacing[4];
 
-  const badge = (conteudo?.badge != null ? String(conteudo.badge) : '') || 'Metodocore';
-  const titulo = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'Um processo transparente, da visão ao produto escalável.';
-  const subtitulo = (conteudo?.subtitulo != null ? String(conteudo.subtitulo) : '') || 'Eliminamos o retrabalho com uma metodologia validada para garantir que sua tecnologia suporte o crescimento do seu negócio em cada etapa.';
-  const botao = (conteudo?.botao != null ? String(conteudo.botao) : '') || 'Iniciar um projeto';
-  const passos = Array.isArray(conteudo?.passos) ? (conteudo.passos as { titulo?: string; descricao?: string }[]) : null;
-  const steps = passos && passos.length > 0
-    ? passos.map((p, i) => ({
-        title: ((p.titulo != null ? String(p.titulo) : '') || (TIMELINE_STEPS[i]?.title ?? '')),
-        description: ((p.descricao != null ? String(p.descricao) : '') || (TIMELINE_STEPS[i]?.description ?? '')),
-        Icon: TIMELINE_STEPS[i]?.Icon ?? (() => null),
-      }))
-    : TIMELINE_STEPS;
+  const titulo = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'Método LUNAR';
+  const subtitulo = (conteudo?.subtitulo != null ? String(conteudo.subtitulo) : '') || 'Da localização do seu cliente ideal ao pouso e à escala: uma metodologia em 5 fases para levar sua oferta ao destino certo.';
+  const botao = (conteudo?.botao != null ? String(conteudo.botao) : '') || 'Pedir orçamento';
+  const passos = Array.isArray(conteudo?.passos) ? (conteudo.passos as { letra?: string; titulo?: string; subtitulo?: string; descricao?: string }[]) : null;
+  const steps =
+    passos && passos.length >= 5
+      ? passos.slice(0, 5).map((p, i) => ({
+          letter: (p.letra != null ? String(p.letra) : '') || LUNAR_STEPS[i].letter,
+          title: (p.titulo != null ? String(p.titulo) : '') || LUNAR_STEPS[i].title,
+          subtitle: (p.subtitulo != null ? String(p.subtitulo) : '') || LUNAR_STEPS[i].subtitle,
+          description: (p.descricao != null ? String(p.descricao) : '') || LUNAR_STEPS[i].description,
+          Icon: LUNAR_STEPS[i].Icon,
+        }))
+      : LUNAR_STEPS;
 
   const sectionStyle: React.CSSProperties = {
     ...sectionStyleBase,
@@ -202,19 +201,10 @@ const Timeline: React.FC<TimelineProps> = ({ conteudo }) => {
       gap: spacing[4],
       marginBottom: spacing[10],
     };
-    const mobileGlassCardStyle: React.CSSProperties = {
-      display: 'flex',
-      alignItems: 'center',
-      gap: spacing[4],
-      padding: `${spacing[4]}px ${spacing[5]}px`,
-      borderRadius: 20,
-      border: `1px solid ${colors.neutral.border}`,
-      backgroundColor: 'rgba(24, 24, 27, 0.6)',
-      backdropFilter: 'saturate(150%) blur(14px)',
-      WebkitBackdropFilter: 'saturate(150%) blur(14px)',
-    };
     return (
       <section id="metodocore" style={sectionStyle} aria-labelledby="timeline-heading">
+        <div style={metodoBgImageStyle} aria-hidden />
+        <div style={metodoGradientOverlayStyle} aria-hidden />
         <div style={innerStyleBase}>
           <div
             style={{
@@ -222,17 +212,6 @@ const Timeline: React.FC<TimelineProps> = ({ conteudo }) => {
               alignItems: 'flex-start',
             }}
           >
-            <span style={badgeStyle} aria-hidden>
-              <span
-                style={{
-                  width: 6,
-                  height: 6,
-                  borderRadius: '50%',
-                  background: TIMELINE_DOT_SOLID,
-                }}
-              />
-              {badge}
-            </span>
             <div
               style={{
                 maxWidth: 960,
@@ -253,14 +232,21 @@ const Timeline: React.FC<TimelineProps> = ({ conteudo }) => {
           <div style={mobileWrapStyle}>
             <ul style={{ listStyle: 'none', margin: 0, padding: 0 }} role="list">
               {steps.map((step, index) => {
-                const Icon = step.Icon;
+                const IconComponent = step.Icon;
                 return (
                   <li key={index} style={mobileStepRowStyle}>
-                    <div style={mobileGlassCardStyle}>
-                      <span style={iconCircleStyle} aria-hidden><Icon size={18} /></span>
-                      <h3 style={{ ...stepTitleStyle, margin: 0, flex: 1 }}>{step.title}</h3>
+                    <div style={{ ...cardGlassStyle, minHeight: 'auto' }}>
+                      <div style={cardTitleRowStyle}>
+                        <span style={cardIconWrapStyle} aria-hidden>
+                          <IconComponent size={22} strokeWidth={2} />
+                        </span>
+                        <div>
+                          <h3 style={cardTitleStyle}>{step.title}</h3>
+                          {step.subtitle ? <p style={cardSubtitleStyle}>{step.subtitle}</p> : null}
+                        </div>
+                      </div>
+                      <p style={cardDescStyle}>{step.description}</p>
                     </div>
-                    <p style={{ ...stepDescStyle, maxWidth: 'none', margin: 0 }}>{step.description}</p>
                   </li>
                 );
               })}
@@ -276,6 +262,8 @@ const Timeline: React.FC<TimelineProps> = ({ conteudo }) => {
 
   return (
     <section id="metodocore" style={sectionStyle} aria-labelledby="timeline-heading">
+      <div style={metodoBgImageStyle} aria-hidden />
+      <div style={metodoGradientOverlayStyle} aria-hidden />
       <div style={innerStyleBase}>
         <div
           style={{
@@ -283,17 +271,6 @@ const Timeline: React.FC<TimelineProps> = ({ conteudo }) => {
             alignItems: isMd ? 'center' : 'flex-start',
           }}
         >
-          <span style={badgeStyle} aria-hidden>
-            <span
-              style={{
-                width: 6,
-                height: 6,
-                borderRadius: '50%',
-                background: TIMELINE_DOT_SOLID,
-              }}
-            />
-            {badge}
-          </span>
           <div
             style={{
               maxWidth: 960,
@@ -320,20 +297,24 @@ const Timeline: React.FC<TimelineProps> = ({ conteudo }) => {
           </div>
         </div>
 
-        <div style={timelineWrapStyle}>
-          <div style={lineStyle} aria-hidden="true" />
+        <div style={{ position: 'relative', width: '100%' }}>
           <ul style={stepsGridStyle} role="list">
             {steps.map((step, index) => {
-              const Icon = step.Icon;
+              const IconComponent = step.Icon;
               return (
-                <li key={index} style={stepColumnStyle}>
-                  <div style={markerRowStyle}>
-                    <span style={iconCircleStyle} aria-hidden><Icon size={18} /></span>
+                <li key={index} style={{ display: 'flex', minHeight: 0 }}>
+                  <div style={cardGlassStyle}>
+                    <div style={cardTitleRowStyle}>
+                      <span style={cardIconWrapStyle} aria-hidden>
+                        <IconComponent size={22} strokeWidth={2} />
+                      </span>
+                      <div>
+                        <h3 style={cardTitleStyle}>{step.title}</h3>
+                        {step.subtitle ? <p style={cardSubtitleStyle}>{step.subtitle}</p> : null}
+                      </div>
+                    </div>
+                    <p style={cardDescStyle}>{step.description}</p>
                   </div>
-                  <div style={stepTitleRowStyle}>
-                    <h3 style={stepTitleStyle}>{step.title}</h3>
-                  </div>
-                  <p style={stepDescStyle}>{step.description}</p>
                 </li>
               );
             })}

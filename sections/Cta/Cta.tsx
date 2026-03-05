@@ -6,7 +6,7 @@ import { buildWhatsAppUrl, DEFAULT_WHATSAPP_NUMBER } from '../../lib/whatsapp';
 
 const { colors, spacing, fontSizes } = theme;
 
-const DEFAULT_WHATSAPP_MESSAGE = 'Olá, tenho algumas dúvidas e gostaria de conversar.';
+const DEFAULT_WHATSAPP_MESSAGE = 'Olá, gostaria de um orçamento para site ou landing page.';
 
 /** Largura alinhada aos cards de preço para não ficar tão largo */
 const CTA_MAX_WIDTH = 920;
@@ -52,9 +52,9 @@ const Cta: React.FC<CtaProps> = ({ conteudo }) => {
   const isMd = useMediaQuery(theme.breakpoints.md);
   const headerPaddingX = isMd ? spacing[12] : spacing[4];
 
-  const titulo = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'Vamos tirar o seu produto digital do papel hoje?';
-  const subtitulo = (conteudo?.subtitulo != null ? String(conteudo.subtitulo) : '') || 'Seja um sistema sob medida ou um ecossistema integrado, estamos prontos para transformar sua visão em tecnologia de alta performance.';
-  const botao = (conteudo?.botao != null ? String(conteudo.botao) : '') || 'Iniciar um projeto';
+  const titulo = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'Pronto para ter seu site ou landing page?';
+  const subtitulo = (conteudo?.subtitulo != null ? String(conteudo.subtitulo) : '') || 'Fale com a gente. Orçamento sem compromisso e resposta rápida.';
+  const botao = (conteudo?.botao != null ? String(conteudo.botao) : '') || 'Pedir orçamento';
   const mensagemWhatsApp = (conteudo?.mensagemWhatsApp != null ? String(conteudo.mensagemWhatsApp) : '') || DEFAULT_WHATSAPP_MESSAGE;
   const whatsappHref = buildWhatsAppUrl(DEFAULT_WHATSAPP_NUMBER, mensagemWhatsApp);
   const sectionStyle: React.CSSProperties = {

@@ -7,17 +7,17 @@ import ButtonCta from '../../components/ui/ButtonCta';
 const { colors, spacing, fontSizes, radii, containerMaxWidth } = theme;
 
 const OUTRAS_AGENCIAS: string[] = [
-  'Projetos abandonados pela metade: Você paga o sinal, mas o fornecedor some ou para de responder após as primeiras dificuldades técnicas.',
-  'Tecnologia obsoleta e cheia de bugs: Entregam algo que parece bonito, mas que quebra ao receber os primeiros usuários ou é impossível de atualizar.',
-  'Prazos que nunca terminam: O que era para ser entregue em 2 meses vira uma espera de 1 ano, travando o crescimento da sua empresa.',
-  'Código sem dono e suporte inexistente: Você fica refém de uma ferramenta que ninguém sabe como dar manutenção e, quando precisa de ajuda, não tem resposta.',
+  'Projeto que não sai do papel: Você paga e o fornecedor some ou demora meses para entregar um rascunho.',
+  'Site lento ou quebrado no celular: Entregam algo bonito no PDF, mas na prática não carrega ou não funciona em todos os dispositivos.',
+  'Prazos que esticam sem fim: Prometem 2 semanas e viram 3 meses. Sua campanha ou lançamento fica parado.',
+  'Site preso a eles: Você não tem acesso, não sabe onde está hospedado e depende deles para qualquer mudança.',
 ];
 
 const WEFRONTI: string[] = [
-  'Engenharia de Software de ponta: Desenvolvemos com tecnologias modernas e escaláveis, garantindo que seu produto cresça sem precisar ser refeito.',
-  'Gestão Ágil e Transparente: Você acompanha o progresso em tempo real, com entregas semanais e comunicação direta com quem entende do projeto.',
-  'Design Estratégico (UX/UI): Não criamos apenas telas bonitas; projetamos experiências focadas em retenção, usabilidade e conversão.',
-  'Compromisso com o Deploy: Prazo para nós é sagrado. Seu produto vai ao ar testado, seguro e pronto para performar desde o primeiro dia.',
+  'Entrega no prazo: Definimos data no início. Site ou landing page no ar quando combinado.',
+  'Transparência: Você acompanha o andamento e recebe o que foi acordado, sem surpresas.',
+  'Design que converte: Layout profissional, responsivo e focado no que importa para o seu negócio.',
+  'Seu site, seu domínio: Você recebe acessos e o site fica no seu nome. Sem mensalidade obrigatória nossa.',
 ];
 
 const sectionStyleBase: React.CSSProperties = {
@@ -153,13 +153,13 @@ const Comparison: React.FC<ComparisonProps> = ({ conteudo }) => {
   const headerPaddingX = isMd ? spacing[12] : spacing[4];
 
   const badge = (conteudo?.badge != null ? String(conteudo.badge) : '') || 'Diferenciais';
-  const titulo = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'Por que grandes empresas não arriscam seu futuro com amadores?';
-  const subtitulo = (conteudo?.subtitulo != null ? String(conteudo.subtitulo) : '') || 'Entenda a diferença entre contratar alguém que apenas "faz código" e um parceiro focado em engenharia, prazos e resultados reais.';
+  const titulo = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'Por que escolher a Wefronti para o seu site?';
+  const subtitulo = (conteudo?.subtitulo != null ? String(conteudo.subtitulo) : '') || 'A diferença entre um site que fica no papel e um site no ar, no prazo e no seu domínio.';
   const outrasAgencias = (Array.isArray(conteudo?.outrasAgencias) ? (conteudo.outrasAgencias as string[]).map(String) : null) ?? OUTRAS_AGENCIAS;
   const wefronti = (Array.isArray(conteudo?.wefronti) ? (conteudo.wefronti as string[]).map(String) : null) ?? WEFRONTI;
   const tituloLines = titulo.split('\n');
-  const ctaFinal = (conteudo?.ctaFinal != null ? String(conteudo.ctaFinal) : '') || 'Você já sabe o que não quer para sua empresa. Agora é hora de investir em tecnologia que realmente escala o seu negócio.';
-  const botao = (conteudo?.botao != null ? String(conteudo.botao) : '') || 'Iniciar um projeto';
+  const ctaFinal = (conteudo?.ctaFinal != null ? String(conteudo.ctaFinal) : '') || 'Quer um site ou landing page que entregue de verdade? Vamos conversar.';
+  const botao = (conteudo?.botao != null ? String(conteudo.botao) : '') || 'Pedir orçamento';
 
   const sectionStyle: React.CSSProperties = {
     ...sectionStyleBase,

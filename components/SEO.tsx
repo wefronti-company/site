@@ -20,12 +20,12 @@ const SEO: React.FC<SEOProps> = ({
  noindex = false,
  keywords
 }) => {
- // Configuração SEO alinhada ao posicionamento (produtos digitais que crescem com o negócio)
+ // Configuração SEO: sites e landing pages
  const seoConfig = {
    siteName: 'Wefronti',
-   defaultTitle: 'Wefronti | Produtos digitais que crescem com o seu negócio',
-   defaultDescription: 'Unimos estratégia, design e tecnologia para criar produtos que não precisam ser refeitos daqui 6 meses. Performance real e controle total sobre o seu projeto.',
-   defaultKeywords: 'produtos digitais, desenvolvimento web, sistemas, micro-saas, design UI-UX, integrações, APIs, sites, software sob medida',
+   defaultTitle: 'Wefronti | Sites e landing pages que convertem',
+   defaultDescription: 'Criação de sites institucionais e landing pages com entrega rápida, design profissional e foco em conversão. Seu site, seu domínio.',
+   defaultKeywords: 'site institucional, landing page, criar site, site profissional, landing page que converte, site para empresa',
  };
 
   const pageTitle = title ? `${title} | ${seoConfig.siteName}` : seoConfig.defaultTitle;

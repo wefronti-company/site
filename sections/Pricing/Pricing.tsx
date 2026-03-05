@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { CheckCircle2, ChevronLeft, ChevronRight, Database, Globe, Layers, Layout, Monitor, Package, Plug, Unlink } from 'lucide-react';
+import { CheckCircle2, ChevronLeft, ChevronRight, Layout, Monitor } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
@@ -10,73 +10,38 @@ const { colors, spacing, fontSizes, radii } = theme;
 
 const PRICING_OPTIONS = [
   {
-    key: 'desenvolvimento-web',
-    title: 'Desenvolvimento Web',
+    key: 'site-institucional',
+    title: 'Site institucional',
     Icon: Monitor,
     description:
-      'Ideal para empresas que buscam um posicionamento digital de alto impacto e otimizado para vendas.',
-    price: '4.490,00',
-    priceSecondary: 'Até 10x sem juros',
-
-    cta: 'Quero projeto web',
+      'Site profissional para sua empresa: apresentação, serviços, contato e o que mais você precisar.',
+    price: 'Consultar',
+    priceSecondary: 'A partir de 10x sem juros',
+    cta: 'Quero orçamento de site',
     features: [
-      'Site institucional',
-      'Landing page',
-      'SEO avançado',
-      'Área para blog',
-      'Suporte pós-entrega',
+      'Até 5 seções',
       'Design responsivo',
+      'Formulário de contato',
+      'SEO básico',
+      'Publicação no seu domínio',
+      'Suporte pós-entrega',
     ],
   },
   {
-    key: 'integracoes',
-    title: 'Integrações & APIs',
-    Icon: Unlink,
+    key: 'landing-page',
+    title: 'Landing page',
+    Icon: Layout,
     description:
-      'Conectamos seu ecossistema para eliminar o trabalho manual e garantir que seus dados fluam com segurança.',
+      'Página única para campanha, lançamento ou captação de leads. Rápida de produzir e focada em conversão.',
     price: 'Consultar',
-    cta: 'Quero integração/API',
+    cta: 'Quero orçamento de landing page',
     features: [
-      'Gateways de pagamento',
-      'Integração com CRM/ERP',
-      'Webhooks e automações',
-      'Sincronização de dados',
-      'API de terceios',
-      'Documentação técnica',
-    ],
-  },
-  {
-    key: 'micro-saas',
-    title: 'Micro-SaaS',
-    Icon: Layers,
-    description:
-      'A estrutura completa para validar, lançar e escalar seu produto digital com cobrança por assinatura.',
-    price: 'Consultar',
-    cta: 'Quero Micro-SaaS',
-    features: [
-      'Arquitetura para SaaS',
-      'Autenticação de usuários',
-      'Assinatura recorrente',
-      'Painel adminitrativo',
-      'Área do cliente',
-      'Infraestrutura escalácel',
-    ],
-  },
-  {
-    key: 'sistemas',
-    title: 'Sistemas',
-    Icon: Database,
-    description:
-      'Desenvolvemos a inteligência por trás da sua operação, com softwares focados em eficiência e controle total.',
-    price: 'Consultar',
-    cta: 'Quero um sistema',
-    features: [
-      'Levantamento de requisitos',
-      'Arquitetura e modelagem de dados',
-      'Painel de gestão (Dashboard)',
-      'Controle de Permissões',
-      'Relatórios operacionais',
-      'Suporte técnico dedicado',
+      'Uma página otimizada',
+      'Formulário ou CTA forte',
+      'Design responsivo',
+      'Publicação no seu domínio',
+      'Entrega em poucos dias',
+      'Suporte pós-entrega',
     ],
   },
 ] as const satisfies ReadonlyArray<{
@@ -307,8 +272,8 @@ const Pricing: React.FC<PricingProps> = ({ conteudo }) => {
   const lockedScrollYRef = useRef(0);
 
   const badge = (conteudo?.badge != null ? String(conteudo.badge) : '') || 'Preços';
-  const titulo = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'Investimento inteligente em tecnologia de ponta';
-  const subtitulo = (conteudo?.subtitulo != null ? String(conteudo.subtitulo) : '') || 'Escolha o modelo que melhor se adapta ao momento do seu negócio, de projetos pontuais a ecossistemas complexos.';
+  const titulo = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'Site ou landing page: investimento transparente';
+  const subtitulo = (conteudo?.subtitulo != null ? String(conteudo.subtitulo) : '') || 'Orçamento sob medida. Sem mensalidade obrigatória após a entrega.';
 
   const [activePricingIndex, setActivePricingIndex] = useState(0);
   const [pricingCarouselPaused, setPricingCarouselPaused] = useState(false);
@@ -418,8 +383,8 @@ const Pricing: React.FC<PricingProps> = ({ conteudo }) => {
       const investimento = leadForm.investimento.trim();
       const tipoProjeto = leadForm.tipoProjeto.trim();
       const contexto = leadForm.contexto.trim();
-      const requiresProjectType = modalOption.key === 'desenvolvimento-web';
-      const requiresInvestment = modalOption.key !== 'desenvolvimento-web';
+      const requiresProjectType = modalOption.key === 'site-institucional';
+      const requiresInvestment = modalOption.key === 'landing-page';
 
       if (!nome || !sobrenome || !email || !whatsapp || (requiresInvestment && !investimento) || (requiresProjectType && !tipoProjeto) || !contexto) {
         setFormFeedback({ type: 'error', message: 'Preencha todos os campos obrigatórios.' });
@@ -729,7 +694,7 @@ const Pricing: React.FC<PricingProps> = ({ conteudo }) => {
                 </label>
               </div>
 
-              {modalOption.key === 'desenvolvimento-web' ? (
+              {modalOption.key === 'site-institucional' ? (
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: spacing[4] }}>
                   <label style={{ display: 'grid', gap: spacing[2] }}>
                     <span style={{ fontSize: fontSizes.sm, color: colors.text.primary }}>Tipo de projeto</span>
