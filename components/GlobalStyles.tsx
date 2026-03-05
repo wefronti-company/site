@@ -144,7 +144,7 @@ section[id] {
 }
 @keyframes cta-btn-shine {
   0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
+  100% { transform: translateX(200%); }
 }
 span[data-cta-gradient-wrap] {
   position: relative !important;
@@ -170,12 +170,12 @@ span[data-cta-gradient-wrap]::after {
   top: 0 !important;
   bottom: 0 !important;
   left: 0 !important;
-  width: 50% !important;
+  width: 70% !important;
   z-index: 0 !important;
   border-radius: inherit !important;
-  background: linear-gradient(90deg, transparent 0%, rgba(232, 155, 111, 0.5) 30%, rgba(255, 200, 160, 0.7) 50%, rgba(232, 155, 111, 0.5) 70%, transparent 100%) !important;
-  -webkit-animation: cta-btn-shine 2.5s ease-in-out infinite !important;
-  animation: cta-btn-shine 2.5s ease-in-out infinite !important;
+  background: linear-gradient(90deg, transparent 0%, transparent 5%, rgba(232, 155, 111, 0.12) 20%, rgba(232, 155, 111, 0.45) 35%, rgba(255, 210, 180, 0.7) 50%, rgba(232, 155, 111, 0.45) 65%, rgba(232, 155, 111, 0.12) 80%, transparent 95%, transparent 100%) !important;
+  -webkit-animation: cta-btn-shine 2.2s linear infinite !important;
+  animation: cta-btn-shine 2.2s linear infinite !important;
 }
 span[data-cta-gradient-wrap]:hover { box-shadow: 0 4px 20px rgba(212, 105, 62, 0.45) !important; }
 span[data-cta-gradient-wrap] > a,
