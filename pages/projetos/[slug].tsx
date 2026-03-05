@@ -240,12 +240,12 @@ const ProjectPage: React.FC<{ project: Project }> = ({ project }) => {
               </a>
             )}
             <a
-              href="/#precos"
+              href="/#cta"
               style={btnSecondaryStyle}
               aria-label="Solicitar orçamento"
               onClick={(e) => {
                 e.preventDefault();
-                window.location.href = '/#precos';
+                window.location.href = '/#cta';
               }}
             >
               Solicitar orçamento

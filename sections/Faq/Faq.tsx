@@ -157,10 +157,6 @@ const Faq: React.FC<FaqProps> = ({ conteudo }) => {
     <section id="faq" style={sectionStyle} aria-labelledby="faq-heading">
       <div style={gridStyle}>
         <div style={leftColumnStyleResponsive}>
-          <span style={badgeStyle} aria-hidden>
-            <span style={{ width: 6, height: 6, borderRadius: '50%', background: colors.blue.primary }} />
-            {badge}
-          </span>
           <h2 id="faq-heading" style={titleStyle}>
             {tituloLines.map((line, i, arr) => (
               <React.Fragment key={i}>{line}{i < arr.length - 1 ? <br /> : null}</React.Fragment>

@@ -39,7 +39,7 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
     if (onClick) {
       onClick();
     } else if (type === 'button' && !href) {
-      scrollToSection('precos');
+      scrollToSection('cta');
     }
   };
 

@@ -456,17 +456,6 @@ const Pricing: React.FC<PricingProps> = ({ conteudo }) => {
           ...headerStyle,
           alignItems: isMd ? 'center' : 'flex-start',
         }}>
-          <span style={badgeStyle} aria-hidden>
-            <span
-              style={{
-                width: 6,
-                height: 6,
-                borderRadius: '50%',
-                background: colors.blue.primary,
-              }}
-            />
-            {badge}
-          </span>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: isMd ? 'center' : 'flex-start', gap: spacing[4], width: '100%', maxWidth: 880 }}>
             <h2 id="pricing-heading" style={{ ...titleStyle, textAlign: isMd ? 'center' : 'left' }}>
               {titulo}

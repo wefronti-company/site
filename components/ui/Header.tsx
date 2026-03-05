@@ -16,7 +16,6 @@ const NAV_LINKS = [
   { id: 'hero', label: 'Início', href: '/#hero', isSection: true },
   { id: 'solucoes', label: 'Soluções', href: '/#solucoes', isSection: true },
   { id: 'depoimentos', label: 'Clientes', href: '/#depoimentos', isSection: true },
-  { id: 'precos', label: 'Preços', href: '/#precos', isSection: true },
   { id: 'sobre', label: 'Sobre', href: '/sobre', isSection: false },
   { id: 'faq', label: 'FAQ', href: '/#faq', isSection: true },
 ] as const;

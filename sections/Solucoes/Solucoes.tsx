@@ -1075,17 +1075,6 @@ const Solucoes: React.FC<SolucoesProps> = ({ conteudo }) => {
             alignItems: isMd ? 'center' : 'flex-start',
           }}
         >
-          <span style={badgeStyle} aria-hidden>
-            <span
-              style={{
-                width: 6,
-                height: 6,
-                borderRadius: '50%',
-                background: colors.blue.primary,
-              }}
-            />
-            {badge}
-          </span>
           <div
             style={{
               display: 'flex',

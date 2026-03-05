@@ -337,17 +337,6 @@ const Testimonials: React.FC<TestimonialsProps> = ({ conteudo }) => {
             alignItems: isMd ? 'center' : 'flex-start',
           }}
         >
-          <span style={badgeStyle} aria-hidden>
-            <span
-              style={{
-                width: 6,
-                height: 6,
-                borderRadius: '50%',
-                background: colors.icons.secondary,
-              }}
-            />
-            {badge}
-          </span>
           <div
             style={{
               display: 'flex',

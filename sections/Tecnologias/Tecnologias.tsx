@@ -200,17 +200,6 @@ const Tecnologias: React.FC = () => {
             gap: spacing[6],
           }}
         >
-          <span style={badgeStyle} aria-hidden>
-            <span
-              style={{
-                width: 6,
-                height: 6,
-                borderRadius: '50%',
-                background: '#5C9369',
-              }}
-            />
-            Tecnologia
-          </span>
           <h2 id="tecnologias-heading" style={titleStyle}>
             Sites rápidos e estáveis
           </h2>

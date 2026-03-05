@@ -24,10 +24,33 @@ const sectionStyleBase: React.CSSProperties = {
   width: '100%',
   paddingTop: spacing[16],
   paddingBottom: spacing[16],
+  position: 'relative',
+  overflow: 'hidden',
   backgroundColor: 'transparent',
 };
 
+/** Imagem de fundo da seção */
+const comparisonBgImageStyle: React.CSSProperties = {
+  position: 'absolute',
+  inset: 0,
+  backgroundImage: 'url(/images/brand/background-hero.png)',
+  backgroundSize: 'cover',
+  backgroundPosition: 'center',
+  zIndex: 0,
+};
+
+/** Gradiente: preto no topo e na base, meio da imagem visível */
+const comparisonGradientOverlayStyle: React.CSSProperties = {
+  position: 'absolute',
+  inset: 0,
+  background: `linear-gradient(to bottom, ${colors.background.general} 0%, ${colors.background.general} 18%, transparent 38%, transparent 62%, ${colors.background.general} 82%, ${colors.background.general} 100%)`,
+  zIndex: 1,
+  pointerEvents: 'none',
+};
+
 const innerStyleBase: React.CSSProperties = {
+  position: 'relative',
+  zIndex: 2,
   width: '100%',
   maxWidth: containerMaxWidth.wide,
   margin: '0 auto',
@@ -81,8 +104,11 @@ const gridStyle: React.CSSProperties = {
 const cardStyle: React.CSSProperties = {
   padding: spacing[8],
   borderRadius: 30,
-  border: `1px solid ${colors.neutral.border}`,
-  background: colors.neutral.accordeon,
+  border: '1px solid rgba(255, 255, 255, 0.12)',
+  backgroundColor: 'rgba(24, 24, 27, 0.5)',
+  backdropFilter: 'saturate(150%) blur(20px)',
+  WebkitBackdropFilter: 'saturate(150%) blur(20px)',
+  boxShadow: '0 4px 24px rgba(0, 0, 0, 0.2)',
   display: 'flex',
   flexDirection: 'column',
   gap: spacing[5],
@@ -91,8 +117,8 @@ const cardStyle: React.CSSProperties = {
 const cardHighlightStyle: React.CSSProperties = {
   ...cardStyle,
   borderColor: 'rgba(212, 105, 62, 0.4)',
-  boxShadow: '0 0 32px rgba(212, 105, 62, 0.15)',
-  background: colors.background.gradient,
+  boxShadow: '0 0 32px rgba(212, 105, 62, 0.15), 0 4px 24px rgba(0, 0, 0, 0.2)',
+  backgroundColor: 'rgba(24, 24, 27, 0.55)',
 };
 
 const cardTitleStyle: React.CSSProperties = {
@@ -176,6 +202,8 @@ const Comparison: React.FC<ComparisonProps> = ({ conteudo }) => {
 
   return (
     <section id="comparativo" style={sectionStyle} aria-labelledby="comparison-heading">
+      <div style={comparisonBgImageStyle} aria-hidden />
+      <div style={comparisonGradientOverlayStyle} aria-hidden />
       <div style={innerStyleBase}>
         <div style={{
           ...headerStyle,
@@ -183,17 +211,6 @@ const Comparison: React.FC<ComparisonProps> = ({ conteudo }) => {
           paddingRight: isMd ? headerPaddingX : 0,
           alignItems: isMd ? 'center' : 'flex-start',
         }}>
-          <span style={badgeStyle} aria-hidden>
-            <span
-              style={{
-                width: 6,
-                height: 6,
-                borderRadius: '50%',
-                background: colors.blue.primary,
-              }}
-            />
-            {badge}
-          </span>
           <h2 id="comparison-heading" style={{ ...titleStyle, textAlign: isMd ? 'center' : 'left' }}>
             {tituloLines.map((line, i, arr) => (
               <React.Fragment key={i}>{line}{i < arr.length - 1 ? <br /> : null}</React.Fragment>
