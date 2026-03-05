@@ -142,10 +142,49 @@ section[id] {
   0% { transform: translate3d(0, 0, 0); }
   100% { transform: translate3d(50%, 0, 0); }
 }
-@keyframes cta-gradient-flow {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+@keyframes cta-btn-shine {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+span[data-cta-gradient-wrap] {
+  position: relative !important;
+  display: inline-block !important;
+  border-radius: 9999px !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  box-shadow: 0 2px 12px rgba(212, 105, 62, 0.35) !important;
+}
+/* Base do botão: gradiente estático (terracota) */
+span[data-cta-gradient-wrap]::before {
+  content: '' !important;
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 0 !important;
+  border-radius: inherit !important;
+  background: linear-gradient(90deg, #b85c38, #d4693e, #b85c38, #e07c4a, #b85c38) !important;
+}
+/* Brilho: faixa de laranja mais claro que atravessa da esquerda para a direita */
+span[data-cta-gradient-wrap]::after {
+  content: '' !important;
+  position: absolute !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  width: 50% !important;
+  z-index: 0 !important;
+  border-radius: inherit !important;
+  background: linear-gradient(90deg, transparent 0%, rgba(232, 155, 111, 0.5) 30%, rgba(255, 200, 160, 0.7) 50%, rgba(232, 155, 111, 0.5) 70%, transparent 100%) !important;
+  -webkit-animation: cta-btn-shine 2.5s ease-in-out infinite !important;
+  animation: cta-btn-shine 2.5s ease-in-out infinite !important;
+}
+span[data-cta-gradient-wrap]:hover { box-shadow: 0 4px 20px rgba(212, 105, 62, 0.45) !important; }
+span[data-cta-gradient-wrap] > a,
+span[data-cta-gradient-wrap] > button {
+  position: relative !important;
+  z-index: 1 !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  span[data-cta-gradient-wrap]::after { -webkit-animation: none !important; animation: none !important; opacity: 0 !important; }
 }
 .glass-transparent {
   background-color: rgba(24, 24, 27, 0.7) !important;
@@ -157,16 +196,6 @@ section[id] {
   -webkit-backdrop-filter: saturate(180%) blur(20px);
   backdrop-filter: saturate(180%) blur(20px);
 }
-.cta-gradient-animated {
-  background: linear-gradient(90deg, #1d4ed8, #2563eb, #3b82f6, #60a5fa, #93c5fd, #3b82f6, #2563eb, #1d4ed8) !important;
-  background-size: 300% 100% !important;
-  animation: cta-gradient-flow 6s ease-in-out infinite;
-  border: none !important;
-  color: #fff !important;
-}
-@media (prefers-reduced-motion: reduce) {
-  .cta-gradient-animated { animation: none; background-position: 50% 50% !important; }
-}
 .shake { animation: shake 0.4s ease-in-out; }
 .testimonials-track { animation: testimonials-scroll 80s linear infinite; backface-visibility: hidden; }
 .testimonials-track-reverse { animation: testimonials-scroll-reverse 80s linear infinite; backface-visibility: hidden; }
@@ -175,7 +204,7 @@ section[id] {
 .header-nav-link { text-shadow: none !important; box-shadow: none !important; }
 .header-nav-link:focus { outline: none; }
 .header-cta-btn:focus { outline: none; }
-button:focus-visible, a:focus-visible, [role="button"]:focus-visible, summary:focus-visible { outline: 2px solid rgba(53, 152, 255, 0.8); outline-offset: 2px; }
+button:focus-visible, a:focus-visible, [role="button"]:focus-visible, summary:focus-visible { outline: 2px solid rgba(212, 105, 62, 0.8); outline-offset: 2px; }
 .pricing-modal-input,
 .pricing-modal-select,
 .pricing-modal-textarea {
@@ -190,7 +219,7 @@ button:focus-visible, a:focus-visible, [role="button"]:focus-visible, summary:fo
 .pricing-modal-textarea:focus-visible {
   outline: none !important;
   box-shadow: none !important;
-  border-color: #3b82f6 !important;
+  border-color: #d4693e !important;
 }
 .pricing-modal-input:-webkit-autofill,
 .pricing-modal-input:-webkit-autofill:hover,
@@ -217,7 +246,7 @@ button:focus-visible, a:focus-visible, [role="button"]:focus-visible, summary:fo
 }
 @media (prefers-reduced-motion: reduce) {
   body:not(.admin-route)::before { animation: none !important; }
-  .cta-gradient-animated { animation: none !important; }
+  span[data-cta-gradient-wrap]::after { animation: none !important; opacity: 0 !important; }
   .animate-float { animation: none !important; }
   .hero-chip-float { animation: none !important; }
   .hero-sparkle { animation: none !important; }

@@ -24,7 +24,7 @@ const heroSectionStyleBase: React.CSSProperties = {
 const heroBgImageStyle: React.CSSProperties = {
   position: 'absolute',
   inset: 0,
-  backgroundImage: 'url(/images/brand/background-hero.jpg)',
+  backgroundImage: 'url(/images/brand/background-hero.png)',
   backgroundSize: 'cover',
   backgroundPosition: 'center',
   zIndex: 0,

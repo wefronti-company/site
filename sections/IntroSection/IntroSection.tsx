@@ -1,13 +1,17 @@
 import React from 'react';
+import { X } from 'lucide-react';
 import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 
 const { colors, spacing, fontSizes, containerMaxWidth } = theme;
 
+/** Respiro entre Hero e Método: padding vertical generoso */
+const SECTION_PADDING_V = 120;
+
 const sectionStyle: React.CSSProperties = {
   width: '100%',
-  paddingTop: spacing[16],
-  paddingBottom: spacing[16],
+  paddingTop: SECTION_PADDING_V,
+  paddingBottom: SECTION_PADDING_V,
   backgroundColor: colors.background.general,
   position: 'relative',
   overflow: 'hidden',
@@ -16,12 +20,12 @@ const sectionStyle: React.CSSProperties = {
 /** Imagem de fundo: alinhada à direita e à mesma altura do bloco de texto (mesmo padding vertical da seção) */
 const bgImageStyle: React.CSSProperties = {
   position: 'absolute',
-  top: spacing[16],
+  top: SECTION_PADDING_V,
   right: 0,
-  bottom: spacing[16],
+  bottom: SECTION_PADDING_V,
   width: '52%',
   maxWidth: 720,
-  backgroundImage: 'url(/images/brand/background-intro.jpg)',
+  backgroundImage: 'url(/images/brand/background-intro.png)',
   backgroundSize: 'cover',
   backgroundPosition: 'center center',
   backgroundRepeat: 'no-repeat',
@@ -31,9 +35,9 @@ const bgImageStyle: React.CSSProperties = {
 /** Gradientes na mesma faixa da imagem: superior, inferior e lateral esquerda — transição suave */
 const bgGradientStyle: React.CSSProperties = {
   position: 'absolute',
-  top: spacing[16],
+  top: SECTION_PADDING_V,
   right: 0,
-  bottom: spacing[16],
+  bottom: SECTION_PADDING_V,
   left: 0,
   zIndex: 1,
   pointerEvents: 'none',
@@ -87,12 +91,10 @@ const highlightStyle: React.CSSProperties = {
   fontWeight: 600,
 };
 
-const dividerStyle: React.CSSProperties = {
-  height: 1,
-  width: '100%',
-  backgroundColor: colors.neutral.border,
-  margin: 0,
-  border: 'none',
+/** Wrapper dos problemas: largura acompanha o texto */
+const problemsWrapStyle: React.CSSProperties = {
+  width: 'fit-content',
+  maxWidth: '100%',
 };
 
 const problemListStyle: React.CSSProperties = {
@@ -101,7 +103,38 @@ const problemListStyle: React.CSSProperties = {
   padding: 0,
   display: 'flex',
   flexDirection: 'column',
-  gap: spacing[5],
+  gap: spacing[4],
+};
+
+/** Card com efeito vidro desfocado para cada problema */
+const problemGlassCardStyle: React.CSSProperties = {
+  padding: spacing[4],
+  borderRadius: 12,
+  border: `1px solid rgba(255, 255, 255, 0.08)`,
+  backgroundColor: 'rgba(24, 24, 27, 0.5)',
+  backdropFilter: 'saturate(150%) blur(16px)',
+  WebkitBackdropFilter: 'saturate(150%) blur(16px)',
+  boxShadow: '0 2px 16px rgba(0, 0, 0, 0.2)',
+};
+
+const problemItemRowStyle: React.CSSProperties = {
+  display: 'flex',
+  alignItems: 'flex-start',
+  gap: spacing[3],
+};
+
+/** Ícone X negativo (ativa o emocional do lead) */
+const problemIconStyle: React.CSSProperties = {
+  width: 22,
+  height: 22,
+  borderRadius: '50%',
+  background: 'rgba(239, 68, 68, 0.18)',
+  color: 'rgba(239, 68, 68, 0.95)',
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  flexShrink: 0,
+  marginTop: 2,
 };
 
 const problemItemStyle: React.CSSProperties = {
@@ -113,7 +146,7 @@ const problemItemStyle: React.CSSProperties = {
 
 const subheadingStyle: React.CSSProperties = {
   fontSize: fontSizes.xl,
-  fontWeight: 500,
+  fontWeight: 400,
   lineHeight: 1.35,
   color: colors.text.primary,
   margin: 0,
@@ -132,9 +165,9 @@ const rightColumnStyle: React.CSSProperties = {
 };
 
 const PROBLEMS: { text: string; highlight: string; suffix: string }[] = [
-  { text: 'Você investe em tráfego, mas vê os cliques sumirem ', highlight: 'sem virar venda', suffix: '.' },
-  { text: 'Contratou agência ou freelancer que ', highlight: 'te entregou um site bonito, mas vazio', suffix: '.' },
-  { text: 'Sua estrutura digital ', highlight: 'não acompanha o crescimento do seu negócio', suffix: ' — e está te travando.' },
+  { text: 'Combustível jogado fora: Você investe pesado em anúncios, mas vê seus leads sumirem antes mesmo de completarem a órbita. ', highlight: 'Cliques não estão virando vendas.', suffix: '.' },
+  { text: 'Fuselagem sem motor: Já contratou freelancers que entregaram um "site bonitinho", mas sem nenhuma inteligência de conversão. ', highlight: 'É uma nave bonita que não sai do chão.', suffix: '.' },
+  { text: 'Sistemas ultrapassados: ', highlight: 'Sua estrutura digital atual é um gargalo. ', suffix: 'Em vez de impulsionar, ela está travando o crescimento da sua empresa e limitando seu alcance.' },
 ];
 
 interface IntroSectionProps {
@@ -144,8 +177,8 @@ interface IntroSectionProps {
 const IntroSection: React.FC<IntroSectionProps> = ({ conteudo }) => {
   const isMd = useMediaQuery(theme.breakpoints.md);
 
-  const heading = (conteudo?.heading != null ? String(conteudo.heading) : '') || 'Está cansado de jogar tráfego em ';
-  const headingHighlight = (conteudo?.headingHighlight != null ? String(conteudo.headingHighlight) : '') || 'páginas que não convertem?';
+  const heading = (conteudo?.heading != null ? String(conteudo.heading) : '') || 'Cansado de ver seu investimento em tráfego ';
+  const headingHighlight = (conteudo?.headingHighlight != null ? String(conteudo.headingHighlight) : '') || 'desaparecer no vácuo?';
   const subheading = (conteudo?.subheading != null ? String(conteudo.subheading) : '') || 'Você merece mais do que um ';
   const subheadingHighlight = (conteudo?.subheadingHighlight != null ? String(conteudo.subheadingHighlight) : '') || 'layout bonito.';
   const paragraph = (conteudo?.paragraph != null ? String(conteudo.paragraph) : '') || 'Na Wefronti, criamos páginas que justificam ';
@@ -173,22 +206,50 @@ const IntroSection: React.FC<IntroSectionProps> = ({ conteudo }) => {
             <span style={highlightStyle}>{headingHighlight}</span>
           </h2>
 
-          <hr style={dividerStyle} />
+          <div style={problemsWrapStyle}>
+            <ul style={problemListStyle} role="list">
+              {problems.map((item, i) => (
+                <li key={i}>
+                  <div style={problemGlassCardStyle}>
+                    <div style={problemItemRowStyle}>
+                      <span style={problemIconStyle} aria-hidden>
+                        <X size={14} strokeWidth={2.5} />
+                      </span>
+                      <p style={problemItemStyle}>
+                        {(() => {
+                          const text = item.text ?? '';
+                          const highlight = item.highlight ?? '';
+                          const suffix = item.suffix ?? '';
+                          const highlightStyle = { color: colors.text.secondary, fontWeight: 400 as const };
 
-          <ul style={problemListStyle} role="list">
-            {problems.map((item, i) => (
-              <li key={i}>
-                <p style={problemItemStyle}>
-                  {item.text ?? ''}
-                  <strong style={{ color: i === 2 ? colors.blue.primary : colors.text.secondary, fontWeight: 600 }}>
-                    {item.highlight ?? ''}
-                  </strong>
-                  {item.suffix ?? ''}
-                </p>
-                {i < problems.length - 1 ? <hr style={{ ...dividerStyle, marginTop: spacing[5] }} /> : null}
-              </li>
-            ))}
-          </ul>
+                          const beforeColon = (s: string) => {
+                            const idx = s.indexOf(':');
+                            if (idx >= 0) return [s.slice(0, idx + 1), s.slice(idx + 1)] as const;
+                            return [null, s] as const;
+                          };
+
+                          const [textBold, textRest] = beforeColon(text);
+                          const [highlightBold, highlightRest] = beforeColon(highlight);
+
+                          return (
+                            <>
+                              {textBold != null ? <strong>{textBold}</strong> : null}
+                              {textRest}
+                              <span style={highlightStyle}>
+                                {highlightBold != null ? <strong>{highlightBold}</strong> : null}
+                                {highlightRest}
+                              </span>
+                              {suffix}
+                            </>
+                          );
+                        })()}
+                      </p>
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
 
           <h3 style={subheadingStyle}>
             {subheading}

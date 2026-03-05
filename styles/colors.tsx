@@ -1,4 +1,4 @@
-/** Paleta azul e preto: fundo preto, texto claro, destaque azul */
+/** Paleta preto e laranja: fundo preto, texto claro, destaque laranja (cor quente = movimento, sensação de que as coisas acontecem) */
 export const BACKGROUND_GRADIENT = 'linear-gradient(180deg, #0a0a0a 0%, #0f0f0f 50%, #0a0a0a 100%)';
 
 export const colors = {
@@ -20,13 +20,14 @@ export const colors = {
 
   icons: {
     primary: '#e4e4e7',
-    secondary: '#60a5fa',
+    secondary: '#d4693e',
   },
 
+  /** Destaque estático (palavras, ícones): mix de laranjas — sem animação. Animação só no botão CTA. */
   blue: {
-    primary: '#3b82f6',
-    secondary: '#2563eb',
-    tertiary: '#60a5fa',
+    primary: '#d4693e',
+    secondary: '#b85c38',
+    tertiary: '#e07c4a',
   },
 
   neutral: {

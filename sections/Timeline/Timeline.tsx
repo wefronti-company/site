@@ -20,8 +20,8 @@ const LUNAR_STEPS: { letter: string; title: string; subtitle: string; descriptio
 const sectionStyleBase: React.CSSProperties = {
   position: 'relative',
   width: '100%',
-  paddingTop: spacing[16],
-  paddingBottom: spacing[16],
+  paddingTop: spacing[24],
+  paddingBottom: spacing[24],
   backgroundColor: colors.background.general,
   overflow: 'hidden',
 };

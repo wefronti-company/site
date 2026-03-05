@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useCallback } from 'react';
 import { AlertCircle, CheckCircle2 } from 'lucide-react';
+import { colors } from '../styles/colors';
 
 export type SnackbarVariant = 'success' | 'error';
 
@@ -142,8 +143,8 @@ function SnackbarItem({
   onExitEnd: () => void;
 }) {
   const isSuccess = item.variant === 'success';
-  const border = isSuccess ? 'rgba(37, 99, 235, 0.45)' : 'rgba(248, 113, 113, 0.4)';
-  const iconColor = isSuccess ? '#2563eb' : '#f87171';
+  const border = isSuccess ? 'rgba(212, 105, 62, 0.45)' : 'rgba(248, 113, 113, 0.4)';
+  const iconColor = isSuccess ? colors.blue.primary : '#f87171';
 
   const handleAnimationEnd = (e: React.AnimationEvent<HTMLDivElement>) => {
     if (e.animationName === 'snackbar-slide-up') onExitEnd();

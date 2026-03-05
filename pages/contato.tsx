@@ -368,7 +368,7 @@ const Contato: React.FC = () => {
                       justifyContent: 'flex-end',
                       alignItems: 'center',
                       fontSize: fontSizes.sm,
-                      color: feedback?.type === 'error' ? '#DC2626' : '#2563eb',
+                      color: feedback?.type === 'error' ? '#DC2626' : colors.blue.primary,
                       opacity: feedback ? 1 : 0,
                       transition: 'opacity 0.2s ease',
                       textAlign: 'right',

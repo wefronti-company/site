@@ -2,7 +2,10 @@ import React from 'react';
 import Link from 'next/link';
 import { Rocket } from 'lucide-react';
 import { radii } from '@/styles/theme';
+import { colors } from '@/styles/colors';
 import { useScrollToSection } from '../../hooks/useScrollToSection';
+
+/* Gradiente animado: estilos em GlobalStyles (.cta-btn-gradient-wrap + @keyframes cta-btn-flow) */
 
 interface ButtonCtaProps {
   label?: string;
@@ -64,7 +67,7 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
               }}
             >
               <span style={{ display: 'inline-flex' }} aria-hidden>
-                <Rocket size={16} color="#2563eb" strokeWidth={2.5} />
+                <Rocket size={16} color={colors.blue.primary} strokeWidth={2.5} />
               </span>
             </span>
           )}
@@ -73,85 +76,58 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
     </>
   );
 
-  if (href) {
-    return (
-      <Link
-        href={href}
-        onClick={onClick}
-        className={`cta-gradient-animated ${className ?? ''}`.trim()}
-        aria-label={label || (typeof children === 'string' ? children : 'CTA')}
-        style={{
-          display: 'inline-flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: 8,
-          borderRadius: radii.full,
-          padding: iconOnly ? 0 : '12px 24px',
-          color: '#fff',
-          fontSize: 16,
-          fontWeight: 500,
-          cursor: disabled ? 'not-allowed' : 'pointer',
-          opacity: disabled ? 0.5 : 1,
-          transition: 'opacity 0.2s, transform 0.2s, box-shadow 0.2s',
-          boxShadow: '0 2px 12px rgba(5, 150, 105, 0.35)',
-          textDecoration: 'none',
-        }}
-        onMouseEnter={(e) => {
-          if (!disabled) {
-            e.currentTarget.style.opacity = '0.95';
-            e.currentTarget.style.transform = 'translateY(-1px)';
-            e.currentTarget.style.boxShadow = '0 4px 20px rgba(5, 150, 105, 0.45)';
-          }
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.opacity = disabled ? '0.5' : '1';
-          e.currentTarget.style.transform = 'translateY(0)';
-          e.currentTarget.style.boxShadow = '0 2px 12px rgba(5, 150, 105, 0.35)';
-        }}
-      >
-        {content}
-      </Link>
-    );
-  }
+  const innerStyle = {
+    display: 'inline-flex' as const,
+    alignItems: 'center' as const,
+    justifyContent: 'center' as const,
+    gap: 8,
+    borderRadius: radii.full,
+    padding: iconOnly ? 0 : '12px 24px',
+    fontSize: 16,
+    fontWeight: 500,
+    cursor: disabled ? 'not-allowed' as const : 'pointer' as const,
+    opacity: disabled ? 0.5 : 1,
+    transition: 'opacity 0.2s, transform 0.2s',
+    background: 'transparent',
+    border: 'none',
+    color: '#fff',
+    textDecoration: 'none' as const,
+  };
 
-  return (
-    <button
-      type={type}
-      className={`cta-gradient-animated ${className ?? ''}`.trim()}
-      onClick={handleClick}
-      disabled={disabled}
-      aria-label={label || (typeof children === 'string' ? children : 'CTA')}
-      style={{
-        display: 'inline-flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: 8,
-        borderRadius: radii.full,
-        padding: iconOnly ? 0 : '12px 24px',
-        color: '#fff',
-        fontSize: 16,
-        fontWeight: 500,
-        cursor: disabled ? 'not-allowed' : 'pointer',
-        opacity: disabled ? 0.5 : 1,
-        transition: 'opacity 0.2s, transform 0.2s, box-shadow 0.2s',
-        boxShadow: '0 2px 12px rgba(5, 150, 105, 0.35)',
-      }}
+  const wrap = (
+    <span
+      className={`${className ?? ''}`.trim() || undefined}
+      data-cta-gradient-wrap
+      style={{ opacity: disabled ? 0.5 : 1, transition: 'opacity 0.2s, transform 0.2s' }}
       onMouseEnter={(e) => {
-        if (!disabled) {
-          e.currentTarget.style.opacity = '0.95';
-          e.currentTarget.style.transform = 'translateY(-1px)';
-          e.currentTarget.style.boxShadow = '0 4px 20px rgba(5, 150, 105, 0.45)';
-        }
+        if (!disabled) e.currentTarget.style.transform = 'translateY(-1px)';
       }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.opacity = disabled ? '0.5' : '1';
-        e.currentTarget.style.transform = 'translateY(0)';
-        e.currentTarget.style.boxShadow = '0 2px 12px rgba(5, 150, 105, 0.35)';
-      }}
+      onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; }}
     >
-      {content}
-    </button>
+      {href ? (
+        <Link
+          href={href}
+          onClick={onClick}
+          aria-label={label || (typeof children === 'string' ? children : 'CTA')}
+          style={innerStyle}
+        >
+          {content}
+        </Link>
+      ) : (
+        <button
+          type={type}
+          onClick={handleClick}
+          disabled={disabled}
+          aria-label={label || (typeof children === 'string' ? children : 'CTA')}
+          style={innerStyle}
+        >
+          {content}
+        </button>
+      )}
+    </span>
   );
+
+  return wrap;
 };
 
 export default ButtonCta;

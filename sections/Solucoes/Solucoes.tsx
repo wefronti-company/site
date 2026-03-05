@@ -9,7 +9,7 @@ import { FiFigma } from 'react-icons/fi';
 const { colors, spacing, fontSizes, radii, containerMaxWidth } = theme;
 const LIVE_ACCENT = 'rgba(37, 99, 235, 0.68)';
 const LIVE_ACCENT_SOLID = '#1d4ed8';
-const LIVE_TEXT_MUTED = '#2563eb';
+const LIVE_TEXT_MUTED = '#d4693e';
 const LIVE_SURFACE = '#18181b';
 
 const SOLUCOES: {

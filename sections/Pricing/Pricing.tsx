@@ -483,7 +483,7 @@ const Pricing: React.FC<PricingProps> = ({ conteudo }) => {
               {PRICING_OPTIONS.map((option) => (
                 <div key={option.key} style={cardStyleResponsive}>
                   <div style={cardIconWrapStyle}>
-                    <option.Icon size={24} color="#2563eb" strokeWidth={1.8} />
+                    <option.Icon size={24} color={colors.blue.primary} strokeWidth={1.8} />
                   </div>
                   <h3 style={cardTitleStyle}>{option.title}</h3>
                   <p style={{ fontSize: fontSizes.sm, color: colors.text.primary, opacity: 0.88, margin: 0 }}>
@@ -532,7 +532,7 @@ const Pricing: React.FC<PricingProps> = ({ conteudo }) => {
                       onClick={() => setPricingCarouselPaused(true)}
                     >
                       <div style={cardIconWrapStyle}>
-                        <option.Icon size={24} color="#2563eb" strokeWidth={1.8} />
+                        <option.Icon size={24} color={colors.blue.primary} strokeWidth={1.8} />
                       </div>
                       <h3 style={cardTitleStyle}>{option.title}</h3>
                       <p style={{ fontSize: fontSizes.sm, color: colors.text.primary, opacity: 0.88, margin: 0 }}>
@@ -759,7 +759,7 @@ const Pricing: React.FC<PricingProps> = ({ conteudo }) => {
                     justifyContent: 'flex-end',
                     alignItems: 'center',
                     fontSize: fontSizes.sm,
-                    color: formFeedback?.type === 'error' ? '#DC2626' : '#2563eb',
+                    color: formFeedback?.type === 'error' ? '#DC2626' : colors.blue.primary,
                     opacity: formFeedback ? 1 : 0,
                     transition: 'opacity 0.2s ease',
                     textAlign: 'right',
@@ -794,7 +794,7 @@ const Pricing: React.FC<PricingProps> = ({ conteudo }) => {
                   }}
                   aria-hidden
                 >
-                  <CheckCircle2 size={28} color="#2563eb" />
+                  <CheckCircle2 size={28} color={colors.blue.primary} />
                 </div>
                 <h4 style={{ margin: 0, fontSize: fontSizes['2xl'], fontWeight: 400, color: colors.text.primary }}>
                   Solicitação enviada com sucesso!
