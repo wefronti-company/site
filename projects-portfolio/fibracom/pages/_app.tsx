@@ -1,8 +1,10 @@
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
-import Header from '../components/Header';
 
 const globalStyles = `
+  html {
+    scroll-behavior: smooth;
+  }
   html, body {
     margin: 0;
     padding: 0;
@@ -17,6 +19,11 @@ const globalStyles = `
   #__next {
     min-height: 100vh;
   }
+  @media (max-width: 768px) {
+    .cobertura-grid {
+      grid-template-columns: 1fr;
+    }
+  }
 `;
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -28,7 +35,6 @@ export default function App({ Component, pageProps }: AppProps) {
         <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet" />
       </Head>
       <style dangerouslySetInnerHTML={{ __html: globalStyles }} />
-      <Header />
       <Component {...pageProps} />
     </>
   );
