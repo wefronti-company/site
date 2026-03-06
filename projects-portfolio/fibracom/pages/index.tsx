@@ -275,35 +275,25 @@ export default function Home() {
           padding: '4rem clamp(1.5rem, 4vw, 3rem)',
           backgroundColor: '#ffffff',
           color: '#1a1a1a',
-          overflow: 'visible',
+          overflow: 'hidden',
         }}
       >
-        {/* Shape com pico no topo da seção – sobe sobre a hero com margin negativo */}
+        <div
+          aria-hidden
+          style={{
+            position: 'absolute',
+            inset: 0,
+            backgroundImage: 'url(/images/grain.svg)',
+            backgroundRepeat: 'repeat',
+            backgroundSize: '64px 64px',
+            opacity: 0.5,
+            pointerEvents: 'none',
+          }}
+        />
         <div
           style={{
             position: 'relative',
-            zIndex: 10,
-            width: '100%',
-            marginTop: -80,
-            lineHeight: 0,
-            display: 'block',
-          }}
-          aria-hidden
-        >
-          <svg
-            viewBox="0 -30 1440 110"
-            preserveAspectRatio="none"
-            style={{ width: '100%', height: 80, display: 'block' }}
-          >
-            {/* Pico em (720, -25) sobe para cima */}
-            <path
-              d="M0 80 L 0 0 L 400 0 L 720 -25 L 1040 0 L 1440 0 L 1440 80 Z"
-              fill="#ffffff"
-            />
-          </svg>
-        </div>
-        <div
-          style={{
+            zIndex: 1,
             maxWidth: '1280px',
             margin: '0 auto',
             paddingLeft: 'clamp(1rem, 3vw, 1.5rem)',
@@ -340,8 +330,8 @@ export default function Home() {
                 width: 200,
                 height: 40,
                 borderRadius: 20,
-                border: '1px solid rgba(0,0,0,0.12)',
-                background: '#e5e5e5',
+                border: '1px solid rgba(75, 149, 116, 0.45)',
+                background: 'rgba(75, 149, 116, 0.10)',
                 display: 'flex',
               }}
             >
@@ -355,7 +345,8 @@ export default function Home() {
                   height: 32,
                   borderRadius: 16,
                   background: '#fff',
-                  boxShadow: '0 2px 6px rgba(0,0,0,0.12)',
+                  border: '1px solid rgba(75, 149, 116, 0.35)',
+                  boxShadow: '0 2px 6px rgba(75, 149, 116, 0.15)',
                   transition: 'left 0.2s ease',
                   pointerEvents: 'none',
                 }}
@@ -435,9 +426,9 @@ export default function Home() {
                   key={plan.name}
                   style={{
                     padding: '1.75rem',
-                    backgroundColor: '#f8f8f8',
+                    backgroundColor: 'rgba(75, 149, 116, 0.10)',
                     borderRadius: '14px',
-                    border: '1px solid rgba(0, 0, 0, 0.08)',
+                    border: '1px solid rgba(75, 149, 116, 0.45)',
                     display: 'flex',
                     flexDirection: 'column',
                     gap: '1rem',
@@ -577,7 +568,7 @@ export default function Home() {
       <section
         style={{
           padding: '4rem clamp(1.5rem, 4vw, 3rem)',
-          backgroundImage: 'linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, transparent 25%), linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 25%), url(/images/background/image-cliente.png)',
+          backgroundImage: 'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 35%, transparent 55%), linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 35%, transparent 55%), url(/images/background/image-cliente.png)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
@@ -672,8 +663,10 @@ export default function Home() {
           style={{
             position: 'absolute',
             inset: 0,
-            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix in='noise' type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E")`,
+            backgroundImage: 'url(/images/grain.svg)',
             backgroundRepeat: 'repeat',
+            backgroundSize: '64px 64px',
+            opacity: 0.5,
             pointerEvents: 'none',
           }}
         />
