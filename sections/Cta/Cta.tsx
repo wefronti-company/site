@@ -26,7 +26,7 @@ const wrapperStyleBase: React.CSSProperties = {
 };
 
 const headingStyle: React.CSSProperties = {
-  fontSize: 'clamp(1.75rem, 5vw, 3.4rem)',
+  fontSize: theme.sectionTitleFontSize,
   fontWeight: 400,
   lineHeight: 1.2,
   letterSpacing: '-0.02em',

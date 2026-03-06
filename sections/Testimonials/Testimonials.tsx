@@ -1,73 +1,35 @@
-import React from 'react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
+import { Play, Pause, Mic } from 'lucide-react';
 import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 
 const { colors, spacing, fontSizes, radii, containerMaxWidth } = theme;
 
-const TESTIMONIALS: { description: string; name: string; state: string; country: string }[] = [
+type TestimonialItem = {
+  name: string;
+  state: string;
+  country: string;
+  description: string;
+  audioSrc?: string;
+  projectCoverSrc?: string;
+};
+
+const TESTIMONIALS: TestimonialItem[] = [
   {
-    description: 'A Wefronti entregou nosso site com agilidade e profissionalismo. O resultado superou as expectativas e as visitas aumentaram bastante.',
-    name: 'Mariana Alves',
-    state: 'São Paulo',
-    country: 'Brasil',
-  },
-  {
-    description: 'Precisávamos de um site rápido e profissional. Entregaram no prazo, bem feito, e já recebemos vários contatos pelo formulário.',
     name: 'Carlos H. Mendes',
     state: 'Minas Gerais',
     country: 'Brasil',
+    description: 'Precisávamos de um site rápido e profissional. Entregaram no prazo, bem feito, e já recebemos vários contatos.',
+    audioSrc: '/audio/testimonials/carlos-mendes.mp3',
+    projectCoverSrc: '/images/testimonials/capa-carlos.webp',
   },
   {
-    description: 'Depois que lançamos o site feito pela Wefronti, o número de leads qualificados cresceu. Processos claros e suporte sempre disponível.',
-    name: 'Ana Paula Costa',
-    state: 'Rio de Janeiro',
-    country: 'Brasil',
-  },
-  {
-    description: 'Nosso site ficou exatamente como queríamos: clean, rápido e fácil de atualizar. Recomendo.',
-    name: 'Roberto Amâncio',
-    state: 'Paraná',
-    country: 'Brasil',
-  },
-  {
-    description: 'Trabalho de excelência do início ao fim. Comunicação constante, prazos cumpridos e um site que nos representa muito bem.',
     name: 'Fernanda Frigs',
     state: 'Santa Catarina',
     country: 'Brasil',
-  },
-];
-
-/** Segundo conjunto de depoimentos — carrossel inferior (esquerda → direita) */
-const TESTIMONIALS_2: { description: string; name: string; state: string; country: string }[] = [
-  {
-    description: 'Landing page para uma campanha: entregaram em uma semana, linda e com ótima taxa de conversão.',
-    name: 'Paulo Henrique Souza',
-    state: 'Bahia',
-    country: 'Brasil',
-  },
-  {
-    description: 'A Wefronti transformou nossa presença online. Agora temos um site que gera resultados e transmite confiança para os clientes.',
-    name: 'Juliana Martins',
-    state: 'Pernambuco',
-    country: 'Brasil',
-  },
-  {
-    description: 'Rápido, transparente e muito competente. O suporte pós-entrega e as manutenções preventivas fazem toda a diferença. Recomendo.',
-    name: 'Ricardo Ferreira',
-    state: 'Goiás',
-    country: 'Brasil',
-  },
-  {
-    description: 'Queríamos um site simples para a clínica. Ficou profissional, rápido de carregar e os pacientes elogiam.',
-    name: 'Camila Rocha',
-    state: 'Espírito Santo',
-    country: 'Brasil',
-  },
-  {
-    description: 'Do briefing à entrega, tudo impecável. Nosso site está rápido, bonito e já trouxe vários contatos qualificados.',
-    name: 'André Luiz Santos',
-    state: 'Distrito Federal',
-    country: 'Brasil',
+    description: 'Trabalho de excelência do início ao fim. Comunicação constante, prazos cumpridos.',
+    audioSrc: '/audio/testimonials/fernanda-frigs.mp3',
+    projectCoverSrc: '/images/testimonials/capa-fernanda.webp',
   },
 ];
 
@@ -75,41 +37,77 @@ const sectionStyleBase: React.CSSProperties = {
   width: '100%',
   paddingTop: spacing[16],
   paddingBottom: spacing[16],
+  position: 'relative',
+  overflow: 'hidden',
   backgroundColor: 'transparent',
 };
 
+/** Imagem de fundo da seção */
+const testimonialsBgImageStyle: React.CSSProperties = {
+  position: 'absolute',
+  inset: 0,
+  backgroundImage: 'url(/images/brand/background-testimonials.png)',
+  backgroundSize: 'cover',
+  backgroundPosition: 'center',
+  zIndex: 0,
+};
+
+/** Gradiente: preto no topo e na base, meio da imagem visível */
+const testimonialsGradientOverlayStyle: React.CSSProperties = {
+  position: 'absolute',
+  inset: 0,
+  background: `linear-gradient(to bottom, ${colors.background.general} 0%, ${colors.background.general} 18%, transparent 38%, transparent 62%, ${colors.background.general} 82%, ${colors.background.general} 100%)`,
+  zIndex: 1,
+  pointerEvents: 'none',
+};
+
 const innerStyleBase: React.CSSProperties = {
+  position: 'relative',
+  zIndex: 2,
   width: '100%',
   maxWidth: containerMaxWidth.wide,
   margin: '0 auto',
   display: 'flex',
   flexDirection: 'column',
   gap: spacing[12],
-};
-
-const badgeStyle: React.CSSProperties = {
-  display: 'inline-flex',
-  alignItems: 'center',
-  gap: spacing[2],
-  padding: `${spacing[2]}px ${spacing[4]}px`,
-  borderRadius: radii.full,
-  border: `1px solid ${colors.neutral.border}`,
-  backgroundColor: colors.neutral.accordeon,
-  fontSize: fontSizes.xs,
-  fontWeight: 500,
-  color: colors.text.primary,
-  textTransform: 'uppercase' as const,
-  letterSpacing: '0.06em',
+  paddingLeft: spacing[8],
+  paddingRight: spacing[8],
 };
 
 const titleStyle: React.CSSProperties = {
-  fontSize: 'clamp(2rem, 5vw, 4rem)',
+  fontSize: theme.sectionTitleFontSize,
   fontWeight: 400,
   lineHeight: 1.2,
   letterSpacing: '-0.02em',
   color: colors.text.primary,
   margin: 0,
   textAlign: 'center',
+};
+
+/** Card capa do projeto — acima do card de áudio */
+const projectCoverCardStyle: React.CSSProperties = {
+  width: '100%',
+  aspectRatio: '16/10',
+  borderRadius: 20,
+  overflow: 'hidden',
+  border: '1px solid rgba(255, 255, 255, 0.12)',
+  backgroundColor: 'rgba(24, 24, 27, 0.5)',
+  backdropFilter: 'saturate(150%) blur(20px)',
+  WebkitBackdropFilter: 'saturate(150%) blur(20px)',
+  boxShadow: '0 4px 24px rgba(0, 0, 0, 0.2)',
+};
+
+const projectCoverImageStyle: React.CSSProperties = {
+  width: '100%',
+  height: '100%',
+  objectFit: 'cover',
+  display: 'block',
+};
+
+const clientColumnStyle: React.CSSProperties = {
+  display: 'flex',
+  flexDirection: 'column',
+  gap: spacing[4],
 };
 
 const subtitleStyle: React.CSSProperties = {
@@ -119,6 +117,7 @@ const subtitleStyle: React.CSSProperties = {
   opacity: 0.88,
   margin: 0,
   textAlign: 'center',
+  maxWidth: 640,
 };
 
 const headerStyle: React.CSSProperties = {
@@ -126,125 +125,131 @@ const headerStyle: React.CSSProperties = {
   flexDirection: 'column',
   alignItems: 'center',
   gap: spacing[6],
-  paddingLeft: 0,
-  paddingRight: 0,
+  textAlign: 'center',
 };
 
-/** Largura total da viewport para sensação de infinito */
-const carouselWrapStyle: React.CSSProperties = {
-  width: '100vw',
-  position: 'relative' as const,
-  left: '50%',
-  right: '50%',
-  marginLeft: '-50vw',
-  marginRight: '-50vw',
-  overflow: 'hidden',
-};
-
-const carouselWrapWithRespiroStyle: React.CSSProperties = {
-  ...carouselWrapStyle,
-  marginTop: spacing[12],
-};
-
-const carouselWrapSecondStyle: React.CSSProperties = {
-  ...carouselWrapStyle,
-  marginTop: spacing[8],
-};
-
-const CARD_WIDTH = 380;
-const CARD_GAP = spacing[6];
-/** Largura de um grupo (5 cards + 4 gaps entre eles) */
-const SET_WIDTH = 5 * CARD_WIDTH + 4 * CARD_GAP;
-/** Offset em px para loop perfeito: um grupo + o gap entre os dois grupos */
-const SCROLL_OFFSET_PX = SET_WIDTH + CARD_GAP;
-
-const carouselTrackStyle: React.CSSProperties = {
-  display: 'flex',
-  width: SET_WIDTH * 2 + CARD_GAP,
-  flexShrink: 0,
-  gap: CARD_GAP,
-  willChange: 'transform',
-};
-
-const carouselGroupStyle: React.CSSProperties = {
-  display: 'flex',
-  width: SET_WIDTH,
-  flexShrink: 0,
-  gap: CARD_GAP,
-};
-
+/** Card com efeito vidro desfocado */
 const cardStyle: React.CSSProperties = {
-  width: CARD_WIDTH,
+  display: 'flex',
+  alignItems: 'center',
+  gap: spacing[6],
+  padding: spacing[6],
+  borderRadius: 24,
+  border: '1px solid rgba(255, 255, 255, 0.12)',
+  backgroundColor: 'rgba(24, 24, 27, 0.5)',
+  backdropFilter: 'saturate(150%) blur(20px)',
+  WebkitBackdropFilter: 'saturate(150%) blur(20px)',
+  boxShadow: '0 4px 24px rgba(0, 0, 0, 0.2)',
+};
+
+const playButtonStyle: React.CSSProperties = {
+  width: 52,
+  height: 52,
+  borderRadius: '50%',
+  border: 'none',
+  background: 'rgba(255, 255, 255, 0.1)',
+  color: colors.blue.primary,
+  cursor: 'pointer',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
   flexShrink: 0,
-  padding: spacing[8],
-  borderRadius: 30,
-  border: `1px solid ${colors.neutral.border}`,
-  background: colors.neutral.accordeon,
+  transition: 'background 0.2s, transform 0.2s',
+};
+
+const playerCenterStyle: React.CSSProperties = {
+  flex: 1,
+  minWidth: 0,
   display: 'flex',
   flexDirection: 'column',
-  gap: spacing[5],
+  gap: spacing[2],
 };
 
-const cardDescriptionStyle: React.CSSProperties = {
-  fontSize: fontSizes.base,
-  lineHeight: 1.6,
-  color: colors.text.primary,
-  margin: 0,
-  opacity: 0.92,
-  flex: 1,
-};
-
-const starsRowStyle: React.CSSProperties = {
-  display: 'flex',
-  alignItems: 'center',
-  gap: 4,
-  color: '#F59E0B',
-  fontSize: 18,
-  lineHeight: 1,
-};
-
-const cardNameStyle: React.CSSProperties = {
-  fontSize: fontSizes.lg,
-  fontWeight: 600,
-  color: colors.text.primary,
-  margin: 0,
-};
-
-const cardLocationStyle: React.CSSProperties = {
+const timeDisplayStyle: React.CSSProperties = {
   fontSize: fontSizes.sm,
   color: colors.text.primary,
-  opacity: 0.75,
+  opacity: 0.7,
   margin: 0,
+  fontVariantNumeric: 'tabular-nums',
 };
 
-const cardFooterStyle: React.CSSProperties = {
-  marginTop: 'auto',
-  display: 'flex',
-  alignItems: 'center',
-  gap: spacing[3],
-};
-
-const authorMetaStyle: React.CSSProperties = {
-  display: 'grid',
-  gap: 2,
-  minWidth: 0,
-};
-
-const avatarWrapStyle: React.CSSProperties = {
-  width: 46,
-  height: 46,
+const photoWrapStyle: React.CSSProperties = {
+  width: 64,
+  height: 64,
   borderRadius: '50%',
-  border: `1px solid ${colors.neutral.border}`,
-  overflow: 'hidden',
+  overflow: 'visible',
   flexShrink: 0,
-  background: colors.neutral.borderLight,
+  position: 'relative' as const,
+  border: `2px solid ${colors.blue.primary}`,
 };
 
-const avatarImageStyle: React.CSSProperties = {
+const photoImageStyle: React.CSSProperties = {
   width: '100%',
   height: '100%',
   objectFit: 'cover',
   display: 'block',
+  borderRadius: '50%',
+};
+
+const micOverlayStyle: React.CSSProperties = {
+  position: 'absolute',
+  bottom: -2,
+  left: -2,
+  width: 24,
+  height: 24,
+  borderRadius: '50%',
+  background: colors.blue.primary,
+  color: colors.text.primary,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  border: '2px solid rgba(24, 24, 27, 0.9)',
+};
+
+const progressBarTrackStyle: React.CSSProperties = {
+  width: '100%',
+  height: 6,
+  borderRadius: 9999,
+  background: 'rgba(255, 255, 255, 0.15)',
+  cursor: 'pointer',
+  position: 'relative' as const,
+  overflow: 'visible',
+};
+
+const progressBarFillStyle = (percent: number): React.CSSProperties => ({
+  position: 'absolute' as const,
+  left: 0,
+  top: 0,
+  bottom: 0,
+  width: `${percent}%`,
+  borderRadius: 9999,
+  background: colors.blue.primary,
+  transition: percent === 0 ? 'none' : 'width 0.1s linear',
+});
+
+const progressBarThumbStyle: React.CSSProperties = {
+  position: 'absolute' as const,
+  top: '50%',
+  width: 12,
+  height: 12,
+  borderRadius: '50%',
+  background: colors.blue.primary,
+  boxShadow: '0 0 6px rgba(212, 105, 62, 0.5)',
+  transform: 'translate(-50%, -50%)',
+  pointerEvents: 'none',
+};
+
+const formatTime = (seconds: number): string => {
+  const m = Math.floor(seconds / 60);
+  const s = Math.floor(seconds % 60);
+  return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+};
+
+const gridStyle: React.CSSProperties = {
+  display: 'grid',
+  gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))',
+  gap: spacing[6],
+  marginTop: spacing[4],
 };
 
 interface TestimonialsProps {
@@ -253,7 +258,32 @@ interface TestimonialsProps {
 
 const Testimonials: React.FC<TestimonialsProps> = ({ conteudo }) => {
   const isMd = useMediaQuery(theme.breakpoints.md);
-  const getTestimonialPhotoSrc = (name: string) => {
+  const [playingIndex, setPlayingIndex] = useState<number | null>(null);
+  const [progress, setProgress] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const progressBarRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    const onTimeUpdate = () => setProgress(audio.currentTime);
+    const onLoadedMetadata = () => setDuration(audio.duration);
+    const onEnded = () => {
+      setPlayingIndex(null);
+      setProgress(0);
+    };
+    audio.addEventListener('timeupdate', onTimeUpdate);
+    audio.addEventListener('loadedmetadata', onLoadedMetadata);
+    audio.addEventListener('ended', onEnded);
+    return () => {
+      audio.removeEventListener('timeupdate', onTimeUpdate);
+      audio.removeEventListener('loadedmetadata', onLoadedMetadata);
+      audio.removeEventListener('ended', onEnded);
+    };
+  }, [playingIndex]);
+
+  const getTestimonialPhotoSrc = useCallback((name: string) => {
     const slug = name
       .normalize('NFD')
       .replace(/[\u0300-\u036f]/g, '')
@@ -261,11 +291,10 @@ const Testimonials: React.FC<TestimonialsProps> = ({ conteudo }) => {
       .replace(/[^a-z0-9]+/g, '-')
       .replace(/^-+|-+$/g, '');
     return `/images/testimonials/${slug}.webp`;
-  };
+  }, []);
 
-  const badge = (conteudo?.badge != null ? String(conteudo.badge) : '') || 'Depoimentos';
-  const titulo = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'O que falam quem já tem site ou landing page pela Wefronti';
-  const subtitulo = (conteudo?.subtitulo != null ? String(conteudo.subtitulo) : '') || 'Depoimentos reais de quem escolheu entregas no prazo e um site que realmente fica no ar.';
+  const titulo = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'Clientes que confiaram no método Lunar';
+  const subtitulo = (conteudo?.subtitulo != null ? String(conteudo.subtitulo) : '') || 'Ouça a voz de quem escolheu entregas no prazo e um site que realmente fica no ar.';
   const sectionPaddingX = isMd ? spacing[12] : spacing[4];
   const sectionStyle: React.CSSProperties = {
     ...sectionStyleBase,
@@ -273,125 +302,136 @@ const Testimonials: React.FC<TestimonialsProps> = ({ conteudo }) => {
     paddingRight: sectionPaddingX,
   };
 
-  type TestimonialItem = { description: string; name: string; state: string; country: string };
-  const renderCard = (item: TestimonialItem, index: number, suffix: string) => (
-    <div key={`${suffix}-${item.name}-${index}`} style={cardStyle}>
-      <div style={starsRowStyle} aria-label="5 estrelas">
-        <span aria-hidden>★</span>
-        <span aria-hidden>★</span>
-        <span aria-hidden>★</span>
-        <span aria-hidden>★</span>
-        <span aria-hidden>★</span>
-      </div>
-      <p style={cardDescriptionStyle}>{`"${item.description}"`}</p>
-      <div style={cardFooterStyle}>
-        <div style={avatarWrapStyle} aria-hidden>
-          <img
-            src={getTestimonialPhotoSrc(item.name)}
-            alt={`Foto de ${item.name}`}
-            style={avatarImageStyle}
-            loading="lazy"
-            decoding="async"
-          />
-        </div>
-        <div style={authorMetaStyle}>
-          <p style={cardNameStyle}>{item.name}</p>
-          <p style={cardLocationStyle}>{item.state}, {item.country}</p>
-        </div>
-      </div>
-    </div>
-  );
+  const handlePlayPause = (index: number, audioSrc?: string) => {
+    if (!audioSrc) return;
+    if (playingIndex === index) {
+      audioRef.current?.pause();
+      setPlayingIndex(null);
+      return;
+    }
+    if (audioRef.current) {
+      audioRef.current.pause();
+    }
+    const audio = new Audio(audioSrc);
+    audioRef.current = audio;
+    audio.play().catch(() => {});
+    setPlayingIndex(index);
+    setProgress(0);
+    setDuration(audio.duration || 0);
+  };
 
-  const trackAnimationStyle: React.CSSProperties = {
-    animation: `testimonials-scroll-px 80s linear infinite`,
-    backfaceVisibility: 'hidden',
+  const handleSeek = (index: number, e: React.MouseEvent<HTMLDivElement>) => {
+    if (playingIndex !== index || !audioRef.current) return;
+    const bar = e.currentTarget;
+    const rect = bar.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const pct = Math.max(0, Math.min(1, x / rect.width));
+    const newTime = pct * audioRef.current.duration;
+    if (Number.isFinite(newTime)) {
+      audioRef.current.currentTime = newTime;
+      setProgress(newTime);
+    }
   };
-  const trackReverseAnimationStyle: React.CSSProperties = {
-    animation: `testimonials-scroll-reverse-px 80s linear infinite`,
-    backfaceVisibility: 'hidden',
-  };
+
+  const items = Array.isArray(conteudo?.testimonials)
+    ? (conteudo.testimonials as TestimonialItem[]).map((t) => ({
+        ...t,
+        audioSrc: t.audioSrc ?? undefined,
+      }))
+    : TESTIMONIALS;
 
   return (
     <section id="depoimentos" style={sectionStyle} aria-labelledby="testimonials-heading">
-      <style
-        dangerouslySetInnerHTML={{
-          __html: `
-@keyframes testimonials-scroll-px {
-  0% { transform: translate3d(0, 0, 0); }
-  100% { transform: translate3d(-${SCROLL_OFFSET_PX}px, 0, 0); }
-}
-@keyframes testimonials-scroll-reverse-px {
-  0% { transform: translate3d(-${SCROLL_OFFSET_PX}px, 0, 0); }
-  100% { transform: translate3d(0, 0, 0); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .testimonials-track-px, .testimonials-track-reverse-px { animation: none !important; }
-}
-          `.trim(),
-        }}
-      />
+      <div style={testimonialsBgImageStyle} aria-hidden />
+      <div style={testimonialsGradientOverlayStyle} aria-hidden />
       <div style={innerStyleBase}>
-        <div
-          style={{
-            ...headerStyle,
-            alignItems: isMd ? 'center' : 'flex-start',
-          }}
-        >
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: isMd ? 'center' : 'flex-start',
-              gap: spacing[4],
-              width: '100%',
-            }}
-          >
-            <h2
-              id="testimonials-heading"
-              style={{ ...titleStyle, textAlign: isMd ? 'center' : 'left' }}
-            >
-              {titulo}
-            </h2>
-            <p
-              style={{
-                ...subtitleStyle,
-                textAlign: isMd ? 'center' : 'left',
-                whiteSpace: isMd ? 'nowrap' : 'normal',
-              }}
-            >
-              {subtitulo}
-            </p>
-          </div>
+        <div style={headerStyle}>
+          <h2 id="testimonials-heading" style={titleStyle}>
+            {titulo}
+          </h2>
+          <p style={subtitleStyle}>{subtitulo}</p>
         </div>
-      </div>
 
-      <div style={carouselWrapWithRespiroStyle}>
-        <div
-          className="testimonials-track-px"
-          style={{ ...carouselTrackStyle, ...trackAnimationStyle }}
-          aria-hidden="true"
-        >
-          <div style={carouselGroupStyle}>
-            {TESTIMONIALS.map((item, index) => renderCard(item, index, 'a'))}
-          </div>
-          <div style={carouselGroupStyle}>
-            {TESTIMONIALS.map((item, index) => renderCard(item, index + 5, 'a'))}
-          </div>
-        </div>
-      </div>
+        <div style={{ ...gridStyle, gridTemplateColumns: isMd ? '1fr 1fr' : '1fr' }}>
+          {items.map((item, index) => (
+            <div key={`${item.name}-${index}`} style={clientColumnStyle}>
+              {item.projectCoverSrc && (
+                <div style={projectCoverCardStyle} aria-hidden>
+                  <img
+                    src={item.projectCoverSrc}
+                    alt={`Capa do projeto - ${item.name}`}
+                    style={projectCoverImageStyle}
+                    loading="lazy"
+                  />
+                </div>
+              )}
+              <div style={cardStyle}>
+              <button
+                type="button"
+                style={playButtonStyle}
+                onClick={() => handlePlayPause(index, item.audioSrc)}
+                disabled={!item.audioSrc}
+                onMouseEnter={(e) => {
+                  if (item.audioSrc) {
+                    e.currentTarget.style.background = 'rgba(212, 105, 62, 0.2)';
+                    e.currentTarget.style.transform = 'scale(1.05)';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)';
+                  e.currentTarget.style.transform = 'scale(1)';
+                }}
+                aria-label={playingIndex === index ? 'Pausar depoimento' : 'Ouvir depoimento em áudio'}
+                aria-pressed={playingIndex === index}
+              >
+                {playingIndex === index ? <Pause size={22} strokeWidth={2.5} /> : <Play size={22} strokeWidth={2.5} style={{ marginLeft: 2 }} />}
+              </button>
 
-      <div style={carouselWrapSecondStyle}>
-        <div
-          className="testimonials-track-reverse-px"
-          style={{ ...carouselTrackStyle, ...trackReverseAnimationStyle }}
-          aria-hidden="true"
-        >
-          <div style={carouselGroupStyle}>
-            {TESTIMONIALS_2.map((item, index) => renderCard(item, index, 'b'))}
-          </div>
-          <div style={carouselGroupStyle}>
-            {TESTIMONIALS_2.map((item, index) => renderCard(item, index + 5, 'b'))}
-          </div>
+              <div style={playerCenterStyle}>
+                {item.audioSrc && (
+                  <>
+                    <p style={timeDisplayStyle}>
+                      {playingIndex === index ? formatTime(progress) : '00:00'}
+                    </p>
+                    <div
+                      ref={playingIndex === index ? progressBarRef : undefined}
+                      style={progressBarTrackStyle}
+                      onClick={(e) => handleSeek(index, e)}
+                      role="slider"
+                      tabIndex={playingIndex === index ? 0 : -1}
+                      aria-valuemin={0}
+                      aria-valuemax={duration || 100}
+                      aria-valuenow={playingIndex === index ? progress : 0}
+                      aria-label="Posição do áudio - clique para avançar"
+                    >
+                      <div style={progressBarFillStyle(playingIndex === index && duration > 0 ? (progress / duration) * 100 : 0)} />
+                      <div
+                        style={{
+                          ...progressBarThumbStyle,
+                          left: `${playingIndex === index && duration > 0 ? (progress / duration) * 100 : 0}%`,
+                        }}
+                        aria-hidden
+                      />
+                    </div>
+                  </>
+                )}
+              </div>
+
+              <div style={photoWrapStyle} aria-hidden>
+                <img
+                  src={getTestimonialPhotoSrc(item.name)}
+                  alt={`Foto de ${item.name}`}
+                  style={photoImageStyle}
+                  loading="lazy"
+                  decoding="async"
+                />
+                <span style={micOverlayStyle} aria-hidden>
+                  <Mic size={12} strokeWidth={2.5} />
+                </span>
+              </div>
+            </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>

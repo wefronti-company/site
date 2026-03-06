@@ -79,7 +79,7 @@ const leftColumnStyle: React.CSSProperties = {
 };
 
 const headingStyle: React.CSSProperties = {
-  fontSize: 'clamp(1.75rem, 4vw, 2.5rem)',
+  fontSize: theme.sectionTitleFontSize,
   fontWeight: 400,
   lineHeight: 1.2,
   letterSpacing: '-0.02em',

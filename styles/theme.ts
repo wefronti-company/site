@@ -45,6 +45,9 @@ export const breakpoints = {
   xl: 1280,
 } as const;
 
+/** Título de seção — mesmo tamanho da Intro */
+export const sectionTitleFontSize = 'clamp(1.75rem, 4vw, 2.5rem)';
+
 /** Container max-width em px */
 export const containerMaxWidth = {
   narrow: 768,
@@ -56,6 +59,7 @@ export const theme = {
   colors,
   spacing,
   fontSizes,
+  sectionTitleFontSize,
   radii,
   breakpoints,
   containerMaxWidth,
