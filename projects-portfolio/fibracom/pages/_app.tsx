@@ -61,22 +61,28 @@ const globalStyles = `
     .cobertura-grid {
       grid-template-columns: 1fr !important;
       grid-template-areas: 'texts' 'map';
+      gap: 1rem !important;
     }
     .cobertura-grid .cobertura-texts {
       grid-area: texts;
       min-width: 0;
+      padding-left: 1.25rem;
+      padding-right: 1.25rem;
     }
     .cobertura-grid .cobertura-map-wrap {
       grid-area: map;
-      min-height: 360px;
+      aspect-ratio: 372/520;
+      min-height: unset;
       min-width: 0;
-      justify-self: center;
-      width: 100%;
-      max-width: min(520px, 100%);
+      justify-self: stretch;
+      width: 100vw;
+      max-width: 100vw;
+      margin-left: 50%;
+      transform: translateX(-50%);
+      border-radius: 0;
     }
     .cobertura-section {
-      padding-left: 1.25rem !important;
-      padding-right: 1.25rem !important;
+      padding: 2rem 0 !important;
     }
     .cobertura-grain {
       opacity: 0.2 !important;

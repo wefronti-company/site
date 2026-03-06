@@ -15,7 +15,7 @@ export default function MapSaoPaulo() {
     <ComposableMap
       projection="geoMercator"
       projectionConfig={{
-        scale: 650,
+        scale: 850,
         center: [-54, -15],
       }}
       style={{ width: '100%', height: '100%' }}
