@@ -7,7 +7,6 @@ import Timeline from '../sections/Timeline';
 import Comparison from '../sections/Comparison';
 import Faq from '../sections/Faq';
 import Cta from '../sections/Cta';
-import Footer from '../sections/Footer';
 
 const Home: React.FC = () => (
   <>
@@ -19,7 +18,6 @@ const Home: React.FC = () => (
     <Testimonials />
     <Faq />
     <Cta />
-    <Footer />
   </>
 );
 

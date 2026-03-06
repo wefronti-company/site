@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { Rocket } from 'lucide-react';
+import { SiWhatsapp } from 'react-icons/si';
 import { radii } from '@/styles/theme';
 import { colors } from '@/styles/colors';
 import { useScrollToSection } from '../../hooks/useScrollToSection';
@@ -20,6 +21,8 @@ interface ButtonCtaProps {
   hideIcon?: boolean;
   /** When provided, renders as Link to this href instead of button */
   href?: string;
+  /** 'rocket' (default) or 'whatsapp' — ícone ao lado do texto */
+  iconVariant?: 'rocket' | 'whatsapp';
 }
 
 const ButtonCta: React.FC<ButtonCtaProps> = ({ 
@@ -32,6 +35,7 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
   iconOnly = false,
   hideIcon = false,
   href,
+  iconVariant = 'rocket',
 }) => {
   const scrollToSection = useScrollToSection();
 
@@ -67,7 +71,11 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
               }}
             >
               <span style={{ display: 'inline-flex' }} aria-hidden>
-                <Rocket size={16} color={colors.blue.primary} strokeWidth={2.5} />
+                {iconVariant === 'whatsapp' ? (
+                  <SiWhatsapp size={18} color={colors.blue.primary} />
+                ) : (
+                  <Rocket size={16} color={colors.blue.primary} strokeWidth={2.5} />
+                )}
               </span>
             </span>
           )}

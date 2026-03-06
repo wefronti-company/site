@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 import { Plus } from 'lucide-react';
+import ButtonCta from '../../components/ui/ButtonCta';
+import { buildWhatsAppUrl } from '../../lib/whatsapp';
 
 const { colors, spacing, fontSizes, radii, containerMaxWidth } = theme;
 
@@ -42,10 +44,33 @@ const sectionStyleBase: React.CSSProperties = {
   width: '100%',
   paddingTop: spacing[16],
   paddingBottom: spacing[16],
+  position: 'relative',
+  overflow: 'hidden',
   backgroundColor: 'transparent',
 };
 
+/** Imagem de fundo da seção */
+const faqBgImageStyle: React.CSSProperties = {
+  position: 'absolute',
+  inset: 0,
+  backgroundImage: 'url(/images/brand/background-faq.png)',
+  backgroundSize: 'cover',
+  backgroundPosition: 'center',
+  zIndex: 0,
+};
+
+/** Gradiente: preto no topo e na base, meio da imagem visível */
+const faqGradientOverlayStyle: React.CSSProperties = {
+  position: 'absolute',
+  inset: 0,
+  background: `linear-gradient(to bottom, ${colors.background.general} 0%, ${colors.background.general} 18%, transparent 38%, transparent 62%, ${colors.background.general} 82%, ${colors.background.general} 100%)`,
+  zIndex: 1,
+  pointerEvents: 'none',
+};
+
 const innerStyleBase: React.CSSProperties = {
+  position: 'relative',
+  zIndex: 2,
   width: '100%',
   maxWidth: containerMaxWidth.wide,
   margin: '0 auto',
@@ -155,6 +180,8 @@ const Faq: React.FC<FaqProps> = ({ conteudo }) => {
 
   return (
     <section id="faq" style={sectionStyle} aria-labelledby="faq-heading">
+      <div style={faqBgImageStyle} aria-hidden />
+      <div style={faqGradientOverlayStyle} aria-hidden />
       <div style={gridStyle}>
         <div style={leftColumnStyleResponsive}>
           <h2 id="faq-heading" style={titleStyle}>
@@ -165,6 +192,15 @@ const Faq: React.FC<FaqProps> = ({ conteudo }) => {
           <p style={descriptionStyle}>
             Tem dúvidas? Confira as respostas mais comuns abaixo ou entre em contato pelo WhatsApp.
           </p>
+          <div style={{ alignSelf: 'flex-start' }}>
+            <ButtonCta
+              href={buildWhatsAppUrl('5521981013467', 'Vim pelo site, gostaria de tirar algumas dúvidas.')}
+              label="Tirar dúvidas no WhatsApp"
+              iconVariant="whatsapp"
+            >
+              Tirar dúvidas no WhatsApp
+            </ButtonCta>
+          </div>
         </div>
 
         <div style={rightColumnStyleResponsive}>
@@ -189,12 +225,15 @@ const Faq: React.FC<FaqProps> = ({ conteudo }) => {
                     }
                   }}
                   style={{
-                    background: colors.neutral.accordeon,
-                    border: `1px solid ${colors.neutral.border}`,
+                    backgroundColor: 'rgba(24, 24, 27, 0.5)',
+                    backdropFilter: 'saturate(150%) blur(20px)',
+                    WebkitBackdropFilter: 'saturate(150%) blur(20px)',
+                    border: '1px solid rgba(255, 255, 255, 0.12)',
                     borderRadius: 30,
                     padding: `${spacing[5]}px ${spacing[6]}px`,
                     cursor: 'pointer',
                     transition: 'border-color 0.2s ease',
+                    boxShadow: '0 4px 24px rgba(0, 0, 0, 0.15)',
                   }}
                 >
                   <div
@@ -229,7 +268,7 @@ const Faq: React.FC<FaqProps> = ({ conteudo }) => {
                       }}
                       aria-hidden
                     >
-                      <Plus size={22} strokeWidth={2.5} color={colors.text.primary} />
+                      <Plus size={22} strokeWidth={2.5} color={colors.blue.primary} />
                     </span>
                   </div>
                   <div

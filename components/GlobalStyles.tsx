@@ -59,7 +59,7 @@ button, input, select, textarea {
   min-height: 100%;
   overflow-x: hidden;
   background: transparent;
-  padding-bottom: 80px;
+  padding-bottom: 0;
   position: relative;
   z-index: 3;
 }
