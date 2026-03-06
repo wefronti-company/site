@@ -122,7 +122,6 @@ export default function Home() {
         <title>Fibracom | Internet fibra para gamers e streamers</title>
         <meta name="description" content="Planos de internet fibra para gamers e streamers. Baixa latência, upload de sobra para live e estabilidade para não cair no meio do game." />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
       </Head>
       <main
         className="hero-main"

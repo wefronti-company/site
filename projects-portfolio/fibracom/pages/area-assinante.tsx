@@ -54,22 +54,30 @@ export default function AreaAssinante() {
                 style={{ height: 'auto', maxHeight: '42px', width: 'auto' }}
               />
             </Link>
-            <h1
+            <div
               style={{
-                fontSize: '1.75rem',
-                fontWeight: 400,
-                margin: 0,
-                marginBottom: '2rem',
-                color: '#1a1a1a',
+                backgroundColor: 'rgba(75, 149, 116, 0.12)',
+                border: '1px solid rgba(75, 149, 116, 0.45)',
+                borderRadius: '12px',
+                padding: '2rem',
               }}
             >
-              Área do assinante
-            </h1>
-            <form onSubmit={handleSubmit}>
-              <label htmlFor="cpf" style={{ display: 'block', fontSize: '0.9rem', fontWeight: 500, color: '#374151', marginBottom: '0.35rem' }}>
-                CPF
-              </label>
-              <input
+              <h1
+                style={{
+                  fontSize: '1.75rem',
+                  fontWeight: 400,
+                  margin: 0,
+                  marginBottom: '2rem',
+                  color: '#1a1a1a',
+                }}
+              >
+                Área do assinante
+              </h1>
+              <form onSubmit={handleSubmit}>
+                <label htmlFor="cpf" style={{ display: 'block', fontSize: '0.9rem', fontWeight: 500, color: '#374151', marginBottom: '0.35rem' }}>
+                  CPF
+                </label>
+                <input
                 id="cpf"
                 type="text"
                 inputMode="numeric"
@@ -86,11 +94,11 @@ export default function AreaAssinante() {
                   fontFamily: 'inherit',
                   boxSizing: 'border-box',
                 }}
-              />
-              <label htmlFor="senha" style={{ display: 'block', fontSize: '0.9rem', fontWeight: 500, color: '#374151', marginBottom: '0.35rem' }}>
-                Senha
-              </label>
-              <input
+                />
+                <label htmlFor="senha" style={{ display: 'block', fontSize: '0.9rem', fontWeight: 500, color: '#374151', marginBottom: '0.35rem' }}>
+                  Senha
+                </label>
+                <input
                 id="senha"
                 type="password"
                 placeholder="Sua senha"
@@ -106,8 +114,8 @@ export default function AreaAssinante() {
                   fontFamily: 'inherit',
                   boxSizing: 'border-box',
                 }}
-              />
-              <button
+                />
+                <button
                 type="submit"
                 style={{
                   width: '100%',
@@ -121,10 +129,11 @@ export default function AreaAssinante() {
                   cursor: 'pointer',
                   fontFamily: 'inherit',
                 }}
-              >
-                Entrar
-              </button>
-            </form>
+                >
+                  Entrar
+                </button>
+              </form>
+            </div>
           </div>
         </div>
       </div>

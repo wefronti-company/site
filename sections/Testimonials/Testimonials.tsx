@@ -21,7 +21,7 @@ const TESTIMONIALS: TestimonialItem[] = [
     country: 'Brasil',
     description: 'Precisávamos de um site rápido e profissional. Entregaram no prazo, bem feito, e já recebemos vários contatos.',
     audioSrc: '/audio/testimonials/carlos-mendes.mp3',
-    projectCoverSrc: '/images/testimonials/capa-carlos.webp',
+    projectCoverSrc: '/images/portfolio/fibracom-internet.webp',
   },
   {
     name: 'Fernanda Frigs',

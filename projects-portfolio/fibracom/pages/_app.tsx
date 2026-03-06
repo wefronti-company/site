@@ -68,6 +68,7 @@ const globalStyles = `
       min-width: 0;
       padding-left: 1.25rem;
       padding-right: 1.25rem;
+      padding-top: 1.25rem;
     }
     .cobertura-grid .cobertura-map-wrap {
       grid-area: map;
@@ -101,10 +102,10 @@ const globalStyles = `
       max-width: 100%;
     }
     .login-layout {
-      grid-template-columns: 1fr;
+      grid-template-columns: 1fr !important;
     }
     .login-layout > div:first-child {
-      min-height: 40vh;
+      display: none !important;
     }
     .header-nav {
       gap: 0.75rem;
@@ -207,6 +208,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
+        <link rel="icon" href="/images/brand/favicon.png" type="image/png" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet" />
