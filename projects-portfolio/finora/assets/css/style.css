@@ -844,12 +844,35 @@ h6 {
   justify-content: flex-start;
   align-items: center;
 }
+.hero__v6 .hero-img .hero-img-person {
+  width: 100%;
+  max-width: 100%;
+  object-fit: cover;
+  -webkit-box-shadow: 0 15px 40px 0 rgba(var(--bs-black-rgb), 0.08);
+          box-shadow: 0 15px 40px 0 rgba(var(--bs-black-rgb), 0.08);
+}
 .hero__v6 .hero-img .img-card {
   border-radius: 20px;
   -webkit-box-shadow: 0 15px 40px 0 rgba(var(--bs-black-rgb), 0.1);
           box-shadow: 0 15px 40px 0 rgba(var(--bs-black-rgb), 0.1);
   max-width: 100%;
   width: 100%;
+}
+@media (min-width: 992px) {
+  .hero__v6 .hero-img {
+    display: block;
+  }
+  .hero__v6 .hero-img .hero-img-person {
+    width: 100%;
+    display: block;
+  }
+  .hero__v6 .hero-img .img-card.hero-img-card {
+    position: absolute;
+    bottom: -90px;
+    right: 55%;
+    width: auto;
+    max-width: 280px;
+  }
 }
 @media (max-width: 991.98px) {
   .hero__v6 .hero-img .img-card {
