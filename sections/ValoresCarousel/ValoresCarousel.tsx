@@ -31,22 +31,23 @@ import type { LucideIcon } from 'lucide-react';
 
 const { colors, spacing, fontSizes, radii } = theme;
 
+/** Valores alinhados ao posicionamento: propulsão, decolagem, Método Lunar, engenharia de conversão */
 const VALORES: { label: string; Icon: LucideIcon }[] = [
-  { label: 'Transparência', Icon: Eye },
-  { label: 'Foco no Resultado', Icon: Target },
+  { label: 'Engenharia de conversão', Icon: Cpu },
+  { label: 'Design de alto impacto', Icon: Sparkles },
+  { label: 'Rota estratégica', Icon: Target },
   { label: 'Prazo garantido', Icon: CalendarCheck },
-  { label: 'Profissionalismo', Icon: Award },
-  { label: 'Parceria', Icon: Handshake },
-  { label: 'Qualidade', Icon: Sparkles },
-  { label: 'Segurança', Icon: Lock },
-  { label: 'Compromisso', Icon: Heart },
-  { label: 'Agilidade', Icon: Zap },
-  { label: 'Eficiência', Icon: Gauge },
-  { label: 'Atendimento humanizado', Icon: MessageSquare },
-  { label: 'Organização', Icon: FolderOpen },
-  { label: 'Processo claro e sem surpresas', Icon: ClipboardCheck },
+  { label: 'Alta performance', Icon: Zap },
+  { label: 'Transparência', Icon: Eye },
+  { label: 'Parceria de longo prazo', Icon: Handshake },
+  { label: 'Método Lunar', Icon: Globe },
+  { label: 'Sites que convertem', Icon: MousePointerClick },
+  { label: 'Processo sem surpresas', Icon: ClipboardCheck },
   { label: 'Suporte pós-entrega', Icon: LifeBuoy },
-  { label: 'Sites rápidos e modernos', Icon: Globe },
+  { label: 'Foco em resultado', Icon: Focus },
+  { label: 'Sua marca em órbita', Icon: Award },
+  { label: 'Organização e clareza', Icon: FolderOpen },
+  { label: 'Atendimento humanizado', Icon: MessageSquare },
 ];
 
 const wrapStyle: React.CSSProperties = {

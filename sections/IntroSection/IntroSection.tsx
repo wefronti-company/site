@@ -199,10 +199,11 @@ const ctaBannerCopyStyle: React.CSSProperties = {
   margin: 0,
 };
 
+/** Dores de empresas sem site profissional ou com site que não converte */
 const PROBLEMS: { text: string; highlight: string; suffix: string }[] = [
-  { text: 'Combustível jogado fora: Você investe pesado em anúncios, mas vê seus leads sumirem antes mesmo de completarem a órbita. ', highlight: 'Cliques não estão virando vendas.', suffix: '.' },
-  { text: 'Fuselagem sem motor: Já contratou freelancers que entregaram um "site bonitinho", mas sem nenhuma inteligência de conversão. ', highlight: 'É uma nave bonita que não sai do chão.', suffix: '.' },
-  { text: 'Sistemas ultrapassados: ', highlight: 'Sua estrutura digital atual é um gargalo. ', suffix: 'Em vez de impulsionar, ela está travando o crescimento da sua empresa e limitando seu alcance.' },
+  { text: 'Combustível jogado fora: Você investe em anúncios, o visitante chega na página, mas a jornada termina ali. Cliques que não viram vendas são como combustível queimado sem ', highlight: 'sair da plataforma de lançamento', suffix: '.' },
+  { text: 'Ruído na comunicação: Um layout amador transmite insegurança. Se o seu site não passa confiança imediata, o cliente aborta a missão e busca abrigo no concorrente. Credibilidade é o ', highlight: 'seu suporte de vida online', suffix: '.' },
+  { text: 'Deriva digital:Sem um site estratégico, sua empresa é um satélite desligado: ninguém encontra, ninguém vê. ', highlight: 'Enquanto você flutua sem rumo, ', suffix: '.' },
 ];
 
 interface IntroSectionProps {
@@ -212,14 +213,8 @@ interface IntroSectionProps {
 const IntroSection: React.FC<IntroSectionProps> = ({ conteudo }) => {
   const isMd = useMediaQuery(theme.breakpoints.md);
 
-  const heading = (conteudo?.heading != null ? String(conteudo.heading) : '') || 'Cansado de ver seu investimento em tráfego ';
-  const headingHighlight = (conteudo?.headingHighlight != null ? String(conteudo.headingHighlight) : '') || 'desaparecer no vácuo?';
-  const subheading = (conteudo?.subheading != null ? String(conteudo.subheading) : '') || 'Você merece mais do que um ';
-  const subheadingHighlight = (conteudo?.subheadingHighlight != null ? String(conteudo.subheadingHighlight) : '') || 'layout bonito.';
-  const paragraph = (conteudo?.paragraph != null ? String(conteudo.paragraph) : '') || 'Na Wefronti, criamos páginas que justificam ';
-  const paragraphHighlight = (conteudo?.paragraphHighlight != null ? String(conteudo.paragraphHighlight) : '') || 'cada centavo investido em tráfego';
-
-
+  const heading = (conteudo?.heading != null ? String(conteudo.heading) : '') || 'Não deixe o seu potencial de ';
+  const headingHighlight = (conteudo?.headingHighlight != null ? String(conteudo.headingHighlight) : '') || 'vendas perdido no vácuo';
   const problems = (Array.isArray(conteudo?.problems) ? (conteudo.problems as { text?: string; highlight?: string; suffix?: string }[]) : null) ?? PROBLEMS;
 
   const gridLayout: React.CSSProperties = {
@@ -292,7 +287,7 @@ const IntroSection: React.FC<IntroSectionProps> = ({ conteudo }) => {
 
         <div style={ctaBannerStyle}>
           <p style={ctaBannerCopyStyle}>
-            Na Wefronti projetamos o Método LUNAR. Criamos páginas de alta performance que justificam cada centavo do seu tráfego unindo engenharia de conversão e foco absoluto no seu faturamento.
+          Chegou a hora de mudar a sua trajetória. Com o Método Lunar, aplicamos engenharia de conversão e design de elite para transformar o seu site na nave mãe das suas vendas
           </p>
           <ButtonCta
             href={buildWhatsAppUrl(DEFAULT_WHATSAPP_NUMBER, WHATSAPP_MESSAGE_ORCAMENTO)}

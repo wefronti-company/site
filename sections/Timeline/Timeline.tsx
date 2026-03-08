@@ -172,7 +172,7 @@ const Timeline: React.FC<TimelineProps> = ({ conteudo }) => {
   const headerPaddingX = isMd ? spacing[12] : spacing[4];
 
   const titulo = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'Método LUNAR';
-  const subtitulo = (conteudo?.subtitulo != null ? String(conteudo.subtitulo) : '') || 'Da localização do seu cliente ideal ao pouso e à escala: uma metodologia em 5 fases para levar sua oferta ao destino certo.';
+  const subtitulo = (conteudo?.subtitulo != null ? String(conteudo.subtitulo) : '') || 'A trajetória de alta precisão para colocar sua oferta no destino certo.Esqueça a sorte. Aplicamos uma metodologia em 5 fases para garantir que sua mensagem atinja o alvo e escale sem turbulências.';
   const botao = (conteudo?.botao != null ? String(conteudo.botao) : '') || 'Pedir orçamento';
   const passos = Array.isArray(conteudo?.passos) ? (conteudo.passos as { letra?: string; titulo?: string; subtitulo?: string; descricao?: string }[]) : null;
   const steps =
