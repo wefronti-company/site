@@ -26,6 +26,7 @@ export function useBackgroundAudio(): BackgroundAudioContextValue {
  */
 export const BackgroundAudioProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const audioRef = useRef<HTMLAudioElement>(null);
+  const hasUnlocked = useRef(false);
 
   const pauseBackground = useCallback(() => {
     const audio = audioRef.current;
@@ -43,6 +44,28 @@ export const BackgroundAudioProvider: React.FC<{ children: React.ReactNode }> = 
     audio.volume = 0.4;
     audio.loop = true;
     audio.play().catch(() => {});
+  }, []);
+
+  useEffect(() => {
+    if (hasUnlocked.current) return;
+    const tryPlay = () => {
+      if (hasUnlocked.current) return;
+      const audio = audioRef.current;
+      if (!audio) return;
+      hasUnlocked.current = true;
+      audio.play().catch(() => {});
+      window.removeEventListener('scroll', tryPlay, { passive: true });
+      window.removeEventListener('wheel', tryPlay, { passive: true });
+      window.removeEventListener('touchstart', tryPlay);
+    };
+    window.addEventListener('scroll', tryPlay, { passive: true });
+    window.addEventListener('wheel', tryPlay, { passive: true });
+    window.addEventListener('touchstart', tryPlay);
+    return () => {
+      window.removeEventListener('scroll', tryPlay);
+      window.removeEventListener('wheel', tryPlay);
+      window.removeEventListener('touchstart', tryPlay);
+    };
   }, []);
 
   const value: BackgroundAudioContextValue = { pauseBackground, resumeBackground };
