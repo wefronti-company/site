@@ -30,33 +30,34 @@ export const event = ({ action, category, label, value }: {
   }
 };
 
-// Carregar script do Google Analytics
+// Carregar script do Google Analytics — defer até após first paint para não bloquear main thread
 export const loadGoogleAnalytics = () => {
   if (typeof window === 'undefined') return;
 
-  // Do nothing if no tracking ID is configured (prevents loading GA in dev without config)
   if (!GA_TRACKING_ID) return;
-
-  // Verificar se já foi carregado
   if (window.gtag) return;
 
-  // Criar script
-  const script1 = document.createElement('script');
-  script1.async = true;
-  script1.src = `https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`;
-  document.head.appendChild(script1);
+  const load = () => {
+    if (window.gtag) return;
+    const script1 = document.createElement('script');
+    script1.async = true;
+    script1.src = `https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`;
+    document.head.appendChild(script1);
+    const script2 = document.createElement('script');
+    script2.innerHTML = `
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', '${GA_TRACKING_ID}', { page_path: window.location.pathname });
+    `;
+    document.head.appendChild(script2);
+  };
 
-  // Inicializar gtag
-  const script2 = document.createElement('script');
-  script2.innerHTML = `
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', '${GA_TRACKING_ID}', {
-      page_path: window.location.pathname,
-    });
-  `;
-  document.head.appendChild(script2);
+  if ('requestIdleCallback' in window) {
+    (window as Window & { requestIdleCallback: (cb: () => void, opts?: { timeout: number }) => void }).requestIdleCallback(load, { timeout: 2000 });
+  } else {
+    setTimeout(load, 1000);
+  }
 };
 
 // Declaração de tipos para TypeScript

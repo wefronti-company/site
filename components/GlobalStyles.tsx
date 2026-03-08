@@ -72,13 +72,6 @@ section:not(#section-0) {
   background: transparent;
 }
 
-/* Mobile: content-visibility em seções abaixo do Hero — reduz trabalho de render inicial */
-@media (max-width: 767px) {
-  section:not(#hero) {
-    content-visibility: auto;
-    contain-intrinsic-size: auto 300px;
-  }
-}
 /* Hero em mobile: animação via CSS (evita Framer Motion / forced reflow) */
 @media (max-width: 767px) {
   .hero-css-fade { opacity: 0; animation: hero-fade-up 0.5s ease-out forwards; }

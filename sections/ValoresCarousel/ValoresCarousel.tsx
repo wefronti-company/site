@@ -61,6 +61,7 @@ const wrapStyle: React.CSSProperties = {
   paddingTop: spacing[8],
   paddingBottom: spacing[8],
   zIndex: 10,
+  minHeight: 120, // reserva espaço para evitar CLS (2 linhas de badges)
 };
 
 const trackStyle: React.CSSProperties = {
