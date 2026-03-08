@@ -32,10 +32,18 @@ export default function Document() {
   <link rel="shortcut icon" href="/images/brand/favicon-site.png?v=4" />
   <link rel="apple-touch-icon" href="/images/brand/favicon-site.png?v=4" sizes="180x180" />
  
- {/* Google Fonts - Geist */}
+ {/* Google Fonts — carregamento assíncrono para não bloquear render (LCP) */}
  <link rel="preconnect" href="https://fonts.googleapis.com" />
  <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
- <link href="https://fonts.googleapis.com/css2?family=Funnel+Sans:ital,wght@0,300..800;1,300..800&family=Geist:wght@100..900&display=swap" rel="stylesheet" />
+ <link
+   href="https://fonts.googleapis.com/css2?family=Funnel+Sans:ital,wght@0,300..800;1,300..800&family=Geist:wght@100..900&display=swap"
+   rel="stylesheet"
+   media="print"
+   onLoad={(e) => { (e.currentTarget as HTMLLinkElement).media = 'all'; }}
+ />
+ <noscript>
+   <link href="https://fonts.googleapis.com/css2?family=Funnel+Sans:ital,wght@0,300..800;1,300..800&family=Geist:wght@100..900&display=swap" rel="stylesheet" />
+ </noscript>
  
  </Head>
  <body>
