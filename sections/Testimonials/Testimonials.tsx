@@ -4,6 +4,7 @@ import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 import ProjectCoverCard from '../../components/ProjectCoverCard';
 import SectionSparkles from '../../components/SectionSparkles';
+import { useBackgroundAudio } from '../../components/BackgroundAudio';
 
 const { colors, spacing, fontSizes, radii, containerMaxWidth } = theme;
 
@@ -20,22 +21,22 @@ type TestimonialItem = {
 
 const TESTIMONIALS: TestimonialItem[] = [
   {
-    name: 'Carlos H. Mendes',
-    state: 'Minas Gerais',
-    country: 'Brasil',
-    description: 'Precisávamos de um site rápido e profissional. Entregaram no prazo, bem feito, e já recebemos vários contatos.',
-    audioSrc: '/audio/testimonials/carlos-mendes.mp3',
-    projectCoverSrc: '/images/portfolio/finora.webp',
-    projectLiveUrl:
-      process.env.NEXT_PUBLIC_FINORA_URL || 'https://finora.wefronti.com',
-  },
-  {
     name: 'Fernanda Frigs',
     state: 'Santa Catarina',
     country: 'Brasil',
     description: 'Trabalho de excelência do início ao fim. Comunicação constante, prazos cumpridos.',
     audioSrc: '/audio/testimonials/fernanda-frigs.mp3',
-    projectCoverSrc: '/images/testimonials/capa-fernanda.webp',
+    projectCoverSrc: '/images/portfolio/aibazz.webp',
+    projectLiveUrl: 'https://aibazz.framer.ai/',
+  },
+  {
+    name: 'Carlos H. Mendes',
+    state: 'Minas Gerais',
+    country: 'Brasil',
+    description: 'Precisávamos de um site rápido e profissional. Entregaram no prazo, bem feito, e já recebemos vários contatos.',
+    audioSrc: '/audio/testimonials/carlos-mendes.mp3',
+    projectCoverSrc: '/images/portfolio/r3-digital.webp',
+    projectLiveUrl: 'https://r3-digital.framer.ai/',
   },
 ];
 
@@ -264,6 +265,7 @@ interface TestimonialsProps {
 
 const Testimonials: React.FC<TestimonialsProps> = ({ conteudo }) => {
   const isMd = useMediaQuery(theme.breakpoints.md);
+  const { pauseBackground, resumeBackground } = useBackgroundAudio();
   const [playingIndex, setPlayingIndex] = useState<number | null>(null);
   const [progress, setProgress] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -278,6 +280,7 @@ const Testimonials: React.FC<TestimonialsProps> = ({ conteudo }) => {
     const onEnded = () => {
       setPlayingIndex(null);
       setProgress(0);
+      resumeBackground();
     };
     audio.addEventListener('timeupdate', onTimeUpdate);
     audio.addEventListener('loadedmetadata', onLoadedMetadata);
@@ -287,7 +290,7 @@ const Testimonials: React.FC<TestimonialsProps> = ({ conteudo }) => {
       audio.removeEventListener('loadedmetadata', onLoadedMetadata);
       audio.removeEventListener('ended', onEnded);
     };
-  }, [playingIndex]);
+  }, [playingIndex, resumeBackground]);
 
   const getTestimonialPhotoSrc = useCallback((name: string) => {
     const slug = name
@@ -315,11 +318,13 @@ const Testimonials: React.FC<TestimonialsProps> = ({ conteudo }) => {
     if (playingIndex === index) {
       audioRef.current?.pause();
       setPlayingIndex(null);
+      resumeBackground();
       return;
     }
     if (audioRef.current) {
       audioRef.current.pause();
     }
+    pauseBackground();
     const audio = new Audio(audioSrc);
     audioRef.current = audio;
     audio.play().catch(() => {});
@@ -377,12 +382,14 @@ const Testimonials: React.FC<TestimonialsProps> = ({ conteudo }) => {
               {item.projectCoverSrc && (
                 <ProjectCoverCard href={item.projectLiveUrl} external={!!item.projectLiveUrl}>
                   <div style={projectCoverCardStyle} aria-hidden>
-                    <img
-                      src={item.projectCoverSrc}
-                      alt={`Capa do projeto - ${item.name}`}
-                      style={projectCoverImageStyle}
-                      loading="lazy"
-                    />
+                    <div className="project-cover-image-wrap" style={{ width: '100%', height: '100%' }}>
+                      <img
+                        src={item.projectCoverSrc}
+                        alt={`Capa do projeto - ${item.name}`}
+                        style={projectCoverImageStyle}
+                        loading="lazy"
+                      />
+                    </div>
                   </div>
                 </ProjectCoverCard>
               )}

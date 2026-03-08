@@ -222,6 +222,17 @@ span[data-cta-gradient-wrap] > button {
 .testimonials-track-reverse { animation: testimonials-scroll-reverse 80s linear infinite; backface-visibility: hidden; }
 .pricing-feature-item:hover { transform: translateX(6px); }
 .admin-nav-item:hover { opacity: 1; }
+/* Imagem do projeto: preto e branco por padrão, cores no hover */
+.project-cover-image-wrap {
+  filter: grayscale(100%);
+  transition: filter 0.35s ease;
+}
+.project-cover-card:hover .project-cover-image-wrap {
+  filter: grayscale(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .project-cover-image-wrap { transition: none; }
+}
 .header-nav-link { text-shadow: none !important; box-shadow: none !important; }
 .header-nav-link:focus { outline: none; }
 .header-cta-btn:focus { outline: none; }
