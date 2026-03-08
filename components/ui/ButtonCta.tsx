@@ -93,7 +93,7 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
   );
 
   const innerStyle = {
-    display: (fullWidthOnMobile ? 'flex' : 'inline-flex') as const,
+    display: fullWidthOnMobile ? 'flex' : 'inline-flex',
     width: fullWidthOnMobile ? '100%' : undefined,
     alignItems: 'center' as const,
     justifyContent: 'center' as const,
