@@ -26,11 +26,11 @@ export default function Document() {
  <meta httpEquiv="x-ua-compatible" content="ie=edge" />
  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
  
- {/* Favicon — incrementar ?v= para invalidar cache ao atualizar o ícone */}
- <link rel="icon" href="/favicon.ico?v=3" />
-  <link rel="icon" href="/images/brand/favicon-site.png?v=3" type="image/png" sizes="32x32" />
-  <link rel="shortcut icon" href="/images/brand/favicon-site.png?v=3" />
-  <link rel="apple-touch-icon" href="/images/brand/favicon-site.png?v=3" sizes="180x180" />
+ {/* Favicon — ?v= para invalidar cache (bump ao atualizar o ícone) */}
+ <link rel="icon" href="/favicon.ico?v=4" />
+  <link rel="icon" href="/images/brand/favicon-site.png?v=4" type="image/png" sizes="32x32" />
+  <link rel="shortcut icon" href="/images/brand/favicon-site.png?v=4" />
+  <link rel="apple-touch-icon" href="/images/brand/favicon-site.png?v=4" sizes="180x180" />
  
  {/* Google Fonts - Geist */}
  <link rel="preconnect" href="https://fonts.googleapis.com" />
