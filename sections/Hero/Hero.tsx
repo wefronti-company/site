@@ -21,6 +21,7 @@ const heroSectionStyleBase: React.CSSProperties = {
   alignItems: 'center',
   justifyContent: 'center',
   overflow: 'hidden',
+  contain: 'layout style', // reduz propagação de reflows
 };
 
 /** Camada da imagem de fundo */
@@ -147,60 +148,98 @@ const Hero: React.FC<HeroProps> = ({ conteudo }) => {
       <div style={heroGradientOverlayStyle} aria-hidden />
       <SectionSparkles />
       <div style={heroContentStyle}>
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
-          transition={{ duration: 0.6, ease: 'easeOut', delay: 0.05 }}
-          style={{ display: 'flex', justifyContent: isMd ? 'center' : 'flex-start', marginBottom: spacing[2] }}
-        >
-          <Link href="/" aria-label="Wefronti — voltar para a página inicial" style={{ display: 'block' }}>
-            <Image
-              src="/images/brand/isologo-white.webp"
-              alt="Wefronti"
-              width={180}
-              height={50}
-              style={{ width: 'clamp(140px, 22vw, 200px)', height: 'auto', objectFit: 'contain' }}
-              priority
-            />
-          </Link>
-        </motion.div>
-        <motion.h1
-          initial={{ opacity: 0, y: 24 }}
-          animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
-          transition={{ duration: 0.7, ease: 'easeOut', delay: 0.15 }}
-          style={heroTitleStyle(isMd)}
-        >
-          {renderHeroTitle(tituloRaw)}
-        </motion.h1>
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: 0.6, ease: 'easeOut', delay: 0.25 }}
-          style={heroSubtitleStyle(isMd)}
-        >
-          {subtitulo}
-        </motion.p>
-        <motion.div
-          style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            gap: spacing[4],
-            alignItems: 'center',
-            justifyContent: isMd ? 'center' : 'flex-start',
-            width: isMd ? undefined : '100%',
-          }}
-          initial={{ opacity: 0, y: 16 }}
-          animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
-          transition={{ duration: 0.5, ease: 'easeOut', delay: 0.5 }}
-        >
-          <ButtonCta
-            href={buildWhatsAppUrl(DEFAULT_WHATSAPP_NUMBER, WHATSAPP_MESSAGE_ORCAMENTO)}
-            external
-            fullWidthOnMobile={!isMd}
+        {isMd ? (
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
+            transition={{ duration: 0.6, ease: 'easeOut', delay: 0.05 }}
+            style={{ display: 'flex', justifyContent: 'center', marginBottom: spacing[2] }}
           >
-            {botaoPrincipal}
-          </ButtonCta>
-        </motion.div>
+            <Link href="/" aria-label="Wefronti — voltar para a página inicial" style={{ display: 'block' }}>
+              <Image src="/images/brand/isologo-white.webp" alt="Wefronti" width={180} height={50} style={{ width: 'clamp(140px, 22vw, 200px)', height: 'auto', objectFit: 'contain' }} priority />
+            </Link>
+          </motion.div>
+        ) : (
+          <div
+            className={hasEntered ? 'hero-css-fade d1' : ''}
+            style={{ display: 'flex', justifyContent: 'flex-start', marginBottom: spacing[2], opacity: hasEntered ? undefined : 0 }}
+          >
+            <Link href="/" aria-label="Wefronti — voltar para a página inicial" style={{ display: 'block' }}>
+              <Image src="/images/brand/isologo-white.webp" alt="Wefronti" width={180} height={50} style={{ width: 'clamp(140px, 22vw, 200px)', height: 'auto', objectFit: 'contain' }} priority />
+            </Link>
+          </div>
+        )}
+        {isMd ? (
+          <motion.h1
+            initial={{ opacity: 0, y: 24 }}
+            animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
+            transition={{ duration: 0.7, ease: 'easeOut', delay: 0.15 }}
+            style={heroTitleStyle(isMd)}
+          >
+            {renderHeroTitle(tituloRaw)}
+          </motion.h1>
+        ) : (
+          <h1 className={hasEntered ? 'hero-css-fade d2' : ''} style={{ ...heroTitleStyle(isMd), opacity: hasEntered ? undefined : 0 }}>
+            {renderHeroTitle(tituloRaw)}
+          </h1>
+        )}
+        {isMd ? (
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.6, ease: 'easeOut', delay: 0.25 }}
+            style={heroSubtitleStyle(isMd)}
+          >
+            {subtitulo}
+          </motion.p>
+        ) : (
+          <p className={hasEntered ? 'hero-css-fade d3' : ''} style={{ ...heroSubtitleStyle(isMd), opacity: hasEntered ? undefined : 0 }}>
+            {subtitulo}
+          </p>
+        )}
+        {isMd ? (
+          <motion.div
+            style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: spacing[4],
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+            initial={{ opacity: 0, y: 16 }}
+            animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
+            transition={{ duration: 0.5, ease: 'easeOut', delay: 0.5 }}
+          >
+            <ButtonCta
+              href={buildWhatsAppUrl(DEFAULT_WHATSAPP_NUMBER, WHATSAPP_MESSAGE_ORCAMENTO)}
+              external
+              fullWidthOnMobile={false}
+            >
+              {botaoPrincipal}
+            </ButtonCta>
+          </motion.div>
+        ) : (
+          <div
+            className={hasEntered ? 'hero-css-fade d4' : ''}
+            style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: spacing[4],
+              alignItems: 'center',
+              justifyContent: 'flex-start',
+              width: '100%',
+              opacity: hasEntered ? undefined : 0,
+            }}
+          >
+            <ButtonCta
+              href={buildWhatsAppUrl(DEFAULT_WHATSAPP_NUMBER, WHATSAPP_MESSAGE_ORCAMENTO)}
+              external
+              fullWidthOnMobile={true}
+            >
+              {botaoPrincipal}
+            </ButtonCta>
+          </div>
+        )}
         <div style={{ width: '100%', marginTop: spacing[8] }}>
           <ValoresCarousel />
         </div>

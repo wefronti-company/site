@@ -26,6 +26,9 @@ export default function Document() {
  <meta httpEquiv="x-ua-compatible" content="ie=edge" />
  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
  
+ {/* LCP — preload da imagem do Hero para descoberta imediata e prioridade alta */}
+ <link rel="preload" href="/images/brand/background-hero.webp" as="image" fetchPriority="high" />
+
  {/* Favicon — ?v= para invalidar cache (bump ao atualizar o ícone) */}
  <link rel="icon" href="/favicon.ico?v=4" />
   <link rel="icon" href="/images/brand/favicon-site.png?v=4" type="image/png" sizes="32x32" />

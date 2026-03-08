@@ -1,6 +1,5 @@
 import React from 'react';
 import { theme } from '../../styles/theme';
-import { useMediaQuery } from '../../hooks/useMediaQuery';
 import {
   Eye,
   ShieldCheck,
@@ -97,17 +96,12 @@ const iconStyle: React.CSSProperties = {
 };
 
 const ValoresCarousel: React.FC = () => {
-  const isMd = useMediaQuery(theme.breakpoints.md);
   const items = [...VALORES, ...VALORES];
   const itemStyle: React.CSSProperties = {
     ...itemStyleBase,
-    ...(isMd
-      ? {
-          background: 'rgba(24, 24, 27, 0.6)',
-          backdropFilter: 'saturate(150%) blur(14px)',
-          WebkitBackdropFilter: 'saturate(150%) blur(14px)',
-        }
-      : { background: 'rgba(24, 24, 27, 0.92)' }),
+    background: 'rgba(24, 24, 27, 0.6)',
+    backdropFilter: 'saturate(150%) blur(14px)',
+    WebkitBackdropFilter: 'saturate(150%) blur(14px)',
   };
 
   return (

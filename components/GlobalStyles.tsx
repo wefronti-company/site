@@ -60,15 +60,8 @@ button, input, select, textarea {
   body { overflow: auto; height: auto; }
 }
 
-/* Mobile: desativa efeitos pesados para priorizar performance (Hero e demais) */
+/* Mobile: desativa apenas animações pesadas (mantém vidro desfocado) */
 @media (max-width: 767px) {
-  * {
-    -webkit-backdrop-filter: none !important;
-    backdrop-filter: none !important;
-  }
-  .glass-transparent, .glass-transparent-sm {
-    background-color: rgba(24, 24, 27, 0.94) !important;
-  }
   .testimonials-track, .testimonials-track-reverse { animation: none !important; }
   .animate-float, .hero-chip-float, .hero-sparkle { animation: none !important; }
 }
@@ -77,6 +70,22 @@ section:not(#section-0) {
   position: relative;
   z-index: 20;
   background: transparent;
+}
+
+/* Mobile: content-visibility em seções abaixo do Hero — reduz trabalho de render inicial */
+@media (max-width: 767px) {
+  section:not(#hero) {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 300px;
+  }
+}
+/* Hero em mobile: animação via CSS (evita Framer Motion / forced reflow) */
+@media (max-width: 767px) {
+  .hero-css-fade { opacity: 0; animation: hero-fade-up 0.5s ease-out forwards; }
+  .hero-css-fade.d1 { animation-delay: 0.05s; }
+  .hero-css-fade.d2 { animation-delay: 0.15s; }
+  .hero-css-fade.d3 { animation-delay: 0.25s; }
+  .hero-css-fade.d4 { animation-delay: 0.5s; }
 }
 
 /* Margem de scroll para seções com âncora: o badge fica visível abaixo do header fixo */
@@ -104,6 +113,10 @@ section[id] {
 }
 @keyframes slide-down {
   from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes hero-fade-up {
+  from { opacity: 0; transform: translateY(16px); }
   to { opacity: 1; transform: translateY(0); }
 }
 @keyframes slide-up {
