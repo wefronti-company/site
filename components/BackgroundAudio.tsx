@@ -54,12 +54,12 @@ export const BackgroundAudioProvider: React.FC<{ children: React.ReactNode }> = 
       if (!audio) return;
       hasUnlocked.current = true;
       audio.play().catch(() => {});
-      window.removeEventListener('scroll', tryPlay, { passive: true });
-      window.removeEventListener('wheel', tryPlay, { passive: true });
+      window.removeEventListener('scroll', tryPlay);
+      window.removeEventListener('wheel', tryPlay);
       window.removeEventListener('touchstart', tryPlay);
     };
-    window.addEventListener('scroll', tryPlay, { passive: true });
-    window.addEventListener('wheel', tryPlay, { passive: true });
+    window.addEventListener('scroll', tryPlay);
+    window.addEventListener('wheel', tryPlay);
     window.addEventListener('touchstart', tryPlay);
     return () => {
       window.removeEventListener('scroll', tryPlay);
