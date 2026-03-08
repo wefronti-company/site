@@ -6,6 +6,9 @@ node_modules/
 # Testing
 /coverage
 
+# Finora (copiado em prebuild; não commitar)
+/public/finora/
+
 # Next.js build output
 .next/
 out/

@@ -37,6 +37,7 @@ function isValidOrigin(request: NextRequest): boolean {
     'localhost:3000',
     'wefronti.com',
     'www.wefronti.com',
+    'finora.wefronti.com',
     '.vercel.app',
   ];
   const sourceUrl = origin || referer || '';
@@ -74,6 +75,16 @@ function isValidOrigin(request: NextRequest): boolean {
 }
 
 export async function middleware(request: NextRequest) {
+  const host = request.headers.get('host') || '';
+  const isFinoraSubdomain = host.startsWith('finora.');
+
+  if (isFinoraSubdomain) {
+    const url = request.nextUrl.clone();
+    const path = url.pathname === '/' ? '/finora/index.html' : `/finora${url.pathname}`;
+    url.pathname = path;
+    return NextResponse.rewrite(url);
+  }
+
   const clientIp = getClientIp(request);
   const userAgent = request.headers.get('user-agent');
   const url = request.nextUrl;

@@ -35,7 +35,7 @@ const sectionStyleBase: React.CSSProperties = {
 const comparisonBgImageStyle: React.CSSProperties = {
   position: 'absolute',
   inset: 0,
-  backgroundImage: 'url(/images/brand/background-hero.png)',
+  backgroundImage: 'url(/images/brand/background-hero.webp)',
   backgroundSize: 'cover',
   backgroundPosition: 'center',
   zIndex: 0,
