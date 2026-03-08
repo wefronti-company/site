@@ -301,11 +301,13 @@ const Testimonials: React.FC<TestimonialsProps> = ({ conteudo }) => {
 
   const titulo = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'Quem já decolou com a Wefronti';
   const subtitulo = (conteudo?.subtitulo != null ? String(conteudo.subtitulo) : '') || 'Empresas que investiram em site ou landing page e hoje vendem mais.';
-  const sectionPaddingX = isMd ? spacing[12] : spacing[4];
+  const sectionPaddingX = isMd ? spacing[12] : 0;
   const sectionStyle: React.CSSProperties = {
     ...sectionStyleBase,
     paddingLeft: sectionPaddingX,
     paddingRight: sectionPaddingX,
+    paddingTop: isMd ? spacing[16] : spacing[10],
+    paddingBottom: isMd ? spacing[16] : spacing[10],
   };
 
   const handlePlayPause = (index: number, audioSrc?: string) => {
@@ -351,12 +353,22 @@ const Testimonials: React.FC<TestimonialsProps> = ({ conteudo }) => {
       <div style={testimonialsBgImageStyle} aria-hidden />
       <div style={testimonialsGradientOverlayStyle} aria-hidden />
       <SectionSparkles />
-      <div style={innerStyleBase}>
-        <div style={headerStyle}>
-          <h2 id="testimonials-heading" style={titleStyle}>
+      <div style={{
+        ...innerStyleBase,
+        paddingLeft: isMd ? spacing[8] : 0,
+        paddingRight: isMd ? spacing[8] : 0,
+        gap: isMd ? spacing[12] : spacing[8],
+      }}>
+        <div style={{
+          ...headerStyle,
+          gap: isMd ? spacing[6] : spacing[4],
+          alignItems: isMd ? 'center' : 'flex-start',
+          textAlign: isMd ? 'center' : 'left',
+        }}>
+          <h2 id="testimonials-heading" style={{ ...titleStyle, textAlign: isMd ? 'center' : 'left' }}>
             {titulo}
           </h2>
-          <p style={subtitleStyle}>{subtitulo}</p>
+          <p style={{ ...subtitleStyle, textAlign: isMd ? 'center' : 'left' }}>{subtitulo}</p>
         </div>
 
         <div style={{ ...gridStyle, gridTemplateColumns: isMd ? '1fr 1fr' : '1fr' }}>

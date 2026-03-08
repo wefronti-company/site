@@ -285,14 +285,20 @@ const IntroSection: React.FC<IntroSectionProps> = ({ conteudo }) => {
 
         <div style={{ ...rightColumnStyle, display: isMd ? 'block' : 'none' }} aria-hidden />
 
-        <div style={ctaBannerStyle}>
-          <p style={ctaBannerCopyStyle}>
+        <div style={{
+          ...ctaBannerStyle,
+          flexDirection: isMd ? 'row' : 'column',
+          alignItems: isMd ? 'center' : 'stretch',
+          gap: isMd ? spacing[6] : spacing[4],
+        }}>
+          <p style={{ ...ctaBannerCopyStyle, flex: isMd ? '1 1 280px' : '0 0 auto' }}>
           Sites e landing pages para empresas que querem decolar. Com o Método LUNAR, aplicamos engenharia de conversão e design de alto impacto para sua marca vender mais online.
           </p>
           <ButtonCta
             href={buildWhatsAppUrl(DEFAULT_WHATSAPP_NUMBER, WHATSAPP_MESSAGE_ORCAMENTO)}
             external
             label="Pedir orçamento"
+            fullWidthOnMobile={!isMd}
           />
         </div>
       </div>

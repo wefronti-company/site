@@ -194,12 +194,13 @@ const Faq: React.FC<FaqProps> = ({ conteudo }) => {
           <p style={descriptionStyle}>
             Tire suas dúvidas sobre prazo, pagamento e entrega. Ou converse direto conosco pelo WhatsApp.
           </p>
-          <div style={{ alignSelf: 'flex-start' }}>
+          <div style={{ alignSelf: isMd ? 'flex-start' : 'stretch', width: isMd ? undefined : '100%' }}>
             <ButtonCta
               href={buildWhatsAppUrl(DEFAULT_WHATSAPP_NUMBER, WHATSAPP_MESSAGE_DUVIDAS)}
               external
               label="Tirar dúvidas no WhatsApp"
               iconVariant="whatsapp"
+              fullWidthOnMobile={!isMd}
             >
               Tirar dúvidas no WhatsApp
             </ButtonCta>

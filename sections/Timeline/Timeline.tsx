@@ -255,11 +255,12 @@ const Timeline: React.FC<TimelineProps> = ({ conteudo }) => {
               })}
             </ul>
           </div>
-          <div style={{ display: 'flex', justifyContent: 'flex-start', marginTop: isMd ? spacing[12] : spacing[6] }}>
+          <div style={{ display: 'flex', justifyContent: 'flex-start', marginTop: isMd ? spacing[12] : spacing[6], width: isMd ? undefined : '100%' }}>
             <ButtonCta
               href={buildWhatsAppUrl(DEFAULT_WHATSAPP_NUMBER, WHATSAPP_MESSAGE_ORCAMENTO)}
               external
               label={botao}
+              fullWidthOnMobile={!isMd}
             />
           </div>
         </div>
@@ -328,11 +329,12 @@ const Timeline: React.FC<TimelineProps> = ({ conteudo }) => {
             })}
           </ul>
         </div>
-        <div style={{ display: 'flex', justifyContent: 'center', marginTop: isMd ? spacing[12] : spacing[6] }}>
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: isMd ? spacing[12] : spacing[6], width: isMd ? undefined : '100%' }}>
           <ButtonCta
             href={buildWhatsAppUrl(DEFAULT_WHATSAPP_NUMBER, WHATSAPP_MESSAGE_ORCAMENTO)}
             external
             label={botao}
+            fullWidthOnMobile={!isMd}
           />
         </div>
       </div>

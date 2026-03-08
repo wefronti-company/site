@@ -25,6 +25,8 @@ interface ButtonCtaProps {
   iconVariant?: 'rocket' | 'whatsapp' | 'arrow';
   /** Abre o link em nova aba (target="_blank") */
   external?: boolean;
+  /** Em telas menores: botão preenche toda a largura */
+  fullWidthOnMobile?: boolean;
 }
 
 const ButtonCta: React.FC<ButtonCtaProps> = ({ 
@@ -39,6 +41,7 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
   href,
   iconVariant = 'rocket',
   external = false,
+  fullWidthOnMobile = false,
 }) => {
   const scrollToSection = useScrollToSection();
 
@@ -90,7 +93,8 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
   );
 
   const innerStyle = {
-    display: 'inline-flex' as const,
+    display: (fullWidthOnMobile ? 'flex' : 'inline-flex') as const,
+    width: fullWidthOnMobile ? '100%' : undefined,
     alignItems: 'center' as const,
     justifyContent: 'center' as const,
     gap: 8,
@@ -111,7 +115,11 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
     <span
       className={`${className ?? ''}`.trim() || undefined}
       data-cta-gradient-wrap
-      style={{ opacity: disabled ? 0.5 : 1, transition: 'opacity 0.2s, transform 0.2s' }}
+      style={{
+        opacity: disabled ? 0.5 : 1,
+        transition: 'opacity 0.2s, transform 0.2s',
+        ...(fullWidthOnMobile && { display: 'block', width: '100%' }),
+      }}
       onMouseEnter={(e) => {
         if (!disabled) e.currentTarget.style.transform = 'translateY(-1px)';
       }}

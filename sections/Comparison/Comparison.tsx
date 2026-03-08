@@ -257,10 +257,11 @@ const Comparison: React.FC<ComparisonProps> = ({ conteudo }) => {
         <div style={{
           display: 'flex',
           flexDirection: 'column',
-          alignItems: isMd ? 'center' : 'flex-start',
+          alignItems: isMd ? 'center' : 'stretch',
           gap: isMd ? spacing[6] : spacing[4],
           marginTop: isMd ? spacing[12] : spacing[8],
           textAlign: isMd ? 'center' : 'left',
+          width: isMd ? undefined : '100%',
         }}>
           <p style={{
             margin: 0,
@@ -276,6 +277,7 @@ const Comparison: React.FC<ComparisonProps> = ({ conteudo }) => {
             href={buildWhatsAppUrl(DEFAULT_WHATSAPP_NUMBER, WHATSAPP_MESSAGE_ORCAMENTO)}
             external
             label={botao}
+            fullWidthOnMobile={!isMd}
           />
         </div>
       </div>

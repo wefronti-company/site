@@ -189,6 +189,7 @@ const Hero: React.FC<HeroProps> = ({ conteudo }) => {
             gap: spacing[4],
             alignItems: 'center',
             justifyContent: isMd ? 'center' : 'flex-start',
+            width: isMd ? undefined : '100%',
           }}
           initial={{ opacity: 0, y: 16 }}
           animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
@@ -197,6 +198,7 @@ const Hero: React.FC<HeroProps> = ({ conteudo }) => {
           <ButtonCta
             href={buildWhatsAppUrl(DEFAULT_WHATSAPP_NUMBER, WHATSAPP_MESSAGE_ORCAMENTO)}
             external
+            fullWidthOnMobile={!isMd}
           >
             {botaoPrincipal}
           </ButtonCta>

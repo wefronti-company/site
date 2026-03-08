@@ -116,11 +116,12 @@ const Cta: React.FC<CtaProps> = ({ conteudo }) => {
     lineHeight: 1.5,
   };
 
-  /** Em telas menores, menos padding na div de CTA */
+  /** Em telas menores, menos padding na div de CTA e botão em largura total */
   const wrapperStyle: React.CSSProperties = {
     ...wrapperStyleBase,
     padding: isMd ? `${spacing[16]}px ${spacing[10]}px` : `${spacing[8]}px ${spacing[6]}px`,
     gap: isMd ? spacing[6] : spacing[4],
+    alignItems: isMd ? 'center' : 'stretch',
   };
 
   return (
@@ -145,7 +146,7 @@ const Cta: React.FC<CtaProps> = ({ conteudo }) => {
         <p style={subheadingStyle}>
           {subtitulo}
         </p>
-        <ButtonCta href={whatsappHref} external>
+        <ButtonCta href={whatsappHref} external fullWidthOnMobile={!isMd}>
           {botao}
         </ButtonCta>
       </div>
