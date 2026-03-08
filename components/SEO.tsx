@@ -20,12 +20,12 @@ const SEO: React.FC<SEOProps> = ({
  noindex = false,
  keywords
 }) => {
- // Configuração SEO: sites e landing pages
+ // Configuração SEO: página de vendas — sites e landing pages para empresas (Método LUNAR)
  const seoConfig = {
    siteName: 'Wefronti',
    defaultTitle: 'Wefronti | Sites e landing pages que convertem',
-   defaultDescription: 'Criação de sites institucionais e landing pages com entrega rápida, design profissional e foco em conversão. Seu site, seu domínio.',
-   defaultKeywords: 'site institucional, landing page, criar site, site profissional, landing page que converte, site para empresa',
+   defaultDescription: 'Sites e landing pages com o Método LUNAR. Engenharia de conversão, design de alto impacto e entrega no prazo. Para empresas que querem vender mais online.',
+   defaultKeywords: 'site que converte, landing page que converte, método lunar, criar site para empresa, site institucional, landing page profissional, engenharia de conversão, site que vende',
  };
 
   const pageTitle = title ? `${title} | ${seoConfig.siteName}` : seoConfig.defaultTitle;
@@ -78,18 +78,18 @@ const SEO: React.FC<SEOProps> = ({
  bestRating: '5',
  worstRating: '1'
  },
- slogan: 'Tecnologia começa pelas pessoas.',
+ slogan: 'Sites e landing pages que convertem para empresas que querem decolar.',
  knowsAbout: [
+   'Método LUNAR',
+   'Engenharia de conversão',
    'Sites institucionais',
-   'Sites de conversão',
-   'Desenvolvimento web',
-   'Design de sites',
-   'Landing pages',
-   'E-commerce',
+   'Landing pages que convertem',
+   'Design de alto impacto',
+   'Sites para empresas',
  ],
  audience: {
- '@type': 'Audience',
- audienceType: 'Business Decision Makers, CEOs, CTOs, Founders, Product Managers'
+   '@type': 'Audience',
+   audienceType: 'Empresas, CEOs, Sócios, Gestores de marketing que precisam de site ou landing page que converte'
  }
  };
 
@@ -151,7 +151,7 @@ const SEO: React.FC<SEOProps> = ({
  <meta property="og:image:type" content="image/png" />
  <meta property="og:image:width" content="1200" />
  <meta property="og:image:height" content="630" />
- <meta property="og:image:alt" content="Wefronti | Produtos digitais que crescem com o seu negócio" />
+ <meta property="og:image:alt" content="Wefronti | Sites e landing pages que convertem" />
  {/* Common fallback/link used by some platforms */}
  <link rel="image_src" href={`${siteUrl}${ogImage}`} />
  <meta name="twitter:image:src" content={`${siteUrl}${ogImage}`} />
@@ -165,7 +165,7 @@ const SEO: React.FC<SEOProps> = ({
  <meta name="twitter:title" content={pageTitle} />
  <meta name="twitter:description" content={pageDescription} />
  <meta name="twitter:image" content={`${siteUrl}${ogImage}`} />
- <meta name="twitter:image:alt" content="Wefronti | Produtos digitais que crescem com o seu negócio" />
+ <meta name="twitter:image:alt" content="Wefronti | Sites e landing pages que convertem" />
  
  {/* Mobile & PWA */}
  <meta name="mobile-web-app-capable" content="yes" />
@@ -199,13 +199,13 @@ const SEO: React.FC<SEOProps> = ({
  {/* Additional SEO - Foco Brasil */}
  <meta name="language" content="pt-BR" />
  <meta httpEquiv="content-language" content="pt-BR" />
- <meta name="geo.region" content="BR-SP" />
- <meta name="geo.placename" content="São Paulo" />
- <meta name="geo.position" content="-23.550520;-46.633308" />
- <meta name="ICBM" content="-23.550520, -46.633308" />
+ <meta name="geo.region" content="BR-RS" />
+ <meta name="geo.placename" content="Porto Alegre" />
+ <meta name="geo.position" content="-30.034647;-51.217658" />
+ <meta name="ICBM" content="-30.034647, -51.217658" />
  
- {/* Público-alvo específico */}
- <meta name="target" content="CEOs, Sócios, Gestores, Empresários, Empreendedores, Gerentes, Diretores de TI" />
+ {/* Público-alvo: empresas que precisam de site ou landing page que converte */}
+ <meta name="target" content="CEOs, Sócios, Empresários, Gestores de marketing, Diretores comerciais, Empreendedores" />
  </Head>
  );
 };
