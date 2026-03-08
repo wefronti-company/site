@@ -2,6 +2,7 @@ import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { Play, Pause, Mic } from 'lucide-react';
 import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
+import ProjectCoverCard from '../../components/ProjectCoverCard';
 
 const { colors, spacing, fontSizes, radii, containerMaxWidth } = theme;
 
@@ -12,6 +13,8 @@ type TestimonialItem = {
   description: string;
   audioSrc?: string;
   projectCoverSrc?: string;
+  /** URL do site do projeto — o card da imagem fica clicável e abre direto no site */
+  projectLiveUrl?: string;
 };
 
 const TESTIMONIALS: TestimonialItem[] = [
@@ -21,7 +24,9 @@ const TESTIMONIALS: TestimonialItem[] = [
     country: 'Brasil',
     description: 'Precisávamos de um site rápido e profissional. Entregaram no prazo, bem feito, e já recebemos vários contatos.',
     audioSrc: '/audio/testimonials/carlos-mendes.mp3',
-    projectCoverSrc: '/images/portfolio/fibracom-internet.webp',
+    projectCoverSrc: '/images/portfolio/finora.webp',
+    projectLiveUrl:
+      process.env.NEXT_PUBLIC_FINORA_URL || 'https://finora.wefronti.com',
   },
   {
     name: 'Fernanda Frigs',
@@ -46,7 +51,7 @@ const sectionStyleBase: React.CSSProperties = {
 const testimonialsBgImageStyle: React.CSSProperties = {
   position: 'absolute',
   inset: 0,
-  backgroundImage: 'url(/images/brand/background-testimonials.png)',
+  backgroundImage: 'url(/images/brand/background-testimonials.webp)',
   backgroundSize: 'cover',
   backgroundPosition: 'center',
   zIndex: 0,
@@ -356,14 +361,16 @@ const Testimonials: React.FC<TestimonialsProps> = ({ conteudo }) => {
           {items.map((item, index) => (
             <div key={`${item.name}-${index}`} style={clientColumnStyle}>
               {item.projectCoverSrc && (
-                <div style={projectCoverCardStyle} aria-hidden>
-                  <img
-                    src={item.projectCoverSrc}
-                    alt={`Capa do projeto - ${item.name}`}
-                    style={projectCoverImageStyle}
-                    loading="lazy"
-                  />
-                </div>
+                <ProjectCoverCard href={item.projectLiveUrl} external={!!item.projectLiveUrl}>
+                  <div style={projectCoverCardStyle} aria-hidden>
+                    <img
+                      src={item.projectCoverSrc}
+                      alt={`Capa do projeto - ${item.name}`}
+                      style={projectCoverImageStyle}
+                      loading="lazy"
+                    />
+                  </div>
+                </ProjectCoverCard>
               )}
               <div style={cardStyle}>
               <button

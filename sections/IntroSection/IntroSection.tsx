@@ -26,7 +26,7 @@ const bgImageStyle: React.CSSProperties = {
   bottom: SECTION_PADDING_V,
   width: '52%',
   maxWidth: 720,
-  backgroundImage: 'url(/images/brand/background-intro.png)',
+  backgroundImage: 'url(/images/brand/background-intro.webp)',
   backgroundSize: 'cover',
   backgroundPosition: 'center center',
   backgroundRepeat: 'no-repeat',

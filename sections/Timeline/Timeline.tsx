@@ -30,7 +30,7 @@ const sectionStyleBase: React.CSSProperties = {
 const metodoBgImageStyle: React.CSSProperties = {
   position: 'absolute',
   inset: 0,
-  backgroundImage: 'url(/images/brand/background-metodo.png)',
+  backgroundImage: 'url(/images/brand/background-metodo.webp)',
   backgroundSize: 'cover',
   backgroundPosition: 'center',
   zIndex: 0,

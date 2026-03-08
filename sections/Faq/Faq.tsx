@@ -53,7 +53,7 @@ const sectionStyleBase: React.CSSProperties = {
 const faqBgImageStyle: React.CSSProperties = {
   position: 'absolute',
   inset: 0,
-  backgroundImage: 'url(/images/brand/background-faq.png)',
+  backgroundImage: 'url(/images/brand/background-faq.webp)',
   backgroundSize: 'cover',
   backgroundPosition: 'center',
   zIndex: 0,

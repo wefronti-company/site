@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { Rocket } from 'lucide-react';
+import { Rocket, ArrowUpRight } from 'lucide-react';
 import { SiWhatsapp } from 'react-icons/si';
 import { radii } from '@/styles/theme';
 import { colors } from '@/styles/colors';
@@ -21,8 +21,10 @@ interface ButtonCtaProps {
   hideIcon?: boolean;
   /** When provided, renders as Link to this href instead of button */
   href?: string;
-  /** 'rocket' (default) or 'whatsapp' — ícone ao lado do texto */
-  iconVariant?: 'rocket' | 'whatsapp';
+  /** 'rocket' (default), 'whatsapp' ou 'arrow' — ícone ao lado do texto */
+  iconVariant?: 'rocket' | 'whatsapp' | 'arrow';
+  /** Abre o link em nova aba (target="_blank") */
+  external?: boolean;
 }
 
 const ButtonCta: React.FC<ButtonCtaProps> = ({ 
@@ -36,6 +38,7 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
   hideIcon = false,
   href,
   iconVariant = 'rocket',
+  external = false,
 }) => {
   const scrollToSection = useScrollToSection();
 
@@ -73,6 +76,8 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
               <span style={{ display: 'inline-flex' }} aria-hidden>
                 {iconVariant === 'whatsapp' ? (
                   <SiWhatsapp size={18} color={colors.blue.primary} />
+                ) : iconVariant === 'arrow' ? (
+                  <ArrowUpRight size={18} color={colors.blue.primary} strokeWidth={2.5} />
                 ) : (
                   <Rocket size={16} color={colors.blue.primary} strokeWidth={2.5} />
                 )}
@@ -113,14 +118,27 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
       onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; }}
     >
       {href ? (
-        <Link
-          href={href}
-          onClick={onClick}
-          aria-label={label || (typeof children === 'string' ? children : 'CTA')}
-          style={innerStyle}
-        >
-          {content}
-        </Link>
+        (external || href.startsWith('http')) ? (
+          <a
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={onClick}
+            aria-label={label || (typeof children === 'string' ? children : 'CTA')}
+            style={innerStyle}
+          >
+            {content}
+          </a>
+        ) : (
+          <Link
+            href={href}
+            onClick={onClick}
+            aria-label={label || (typeof children === 'string' ? children : 'CTA')}
+            style={innerStyle}
+          >
+            {content}
+          </Link>
+        )
       ) : (
         <button
           type={type}

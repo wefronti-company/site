@@ -6,10 +6,8 @@ import GlobalStyles from '../components/GlobalStyles';
 import * as gtag from '../lib/gtag';
 import 'lenis/dist/lenis.css';
 import SmoothScroll from '../components/SmoothScroll';
-import { SnackbarProvider } from '../contexts/SnackbarContext';
 
 import Footer from '../sections/Footer';
-import AsteriskDecor from '../components/AsteriskDecor';
 
 export default function MyApp({ Component, pageProps }: AppProps) {
  const router = useRouter();
@@ -38,18 +36,15 @@ export default function MyApp({ Component, pageProps }: AppProps) {
  }, []);
 
  return (
- <SnackbarProvider>
  <SmoothScroll>
  <>
  <Head>
  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
  </Head>
  <GlobalStyles />
-<AsteriskDecor />
       <Component {...pageProps} />
       {router.pathname !== '/' && <Footer />}
  </>
  </SmoothScroll>
- </SnackbarProvider>
  );
 }
