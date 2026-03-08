@@ -32,15 +32,12 @@ const SPARKLES: { top: number; left: number; size: number; delay: number; durati
   { top: 82, left: 62, size: 2, delay: 0.8, duration: 4.5 },
 ];
 
-/** Em mobile: menos brilhos e sem animação para melhor performance */
-const SPARKLES_MOBILE = SPARKLES.slice(0, 8);
-
 /**
  * Efeito fada (brilhos) que fica por cima das imagens de background das seções.
- * Em mobile: menos elementos e animação desativada para priorizar performance.
+ * Renderizado apenas em desktop (≥768px) para priorizar performance em mobile.
  */
 const SectionSparkles: React.FC = () => {
-  const [isMobile, setIsMobile] = React.useState(false);
+  const [isMobile, setIsMobile] = React.useState(true); // assume mobile até hidratação
   React.useEffect(() => {
     const mq = window.matchMedia('(max-width: 767px)');
     setIsMobile(mq.matches);
@@ -48,7 +45,9 @@ const SectionSparkles: React.FC = () => {
     mq.addEventListener('change', h);
     return () => mq.removeEventListener('change', h);
   }, []);
-  const items = isMobile ? SPARKLES_MOBILE : SPARKLES;
+
+  if (isMobile) return null;
+
   return (
   <div
     aria-hidden
@@ -62,29 +61,24 @@ const SectionSparkles: React.FC = () => {
       contain: 'layout style paint',
     }}
   >
-    <style dangerouslySetInnerHTML={{ __html: `
-      @media (max-width: 767px) {
-        [data-sparkle-dot] { animation: none !important; will-change: auto !important; }
-      }
-    `}} />
-    {items.map((s, i) => (
+    {SPARKLES.map((s, i) => (
       <div
         key={i}
         data-sparkle-dot
         aria-hidden
         style={{
-          position: 'absolute',
-          top: `${s.top}%`,
-          left: `${s.left}%`,
-          width: s.size,
-          height: s.size,
-          borderRadius: '50%',
-          background: '#fff',
-          boxShadow: 'none',
-          animation: `sparkle-fairy ${s.duration}s ease-in-out infinite`,
-          animationDelay: `${s.delay}s`,
-          willChange: 'transform, opacity',
-        }}
+        position: 'absolute',
+        top: `${s.top}%`,
+        left: `${s.left}%`,
+        width: s.size,
+        height: s.size,
+        borderRadius: '50%',
+        background: '#fff',
+        boxShadow: 'none',
+        animation: `sparkle-fairy ${s.duration}s ease-in-out infinite`,
+        animationDelay: `${s.delay}s`,
+        willChange: 'transform, opacity',
+      }}
       />
     ))}
   </div>
