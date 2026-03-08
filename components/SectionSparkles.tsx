@@ -43,7 +43,7 @@ const SectionSparkles: React.FC = () => (
     style={{
       position: 'absolute',
       inset: 0,
-      zIndex: 1.5,
+      zIndex: 2,
       overflow: 'hidden',
       pointerEvents: 'none',
     }}
