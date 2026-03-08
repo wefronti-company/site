@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 import ButtonCta from '../../components/ui/ButtonCta';
+import { buildWhatsAppUrl, DEFAULT_WHATSAPP_NUMBER, WHATSAPP_MESSAGE_ORCAMENTO } from '../../lib/whatsapp';
 import ValoresCarousel from '../ValoresCarousel';
 
 const { colors, spacing, fontSizes } = theme;
@@ -149,14 +151,16 @@ const Hero: React.FC<HeroProps> = ({ conteudo }) => {
           transition={{ duration: 0.6, ease: 'easeOut', delay: 0.05 }}
           style={{ display: 'flex', justifyContent: 'center', marginBottom: spacing[2] }}
         >
-          <Image
-            src="/images/brand/isologo-white.webp"
-            alt="Wefronti"
-            width={180}
-            height={50}
-            style={{ width: 'clamp(140px, 22vw, 200px)', height: 'auto', objectFit: 'contain' }}
-            priority
-          />
+          <Link href="/" aria-label="Wefronti — voltar para a página inicial" style={{ display: 'block' }}>
+            <Image
+              src="/images/brand/isologo-white.webp"
+              alt="Wefronti"
+              width={180}
+              height={50}
+              style={{ width: 'clamp(140px, 22vw, 200px)', height: 'auto', objectFit: 'contain' }}
+              priority
+            />
+          </Link>
         </motion.div>
         <motion.h1
           initial={{ opacity: 0, y: 24 }}
@@ -188,7 +192,12 @@ const Hero: React.FC<HeroProps> = ({ conteudo }) => {
           animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
           transition={{ duration: 0.5, ease: 'easeOut', delay: 0.5 }}
         >
-          <ButtonCta>{botaoPrincipal}</ButtonCta>
+          <ButtonCta
+            href={buildWhatsAppUrl(DEFAULT_WHATSAPP_NUMBER, WHATSAPP_MESSAGE_ORCAMENTO)}
+            external
+          >
+            {botaoPrincipal}
+          </ButtonCta>
         </motion.div>
         <div style={{ width: '100%', marginTop: spacing[8] }}>
           <ValoresCarousel />

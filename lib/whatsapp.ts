@@ -1,5 +1,7 @@
-export const DEFAULT_WHATSAPP_NUMBER = '5221981013467';
-export const DEFAULT_WHATSAPP_MESSAGE = 'Olá! Vim pelo site da Wefronti e gostaria de saber mais.';
+export const DEFAULT_WHATSAPP_NUMBER = '5521981013467';
+export const DEFAULT_WHATSAPP_MESSAGE = 'Oi, vim pelo site, gostaria de um orçamento.';
+export const WHATSAPP_MESSAGE_ORCAMENTO = 'Oi, vim pelo site, gostaria de um orçamento.';
+export const WHATSAPP_MESSAGE_DUVIDAS = 'Oi, vim pelo site e gostaria de tirar algumas dúvidas.';
 
 export function normalizeWhatsappNumber(value: string | null | undefined): string {
   const digits = String(value || '').replace(/\D/g, '');

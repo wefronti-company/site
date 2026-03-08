@@ -4,6 +4,7 @@ import type { LucideIcon } from 'lucide-react';
 import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 import ButtonCta from '../../components/ui/ButtonCta';
+import { buildWhatsAppUrl, DEFAULT_WHATSAPP_NUMBER, WHATSAPP_MESSAGE_ORCAMENTO } from '../../lib/whatsapp';
 
 const { colors, spacing, fontSizes, radii } = theme;
 
@@ -253,7 +254,11 @@ const Timeline: React.FC<TimelineProps> = ({ conteudo }) => {
             </ul>
           </div>
           <div style={{ display: 'flex', justifyContent: 'flex-start', marginTop: isMd ? spacing[12] : spacing[6] }}>
-            <ButtonCta label={botao} />
+            <ButtonCta
+              href={buildWhatsAppUrl(DEFAULT_WHATSAPP_NUMBER, WHATSAPP_MESSAGE_ORCAMENTO)}
+              external
+              label={botao}
+            />
           </div>
         </div>
       </section>
@@ -321,7 +326,11 @@ const Timeline: React.FC<TimelineProps> = ({ conteudo }) => {
           </ul>
         </div>
         <div style={{ display: 'flex', justifyContent: 'center', marginTop: isMd ? spacing[12] : spacing[6] }}>
-          <ButtonCta label={botao} />
+          <ButtonCta
+            href={buildWhatsAppUrl(DEFAULT_WHATSAPP_NUMBER, WHATSAPP_MESSAGE_ORCAMENTO)}
+            external
+            label={botao}
+          />
         </div>
       </div>
     </section>

@@ -3,6 +3,7 @@ import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 import { X, CheckCircle2 } from 'lucide-react';
 import ButtonCta from '../../components/ui/ButtonCta';
+import { buildWhatsAppUrl, DEFAULT_WHATSAPP_NUMBER, WHATSAPP_MESSAGE_ORCAMENTO } from '../../lib/whatsapp';
 
 const { colors, spacing, fontSizes, radii, containerMaxWidth } = theme;
 
@@ -269,7 +270,11 @@ const Comparison: React.FC<ComparisonProps> = ({ conteudo }) => {
           }}>
             {ctaFinal}
           </p>
-          <ButtonCta label={botao} />
+          <ButtonCta
+            href={buildWhatsAppUrl(DEFAULT_WHATSAPP_NUMBER, WHATSAPP_MESSAGE_ORCAMENTO)}
+            external
+            label={botao}
+          />
         </div>
       </div>
     </section>

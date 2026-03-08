@@ -3,11 +3,9 @@ import Image from 'next/image';
 import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 import ButtonCta from '../../components/ui/ButtonCta';
-import { buildWhatsAppUrl, DEFAULT_WHATSAPP_NUMBER } from '../../lib/whatsapp';
+import { buildWhatsAppUrl, DEFAULT_WHATSAPP_NUMBER, WHATSAPP_MESSAGE_ORCAMENTO } from '../../lib/whatsapp';
 
 const { colors, spacing, fontSizes } = theme;
-
-const DEFAULT_WHATSAPP_MESSAGE = 'Olá, gostaria de um orçamento para site ou landing page.';
 
 /** Largura alinhada aos cards de preço para não ficar tão largo */
 const CTA_MAX_WIDTH = 920;
@@ -59,7 +57,7 @@ const Cta: React.FC<CtaProps> = ({ conteudo }) => {
   const titulo = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'Pronto para ter seu site ou landing page?';
   const subtitulo = (conteudo?.subtitulo != null ? String(conteudo.subtitulo) : '') || 'Fale com a gente. Orçamento sem compromisso e resposta rápida.';
   const botao = (conteudo?.botao != null ? String(conteudo.botao) : '') || 'Pedir orçamento';
-  const mensagemWhatsApp = (conteudo?.mensagemWhatsApp != null ? String(conteudo.mensagemWhatsApp) : '') || DEFAULT_WHATSAPP_MESSAGE;
+  const mensagemWhatsApp = (conteudo?.mensagemWhatsApp != null ? String(conteudo.mensagemWhatsApp) : '') || WHATSAPP_MESSAGE_ORCAMENTO;
   const whatsappHref = buildWhatsAppUrl(DEFAULT_WHATSAPP_NUMBER, mensagemWhatsApp);
   const sectionStyle: React.CSSProperties = {
     width: '100%',
@@ -145,13 +143,7 @@ const Cta: React.FC<CtaProps> = ({ conteudo }) => {
         <p style={subheadingStyle}>
           {subtitulo}
         </p>
-        <ButtonCta
-          onClick={() => {
-            if (typeof window !== 'undefined') {
-              window.open(whatsappHref, '_blank', 'noopener,noreferrer');
-            }
-          }}
-        >
+        <ButtonCta href={whatsappHref} external>
           {botao}
         </ButtonCta>
       </div>

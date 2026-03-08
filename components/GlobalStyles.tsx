@@ -29,6 +29,7 @@ html, body {
   height: 100%;
   overflow-x: hidden;
   max-width: 100vw;
+  cursor: url('/images/icons/cursor.svg') 4 4, auto;
   background: ${colors.background.general};
   background-attachment: fixed;
   color: ${colors.text.primary};

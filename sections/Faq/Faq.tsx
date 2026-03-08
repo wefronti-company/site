@@ -3,7 +3,7 @@ import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 import { Plus } from 'lucide-react';
 import ButtonCta from '../../components/ui/ButtonCta';
-import { buildWhatsAppUrl } from '../../lib/whatsapp';
+import { buildWhatsAppUrl, DEFAULT_WHATSAPP_NUMBER, WHATSAPP_MESSAGE_DUVIDAS } from '../../lib/whatsapp';
 
 const { colors, spacing, fontSizes, radii, containerMaxWidth } = theme;
 
@@ -194,7 +194,8 @@ const Faq: React.FC<FaqProps> = ({ conteudo }) => {
           </p>
           <div style={{ alignSelf: 'flex-start' }}>
             <ButtonCta
-              href={buildWhatsAppUrl('5521981013467', 'Vim pelo site, gostaria de tirar algumas dúvidas.')}
+              href={buildWhatsAppUrl(DEFAULT_WHATSAPP_NUMBER, WHATSAPP_MESSAGE_DUVIDAS)}
+              external
               label="Tirar dúvidas no WhatsApp"
               iconVariant="whatsapp"
             >

@@ -3,6 +3,7 @@ import { X } from 'lucide-react';
 import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 import ButtonCta from '../../components/ui/ButtonCta';
+import { buildWhatsAppUrl, DEFAULT_WHATSAPP_NUMBER, WHATSAPP_MESSAGE_ORCAMENTO } from '../../lib/whatsapp';
 
 const { colors, spacing, fontSizes, containerMaxWidth } = theme;
 
@@ -291,7 +292,11 @@ const IntroSection: React.FC<IntroSectionProps> = ({ conteudo }) => {
           <p style={ctaBannerCopyStyle}>
             Na Wefronti projetamos o Método LUNAR. Criamos páginas de alta performance que justificam cada centavo do seu tráfego unindo engenharia de conversão e foco absoluto no seu faturamento.
           </p>
-          <ButtonCta label="Pedir orçamento" />
+          <ButtonCta
+            href={buildWhatsAppUrl(DEFAULT_WHATSAPP_NUMBER, WHATSAPP_MESSAGE_ORCAMENTO)}
+            external
+            label="Pedir orçamento"
+          />
         </div>
       </div>
     </section>
