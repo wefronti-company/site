@@ -4,6 +4,7 @@ import { useMediaQuery } from '../../hooks/useMediaQuery';
 import { Plus } from 'lucide-react';
 import ButtonCta from '../../components/ui/ButtonCta';
 import { buildWhatsAppUrl, DEFAULT_WHATSAPP_NUMBER, WHATSAPP_MESSAGE_DUVIDAS } from '../../lib/whatsapp';
+import SectionSparkles from '../../components/SectionSparkles';
 
 const { colors, spacing, fontSizes, radii, containerMaxWidth } = theme;
 
@@ -182,6 +183,7 @@ const Faq: React.FC<FaqProps> = ({ conteudo }) => {
     <section id="faq" style={sectionStyle} aria-labelledby="faq-heading">
       <div style={faqBgImageStyle} aria-hidden />
       <div style={faqGradientOverlayStyle} aria-hidden />
+      <SectionSparkles />
       <div style={gridStyle}>
         <div style={leftColumnStyleResponsive}>
           <h2 id="faq-heading" style={titleStyle}>

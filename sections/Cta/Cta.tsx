@@ -4,6 +4,7 @@ import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 import ButtonCta from '../../components/ui/ButtonCta';
 import { buildWhatsAppUrl, DEFAULT_WHATSAPP_NUMBER, WHATSAPP_MESSAGE_ORCAMENTO } from '../../lib/whatsapp';
+import SectionSparkles from '../../components/SectionSparkles';
 
 const { colors, spacing, fontSizes } = theme;
 
@@ -135,6 +136,7 @@ const Cta: React.FC<CtaProps> = ({ conteudo }) => {
         />
       </div>
       <div style={ctaGradientOverlayStyle} aria-hidden />
+      <SectionSparkles />
       <div style={wrapperWrapStyle}>
       <div style={wrapperStyle}>
         <h2 id="cta-heading" style={headingStyle}>

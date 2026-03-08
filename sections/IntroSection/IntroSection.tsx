@@ -4,6 +4,7 @@ import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 import ButtonCta from '../../components/ui/ButtonCta';
 import { buildWhatsAppUrl, DEFAULT_WHATSAPP_NUMBER, WHATSAPP_MESSAGE_ORCAMENTO } from '../../lib/whatsapp';
+import SectionSparkles from '../../components/SectionSparkles';
 
 const { colors, spacing, fontSizes, containerMaxWidth } = theme;
 
@@ -233,6 +234,7 @@ const IntroSection: React.FC<IntroSectionProps> = ({ conteudo }) => {
     <section id="intro" style={sectionStyle} aria-labelledby="intro-heading">
       <div style={bgImageStyle} aria-hidden />
       <div style={bgGradientStyle} aria-hidden />
+      <SectionSparkles />
       <div style={gridLayout}>
         <div style={leftColumnStyle}>
           <h2 id="intro-heading" style={headingStyle}>

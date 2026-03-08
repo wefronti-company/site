@@ -42,8 +42,10 @@ export default function MyApp({ Component, pageProps }: AppProps) {
  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
  </Head>
  <GlobalStyles />
-      <Component {...pageProps} />
-      {router.pathname !== '/' && <Footer />}
+      <div style={{ position: 'relative', minHeight: '100%' }}>
+        <Component {...pageProps} />
+        {router.pathname !== '/' && <Footer />}
+      </div>
  </>
  </SmoothScroll>
  );

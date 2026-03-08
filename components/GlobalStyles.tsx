@@ -135,6 +135,12 @@ section[id] {
   50% { transform: translate(-2px, 2px); }
   75% { transform: translate(2px, 3px); }
 }
+@keyframes sparkle-fairy {
+  0%, 100% { transform: translate(0, 0); opacity: 0.85; }
+  25% { transform: translate(6px, -8px); opacity: 1; }
+  50% { transform: translate(-4px, 5px); opacity: 0.75; }
+  75% { transform: translate(5px, 4px); opacity: 0.95; }
+}
 @keyframes testimonials-scroll {
   0% { transform: translate3d(0, 0, 0); }
   100% { transform: translate3d(-50%, 0, 0); }
@@ -146,6 +152,17 @@ section[id] {
 @keyframes cta-btn-shine {
   0% { transform: skewX(28deg) translateX(-100%); }
   100% { transform: skewX(28deg) translateX(200%); }
+}
+@keyframes sparkle-float-back {
+  0%, 100% { transform: translate3d(0, 0, -50px) scale(1) rotateY(0deg); opacity: 0.6; }
+  25% { transform: translate3d(8px, -12px, 20px) scale(1.15) rotateY(90deg); opacity: 0.9; }
+  50% { transform: translate3d(-6px, 8px, 10px) scale(0.95) rotateY(180deg); opacity: 0.7; }
+  75% { transform: translate3d(10px, 5px, -20px) scale(1.05) rotateY(270deg); opacity: 0.85; }
+}
+@keyframes sparkle-float-front {
+  0%, 100% { transform: translate3d(0, 0, 30px) scale(1) rotateY(0deg); opacity: 0.7; }
+  33% { transform: translate3d(-10px, 8px, 60px) scale(1.1) rotateY(120deg); opacity: 0.95; }
+  66% { transform: translate3d(6px, -6px, 40px) scale(0.9) rotateY(240deg); opacity: 0.75; }
 }
 span[data-cta-gradient-wrap] {
   position: relative !important;
@@ -254,6 +271,7 @@ button:focus-visible, a:focus-visible, [role="button"]:focus-visible, summary:fo
   .testimonials-track { animation: none !important; }
   .testimonials-track-reverse { animation: none !important; }
   .pricing-feature-item:hover { transform: none !important; }
+  [data-sparkle-dot] { animation: none !important; opacity: 0.5 !important; }
 }
 `,
     }}

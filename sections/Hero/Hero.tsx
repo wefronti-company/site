@@ -7,6 +7,7 @@ import { useMediaQuery } from '../../hooks/useMediaQuery';
 import ButtonCta from '../../components/ui/ButtonCta';
 import { buildWhatsAppUrl, DEFAULT_WHATSAPP_NUMBER, WHATSAPP_MESSAGE_ORCAMENTO } from '../../lib/whatsapp';
 import ValoresCarousel from '../ValoresCarousel';
+import SectionSparkles from '../../components/SectionSparkles';
 
 const { colors, spacing, fontSizes } = theme;
 
@@ -144,6 +145,7 @@ const Hero: React.FC<HeroProps> = ({ conteudo }) => {
     <section ref={sectionRef} id="hero" style={heroSectionStyle}>
       <div style={heroBgImageStyle} aria-hidden />
       <div style={heroGradientOverlayStyle} aria-hidden />
+      <SectionSparkles />
       <div style={heroContentStyle}>
         <motion.div
           initial={{ opacity: 0, y: 16 }}

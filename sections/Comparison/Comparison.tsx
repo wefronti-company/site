@@ -4,6 +4,7 @@ import { useMediaQuery } from '../../hooks/useMediaQuery';
 import { X, CheckCircle2 } from 'lucide-react';
 import ButtonCta from '../../components/ui/ButtonCta';
 import { buildWhatsAppUrl, DEFAULT_WHATSAPP_NUMBER, WHATSAPP_MESSAGE_ORCAMENTO } from '../../lib/whatsapp';
+import SectionSparkles from '../../components/SectionSparkles';
 
 const { colors, spacing, fontSizes, radii, containerMaxWidth } = theme;
 
@@ -205,6 +206,7 @@ const Comparison: React.FC<ComparisonProps> = ({ conteudo }) => {
     <section id="comparativo" style={sectionStyle} aria-labelledby="comparison-heading">
       <div style={comparisonBgImageStyle} aria-hidden />
       <div style={comparisonGradientOverlayStyle} aria-hidden />
+      <SectionSparkles />
       <div style={innerStyleBase}>
         <div style={{
           ...headerStyle,

@@ -5,6 +5,7 @@ import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 import ButtonCta from '../../components/ui/ButtonCta';
 import { buildWhatsAppUrl, DEFAULT_WHATSAPP_NUMBER, WHATSAPP_MESSAGE_ORCAMENTO } from '../../lib/whatsapp';
+import SectionSparkles from '../../components/SectionSparkles';
 
 const { colors, spacing, fontSizes, radii } = theme;
 
@@ -206,6 +207,7 @@ const Timeline: React.FC<TimelineProps> = ({ conteudo }) => {
       <section id="metodocore" style={sectionStyle} aria-labelledby="timeline-heading">
         <div style={metodoBgImageStyle} aria-hidden />
         <div style={metodoGradientOverlayStyle} aria-hidden />
+        <SectionSparkles />
         <div style={innerStyleBase}>
           <div
             style={{
@@ -269,6 +271,7 @@ const Timeline: React.FC<TimelineProps> = ({ conteudo }) => {
     <section id="metodocore" style={sectionStyle} aria-labelledby="timeline-heading">
       <div style={metodoBgImageStyle} aria-hidden />
       <div style={metodoGradientOverlayStyle} aria-hidden />
+      <SectionSparkles />
       <div style={innerStyleBase}>
         <div
           style={{

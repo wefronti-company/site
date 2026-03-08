@@ -3,6 +3,7 @@ import { Play, Pause, Mic } from 'lucide-react';
 import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 import ProjectCoverCard from '../../components/ProjectCoverCard';
+import SectionSparkles from '../../components/SectionSparkles';
 
 const { colors, spacing, fontSizes, radii, containerMaxWidth } = theme;
 
@@ -349,6 +350,7 @@ const Testimonials: React.FC<TestimonialsProps> = ({ conteudo }) => {
     <section id="depoimentos" style={sectionStyle} aria-labelledby="testimonials-heading">
       <div style={testimonialsBgImageStyle} aria-hidden />
       <div style={testimonialsGradientOverlayStyle} aria-hidden />
+      <SectionSparkles />
       <div style={innerStyleBase}>
         <div style={headerStyle}>
           <h2 id="testimonials-heading" style={titleStyle}>
