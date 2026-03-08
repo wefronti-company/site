@@ -32,12 +32,14 @@ const SPARKLES: { top: number; left: number; size: number; delay: number; durati
   { top: 82, left: 62, size: 2, delay: 0.8, duration: 4.5 },
 ];
 
+/** Em mobile: menos brilhos para melhor performance (animação mantida) */
+const SPARKLES_MOBILE = SPARKLES.slice(0, 10);
+
 /**
  * Efeito fada (brilhos) que fica por cima das imagens de background das seções.
- * Renderizado apenas em desktop (≥768px) para priorizar performance em mobile.
  */
 const SectionSparkles: React.FC = () => {
-  const [isMobile, setIsMobile] = React.useState(true); // assume mobile até hidratação
+  const [isMobile, setIsMobile] = React.useState(true);
   React.useEffect(() => {
     const mq = window.matchMedia('(max-width: 767px)');
     setIsMobile(mq.matches);
@@ -45,8 +47,7 @@ const SectionSparkles: React.FC = () => {
     mq.addEventListener('change', h);
     return () => mq.removeEventListener('change', h);
   }, []);
-
-  if (isMobile) return null;
+  const items = isMobile ? SPARKLES_MOBILE : SPARKLES;
 
   return (
   <div
@@ -61,7 +62,7 @@ const SectionSparkles: React.FC = () => {
       contain: 'layout style paint',
     }}
   >
-    {SPARKLES.map((s, i) => (
+    {items.map((s, i) => (
       <div
         key={i}
         data-sparkle-dot

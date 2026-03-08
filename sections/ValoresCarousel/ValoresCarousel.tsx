@@ -1,5 +1,6 @@
 import React from 'react';
 import { theme } from '../../styles/theme';
+import { useMediaQuery } from '../../hooks/useMediaQuery';
 import {
   Eye,
   ShieldCheck,
@@ -76,7 +77,7 @@ const secondaryTrackStyle: React.CSSProperties = {
   marginTop: spacing[4],
 };
 
-const itemStyle: React.CSSProperties = {
+const itemStyleBase: React.CSSProperties = {
   display: 'flex',
   alignItems: 'center',
   gap: spacing[3],
@@ -84,9 +85,6 @@ const itemStyle: React.CSSProperties = {
   padding: `${spacing[3]}px ${spacing[6]}px`,
   borderRadius: radii.full,
   border: `1px solid ${colors.neutral.border}`,
-  background: 'rgba(24, 24, 27, 0.6)',
-  backdropFilter: 'saturate(150%) blur(14px)',
-  WebkitBackdropFilter: 'saturate(150%) blur(14px)',
   boxShadow: '0 10px 28px rgba(0, 0, 0, 0.06)',
   fontSize: fontSizes.base,
   fontWeight: 500,
@@ -99,7 +97,18 @@ const iconStyle: React.CSSProperties = {
 };
 
 const ValoresCarousel: React.FC = () => {
+  const isMd = useMediaQuery(theme.breakpoints.md);
   const items = [...VALORES, ...VALORES];
+  const itemStyle: React.CSSProperties = {
+    ...itemStyleBase,
+    ...(isMd
+      ? {
+          background: 'rgba(24, 24, 27, 0.6)',
+          backdropFilter: 'saturate(150%) blur(14px)',
+          WebkitBackdropFilter: 'saturate(150%) blur(14px)',
+        }
+      : { background: 'rgba(24, 24, 27, 0.92)' }),
+  };
 
   return (
     <div style={wrapStyle} role="region" aria-label="Valores e benefícios">

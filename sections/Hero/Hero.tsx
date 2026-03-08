@@ -151,7 +151,7 @@ const Hero: React.FC<HeroProps> = ({ conteudo }) => {
           initial={{ opacity: 0, y: 16 }}
           animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
           transition={{ duration: 0.6, ease: 'easeOut', delay: 0.05 }}
-          style={{ display: 'flex', justifyContent: 'center', marginBottom: spacing[2] }}
+          style={{ display: 'flex', justifyContent: isMd ? 'center' : 'flex-start', marginBottom: spacing[2] }}
         >
           <Link href="/" aria-label="Wefronti — voltar para a página inicial" style={{ display: 'block' }}>
             <Image
@@ -172,7 +172,6 @@ const Hero: React.FC<HeroProps> = ({ conteudo }) => {
         >
           {renderHeroTitle(tituloRaw)}
         </motion.h1>
-
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
@@ -181,7 +180,6 @@ const Hero: React.FC<HeroProps> = ({ conteudo }) => {
         >
           {subtitulo}
         </motion.p>
-
         <motion.div
           style={{
             display: 'flex',
