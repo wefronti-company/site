@@ -300,8 +300,8 @@ const Testimonials: React.FC<TestimonialsProps> = ({ conteudo }) => {
   }, []);
 
   const titulo = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'Quem já decolou com a Wefronti';
-  const subtitulo = (conteudo?.subtitulo != null ? String(conteudo.subtitulo) : '') || 'Empresas que investiram em site ou landing page e hoje vendem mais.';
-  const sectionPaddingX = isMd ? spacing[12] : 0;
+  const subtitulo = (conteudo?.subtitulo != null ? String(conteudo.subtitulo) : '') || 'Empresas que investiram em um site estratégico e hoje vendem mais.';
+  const sectionPaddingX = isMd ? spacing[12] : spacing[4];
   const sectionStyle: React.CSSProperties = {
     ...sectionStyleBase,
     paddingLeft: sectionPaddingX,
