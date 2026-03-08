@@ -32,11 +32,24 @@ const SPARKLES: { top: number; left: number; size: number; delay: number; durati
   { top: 82, left: 62, size: 2, delay: 0.8, duration: 4.5 },
 ];
 
+/** Em mobile: menos brilhos e sem animação para melhor performance */
+const SPARKLES_MOBILE = SPARKLES.slice(0, 8);
+
 /**
  * Efeito fada (brilhos) que fica por cima das imagens de background das seções.
- * Coloque depois do gradient overlay, com z-index entre o bg e o conteúdo.
+ * Em mobile: menos elementos e animação desativada para priorizar performance.
  */
-const SectionSparkles: React.FC = () => (
+const SectionSparkles: React.FC = () => {
+  const [isMobile, setIsMobile] = React.useState(false);
+  React.useEffect(() => {
+    const mq = window.matchMedia('(max-width: 767px)');
+    setIsMobile(mq.matches);
+    const h = () => setIsMobile(mq.matches);
+    mq.addEventListener('change', h);
+    return () => mq.removeEventListener('change', h);
+  }, []);
+  const items = isMobile ? SPARKLES_MOBILE : SPARKLES;
+  return (
   <div
     aria-hidden
     data-sparkle-layer
@@ -46,9 +59,15 @@ const SectionSparkles: React.FC = () => (
       zIndex: 2,
       overflow: 'hidden',
       pointerEvents: 'none',
+      contain: 'layout style paint',
     }}
   >
-    {SPARKLES.map((s, i) => (
+    <style dangerouslySetInnerHTML={{ __html: `
+      @media (max-width: 767px) {
+        [data-sparkle-dot] { animation: none !important; will-change: auto !important; }
+      }
+    `}} />
+    {items.map((s, i) => (
       <div
         key={i}
         data-sparkle-dot
@@ -69,6 +88,7 @@ const SectionSparkles: React.FC = () => (
       />
     ))}
   </div>
-);
+  );
+};
 
 export default SectionSparkles;

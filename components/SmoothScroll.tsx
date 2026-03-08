@@ -13,17 +13,20 @@ const LENIS_OPTIONS = {
 
 /**
  * Envolve o app com Lenis para scroll suave.
+ * Em mobile/touch: usa scroll nativo (mais rápido).
  * Respeita prefers-reduced-motion (não usa Lenis quando ativo).
  */
 export default function SmoothScroll({ children }: { children: React.ReactNode }) {
-  const [reduceMotion, setReduceMotion] = useState(true);
+  const [useLenis, setUseLenis] = useState(false);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    setReduceMotion(window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const mobile = window.matchMedia('(max-width: 767px)').matches || 'ontouchstart' in window;
+    setUseLenis(!reduced && !mobile);
   }, []);
 
-  if (reduceMotion) {
+  if (!useLenis) {
     return <>{children}</>;
   }
 
