@@ -6,7 +6,12 @@ import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 import ButtonCta from '../../components/ui/ButtonCta';
 import { buildWhatsAppUrl, DEFAULT_WHATSAPP_NUMBER, WHATSAPP_MESSAGE_ORCAMENTO } from '../../lib/whatsapp';
-import ValoresCarousel from '../ValoresCarousel';
+import dynamic from 'next/dynamic';
+
+const ValoresCarousel = dynamic(() => import('../ValoresCarousel'), {
+  ssr: true,
+  loading: () => <div style={{ minHeight: 120, width: '100%' }} aria-hidden />,
+});
 import SectionSparkles from '../../components/SectionSparkles';
 
 const { colors, spacing, fontSizes } = theme;

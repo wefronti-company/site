@@ -4,7 +4,6 @@ import { useRouter } from 'next/router';
 import type { AppProps } from 'next/app';
 import GlobalStyles from '../components/GlobalStyles';
 import * as gtag from '../lib/gtag';
-import 'lenis/dist/lenis.css';
 import SmoothScroll from '../components/SmoothScroll';
 
 import Footer from '../sections/Footer';

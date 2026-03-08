@@ -4,7 +4,7 @@ import { Rocket, ArrowUpRight } from 'lucide-react';
 import { SiWhatsapp } from 'react-icons/si';
 import { radii } from '@/styles/theme';
 import { colors } from '@/styles/colors';
-import { useScrollToSection } from '../../hooks/useScrollToSection';
+import { useScrollToSection } from '../../contexts/ScrollToContext';
 
 /* Gradiente animado: estilos em GlobalStyles (.cta-btn-gradient-wrap + @keyframes cta-btn-flow) */
 

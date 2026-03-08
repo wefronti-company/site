@@ -12,7 +12,7 @@ module.exports = {
   },
   experimental: {
     optimizeCss: true,
-    optimizePackageImports: ['framer-motion', 'lucide-react'],
+    optimizePackageImports: ['framer-motion', 'lucide-react', 'react-icons'],
   },
   images: {
     formats: ['image/avif', 'image/webp'],
