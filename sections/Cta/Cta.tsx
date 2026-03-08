@@ -55,8 +55,8 @@ const Cta: React.FC<CtaProps> = ({ conteudo }) => {
   const isMd = useMediaQuery(theme.breakpoints.md);
   const headerPaddingX = isMd ? spacing[12] : spacing[4];
 
-  const titulo = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'Pronto para ter seu site ou landing page?';
-  const subtitulo = (conteudo?.subtitulo != null ? String(conteudo.subtitulo) : '') || 'Fale com a gente. Orçamento sem compromisso e resposta rápida.';
+  const titulo = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'Hora de colocar sua empresa em órbita';
+  const subtitulo = (conteudo?.subtitulo != null ? String(conteudo.subtitulo) : '') || 'Seja para um site ou landing page. Orçamento sem compromisso, resposta rápida.';
   const botao = (conteudo?.botao != null ? String(conteudo.botao) : '') || 'Pedir orçamento';
   const mensagemWhatsApp = (conteudo?.mensagemWhatsApp != null ? String(conteudo.mensagemWhatsApp) : '') || WHATSAPP_MESSAGE_ORCAMENTO;
   const whatsappHref = buildWhatsAppUrl(DEFAULT_WHATSAPP_NUMBER, mensagemWhatsApp);

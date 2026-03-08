@@ -98,8 +98,8 @@ const Hero: React.FC<HeroProps> = ({ conteudo }) => {
   const [hasEntered, setHasEntered] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
 
-  const tituloRaw = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'Sistema de propulsão para negócios que desejam decolar';
-  const subtitulo = (conteudo?.subtitulo != null ? String(conteudo.subtitulo) : '') || 'Através do Método Lunar, unimos engenharia de conversão e design de alto impacto para criar a rota estratégica que tira o seu site da inércia e o coloca em uma órbita onde a concorrência não alcança.';
+  const tituloRaw = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'Sites e landing pages para empresas que querem decolar';
+  const subtitulo = (conteudo?.subtitulo != null ? String(conteudo.subtitulo) : '') || 'Com o Método LUNAR, criamos páginas que vendem. Engenharia de conversão e design de alto impacto para sua marca sair da inércia e entrar em órbita.';
   const botaoPrincipal = (conteudo?.botaoPrincipal != null ? String(conteudo.botaoPrincipal) : '') || 'Pedir orçamento';
 
   const heroSectionStyle: React.CSSProperties = {

@@ -9,7 +9,7 @@ import SectionSparkles from '../../components/SectionSparkles';
 const { colors, spacing, fontSizes, radii, containerMaxWidth } = theme;
 
 const OUTRAS_AGENCIAS: string[] = [
-  'Projeto que não sai do papel: Você paga e o fornecedor some ou demora meses para entregar um rascunho.',
+  'Projeto que não sai do papel: Você paga e o freelancer some ou demora meses para entregar um rascunho.',
   'Site lento ou quebrado no celular: Entregam algo bonito no PDF, mas na prática não carrega ou não funciona em todos os dispositivos.',
   'Prazos que esticam sem fim: Prometem 2 semanas e viram 3 meses. Sua campanha ou lançamento fica parado.',
   'Site preso a eles: Você não tem acesso, não sabe onde está hospedado e depende deles para qualquer mudança.',
@@ -182,7 +182,7 @@ const Comparison: React.FC<ComparisonProps> = ({ conteudo }) => {
 
   const badge = (conteudo?.badge != null ? String(conteudo.badge) : '') || 'Diferenciais';
   const titulo = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'Por que escolher a Wefronti para o seu site?';
-  const subtitulo = (conteudo?.subtitulo != null ? String(conteudo.subtitulo) : '') || 'A diferença entre um site que fica no papel e um site no ar, no prazo e no seu domínio.';
+  const subtitulo = (conteudo?.subtitulo != null ? String(conteudo.subtitulo) : '') || 'Sites e landing pages que ficam no ar, no prazo, no seu domínio. Sem enrolação, sem surpresa.';
   const outrasAgencias = (Array.isArray(conteudo?.outrasAgencias) ? (conteudo.outrasAgencias as string[]).map(String) : null) ?? OUTRAS_AGENCIAS;
   const wefronti = (Array.isArray(conteudo?.wefronti) ? (conteudo.wefronti as string[]).map(String) : null) ?? WEFRONTI;
   const tituloLines = titulo.split('\n');
@@ -226,7 +226,7 @@ const Comparison: React.FC<ComparisonProps> = ({ conteudo }) => {
 
         <div style={gridLayout}>
           <div style={cardStyle}>
-            <h3 style={cardTitleStyle}>O Mercado (O "Cenário Comum")</h3>
+            <h3 style={cardTitleStyle}>Sem o Método LUNAR</h3>
             <ul style={listStyle} role="list">
               {outrasAgencias.map((text, i) => (
                 <li key={i} style={itemStyle}>
@@ -240,7 +240,7 @@ const Comparison: React.FC<ComparisonProps> = ({ conteudo }) => {
           </div>
 
           <div style={cardHighlightStyle}>
-            <h3 style={cardTitleStyle}>O efeito Wefronti</h3>
+            <h3 style={cardTitleStyle}>Com o Método LUNAR</h3>
             <ul style={listStyle} role="list">
               {wefronti.map((text, i) => (
                 <li key={i} style={itemStyle}>

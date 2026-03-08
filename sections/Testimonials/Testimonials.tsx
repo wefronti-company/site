@@ -299,8 +299,8 @@ const Testimonials: React.FC<TestimonialsProps> = ({ conteudo }) => {
     return `/images/testimonials/${slug}.webp`;
   }, []);
 
-  const titulo = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'Clientes que confiaram no método Lunar';
-  const subtitulo = (conteudo?.subtitulo != null ? String(conteudo.subtitulo) : '') || 'Ouça a voz de quem escolheu entregas no prazo e um site que realmente fica no ar.';
+  const titulo = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'Quem já decolou com a Wefronti';
+  const subtitulo = (conteudo?.subtitulo != null ? String(conteudo.subtitulo) : '') || 'Empresas que investiram em site ou landing page e hoje vendem mais.';
   const sectionPaddingX = isMd ? spacing[12] : spacing[4];
   const sectionStyle: React.CSSProperties = {
     ...sectionStyleBase,

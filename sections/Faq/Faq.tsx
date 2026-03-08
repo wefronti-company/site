@@ -147,7 +147,7 @@ const Faq: React.FC<FaqProps> = ({ conteudo }) => {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   const badge = (conteudo?.badge != null ? String(conteudo.badge) : '') || 'FAQ';
-  const titulo = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'Perguntas\nfrequentes';
+  const titulo = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'Perguntas frequentes\nsobre site e landing page';
   const tituloLines = titulo.split('\n');
   const itens = (Array.isArray(conteudo?.itens) ? (conteudo.itens as { pergunta?: string; resposta?: string }[]) : null)
     ?? FAQ_ITEMS.map((q) => ({ pergunta: q.question, resposta: q.answer }));
@@ -192,7 +192,7 @@ const Faq: React.FC<FaqProps> = ({ conteudo }) => {
             ))}
           </h2>
           <p style={descriptionStyle}>
-            Tem dúvidas? Confira as respostas mais comuns abaixo ou entre em contato pelo WhatsApp.
+            Tire suas dúvidas sobre prazo, pagamento e entrega. Ou converse direto conosco pelo WhatsApp.
           </p>
           <div style={{ alignSelf: 'flex-start' }}>
             <ButtonCta

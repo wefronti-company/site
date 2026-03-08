@@ -210,11 +210,11 @@ interface IntroSectionProps {
   conteudo?: Record<string, unknown>;
 }
 
-const IntroSection: React.FC<IntroSectionProps> = ({ conteudo }) => {
+const IntroSection: React.FC<IntroSectionProps> = ({ conteudo }) => {                                                                                                                       
   const isMd = useMediaQuery(theme.breakpoints.md);
 
-  const heading = (conteudo?.heading != null ? String(conteudo.heading) : '') || 'Não deixe o seu potencial de ';
-  const headingHighlight = (conteudo?.headingHighlight != null ? String(conteudo.headingHighlight) : '') || 'vendas perdido no vácuo';
+  const heading = (conteudo?.heading != null ? String(conteudo.heading) : '') || 'Sua empresa merece um site ';
+  const headingHighlight = (conteudo?.headingHighlight != null ? String(conteudo.headingHighlight) : '') || 'que venda de verdade';
   const problems = (Array.isArray(conteudo?.problems) ? (conteudo.problems as { text?: string; highlight?: string; suffix?: string }[]) : null) ?? PROBLEMS;
 
   const gridLayout: React.CSSProperties = {
@@ -287,7 +287,7 @@ const IntroSection: React.FC<IntroSectionProps> = ({ conteudo }) => {
 
         <div style={ctaBannerStyle}>
           <p style={ctaBannerCopyStyle}>
-          Chegou a hora de mudar a sua trajetória. Com o Método Lunar, aplicamos engenharia de conversão e design de elite para transformar o seu site na nave mãe das suas vendas
+          Sites e landing pages para empresas que querem decolar. Com o Método LUNAR, aplicamos engenharia de conversão e design de alto impacto para sua marca vender mais online.
           </p>
           <ButtonCta
             href={buildWhatsAppUrl(DEFAULT_WHATSAPP_NUMBER, WHATSAPP_MESSAGE_ORCAMENTO)}
