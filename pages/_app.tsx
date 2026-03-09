@@ -8,6 +8,9 @@ import * as gtag from '../lib/gtag';
 import SmoothScroll from '../components/SmoothScroll';
 
 import Footer from '../sections/Footer';
+import FloatingWhatsApp from '../components/FloatingWhatsApp';
+import ExitIntentModal from '../components/ExitIntentModal';
+import TabTitleNotification from '../components/TabTitleNotification';
 
 export default function MyApp({ Component, pageProps }: AppProps) {
  const router = useRouter();
@@ -52,6 +55,9 @@ export default function MyApp({ Component, pageProps }: AppProps) {
       <div style={{ position: 'relative', minHeight: '100%' }}>
         <Component {...pageProps} />
         {router.pathname !== '/' && !(Component as React.ComponentType & { is404?: boolean })?.is404 && <Footer />}
+        <FloatingWhatsApp />
+        <TabTitleNotification />
+        {router.pathname === '/' && <ExitIntentModal />}
       </div>
  </BackgroundAudioProvider>
  </>
