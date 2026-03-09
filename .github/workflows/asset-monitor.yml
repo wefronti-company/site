@@ -2,7 +2,7 @@ name: Asset Monitor
 
 on:
   schedule:
-    - cron: '*/15 * * * *' # every 15 minutes
+    - cron: '0 */4 * * *' # 6x ao dia (a cada 4 horas)
   workflow_dispatch:
 
 jobs:

@@ -54,16 +54,21 @@ export const BackgroundAudioProvider: React.FC<{ children: React.ReactNode }> = 
       if (!audio) return;
       hasUnlocked.current = true;
       audio.play().catch(() => {});
+      window.removeEventListener('wheel', tryPlay, true);
+      window.removeEventListener('touchmove', tryPlay, true);
       window.removeEventListener('scroll', tryPlay);
-      window.removeEventListener('wheel', tryPlay);
       window.removeEventListener('touchstart', tryPlay);
     };
+    // Capture phase: roda ANTES do Lenis consumir o evento (Lenis usa wheel para scroll suave)
+    window.addEventListener('wheel', tryPlay, true);
+    window.addEventListener('touchmove', tryPlay, true);
+    // Mobile sem Lenis: scroll nativo
     window.addEventListener('scroll', tryPlay);
-    window.addEventListener('wheel', tryPlay);
     window.addEventListener('touchstart', tryPlay);
     return () => {
+      window.removeEventListener('wheel', tryPlay, true);
+      window.removeEventListener('touchmove', tryPlay, true);
       window.removeEventListener('scroll', tryPlay);
-      window.removeEventListener('wheel', tryPlay);
       window.removeEventListener('touchstart', tryPlay);
     };
   }, []);
