@@ -13,6 +13,23 @@ export default function Document() {
  {/* LCP — preload da imagem do Hero para descoberta imediata e prioridade alta */}
  <link rel="preload" href="/images/brand/background-hero.webp" as="image" fetchPriority="high" />
 
+ {/* Open Graph — fallback para crawlers (Facebook, WhatsApp, etc.) */}
+ <meta property="og:type" content="website" />
+ <meta property="og:url" content="https://wefronti.com" />
+ <meta property="og:title" content="Wefronti | Sites e landing pages que convertem" />
+ <meta property="og:description" content="Sites e landing pages com o Método LUNAR. Engenharia de conversão, design de alto impacto e entrega no prazo." />
+ <meta property="og:image" content="https://wefronti.com/images/brand/social-seo-image.webp?v=1" />
+ <meta property="og:image:secure_url" content="https://wefronti.com/images/brand/social-seo-image.webp?v=1" />
+ <meta property="og:image:type" content="image/webp" />
+ <meta property="og:image:width" content="1200" />
+ <meta property="og:image:height" content="630" />
+ <meta property="og:site_name" content="Wefronti" />
+ <meta property="og:locale" content="pt_BR" />
+ <meta name="twitter:card" content="summary_large_image" />
+ <meta name="twitter:title" content="Wefronti | Sites e landing pages que convertem" />
+ <meta name="twitter:description" content="Sites e landing pages com o Método LUNAR. Engenharia de conversão, design de alto impacto e entrega no prazo." />
+ <meta name="twitter:image" content="https://wefronti.com/images/brand/social-seo-image.webp?v=1" />
+ 
  {/* Favicon — ?v= para invalidar cache (bump ao atualizar o ícone) */}
  <link rel="icon" href="/favicon.ico?v=4" />
   <link rel="icon" href="/images/brand/favicon-site.png?v=4" type="image/png" sizes="32x32" />

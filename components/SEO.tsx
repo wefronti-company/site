@@ -141,20 +141,19 @@ const SEO: React.FC<SEOProps> = ({
  <link rel="alternate" hrefLang="pt-BR" href={siteUrl} />
  <link rel="alternate" hrefLang="x-default" href={siteUrl} />
  
- {/* Open Graph / Facebook - Prévia de Link no Social */}
+ {/* Open Graph / Facebook / WhatsApp - Prévia de Link no Social */}
  <meta property="og:type" content={ogType} />
  <meta property="og:url" content={canonicalUrl} />
  <meta property="og:title" content={pageTitle} />
  <meta property="og:description" content={pageDescription} />
- <meta property="og:image" content={`${siteUrl}${ogImage}`} />
- <meta property="og:image:secure_url" content={`${siteUrl}${ogImage}`} />
- <meta property="og:image:type" content="image/png" />
+ <meta property="og:image" content={`${siteUrl}${ogImage}?v=1`} />
+ <meta property="og:image:secure_url" content={`${siteUrl}${ogImage}?v=1`} />
+ <meta property="og:image:type" content="image/webp" />
  <meta property="og:image:width" content="1200" />
  <meta property="og:image:height" content="630" />
  <meta property="og:image:alt" content="Wefronti | Sites e landing pages que convertem" />
  {/* Common fallback/link used by some platforms */}
- <link rel="image_src" href={`${siteUrl}${ogImage}`} />
- <meta name="twitter:image:src" content={`${siteUrl}${ogImage}`} />
+ <link rel="image_src" href={`${siteUrl}${ogImage}?v=1`} />
  <meta property="og:site_name" content="Wefronti" />
  <meta property="og:locale" content="pt_BR" />
  
@@ -164,7 +163,7 @@ const SEO: React.FC<SEOProps> = ({
  <meta name="twitter:creator" content="@wefronti" />
  <meta name="twitter:title" content={pageTitle} />
  <meta name="twitter:description" content={pageDescription} />
- <meta name="twitter:image" content={`${siteUrl}${ogImage}`} />
+ <meta name="twitter:image" content={`${siteUrl}${ogImage}?v=1`} />
  <meta name="twitter:image:alt" content="Wefronti | Sites e landing pages que convertem" />
  
  {/* Mobile & PWA */}
