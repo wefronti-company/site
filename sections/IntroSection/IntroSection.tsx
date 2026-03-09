@@ -1,5 +1,5 @@
 import React from 'react';
-import { X } from 'lucide-react';
+import { CheckCircle2 } from 'lucide-react';
 import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 import ButtonCta from '../../components/ui/ButtonCta';
@@ -132,24 +132,19 @@ const problemItemRowStyle: React.CSSProperties = {
   gap: spacing[3],
 };
 
-/** Ícone X negativo (ativa o emocional do lead) */
+/** Ícone check positivo em laranja */
 const problemIconStyle: React.CSSProperties = {
   width: 22,
   height: 22,
-  borderRadius: '50%',
-  background: 'rgba(239, 68, 68, 0.18)',
-  color: 'rgba(239, 68, 68, 0.95)',
-  display: 'inline-flex',
-  alignItems: 'center',
-  justifyContent: 'center',
   flexShrink: 0,
   marginTop: 2,
+  color: colors.blue.primary,
 };
 
 const problemItemStyle: React.CSSProperties = {
   fontSize: fontSizes.base,
   lineHeight: 1.6,
-  color: colors.text.secondary,
+  color: '#ffffff',
   margin: 0,
 };
 
@@ -199,11 +194,11 @@ const ctaBannerCopyStyle: React.CSSProperties = {
   margin: 0,
 };
 
-/** Dores de empresas sem site profissional ou com site que não converte */
-const PROBLEMS: { text: string; highlight: string; suffix: string }[] = [
-  { text: 'Combustível jogado fora: Você investe em anúncios, o visitante chega na página, mas a jornada termina ali. Cliques que não viram vendas são como combustível queimado sem ', highlight: 'sair da plataforma de lançamento', suffix: '.' },
-  { text: 'Ruído na comunicação: Um layout amador transmite insegurança. Se o seu site não passa confiança imediata, o cliente aborta a missão e busca abrigo no concorrente. Credibilidade é o ', highlight: 'seu suporte de vida online', suffix: '.' },
-  { text: 'Deriva digital:Sem um site estratégico, sua empresa é um satélite desligado: ninguém encontra, ninguém vê. ', highlight: 'Enquanto você flutua sem rumo, ', suffix: '.' },
+/** Benefícios de ter um site que vende — acompanha o fluxo do título */
+const PROBLEMS: { text: string }[] = [
+  { text: 'Tráfego que converte: Você investe em anúncios e cada visitante que chega na página tem a chance de virar cliente. Um site estratégico transforma cliques em vendas, impulsionando seu negócio para decolar.' },
+  { text: 'Comunicação que inspira confiança: Um layout profissional transmite credibilidade na primeira visualização. Quando seu site passa segurança imediata, o cliente embarca na jornada. Credibilidade é seu suporte de vida online.' },
+  { text: 'Presença que gera resultados: Com um site estratégico, sua empresa é encontrada e vista. Enquanto você navega com rumo definido, cada visita é uma oportunidade de vender mais.' },
 ];
 
 interface IntroSectionProps {
@@ -215,7 +210,7 @@ const IntroSection: React.FC<IntroSectionProps> = ({ conteudo }) => {
 
   const heading = (conteudo?.heading != null ? String(conteudo.heading) : '') || 'Sua empresa merece um site ';
   const headingHighlight = (conteudo?.headingHighlight != null ? String(conteudo.headingHighlight) : '') || 'que venda de verdade';
-  const problems = (Array.isArray(conteudo?.problems) ? (conteudo.problems as { text?: string; highlight?: string; suffix?: string }[]) : null) ?? PROBLEMS;
+  const problems = (Array.isArray(conteudo?.problems) ? (conteudo.problems as { text?: string }[]) : null) ?? PROBLEMS;
 
   const gridLayout: React.CSSProperties = {
     ...innerStyle,
@@ -244,33 +239,18 @@ const IntroSection: React.FC<IntroSectionProps> = ({ conteudo }) => {
                   <div style={problemGlassCardStyle}>
                     <div style={problemItemRowStyle}>
                       <span style={problemIconStyle} aria-hidden>
-                        <X size={14} strokeWidth={2.5} />
+                        <CheckCircle2 size={20} strokeWidth={2} />
                       </span>
                       <p style={problemItemStyle}>
                         {(() => {
                           const text = item.text ?? '';
-                          const highlight = item.highlight ?? '';
-                          const suffix = item.suffix ?? '';
-                          const highlightStyle = { color: colors.text.secondary, fontWeight: 400 as const };
-
-                          const beforeColon = (s: string) => {
-                            const idx = s.indexOf(':');
-                            if (idx >= 0) return [s.slice(0, idx + 1), s.slice(idx + 1)] as const;
-                            return [null, s] as const;
-                          };
-
-                          const [textBold, textRest] = beforeColon(text);
-                          const [highlightBold, highlightRest] = beforeColon(highlight);
-
+                          const idx = text.indexOf(':');
+                          const boldPart = idx >= 0 ? text.slice(0, idx + 1) : null;
+                          const restPart = idx >= 0 ? text.slice(idx + 1) : text;
                           return (
                             <>
-                              {textBold != null ? <strong>{textBold}</strong> : null}
-                              {textRest}
-                              <span style={highlightStyle}>
-                                {highlightBold != null ? <strong>{highlightBold}</strong> : null}
-                                {highlightRest}
-                              </span>
-                              {suffix}
+                              {boldPart != null ? <span style={{ fontWeight: 500 }}>{boldPart}</span> : null}
+                              {restPart}
                             </>
                           );
                         })()}

@@ -20,6 +20,12 @@ export default function MyApp({ Component, pageProps }: AppProps) {
  }, [router.events]);
 
  React.useEffect(() => {
+   const preventContextMenu = (e: Event) => e.preventDefault();
+   document.addEventListener('contextmenu', preventContextMenu);
+   return () => document.removeEventListener('contextmenu', preventContextMenu);
+ }, []);
+
+ React.useEffect(() => {
    try {
      if (typeof document !== 'undefined' && document.documentElement) {
        const comment = '<!-- Desenvolvido por Wefronti · wefronti.com -->';
@@ -45,7 +51,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
  <BackgroundAudioProvider>
       <div style={{ position: 'relative', minHeight: '100%' }}>
         <Component {...pageProps} />
-        {router.pathname !== '/' && <Footer />}
+        {router.pathname !== '/' && !(Component as React.ComponentType & { is404?: boolean })?.is404 && <Footer />}
       </div>
  </BackgroundAudioProvider>
  </>
