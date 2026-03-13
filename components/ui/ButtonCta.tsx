@@ -1,12 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
-import { Rocket, ArrowUpRight } from 'lucide-react';
-import { SiWhatsapp } from 'react-icons/si';
-import { radii } from '@/styles/theme';
-import { colors } from '@/styles/colors';
 import { useScrollToSection } from '../../contexts/ScrollToContext';
 
-/* Gradiente animado: estilos em GlobalStyles (.cta-btn-gradient-wrap + @keyframes cta-btn-flow) */
+/* Estilos em GlobalStyles (span[data-cta-gradient-wrap]) */
 
 interface ButtonCtaProps {
   label?: string;
@@ -17,12 +13,8 @@ interface ButtonCtaProps {
   className?: string;
   /** When true, renders an icon-only button (no default padding, no arrow) */
   iconOnly?: boolean;
-  /** When true, hides the icon (e.g. for header button) */
-  hideIcon?: boolean;
   /** When provided, renders as Link to this href instead of button */
   href?: string;
-  /** 'rocket' (default), 'whatsapp' ou 'arrow' — ícone ao lado do texto */
-  iconVariant?: 'rocket' | 'whatsapp' | 'arrow';
   /** Abre o link em nova aba (target="_blank") */
   external?: boolean;
   /** Em telas menores: botão preenche toda a largura */
@@ -37,9 +29,7 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
   disabled = false,
   className,
   iconOnly = false,
-  hideIcon = false,
   href,
-  iconVariant = 'rocket',
   external = false,
   fullWidthOnMobile = false,
 }) => {
@@ -60,34 +50,9 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
           {children}
         </span>
       ) : (
-        <>
-          <span style={{ color: '#fff' }}>
-            {children || label || 'Contato'}
-          </span>
-          {!hideIcon && (
-            <span
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: 28,
-                height: 28,
-                borderRadius: '50%',
-                backgroundColor: 'rgba(255,255,255,0.95)',
-              }}
-            >
-              <span style={{ display: 'inline-flex' }} aria-hidden>
-                {iconVariant === 'whatsapp' ? (
-                  <SiWhatsapp size={18} color={colors.blue.primary} />
-                ) : iconVariant === 'arrow' ? (
-                  <ArrowUpRight size={18} color={colors.blue.primary} strokeWidth={2.5} />
-                ) : (
-                  <Rocket size={16} color={colors.blue.primary} strokeWidth={2.5} />
-                )}
-              </span>
-            </span>
-          )}
-        </>
+        <span style={{ color: '#fff' }}>
+          {children || label || 'Contato'}
+        </span>
       )}
     </>
   );
@@ -98,8 +63,8 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
     alignItems: 'center' as const,
     justifyContent: 'center' as const,
     gap: 8,
-    borderRadius: radii.full,
-    padding: iconOnly ? 0 : '12px 24px',
+    borderRadius: 9999,
+    padding: iconOnly ? 0 : '16px 24px',
     fontSize: 16,
     fontWeight: 500,
     cursor: disabled ? 'not-allowed' as const : 'pointer' as const,
@@ -117,13 +82,8 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
       data-cta-gradient-wrap
       style={{
         opacity: disabled ? 0.5 : 1,
-        transition: 'opacity 0.2s, transform 0.2s',
         ...(fullWidthOnMobile && { display: 'block', width: '100%' }),
       }}
-      onMouseEnter={(e) => {
-        if (!disabled) e.currentTarget.style.transform = 'translateY(-1px)';
-      }}
-      onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; }}
     >
       {href ? (
         (external || href.startsWith('http')) ? (

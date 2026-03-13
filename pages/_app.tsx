@@ -3,13 +3,11 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import type { AppProps } from 'next/app';
 import GlobalStyles from '../components/GlobalStyles';
-import { BackgroundAudioProvider } from '../components/BackgroundAudio';
 import * as gtag from '../lib/gtag';
 import SmoothScroll from '../components/SmoothScroll';
 
 import Footer from '../sections/Footer';
 import FloatingWhatsApp from '../components/FloatingWhatsApp';
-import ExitIntentModal from '../components/ExitIntentModal';
 import TabTitleNotification from '../components/TabTitleNotification';
 
 export default function MyApp({ Component, pageProps }: AppProps) {
@@ -51,15 +49,12 @@ export default function MyApp({ Component, pageProps }: AppProps) {
  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
  </Head>
  <GlobalStyles />
- <BackgroundAudioProvider>
       <div style={{ position: 'relative', minHeight: '100%' }}>
         <Component {...pageProps} />
         {router.pathname !== '/' && !(Component as React.ComponentType & { is404?: boolean })?.is404 && <Footer />}
         <FloatingWhatsApp />
         <TabTitleNotification />
-        {router.pathname === '/' && <ExitIntentModal />}
       </div>
- </BackgroundAudioProvider>
  </>
  </SmoothScroll>
  );

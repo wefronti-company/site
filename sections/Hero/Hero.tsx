@@ -6,15 +6,10 @@ import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 import ButtonCta from '../../components/ui/ButtonCta';
 import { buildWhatsAppUrl, DEFAULT_WHATSAPP_NUMBER, WHATSAPP_MESSAGE_ORCAMENTO } from '../../lib/whatsapp';
-import dynamic from 'next/dynamic';
-
-const ValoresCarousel = dynamic(() => import('../ValoresCarousel'), {
-  ssr: true,
-  loading: () => <div style={{ minHeight: 120, width: '100%' }} aria-hidden />,
-});
-import SectionSparkles from '../../components/SectionSparkles';
 
 const { colors, spacing, fontSizes } = theme;
+
+const HERO_CLIENT_IMAGES = ['/images/testimonials/cl-01.png', '/images/testimonials/cl-02.png', '/images/testimonials/cl-03.png', '/images/testimonials/cl-04.png', '/images/testimonials/cl-05.png', '/images/testimonials/cl-06.png', '/images/testimonials/cl-07.png'];
 
 const heroSectionStyleBase: React.CSSProperties = {
   position: 'relative',
@@ -33,17 +28,20 @@ const heroSectionStyleBase: React.CSSProperties = {
 const heroBgImageStyle: React.CSSProperties = {
   position: 'absolute',
   inset: 0,
-  backgroundImage: 'url(/images/brand/background-hero.webp)',
+  backgroundImage: 'url(/images/brand/bg-h.png)',
   backgroundSize: 'cover',
   backgroundPosition: 'center',
   zIndex: 0,
 };
 
-/** Gradiente de baixo para cima: preto na base (funde com o fundo do site) → transparente no topo */
-const heroGradientOverlayStyle: React.CSSProperties = {
+/** Gradiente na base: transparente → #010101 */
+const heroBottomGradientStyle: React.CSSProperties = {
   position: 'absolute',
-  inset: 0,
-  background: `linear-gradient(to top, ${colors.background.general} 0%, ${colors.background.general} 25%, rgba(10, 10, 10, 0.6) 55%, transparent 100%)`,
+  bottom: 0,
+  left: 0,
+  right: 0,
+  height: '20%',
+  background: 'linear-gradient(to top, #010101 0%, transparent 100%)',
   zIndex: 1,
   pointerEvents: 'none',
 };
@@ -94,7 +92,6 @@ const heroSubtitleStyle = (isMd: boolean): React.CSSProperties => ({
   margin: 0,
 });
 
-
 interface HeroProps {
   conteudo?: Record<string, unknown>;
 }
@@ -104,9 +101,9 @@ const Hero: React.FC<HeroProps> = ({ conteudo }) => {
   const [hasEntered, setHasEntered] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
 
-  const tituloRaw = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'Sites e landing pages para empresas que querem decolar';
-  const subtitulo = (conteudo?.subtitulo != null ? String(conteudo.subtitulo) : '') || 'Com o Método LUNAR, criamos páginas que vendem. Engenharia de conversão e design de alto impacto para sua marca sair da inércia e entrar em órbita.';
-  const botaoPrincipal = (conteudo?.botaoPrincipal != null ? String(conteudo.botaoPrincipal) : '') || 'Pedir orçamento';
+  const tituloRaw = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'O site certo aumenta o faturamento do seu negócio';
+  const subtitulo = (conteudo?.subtitulo != null ? String(conteudo.subtitulo) : '') || 'Sites projetados com engenharia de conversão: clareza de mensagem em segundos, carregamento rápido, percepção de valor e uma estrutura que conduz o visitante naturalmente até a ação.';
+  const botaoPrincipal = (conteudo?.botaoPrincipal != null ? String(conteudo.botaoPrincipal) : '') || 'Quero ter um site que vende';
 
   const heroSectionStyle: React.CSSProperties = {
     ...heroSectionStyleBase,
@@ -150,8 +147,7 @@ const Hero: React.FC<HeroProps> = ({ conteudo }) => {
   return (
     <section ref={sectionRef} id="hero" style={heroSectionStyle}>
       <div style={heroBgImageStyle} aria-hidden />
-      <div style={heroGradientOverlayStyle} aria-hidden />
-      <SectionSparkles />
+      <div style={heroBottomGradientStyle} aria-hidden />
       <div style={heroContentStyle}>
         {isMd ? (
           <motion.div
@@ -161,7 +157,7 @@ const Hero: React.FC<HeroProps> = ({ conteudo }) => {
             style={{ display: 'flex', justifyContent: 'center', marginBottom: spacing[2] }}
           >
             <Link href="/" aria-label="Wefronti — voltar para a página inicial" style={{ display: 'block' }}>
-              <Image src="/images/brand/isologo-white.webp" alt="Wefronti" width={180} height={50} style={{ width: 'clamp(140px, 22vw, 200px)', height: 'auto', objectFit: 'contain' }} priority />
+              <Image src="/images/brand/logo.png" alt="Wefronti" width={180} height={50} style={{ width: 'clamp(140px, 22vw, 200px)', height: 'auto', objectFit: 'contain' }} priority />
             </Link>
           </motion.div>
         ) : (
@@ -203,18 +199,19 @@ const Hero: React.FC<HeroProps> = ({ conteudo }) => {
           </p>
         )}
         {isMd ? (
-          <motion.div
-            style={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              gap: spacing[4],
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-            initial={{ opacity: 0, y: 16 }}
-            animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
-            transition={{ duration: 0.5, ease: 'easeOut', delay: 0.5 }}
-          >
+          <>
+            <motion.div
+              style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: spacing[4],
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+              initial={{ opacity: 0, y: 16 }}
+              animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
+              transition={{ duration: 0.5, ease: 'easeOut', delay: 0.5 }}
+            >
             <ButtonCta
               href={buildWhatsAppUrl(DEFAULT_WHATSAPP_NUMBER, WHATSAPP_MESSAGE_ORCAMENTO)}
               external
@@ -223,19 +220,56 @@ const Hero: React.FC<HeroProps> = ({ conteudo }) => {
               {botaoPrincipal}
             </ButtonCta>
           </motion.div>
-        ) : (
-          <div
-            className={hasEntered ? 'hero-css-fade d4' : ''}
+          <motion.div
             style={{
               display: 'flex',
-              flexWrap: 'wrap',
-              gap: spacing[4],
               alignItems: 'center',
-              justifyContent: 'flex-start',
-              width: '100%',
-              opacity: hasEntered ? undefined : 0,
+              justifyContent: 'center',
+              gap: spacing[3],
+              marginTop: spacing[6],
             }}
+            initial={{ opacity: 0, y: 12 }}
+            animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
+            transition={{ duration: 0.5, ease: 'easeOut', delay: 0.6 }}
           >
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              {HERO_CLIENT_IMAGES.map((src, i) => (
+                <div
+                  key={src}
+                  style={{
+                    width: 40,
+                    height: 40,
+                    borderRadius: '50%',
+                    overflow: 'hidden',
+                    border: '2px solid rgba(255, 255, 255, 0.14)',
+                    marginLeft: i === 0 ? 0 : -12,
+                    position: 'relative' as const,
+                    zIndex: HERO_CLIENT_IMAGES.length - i,
+                  }}
+                >
+                  <Image src={src} alt="" width={40} height={40} style={{ objectFit: 'cover', width: '100%', height: '100%', filter: 'grayscale(100%)' }} />
+                </div>
+              ))}
+            </div>
+            <span style={{ color: colors.text.primary, fontSize: fontSizes.sm, fontWeight: 500, opacity: 0.92 }}>
+              + de 100 clientes atendidos
+            </span>
+          </motion.div>
+          </>
+        ) : (
+          <>
+            <div
+              className={hasEntered ? 'hero-css-fade d4' : ''}
+              style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: spacing[4],
+                alignItems: 'center',
+                justifyContent: 'flex-start',
+                width: '100%',
+                opacity: hasEntered ? undefined : 0,
+              }}
+            >
             <ButtonCta
               href={buildWhatsAppUrl(DEFAULT_WHATSAPP_NUMBER, WHATSAPP_MESSAGE_ORCAMENTO)}
               external
@@ -244,10 +278,42 @@ const Hero: React.FC<HeroProps> = ({ conteudo }) => {
               {botaoPrincipal}
             </ButtonCta>
           </div>
+          <div
+            className={hasEntered ? 'hero-css-fade d5' : ''}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: spacing[3],
+              marginTop: spacing[6],
+              width: '100%',
+              opacity: hasEntered ? undefined : 0,
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              {HERO_CLIENT_IMAGES.map((src, i) => (
+                <div
+                  key={src}
+                  style={{
+                    width: 36,
+                    height: 36,
+                    borderRadius: '50%',
+                    overflow: 'hidden',
+                    border: '2px solid rgba(255, 255, 255, 0.14)',
+                    marginLeft: i === 0 ? 0 : -10,
+                    position: 'relative' as const,
+                    zIndex: HERO_CLIENT_IMAGES.length - i,
+                  }}
+                >
+                  <Image src={src} alt="" width={36} height={36} style={{ objectFit: 'cover', width: '100%', height: '100%', filter: 'grayscale(100%)' }} />
+                </div>
+              ))}
+            </div>
+            <span style={{ color: colors.text.primary, fontSize: 13, fontWeight: 500, opacity: 0.92 }}>
+              + de 100 clientes atendidos
+            </span>
+          </div>
+          </>
         )}
-        <div style={{ width: '100%', marginTop: spacing[8] }}>
-          <ValoresCarousel />
-        </div>
       </div>
     </section>
   );

@@ -136,7 +136,6 @@ const ExitIntentModal: React.FC = () => {
           href={whatsappUrl}
           external
           label="Iniciar conversa"
-          iconVariant="whatsapp"
           fullWidthOnMobile
         />
       </div>

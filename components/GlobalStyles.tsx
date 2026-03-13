@@ -33,7 +33,7 @@ html, body {
   background: ${colors.background.general};
   background-attachment: fixed;
   color: ${colors.text.primary};
-  font-family: "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: "Funnel Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-user-select: none;
@@ -83,6 +83,7 @@ section:not(#section-0) {
   .hero-css-fade.d2 { animation-delay: 0.15s; }
   .hero-css-fade.d3 { animation-delay: 0.25s; }
   .hero-css-fade.d4 { animation-delay: 0.5s; }
+  .hero-css-fade.d5 { animation-delay: 0.6s; }
 }
 
 /* Margem de scroll para seções com âncora: o badge fica visível abaixo do header fixo */
@@ -175,41 +176,23 @@ span[data-cta-gradient-wrap] {
   position: relative !important;
   display: inline-block !important;
   border-radius: 9999px !important;
-  padding: 0 !important;
-  overflow: hidden !important;
-  box-shadow: 0 2px 12px rgba(212, 105, 62, 0.35) !important;
+  padding: 3px !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  overflow: visible !important;
 }
-/* Base do botão: gradiente estático (terracota) */
+/* Base do botão: gradiente estático (terracota) com espaço para a borda */
 span[data-cta-gradient-wrap]::before {
   content: '' !important;
   position: absolute !important;
-  inset: 0 !important;
+  inset: 4px !important;
   z-index: 0 !important;
-  border-radius: inherit !important;
-  background: linear-gradient(90deg, #b85c38, #d4693e, #b85c38, #e07c4a, #b85c38) !important;
+  border-radius: 9999px !important;
+  background: linear-gradient(90deg, #49C0FF, #0280FF) !important;
 }
-/* Brilho: faixa de laranja mais claro que atravessa em diagonal (esquerda → direita) */
-span[data-cta-gradient-wrap]::after {
-  content: '' !important;
-  position: absolute !important;
-  top: 0 !important;
-  bottom: 0 !important;
-  left: 0 !important;
-  width: 70% !important;
-  z-index: 0 !important;
-  border-radius: inherit !important;
-  background: linear-gradient(90deg, transparent 0%, transparent 5%, rgba(232, 155, 111, 0.12) 20%, rgba(232, 155, 111, 0.45) 35%, rgba(255, 210, 180, 0.7) 50%, rgba(232, 155, 111, 0.45) 65%, rgba(232, 155, 111, 0.12) 80%, transparent 95%, transparent 100%) !important;
-  -webkit-animation: cta-btn-shine 2.2s linear infinite !important;
-  animation: cta-btn-shine 2.2s linear infinite !important;
-}
-span[data-cta-gradient-wrap]:hover { box-shadow: 0 4px 20px rgba(212, 105, 62, 0.45) !important; }
 span[data-cta-gradient-wrap] > a,
 span[data-cta-gradient-wrap] > button {
   position: relative !important;
   z-index: 1 !important;
-}
-@media (prefers-reduced-motion: reduce) {
-  span[data-cta-gradient-wrap]::after { -webkit-animation: none !important; animation: none !important; opacity: 0 !important; }
 }
 .glass-transparent {
   background-color: rgba(24, 24, 27, 0.7) !important;

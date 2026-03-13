@@ -3,8 +3,6 @@ import { Play, Pause, Mic } from 'lucide-react';
 import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 import ProjectCoverCard from '../../components/ProjectCoverCard';
-import SectionSparkles from '../../components/SectionSparkles';
-import { useBackgroundAudio } from '../../components/BackgroundAudio';
 
 const { colors, spacing, fontSizes, radii, containerMaxWidth } = theme;
 
@@ -265,7 +263,6 @@ interface TestimonialsProps {
 
 const Testimonials: React.FC<TestimonialsProps> = ({ conteudo }) => {
   const isMd = useMediaQuery(theme.breakpoints.md);
-  const { pauseBackground, resumeBackground } = useBackgroundAudio();
   const [playingIndex, setPlayingIndex] = useState<number | null>(null);
   const [progress, setProgress] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -280,7 +277,6 @@ const Testimonials: React.FC<TestimonialsProps> = ({ conteudo }) => {
     const onEnded = () => {
       setPlayingIndex(null);
       setProgress(0);
-      resumeBackground();
     };
     audio.addEventListener('timeupdate', onTimeUpdate);
     audio.addEventListener('loadedmetadata', onLoadedMetadata);
@@ -290,7 +286,7 @@ const Testimonials: React.FC<TestimonialsProps> = ({ conteudo }) => {
       audio.removeEventListener('loadedmetadata', onLoadedMetadata);
       audio.removeEventListener('ended', onEnded);
     };
-  }, [playingIndex, resumeBackground]);
+  }, [playingIndex]);
 
   const getTestimonialPhotoSrc = useCallback((name: string) => {
     const slug = name
@@ -318,13 +314,11 @@ const Testimonials: React.FC<TestimonialsProps> = ({ conteudo }) => {
     if (playingIndex === index) {
       audioRef.current?.pause();
       setPlayingIndex(null);
-      resumeBackground();
       return;
     }
     if (audioRef.current) {
       audioRef.current.pause();
     }
-    pauseBackground();
     const audio = new Audio(audioSrc);
     audioRef.current = audio;
     audio.play().catch(() => {});
@@ -357,7 +351,6 @@ const Testimonials: React.FC<TestimonialsProps> = ({ conteudo }) => {
     <section id="depoimentos" style={sectionStyle} aria-labelledby="testimonials-heading">
       <div style={testimonialsBgImageStyle} aria-hidden />
       <div style={testimonialsGradientOverlayStyle} aria-hidden />
-      <SectionSparkles />
       <div style={{
         ...innerStyleBase,
         paddingLeft: isMd ? spacing[8] : 0,
