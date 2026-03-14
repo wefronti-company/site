@@ -1,9 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Store, Eye, Sparkles, Globe, TrendingUp, LucideIcon, Search, PenTool, Zap, BriefcaseBusiness, Target, UserCheck, Smartphone, BarChart2, BarChart, Rocket, SmartphoneCharging, DollarSign, DollarSignIcon } from 'lucide-react';
+import { Eye, LucideIcon, Zap, Target, UserCheck, Rocket, SmartphoneCharging } from 'lucide-react';
 import { theme } from '../../styles/theme';
-import { BiMoney } from 'react-icons/bi';
-import { BsCash, BsCashCoin } from 'react-icons/bs';
-import { FaDollarSign, FaMoneyBill, FaMoneyBillWave } from 'react-icons/fa';
 
 const { colors, spacing, fontSizes, containerMaxWidth } = theme;
 

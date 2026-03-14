@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { Zap, Shield, Headphones, TrendingUp, Star } from 'lucide-react';
 import ButtonCta from '../../components/ui/ButtonCta';
 import { theme } from '../../styles/theme';
+import { buildWhatsAppUrl, DEFAULT_WHATSAPP_NUMBER, WHATSAPP_MESSAGE_ORCAMENTO } from '../../lib/whatsapp';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 
 const { colors, spacing, fontSizes, containerMaxWidth } = theme;
@@ -207,7 +208,15 @@ const BenefitsSection: React.FC = () => {
               Combinamos estrutura profissional, atenção ao detalhe e suporte contínuo para que seu site gere resultados reais para seu negócio.
             </p>
             <div style={{ marginTop: spacing[6] }}>
-              <ButtonCta label="Quero ter um site que vende" fullWidthOnMobile onLightBackground />
+              <ButtonCta
+              href={buildWhatsAppUrl(DEFAULT_WHATSAPP_NUMBER, WHATSAPP_MESSAGE_ORCAMENTO)}
+              external
+              label="Quero ter um site que vende"
+              fullWidthOnMobile
+              onLightBackground
+            >
+              Quero ter um site que vende
+            </ButtonCta>
             </div>
             </div>
             <div style={gridStyle}>

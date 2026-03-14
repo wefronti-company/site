@@ -95,19 +95,33 @@ const cardStyle: React.CSSProperties = {
   textAlign: 'center',
   borderRadius: 30,
   border: '1px solid rgba(255, 255, 255, 0.12)',
-  backgroundColor: '#040404',
-  backdropFilter: 'saturate(150%) blur(20px)',
-  WebkitBackdropFilter: 'saturate(150%) blur(20px)',
+  backgroundColor: 'rgba(26, 26, 28, 0.6)',
   overflow: 'hidden',
   boxShadow: '0 4px 24px rgba(0, 0, 0, 0.2)',
   paddingTop: 0,
   paddingBottom: spacing[6],
   paddingLeft: spacing[6],
   paddingRight: spacing[6],
+  position: 'relative' as const,
+};
+
+/** Efeito de luz gradiente de cima para baixo: azul claro no topo → transparência */
+const cardSpotlightStyle: React.CSSProperties = {
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  right: 0,
+  bottom: 0,
+  width: '100%',
+  height: '100%',
+  background: 'linear-gradient(to bottom, rgba(180, 220, 255, 0.08) 0%, rgba(131, 199, 255, 0) 40%, rgba(73, 191, 255, 0) 70%, transparent 100%)',
+  pointerEvents: 'none',
+  zIndex: 0,
 };
 
 const cardBarWrapStyle: React.CSSProperties = {
   position: 'relative',
+  zIndex: 1,
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
@@ -117,7 +131,6 @@ const cardBarWrapStyle: React.CSSProperties = {
 
 const cardBarStyle: React.CSSProperties = {
   position: 'relative',
-  zIndex: 1,
   width: '40%',
   minWidth: 60,
   maxWidth: 100,
@@ -126,18 +139,6 @@ const cardBarStyle: React.CSSProperties = {
   flexShrink: 0,
   background: 'linear-gradient(90deg, #49C0FF, #0280FF)',
   boxShadow: '0 0 10px rgba(131, 216, 242, 0.7), 0 0 20px rgba(110, 210, 253, 0.5)',
-};
-
-const cardSpotlightStyle: React.CSSProperties = {
-  position: 'absolute',
-  top: 0,
-  left: '50%',
-  transform: 'translateX(-50%)',
-  width: '140%',
-  height: 100,
-  background: 'linear-gradient(to bottom, rgba(255, 255, 255, 0.08) 0%, rgba(180, 220, 255, 0.06) 20%, rgba(73, 192, 255, 0.04) 40%, transparent 100%)',
-  pointerEvents: 'none',
-  zIndex: 0,
 };
 
 const cardIconWrapStyle: React.CSSProperties = {
@@ -209,9 +210,9 @@ const EstruturaSection: React.FC = () => {
         <div style={gridStyle}>
           {CARDS.map(({ title, description, icon: Icon }) => (
             <article key={title} style={cardStyle}>
+              <div style={cardSpotlightStyle} aria-hidden />
               <div style={cardBarWrapStyle} aria-hidden>
                 <div style={cardBarStyle} />
-                <div style={cardSpotlightStyle} aria-hidden />
               </div>
               <div style={cardIconWrapStyle} aria-hidden>
                 <Icon size={28} stroke="url(#estrutura-icon-gradient)" strokeWidth={1.8} />

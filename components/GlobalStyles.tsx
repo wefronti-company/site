@@ -198,14 +198,10 @@ span[data-cta-gradient-wrap] > button {
   z-index: 1 !important;
 }
 .glass-transparent {
-  background-color: rgba(24, 24, 27, 0.7) !important;
-  -webkit-backdrop-filter: saturate(180%) blur(24px);
-  backdrop-filter: saturate(180%) blur(24px);
+  background-color: #1a1a1c !important;
 }
 .glass-transparent-sm {
-  background-color: rgba(24, 24, 27, 0.6) !important;
-  -webkit-backdrop-filter: saturate(180%) blur(20px);
-  backdrop-filter: saturate(180%) blur(20px);
+  background-color: #1a1a1c !important;
 }
 .shake { animation: shake 0.4s ease-in-out; }
 .testimonials-track { animation: testimonials-scroll 80s linear infinite; backface-visibility: hidden; }

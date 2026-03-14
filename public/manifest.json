@@ -1,0 +1,16 @@
+{
+  "name": "Wefronti",
+  "short_name": "Wefronti",
+  "description": "Sites e landing pages que convertem para empresas que querem decolar.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#010101",
+  "theme_color": "#010101",
+  "icons": [
+    {
+      "src": "/images/brand/favicon-site.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

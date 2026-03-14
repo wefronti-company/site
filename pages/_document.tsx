@@ -11,7 +11,7 @@ export default function Document() {
  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
  
  {/* LCP — preload da imagem do Hero para descoberta imediata e prioridade alta */}
- <link rel="preload" href="/images/brand/background-hero.webp" as="image" fetchPriority="high" />
+ <link rel="preload" href="/images/brand/bg-h.png" as="image" fetchPriority="high" />
 
  {/* Open Graph — fallback para crawlers (Facebook, WhatsApp, etc.) */}
  <meta property="og:type" content="website" />
@@ -30,19 +30,28 @@ export default function Document() {
  <meta name="twitter:description" content="Sites e landing pages com o Método LUNAR. Engenharia de conversão, design de alto impacto e entrega no prazo." />
  <meta name="twitter:image" content="https://wefronti.com/images/brand/social-seo-image.webp?v=1" />
  
+ {/* PWA / App name — exibe "Wefronti" em vez do domínio em bookmarks, etc. */}
+ <link rel="manifest" href="/manifest.json" />
  {/* Favicon — ?v= para invalidar cache (bump ao atualizar o ícone) */}
- <link rel="icon" href="/favicon.ico?v=4" />
-  <link rel="icon" href="/images/brand/favicon-site.png?v=4" type="image/png" sizes="32x32" />
-  <link rel="shortcut icon" href="/images/brand/favicon-site.png?v=4" />
-  <link rel="apple-touch-icon" href="/images/brand/favicon-site.png?v=4" sizes="180x180" />
+ <link rel="icon" href="/favicon.ico?v=5" />
+  <link rel="icon" href="/images/brand/favicon-site.png?v=5" type="image/png" sizes="32x32" />
+  <link rel="shortcut icon" href="/images/brand/favicon-site.png?v=5" />
+  <link rel="apple-touch-icon" href="/images/brand/favicon-site.png?v=5" sizes="180x180" />
  
- {/* Google Fonts — Funnel Sans como fonte principal */}
+ {/* Google Fonts — carregamento não bloqueante (PageSpeed) */}
  <link rel="preconnect" href="https://fonts.googleapis.com" />
  <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
  <link rel="preload" href="https://fonts.gstatic.com/s/funnelsans/v3/OpNIno8Dg9bX6Bsp3Wq69TpyfhjoyU7d.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
  <link
-   href="https://fonts.googleapis.com/css2?family=Funnel+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+   id="font-funnel-sans"
    rel="stylesheet"
+   href="https://fonts.googleapis.com/css2?family=Funnel+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+   media="print"
+ />
+ <script
+   dangerouslySetInnerHTML={{
+     __html: `document.getElementById('font-funnel-sans').onload=function(){this.media='all'};`,
+   }}
  />
  <noscript>
    <link href="https://fonts.googleapis.com/css2?family=Funnel+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet" />

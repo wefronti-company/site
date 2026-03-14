@@ -2,6 +2,8 @@ import React from 'react';
 import Image from 'next/image';
 import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
+import ButtonCta from '../../components/ui/ButtonCta';
+import { buildWhatsAppUrl, DEFAULT_WHATSAPP_NUMBER, WHATSAPP_MESSAGE_ORCAMENTO } from '../../lib/whatsapp';
 
 const { colors, spacing, fontSizes, containerMaxWidth } = theme;
 
@@ -15,7 +17,7 @@ type TestimonialItem = {
 
 const TESTIMONIALS: TestimonialItem[] = [
   {
-    name: 'Maria Silva',
+    name: 'Alberto Macedo',
     city: 'São Paulo',
     state: 'SP',
     quote: 'Site entregue no prazo, comunicação clara em cada etapa. Aumentou nossa credibilidade na hora.',
@@ -29,14 +31,14 @@ const TESTIMONIALS: TestimonialItem[] = [
     photoSrc: '/images/testimonials/cl-02.png',
   },
   {
-    name: 'Ana Paula Lima',
+    name: 'Rogério Santana',
     city: 'Curitiba',
     state: 'PR',
     quote: 'Precisávamos de algo rápido e bem feito. Entregaram tudo que prometeram, sem enrolação.',
     photoSrc: '/images/testimonials/cl-03.png',
   },
   {
-    name: 'Fernando Costa',
+    name: 'Fernanda Alvarenga',
     city: 'Porto Alegre',
     state: 'RS',
     quote: 'O investimento se pagou em poucos meses. Site rápido e que realmente converte visitante em cliente.',
@@ -60,8 +62,8 @@ const TESTIMONIALS: TestimonialItem[] = [
 
 const sectionStyleBase: React.CSSProperties = {
   width: '100%',
-  paddingTop: spacing[16],
-  paddingBottom: spacing[16],
+  paddingTop: spacing[24],
+  paddingBottom: spacing[24],
   position: 'relative',
   overflow: 'hidden',
   backgroundColor: colors.background.general,
@@ -139,6 +141,7 @@ const accentBarStyle: React.CSSProperties = {
   height: '50%',
   borderRadius: 2,
   background: 'linear-gradient(180deg, #49C0FF, #0280FF)',
+  boxShadow: '0 0 10px rgba(131, 216, 242, 0.7), 0 0 20px rgba(110, 210, 253, 0.5)',
 };
 
 /** Efeito de luz gradiente da esquerda para direita: azul claro → transparência */
@@ -205,6 +208,24 @@ const authorLocationStyle: React.CSSProperties = {
   fontSize: fontSizes.xs,
   color: colors.text.secondary,
   margin: 0,
+};
+
+const ctaWrapStyle: React.CSSProperties = {
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  gap: spacing[6],
+  textAlign: 'center',
+  marginTop: spacing[8],
+};
+
+const ctaTextStyle: React.CSSProperties = {
+  fontSize: fontSizes.lg,
+  lineHeight: 1.5,
+  color: colors.text.primary,
+  opacity: 0.9,
+  margin: 0,
+  maxWidth: 480,
 };
 
 interface TestimonialsProps {
@@ -285,6 +306,30 @@ const Testimonials: React.FC<TestimonialsProps> = ({ conteudo }) => {
               </div>
             </article>
           ))}
+        </div>
+
+        <div
+          style={{
+            ...ctaWrapStyle,
+            alignItems: isMd ? 'flex-end' : 'flex-start',
+            alignSelf: isMd ? 'flex-end' : undefined,
+            textAlign: isMd ? 'right' : 'left',
+            maxWidth: isMd ? 380 : undefined,
+          }}
+        >
+          <p style={ctaTextStyle}>
+            Quer fazer parte desse grupo? Fale conosco e peça um orçamento sem compromisso.
+          </p>
+          <div style={{ alignSelf: isMd ? 'flex-end' : 'stretch', width: isMd ? undefined : '100%' }}>
+            <ButtonCta
+              href={buildWhatsAppUrl(DEFAULT_WHATSAPP_NUMBER, WHATSAPP_MESSAGE_ORCAMENTO)}
+              external
+              label="Quero um site que vende"
+              fullWidthOnMobile={!isMd}
+            >
+              Quero um site que vende
+            </ButtonCta>
+          </div>
         </div>
       </div>
     </section>

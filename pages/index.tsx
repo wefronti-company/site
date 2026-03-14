@@ -9,6 +9,8 @@ const BentoSection = dynamic(() => import('../sections/BentoSection'), { ssr: tr
 const PhrasesSection = dynamic(() => import('../sections/PhrasesSection'), { ssr: true });
 const BenefitsSection = dynamic(() => import('../sections/BenefitsSection'), { ssr: true });
 const Testimonials = dynamic(() => import('../sections/Testimonials'), { ssr: true });
+const ProjectsSection = dynamic(() => import('../sections/ProjectsSection'), { ssr: true });
+const AboutSection = dynamic(() => import('../sections/AboutSection'), { ssr: true });
 const Faq = dynamic(() => import('../sections/Faq'), { ssr: true });
 const Cta = dynamic(() => import('../sections/Cta'), { ssr: true });
 
@@ -21,6 +23,8 @@ const Home: React.FC = () => (
     <PhrasesSection />
     <BenefitsSection />
     <Testimonials />
+    <ProjectsSection />
+    <AboutSection />
     <Faq />
     <Cta />
   </>
