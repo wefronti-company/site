@@ -5,6 +5,9 @@ import Hero from '../sections/Hero';
 
 /* Code-split: carrega seções abaixo da dobra sob demanda para mobile mais rápido */
 const EstruturaSection = dynamic(() => import('../sections/EstruturaSection'), { ssr: true });
+const BentoSection = dynamic(() => import('../sections/BentoSection'), { ssr: true });
+const PhrasesSection = dynamic(() => import('../sections/PhrasesSection'), { ssr: true });
+const BenefitsSection = dynamic(() => import('../sections/BenefitsSection'), { ssr: true });
 const IntroSection = dynamic(() => import('../sections/IntroSection'), { ssr: true });
 const Timeline = dynamic(() => import('../sections/Timeline'), { ssr: true });
 const Comparison = dynamic(() => import('../sections/Comparison'), { ssr: true });
@@ -17,6 +20,9 @@ const Home: React.FC = () => (
     <SEO />
     <Hero />
     <EstruturaSection />
+    <BentoSection />
+    <PhrasesSection />
+    <BenefitsSection />
     <IntroSection />
     <Timeline />
     <Comparison />

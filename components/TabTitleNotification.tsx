@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef } from 'react';
 
-const HIDDEN_TITLE = '❗ Nova mensagem';
+const HIDDEN_TITLE = '! Nova mensagem';
 
 /**
  * Quando o usuário muda de aba, altera o título da aba para "❗ Nova mensagem".
