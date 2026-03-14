@@ -17,7 +17,7 @@ const TabTitleNotification: React.FC = () => {
         originalTitleRef.current = document.title;
         document.title = HIDDEN_TITLE;
       } else {
-        document.title = originalTitleRef.current || 'Wefronti | Sites e landing pages que convertem';
+        document.title = originalTitleRef.current || `${process.env.NEXT_PUBLIC_SITE_NAME || 'Wefronti'} | Criação de sites que vendem`;
       }
     };
 

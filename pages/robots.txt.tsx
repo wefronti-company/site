@@ -5,7 +5,7 @@ function RobotsTxt() {
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ res }) => {
- const baseUrl = 'https://wefronti.com'; 
+ const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://wefronti.com'; 
  
  const robotsTxt = `# *
 User-agent: *
@@ -22,6 +22,14 @@ Allow: /
 # Bloqueios
 Disallow: /api/
 Disallow: /_next/
+
+# Imagens — rastreáveis pelo Google (logo, social, witor-linhares, bento)
+User-agent: Googlebot-Image
+Allow: /images/brand/logo.webp
+Allow: /images/brand/social-seo-image.webp
+Allow: /images/about/witor-linhares.webp
+Allow: /images/bento/
+Disallow: /images/
 
 # Sitemap
 Sitemap: ${baseUrl}/sitemap.xml

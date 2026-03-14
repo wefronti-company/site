@@ -1,7 +1,7 @@
 import { GetServerSideProps } from 'next';
 
 function generateSiteMap() {
- const baseUrl = 'https://wefronti.com';
+ const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://wefronti.com';
  // Format lastmod to match 'YYYY-MM-DDTHH:mm:ss+00:00' (no milliseconds, +00:00 offset)
  const now = new Date();
  const pad = (n: number) => String(n).padStart(2, '0');

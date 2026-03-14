@@ -21,25 +21,26 @@ const SEO: React.FC<SEOProps> = ({
  keywords
 }) => {
  // Configuração SEO: página de vendas — sites e landing pages para empresas (Método LUNAR)
+ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://wefronti.com';
+ const siteName = process.env.NEXT_PUBLIC_SITE_NAME || 'Wefronti';
  const seoConfig = {
-   siteName: 'Wefronti',
-   defaultTitle: 'Wefronti | Sites e landing pages que convertem',
-   defaultDescription: 'Sites e landing pages com o Método LUNAR. Engenharia de conversão, design de alto impacto e entrega no prazo. Para empresas que querem vender mais online.',
-   defaultKeywords: 'site que converte, landing page que converte, método lunar, criar site para empresa, site institucional, landing page profissional, engenharia de conversão, site que vende',
+   siteName,
+   defaultTitle: `${siteName} | Criação de sites que vendem`,
+   defaultDescription: 'Sites que convertem visitantes em clientes. Desenvolvimento com foco em resultado para empresas que querem vender mais online.',
+   defaultKeywords: 'criar site para empresa, site que converte visitantes em clientes, site institucional, fazer site profissional, engenharia de conversão, desenvolvimento de sites que vendem',
  };
 
   const pageTitle = title ? `${title} | ${seoConfig.siteName}` : seoConfig.defaultTitle;
  const pageDescription = description || seoConfig.defaultDescription;
  const pageKeywords = keywords || seoConfig.defaultKeywords;
- const siteUrl = 'https://wefronti.com';
  const canonicalUrl = canonical ? `${siteUrl}${canonical}` : siteUrl;
 
  // Schema.org JSON-LD otimizado para o público-alvo (CEOs, Sócios, Gestores)
  const schemaOrg = {
  '@context': 'https://schema.org',
  '@type': 'Organization',
- name: 'Wefronti',
- alternateName: 'Wefronti',
+ name: siteName,
+ alternateName: siteName,
  url: siteUrl,
  logo: {
  '@type': 'ImageObject',
@@ -112,10 +113,10 @@ const SEO: React.FC<SEOProps> = ({
  '@context': 'https://schema.org',
  '@type': 'WebSite',
  'url': siteUrl,
- 'name': 'Wefronti',
+ 'name': siteName,
  'publisher': {
    '@type': 'Organization',
-   'name': 'Wefronti'
+   'name': siteName
  }
  };
 
@@ -125,7 +126,7 @@ const SEO: React.FC<SEOProps> = ({
  <title>{pageTitle}</title>
  <meta name="description" content={pageDescription} />
  <meta name="keywords" content={pageKeywords} />
- <meta name="author" content="Wefronti" />
+ <meta name="author" content={siteName} />
  
  {/* Robots */}
  {noindex ? (
@@ -151,10 +152,10 @@ const SEO: React.FC<SEOProps> = ({
  <meta property="og:image:type" content="image/webp" />
  <meta property="og:image:width" content="1200" />
  <meta property="og:image:height" content="630" />
- <meta property="og:image:alt" content="Wefronti | Sites e landing pages que convertem" />
+ <meta property="og:image:alt" content={`${siteName} | Criação de sites que vendem`} />
  {/* Common fallback/link used by some platforms */}
  <link rel="image_src" href={`${siteUrl}${ogImage}?v=1`} />
- <meta property="og:site_name" content="Wefronti" />
+ <meta property="og:site_name" content={siteName} />
  <meta property="og:locale" content="pt_BR" />
  
  {/* Twitter Card - Preview no Twitter/X e WhatsApp */}
@@ -164,14 +165,14 @@ const SEO: React.FC<SEOProps> = ({
  <meta name="twitter:title" content={pageTitle} />
  <meta name="twitter:description" content={pageDescription} />
  <meta name="twitter:image" content={`${siteUrl}${ogImage}?v=1`} />
- <meta name="twitter:image:alt" content="Wefronti | Sites e landing pages que convertem" />
+ <meta name="twitter:image:alt" content={`${siteName} | Criação de sites que vendem`} />
  
  {/* Mobile & PWA */}
  <meta name="mobile-web-app-capable" content="yes" />
  <meta name="apple-mobile-web-app-capable" content="yes" />
  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
- <meta name="apple-mobile-web-app-title" content="Wefronti" />
- <meta name="application-name" content="Wefronti" />
+ <meta name="apple-mobile-web-app-title" content={siteName} />
+ <meta name="application-name" content={siteName} />
  <meta name="theme-color" content="#010101" />
  
  {/* Schema.org JSON-LD */}

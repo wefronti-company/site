@@ -40,13 +40,11 @@ const sectionStyle: React.CSSProperties = {
   backgroundColor: colors.background.general,
 };
 
-/* Mesma largura que BentoSection inner: maxWidth 1280 + padding 32 lateral */
-const parentWrapStyle: React.CSSProperties = {
+const parentWrapStyleBase: React.CSSProperties = {
   position: 'relative',
   width: '100%',
   maxWidth: containerMaxWidth.wide,
   margin: '0 auto',
-  padding: `${spacing[16]}px ${spacing[8]}px`,
   boxSizing: 'border-box',
   borderRadius: 30,
   backgroundColor: '#EBEBEB',
@@ -150,6 +148,10 @@ const cardDescStyle: React.CSSProperties = {
 
 const BenefitsSection: React.FC = () => {
   const isMd = useMediaQuery(theme.breakpoints.md);
+  const parentWrapStyle: React.CSSProperties = {
+    ...parentWrapStyleBase,
+    padding: isMd ? `${spacing[16]}px ${spacing[8]}px` : `${spacing[16]}px 16px`,
+  };
 
   const layoutStyle: React.CSSProperties = {
     position: 'relative',
@@ -188,7 +190,7 @@ const BenefitsSection: React.FC = () => {
       <div style={parentWrapStyle}>
         <div style={logoBgStyle} aria-hidden>
           <Image
-            src="/images/brand/logo-backgroun.png"
+            src="/images/brand/logo-backgroun.webp"
             alt=""
             fill
             sizes="100vw"

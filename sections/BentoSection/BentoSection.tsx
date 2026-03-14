@@ -10,7 +10,7 @@ const CARDS = [
   {
     title: 'Percepção de valor',
     description: 'Design e copy que destacam o que sua oferta entrega, gerando desejo e justificando o investimento.',
-    image: '/images/bento/percepcao-de-valor.png',
+    image: '/images/bento/percepcao-de-valor.webp',
     imageAlt: 'Percepção de valor',
     gridArea: { md: '1 / 1 / 2 / 4' },
     imageAspectRatio: '24/13',
@@ -18,7 +18,7 @@ const CARDS = [
   {
     title: 'Estrutura de conversão',
     description: 'Chamadas à ação claras, formulários otimizados e fluxo que conduz o visitante até a conversão.',
-    image: '/images/bento/estrutura-de-conversão.png',
+    image: '/images/bento/estrutura-de-conversão.webp',
     imageAlt: 'Estrutura de conversão',
     gridArea: { md: '1 / 4 / 2 / 7' },
     imageAspectRatio: '24/13',
@@ -26,7 +26,7 @@ const CARDS = [
   {
     title: 'Faturamento maior com o site certo',
     description: 'Um site profissional atrai mais clientes qualificados e aumenta suas conversões.',
-    image: '/images/bento/faturamento.png',
+    image: '/images/bento/faturamento.webp',
     imageAlt: 'Faturamento',
     gridArea: { md: '2 / 1 / 3 / 3' },
     imageAspectRatio: '16/12' as const,
@@ -34,7 +34,7 @@ const CARDS = [
   {
     title: 'Atrair novos clientes',
     description: 'Estrutura de SEO e conteúdo pensada para aparecer nos buscadores e redes, levando visitantes qualificados até você.',
-    image: '/images/bento/atracao.png',
+    image: '/images/bento/atracao.webp',
     imageAlt: 'Atração',
     gridArea: { md: '2 / 3 / 3 / 5' },
     imageAspectRatio: '16/12' as const,
@@ -42,7 +42,7 @@ const CARDS = [
   {
     title: 'O site certo destaca seu negócio',
     description: 'Um site profissional diferencia você da concorrência e transmite credibilidade.',
-    image: '/images/bento/destaque.png',
+    image: '/images/bento/destaque.webp',
     imageAlt: 'Destaque',
     gridArea: { md: '2 / 5 / 3 / 7' },
     imageAspectRatio: '16/12' as const,
@@ -58,12 +58,10 @@ const sectionStyle: React.CSSProperties = {
   backgroundColor: colors.background.general,
 };
 
-const innerStyle: React.CSSProperties = {
+const innerStyleBase: React.CSSProperties = {
   width: '100%',
   maxWidth: containerMaxWidth.wide,
   margin: '0 auto',
-  paddingLeft: spacing[8],
-  paddingRight: spacing[8],
 };
 
 const headerStyle: React.CSSProperties = {
@@ -213,6 +211,11 @@ const ctaButtonWrapStyle: React.CSSProperties = {
 
 const BentoSection: React.FC = () => {
   const isMd = useMediaQuery(theme.breakpoints.md);
+  const innerStyle: React.CSSProperties = {
+    ...innerStyleBase,
+    paddingLeft: isMd ? spacing[8] : 16,
+    paddingRight: isMd ? spacing[8] : 16,
+  };
 
   const gridStyle: React.CSSProperties = {
     display: 'grid',

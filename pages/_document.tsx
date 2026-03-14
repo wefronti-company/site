@@ -11,24 +11,24 @@ export default function Document() {
  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
  
  {/* LCP — preload da imagem do Hero para descoberta imediata e prioridade alta */}
- <link rel="preload" href="/images/brand/bg-h.png" as="image" fetchPriority="high" />
+ <link rel="preload" href="/images/brand/background.webp" as="image" fetchPriority="high" />
 
  {/* Open Graph — fallback para crawlers (Facebook, WhatsApp, etc.) */}
  <meta property="og:type" content="website" />
- <meta property="og:url" content="https://wefronti.com" />
- <meta property="og:title" content="Wefronti | Sites e landing pages que convertem" />
- <meta property="og:description" content="Sites e landing pages com o Método LUNAR. Engenharia de conversão, design de alto impacto e entrega no prazo." />
- <meta property="og:image" content="https://wefronti.com/images/brand/social-seo-image.webp?v=1" />
- <meta property="og:image:secure_url" content="https://wefronti.com/images/brand/social-seo-image.webp?v=1" />
+ <meta property="og:url" content={process.env.NEXT_PUBLIC_SITE_URL || 'https://wefronti.com'} />
+ <meta property="og:title" content={`${process.env.NEXT_PUBLIC_SITE_NAME || 'Wefronti'} | Criação de sites que vendem`} />
+ <meta property="og:description" content="Sites que convertem visitantes em clientes. Desenvolvimento com foco em resultado para empresas que querem vender mais online." />
+ <meta property="og:image" content={`${process.env.NEXT_PUBLIC_SITE_URL || 'https://wefronti.com'}/images/brand/social-seo-image.webp?v=1`} />
+ <meta property="og:image:secure_url" content={`${process.env.NEXT_PUBLIC_SITE_URL || 'https://wefronti.com'}/images/brand/social-seo-image.webp?v=1`} />
  <meta property="og:image:type" content="image/webp" />
  <meta property="og:image:width" content="1200" />
  <meta property="og:image:height" content="630" />
- <meta property="og:site_name" content="Wefronti" />
+ <meta property="og:site_name" content={process.env.NEXT_PUBLIC_SITE_NAME || 'Wefronti'} />
  <meta property="og:locale" content="pt_BR" />
  <meta name="twitter:card" content="summary_large_image" />
- <meta name="twitter:title" content="Wefronti | Sites e landing pages que convertem" />
- <meta name="twitter:description" content="Sites e landing pages com o Método LUNAR. Engenharia de conversão, design de alto impacto e entrega no prazo." />
- <meta name="twitter:image" content="https://wefronti.com/images/brand/social-seo-image.webp?v=1" />
+ <meta name="twitter:title" content={`${process.env.NEXT_PUBLIC_SITE_NAME || 'Wefronti'} | Criação de sites que vendem`} />
+ <meta name="twitter:description" content="Sites que convertem visitantes em clientes. Desenvolvimento com foco em resultado para empresas que querem vender mais online." />
+ <meta name="twitter:image" content={`${process.env.NEXT_PUBLIC_SITE_URL || 'https://wefronti.com'}/images/brand/social-seo-image.webp?v=1`} />
  
  {/* PWA / App name — exibe "Wefronti" em vez do domínio em bookmarks, etc. */}
  <link rel="manifest" href="/manifest.json" />

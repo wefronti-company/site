@@ -28,7 +28,7 @@ const heroSectionStyleBase: React.CSSProperties = {
 const heroBgImageStyle: React.CSSProperties = {
   position: 'absolute',
   inset: 0,
-  backgroundImage: 'url(/images/brand/bg-h.png)',
+  backgroundImage: 'url(/images/brand/background.webp)',
   backgroundSize: 'cover',
   backgroundPosition: 'center',
   zIndex: 0,
@@ -60,11 +60,12 @@ const heroContentStyleBase: React.CSSProperties = {
 
 const heroTitleStyle = (isMd: boolean): React.CSSProperties => ({
   fontWeight: 400,
-  lineHeight: 1.06,
+  lineHeight: 1.12,
   letterSpacing: '-0.02em',
-  fontSize: isMd ? 'clamp(3rem, 5vw, 4.5rem)' : 'clamp(2.5rem, 5vw, 2.5rem)',
+  fontSize: isMd ? 'clamp(3rem, 5vw, 4.5rem)' : 'clamp(1.75rem, 6.5vw, 2.25rem)',
   color: colors.text.primary,
   margin: 0,
+  maxWidth: isMd ? undefined : '100%',
 });
 
 /** Uma palavra em destaque no H1 (azul) */
@@ -84,12 +85,13 @@ function renderHeroTitle(text: string): React.ReactNode {
 }
 
 const heroSubtitleStyle = (isMd: boolean): React.CSSProperties => ({
-  fontSize: isMd ? '1.4rem' : '1.05rem',
+  fontSize: isMd ? '1.4rem' : 'clamp(0.9375rem, 2.8vw, 1.05rem)',
   fontWeight: 400,
-  lineHeight: 1.45,
+  lineHeight: 1.5,
   color: colors.text.primary,
   opacity: 0.92,
   margin: 0,
+  maxWidth: isMd ? undefined : '100%',
 });
 
 interface HeroProps {
@@ -107,20 +109,24 @@ const Hero: React.FC<HeroProps> = ({ conteudo }) => {
 
   const heroSectionStyle: React.CSSProperties = {
     ...heroSectionStyleBase,
-    padding: isMd ? spacing[12] : spacing[4],
-    paddingBottom: isMd ? spacing[10] : spacing[6],
+    padding: isMd ? spacing[12] : `${spacing[5]} 16px`,
+    paddingBottom: isMd ? spacing[10] : spacing[8],
     ...(!isMd && {
       alignItems: 'flex-start',
       justifyContent: 'flex-start',
-      paddingTop: spacing[12],
+      paddingTop: spacing[6],
+      minHeight: '100svh',
     }),
   };
   const heroContentStyle: React.CSSProperties = {
     ...heroContentStyleBase,
-    maxWidth: isMd ? 1040 : 720,
+    maxWidth: isMd ? 1040 : '100%',
+    gap: isMd ? spacing[8] : spacing[6],
     ...(!isMd && {
       alignItems: 'flex-start',
       textAlign: 'left',
+      paddingLeft: 0,
+      paddingRight: 0,
     }),
   };
 
@@ -157,16 +163,23 @@ const Hero: React.FC<HeroProps> = ({ conteudo }) => {
             style={{ display: 'flex', justifyContent: 'center', marginBottom: spacing[2] }}
           >
             <Link href="/" aria-label="Wefronti — voltar para a página inicial" style={{ display: 'block' }}>
-              <Image src="/images/brand/logo.png" alt="Wefronti" width={180} height={50} style={{ width: 'clamp(140px, 22vw, 200px)', height: 'auto', objectFit: 'contain' }} priority />
+              <Image src="/images/brand/logo.webp" alt="Wefronti" width={180} height={50} style={{ width: 'clamp(140px, 22vw, 200px)', height: 'auto', objectFit: 'contain' }} priority />
             </Link>
           </motion.div>
         ) : (
           <div
             className={hasEntered ? 'hero-css-fade d1' : ''}
-            style={{ display: 'flex', justifyContent: 'flex-start', marginBottom: spacing[2], opacity: hasEntered ? undefined : 0 }}
+            style={{ display: 'flex', justifyContent: 'flex-start', marginBottom: spacing[4], opacity: hasEntered ? undefined : 0 }}
           >
             <Link href="/" aria-label="Wefronti — voltar para a página inicial" style={{ display: 'block' }}>
-              <Image src="/images/brand/isologo-white.webp" alt="Wefronti" width={180} height={50} style={{ width: 'clamp(140px, 22vw, 200px)', height: 'auto', objectFit: 'contain' }} priority />
+              <Image
+                src="/images/brand/logo.webp"
+                alt="Wefronti"
+                width={180}
+                height={50}
+                style={{ width: 'clamp(120px, 42vw, 180px)', height: 'auto', objectFit: 'contain' }}
+                priority
+              />
             </Link>
           </div>
         )}
@@ -283,32 +296,33 @@ const Hero: React.FC<HeroProps> = ({ conteudo }) => {
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: spacing[3],
-              marginTop: spacing[6],
+              gap: spacing[2],
+              marginTop: spacing[5],
               width: '100%',
+              flexWrap: 'wrap',
               opacity: hasEntered ? undefined : 0,
             }}
           >
-            <div style={{ display: 'flex', alignItems: 'center' }}>
+            <div style={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
               {HERO_CLIENT_IMAGES.map((src, i) => (
                 <div
                   key={src}
                   style={{
-                    width: 36,
-                    height: 36,
+                    width: 32,
+                    height: 32,
                     borderRadius: '50%',
                     overflow: 'hidden',
                     border: '2px solid rgba(255, 255, 255, 0.14)',
-                    marginLeft: i === 0 ? 0 : -10,
+                    marginLeft: i === 0 ? 0 : -8,
                     position: 'relative' as const,
                     zIndex: HERO_CLIENT_IMAGES.length - i,
                   }}
                 >
-                  <Image src={src} alt="" width={36} height={36} style={{ objectFit: 'cover', width: '100%', height: '100%', filter: 'grayscale(100%)' }} />
+                  <Image src={src} alt="" width={32} height={32} style={{ objectFit: 'cover', width: '100%', height: '100%', filter: 'grayscale(100%)' }} />
                 </div>
               ))}
             </div>
-            <span style={{ color: colors.text.primary, fontSize: 13, fontWeight: 500, opacity: 0.92 }}>
+            <span style={{ color: colors.text.primary, fontSize: fontSizes.xs, fontWeight: 500, opacity: 0.92 }}>
               + de 100 clientes atendidos
             </span>
           </div>

@@ -157,7 +157,7 @@ const Cta: React.FC<CtaProps> = ({ conteudo }) => {
     <section id="cta" style={sectionStyle} aria-labelledby="cta-heading">
       <div style={ctaBgImageStyle} aria-hidden>
         <Image
-          src="/images/brand/bg-h.png"
+          src="/images/brand/background.webp"
           alt=""
           fill
           sizes="100vw"

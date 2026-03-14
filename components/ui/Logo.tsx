@@ -22,14 +22,14 @@ const imgBaseStyle: React.CSSProperties = {
 
 const Logo: React.FC<LogoProps> = ({
   style,
-  href = 'https://wefronti.com',
-  ariaLabel = 'Wefronti — voltar para a página inicial',
+  href = '/',
+  ariaLabel = `${process.env.NEXT_PUBLIC_SITE_NAME || 'Wefronti'} — voltar para a página inicial`,
 }) => {
   return (
     <Link href={href} aria-label={ariaLabel} style={linkStyle}>
       <Image
-        src="/images/brand/isologo-wefronti.webp"
-        alt="Wefronti Logo"
+        src="/images/brand/logo.webp"
+        alt={`${process.env.NEXT_PUBLIC_SITE_NAME || 'Wefronti'} Logo`}
         width={160}
         height={43}
         style={{ ...imgBaseStyle, ...style }}

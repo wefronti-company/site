@@ -5,8 +5,6 @@ import type { AppProps } from 'next/app';
 import GlobalStyles from '../components/GlobalStyles';
 import * as gtag from '../lib/gtag';
 import SmoothScroll from '../components/SmoothScroll';
-
-import Footer from '../sections/Footer';
 import FloatingWhatsApp from '../components/FloatingWhatsApp';
 import TabTitleNotification from '../components/TabTitleNotification';
 
@@ -29,7 +27,8 @@ export default function MyApp({ Component, pageProps }: AppProps) {
  React.useEffect(() => {
    try {
      if (typeof document !== 'undefined' && document.documentElement) {
-       const comment = '<!-- Desenvolvido por Wefronti · wefronti.com -->';
+       const siteDomain = (process.env.NEXT_PUBLIC_SITE_URL || 'https://wefronti.com').replace(/^https?:\/\//, '');
+       const comment = `<!-- Desenvolvido por ${process.env.NEXT_PUBLIC_SITE_NAME || 'Wefronti'} · ${siteDomain} -->`;
        // prevenir duplicatas
        const prev = document.doctype ? null : null;
        // insert only if not already present
@@ -51,7 +50,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
  <GlobalStyles />
       <div style={{ position: 'relative', minHeight: '100%' }}>
         <Component {...pageProps} />
-        {router.pathname !== '/' && !(Component as React.ComponentType & { is404?: boolean })?.is404 && <Footer />}
+        {router.pathname !== '/' && !(Component as React.ComponentType & { is404?: boolean })?.is404 }
         <FloatingWhatsApp />
         <TabTitleNotification />
       </div>

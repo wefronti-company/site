@@ -37,12 +37,10 @@ const sectionStyle: React.CSSProperties = {
   backgroundColor: colors.background.general,
 };
 
-const innerStyle: React.CSSProperties = {
+const innerStyleBase: React.CSSProperties = {
   width: '100%',
   maxWidth: containerMaxWidth.wide,
   margin: '0 auto',
-  paddingLeft: spacing[8],
-  paddingRight: spacing[8],
 };
 
 const headerStyle: React.CSSProperties = {
@@ -180,6 +178,11 @@ const cardDescStyle: React.CSSProperties = {
 
 const EstruturaSection: React.FC = () => {
   const isMd = useMediaQuery(theme.breakpoints.md);
+  const innerStyle: React.CSSProperties = {
+    ...innerStyleBase,
+    paddingLeft: isMd ? spacing[8] : 16,
+    paddingRight: isMd ? spacing[8] : 16,
+  };
 
   const gridStyle: React.CSSProperties = {
     display: 'grid',
@@ -201,6 +204,7 @@ const EstruturaSection: React.FC = () => {
         <header style={headerStyle}>
           <div style={badgeOuterStyle} role="status" aria-label="Seção estrutura">
             <span style={badgeInnerStyle}>Estrutura</span>
+            
             <span style={badgeOuterTextStyle}>Engenharia de conversão aplicada</span>
           </div>
           <h2 id="estrutura-heading" style={titleStyle}>
