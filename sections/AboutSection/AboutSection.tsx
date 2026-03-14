@@ -7,8 +7,8 @@ const { colors, spacing, fontSizes, containerMaxWidth } = theme;
 
 const sectionStyleBase: React.CSSProperties = {
   width: '100%',
-  paddingTop: spacing[24],
-  paddingBottom: spacing[24],
+  paddingTop: 64,
+  paddingBottom: 64,
   position: 'relative',
   overflow: 'hidden',
   backgroundColor: colors.background.general,
@@ -93,7 +93,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ conteudo }) => {
     (conteudo?.titulo != null ? String(conteudo.titulo) : '') ||
     'Visão estratégica e quem está no comando';
 
-  const sectionPaddingX = isMd ? spacing[12] : spacing[4];
+  const sectionPaddingX = isMd ? spacing[12] : 16;
   const sectionStyle: React.CSSProperties = {
     ...sectionStyleBase,
     paddingLeft: sectionPaddingX,
@@ -136,8 +136,8 @@ const AboutSection: React.FC<AboutSectionProps> = ({ conteudo }) => {
       <div
         style={{
           ...innerStyleBase,
-          paddingLeft: isMd ? spacing[8] : 16,
-          paddingRight: isMd ? spacing[8] : 16,
+          paddingLeft: isMd ? spacing[8] : 0,
+          paddingRight: isMd ? spacing[8] : 0,
         }}
       >
         <div style={layoutStyle}>
