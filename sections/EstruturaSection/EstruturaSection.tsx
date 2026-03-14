@@ -43,10 +43,9 @@ const innerStyleBase: React.CSSProperties = {
   margin: '0 auto',
 };
 
-const headerStyle: React.CSSProperties = {
+const headerStyleBase: React.CSSProperties = {
   display: 'flex',
   flexDirection: 'column',
-  alignItems: 'center',
   gap: spacing[6],
   marginBottom: spacing[12],
 };
@@ -76,14 +75,13 @@ const badgeOuterTextStyle: React.CSSProperties = {
   margin: 0,
 };
 
-const titleStyle: React.CSSProperties = {
+const titleStyleBase: React.CSSProperties = {
   fontSize: theme.sectionTitleFontSize,
   fontWeight: 400,
   lineHeight: 1.2,
   letterSpacing: '-0.02em',
   color: colors.text.primary,
   margin: 0,
-  textAlign: 'center',
 };
 
 const cardStyle: React.CSSProperties = {
@@ -163,14 +161,14 @@ const cardContentStyle: React.CSSProperties = {
 };
 
 const cardTitleStyle: React.CSSProperties = {
-  fontSize: fontSizes.lg,
+  fontSize: fontSizes.xl,
   fontWeight: 600,
   color: colors.text.primary,
   margin: 0,
 };
 
 const cardDescStyle: React.CSSProperties = {
-  fontSize: fontSizes.sm,
+  fontSize: fontSizes.base,
   lineHeight: 1.55,
   color: colors.text.secondary,
   margin: 0,
@@ -188,6 +186,16 @@ const EstruturaSection: React.FC = () => {
     display: 'grid',
     gridTemplateColumns: isMd ? 'repeat(4, 1fr)' : '1fr',
     gap: spacing[8],
+  };
+
+  const headerStyle: React.CSSProperties = {
+    ...headerStyleBase,
+    alignItems: isMd ? 'center' : 'flex-start',
+  };
+
+  const titleStyle: React.CSSProperties = {
+    ...titleStyleBase,
+    textAlign: isMd ? 'center' : 'left',
   };
 
   return (

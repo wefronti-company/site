@@ -64,10 +64,9 @@ const innerStyleBase: React.CSSProperties = {
   margin: '0 auto',
 };
 
-const headerStyle: React.CSSProperties = {
+const headerStyleBase: React.CSSProperties = {
   display: 'flex',
   flexDirection: 'column',
-  alignItems: 'center',
   gap: spacing[6],
   marginBottom: spacing[12],
 };
@@ -97,14 +96,13 @@ const badgeOuterTextStyle: React.CSSProperties = {
   margin: 0,
 };
 
-const titleStyle: React.CSSProperties = {
+const titleStyleBase: React.CSSProperties = {
   fontSize: theme.sectionTitleFontSize,
   fontWeight: 400,
   lineHeight: 1.2,
   letterSpacing: '-0.02em',
   color: colors.text.primary,
   margin: 0,
-  textAlign: 'center',
 };
 
 const getCardBaseStyle = (aspectRatio: string): React.CSSProperties => ({
@@ -159,7 +157,7 @@ const cardNumberStyle: React.CSSProperties = {
 };
 
 const cardTitleStyle: React.CSSProperties = {
-  fontSize: fontSizes.lg,
+  fontSize: fontSizes.xl,
   fontWeight: 600,
   color: colors.text.primary,
   margin: 0,
@@ -167,7 +165,7 @@ const cardTitleStyle: React.CSSProperties = {
 };
 
 const cardDescStyle: React.CSSProperties = {
-  fontSize: fontSizes.sm,
+  fontSize: fontSizes.base,
   lineHeight: 1.55,
   color: colors.text.secondary,
   margin: 0,
@@ -224,6 +222,16 @@ const BentoSection: React.FC = () => {
     gridAutoRows: isMd ? 'minmax(200px, auto)' : 'auto',
   };
 
+  const headerStyle: React.CSSProperties = {
+    ...headerStyleBase,
+    alignItems: isMd ? 'center' : 'flex-start',
+  };
+
+  const titleStyle: React.CSSProperties = {
+    ...titleStyleBase,
+    textAlign: isMd ? 'center' : 'left',
+  };
+
   return (
     <section id="site-importante" style={sectionStyle} aria-labelledby="bento-heading">
       <div style={innerStyle}>
@@ -241,7 +249,7 @@ const BentoSection: React.FC = () => {
             <article
               key={title}
               style={{
-                ...getCardBaseStyle(imageAspectRatio ?? '16/12'),
+                ...getCardBaseStyle(isMd ? (imageAspectRatio ?? '16/12') : '16/12'),
                 ...(isMd ? { gridArea: gridArea.md } : {}),
               }}
             >
@@ -264,14 +272,14 @@ const BentoSection: React.FC = () => {
             </article>
           ))}
         </div>
-        <div style={{ ...ctaWrapStyle, ...(isMd ? {} : { flexDirection: 'column', alignItems: 'stretch', textAlign: 'center' }) }}>
+        <div style={{ ...ctaWrapStyle, ...(isMd ? {} : { flexDirection: 'column', alignItems: 'flex-start', textAlign: 'left' }) }}>
           <div style={{ ...ctaTextWrapStyle, ...(isMd ? {} : { flex: '1 1 auto', marginBottom: spacing[4] }) }}>
             <h3 style={ctaTitleStyle}>Seu negócio pronto para converter</h3>
             <p style={ctaDescStyle}>
               Um site profissional que atrai visitantes qualificados, gera confiança e transforma cliques em clientes. Vamos criar isso juntos?
             </p>
           </div>
-          <div style={{ ...ctaButtonWrapStyle, ...(isMd ? {} : { flex: '1 1 auto', justifyContent: 'center' }) }}>
+          <div style={{ ...ctaButtonWrapStyle, ...(isMd ? {} : { flex: '1 1 auto', width: '100%', justifyContent: 'flex-start', marginLeft: 0 }) }}>
             <ButtonCta label="Quero ter um site que vende" fullWidthOnMobile />
           </div>
         </div>

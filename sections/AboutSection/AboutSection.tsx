@@ -50,8 +50,7 @@ const badgeOuterTextStyle: React.CSSProperties = {
   margin: 0,
 };
 
-const titleStyle: React.CSSProperties = {
-  fontSize: theme.sectionTitleFontSize,
+const titleStyleBase: React.CSSProperties = {
   fontWeight: 400,
   lineHeight: 1.2,
   letterSpacing: '-0.02em',
@@ -60,16 +59,14 @@ const titleStyle: React.CSSProperties = {
   marginBottom: spacing[4],
 };
 
-const subtitleStyle: React.CSSProperties = {
-  fontSize: fontSizes.lg,
+const subtitleStyleBase: React.CSSProperties = {
   fontWeight: 600,
   color: colors.text.primary,
   margin: 0,
   marginBottom: spacing[4],
 };
 
-const textStyle: React.CSSProperties = {
-  fontSize: fontSizes.base,
+const textStyleBase: React.CSSProperties = {
   lineHeight: 1.7,
   color: colors.text.secondary,
   margin: 0,
@@ -104,10 +101,34 @@ const AboutSection: React.FC<AboutSectionProps> = ({ conteudo }) => {
   };
 
   const layoutStyle: React.CSSProperties = {
-    display: 'grid',
-    gridTemplateColumns: isMd ? 'minmax(280px, 400px) 1fr' : '1fr',
+    display: isMd ? 'grid' : 'flex',
+    flexDirection: isMd ? undefined : 'column',
+    gridTemplateColumns: isMd ? 'minmax(280px, 400px) 1fr' : undefined,
     gap: spacing[12],
     alignItems: 'start',
+  };
+
+  const textBlockStyle: React.CSSProperties = {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: spacing[6],
+    textAlign: 'left',
+    alignItems: 'flex-start',
+  };
+
+  const titleStyle: React.CSSProperties = {
+    ...titleStyleBase,
+    fontSize: isMd ? theme.sectionTitleFontSize : 'clamp(1.5rem, 5vw, 2rem)',
+  };
+
+  const subtitleStyle: React.CSSProperties = {
+    ...subtitleStyleBase,
+    fontSize: isMd ? fontSizes.lg : fontSizes.xl,
+  };
+
+  const textStyle: React.CSSProperties = {
+    ...textStyleBase,
+    fontSize: isMd ? fontSizes.base : fontSizes.lg,
   };
 
   return (
@@ -115,32 +136,26 @@ const AboutSection: React.FC<AboutSectionProps> = ({ conteudo }) => {
       <div
         style={{
           ...innerStyleBase,
-          paddingLeft: isMd ? spacing[8] : 0,
-          paddingRight: isMd ? spacing[8] : 0,
+          paddingLeft: isMd ? spacing[8] : 16,
+          paddingRight: isMd ? spacing[8] : 16,
         }}
       >
         <div style={layoutStyle}>
-          <div style={imageWrapStyle}>
-            <Image
-              src="/images/about/witor-linhares.png"
-              alt="Witor Linhares"
-              fill
-              sizes="(max-width: 768px) 100vw, 400px"
-              style={{ objectFit: 'cover', filter: 'grayscale(100%)' }}
-              priority={false}
-            />
-          </div>
+          {isMd && (
+            <div style={imageWrapStyle}>
+              <Image
+                src="/images/about/witor-linhares.webp"
+                alt="Witor Linhares"
+                fill
+                sizes="400px"
+                style={{ objectFit: 'cover', filter: 'grayscale(100%)' }}
+                priority={false}
+              />
+            </div>
+          )}
 
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: spacing[6],
-              textAlign: isMd ? 'left' : 'center',
-              alignItems: isMd ? 'flex-start' : 'center',
-            }}
-          >
-            <div style={{ ...badgeOuterStyle, alignSelf: isMd ? 'flex-start' : 'center' }} role="status" aria-label="Seção sobre">
+          <div style={textBlockStyle}>
+            <div style={badgeOuterStyle} role="status" aria-label="Seção sobre">
               <span style={badgeInnerStyle}>Sobre</span>
               <span style={badgeOuterTextStyle}>A Wefronti e quem comanda</span>
             </div>
@@ -148,6 +163,19 @@ const AboutSection: React.FC<AboutSectionProps> = ({ conteudo }) => {
             <h2 id="about-heading" style={titleStyle}>
               {titulo}
             </h2>
+
+            {!isMd && (
+              <div style={imageWrapStyle}>
+                <Image
+                  src="/images/about/witor-linhares.webp"
+                  alt="Witor Linhares"
+                  fill
+                  sizes="100vw"
+                  style={{ objectFit: 'cover', filter: 'grayscale(100%)' }}
+                  priority={false}
+                />
+              </div>
+            )}
 
             <p style={textStyle}>
               A Wefronti nasceu da vontade de criar sites que realmente convertem — não apenas páginas bonitas,

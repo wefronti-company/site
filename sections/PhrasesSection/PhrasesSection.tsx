@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Eye, LucideIcon, Zap, Target, UserCheck, Rocket, SmartphoneCharging } from 'lucide-react';
 import { theme } from '../../styles/theme';
+import { useMediaQuery } from '../../hooks/useMediaQuery';
 
 const { colors, spacing, fontSizes, containerMaxWidth } = theme;
 
@@ -67,11 +68,13 @@ const badgeStyle: React.CSSProperties = {
 };
 
 const PhrasesSection: React.FC = () => {
+  const isMd = useMediaQuery(theme.breakpoints.md);
   const trackRef = useRef<HTMLDivElement>(null);
   const [translateX, setTranslateX] = useState(0);
   const lastScrollY = useRef(0);
 
   useEffect(() => {
+    if (!isMd) return;
     const handleScroll = () => {
       const currentScrollY = window.scrollY || document.documentElement.scrollTop;
       const delta = currentScrollY - lastScrollY.current;
@@ -82,7 +85,9 @@ const PhrasesSection: React.FC = () => {
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [isMd]);
+
+  if (!isMd) return null;
 
   return (
     <section style={sectionStyle} aria-hidden>

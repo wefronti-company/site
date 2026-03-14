@@ -166,8 +166,8 @@ const BenefitsSection: React.FC = () => {
     flex: isMd ? '0 0 40%' : '1 1 auto',
     display: 'flex',
     flexDirection: 'column',
-    alignItems: isMd ? 'flex-start' : 'center',
-    textAlign: isMd ? 'left' : 'center',
+    alignItems: 'flex-start',
+    textAlign: 'left',
   };
 
   const gridStyle: React.CSSProperties = {
@@ -209,17 +209,18 @@ const BenefitsSection: React.FC = () => {
             <p style={leftDescStyle}>
               Combinamos estrutura profissional, atenção ao detalhe e suporte contínuo para que seu site gere resultados reais para seu negócio.
             </p>
+            {isMd && (
             <div style={{ marginTop: spacing[6] }}>
               <ButtonCta
-              href={buildWhatsAppUrl(DEFAULT_WHATSAPP_NUMBER, WHATSAPP_MESSAGE_ORCAMENTO)}
-              external
-              label="Quero ter um site que vende"
-              fullWidthOnMobile
-              onLightBackground
-            >
-              Quero ter um site que vende
-            </ButtonCta>
+                href={buildWhatsAppUrl(DEFAULT_WHATSAPP_NUMBER, WHATSAPP_MESSAGE_ORCAMENTO)}
+                external
+                label="Quero ter um site que vende"
+                onLightBackground
+              >
+                Quero ter um site que vende
+              </ButtonCta>
             </div>
+            )}
             </div>
             <div style={gridStyle}>
             {CARDS.map(({ title, description, icon: Icon }) => (
@@ -234,6 +235,18 @@ const BenefitsSection: React.FC = () => {
               </article>
             ))}
             </div>
+            {!isMd && (
+            <div style={{ width: '100%', marginTop: spacing[6] }}>
+              <ButtonCta
+                href={buildWhatsAppUrl(DEFAULT_WHATSAPP_NUMBER, WHATSAPP_MESSAGE_ORCAMENTO)}
+                external
+                label="Quero ter um site que vende"
+                onLightBackground
+              >
+                Quero ter um site que vende
+              </ButtonCta>
+            </div>
+            )}
         </div>
       </div>
     </section>

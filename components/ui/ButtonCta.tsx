@@ -19,7 +19,7 @@ interface ButtonCtaProps {
   href?: string;
   /** Abre o link em nova aba (target="_blank") */
   external?: boolean;
-  /** Em telas menores: botão preenche toda a largura */
+  /** Em telas menores: botão preenche toda a largura (default: true) */
   fullWidthOnMobile?: boolean;
   /** Fundo claro (ex: #EBEBEB) — borda mais escura para contraste */
   onLightBackground?: boolean;
@@ -35,7 +35,7 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
   iconOnly = false,
   href,
   external = false,
-  fullWidthOnMobile = false,
+  fullWidthOnMobile = true,
   onLightBackground = false,
 }) => {
   const scrollToSection = useScrollToSection();
