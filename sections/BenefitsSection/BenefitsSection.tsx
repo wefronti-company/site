@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-import { Zap, Shield, Headphones, Rocket } from 'lucide-react';
+import { Zap, Shield, Headphones, TrendingUp, Star } from 'lucide-react';
 import ButtonCta from '../../components/ui/ButtonCta';
 import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
@@ -16,7 +16,7 @@ const CARDS = [
   {
     title: 'Qualidade garantida',
     description: 'Código limpo, design profissional e suporte pós-entrega para garantir seu resultado.',
-    icon: Shield,
+    icon: Star,
   },
   {
     title: 'Suporte dedicado',
@@ -26,7 +26,7 @@ const CARDS = [
   {
     title: 'Resultados mensuráveis',
     description: 'Site preparado para analytics e conversões, para você acompanhar o retorno.',
-    icon: Rocket,
+    icon: TrendingUp,
   },
 ] as const;
 
@@ -207,7 +207,7 @@ const BenefitsSection: React.FC = () => {
               Combinamos estrutura profissional, atenção ao detalhe e suporte contínuo para que seu site gere resultados reais para seu negócio.
             </p>
             <div style={{ marginTop: spacing[6] }}>
-              <ButtonCta label="Quero ter um site que vende" fullWidthOnMobile />
+              <ButtonCta label="Quero ter um site que vende" fullWidthOnMobile onLightBackground />
             </div>
             </div>
             <div style={gridStyle}>

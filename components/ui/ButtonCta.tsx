@@ -19,6 +19,8 @@ interface ButtonCtaProps {
   external?: boolean;
   /** Em telas menores: botão preenche toda a largura */
   fullWidthOnMobile?: boolean;
+  /** Fundo claro (ex: #EBEBEB) — borda mais escura para contraste */
+  onLightBackground?: boolean;
 }
 
 const ButtonCta: React.FC<ButtonCtaProps> = ({ 
@@ -32,6 +34,7 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
   href,
   external = false,
   fullWidthOnMobile = false,
+  onLightBackground = false,
 }) => {
   const scrollToSection = useScrollToSection();
 
@@ -80,6 +83,7 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
     <span
       className={`${className ?? ''}`.trim() || undefined}
       data-cta-gradient-wrap
+      data-cta-on-light={onLightBackground ? '' : undefined}
       style={{
         opacity: disabled ? 0.5 : 1,
         ...(fullWidthOnMobile && { display: 'block', width: '100%' }),

@@ -180,6 +180,9 @@ span[data-cta-gradient-wrap] {
   border: 1px solid rgba(255, 255, 255, 0.14) !important;
   overflow: visible !important;
 }
+span[data-cta-gradient-wrap][data-cta-on-light] {
+  border: 1px solid rgba(0, 0, 0, 0.22) !important;
+}
 /* Base do botão: gradiente estático (terracota) com espaço para a borda */
 span[data-cta-gradient-wrap]::before {
   content: '' !important;

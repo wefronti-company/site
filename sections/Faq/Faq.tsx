@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
-import { Plus } from 'lucide-react';
 import ButtonCta from '../../components/ui/ButtonCta';
 import { buildWhatsAppUrl, DEFAULT_WHATSAPP_NUMBER, WHATSAPP_MESSAGE_DUVIDAS } from '../../lib/whatsapp';
 
-const { colors, spacing, fontSizes, radii, containerMaxWidth } = theme;
+const { colors, spacing, fontSizes, containerMaxWidth } = theme;
 
 const FAQ_ITEMS: { question: string; answer: string }[] = [
   {
@@ -19,9 +18,9 @@ const FAQ_ITEMS: { question: string; answer: string }[] = [
       'Sim. Trabalhamos com parcelamento em até 12x no cartão ou em parcelas combinadas com as entregas do projeto (ex.: 50% na aprovação e 50% na entrega). O formato é alinhado no fechamento.',
   },
   {
-    question: 'Em quanto tempo o site ou a landing page fica pronto?',
+    question: 'Em quanto tempo o site fica pronto?',
     answer:
-      'Landing page: em geral até 5 dias úteis. Site institucional: entre 14 e 21 dias, conforme o tamanho. Definimos o prazo no orçamento, sem enrolação.',
+      'Entre 14 e 21 dias, em média, conforme o tamanho e complexidade do site. Definimos o prazo no orçamento, sem enrolação.',
   },
   {
     question: 'O site fica no meu nome ou fico preso à Wefronti?',
@@ -31,7 +30,7 @@ const FAQ_ITEMS: { question: string; answer: string }[] = [
   {
     question: 'Preciso ter todo o conteúdo pronto antes de começar?',
     answer:
-      'Não necessariamente. No onboarding alinhamos o que você já tem e o que falta. Podemos orientar textos, imagens e fluxos. Quanto mais informação você passar, mais alinhado o resultado ficará.',
+      'Não necessariamente. No onboarding alinhamos o que você já tem e o que falta. Podemos orientar textos, imagens e estrutura. Quanto mais informação você passar, mais alinhado o resultado ficará.',
   },
   {
     question: 'E se eu precisar de ajustes no site depois da entrega?',
@@ -46,26 +45,7 @@ const sectionStyleBase: React.CSSProperties = {
   paddingBottom: spacing[16],
   position: 'relative',
   overflow: 'hidden',
-  backgroundColor: 'transparent',
-};
-
-/** Imagem de fundo da seção */
-const faqBgImageStyle: React.CSSProperties = {
-  position: 'absolute',
-  inset: 0,
-  backgroundImage: 'url(/images/brand/background-faq.webp)',
-  backgroundSize: 'cover',
-  backgroundPosition: 'center',
-  zIndex: 0,
-};
-
-/** Gradiente: preto no topo e na base, meio da imagem visível */
-const faqGradientOverlayStyle: React.CSSProperties = {
-  position: 'absolute',
-  inset: 0,
-  background: `linear-gradient(to bottom, ${colors.background.general} 0%, ${colors.background.general} 18%, transparent 38%, transparent 62%, ${colors.background.general} 82%, ${colors.background.general} 100%)`,
-  zIndex: 1,
-  pointerEvents: 'none',
+  backgroundColor: colors.background.general,
 };
 
 const innerStyleBase: React.CSSProperties = {
@@ -85,20 +65,31 @@ const leftColumnStyle: React.CSSProperties = {
   padding: spacing[12],
 };
 
-const badgeStyle: React.CSSProperties = {
+const badgeOuterStyle: React.CSSProperties = {
   display: 'inline-flex',
   alignItems: 'center',
   gap: spacing[2],
+  padding: 6,
+  borderRadius: 30,
+  backgroundColor: '#040404',
+  border: '1px solid rgba(255, 255, 255, 0.12)',
   alignSelf: 'flex-start',
-  padding: `${spacing[2]}px ${spacing[4]}px`,
-  borderRadius: radii.full,
-  border: `1px solid ${colors.neutral.border}`,
-  backgroundColor: colors.neutral.accordeon,
-  fontSize: fontSizes.xs,
-  fontWeight: 500,
-  color: colors.text.primary,
-  textTransform: 'uppercase' as const,
-  letterSpacing: '0.06em',
+  width: 'fit-content',
+};
+
+const badgeInnerStyle: React.CSSProperties = {
+  padding: '4px 12px',
+  borderRadius: 9999,
+  background: 'linear-gradient(90deg, #49C0FF, #0280FF)',
+  fontSize: fontSizes.sm,
+  fontWeight: 600,
+  color: '#fff',
+};
+
+const badgeOuterTextStyle: React.CSSProperties = {
+  fontSize: fontSizes.sm,
+  color: colors.text.secondary,
+  margin: 0,
 };
 
 const titleStyle: React.CSSProperties = {
@@ -108,10 +99,6 @@ const titleStyle: React.CSSProperties = {
   letterSpacing: '-0.02em',
   color: colors.text.primary,
   margin: 0,
-};
-
-const titleFadedStyle: React.CSSProperties = {
-  opacity: 0.7,
 };
 
 const descriptionStyle: React.CSSProperties = {
@@ -145,8 +132,7 @@ const Faq: React.FC<FaqProps> = ({ conteudo }) => {
   const isMd = useMediaQuery(theme.breakpoints.md);
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
-  const badge = (conteudo?.badge != null ? String(conteudo.badge) : '') || 'FAQ';
-  const titulo = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'Perguntas frequentes\nsobre site e landing page';
+  const titulo = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'Perguntas frequentes\nsobre sites';
   const tituloLines = titulo.split('\n');
   const itens = (Array.isArray(conteudo?.itens) ? (conteudo.itens as { pergunta?: string; resposta?: string }[]) : null)
     ?? FAQ_ITEMS.map((q) => ({ pergunta: q.question, resposta: q.answer }));
@@ -180,10 +166,12 @@ const Faq: React.FC<FaqProps> = ({ conteudo }) => {
 
   return (
     <section id="faq" style={sectionStyle} aria-labelledby="faq-heading">
-      <div style={faqBgImageStyle} aria-hidden />
-      <div style={faqGradientOverlayStyle} aria-hidden />
       <div style={gridStyle}>
         <div style={leftColumnStyleResponsive}>
+          <div style={badgeOuterStyle} role="status" aria-label="Seção FAQ">
+            <span style={badgeInnerStyle}>FAQ</span>
+            <span style={badgeOuterTextStyle}>Dúvidas sobre sites</span>
+          </div>
           <h2 id="faq-heading" style={titleStyle}>
             {tituloLines.map((line, i, arr) => (
               <React.Fragment key={i}>{line}{i < arr.length - 1 ? <br /> : null}</React.Fragment>
@@ -226,9 +214,7 @@ const Faq: React.FC<FaqProps> = ({ conteudo }) => {
                     }
                   }}
                   style={{
-                    backgroundColor: 'rgba(24, 24, 27, 0.5)',
-                    backdropFilter: 'saturate(150%) blur(20px)',
-                    WebkitBackdropFilter: 'saturate(150%) blur(20px)',
+                    backgroundColor: '#1a1a1c',
                     border: '1px solid rgba(255, 255, 255, 0.12)',
                     borderRadius: 30,
                     padding: `${spacing[5]}px ${spacing[6]}px`,
@@ -269,7 +255,15 @@ const Faq: React.FC<FaqProps> = ({ conteudo }) => {
                       }}
                       aria-hidden
                     >
-                      <Plus size={22} strokeWidth={2.5} color={colors.blue.primary} />
+                      <svg width={22} height={22} viewBox="0 0 24 24" fill="none" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
+                        <defs>
+                          <linearGradient id={`faq-plus-grad-${index}`} x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stopColor="#49C0FF" />
+                            <stop offset="100%" stopColor="#0280FF" />
+                          </linearGradient>
+                        </defs>
+                        <path d="M5 12h14M12 5v14" stroke={`url(#faq-plus-grad-${index})`} />
+                      </svg>
                     </span>
                   </div>
                   <div

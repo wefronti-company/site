@@ -16,15 +16,39 @@ const wrapperStyleBase: React.CSSProperties = {
   margin: '0 auto',
   borderRadius: 30,
   overflow: 'hidden',
-  backgroundColor: 'rgba(24, 24, 27, 0.5)',
-  backdropFilter: 'saturate(150%) blur(20px)',
-  WebkitBackdropFilter: 'saturate(150%) blur(20px)',
+  position: 'relative',
+  backgroundColor: '#EBEBEB',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
   textAlign: 'center',
-  border: '1px solid rgba(255, 255, 255, 0.12)',
-  boxShadow: '0 4px 24px rgba(0, 0, 0, 0.2)',
+  border: '1px solid rgba(0, 0, 0, 0.08)',
+  boxShadow: '0 4px 24px rgba(0, 0, 0, 0.08)',
+};
+
+const badgeOuterStyle: React.CSSProperties = {
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: spacing[2],
+  padding: 6,
+  borderRadius: 30,
+  backgroundColor: '#171717',
+  border: '1px solid rgba(0, 0, 0, 0.08)',
+};
+
+const badgeInnerStyle: React.CSSProperties = {
+  padding: '4px 12px',
+  borderRadius: 9999,
+  background: 'linear-gradient(90deg, #49C0FF, #0280FF)',
+  fontSize: fontSizes.sm,
+  fontWeight: 600,
+  color: '#fff',
+};
+
+const badgeOuterTextStyle: React.CSSProperties = {
+  fontSize: fontSizes.sm,
+  color: 'rgba(255, 255, 255, 0.9)',
+  margin: 0,
 };
 
 const headingStyle: React.CSSProperties = {
@@ -32,7 +56,7 @@ const headingStyle: React.CSSProperties = {
   fontWeight: 400,
   lineHeight: 1.2,
   letterSpacing: '-0.02em',
-  color: colors.text.primary,
+  color: '#171717',
   margin: 0,
 };
 
@@ -40,8 +64,7 @@ const subheadingStyle: React.CSSProperties = {
   fontSize: fontSizes.lg,
   fontWeight: 400,
   lineHeight: 1.5,
-  color: colors.text.primary,
-  opacity: 0.92,
+  color: '#52525b',
   margin: 0,
   maxWidth: 520,
 };
@@ -56,7 +79,7 @@ const Cta: React.FC<CtaProps> = ({ conteudo }) => {
 
   const titulo = (conteudo?.titulo != null ? String(conteudo.titulo) : '') || 'Hora de colocar sua empresa em órbita';
   const subtitulo = (conteudo?.subtitulo != null ? String(conteudo.subtitulo) : '') || 'Seja para um site ou landing page. Orçamento sem compromisso, resposta rápida.';
-  const botao = (conteudo?.botao != null ? String(conteudo.botao) : '') || 'Pedir orçamento';
+  const botao = (conteudo?.botao != null ? String(conteudo.botao) : '') || 'Quero um site que vende';
   const mensagemWhatsApp = (conteudo?.mensagemWhatsApp != null ? String(conteudo.mensagemWhatsApp) : '') || WHATSAPP_MESSAGE_ORCAMENTO;
   const whatsappHref = buildWhatsAppUrl(DEFAULT_WHATSAPP_NUMBER, mensagemWhatsApp);
   const sectionStyle: React.CSSProperties = {
@@ -95,6 +118,13 @@ const Cta: React.FC<CtaProps> = ({ conteudo }) => {
     pointerEvents: 'none',
   };
 
+  const logoBgStyle: React.CSSProperties = {
+    position: 'absolute',
+    inset: 0,
+    pointerEvents: 'none',
+    overflow: 'hidden',
+  };
+
   const wrapperWrapStyle: React.CSSProperties = {
     position: 'relative',
     zIndex: 2,
@@ -108,11 +138,11 @@ const Cta: React.FC<CtaProps> = ({ conteudo }) => {
 
   const footerLegalStyle: React.CSSProperties = {
     fontSize: fontSizes.sm,
-    color: colors.text.primary,
-    opacity: 0.6,
+    color: colors.text.secondary,
     textAlign: 'center',
     margin: 0,
     lineHeight: 1.5,
+    paddingTop: spacing[24],
   };
 
   /** Em telas menores, menos padding na div de CTA e botão em largura total */
@@ -127,7 +157,7 @@ const Cta: React.FC<CtaProps> = ({ conteudo }) => {
     <section id="cta" style={sectionStyle} aria-labelledby="cta-heading">
       <div style={ctaBgImageStyle} aria-hidden>
         <Image
-          src="/images/brand/background-cta.webp"
+          src="/images/brand/bg-h.png"
           alt=""
           fill
           sizes="100vw"
@@ -138,19 +168,34 @@ const Cta: React.FC<CtaProps> = ({ conteudo }) => {
       <div style={ctaGradientOverlayStyle} aria-hidden />
       <div style={wrapperWrapStyle}>
       <div style={wrapperStyle}>
+        <div style={logoBgStyle} aria-hidden>
+          <Image
+            src="/images/brand/logo-backgroun.png"
+            alt=""
+            fill
+            sizes="(max-width: 920px) 100vw, 920px"
+            style={{ objectFit: 'contain', objectPosition: 'center bottom', opacity: 0.15 }}
+          />
+        </div>
+        <div style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: isMd ? spacing[6] : spacing[4], width: '100%' }}>
+        <div style={badgeOuterStyle} role="status" aria-label="Seção CTA">
+          <span style={badgeInnerStyle}>CTA</span>
+          <span style={badgeOuterTextStyle}>Vamos começar</span>
+        </div>
         <h2 id="cta-heading" style={headingStyle}>
           {titulo}
         </h2>
         <p style={subheadingStyle}>
           {subtitulo}
         </p>
-        <ButtonCta href={whatsappHref} external fullWidthOnMobile={!isMd}>
+        <ButtonCta href={whatsappHref} external fullWidthOnMobile={!isMd} onLightBackground>
           {botao}
         </ButtonCta>
+        </div>
       </div>
       <p style={footerLegalStyle}>
         CNPJ: 64.507.638/0001-04<br />
-        © 2026 Todos os direitos reservados.
+        ©2026 - Wefronti. Todos os direitos reservados.
       </p>
       </div>
     </section>
