@@ -29,7 +29,7 @@ html, body {
   height: 100%;
   overflow-x: hidden;
   max-width: 100vw;
-  cursor: url('/images/icons/cursor-site.svg') 4 4, auto;
+  cursor: url('/images/icons/cursor-site.svg?v=2') 4 4, auto;
   background: ${colors.background.general};
   background-attachment: fixed;
   color: ${colors.text.primary};
