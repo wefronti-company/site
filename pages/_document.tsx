@@ -41,7 +41,6 @@ export default function Document() {
  {/* Google Fonts — carregamento não bloqueante (PageSpeed) */}
  <link rel="preconnect" href="https://fonts.googleapis.com" />
  <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
- <link rel="preload" href="https://fonts.gstatic.com/s/funnelsans/v3/OpNIno8Dg9bX6Bsp3Wq69TpyfhjoyU7d.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
  <link
    id="font-funnel-sans"
    rel="stylesheet"

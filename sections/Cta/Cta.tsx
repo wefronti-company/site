@@ -170,7 +170,7 @@ const Cta: React.FC<CtaProps> = ({ conteudo }) => {
       <div style={wrapperStyle}>
         <div style={logoBgStyle} aria-hidden>
           <Image
-            src="/images/brand/logo-backgroun.png"
+            src="/images/brand/logo-backgroun.webp"
             alt=""
             fill
             sizes="(max-width: 920px) 100vw, 920px"
