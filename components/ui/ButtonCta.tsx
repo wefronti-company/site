@@ -1,6 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
 import { useScrollToSection } from '../../contexts/ScrollToContext';
+import { useMediaQuery } from '../../hooks/useMediaQuery';
+import { theme } from '../../styles/theme';
 
 /* Estilos em GlobalStyles (span[data-cta-gradient-wrap]) */
 
@@ -37,6 +39,7 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
   onLightBackground = false,
 }) => {
   const scrollToSection = useScrollToSection();
+  const isMd = useMediaQuery(theme.breakpoints.md);
 
   const handleClick = () => {
     if (onClick) {
@@ -67,8 +70,8 @@ const ButtonCta: React.FC<ButtonCtaProps> = ({
     justifyContent: 'center' as const,
     gap: 8,
     borderRadius: 9999,
-    padding: iconOnly ? 0 : '16px 24px',
-    fontSize: 16,
+    padding: iconOnly ? 0 : isMd ? '16px 24px' : '20px 24px',
+    fontSize: isMd ? 16 : 18,
     fontWeight: 500,
     cursor: disabled ? 'not-allowed' as const : 'pointer' as const,
     opacity: disabled ? 0.5 : 1,

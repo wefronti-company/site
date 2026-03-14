@@ -62,7 +62,7 @@ const heroTitleStyle = (isMd: boolean): React.CSSProperties => ({
   fontWeight: 400,
   lineHeight: 1.12,
   letterSpacing: '-0.02em',
-  fontSize: isMd ? 'clamp(3rem, 5vw, 4.5rem)' : 'clamp(1.75rem, 6.5vw, 2.25rem)',
+  fontSize: isMd ? 'clamp(3rem, 5vw, 4.5rem)' : 'clamp(3rem, 11.5vw, 4rem)',
   color: colors.text.primary,
   margin: 0,
   maxWidth: isMd ? undefined : '100%',
@@ -85,7 +85,7 @@ function renderHeroTitle(text: string): React.ReactNode {
 }
 
 const heroSubtitleStyle = (isMd: boolean): React.CSSProperties => ({
-  fontSize: isMd ? '1.4rem' : 'clamp(0.9375rem, 2.8vw, 1.05rem)',
+  fontSize: isMd ? '1.4rem' : 'clamp(1.25rem, 4.2vw, 1.5rem)',
   fontWeight: 400,
   lineHeight: 1.5,
   color: colors.text.primary,
@@ -107,9 +107,10 @@ const Hero: React.FC<HeroProps> = ({ conteudo }) => {
   const subtitulo = (conteudo?.subtitulo != null ? String(conteudo.subtitulo) : '') || 'Sites projetados com engenharia de conversão: clareza de mensagem em segundos, carregamento rápido, percepção de valor e uma estrutura que conduz o visitante naturalmente até a ação.';
   const botaoPrincipal = (conteudo?.botaoPrincipal != null ? String(conteudo.botaoPrincipal) : '') || 'Quero ter um site que vende';
 
+  const paddingX = isMd ? spacing[8] : 16;
   const heroSectionStyle: React.CSSProperties = {
     ...heroSectionStyleBase,
-    padding: isMd ? spacing[12] : `${spacing[5]} 16px`,
+    padding: isMd ? `${spacing[12]}px ${paddingX}px` : `${spacing[5]}px ${paddingX}px`,
     paddingBottom: isMd ? spacing[10] : spacing[8],
     ...(!isMd && {
       alignItems: 'flex-start',
@@ -236,6 +237,7 @@ const Hero: React.FC<HeroProps> = ({ conteudo }) => {
           <motion.div
             style={{
               display: 'flex',
+              flexDirection: 'column',
               alignItems: 'center',
               justifyContent: 'center',
               gap: spacing[3],
@@ -250,8 +252,8 @@ const Hero: React.FC<HeroProps> = ({ conteudo }) => {
                 <div
                   key={src}
                   style={{
-                    width: 40,
-                    height: 40,
+                    width: 48,
+                    height: 48,
                     borderRadius: '50%',
                     overflow: 'hidden',
                     border: '2px solid rgba(255, 255, 255, 0.14)',
@@ -260,11 +262,11 @@ const Hero: React.FC<HeroProps> = ({ conteudo }) => {
                     zIndex: HERO_CLIENT_IMAGES.length - i,
                   }}
                 >
-                  <Image src={src} alt="" width={40} height={40} style={{ objectFit: 'cover', width: '100%', height: '100%', filter: 'grayscale(100%)' }} />
+                  <Image src={src} alt="" width={48} height={48} style={{ objectFit: 'cover', width: '100%', height: '100%', filter: 'grayscale(100%)' }} />
                 </div>
               ))}
             </div>
-            <span style={{ color: colors.text.primary, fontSize: fontSizes.sm, fontWeight: 500, opacity: 0.92 }}>
+            <span style={{ color: colors.text.primary, fontSize: fontSizes.base, fontWeight: 500, opacity: 0.92 }}>
               + de 100 clientes atendidos
             </span>
           </motion.div>
@@ -295,34 +297,34 @@ const Hero: React.FC<HeroProps> = ({ conteudo }) => {
             className={hasEntered ? 'hero-css-fade d5' : ''}
             style={{
               display: 'flex',
-              alignItems: 'center',
+              flexDirection: 'column',
+              alignItems: 'flex-start',
               gap: spacing[2],
               marginTop: spacing[5],
               width: '100%',
-              flexWrap: 'wrap',
               opacity: hasEntered ? undefined : 0,
             }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
               {HERO_CLIENT_IMAGES.map((src, i) => (
                 <div
                   key={src}
                   style={{
-                    width: 32,
-                    height: 32,
+                    width: 44,
+                    height: 44,
                     borderRadius: '50%',
                     overflow: 'hidden',
                     border: '2px solid rgba(255, 255, 255, 0.14)',
-                    marginLeft: i === 0 ? 0 : -8,
+                    marginLeft: i === 0 ? 0 : -10,
                     position: 'relative' as const,
                     zIndex: HERO_CLIENT_IMAGES.length - i,
                   }}
                 >
-                  <Image src={src} alt="" width={32} height={32} style={{ objectFit: 'cover', width: '100%', height: '100%', filter: 'grayscale(100%)' }} />
+                  <Image src={src} alt="" width={44} height={44} style={{ objectFit: 'cover', width: '100%', height: '100%', filter: 'grayscale(100%)' }} />
                 </div>
               ))}
             </div>
-            <span style={{ color: colors.text.primary, fontSize: fontSizes.xs, fontWeight: 500, opacity: 0.92 }}>
+            <span style={{ color: colors.text.primary, fontSize: fontSizes.base, fontWeight: 500, opacity: 0.92 }}>
               + de 100 clientes atendidos
             </span>
           </div>
