@@ -120,9 +120,9 @@ module.exports = {
             value: 'noopen'
           },
           {
-            // Cross-Origin Protection (roubo de dados)
+            // Cross-Origin: credentialless permite Lighthouse/PageSpeed medir; require-corp quebra por recursos 3º sem CORP
             key: 'Cross-Origin-Embedder-Policy',
-            value: 'require-corp'
+            value: 'credentialless'
           },
           {
             key: 'Cross-Origin-Opener-Policy',

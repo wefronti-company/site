@@ -156,10 +156,11 @@ const Hero: React.FC<HeroProps> = ({ conteudo }) => {
       <div style={heroBgImageStyle} aria-hidden />
       <div style={heroBottomGradientStyle} aria-hidden />
       <div style={heroContentStyle}>
+        {/* Logo visível no first paint para LCP (evita NO_LCP no Lighthouse); animação só em desktop */}
         {isMd ? (
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
+            initial={{ opacity: 1, y: 16 }}
+            animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 1, y: 16 }}
             transition={{ duration: 0.6, ease: 'easeOut', delay: 0.05 }}
             style={{ display: 'flex', justifyContent: 'center', marginBottom: spacing[2] }}
           >
@@ -168,10 +169,7 @@ const Hero: React.FC<HeroProps> = ({ conteudo }) => {
             </Link>
           </motion.div>
         ) : (
-          <div
-            className={hasEntered ? 'hero-css-fade d1' : ''}
-            style={{ display: 'flex', justifyContent: 'flex-start', marginBottom: spacing[4], opacity: hasEntered ? undefined : 0 }}
-          >
+          <div style={{ display: 'flex', justifyContent: 'flex-start', marginBottom: spacing[4] }}>
             <Link href="/" aria-label="Wefronti — voltar para a página inicial" style={{ display: 'block' }}>
               <Image
                 src="/images/brand/logo.webp"

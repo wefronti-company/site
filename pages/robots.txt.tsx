@@ -33,9 +33,6 @@ Disallow: /images/
 
 # Sitemap
 Sitemap: ${baseUrl}/sitemap.xml
-
-# Crawl-delay
-Crawl-delay: 1
 `;
 
  res.setHeader('Content-Type', 'text/plain');

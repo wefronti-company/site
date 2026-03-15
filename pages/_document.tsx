@@ -10,8 +10,8 @@ export default function Document() {
  <meta httpEquiv="x-ua-compatible" content="ie=edge" />
  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
  
- {/* LCP — preload da imagem do Hero para descoberta imediata e prioridade alta */}
- <link rel="preload" href="/images/brand/background.webp" as="image" fetchPriority="high" />
+ {/* LCP — preload do logo do Hero (candidato a LCP; background é CSS e não é medido) */}
+ <link rel="preload" href="/images/brand/logo.webp" as="image" fetchPriority="high" />
 
  {/* Open Graph — fallback para crawlers (Facebook, WhatsApp, etc.) */}
  <meta property="og:type" content="website" />
