@@ -155,9 +155,9 @@ const Hero: React.FC<HeroProps> = ({ conteudo }) => {
       <div style={heroBgImageStyle} aria-hidden />
       <div style={heroBottomGradientStyle} aria-hidden />
       <div style={heroContentStyle}>
-        {/* Logo visível no first paint para LCP; animação via CSS em todos os viewports */}
+        {/* Logo sempre visível no first paint (desktop e mobile) para LCP; animação só no restante */}
         {isMd ? (
-          <div className={hasEntered ? 'hero-css-fade d1' : ''} style={{ display: 'flex', justifyContent: 'center', marginBottom: spacing[2], opacity: hasEntered ? undefined : 0 }}>
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: spacing[2] }}>
             <Link href="/" aria-label="Wefronti — voltar para a página inicial" style={{ display: 'block' }}>
               <Image src="/images/brand/logo.webp" alt="Wefronti" width={180} height={50} style={{ width: 'clamp(140px, 22vw, 200px)', height: 'auto', objectFit: 'contain' }} priority fetchPriority="high" />
             </Link>

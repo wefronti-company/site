@@ -10,9 +10,6 @@ export default function Document() {
  <meta httpEquiv="x-ua-compatible" content="ie=edge" />
  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
  
- {/* LCP — preload do logo do Hero (candidato a LCP; background é CSS e não é medido) */}
- <link rel="preload" href="/images/brand/logo.webp" as="image" fetchPriority="high" />
-
  {/* Open Graph — fallback para crawlers (Facebook, WhatsApp, etc.) */}
  <meta property="og:type" content="website" />
  <meta property="og:url" content={process.env.NEXT_PUBLIC_SITE_URL || 'https://wefronti.com'} />
