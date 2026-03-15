@@ -287,7 +287,7 @@ const Testimonials: React.FC<TestimonialsProps> = ({ conteudo }) => {
                   <div style={photoWrapStyle}>
                     <Image
                       src={item.photoSrc}
-                      alt=""
+                      alt={`Foto de ${item.name}`}
                       width={48}
                       height={48}
                       style={{ objectFit: 'cover', width: '100%', height: '100%', filter: 'grayscale(100%)' }}
