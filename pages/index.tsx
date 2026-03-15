@@ -17,8 +17,9 @@ const Cta = dynamic(() => import('../sections/Cta'), { ssr: true });
 const Home: React.FC = () => (
   <>
     <SEO />
-    <Hero />
-    <EstruturaSection />
+    <main id="main">
+      <Hero />
+      <EstruturaSection />
     <BentoSection />
     <PhrasesSection />
     <BenefitsSection />
@@ -27,6 +28,7 @@ const Home: React.FC = () => (
     <AboutSection />
     <Faq />
     <Cta />
+    </main>
   </>
 );
 

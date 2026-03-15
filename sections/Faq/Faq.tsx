@@ -205,7 +205,6 @@ const Faq: React.FC<FaqProps> = ({ conteudo }) => {
                   tabIndex={0}
                   aria-expanded={isOpen}
                   aria-controls={`faq-answer-${index}`}
-                  id={`faq-question-${index}`}
                   onClick={() => setOpenIndex(isOpen ? null : index)}
                   onKeyDown={(e) => {
                     if (e.key === 'Enter' || e.key === ' ') {
@@ -231,8 +230,10 @@ const Faq: React.FC<FaqProps> = ({ conteudo }) => {
                       gap: spacing[4],
                     }}
                   >
-                    <span
+                    <h3
+                      id={`faq-question-${index}`}
                       style={{
+                        margin: 0,
                         fontSize: fontSizes.lg,
                         fontWeight: 500,
                         color: colors.text.primary,
@@ -241,7 +242,7 @@ const Faq: React.FC<FaqProps> = ({ conteudo }) => {
                       }}
                     >
                       {question}
-                    </span>
+                    </h3>
                     <span
                       style={{
                         display: 'flex',

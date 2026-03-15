@@ -76,15 +76,13 @@ section:not(#section-0) {
   background: transparent;
 }
 
-/* Hero em mobile: animação via CSS (evita Framer Motion / forced reflow) */
-@media (max-width: 767px) {
-  .hero-css-fade { opacity: 0; animation: hero-fade-up 0.5s ease-out forwards; }
-  .hero-css-fade.d1 { animation-delay: 0.05s; }
-  .hero-css-fade.d2 { animation-delay: 0.15s; }
-  .hero-css-fade.d3 { animation-delay: 0.25s; }
-  .hero-css-fade.d4 { animation-delay: 0.5s; }
-  .hero-css-fade.d5 { animation-delay: 0.6s; }
-}
+/* Hero: animação via CSS em todos os viewports (evita Framer Motion no bundle) */
+.hero-css-fade { opacity: 0; animation: hero-fade-up 0.5s ease-out forwards; }
+.hero-css-fade.d1 { animation-delay: 0.05s; }
+.hero-css-fade.d2 { animation-delay: 0.15s; }
+.hero-css-fade.d3 { animation-delay: 0.25s; }
+.hero-css-fade.d4 { animation-delay: 0.5s; }
+.hero-css-fade.d5 { animation-delay: 0.6s; }
 
 /* Margem de scroll para seções com âncora: o badge fica visível abaixo do header fixo */
 section[id] {

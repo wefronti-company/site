@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
 import { theme } from '../../styles/theme';
 import { useMediaQuery } from '../../hooks/useMediaQuery';
 import ButtonCta from '../../components/ui/ButtonCta';
@@ -156,18 +155,13 @@ const Hero: React.FC<HeroProps> = ({ conteudo }) => {
       <div style={heroBgImageStyle} aria-hidden />
       <div style={heroBottomGradientStyle} aria-hidden />
       <div style={heroContentStyle}>
-        {/* Logo visível no first paint para LCP (evita NO_LCP no Lighthouse); animação só em desktop */}
+        {/* Logo visível no first paint para LCP; animação via CSS em todos os viewports */}
         {isMd ? (
-          <motion.div
-            initial={{ opacity: 1, y: 16 }}
-            animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 1, y: 16 }}
-            transition={{ duration: 0.6, ease: 'easeOut', delay: 0.05 }}
-            style={{ display: 'flex', justifyContent: 'center', marginBottom: spacing[2] }}
-          >
+          <div className={hasEntered ? 'hero-css-fade d1' : ''} style={{ display: 'flex', justifyContent: 'center', marginBottom: spacing[2], opacity: hasEntered ? undefined : 0 }}>
             <Link href="/" aria-label="Wefronti — voltar para a página inicial" style={{ display: 'block' }}>
-              <Image src="/images/brand/logo.webp" alt="Wefronti" width={180} height={50} style={{ width: 'clamp(140px, 22vw, 200px)', height: 'auto', objectFit: 'contain' }} priority />
+              <Image src="/images/brand/logo.webp" alt="Wefronti" width={180} height={50} style={{ width: 'clamp(140px, 22vw, 200px)', height: 'auto', objectFit: 'contain' }} priority fetchPriority="high" />
             </Link>
-          </motion.div>
+          </div>
         ) : (
           <div style={{ display: 'flex', justifyContent: 'flex-start', marginBottom: spacing[4] }}>
             <Link href="/" aria-label="Wefronti — voltar para a página inicial" style={{ display: 'block' }}>
@@ -178,33 +172,24 @@ const Hero: React.FC<HeroProps> = ({ conteudo }) => {
                 height={50}
                 style={{ width: 'clamp(120px, 42vw, 180px)', height: 'auto', objectFit: 'contain' }}
                 priority
+                fetchPriority="high"
               />
             </Link>
           </div>
         )}
         {isMd ? (
-          <motion.h1
-            initial={{ opacity: 0, y: 24 }}
-            animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
-            transition={{ duration: 0.7, ease: 'easeOut', delay: 0.15 }}
-            style={heroTitleStyle(isMd)}
-          >
+          <h1 className={hasEntered ? 'hero-css-fade d2' : ''} style={{ ...heroTitleStyle(isMd), opacity: hasEntered ? undefined : 0 }}>
             {renderHeroTitle(tituloRaw)}
-          </motion.h1>
+          </h1>
         ) : (
           <h1 className={hasEntered ? 'hero-css-fade d2' : ''} style={{ ...heroTitleStyle(isMd), opacity: hasEntered ? undefined : 0 }}>
             {renderHeroTitle(tituloRaw)}
           </h1>
         )}
         {isMd ? (
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{ duration: 0.6, ease: 'easeOut', delay: 0.25 }}
-            style={heroSubtitleStyle(isMd)}
-          >
+          <p className={hasEntered ? 'hero-css-fade d3' : ''} style={{ ...heroSubtitleStyle(isMd), opacity: hasEntered ? undefined : 0 }}>
             {subtitulo}
-          </motion.p>
+          </p>
         ) : (
           <p className={hasEntered ? 'hero-css-fade d3' : ''} style={{ ...heroSubtitleStyle(isMd), opacity: hasEntered ? undefined : 0 }}>
             {subtitulo}
@@ -212,17 +197,16 @@ const Hero: React.FC<HeroProps> = ({ conteudo }) => {
         )}
         {isMd ? (
           <>
-            <motion.div
+            <div
+              className={hasEntered ? 'hero-css-fade d4' : ''}
               style={{
                 display: 'flex',
                 flexWrap: 'wrap',
                 gap: spacing[4],
                 alignItems: 'center',
                 justifyContent: 'center',
+                opacity: hasEntered ? undefined : 0,
               }}
-              initial={{ opacity: 0, y: 16 }}
-              animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
-              transition={{ duration: 0.5, ease: 'easeOut', delay: 0.5 }}
             >
             <ButtonCta
               href={buildWhatsAppUrl(DEFAULT_WHATSAPP_NUMBER, WHATSAPP_MESSAGE_ORCAMENTO)}
@@ -231,8 +215,9 @@ const Hero: React.FC<HeroProps> = ({ conteudo }) => {
             >
               {botaoPrincipal}
             </ButtonCta>
-          </motion.div>
-          <motion.div
+          </div>
+          <div
+            className={hasEntered ? 'hero-css-fade d5' : ''}
             style={{
               display: 'flex',
               flexDirection: 'column',
@@ -240,10 +225,8 @@ const Hero: React.FC<HeroProps> = ({ conteudo }) => {
               justifyContent: 'center',
               gap: spacing[3],
               marginTop: spacing[6],
+              opacity: hasEntered ? undefined : 0,
             }}
-            initial={{ opacity: 0, y: 12 }}
-            animate={hasEntered ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
-            transition={{ duration: 0.5, ease: 'easeOut', delay: 0.6 }}
           >
             <div style={{ display: 'flex', alignItems: 'center' }}>
               {HERO_CLIENT_IMAGES.map((src, i) => (
@@ -267,7 +250,7 @@ const Hero: React.FC<HeroProps> = ({ conteudo }) => {
             <span style={{ color: colors.text.primary, fontSize: fontSizes.base, fontWeight: 500, opacity: 0.92 }}>
               + de 100 clientes atendidos
             </span>
-          </motion.div>
+          </div>
           </>
         ) : (
           <>
